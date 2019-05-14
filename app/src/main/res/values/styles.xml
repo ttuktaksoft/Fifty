@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NoTitleBar" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/baseColor</item>
+        <item name="colorPrimaryDark">@color/baseColor</item>
+        <item name="color"></item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:buttonStyle">@style/button</item>-->
+        <item name="windowNoTitle">true</item>
+
+
+    </style>
+
 </resources>
