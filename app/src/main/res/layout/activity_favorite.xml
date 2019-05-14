@@ -4,6 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activty.SignUp.FavoriteActivity">
+    tools:context=".activty.SignUp.FavoriteActivity"
+    android:background="@drawable/login_icon">
+
+
+    <TextView
+        android:id="@+id/tv_Favorite_Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="당신의 관심사는.."
+        android:textSize="40dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_Favorire_Detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_Favorite_Comment"
+        android:text="관심사를 등록해주세요"
+        android:textSize="30dp"/>
+
+    <Button
+        android:id="@+id/bt_Favorire_Select"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_Favorire_Detail"
+        android:text="관심사"/>
+
+    <Button
+        android:id="@+id/bt_Favorire_BackButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_Favorire_Select"
+        android:text="@string/bt_SignUp_Back"/>
+
+    <Button
+        android:id="@+id/bt_Favorire_NextButton"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/bt_SignUp_Next"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bt_Favorire_BackButton" />
+
 
 </android.support.constraint.ConstraintLayout>

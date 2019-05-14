@@ -7,8 +7,6 @@
     tools:context=".activty.SignUp.BirthActivity"
     android:background="@drawable/login_icon">
 
-
-
     <TextView
         android:id="@+id/tv_Birth_Comment"
         android:layout_width="wrap_content"
@@ -60,7 +58,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/bt_Birth_Man"
         android:background="@drawable/woman"/>
-
 
     <Button
         android:id="@+id/bt_Birth_BackButton"
