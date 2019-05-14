@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Fifty</string>
+    <string name="bt_SignUp_CheckNickName">중복검색</string>
+    <string name="bt_SignUp_Next">다음</string>
+    <string name="bt_SignUp_Back">뒤로</string>
+
 </resources>

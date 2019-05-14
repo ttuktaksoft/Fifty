@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.SignUp.SignUpActivity"
+    android:background="@drawable/login_icon">
+
+    <TextView
+        android:id="@+id/tv_SignUp_Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="사용하고 싶은 닉네임 입력"
+        android:textSize="30dp"/>
+
+    <EditText
+        android:id="@+id/et_SignUp_NickName"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_SignUp_Comment"
+        android:text="닉네임을 입력하세요"
+        android:inputType="textNoSuggestions"
+        android:cursorVisible="true"
+        android:background="@drawable/border"
+        android:textColor="@color/baseColor"/>
+
+    <Button
+        android:id="@+id/bt_SignUp_CheckNickName"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toRightOf="@id/et_SignUp_NickName"
+        app:layout_constraintTop_toTopOf="@id/et_SignUp_NickName"
+        android:text="@string/bt_SignUp_CheckNickName"/>
+
+    <Button
+        android:id="@+id/bt_SignUp_BackButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_SignUp_CheckNickName"
+        android:text="@string/bt_SignUp_Back"/>
+
+    <Button
+        android:id="@+id/bt_SignUp_NextButton"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/bt_SignUp_Next"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bt_SignUp_BackButton" />
+
+</android.support.constraint.ConstraintLayout>

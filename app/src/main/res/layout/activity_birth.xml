@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.SignUp.BirthActivity"
+    android:background="@drawable/login_icon">
+
+
+
+    <TextView
+        android:id="@+id/tv_Birth_Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="당신은.."
+        android:textSize="40dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_Birth_Birth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_Birth_Comment"
+        android:text="출생년도"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_Birth_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_Birth_Birth"
+        android:text="1958년"
+        android:textSize="30dp"/>
+
+    <Button
+        android:id="@+id/bt_Birth_Man"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_Birth_select"
+        android:background="@drawable/man"/>
+
+    <Button
+        android:id="@+id/bt_Birth_Woman"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="50dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bt_Birth_Man"
+        android:background="@drawable/woman"/>
+
+
+    <Button
+        android:id="@+id/bt_Birth_BackButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_Birth_Woman"
+        android:text="@string/bt_SignUp_Back"/>
+
+    <Button
+        android:id="@+id/bt_NextButton"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/bt_SignUp_Next"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bt_Birth_BackButton" />
+
+</android.support.constraint.ConstraintLayout>
