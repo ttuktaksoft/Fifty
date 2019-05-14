@@ -3,5 +3,12 @@
     <string name="bt_SignUp_CheckNickName">중복검색</string>
     <string name="bt_SignUp_Next">다음</string>
     <string name="bt_SignUp_Back">뒤로</string>
+    <string name="bt_Main_Alarm">알림</string>
+    <string name="bt_Main_Refresh">새로고침</string>
+    <string name="bt_Main_Shop">아이템구매</string>
+    <string name="bt_Main_Distance">거리순</string>
+    <string name="bt_Main_New">신입멤버</string>
+    <string name="bt_Main_Today">오늘의멤버</string>
+    <string name="bt_Main_Friend">내친구</string>
 
 </resources>
