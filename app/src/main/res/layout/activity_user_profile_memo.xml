@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.Profile.UserProfile_Memo">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_UserProfileMemo_Top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/baseColor">
+
+        <Button
+            android:id="@+id/bt_UserProfile_Back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="뒤로가기"
+            />
+
+        <TextView
+            android:id="@+id/tv_UserProfileMemo_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bt_UserProfile_Back"
+            android:textSize="20dp"
+            android:text="자기소개"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_UserProfileMemo_Comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
+        android:textSize="20dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        app:layout_constraintTop_toBottomOf="@id/cl_UserProfileMemo_Top"
+         />
+
+</android.support.constraint.ConstraintLayout>
