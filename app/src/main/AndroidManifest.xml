@@ -25,7 +25,10 @@
         <activity android:name=".activty.SignUp.SignUpActivity" />
         <activity android:name=".activty.SignUp.BirthActivity" />
         <activity android:name=".activty.SignUp.FavoriteActivity" />
-        <activity android:name=".activty.SignUp.ProfileImgActivity"></activity>
+        <activity android:name=".activty.SignUp.ProfileImgActivity" />
+        <activity android:name=".activty.SignUp.FavoriteDetailActivity" />
+        <activity android:name=".activty.Profile.MyProfileActivity" />
+        <activity android:name=".activty.Profile.UserProfileActivity"></activity>
     </application>
 
 </manifest>
