@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
 
 public class LoadingActivity extends AppCompatActivity {
 
@@ -28,7 +29,7 @@ public class LoadingActivity extends AppCompatActivity {
             System.out.print((e.getMessage()));
         }
 
-        startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+        startActivity(new Intent(getApplicationContext(),ProfileImgActivity.class));
         finish();
     }
 }

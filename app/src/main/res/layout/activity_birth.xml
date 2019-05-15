@@ -30,15 +30,15 @@
         android:text="출생년도"
         android:textSize="30dp"/>
 
-    <TextView
-        android:id="@+id/tv_Birth_select"
+    <Spinner
+        android:id="@+id/spinner2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tv_Birth_Birth"
         android:layout_marginRight="40dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_Birth_Birth"
-        android:text="1958년"
-        android:textSize="30dp"/>
+        android:textSize="30dp"
+        />
 
     <Button
         android:id="@+id/bt_Birth_Man"
@@ -47,7 +47,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_Birth_select"
+        app:layout_constraintTop_toBottomOf="@id/spinner2"
         android:background="@drawable/man"/>
 
     <Button
