@@ -12,5 +12,8 @@
     <string name="bt_Main_Friend">내친구</string>
     <string name="permission_request">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
     <string name="permission_cammera">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
-
+    <string name="STR_ERROR">오류</string>
+    <string name="tv_Main_Sort_Title">내근처</string>
+    <string name="bt_Main_Sort_Type_All">전체</string>
+    <string name="bt_Main_Sort_Type_Online">접속중</string>
 </resources>

@@ -42,61 +42,78 @@
             app:layout_constraintRight_toRightOf="@+id/v_Main_TopBar"
             android:text="@string/bt_Main_Shop"/>
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_Main_TopTab"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_Main_TopBar"
+            android:background="@color/baseColor"
+            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            android:translationZ="5dp"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/white" />
+
         <View
-            android:id="@+id/v_Main_TopTab"
-            android:layout_width="wrap_content"
+            android:id="@+id/v_Main_SubInfo"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/v_Main_TopBar" />
+            app:layout_constraintTop_toBottomOf="@+id/tl_Main_TopTab"/>
+
+        <TextView
+            android:id="@+id/tv_Main_Curr_Pos"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="@+id/v_Main_SubInfo"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Main_SubInfo"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Main_SubInfo" />
+
+        <TextView
+            android:id="@+id/tv_Main_Thumbnail_Info_State"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/tv_Main_Sort_Title"
+            android:textSize="20dp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@+id/v_Main_SubInfo"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Main_SubInfo"
+            app:layout_constraintRight_toLeftOf="@+id/bt_Main_Sort_Type"/>
 
         <Button
-            android:id="@+id/bt_Main_Distance"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintLeft_toLeftOf="@+id/v_Main_TopTab"
-            app:layout_constraintRight_toLeftOf="@+id/bt_Main_New"
-            app:layout_constraintTop_toTopOf="@+id/v_Main_TopTab"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopTab"
-            android:text="@string/bt_Main_Distance">
-        </Button>
+            android:id="@+id/bt_Main_Sort_Type"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="@+id/v_Main_SubInfo"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Main_SubInfo"
+            app:layout_constraintRight_toRightOf="@+id/v_Main_SubInfo"/>
 
-        <Button
-            android:id="@+id/bt_Main_New"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintLeft_toRightOf="@+id/bt_Main_Distance"
-            app:layout_constraintRight_toLeftOf="@+id/bt_Main_Today"
-            app:layout_constraintTop_toTopOf="@+id/v_Main_TopTab"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopTab"
-            android:text="@string/bt_Main_New">
-        </Button>
 
-        <Button
-            android:id="@+id/bt_Main_Today"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintLeft_toRightOf="@+id/bt_Main_New"
-            app:layout_constraintRight_toLeftOf="@+id/bt_Main_Friend"
-            app:layout_constraintTop_toTopOf="@+id/v_Main_TopTab"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopTab"
-            android:text="@string/bt_Main_Today">
-        </Button>
 
-        <Button
-            android:id="@+id/bt_Main_Friend"
-            android:layout_width="0dp"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_Main_UserList"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintLeft_toRightOf="@+id/bt_Main_Today"
-            app:layout_constraintRight_toRightOf="@+id/v_Main_TopTab"
-            app:layout_constraintTop_toTopOf="@+id/v_Main_TopTab"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopTab"
-            android:text="@string/bt_Main_Friend">
-        </Button>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_Main_SubInfo"
+            app:layout_constraintBottom_toTopOf="@+id/tv_Main_BottomAds"
+            />
+
+        <TextView
+            android:id="@+id/tv_Main_BottomAds"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vp_Main_UserList"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="광고페이지"
+            android:textSize="50dp"
+            android:gravity="center"/>
     </android.support.constraint.ConstraintLayout>
 
 

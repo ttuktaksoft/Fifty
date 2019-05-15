@@ -4,106 +4,71 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import fifty.fiftyhouse.com.fifty.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MainDistanceFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MainDistanceFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainDistanceFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    RecyclerView rv_Main_Dis_UserList;
+    View v_FragmentView = null;
+    MainDistanceFragmentAdapter mAdapter;
 
     public MainDistanceFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainDistanceFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MainDistanceFragment newInstance(String param1, String param2) {
-        MainDistanceFragment fragment = new MainDistanceFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        super();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_distance, container, false);
-    }
+        v_FragmentView = inflater.inflate(R.layout.fragment_main_distance, container, false);
+        rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        mAdapter = new MainDistanceFragmentAdapter(getContext());
+        mAdapter.setHasStableIds(true);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+        rv_Main_Dis_UserList.setAdapter(mAdapter);
+        rv_Main_Dis_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_Main_Dis_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Dis_UserList, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
+                if (mAppStatus.bCheckMultiSend == false) {
+                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+                    if (mCommon.getClickStatus() == false)
+                        mCommon.MoveUserPage(getActivity(), stTargetData);
+                }*/
+            }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
+            }
+        }));
+
+        rv_Main_Dis_UserList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                /*int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int nSize = 0;
+                nSize = recyclerView.getAdapter().getItemCount() - 1;
+
+                if (lastVisibleItemPosition == nSize) {
+                    // Toast.makeText(getContext(), "Last Position", Toast.LENGTH_SHORT).show();
+                    //    CommonFunc.getInstance().ShowLoadingPage(getContext(), "로딩중");
+                    //  FirebaseData.getInstance().GetHotData(RecvAdapter, false);
+                }*/
+            }
+        });
+
+        return v_FragmentView;
     }
 }

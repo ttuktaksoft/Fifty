@@ -15,4 +15,10 @@ public class CommonData {
 
     }
 
+    public static enum MainSortType
+    {
+        ALL,
+        ONLINE
+    }
+
 }
