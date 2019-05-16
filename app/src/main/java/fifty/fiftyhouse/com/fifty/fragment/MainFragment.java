@@ -17,6 +17,7 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.viewPager.MainDistanceViewPager;
 
 public class MainFragment extends Fragment {
 
@@ -112,13 +113,13 @@ public class MainFragment extends Fragment {
 
             switch(position){
                 case 0:
-                    return new MainDistanceFragment();
+                    return new MainDistanceViewPager();
                 case 1:
-                    return new MainDistanceFragment();
+                    return new MainDistanceViewPager();
                 case 2:
-                    return new MainDistanceFragment();
+                    return new MainDistanceViewPager();
                 case 3:
-                    return new MainDistanceFragment();
+                    return new MainDistanceViewPager();
             }
 
             return null;
