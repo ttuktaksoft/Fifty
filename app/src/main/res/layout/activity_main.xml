@@ -19,7 +19,7 @@
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bnv_Main_BottomMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:background="@color/baseColor"
         app:itemBackground="@color/baseColor"
         app:itemIconTint="@android:color/black"

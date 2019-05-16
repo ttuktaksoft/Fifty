@@ -30,6 +30,11 @@ public class MainFragment extends Fragment {
     Button bt_Main_Sort_Type;
     View v_FragmentView = null;
 
+    MainDistanceViewPager mMainDistanceViewPager = null;
+    MainNewViewPager mMainNewViewPager = null;
+    MainTodayViewPager mMainTodayViewPager = null;
+    MainFriendViewPager mMainFriendViewPager = null;
+
     public CommonData.MainSortType mSortType = CommonData.MainSortType.ALL;
 
     public MainFragment() {
@@ -82,6 +87,25 @@ public class MainFragment extends Fragment {
             tl_TopBarTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
+                    int position = tab.getPosition();
+                    switch(position){
+                        case 0:
+                            CommonFunc.getInstance().MainUserListSlotCount = 3;
+                            mMainDistanceViewPager.mAdapter.notifyDataSetChanged();
+                            break;
+                        case 1:
+                            CommonFunc.getInstance().MainUserListSlotCount = 4;
+                            mMainNewViewPager.mAdapter.notifyDataSetChanged();
+                            break;
+                        case 2:
+                            CommonFunc.getInstance().MainUserListSlotCount = 2;
+                            mMainTodayViewPager.mAdapter.notifyDataSetChanged();
+                            break;
+                        case 3:
+                            //mMainFriendViewPager = new MainFriendViewPager();
+                            break;
+                    }
+
                     vp_UserList.setCurrentItem(tab.getPosition());
                 }
 
@@ -98,6 +122,7 @@ public class MainFragment extends Fragment {
 
             vp_UserList.setOffscreenPageLimit(3);
             vp_UserList.setAdapter(new TabPagerAdapter(getFragmentManager(),tl_TopBarTab.getTabCount()));
+            CommonFunc.getInstance().MainUserListSlotCount = 3;
             vp_UserList.setCurrentItem(0);
             vp_UserList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_TopBarTab));
         }
@@ -119,16 +144,19 @@ public class MainFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-
             switch(position){
                 case 0:
-                    return new MainDistanceViewPager();
+                    mMainDistanceViewPager = new MainDistanceViewPager();
+                    return mMainDistanceViewPager;
                 case 1:
-                    return new MainNewViewPager();
+                    mMainNewViewPager = new MainNewViewPager();
+                    return mMainNewViewPager;
                 case 2:
-                    return new MainTodayViewPager();
+                    mMainTodayViewPager = new MainTodayViewPager();
+                    return mMainTodayViewPager;
                 case 3:
-                    return new MainFriendViewPager();
+                    mMainFriendViewPager = new MainFriendViewPager();
+                    return mMainFriendViewPager;
             }
 
             return null;

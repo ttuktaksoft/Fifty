@@ -19,6 +19,7 @@ public class CommonFunc {
 
     private int mWidth;
     private  int mHeight;
+    public int MainUserListSlotCount = 0;
 
     public void GoMainActivity(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
