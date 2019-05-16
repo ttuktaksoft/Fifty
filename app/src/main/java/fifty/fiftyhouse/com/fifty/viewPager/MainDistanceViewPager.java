@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.viewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -37,6 +40,7 @@ public class MainDistanceViewPager extends Fragment {
         rv_Main_Dis_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Dis_UserList, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                startActivity(new Intent(getContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {
                     stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
