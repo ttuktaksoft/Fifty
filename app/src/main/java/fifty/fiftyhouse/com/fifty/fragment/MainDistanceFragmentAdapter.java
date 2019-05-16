@@ -37,10 +37,10 @@ public class MainDistanceFragmentAdapter extends RecyclerView.Adapter<MainUserLi
         holder.tv_Main_Thumbnail_Info_State.setText("온라인");
 
         //holder.v_Main_Thumbnail.setLayoutParams(new Constraints.LayoutParams(CommonFunc.getInstance().GetWidthByDevice(), CommonFunc.getInstance().GetWidthByDevice() / 3));
-        ConstraintLayout tt = new ConstraintLayout(mContext, new AttributeSet());
-        holder.iv_Main_Thumbnail_1.setLayoutParams(tt.getLayoutParams());
+        //ConstraintLayout tt = new ConstraintLayout(mContext, new AttributeSet());
+        //holder.iv_Main_Thumbnail_1.setLayoutParams(tt.getLayoutParams());
         Constraints.LayoutParams data =  new Constraints.LayoutParams(CommonFunc.getInstance().GetWidthByDevice() / 10, CommonFunc.getInstance().GetWidthByDevice() / 10);
-        data.set
+        //data.set
         holder.iv_Main_Thumbnail_1.setLayoutParams(new Constraints.LayoutParams(CommonFunc.getInstance().GetWidthByDevice() / 10, CommonFunc.getInstance().GetWidthByDevice() / 10));
         Glide.with(mContext).load(R.drawable.login_icon)
                 .centerCrop()
