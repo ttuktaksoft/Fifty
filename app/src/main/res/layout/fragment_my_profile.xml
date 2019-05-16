@@ -135,7 +135,7 @@
         android:textSize="20dp"/>
 
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Img_0"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -143,51 +143,46 @@
         app:layout_constraintTop_toBottomOf="@id/tv_MyProfile_Friend"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:textSize="20dp"
-        android:background="@drawable/login_icon"/>
+        android:textSize="20dp"/>
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Img_1"
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_0"
         app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_0"
         android:textSize="20dp"
-        android:layout_marginLeft="1dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginLeft="1dp"/>
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Img_2"
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_1"
         app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_1"
         android:textSize="20dp"
-        android:layout_marginLeft="1dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginLeft="1dp"/>
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Img_3"
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_2"
         app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_2"
         android:textSize="20dp"
-        android:layout_marginLeft="1dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginLeft="1dp"/>
 
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Img_4"
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:layout_constraintLeft_toLeftOf="@id/bt_MyProfile_Img_0"
         app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Img_3"
         android:textSize="20dp"
-        android:layout_marginTop="1dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginTop="1dp"/>
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Img_5"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -195,27 +190,25 @@
         app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_4"
         android:textSize="20dp"
         android:layout_marginLeft="1dp"
-        android:background="@drawable/login_icon"/>
+        />
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Img_6"
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_5"
         app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_5"
         android:textSize="20dp"
-        android:layout_marginLeft="1dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginLeft="1dp"/>
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Img_7"
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_6"
         app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_6"
         android:textSize="20dp"
-        android:layout_marginLeft="1dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginLeft="1dp"/>
 
     <ImageView
         android:id="@+id/divider_club"
@@ -241,7 +234,7 @@
         android:gravity="center"
         android:textSize="20dp"/>
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Club_0_Img"
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -249,8 +242,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_MyProfile_Club_Title"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:id="@+id/bt_MyProfile_Club_0_Title"
@@ -265,7 +257,7 @@
         android:textSize="20dp"/>
 
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Club_1_Img"
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -273,8 +265,7 @@
         app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Club_0_Title"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:id="@+id/bt_MyProfile_Club_1_Title"
@@ -289,7 +280,7 @@
         android:textSize="20dp"/>
 
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Club_2_Img"
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -297,8 +288,7 @@
         app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Club_1_Title"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/login_icon"/>
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:id="@+id/bt_MyProfile_Club_2_Title"
@@ -325,8 +315,8 @@
 
     <Button
         android:id="@+id/bt_MyProfile_Event_Icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider_Noti"
         android:textSize="20dp"
@@ -341,7 +331,6 @@
         app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Event_Icon"
         app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Event_Icon"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
         android:text="이벤트"
         android:gravity="left"
         android:textSize="20dp"/>
@@ -349,8 +338,8 @@
 
     <Button
         android:id="@+id/bt_MyProfile_Noti_Icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Event_Icon"
         android:textSize="20dp"
@@ -363,9 +352,8 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Noti_Icon"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Event_Icon"
+        app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Noti_Icon"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:text="공지사항"
         android:gravity="left"
         android:textSize="20dp"/>
@@ -373,8 +361,8 @@
 
     <Button
         android:id="@+id/bt_MyProfile_FAQ_Icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Noti_Icon"
         android:textSize="20dp"
@@ -387,9 +375,8 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_FAQ_Icon"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Noti_Icon"
+        app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_FAQ_Icon"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:text="FAQ"
         android:gravity="left"
         android:textSize="20dp"/>
@@ -397,8 +384,8 @@
 
     <Button
         android:id="@+id/bt_MyProfile_Setting_Icon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_FAQ_Icon"
         android:textSize="20dp"
@@ -411,9 +398,8 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Setting_Icon"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_FAQ_Icon"
+        app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Setting_Icon"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:text="설정"
         android:gravity="left"
         android:textSize="20dp"/>

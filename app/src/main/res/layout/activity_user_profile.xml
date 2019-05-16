@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activty.Profile.UserProfileActivity"
-    android:background="@color/baseColor">
+    android:background="@color/baseColor_2">
 
     <Button
         android:id="@+id/bt_UserProfile_Back"
@@ -201,9 +201,9 @@
         android:id="@+id/bnv_UserProfile_main_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/colorPrimaryDark"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white"
+        app:itemBackground="@color/baseColor"
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
