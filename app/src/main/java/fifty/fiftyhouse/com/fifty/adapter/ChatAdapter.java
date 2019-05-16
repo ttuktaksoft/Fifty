@@ -22,7 +22,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
 
     @Override
     public ChatListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.fragment_chat_adapter, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_chat, parent, false);
 
         view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,CommonFunc.getInstance().GetHeightByDevice()/7));
         return new ChatListHolder(view);
