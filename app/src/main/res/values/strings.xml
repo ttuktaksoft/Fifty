@@ -16,4 +16,7 @@
     <string name="tv_Main_Sort_Title">내근처</string>
     <string name="bt_Main_Sort_Type_All">전체</string>
     <string name="bt_Main_Sort_Type_Online">접속중</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.Util.ImageResize;
+import fifty.fiftyhouse.com.fifty.util.ImageResize;
 
 public class ProfileImgActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package fifty.fiftyhouse.com.fifty.Util;
+package fifty.fiftyhouse.com.fifty.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
