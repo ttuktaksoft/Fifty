@@ -24,7 +24,6 @@ import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
  */
 public class ChatFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
     private Context mContext;
     private View ChatFragView;
     private TextView txt_empty;
@@ -66,30 +65,6 @@ public class ChatFragment extends Fragment {
         ChatRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return ChatFragView;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /**
