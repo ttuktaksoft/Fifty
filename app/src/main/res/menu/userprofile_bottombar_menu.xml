@@ -4,19 +4,19 @@
 
     <item
         android:id="@+id/menuitem_bottombar_Like"
-        android:icon="@drawable/woman"
+        android:icon="@drawable/heart"
         android:title="좋아요"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menuitem_bottombar_Chat"
-        android:icon="@drawable/woman"
+        android:icon="@drawable/chat_padding"
         android:title="대화하기"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menuitem_bottombar_Friend"
-        android:icon="@drawable/woman"
+        android:icon="@drawable/fan_pressed"
         android:title="내친구추가"
         app:showAsAction="ifRoom"/>
 

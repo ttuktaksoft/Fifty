@@ -12,7 +12,7 @@
     android:layout_height="wrap_content"
     android:background="@color/baseColor">
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Back"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -20,17 +20,17 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:text="뒤로가기"
+        app:srcCompat="@drawable/icon_backarrow"
         />
 
-    <Button
+    <ImageView
         android:id="@+id/bt_MyProfile_Alert"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Back"
         android:layout_marginRight="10dp"
-        android:text="신고"
+        app:srcCompat="@drawable/block"
         />
 
     <ImageView
@@ -217,13 +217,24 @@
         android:layout_marginLeft="1dp"
         android:background="@drawable/login_icon"/>
 
+    <ImageView
+        android:id="@+id/divider_club"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="@+id/bt_MyProfile_Img_0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Img_7"
+        app:srcCompat="@color/gray_light" />
+
 
     <TextView
         android:id="@+id/tv_MyProfile_Club_Title"
         android:layout_width="100dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Img_7"
+        app:layout_constraintTop_toBottomOf="@+id/divider_club"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:text="가입 모임"
@@ -301,26 +312,36 @@
         android:gravity="left"
         android:textSize="20dp"/>
 
+    <ImageView
+        android:id="@+id/divider_Noti"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintLeft_toLeftOf="@+id/bt_MyProfile_Club_2_Img"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Club_2_Img"
+        app:srcCompat="@color/gray_light" />
 
     <Button
         android:id="@+id/bt_MyProfile_Event_Icon"
         android:layout_width="45dp"
         android:layout_height="45dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Club_2_Title"
+        app:layout_constraintTop_toBottomOf="@id/divider_Noti"
         android:textSize="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/login_icon"/>
+        android:background="@drawable/event"/>
 
     <TextView
         android:id="@+id/bt_MyProfile_Event_Title"
         android:layout_width="100dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Event_Icon"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Club_2_Title"
+        app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Event_Icon"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:text="이벤트"
         android:gravity="left"
         android:textSize="20dp"/>
@@ -331,18 +352,18 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Event_Title"
+        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Event_Icon"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/login_icon"/>
+        android:background="@drawable/notice"/>
 
     <TextView
         android:id="@+id/bt_MyProfile_Noti_Title"
         android:layout_width="100dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Noti_Icon"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Event_Title"
+        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Event_Icon"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:text="공지사항"
@@ -355,18 +376,18 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Noti_Title"
+        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Noti_Icon"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/login_icon"/>
+        android:background="@drawable/help"/>
 
     <TextView
         android:id="@+id/bt_MyProfile_FAQ_Title"
         android:layout_width="100dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_FAQ_Icon"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Noti_Title"
+        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Noti_Icon"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:text="FAQ"
@@ -379,18 +400,18 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_FAQ_Title"
+        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_FAQ_Icon"
         android:textSize="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/login_icon"/>
+        android:background="@drawable/setting"/>
 
     <TextView
         android:id="@+id/bt_MyProfile_Setting_Title"
         android:layout_width="100dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Setting_Icon"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_FAQ_Title"
+        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_FAQ_Icon"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:text="설정"

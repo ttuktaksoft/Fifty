@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:text="뒤로가기"
+        android:background="@drawable/icon_backarrow"
         />
 
     <Button
@@ -25,7 +25,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/bt_UserProfile_Back"
         android:layout_marginRight="10dp"
-        android:text="신고"
+        android:background="@drawable/block"
         />
 
     <ImageView
@@ -35,8 +35,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_UserProfile_Back"
-        android:layout_marginTop="1dp"
-        app:srcCompat="@drawable/login_icon"/>
+        android:layout_marginTop="1dp"/>
 
     <TextView
         android:id="@+id/tv_UserProfile_NickName"
@@ -115,7 +114,7 @@
         android:textSize="20dp"/>
 
 
-    <Button
+    <ImageView
         android:id="@+id/bt_UserProfile_Img_0"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -124,9 +123,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:textSize="20dp"
-        android:background="@drawable/login_icon"/>
+        android:background="@drawable/dummy_9"/>
 
-    <Button
+    <ImageView
         android:id="@+id/bt_UserProfile_Img_1"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -134,9 +133,9 @@
         app:layout_constraintTop_toTopOf="@id/bt_UserProfile_Img_0"
         android:textSize="20dp"
         android:layout_marginLeft="1dp"
-        android:background="@drawable/login_icon"/>
+        android:background="@drawable/dummy_11"/>
 
-    <Button
+    <ImageView
         android:id="@+id/bt_UserProfile_Img_2"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -144,7 +143,7 @@
         app:layout_constraintTop_toTopOf="@id/bt_UserProfile_Img_1"
         android:textSize="20dp"
         android:layout_marginLeft="1dp"
-        android:background="@drawable/login_icon"/>
+        android:background="@drawable/dummy_15"/>
 
     <Button
         android:id="@+id/bt_UserProfile_Img_3"

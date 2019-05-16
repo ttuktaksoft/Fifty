@@ -7,7 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import fifty.fiftyhouse.com.fifty.R;
 
@@ -23,7 +27,7 @@ public class MyProfileFragment extends Fragment {
 
     private Context mContext;
     private View MyProfileFragView;
-    private TextView txt_empty;
+    private ImageView iv_ThumbNail;
 
     public MyProfileFragment() {
     }
@@ -53,9 +57,16 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mContext = getContext();
+        mContext = getActivity();
         MyProfileFragView = inflater.inflate(R.layout.fragment_my_profile, container, false);
         MyProfileFragView.setTag("MyProfileFragment");
+        iv_ThumbNail = MyProfileFragView.findViewById(R.id.iv_MyProfile_ThumbNail);
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_9)
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ThumbNail);
 
         return MyProfileFragView;
     }

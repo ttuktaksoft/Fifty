@@ -5,21 +5,25 @@
     <item
         android:id="@+id/i_main_bottom_main"
         android:title="@string/i_main_bottom_main"
+        android:icon="@drawable/event"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/i_main_bottom_club"
         android:title="@string/i_main_bottom_club"
+        android:icon="@drawable/fan_pressed"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/i_main_bottom_chat"
         android:title="@string/i_main_bottom_chat"
+        android:icon="@drawable/chat_padding"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/i_main_bottom_profile"
         android:title="@string/i_main_bottom_profile"
+        android:icon="@drawable/image"
         app:showAsAction="ifRoom"/>
 
 </menu>

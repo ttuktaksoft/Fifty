@@ -22,27 +22,28 @@
 
        <Button
             android:id="@+id/bt_Main_Alarm"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_TopBar"
-            android:text="@string/bt_Main_Alarm"/>
+            android:background="@drawable/notice"
+            />
 
         <Button
             android:id="@+id/bt_Main_Refresh"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/bt_Main_Refresh"
+            android:background="@drawable/board_pressed"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_TopBar"
             app:layout_constraintRight_toRightOf="@+id/v_Main_TopBar" />
 
         <Button
             android:id="@+id/bt_Main_Shop"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
             app:layout_constraintRight_toRightOf="@+id/v_Main_TopBar"
-            android:text="@string/bt_Main_Shop"/>
+            android:background="@drawable/coinbuy"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tl_Main_TopTab"

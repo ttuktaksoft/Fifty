@@ -30,7 +30,7 @@ public class LoadingActivity extends AppCompatActivity {
 
         // 임의로 2초 슬립
         try {
-            Thread.sleep(2000);
+            Thread.sleep(100);
         }
         catch (InterruptedException e)
         {
