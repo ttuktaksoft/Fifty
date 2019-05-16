@@ -24,7 +24,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
 
     @Override
     public MainUserListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.main_adapter, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_main, parent, false);
         return new MainUserListHolder(view);
     }
 

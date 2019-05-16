@@ -18,6 +18,9 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.viewPager.MainDistanceViewPager;
+import fifty.fiftyhouse.com.fifty.viewPager.MainFriendViewPager;
+import fifty.fiftyhouse.com.fifty.viewPager.MainNewViewPager;
+import fifty.fiftyhouse.com.fifty.viewPager.MainTodayViewPager;
 
 public class MainFragment extends Fragment {
 
@@ -115,11 +118,11 @@ public class MainFragment extends Fragment {
                 case 0:
                     return new MainDistanceViewPager();
                 case 1:
-                    return new MainDistanceViewPager();
+                    return new MainNewViewPager();
                 case 2:
-                    return new MainDistanceViewPager();
+                    return new MainTodayViewPager();
                 case 3:
-                    return new MainDistanceViewPager();
+                    return new MainFriendViewPager();
             }
 
             return null;
