@@ -29,6 +29,10 @@ public class MyProfileFragment extends Fragment {
     private View MyProfileFragView;
     private ImageView iv_ThumbNail;
 
+    private ImageView[] iv_ProfileImage = new ImageView[8];
+
+    private ImageView[] iv_ClubImage = new ImageView[3];
+
     public MyProfileFragment() {
     }
 
@@ -61,12 +65,110 @@ public class MyProfileFragment extends Fragment {
         MyProfileFragView = inflater.inflate(R.layout.fragment_my_profile, container, false);
         MyProfileFragView.setTag("MyProfileFragment");
         iv_ThumbNail = MyProfileFragView.findViewById(R.id.iv_MyProfile_ThumbNail);
+
+        iv_ProfileImage[0] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_0);
+        iv_ProfileImage[1] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_1);
+        iv_ProfileImage[2] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_2);
+        iv_ProfileImage[3] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_3);
+        iv_ProfileImage[4] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_4);
+        iv_ProfileImage[5] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_5);
+        iv_ProfileImage[6] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_6);
+        iv_ProfileImage[7] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_7);
+
+        iv_ClubImage[0] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Club_0_Img);
+        iv_ClubImage[1] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Club_1_Img);
+        iv_ClubImage[2] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Club_2_Img);
+
         Glide.with(mContext)
                 //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_9)
+                .load(R.drawable.dummy_0)
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(iv_ThumbNail);
+
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_0)
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ProfileImage[0]);
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_1)
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ProfileImage[1]);
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_4)
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ProfileImage[2]);
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_10)
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ProfileImage[3]);
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_14)
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ProfileImage[4]);
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_11)
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ProfileImage[5]);
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_6)
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ProfileImage[6]);
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_13)
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ProfileImage[7]);
+
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_12)
+                .circleCrop()
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ClubImage[0]);
+
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_16)
+                .circleCrop()
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ClubImage[1]);
+
+
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_13)
+                .circleCrop()
+                .thumbnail(0.1f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_ClubImage[2]);
+
 
         return MyProfileFragView;
     }

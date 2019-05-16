@@ -17,7 +17,7 @@
     <string name="bt_Main_Sort_Type_All">전체</string>
     <string name="bt_Main_Sort_Type_Online">접속중</string>
     <string name="i_main_bottom_main">메인</string>
-    <string name="i_main_bottom_club">클럽</string>
+    <string name="i_main_bottom_club">모임</string>
     <string name="i_main_bottom_chat">채팅</string>
     <string name="i_main_bottom_profile">내프로필</string>
 
