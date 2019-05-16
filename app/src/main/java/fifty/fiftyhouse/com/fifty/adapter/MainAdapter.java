@@ -32,8 +32,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
 
     @Override
     public void onBindViewHolder(MainUserListHolder holder, final int position) {
-        holder.tv_Main_Thumbnail_Info_NickName.setText("닉네임");
-        holder.tv_Main_Thumbnail_Info_State.setText("접속중");
+        holder.tv_Main_Thumbnail_Info_NickName.setText("피프티하우스");
+        holder.tv_Main_Thumbnail_Info_State.setText("400m    접속중");
 
         viewCount = CommonFunc.getInstance().MainUserListSlotCount;
         int thumbnailMargin = CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 5);
