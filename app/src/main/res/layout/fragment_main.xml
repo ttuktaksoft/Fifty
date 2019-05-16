@@ -14,6 +14,8 @@
             android:id="@+id/v_Main_TopBar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/baseColor_1"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,17 +51,18 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/v_Main_TopBar"
-            android:background="@color/baseColor"
+            android:background="@color/baseColor_2"
             app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
             android:translationZ="5dp"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@color/white" />
+            app:tabIndicatorColor="@android:color/black"
+            app:tabSelectedTextColor="@android:color/black"
+            app:tabTextColor="@color/gray"/>
 
         <View
             android:id="@+id/v_Main_SubInfo"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/baseColor_3"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_Main_TopTab"/>
@@ -68,6 +71,10 @@
             android:id="@+id/tv_Main_Curr_Pos"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:text="서울특별시 영등포구 여의도동"
+            android:textSize="15dp"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="10dp"
             app:layout_constraintTop_toTopOf="@+id/v_Main_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_SubInfo"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_SubInfo" />
@@ -77,8 +84,9 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="@string/tv_Main_Sort_Title"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:gravity="center"
+            android:layout_marginRight="5dp"
             app:layout_constraintTop_toTopOf="@+id/v_Main_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_SubInfo"
             app:layout_constraintRight_toLeftOf="@+id/bt_Main_Sort_Type"/>
@@ -97,6 +105,7 @@
             android:id="@+id/vp_Main_UserList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/baseColor_4"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/v_Main_SubInfo"
@@ -107,6 +116,7 @@
             android:id="@+id/tv_Main_BottomAds"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:background="@color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vp_Main_UserList"

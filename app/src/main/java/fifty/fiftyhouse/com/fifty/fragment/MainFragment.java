@@ -46,6 +46,7 @@ public class MainFragment extends Fragment {
             vp_UserList = v_FragmentView.findViewById(R.id.vp_Main_UserList);
             tv_Main_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Curr_Pos);
             bt_Main_Sort_Type = v_FragmentView.findViewById(R.id.bt_Main_Sort_Type);
+            bt_Main_Sort_Type.setText(GetStr(CommonFunc.getInstance().GetMainSortTypeStrID(CommonData.MainSortType.ALL)));
             mSortType = CommonData.MainSortType.ALL;
 
             bt_Main_Sort_Type.setOnClickListener(new View.OnClickListener() {
@@ -60,9 +61,11 @@ public class MainFragment extends Fragment {
                             {
                                 case 0:
                                     mSortType = CommonData.MainSortType.ALL;
+                                    bt_Main_Sort_Type.setText(GetStr(CommonFunc.getInstance().GetMainSortTypeStrID(CommonData.MainSortType.ALL)));
                                     break;
                                 case 1:
                                     mSortType = CommonData.MainSortType.ONLINE;
+                                    bt_Main_Sort_Type.setText(GetStr(CommonFunc.getInstance().GetMainSortTypeStrID(CommonData.MainSortType.ONLINE)));
                                     break;
                             }
                             dialog.dismiss();
