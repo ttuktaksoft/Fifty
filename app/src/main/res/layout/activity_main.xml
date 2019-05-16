@@ -14,14 +14,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/v_Main_BottomTap"></FrameLayout>
+        app:layout_constraintBottom_toTopOf="@+id/bnv_Main_BottomMenu"></FrameLayout>
 
-    <View
-        android:id="@+id/v_Main_BottomTap"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bnv_Main_BottomMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemBackground="@color/colorPrimaryDark"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:menu="@menu/main_bottom_menu" />
 
 </android.support.constraint.ConstraintLayout>

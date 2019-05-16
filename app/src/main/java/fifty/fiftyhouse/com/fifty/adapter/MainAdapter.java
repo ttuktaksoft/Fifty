@@ -39,7 +39,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
         ConstraintLayout.LayoutParams lp_Main_Thumbnail_1 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Main_Thumbnail_1.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
         lp_Main_Thumbnail_1.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-        lp_Main_Thumbnail_1.setMargins(thumbnailMargin + CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 15),thumbnailMargin,thumbnailMargin,thumbnailMargin);
+        lp_Main_Thumbnail_1.setMargins(thumbnailMargin + CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 5),thumbnailMargin,thumbnailMargin,thumbnailMargin);
         holder.iv_Main_Thumbnail_1.setLayoutParams(lp_Main_Thumbnail_1);
         Glide.with(mContext).load(R.drawable.login_icon)
                 .centerCrop()
@@ -76,8 +76,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
     @Override
     public int getItemCount() {
         int rtValue = 10;
-
-        //rtValue = mMyData.arrUserAll_Hot_Age.size();
         return rtValue;
     }
 }
