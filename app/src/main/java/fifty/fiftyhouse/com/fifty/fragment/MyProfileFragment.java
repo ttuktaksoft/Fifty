@@ -55,7 +55,7 @@ public class MyProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         mContext = getContext();
         MyProfileFragView = inflater.inflate(R.layout.fragment_my_profile, container, false);
-
+        MyProfileFragView.setTag("MyProfileFragment");
 
         return MyProfileFragView;
     }
