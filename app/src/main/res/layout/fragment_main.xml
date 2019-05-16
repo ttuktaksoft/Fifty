@@ -113,7 +113,7 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_Main_BottomAds"
             />
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_Main_BottomAds"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -124,7 +124,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="광고페이지"
             android:textSize="30dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:src="@drawable/banner_ad"/>
     </android.support.constraint.ConstraintLayout>
 
 
