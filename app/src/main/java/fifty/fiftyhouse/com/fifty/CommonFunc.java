@@ -2,6 +2,8 @@ package fifty.fiftyhouse.com.fifty;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 public class CommonFunc {
 
@@ -56,6 +58,12 @@ public class CommonFunc {
     public void SetHeightByDevice(int height)
     {
         mHeight = height;
+    }
+
+    public int convertPXtoDP(Resources res, int pixel)
+    {
+        DisplayMetrics dm = res.getDisplayMetrics();
+        return Math.round(pixel * dm.density);
     }
 
 }

@@ -1,36 +1,35 @@
-package fifty.fiftyhouse.com.fifty.fragment;
+package fifty.fiftyhouse.com.fifty.viewPager;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import fifty.fiftyhouse.com.fifty.R;
 
-public class MainDistanceFragment extends Fragment {
+public class MainDistanceViewPager extends Fragment {
 
     RecyclerView rv_Main_Dis_UserList;
     View v_FragmentView = null;
-    MainDistanceFragmentAdapter mAdapter;
+    MainAdapter mAdapter;
 
-    public MainDistanceFragment() {
+    public MainDistanceViewPager() {
         super();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v_FragmentView = inflater.inflate(R.layout.fragment_main_distance, container, false);
+        v_FragmentView = inflater.inflate(R.layout.viewpager_main_distance, container, false);
         rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
 
-        mAdapter = new MainDistanceFragmentAdapter(getContext());
+        mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
 
         rv_Main_Dis_UserList.setAdapter(mAdapter);
