@@ -15,8 +15,13 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:buttonStyle">@style/button</item>-->
         <item name="windowNoTitle">true</item>
+    </style>
 
-
+    <style name="CollapsingTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="ExpandedTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">#00000000</item>
     </style>
 
 </resources>

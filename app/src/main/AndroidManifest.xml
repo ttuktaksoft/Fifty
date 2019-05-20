@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="fifty.fiftyhouse.com.fifty">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -31,13 +34,8 @@
         <activity android:name=".activty.SignUp.FavoriteDetailActivity" />
         <activity android:name=".activty.Profile.MyProfileActivity" />
         <activity android:name=".activty.Profile.UserProfileActivity" />
-        <activity android:name=".activty.Profile.UserProfile_Memo"></activity>
-
+        <activity android:name=".activty.Profile.UserProfile_Memo" />
+        <activity android:name=".activty.ClubActivity"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
 </manifest>

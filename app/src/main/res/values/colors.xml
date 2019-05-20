@@ -13,4 +13,5 @@
     <color name="gray">#7d7d7d</color>
     <color name="chatcontent">#9e9e9e</color>
     <color name="gray_light">#e0e0e0</color>
+    <color name="alpha">#00000000</color>
 </resources>

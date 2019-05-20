@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
                                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
                                 return true;
                             case R.id.i_main_bottom_club:
-                                //getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mClubFragment, "ClubFragment").commit();
-                              //  return true;
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mClubFragment, "ClubFragment").commit();
+                                return true;
                             case R.id.i_main_bottom_chat:
                                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mChatFragment, "ChatFragment").commit();
                                 return true;
