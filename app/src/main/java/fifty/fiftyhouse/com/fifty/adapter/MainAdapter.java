@@ -3,7 +3,6 @@ package fifty.fiftyhouse.com.fifty.adapter;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
 
         viewCount = CommonFunc.getInstance().MainUserListSlotCount;
         int thumbnailMargin = CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 5);
-        int thumbnailSize = CommonFunc.getInstance().GetWidthByDevice() / viewCount - CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 10);
+        int thumbnailSize = CommonFunc.getInstance().getWidthByDevice() / viewCount - CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 10);
 
         ConstraintLayout.LayoutParams lp_Main_Thumbnail_1 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Main_Thumbnail_1.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;

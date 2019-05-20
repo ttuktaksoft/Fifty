@@ -19,7 +19,7 @@ public class CommonFunc {
 
     private int mWidth;
     private  int mHeight;
-    public int MainUserListSlotCount = 0;
+    public int MainUserListSlotCount = 3;
 
     public void GoMainActivity(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
@@ -28,35 +28,35 @@ public class CommonFunc {
         activity.finish();
     }
 
-    public int GetMainSortTypeStrID(CommonData.MainSortType type)
+    public String getMainSortTypeStr(Resources res, CommonData.MainSortType type)
     {
         switch (type)
         {
             case ALL:
-                return R.string.bt_Main_Sort_Type_All;
+                return getStr(res, R.string.bt_Main_Sort_Type_All);
             case ONLINE:
-                return R.string.bt_Main_Sort_Type_Online;
+                return getStr(res, R.string.bt_Main_Sort_Type_Online);
         }
 
-        return R.string.STR_ERROR;
+        return getStr(res, R.string.STR_ERROR);
     }
 
-    public int GetWidthByDevice()
+    public int getWidthByDevice()
     {
         return mWidth;
     }
 
-    public void SetWidthByDevice(int width)
+    public void setWidthByDevice(int width)
     {
         mWidth = width;
     }
 
-    public int GetHeightByDevice()
+    public int getHeightByDevice()
     {
         return mHeight;
     }
 
-    public void SetHeightByDevice(int height)
+    public void setHeightByDevice(int height)
     {
         mHeight = height;
     }
@@ -65,6 +65,14 @@ public class CommonFunc {
     {
         DisplayMetrics dm = res.getDisplayMetrics();
         return Math.round(pixel * dm.density);
+    }
+
+    public String getStr(Resources res, int id)
+    {
+        if(res == null)
+            return "ERROR";
+
+        return res.getString(id);
     }
 
 }

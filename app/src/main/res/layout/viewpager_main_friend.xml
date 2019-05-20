@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".viewPager.MainFriendViewPager">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/v_Main_Friend_SubInfo"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/baseColor_3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_Main_Friend_Count"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="현재 친구수 : 30명"
+        android:textSize="15dp"
+        android:gravity="center_vertical|left"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintTop_toTopOf="@+id/v_Main_Friend_SubInfo"
+        app:layout_constraintBottom_toBottomOf="@+id/v_Main_Friend_SubInfo"
+        app:layout_constraintLeft_toLeftOf="@+id/v_Main_Friend_SubInfo" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_Main_Friend_UserList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/v_Main_Friend_SubInfo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 </FrameLayout>

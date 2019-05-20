@@ -25,8 +25,8 @@ public class LoadingActivity extends AppCompatActivity {
         final Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        CommonFunc.getInstance().SetWidthByDevice(size.x);
-        CommonFunc.getInstance().SetHeightByDevice(size.y);
+        CommonFunc.getInstance().setWidthByDevice(size.x);
+        CommonFunc.getInstance().setHeightByDevice(size.y);
 
         // 임의로 2초 슬립
         try {

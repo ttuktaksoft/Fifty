@@ -20,6 +20,8 @@
     <string name="i_main_bottom_club">모임</string>
     <string name="i_main_bottom_chat">채팅</string>
     <string name="i_main_bottom_profile">내프로필</string>
+    <string name="tv_Main_New_Desc">신입멤버를 소개합니다</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -26,16 +26,12 @@ public class MainFragment extends Fragment {
 
     ViewPager vp_UserList;
     TabLayout tl_TopBarTab;
-    TextView tv_Main_Curr_Pos;
-    Button bt_Main_Sort_Type;
     View v_FragmentView = null;
 
     MainDistanceViewPager mMainDistanceViewPager = null;
     MainNewViewPager mMainNewViewPager = null;
     MainTodayViewPager mMainTodayViewPager = null;
     MainFriendViewPager mMainFriendViewPager = null;
-
-    public CommonData.MainSortType mSortType = CommonData.MainSortType.ALL;
 
     public MainFragment() {
         // Required empty public constructor
@@ -49,11 +45,8 @@ public class MainFragment extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.fragment_main, container, false);
             tl_TopBarTab = v_FragmentView.findViewById(R.id.tl_Main_TopTab);
             vp_UserList = v_FragmentView.findViewById(R.id.vp_Main_UserList);
-            tv_Main_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Curr_Pos);
-            bt_Main_Sort_Type = v_FragmentView.findViewById(R.id.bt_Main_Sort_Type);
-            bt_Main_Sort_Type.setText(GetStr(CommonFunc.getInstance().GetMainSortTypeStrID(CommonData.MainSortType.ALL)));
-            mSortType = CommonData.MainSortType.ALL;
 
+/*
             bt_Main_Sort_Type.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,7 +71,7 @@ public class MainFragment extends Fragment {
                     });
                     builder.show();
                 }
-            });
+            });*/
 
             tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.bt_Main_Distance)));
             tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.bt_Main_New)));
@@ -87,25 +80,6 @@ public class MainFragment extends Fragment {
             tl_TopBarTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    int position = tab.getPosition();
-                    switch(position){
-                        case 0:
-                            CommonFunc.getInstance().MainUserListSlotCount = 3;
-                            mMainDistanceViewPager.mAdapter.notifyDataSetChanged();
-                            break;
-                        case 1:
-                            CommonFunc.getInstance().MainUserListSlotCount = 4;
-                            mMainNewViewPager.mAdapter.notifyDataSetChanged();
-                            break;
-                        case 2:
-                            CommonFunc.getInstance().MainUserListSlotCount = 2;
-                            mMainTodayViewPager.mAdapter.notifyDataSetChanged();
-                            break;
-                        case 3:
-                            //mMainFriendViewPager = new MainFriendViewPager();
-                            break;
-                    }
-
                     vp_UserList.setCurrentItem(tab.getPosition());
                 }
 
@@ -122,7 +96,6 @@ public class MainFragment extends Fragment {
 
             vp_UserList.setOffscreenPageLimit(3);
             vp_UserList.setAdapter(new TabPagerAdapter(getFragmentManager(),tl_TopBarTab.getTabCount()));
-            CommonFunc.getInstance().MainUserListSlotCount = 3;
             vp_UserList.setCurrentItem(0);
             vp_UserList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_TopBarTab));
         }
@@ -130,10 +103,7 @@ public class MainFragment extends Fragment {
         return v_FragmentView;
     }
 
-    public String GetStr(int id)
-    {
-        return getResources().getString(id);
-    }
+
 
     private class TabPagerAdapter extends FragmentStatePagerAdapter {
         private  int tabCount;
