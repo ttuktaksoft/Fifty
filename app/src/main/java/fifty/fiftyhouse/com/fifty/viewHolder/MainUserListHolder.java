@@ -8,9 +8,8 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.R;
 public class MainUserListHolder extends RecyclerView.ViewHolder{
 
-    public ImageView iv_Main_Thumbnail_1,iv_Main_Thumbnail_2,iv_Main_Thumbnail_3, iv_Main_Thumbnail_4;
+    public ImageView iv_Main_Thumbnail_1,iv_Main_Thumbnail_2,iv_Main_Thumbnail_3;
     public TextView tv_Main_Thumbnail_Info_NickName, tv_Main_Thumbnail_Info_State;
-    public View v_Main_Thumbnail;
 
     public MainUserListHolder(View itemView) {
         super(itemView);
@@ -18,7 +17,6 @@ public class MainUserListHolder extends RecyclerView.ViewHolder{
         iv_Main_Thumbnail_1 = itemView.findViewById(R.id.iv_Main_Thumbnail_1);
         iv_Main_Thumbnail_2 = itemView.findViewById(R.id.iv_Main_Thumbnail_2);
         iv_Main_Thumbnail_3 = itemView.findViewById(R.id.iv_Main_Thumbnail_3);
-        iv_Main_Thumbnail_4 = itemView.findViewById(R.id.iv_Main_Thumbnail_4);
         tv_Main_Thumbnail_Info_NickName = itemView.findViewById(R.id.tv_Main_Thumbnail_Info_NickName);
         tv_Main_Thumbnail_Info_State = itemView.findViewById(R.id.tv_Main_Thumbnail_Info_State);
     }

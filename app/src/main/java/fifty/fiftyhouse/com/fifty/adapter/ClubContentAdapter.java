@@ -33,39 +33,7 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
     @Override
     public void onBindViewHolder(ClubContentListHolder holder, final int position) {
         int i = position;
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.login_icon)
-                .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .thumbnail(0.1f)
-                .into(holder.iv_Club_Con_Profile);
-
-        if(i == 0)
-        {
-            holder.tv_Club_Con_Desc.setText("aslkdjhfalksjdhflkasdjhflkasjdhflkadsjhflkasjdhflkajsdhflkajsdhfklajsdhflkajsdhf");
-            holder.v_Club_Con_Reply_1.setVisibility(View.GONE);
-            holder.iv_Club_Con_Reply_1_Profile.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_1_Nickname.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_1_Date.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_1_Desc.setVisibility(View.GONE);
-
-            holder.v_Club_Con_Reply_2.setVisibility(View.GONE);
-            holder.iv_Club_Con_Reply_2_Profile.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_2_Nickname.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_2_Date.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_2_Desc.setVisibility(View.GONE);
-        }
-        else if(i == 1)
-        {
-            holder.tv_Club_Con_Desc.setText("aslkdjhfalksjdhflkasdjhflkasjdh!!!f");
-            holder.v_Club_Con_Reply_1.setVisibility(View.GONE);
-            holder.iv_Club_Con_Reply_1_Profile.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_1_Nickname.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_1_Date.setVisibility(View.GONE);
-            holder.tv_Club_Con_Reply_1_Desc.setVisibility(View.GONE);
-        }
+        holder.setClubContent(i);
     }
 
     @Override

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.ClubBodyActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_Club_Body_Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/baseColor"
+        android:elevation="1dp"
+        />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_Club_Body_Scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/tb_Club_Body_Toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_Club_Body_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_Club_Body_Profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintLeft_toLeftOf="@+id/cl_Club_Body_Layout"
+                app:layout_constraintTop_toTopOf="@+id/cl_Club_Body_Layout"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/icon_write"/>
+
+            <TextView
+                android:id="@+id/tv_Club_Body_Nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                app:layout_constraintLeft_toRightOf="@+id/iv_Club_Body_Profile"
+                app:layout_constraintTop_toTopOf="@+id/iv_Club_Body_Profile"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="닉네임"/>
+
+            <TextView
+                android:id="@+id/tv_Club_Body_Date"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                app:layout_constraintLeft_toRightOf="@+id/iv_Club_Body_Profile"
+                app:layout_constraintTop_toBottomOf="@+id/tv_Club_Body_Nickname"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="지금막"/>
+
+            <View
+                android:id="@+id/v_Club_Body_Info"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_Club_Body_Desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/v_Club_Body_Info"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:paddingBottom="5dp"
+                android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_Club_Body_Img_List"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@+id/tv_Club_Body_Desc"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_Club_Body_Reply_List"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@+id/rv_Club_Body_Img_List"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

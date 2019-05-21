@@ -35,8 +35,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
         holder.tv_Main_Thumbnail_Info_State.setText("400m    접속중");
 
         viewCount = CommonFunc.getInstance().MainUserListSlotCount;
-        int thumbnailMargin = CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 5);
-        int thumbnailSize = CommonFunc.getInstance().getWidthByDevice() / viewCount - CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 10);
+        int thumbnailMargin = CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 2);
+        int thumbnailSize = CommonFunc.getInstance().getWidthByDevice() / viewCount - CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 2);
 
         ConstraintLayout.LayoutParams lp_Main_Thumbnail_1 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Main_Thumbnail_1.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
@@ -65,14 +65,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
                 .centerCrop()
                 .into(holder.iv_Main_Thumbnail_3);
 
-        ConstraintLayout.LayoutParams lp_Main_Thumbnail_4 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
-        lp_Main_Thumbnail_4.leftToRight = holder.iv_Main_Thumbnail_3.getId();
-        lp_Main_Thumbnail_4.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-        lp_Main_Thumbnail_4.setMargins(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
-        holder.iv_Main_Thumbnail_4.setLayoutParams(lp_Main_Thumbnail_4);
-        Glide.with(mContext).load(R.drawable.dummy_15)
-                .centerCrop()
-                .into(holder.iv_Main_Thumbnail_4);
     }
 
     @Override
