@@ -90,7 +90,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
             holder.tv_Club_Name.setText("골프 칠사람");
             Glide.with(mContext)
                     //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_9)
+                    .load(R.drawable.dummy_8)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
                     .into(holder.iv_Club_Profile);

@@ -26,7 +26,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         Glide.with(getApplicationContext())
                 //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_9)
+                .load(R.drawable.dummy_8)
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(iv_ThumbNail);

@@ -154,7 +154,7 @@ public class MyProfileFragment extends Fragment {
 
         Glide.with(mContext)
                 //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_16)
+                .load(R.drawable.dummy_11)
                 .circleCrop()
                 .thumbnail(0.1f)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
