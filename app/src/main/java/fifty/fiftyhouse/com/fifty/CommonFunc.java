@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 
 public class CommonFunc {
 
@@ -63,9 +64,22 @@ public class CommonFunc {
 
     public int convertPXtoDP(Resources res, int pixel)
     {
-        DisplayMetrics dm = res.getDisplayMetrics();
-        return Math.round(pixel * dm.density);
+        float density = res.getDisplayMetrics().density;
+        if(density == 1.0)
+            density *= 4.0;
+        else if(density == 1.5)
+            density *= (8/3);
+        else if(density == 2.0)
+            density *= 2.0;
+        return Math.round(pixel / density);
     }
+
+    public int convertDPtoPX(Resources res, int dp)
+    {
+        int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());
+        return px;
+    }
+
 
     public String getStr(Resources res, int id)
     {

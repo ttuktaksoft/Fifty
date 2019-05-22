@@ -87,7 +87,7 @@ public class ClubContentListHolder extends RecyclerView.ViewHolder {
     public void setClubContent(int pos)
     {
         // TODO 클럽 내용 추가
-        if(pos == 0 || pos == 3)
+        if(pos == 0)
         {
             setClubType(CLUB_CONTENT_TYPE.DESC);
             Glide.with(mContext)
@@ -97,13 +97,13 @@ public class ClubContentListHolder extends RecyclerView.ViewHolder {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
                     .into(iv_Club_Con_Profile);
-            tv_Club_Con_Nickname.setText("닉네임입니다_0");
-            tv_Club_Con_Date.setText("지금막");
-            tv_Club_Con_Desc.setText("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용");
+            tv_Club_Con_Nickname.setText("닉네임");
+            tv_Club_Con_Date.setText("글쓴날짜");
+            tv_Club_Con_Desc.setText("본문 내용");
 
             mAdapter.setReplyCount(2);
         }
-        else if(pos == 1|| pos == 4)
+        else if(pos == 1)
         {
             setClubType(CLUB_CONTENT_TYPE.BIG_IMG);
             Glide.with(mContext)
@@ -113,49 +113,54 @@ public class ClubContentListHolder extends RecyclerView.ViewHolder {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
                     .into(iv_Club_Con_Profile);
-            tv_Club_Con_Nickname.setText("닉네임입니다_0");
-            tv_Club_Con_Date.setText("지금막");
-            tv_Club_Con_Desc.setText("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용");
+            tv_Club_Con_Nickname.setText("닉네임");
+            tv_Club_Con_Date.setText("글쓴날짜");
+            tv_Club_Con_Desc.setText("본문 내용");
 
             Glide.with(mContext)
-                    .load(R.drawable.login_icon)
+                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                    .load(R.drawable.dummy_10)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
-                    .centerCrop()
                     .into(tv_Club_Con_BigImg);
-
-            mAdapter.setReplyCount(1);
         }
-        else
+        else if(pos == 2)
         {
             setClubType(CLUB_CONTENT_TYPE.IMG);
             Glide.with(mContext)
                     //.load(mMyData.arrSendDataList.get(position).strTargetImg)
                     .load(R.drawable.login_icon)
-                    .circleCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
                     .into(iv_Club_Con_Profile);
-            tv_Club_Con_Nickname.setText("닉네임입니다_0");
-            tv_Club_Con_Date.setText("지금막");
-            tv_Club_Con_Desc.setText("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용");
+            tv_Club_Con_Nickname.setText("닉네임");
+            tv_Club_Con_Date.setText("글쓴날짜");
+            tv_Club_Con_Desc.setText("본문 내용");
 
             Glide.with(mContext)
-                    .load(R.drawable.login_icon)
+                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                    .load(R.drawable.dummy_2)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
-                    .centerCrop()
                     .into(tv_Club_Con_Img_1);
 
             Glide.with(mContext)
-                    .load(R.drawable.login_icon)
+                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                    .load(R.drawable.dummy_4)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
-                    .centerCrop()
                     .into(tv_Club_Con_Img_2);
+
+            Glide.with(mContext)
+                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                    .load(R.drawable.dummy_5)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .thumbnail(0.1f)
+                    .into(tv_Club_Con_Img_3);
 
             mAdapter.setReplyCount(1);
         }
+
     }
 
     private void setClubType(CLUB_CONTENT_TYPE type)

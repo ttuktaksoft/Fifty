@@ -38,7 +38,7 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 3;
         //return mMyData.arrChatTargetData.size();
     }
 

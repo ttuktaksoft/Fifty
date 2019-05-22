@@ -39,7 +39,7 @@ public class ClubBodyImgListHolder extends RecyclerView.ViewHolder {
         {
             Glide.with(mContext)
                     //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.woman)
+                    .load(R.drawable.dummy_10)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
                     .into(iv_Club_Body_Img);
@@ -48,7 +48,7 @@ public class ClubBodyImgListHolder extends RecyclerView.ViewHolder {
         {
             Glide.with(mContext)
                     //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.man)
+                    .load(R.drawable.dummy_11)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
                     .into(iv_Club_Body_Img);

@@ -10,7 +10,7 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/baseColor">
+    android:background="@color/baseColor_2">
 
     <ImageView
         android:id="@+id/bt_MyProfile_Back"

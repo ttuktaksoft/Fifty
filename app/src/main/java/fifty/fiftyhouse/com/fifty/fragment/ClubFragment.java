@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
@@ -55,7 +56,8 @@ public class ClubFragment extends Fragment {
         mAdapter.setHasStableIds(true);
 
         rv_Club_List.setAdapter(mAdapter);
-        rv_Club_List.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_Club_List.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        rv_Club_List.offsetLeftAndRight(CommonFunc.getInstance().convertDPtoPX(getResources(),20));
         rv_Club_List.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Club_List, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

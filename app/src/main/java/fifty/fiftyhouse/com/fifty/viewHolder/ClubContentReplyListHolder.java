@@ -33,31 +33,15 @@ public class ClubContentReplyListHolder extends RecyclerView.ViewHolder {
     public void setClubContentReply(int pos)
     {
         // TODO 클럽 내용 추가
-        if(pos == 0)
-        {
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.login_icon)
-                    .circleCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(iv_Club_Con_Reply_Profile);
-            tv_Club_Con_Reply_Nickname.setText("닉네임입니다_1");
-            tv_Club_Con_Reply_Date.setText("지금막");
-            tv_Club_Con_Reply_Desc.setText("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용");
-        }
-        else
-        {
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.login_icon)
-                    .circleCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(iv_Club_Con_Reply_Profile);
-            tv_Club_Con_Reply_Nickname.setText("닉네임입니다_2");
-            tv_Club_Con_Reply_Date.setText("지금막");
-            tv_Club_Con_Reply_Desc.setText("내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용");
-        }
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(R.drawable.dummy_13)
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .thumbnail(0.1f)
+                .into(iv_Club_Con_Reply_Profile);
+        tv_Club_Con_Reply_Nickname.setText("피프티하우스");
+        tv_Club_Con_Reply_Date.setText("19-04-15");
+        tv_Club_Con_Reply_Desc.setText("댓글 내용");
     }
 }

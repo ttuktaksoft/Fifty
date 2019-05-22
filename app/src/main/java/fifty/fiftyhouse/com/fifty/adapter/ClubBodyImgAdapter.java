@@ -36,7 +36,7 @@ public class ClubBodyImgAdapter extends RecyclerView.Adapter<ClubBodyImgListHold
         return mImgCount;
     }
 
-    public void setReplyCount(int count)
+    public void setImgCount(int count)
     {
         mImgCount = count;
     }

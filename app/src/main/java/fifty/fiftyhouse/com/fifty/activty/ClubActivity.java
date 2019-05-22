@@ -45,6 +45,13 @@ public class ClubActivity extends AppCompatActivity {
         rv_Club_Content = findViewById(R.id.rv_Club_Content);
 
         v_Club_ToolBar.setNavigationIcon(R.drawable.icon_backarrow);
+        v_Club_ToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        v_Club_ToolBar.setTitle("냥냥 클럽");
         setSupportActionBar(v_Club_ToolBar);
 
         v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
@@ -54,7 +61,8 @@ public class ClubActivity extends AppCompatActivity {
             @Override
             public void onScrollChange(NestedScrollView var1, int x, int y, int oldx, int oldy)
             {
-                if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 40)
+                Log.d("test", "test : " + CommonFunc.getInstance().convertPXtoDP(getResources(), y));
+                if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 240)
                 {
                     v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
                     v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
@@ -87,6 +95,7 @@ public class ClubActivity extends AppCompatActivity {
         rv_Club_Content.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Content, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
                 //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {
