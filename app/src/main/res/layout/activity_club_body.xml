@@ -60,6 +60,7 @@
                 android:layout_marginTop="2dp"
                 android:textSize="15dp"
                 android:textStyle="bold"
+                android:textColor="@color/gray"
                 android:text="지금막"/>
 
             <View
@@ -76,6 +77,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:paddingBottom="5dp"
+                android:textColor="@color/black"
                 android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"/>
 
             <android.support.v7.widget.RecyclerView
