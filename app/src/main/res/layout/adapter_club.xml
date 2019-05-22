@@ -23,7 +23,7 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:gravity="center"
-        android:background="@color/baseColor"
+        android:background="@color/baseColor_2"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Profile"
         app:layout_constraintRight_toRightOf="@+id/iv_Club_Profile"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Profile"/>
