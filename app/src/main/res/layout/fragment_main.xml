@@ -33,7 +33,7 @@
             android:id="@+id/bt_Main_Refresh"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/board_pressed"
+            android:background="@drawable/reload"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_TopBar"
             app:layout_constraintRight_toRightOf="@+id/v_Main_TopBar" />
 

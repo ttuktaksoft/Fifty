@@ -4,15 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.R;
 
 /**
@@ -23,11 +24,12 @@ import fifty.fiftyhouse.com.fifty.R;
  * Use the {@link MyProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyProfileFragment extends Fragment {
+public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBackPressedListener {
 
     private Context mContext;
     private View MyProfileFragView;
     private ImageView iv_ThumbNail;
+    public ImageView iv_Back;
 
     private ImageView[] iv_ProfileImage = new ImageView[8];
 
@@ -48,6 +50,8 @@ public class MyProfileFragment extends Fragment {
     public static MyProfileFragment newInstance(String param1, String param2) {
         MyProfileFragment fragment = new MyProfileFragment();
 
+
+        출처: https://mc10sw.tistory.com/16 [Make it possible]
         return fragment;
     }
 
@@ -62,9 +66,15 @@ public class MyProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mContext = getActivity();
+
         MyProfileFragView = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        FragmentManager mFragmentMng = getFragmentManager();
+        mFragmentMng.beginTransaction().addToBackStack(null);
+
         MyProfileFragView.setTag("MyProfileFragment");
         iv_ThumbNail = MyProfileFragView.findViewById(R.id.iv_MyProfile_ThumbNail);
+        iv_Back = MyProfileFragView.findViewById(R.id.bt_MyProfile_Back);
+
 
         iv_ProfileImage[0] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_0);
         iv_ProfileImage[1] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_1);
@@ -173,6 +183,20 @@ public class MyProfileFragment extends Fragment {
         return MyProfileFragView;
     }
 
+    @Override
+    public void onAttach(Context context)
+    {
+        super.onAttach(context);
+        ((MainActivity)context).setOnKeyBackPressedListener((MainActivity.onKeyBackPressedListener) this);
+    }
+
+    @Override
+    public void onBackKey() {
+        MainActivity activity = (MainActivity)getActivity();
+        activity.setOnKeyBackPressedListener(null);
+        activity.onBackPressed();
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -188,4 +212,5 @@ public class MyProfileFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import fifty.fiftyhouse.com.fifty.R;
 public class UserProfileActivity extends AppCompatActivity {
 
     private ImageView iv_ThumbNail;
+    private ImageView iv_Back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,17 @@ public class UserProfileActivity extends AppCompatActivity {
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(iv_ThumbNail);
+
+        iv_Back = findViewById(R.id.iv_UserProfile_Back);
+        iv_Back.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getId() ==R.id.iv_UserProfile_Back){
+                    finish();
+                }
+
+            }
+        });
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnv_UserProfile_main_menu);
         bottomNavigationView.setOnNavigationItemSelectedListener(

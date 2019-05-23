@@ -7,25 +7,25 @@
     tools:context=".activty.Profile.UserProfileActivity"
     android:background="@color/baseColor_2">
 
-    <Button
-        android:id="@+id/bt_UserProfile_Back"
+    <ImageView
+        android:id="@+id/iv_UserProfile_Back"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/icon_backarrow"
+        android:src="@drawable/icon_backarrow"
         />
 
-    <Button
-        android:id="@+id/bt_UserProfile_Alert"
+    <ImageView
+        android:id="@+id/iv_UserProfile_Alert"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/bt_UserProfile_Back"
         android:layout_marginRight="10dp"
-        android:background="@drawable/block"
+        android:src="@drawable/block"
         />
 
     <ImageView
@@ -34,7 +34,7 @@
         android:layout_height="80dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_UserProfile_Back"
+        app:layout_constraintTop_toBottomOf="@+id/iv_UserProfile_Back"
         android:layout_marginTop="1dp"/>
 
     <TextView

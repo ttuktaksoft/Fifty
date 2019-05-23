@@ -12,6 +12,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/baseColor"
         android:elevation="1dp"
+        app:navigationIcon="?attr/homeAsUpIndicator" />
         />
 
     <android.support.v4.widget.NestedScrollView

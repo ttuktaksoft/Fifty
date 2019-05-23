@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.fragment.ChatFragment;
 import fifty.fiftyhouse.com.fifty.fragment.ClubFragment;
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
 
+
         mMainFragment = new MainFragment();
         mChatFragment = new ChatFragment();
         mClubFragment = new ClubFragment();
@@ -45,16 +51,16 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
 
                             case R.id.i_main_bottom_main:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
+                                mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
                                 return true;
                             case R.id.i_main_bottom_club:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mClubFragment, "ClubFragment").commit();
+                                mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mClubFragment, "ClubFragment").commit();
                                 return true;
                             case R.id.i_main_bottom_chat:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mChatFragment, "ChatFragment").commit();
+                                mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mChatFragment, "ChatFragment").commit();
                                 return true;
                             case R.id.i_main_bottom_profile:
-                                getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mMyProfileFragment, "MyProfileFragment").commit();
+                                mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMyProfileFragment, "MyProfileFragment").commit();
                                 return true;
                         }
                         return false;
@@ -62,6 +68,38 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
+        mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
     }
+
+    public interface onKeyBackPressedListener{
+        void onBackKey();
+    }
+    private onKeyBackPressedListener mOnKeyBackPressedListener;
+    public void setOnKeyBackPressedListener(onKeyBackPressedListener listener)
+    {
+        mOnKeyBackPressedListener = listener;
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if(mOnKeyBackPressedListener != null)
+            mOnKeyBackPressedListener.onBackKey();
+
+        else
+        {
+            if(getSupportFragmentManager().getBackStackEntryCount() == 0)
+            {
+              /*  Toast toast = new Toast(getApplicationContext());
+                toast.makeText(getApplicationContext(),"뒤로가기", Toast.LENGTH_SHORT);
+                toast.show();*/
+            }
+            else
+            {
+                super.onBackPressed();
+            }
+
+        }
+    }
+
 }

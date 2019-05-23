@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,12 +46,6 @@ public class ClubBodyActivity extends AppCompatActivity {
         rv_Club_Body_Reply_List = findViewById(R.id.rv_Club_Body_Reply_List);
 
         tb_Club_Body_Toolbar.setNavigationIcon(R.drawable.icon_backarrow);
-        tb_Club_Body_Toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         tb_Club_Body_Toolbar.setTitle("냥냥 클럽");
         setSupportActionBar(tb_Club_Body_Toolbar);
 
@@ -66,6 +61,16 @@ public class ClubBodyActivity extends AppCompatActivity {
 
         initRecyclerImgView();
         initRecyclerReplyView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initRecyclerImgView()
