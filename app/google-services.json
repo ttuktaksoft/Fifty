@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "475674577888",
+    "firebase_url": "https://fifty-e2d17.firebaseio.com",
+    "project_id": "fifty-e2d17",
+    "storage_bucket": "fifty-e2d17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475674577888:android:74c8c6742a3fe206",
+        "android_client_info": {
+          "package_name": "fifty.fiftyhouse.com.fifty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475674577888-o47fv182u90hgbi8cgvnvrudgn4hdfrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwUrm6p_f78TRoFK6bcyD4YBfP8TeBUDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475674577888-o47fv182u90hgbi8cgvnvrudgn4hdfrg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

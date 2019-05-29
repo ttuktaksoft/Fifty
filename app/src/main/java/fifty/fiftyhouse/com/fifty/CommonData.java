@@ -21,4 +21,9 @@ public class CommonData {
         ONLINE
     }
 
+    public static enum CollentionType
+    {
+        USERS
+    }
+
 }

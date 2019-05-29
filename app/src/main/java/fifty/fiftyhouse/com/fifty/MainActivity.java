@@ -9,11 +9,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.List;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import fifty.fiftyhouse.com.fifty.DataBase.UserData;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.fragment.ChatFragment;
 import fifty.fiftyhouse.com.fifty.fragment.ClubFragment;
 import fifty.fiftyhouse.com.fifty.fragment.MainFragment;
@@ -36,6 +46,20 @@ public class MainActivity extends AppCompatActivity {
         mActivity = this;
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
+
+
+        FirebaseManager.getInstance().SignInAnonymously(mActivity);
+
+        UserData myData = new UserData();
+        String[] fav = new String[2];
+        fav[0] = "asd";
+        fav[1] = "asd2";
+
+        myData.SetUserData("1","1234123","ffff",fav,"22","22",22,1);
+
+        //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, myData.GetUserIndex(), myData);
+        FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, myData.GetUserIndex(), "Token", myData.GetUserToken());
+
 
 
         mMainFragment = new MainFragment();
