@@ -10,6 +10,7 @@ import fifty.fiftyhouse.com.fifty.R;
 
 public class ChatListHolder extends RecyclerView.ViewHolder {
 
+    public ConstraintLayout test;
     public  ImageView imageView, check;
     public ImageView imageGrade, imageItem;
     public TextView textView,nickname, date;
@@ -17,7 +18,6 @@ public class ChatListHolder extends RecyclerView.ViewHolder {
 
     public ChatListHolder(View itemView) {
         super(itemView);
-
         linearLayout = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout);
 
 
