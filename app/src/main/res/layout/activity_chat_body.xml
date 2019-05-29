@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.ChatBodyActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_Chat_Body_List"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/v_Chat_Body_Bottom"/>
+
+    <View
+        android:id="@+id/v_Chat_Body_Bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/rv_Chat_Body_List"
+        app:layout_constraintBottom_toBottomOf="parent">
+    </View>
+
+    <Button
+        android:id="@+id/bt_Chat_Body_Plus"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Body_Bottom"
+        app:layout_constraintTop_toTopOf="@+id/v_Chat_Body_Bottom"/>
+
+    <Button
+        android:id="@+id/bt_Chat_Body_Send"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:text="전송"
+        app:layout_constraintRight_toRightOf="@+id/v_Chat_Body_Bottom"
+        app:layout_constraintTop_toTopOf="@+id/v_Chat_Body_Bottom"/>
+
+    <EditText
+        android:id="@+id/et_Chat_Body_Msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="(100자 이내)"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="100"
+        android:maxLines="5"
+        android:minHeight="50dp"
+        android:minLines="1"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@+id/bt_Chat_Body_Plus"
+        app:layout_constraintRight_toLeftOf="@+id/bt_Chat_Body_Send"
+        app:layout_constraintTop_toTopOf="@+id/v_Chat_Body_Bottom"/>
+
+</android.support.constraint.ConstraintLayout>
