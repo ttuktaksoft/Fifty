@@ -37,7 +37,8 @@
         <activity android:name=".activty.Profile.UserProfile_Memo" />
         <activity android:name=".activty.ClubActivity" />
         <activity android:name=".activty.ClubBodyActivity" />
-        <activity android:name=".activty.ChatBodyActivity"></activity>
+        <activity android:name=".activty.ChatBodyActivity" />
+        <activity android:name=".activty.SignUp.SignUpCompleteActivity"></activity>
     </application>
 
 </manifest>

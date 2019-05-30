@@ -21,7 +21,7 @@
 
 
     <TextView
-        android:id="@+id/tv_Favorire_Detail"
+        android:id="@+id/tv_Favorite_Detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -32,33 +32,33 @@
         android:textSize="30dp"/>
 
     <Button
-        android:id="@+id/bt_Favorire_Select"
+        android:id="@+id/bt_Favorite_Select"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_Favorire_Detail"
+        app:layout_constraintTop_toBottomOf="@id/tv_Favorite_Detail"
         android:text="관심사"/>
 
     <Button
-        android:id="@+id/bt_Favorire_BackButton"
+        android:id="@+id/bt_Favorite_BackButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_Favorire_Select"
+        app:layout_constraintTop_toBottomOf="@id/bt_Favorite_Select"
         android:text="@string/bt_SignUp_Back"/>
 
     <Button
-        android:id="@+id/bt_Favorire_NextButton"
+        android:id="@+id/bt_Favorite_NextButton"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginRight="20dp"
         android:text="@string/bt_SignUp_Next"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bt_Favorire_BackButton" />
+        app:layout_constraintTop_toTopOf="@id/bt_Favorite_BackButton" />
 
 
 </android.support.constraint.ConstraintLayout>

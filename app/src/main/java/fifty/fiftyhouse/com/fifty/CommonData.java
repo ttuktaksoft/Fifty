@@ -26,4 +26,10 @@ public class CommonData {
         USERS
     }
 
+    public static enum GenderType
+    {
+        MAN,
+        WOMAN
+    }
+
 }

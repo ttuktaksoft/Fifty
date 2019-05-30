@@ -9,7 +9,9 @@ import android.view.Display;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
 
 public class LoadingActivity extends AppCompatActivity {
 
@@ -36,6 +38,8 @@ public class LoadingActivity extends AppCompatActivity {
         {
             System.out.print((e.getMessage()));
         }
+
+        FirebaseManager.getInstance().GetUserData("1", true);
 
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();

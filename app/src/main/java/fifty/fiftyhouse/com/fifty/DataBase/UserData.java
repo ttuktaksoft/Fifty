@@ -6,11 +6,12 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 
 public class UserData {
 
-    private static UserData _Instance;
+/*    private static UserData _Instance;
     public static UserData getInstance() {
         if (_Instance == null)
         {
@@ -18,7 +19,7 @@ public class UserData {
             Init();
         }
         return _Instance;
-    }
+    }*/
 
     private static String UId;
     private static String Index;
@@ -57,7 +58,7 @@ public class UserData {
     }
 
 
-    public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, String img, int age, int gender)
+    public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, String img, int age,  int gender)
     {
         Index = index;
         Token = token;
@@ -132,7 +133,7 @@ public class UserData {
     {
         Gender = gender;
     }
-    public int GetUserGender()
+    public  int GetUserGender()
     {
         return Gender;
     }

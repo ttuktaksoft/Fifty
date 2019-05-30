@@ -55,12 +55,11 @@ public class MainActivity extends AppCompatActivity {
         fav[0] = "asd";
         fav[1] = "asd2";
 
-        myData.SetUserData("1","1234123","ffff",fav,"22","22",22,1);
+        myData.SetUserData("1","1234123","ffff",fav,"22","22",22,0);
 
-        //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, myData.GetUserIndex(), myData);
-        FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, myData.GetUserIndex(), "Token", myData.GetUserToken());
-
-
+        FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, myData.GetUserIndex(), myData);
+        //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, myData.GetUserIndex(), "Token", myData.GetUserToken());
+        FirebaseManager.getInstance().CheckNickName("ffff");
 
         mMainFragment = new MainFragment();
         mChatFragment = new ChatFragment();

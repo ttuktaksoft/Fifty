@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +20,7 @@ import com.gun0912.tedpermission.TedPermission;
 import java.io.File;
 import java.util.List;
 
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
 
@@ -28,12 +30,13 @@ public class ProfileImgActivity extends AppCompatActivity {
     private File tempFile;
     private boolean isCamera = false;
     ImageView iv_userThumbnail;
+    Button bt_ProfileImg_Back, bt_ProfileImg_Next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_img);
-        iv_userThumbnail = findViewById(R.id.iv_Favorire_Select);
+        iv_userThumbnail = findViewById(R.id.iv_ProfileImg_Select);
 
         iv_userThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +44,28 @@ public class ProfileImgActivity extends AppCompatActivity {
                 GetPermission();
             }
         });
+
+
+        bt_ProfileImg_Back = (Button)findViewById(R.id.bt_ProfileImg_BackButton);
+        bt_ProfileImg_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FavoriteActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        bt_ProfileImg_Next = (Button)findViewById(R.id.bt_ProfileImg_NextButton);
+        bt_ProfileImg_Next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SignUpCompleteActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     private void GetPermission() {
@@ -84,6 +109,8 @@ public class ProfileImgActivity extends AppCompatActivity {
                 .centerCrop()
                 .circleCrop()
                 .into(iv_userThumbnail);
+
+        FirebaseManager.getInstance().UploadImg(FirebaseManager.getInstance().myData.GetUserIndex(), originalBm);
     }
 
     @Override

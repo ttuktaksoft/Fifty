@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/tv_Favorite_Comment"
+        android:id="@+id/tv_ProfileImg_Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -20,44 +20,44 @@
         android:textSize="40dp"/>
 
     <TextView
-        android:id="@+id/tv_Favorire_Detail"
+        android:id="@+id/tv_ProfileImg_Detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_Favorite_Comment"
+        app:layout_constraintTop_toBottomOf="@id/tv_ProfileImg_Comment"
         android:text="사진을 등록해주세요"
         android:textSize="30dp"/>
 
     <ImageView
-        android:id="@+id/iv_Favorire_Select"
+        android:id="@+id/iv_ProfileImg_Select"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_Favorire_Detail"
+        app:layout_constraintTop_toBottomOf="@id/tv_ProfileImg_Detail"
         android:src="@drawable/login_icon"
         android:text="사진 등록 버튼"/>
 
     <Button
-        android:id="@+id/bt_Favorire_BackButton"
+        android:id="@+id/bt_ProfileImg_BackButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_Favorire_Select"
+        app:layout_constraintTop_toBottomOf="@id/iv_ProfileImg_Select"
         android:text="@string/bt_SignUp_Back"/>
 
     <Button
-        android:id="@+id/bt_Favorire_NextButton"
+        android:id="@+id/bt_ProfileImg_NextButton"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginRight="20dp"
         android:text="@string/bt_SignUp_Next"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bt_Favorire_BackButton" />
+        app:layout_constraintTop_toTopOf="@id/bt_ProfileImg_BackButton" />
 
 </android.support.constraint.ConstraintLayout>
