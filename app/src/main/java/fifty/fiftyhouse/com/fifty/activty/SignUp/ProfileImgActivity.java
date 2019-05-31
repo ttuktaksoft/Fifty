@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
 
@@ -110,7 +111,7 @@ public class ProfileImgActivity extends AppCompatActivity {
                 .circleCrop()
                 .into(iv_userThumbnail);
 
-        FirebaseManager.getInstance().UploadImg(FirebaseManager.getInstance().myData.GetUserIndex(), originalBm);
+        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().myData.GetUserIndex(), originalBm);
     }
 
     @Override

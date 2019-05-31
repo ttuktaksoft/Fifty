@@ -17,10 +17,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
@@ -46,7 +50,7 @@ public class FirebaseManager {
     private static StorageReference mStorageRef;
 
     // 임시 데이터
-    public static UserData myData;
+
 
     public static FirebaseManager getInstance() {
         if (_Instance == null)
@@ -62,7 +66,6 @@ public class FirebaseManager {
         GetFireBaseAuth();
         GetFireStore();
         GetFireStorage();
-        myData = new UserData();
     }
 
     public static FirebaseAuth GetFireBaseAuth()
@@ -173,7 +176,6 @@ public class FirebaseManager {
                 });
     }
 
-
     public void SetUserDataOnFireBase(CommonData.CollentionType collectType, String documentName, String key, Object obj)
     {
         if(mDataBase == null)
@@ -229,7 +231,7 @@ public class FirebaseManager {
 
     public void GetUserData(String userIndex, final boolean mydata)
     {
-        DocumentReference docRef = mDataBase.collection("USERS").document(userIndex);
+        DocumentReference docRef = mDataBase.collection("Users").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -240,7 +242,7 @@ public class FirebaseManager {
 
                         if(mydata)
                         {
-                            FirebaseManager.getInstance().myData.SetUserNickName(document.getData().get("NickName").toString());
+                            TKManager.getInstance().myData.SetUserNickName(document.getData().get("NickName").toString());
                             Log.d(TAG, "DocumentSnapshot NickName: " + document.getData().get("NickName").toString());
                         }
 
@@ -254,9 +256,111 @@ public class FirebaseManager {
         });
     }
 
+
+    public void SetUserFavoriteOnFireBase(final String favoriteName, final String index, final String nickName)
+    {
+        if(mDataBase == null)
+            GetFireStore();
+
+        final DocumentReference sfDocRef = mDataBase.collection("PopFavorite").document(favoriteName);
+        sfDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        mDataBase.runTransaction(new Transaction.Function<Void>() {
+                            @Override
+                            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                                DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                                double newPopulation = snapshot.getDouble("count") + 1;
+                                transaction.update(sfDocRef, "count", newPopulation);
+
+                                // Success
+                                return null;
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Transaction success!");
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Transaction failure.", e);
+                                    }
+                                });
+
+                    } else {
+
+                        Map<String, Object> popFavorite = new HashMap<>();
+                        popFavorite.put("count", 1);
+
+                        mDataBase.collection("PopFavorite").document(favoriteName)
+                                .set(popFavorite, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        Map<String, Object> favorite = new HashMap<>();
+        favorite.put(index, nickName);
+
+
+        mDataBase.collection("FavoriteList").document(favoriteName)
+                .set(favorite, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public void GetPopFavoriteData()
+    {
+        CollectionReference colRef = mDataBase.collection("PopFavorite");
+        colRef.orderBy("count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                }
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.getException());
+            }
+        }
+    });
+    }
+
+
     public void CheckNickName(final String nickName)
     {
-        DocumentReference docRef = mDataBase.collection("NICKNAMELIST").document(nickName);
+        DocumentReference docRef = mDataBase.collection("NickNameList").document(nickName);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -266,7 +370,7 @@ public class FirebaseManager {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d(TAG, "No such document");
-                        FirebaseManager.getInstance().myData.SetUserNickName(nickName);
+                        TKManager.getInstance().myData.SetUserNickName(nickName);
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -275,9 +379,9 @@ public class FirebaseManager {
         });
     }
 
-    public void UploadImg(String userIndex, Bitmap bitmap)
+    public void UploadImg(int userIndex, Bitmap bitmap)
     {
-        final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + myData.GetUserIndex() + "/thumbnail.jpg");
+        final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().myData.GetUserIndex() + "/thumbnail.jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -293,7 +397,7 @@ public class FirebaseManager {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getUploadSessionUri();
-                FirebaseManager.getInstance().myData.SetUserImgThumb(downloadUrl.toString());
+                TKManager.getInstance().myData.SetUserImgThumb(downloadUrl.toString());
             }
         });
     }

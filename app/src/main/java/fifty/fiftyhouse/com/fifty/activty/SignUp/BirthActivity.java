@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class BirthActivity extends AppCompatActivity {
@@ -39,7 +40,7 @@ public class BirthActivity extends AppCompatActivity {
         iv_Birth_Man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseManager.getInstance().myData.SetUserGender(0);
+                TKManager.getInstance().myData.SetUserGender(0);
             }
         });
 
@@ -47,7 +48,7 @@ public class BirthActivity extends AppCompatActivity {
         iv_Birth_Woman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseManager.getInstance().myData.SetUserGender(1);
+                TKManager.getInstance().myData.SetUserGender(1);
             }
         });
 
@@ -87,11 +88,11 @@ public class BirthActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),arrayList_birth.get(i)+"가 선택되었습니다.",
                         Toast.LENGTH_SHORT).show();
 
-                FirebaseManager.getInstance().myData.SetUserAge(arrayList_birth.get(i));
+                TKManager.getInstance().myData.SetUserAge(arrayList_birth.get(i));
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                FirebaseManager.getInstance().myData.SetUserAge(50);
+                TKManager.getInstance().myData.SetUserAge(50);
             }
         });
     }

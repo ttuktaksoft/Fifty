@@ -18,6 +18,16 @@ public class FavoriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
+        bt_Favorite_Select = (Button)findViewById(R.id.bt_Favorite_Select);
+        bt_Favorite_Select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FavoriteDetailActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         bt_Favorite_Back = (Button)findViewById(R.id.bt_Favorite_BackButton);
         bt_Favorite_Back.setOnClickListener(new View.OnClickListener() {
             @Override

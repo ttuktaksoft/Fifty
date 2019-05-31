@@ -30,16 +30,8 @@ public class LoadingActivity extends AppCompatActivity {
         CommonFunc.getInstance().setWidthByDevice(size.x);
         CommonFunc.getInstance().setHeightByDevice(size.y);
 
-        // 임의로 2초 슬립
-        try {
-            Thread.sleep(100);
-        }
-        catch (InterruptedException e)
-        {
-            System.out.print((e.getMessage()));
-        }
-
         FirebaseManager.getInstance().GetUserData("1", true);
+
 
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();

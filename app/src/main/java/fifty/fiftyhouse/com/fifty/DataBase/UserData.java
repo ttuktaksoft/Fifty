@@ -22,7 +22,7 @@ public class UserData {
     }*/
 
     private static String UId;
-    private static String Index;
+    private static int Index;
     private static String Token;
 
     private static String NickName;
@@ -41,7 +41,7 @@ public class UserData {
 
     private static void Init() {
         UId = null;
-        Index = null;
+        Index = 0;
         Token = null;
 
         NickName = null;
@@ -58,7 +58,7 @@ public class UserData {
     }
 
 
-    public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, String img, int age,  int gender)
+    public void SetUserData(int index, String token, String nickname, String[] favorite, String thumb, String img, int age,  int gender)
     {
         Index = index;
         Token = token;
@@ -102,11 +102,11 @@ public class UserData {
         return NickName;
     }
 
-    public void SetUserIndex(String index)
+    public void SetUserIndex(int index)
     {
         Index = index;
     }
-    public String GetUserIndex()
+    public int GetUserIndex()
     {
         return Index;
     }

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ChatFragment mChatFragment;
     private ClubFragment mClubFragment;
     private MyProfileFragment mMyProfileFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,20 +47,6 @@ public class MainActivity extends AppCompatActivity {
         mActivity = this;
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
-
-
-        FirebaseManager.getInstance().SignInAnonymously(mActivity);
-
-        UserData myData = new UserData();
-        String[] fav = new String[2];
-        fav[0] = "asd";
-        fav[1] = "asd2";
-
-        myData.SetUserData("1","1234123","ffff",fav,"22","22",22,0);
-
-        FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, myData.GetUserIndex(), myData);
-        //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, myData.GetUserIndex(), "Token", myData.GetUserToken());
-        FirebaseManager.getInstance().CheckNickName("ffff");
 
         mMainFragment = new MainFragment();
         mChatFragment = new ChatFragment();

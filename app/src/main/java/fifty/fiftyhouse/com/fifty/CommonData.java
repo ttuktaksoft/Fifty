@@ -23,7 +23,8 @@ public class CommonData {
 
     public static enum CollentionType
     {
-        USERS
+        USERS,
+        FAVORITELIST
     }
 
     public static enum GenderType
@@ -31,5 +32,8 @@ public class CommonData {
         MAN,
         WOMAN
     }
+
+    // 처음에 보여줄 인기 관심사 갯수
+    public static int Favorite_Pop_Count = 2;
 
 }
