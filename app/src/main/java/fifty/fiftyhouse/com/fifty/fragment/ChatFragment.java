@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +67,26 @@ public class ChatFragment extends Fragment {
 
         ChatRecyclerView.setAdapter(mAdapter);
         ChatRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        ChatRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mContext, ChatRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                startActivity(new Intent(getContext(), ChatBodyActivity.class));
+                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
+                if (mAppStatus.bCheckMultiSend == false) {
+                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
+
+                    if (mCommon.getClickStatus() == false)
+                        mCommon.MoveUserPage(getActivity(), stTargetData);
+                }*/
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
+            }
+        }));
 
         return ChatFragView;
     }

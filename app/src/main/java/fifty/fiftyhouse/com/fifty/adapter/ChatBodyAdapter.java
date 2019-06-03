@@ -29,11 +29,11 @@ public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
     public void onBindViewHolder(ChatBodyListHolder holder, final int position) {
         int i = position;
 
-        holder.setChatData();
+        holder.setChatData(i);
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 20;
     }
 }
