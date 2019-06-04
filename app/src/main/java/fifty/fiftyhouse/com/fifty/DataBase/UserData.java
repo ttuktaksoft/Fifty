@@ -1,5 +1,7 @@
 package fifty.fiftyhouse.com.fifty.DataBase;
 
+import android.widget.LinearLayout;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,30 +23,32 @@ public class UserData {
         return _Instance;
     }*/
 
-    private static String UId;
-    private static int Index;
-    private static String Token;
+    private  String UId;
+    private  String Index;
+    private  String Token;
 
-    private static String NickName;
-    private static String Memo;
+    private String NickName ;
+    private String Memo;
     private ArrayList<String> FavoriteList = new ArrayList<>();
 
-    private static String Img_ThumbNail;
+    private  String Img_ThumbNail;
     private ArrayList<String> ImgList = new ArrayList<>();
 
-    private static int Age;
-    private static int Gender;
+    private  int Age;
+    private  int Gender;
 
-    private static int Visit;
-    private static int Like;
-    private static long Dist;
+    private  int Visit;
+    private  int Like;
+    private  long Dist;
 
-    private static void Init() {
+    private ArrayList<String> FriendList = new ArrayList<>();
+
+    private  void Init() {
         UId = null;
-        Index = 0;
+        Index = null;
         Token = null;
 
-        NickName = null;
+        NickName = "";
         Memo = null;
 
         Img_ThumbNail = null;
@@ -58,7 +62,7 @@ public class UserData {
     }
 
 
-    public void SetUserData(int index, String token, String nickname, String[] favorite, String thumb, String img, int age,  int gender)
+    public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, String img, int age,  int gender)
     {
         Index = index;
         Token = token;
@@ -102,11 +106,11 @@ public class UserData {
         return NickName;
     }
 
-    public void SetUserIndex(int index)
+    public void SetUserIndex(String index)
     {
         Index = index;
     }
-    public int GetUserIndex()
+    public String GetUserIndex()
     {
         return Index;
     }
@@ -159,8 +163,62 @@ public class UserData {
     {
         ImgList.addAll(Arrays.asList(Img));
     }
-    public ArrayList<String>  GetUserImgListList()
+    public String  GetUserImg(int Index)
+    {
+        if(ImgList.size() <= Index)
+        {
+            return null;
+        }
+
+        return ImgList.get(Index);
+    }
+
+    public ArrayList<String>  GetUserImgList()
     {
         return ImgList;
+    }
+    public int  GetUserImgCount()
+    {
+        return ImgList.size();
+    }
+
+    public void SetUserFriend(String friendIdx)
+    {
+        FriendList.add(friendIdx);
+    }
+    public void SetUserFriend(String[] friendIdx)
+    {
+        FriendList.addAll(Arrays.asList(friendIdx));
+    }
+    public ArrayList<String>  GetUserFriendList()
+    {
+        return FriendList;
+    }
+
+    public void  SetUserLike(int like)
+    {
+        Like = like;
+    }
+    public int  GetUserLike()
+    {
+        return Like;
+    }
+
+    public void  SetUserVisit(int visit)
+    {
+        Visit = visit;
+    }
+    public int  GetUserVisit()
+    {
+        return Visit;
+    }
+
+    public void  SetUserDist(long dist)
+    {
+        Dist = dist;
+    }
+    public long  GetUserDist()
+    {
+        return Dist;
     }
 }

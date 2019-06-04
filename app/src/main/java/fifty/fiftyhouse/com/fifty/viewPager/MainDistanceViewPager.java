@@ -14,6 +14,8 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
@@ -31,6 +33,7 @@ public class MainDistanceViewPager extends Fragment {
     MainAdapter mAdapter;
     CommonData.MainSortType mSortType = CommonData.MainSortType.ALL;
 
+    private String UserIndex;
     public MainDistanceViewPager() {
         super();
     }
@@ -66,13 +69,19 @@ public class MainDistanceViewPager extends Fragment {
     {
         mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
-
+        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().UserList_Dist.size());
         rv_Main_Dis_UserList.setAdapter(mAdapter);
+
         rv_Main_Dis_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
         rv_Main_Dis_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Dis_UserList, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(getContext(), UserProfileActivity.class));
+
+                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserIndex();
+
+                FirebaseManager.getInstance().GetUserData(UserIndex);
+
+                //startActivity(new Intent(getContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {
                     stTargetData = mMyData.arrUserAll_Hot_Age.get(position);

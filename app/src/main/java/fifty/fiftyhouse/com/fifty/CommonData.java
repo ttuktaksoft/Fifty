@@ -33,7 +33,19 @@ public class CommonData {
         WOMAN
     }
 
+    public static enum MainViewType
+    {
+        DIST,
+        NEW,
+        HOT,
+        FRIEND
+    }
+
+
     // 처음에 보여줄 인기 관심사 갯수
     public static int Favorite_Pop_Count = 2;
+
+    // 메인 화면 기준별 보여지는 유져 인원 수
+    public static int UserList_Loding_Count = 10;
 
 }

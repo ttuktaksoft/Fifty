@@ -10,6 +10,7 @@ import android.view.Display;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
 
@@ -30,10 +31,16 @@ public class LoadingActivity extends AppCompatActivity {
         CommonFunc.getInstance().setWidthByDevice(size.x);
         CommonFunc.getInstance().setHeightByDevice(size.y);
 
-        FirebaseManager.getInstance().GetUserData("1", true);
+        FirebaseManager.getInstance().GetMyData("1");
+
+        //CommonFunc.getInstance().AddDummy(100);
 
 
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        finish();
+        CommonFunc.getInstance().mCurActivity = this;
+
+        CommonFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
+        FirebaseManager.getInstance().GetUserList();
+
+        CommonFunc.getInstance().DismissLoadingPage();
     }
 }

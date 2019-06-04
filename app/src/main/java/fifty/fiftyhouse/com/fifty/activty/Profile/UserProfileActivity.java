@@ -12,26 +12,35 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class UserProfileActivity extends AppCompatActivity {
 
     private ImageView iv_ThumbNail;
     private ImageView iv_Back;
+    private TextView tv_NickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        CommonFunc.getInstance().mCurActivity = this;
+
         iv_ThumbNail = findViewById(R.id.iv_UserProfile_ThumbNail);
 
         Glide.with(getApplicationContext())
                 //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_8)
+                .load(TKManager.getInstance().TargetUserData.GetUserImgThumb())
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(iv_ThumbNail);
+
+        tv_NickName = findViewById(R.id.tv_UserProfile_NickName);
+        tv_NickName.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
 
         iv_Back = findViewById(R.id.iv_UserProfile_Back);
         iv_Back.setOnClickListener(new ImageView.OnClickListener() {

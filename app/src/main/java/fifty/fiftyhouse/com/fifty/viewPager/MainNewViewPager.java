@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
@@ -51,6 +52,7 @@ public class MainNewViewPager extends Fragment {
     {
         mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
+        mAdapter.SetItemCountByType(CommonData.MainViewType.NEW, TKManager.getInstance().UserList_New.size());
 
         rv_Main_New_UserList.setAdapter(mAdapter);
         rv_Main_New_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));

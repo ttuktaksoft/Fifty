@@ -100,7 +100,7 @@ public class ProfileImgActivity extends AppCompatActivity {
                 .circleCrop()
                 .into(tv_SignUp_Profile_Thumbnail);
 
-        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().myData.GetUserIndex(), originalBm);
+        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm);
     }
 
     @Override
