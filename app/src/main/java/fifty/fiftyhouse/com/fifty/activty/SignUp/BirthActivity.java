@@ -49,7 +49,7 @@ public class BirthActivity extends AppCompatActivity {
                 iv_SignUp_Birth_Man.setColorFilter(R.color.white);
                 iv_SignUp_Birth_Woman.setColorFilter(R.color.gray_light);
                 iv_SignUp_Birth_Next.setColorFilter(R.color.white);
-                TKManager.getInstance().myData.SetUserGender(0);
+                TKManager.getInstance().MyData.SetUserGender(0);
             }
         });
 
@@ -60,7 +60,7 @@ public class BirthActivity extends AppCompatActivity {
                 iv_SignUp_Birth_Man.setColorFilter(R.color.gray_light);
                 iv_SignUp_Birth_Woman.setColorFilter(R.color.white);
                 iv_SignUp_Birth_Next.setColorFilter(R.color.white);
-                TKManager.getInstance().myData.SetUserGender(1);
+                TKManager.getInstance().MyData.SetUserGender(1);
             }
         });
 
