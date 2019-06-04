@@ -27,38 +27,27 @@ import fifty.fiftyhouse.com.fifty.util.ImageResize;
 
 public class ProfileImgActivity extends AppCompatActivity {
 
+    ImageView tv_SignUp_Profile_Thumbnail, iv_SignUp_Profile_Next;
+
     private static final int GET_FROM_GALLERY = 1;
     private File tempFile;
     private boolean isCamera = false;
-    ImageView iv_userThumbnail;
-    Button bt_ProfileImg_Back, bt_ProfileImg_Next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_img);
-        iv_userThumbnail = findViewById(R.id.iv_ProfileImg_Select);
+        tv_SignUp_Profile_Thumbnail = findViewById(R.id.tv_SignUp_Profile_Thumbnail);
+        iv_SignUp_Profile_Next = findViewById(R.id.iv_SignUp_Profile_Next);
 
-        iv_userThumbnail.setOnClickListener(new View.OnClickListener() {
+        tv_SignUp_Profile_Thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 GetPermission();
             }
         });
 
-
-        bt_ProfileImg_Back = (Button)findViewById(R.id.bt_ProfileImg_BackButton);
-        bt_ProfileImg_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FavoriteActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        bt_ProfileImg_Next = (Button)findViewById(R.id.bt_ProfileImg_NextButton);
-        bt_ProfileImg_Next.setOnClickListener(new View.OnClickListener() {
+        iv_SignUp_Profile_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SignUpCompleteActivity.class);
@@ -105,11 +94,11 @@ public class ProfileImgActivity extends AppCompatActivity {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
-        iv_userThumbnail.setImageBitmap(originalBm);
+        tv_SignUp_Profile_Thumbnail.setImageBitmap(originalBm);
         Glide.with(this).load(originalBm)
                 .centerCrop()
                 .circleCrop()
-                .into(iv_userThumbnail);
+                .into(tv_SignUp_Profile_Thumbnail);
 
         FirebaseManager.getInstance().UploadImg(TKManager.getInstance().myData.GetUserIndex(), originalBm);
     }

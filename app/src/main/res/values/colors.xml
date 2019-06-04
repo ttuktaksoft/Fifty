@@ -20,9 +20,12 @@
     <color name="at_sign_bg">#f7e317</color>
     <color name="at_sign_birth_bg">#f7e317</color>
     <color name="at_sign_favorite_bg">#f7e317</color>
+    <color name="at_sign_favorite_selet_bg">#f7e317</color>
+    <color name="at_sign_profile_bg">#f7e317</color>
     <color name="iv_SignUp_CheckNickName">#ffe7e7</color>
     <color name="iv_SignUp_Next">#ffe7e7</color>
     <color name="iv_SignUp_Birth_Next">#ffe7e7</color>
+    <color name="iv_SignUp_Favorite_Detail_Next">#ffe7e7</color>
 
 
 

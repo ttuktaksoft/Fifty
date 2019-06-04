@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firestore.v1beta1.FirestoreGrpc;
@@ -22,10 +23,7 @@ import fifty.fiftyhouse.com.fifty.R;
 
 public class BirthActivity extends AppCompatActivity {
 
-    private Spinner sp_SignUp_Birth_Birth;
-    ArrayList<Integer> arrayList_birth;
-    ArrayAdapter<String> arrayAdapter_birth;
-
+    TextView tv_SignUp_Birth_Birth_Data;
     ImageView iv_SignUp_Birth_Man, iv_SignUp_Birth_Woman, iv_SignUp_Birth_Next;
 
     boolean mIsGenderSelect = false;
@@ -35,7 +33,7 @@ public class BirthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_birth);
 
-        sp_SignUp_Birth_Birth = findViewById(R.id.sp_SignUp_Birth_Birth);
+        tv_SignUp_Birth_Birth_Data = findViewById(R.id.tv_SignUp_Birth_Birth_Data);
         iv_SignUp_Birth_Man = findViewById(R.id.iv_SignUp_Birth_Man);
         iv_SignUp_Birth_Woman = findViewById(R.id.iv_SignUp_Birth_Woman);
         iv_SignUp_Birth_Next = findViewById(R.id.iv_SignUp_Birth_Next);
@@ -79,29 +77,6 @@ public class BirthActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-            }
-        });
-
-        // TODO 카톡에서 연령을 받아오게 되면서 필요성이 있나?
-        arrayList_birth = new ArrayList<>();
-
-        for(int i = 1950; i<1971 ; i++)
-        {
-            arrayList_birth.add(i);
-        }
-
-        sp_SignUp_Birth_Birth.setAdapter(arrayAdapter_birth);
-        sp_SignUp_Birth_Birth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(),arrayList_birth.get(i)+"가 선택되었습니다.",
-                        Toast.LENGTH_SHORT).show();
-
-                TKManager.getInstance().myData.SetUserAge(arrayList_birth.get(i));
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                TKManager.getInstance().myData.SetUserAge(50);
             }
         });
     }

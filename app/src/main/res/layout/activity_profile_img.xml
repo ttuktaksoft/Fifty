@@ -5,9 +5,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activty.SignUp.ProfileImgActivity"
-    android:background="@color/baseColor">
+    android:background="@color/at_sign_profile_bg">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_logo"
+        android:padding="10dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <TextView
+            android:id="@+id/tv_SignUp_Profile_Comment"
+            style="@style/BaseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/tv_SignUp_Profile_Comment"
+            android:textSize="30dp"/>
+
+        <TextView
+            android:id="@+id/tv_SignUp_Profile_Comment_Desc"
+            style="@style/BaseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Profile_Comment"
+            android:text="@string/tv_SignUp_Profile_Comment_Desc"
+            android:textAlignment="center"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/tv_SignUp_Profile_Thumbnail"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bg_empty_circle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Profile_Comment_Desc"/>
+
+        <ImageView
+            android:id="@+id/iv_SignUp_Profile_Next"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Profile_Thumbnail"
+            android:background="@drawable/bg_white"/>
+
+        <TextView
+            android:id="@+id/tv_SignUp_Profile_Next"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            style="@style/BaseTextView"
+            app:layout_constraintTop_toTopOf="@+id/iv_SignUp_Profile_Next"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_SignUp_Profile_Next"
+            app:layout_constraintRight_toRightOf="@+id/iv_SignUp_Profile_Next"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_SignUp_Profile_Next"
+            android:textSize="20dp"
+            android:text="@string/tv_SignUp_Next"
+            android:gravity="center"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 
+
+
+
+
+<!--
     <TextView
         android:id="@+id/tv_ProfileImg_Comment"
         android:layout_width="wrap_content"
@@ -58,6 +140,6 @@
         android:layout_marginRight="20dp"
         android:text="@string/bt_SignUp_Next"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bt_ProfileImg_BackButton" />
+        app:layout_constraintTop_toTopOf="@id/bt_ProfileImg_BackButton" />-->
 
 </android.support.constraint.ConstraintLayout>
