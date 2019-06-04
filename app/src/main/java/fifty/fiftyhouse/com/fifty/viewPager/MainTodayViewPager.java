@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
@@ -57,6 +59,7 @@ public class MainTodayViewPager extends Fragment {
     {
         mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
+        mAdapter.SetItemCountByType(CommonData.MainViewType.HOT, TKManager.getInstance().UserList_Hot.size());
 
         rv_Main_Today_UserList.setAdapter(mAdapter);
         rv_Main_Today_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));

@@ -111,7 +111,7 @@ public class ProfileImgActivity extends AppCompatActivity {
                 .circleCrop()
                 .into(iv_userThumbnail);
 
-        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().myData.GetUserIndex(), originalBm);
+        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm);
     }
 
     @Override

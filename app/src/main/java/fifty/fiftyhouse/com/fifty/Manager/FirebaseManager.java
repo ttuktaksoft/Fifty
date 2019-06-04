@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -35,9 +36,14 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.activty.LoadingActivity;
 
 public class FirebaseManager {
 
@@ -142,8 +148,30 @@ public class FirebaseManager {
         user.put("Age", ((UserData) obj).GetUserAge());
         user.put("Gender", ((UserData) obj).GetUserGender());
 
-        mDataBase.collection(collectType.toString()).document(documentName)
+        mDataBase.collection("UserData").document(documentName)
                 .set(user, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+        Map<String, Object> simpleUser = new HashMap<>();
+
+        simpleUser.put("Index", ((UserData) obj).GetUserIndex());
+        simpleUser.put("NickName", ((UserData) obj).GetUserNickName());
+        simpleUser.put("Img_ThumbNail", ((UserData) obj).GetUserImgThumb());
+
+        mDataBase.collection("UserData_Simple").document(documentName)
+                .set(simpleUser, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -160,7 +188,7 @@ public class FirebaseManager {
         Map<String, Object> nickName = new HashMap<>();
         nickName.put(((UserData) obj).GetUserNickName(), ((UserData) obj).GetUserIndex());
 
-        mDataBase.collection("NickNameList").document(((UserData) obj).GetUserNickName())
+        mDataBase.collection("UserData_NickName").document(((UserData) obj).GetUserNickName())
                 .set(nickName)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -228,10 +256,9 @@ public class FirebaseManager {
                 });
     }
 
-
-    public void GetUserData(String userIndex, final boolean mydata)
+    public void GetMyData(String userIndex)
     {
-        DocumentReference docRef = mDataBase.collection("Users").document(userIndex);
+        DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -240,11 +267,10 @@ public class FirebaseManager {
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
-                        if(mydata)
-                        {
-                            TKManager.getInstance().myData.SetUserNickName(document.getData().get("NickName").toString());
+
+                            TKManager.getInstance().MyData.SetUserNickName(document.getData().get("NickName").toString());
                             Log.d(TAG, "DocumentSnapshot NickName: " + document.getData().get("NickName").toString());
-                        }
+
 
                     } else {
                         Log.d(TAG, "No such document");
@@ -256,6 +282,257 @@ public class FirebaseManager {
         });
     }
 
+    public void GetUserData(String userIndex)
+    {
+        DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        if(document.getData().containsKey("NickName"))
+                        {
+                            String NickName = document.getData().get("NickName").toString();
+                            TKManager.getInstance().TargetUserData.SetUserNickName(NickName);
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserNickName(null);
+
+                        if(document.getData().containsKey("Token"))
+                        {
+                            String Token = document.getData().get("Token").toString();
+                            TKManager.getInstance().TargetUserData.SetUserToken(Token);
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserToken(null);
+
+                        if(document.getData().containsKey("Age"))
+                        {
+                            TKManager.getInstance().TargetUserData.SetUserAge(Integer.parseInt(document.getData().get("Age").toString()));
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserAge(50);
+
+                        if(document.getData().containsKey("FavoriteList"))
+                        {
+                            HashMap<String, String> tempFavorite = (HashMap<String, String>)document.getData().get("FavoriteList");
+
+                            int FavoriteSize = tempFavorite.size();
+
+                            String[] temp = new String[FavoriteSize];
+                            for(int i=0; i<FavoriteSize; i++)
+                            {
+                                temp[i] = tempFavorite.get( Integer.toString(i)).toString();
+                                TKManager.getInstance().TargetUserData.SetUserFavorite(temp[i]);
+                            }
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserFavorite("");
+
+
+                        if(document.getData().containsKey("Gender"))
+                        {
+                            TKManager.getInstance().TargetUserData.SetUserGender(Integer.parseInt(document.getData().get("Gender").toString()));
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserGender(0);
+
+                        if(document.getData().containsKey("Img_ThumbNail"))
+                        {
+                            String ThumbNail = document.getData().get("Img_ThumbNail").toString();
+                            TKManager.getInstance().TargetUserData.SetUserImgThumb(ThumbNail);
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserImgThumb(null);
+
+                        if(document.getData().containsKey("Img"))
+                        {
+                            HashMap<String, String> tempImg = (HashMap<String, String>)document.getData().get("Img");
+
+                            int ImgSize = tempImg.size();
+
+                            String[] temp = new String[ImgSize];
+                            for(int i=0; i<ImgSize; i++)
+                            {
+                                temp[i] = tempImg.get( Integer.toString(i)).toString();
+                                TKManager.getInstance().TargetUserData.SetUserImg(temp[i]);
+                            }
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserImg("");
+
+                        if(document.getData().containsKey("Visit"))
+                        {
+                            TKManager.getInstance().TargetUserData.SetUserVisit(Integer.parseInt(document.getData().get("Visit").toString()));
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserVisit(0);
+
+                        if(document.getData().containsKey("Like"))
+                        {
+                            TKManager.getInstance().TargetUserData.SetUserLike(Integer.parseInt(document.getData().get("Like").toString()));
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserLike(0);
+
+                        if(document.getData().containsKey("Dist"))
+                        {
+                            TKManager.getInstance().TargetUserData.SetUserDist(Integer.parseInt(document.getData().get("Dist").toString()));
+                        }
+                        else
+                            TKManager.getInstance().TargetUserData.SetUserDist(0);
+
+
+                        CommonFunc.getInstance().MoveUserActivity(CommonFunc.getInstance().mCurActivity);
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetUserList()
+    {
+        GetUserListDist();
+        GetUserListHot();
+        GetUserListNew();
+    }
+    public void GetUserListDist()
+    {
+        CollectionReference colRef = mDataBase.collection("UserList_Dist");
+
+        colRef.whereEqualTo("value", "86").limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                        TKManager.getInstance().UserList_Dist.add(document.getId().toString());
+                        GetUserData_Simple(document.getId());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetUserListHot()
+    {
+        CollectionReference colRef = mDataBase.collection("UserList_Hot");
+
+        colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                        TKManager.getInstance().UserList_Hot.add(document.getId().toString());
+                        GetUserData_Simple(document.getId());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetUserListNew()
+    {
+        CollectionReference colRef = mDataBase.collection("UserList_New");
+
+        colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                        TKManager.getInstance().UserList_New.add(document.getId().toString());
+                        GetUserData_Simple(document.getId());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+
+    public void GetUserData_Simple(final String userIndex)
+    {
+        final DocumentReference docRef = mDataBase.collection("UserData_Simple").document(userIndex);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        UserData tempUser = new UserData();
+
+                        if(document.getData().containsKey("NickName"))
+                        {
+                            String NickName = document.getData().get("NickName").toString();
+                            tempUser.SetUserNickName(NickName);
+                        }
+                        else
+                            tempUser.SetUserNickName(null);
+
+                        if(document.getData().containsKey("Index"))
+                        {
+                            String Index = document.getData().get("Index").toString();
+                            tempUser.SetUserIndex(Index);
+                        }
+                        else
+                            tempUser.SetUserIndex("1");
+
+                        if(document.getData().containsKey("Img_ThumbNail"))
+                        {
+                            String tempData = document.getData().get("Img_ThumbNail").toString();
+                            tempUser.SetUserImgThumb(tempData);
+                        }
+                        else
+                            tempUser.SetUserImgThumb(null);
+
+                        if(document.getData().containsKey("Img"))
+                        {
+                            HashMap<String, String> tempImg = (HashMap<String, String>)document.getData().get("Img");
+
+                            int ImgSize = tempImg.size();
+
+                            String[] temp = new String[3];
+                            for(int i=0; i<ImgSize; i++)
+                            {
+                                temp[i] = tempImg.get( Integer.toString(i)).toString();
+                                tempUser.SetUserImg(temp[i]);
+                            }
+                        }
+                        else
+                            tempUser.SetUserImg("");
+
+                        TKManager.getInstance().UserData_Simple.put(userIndex, tempUser);
+
+                        CommonFunc.getInstance().MoveActivity(CommonFunc.getInstance().mCurActivity, MainActivity.class);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 
     public void SetUserFavoriteOnFireBase(final String favoriteName, final String index, final String nickName)
     {
@@ -353,10 +630,9 @@ public class FirebaseManager {
             } else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
             }
-        }
+          }
     });
     }
-
 
     public void CheckNickName(final String nickName)
     {
@@ -370,7 +646,7 @@ public class FirebaseManager {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d(TAG, "No such document");
-                        TKManager.getInstance().myData.SetUserNickName(nickName);
+                        TKManager.getInstance().MyData.SetUserNickName(nickName);
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -379,9 +655,9 @@ public class FirebaseManager {
         });
     }
 
-    public void UploadImg(int userIndex, Bitmap bitmap)
+    public void UploadImg(String userIndex, Bitmap bitmap)
     {
-        final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().myData.GetUserIndex() + "/thumbnail.jpg");
+        final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().MyData.GetUserIndex() + "/thumbnail.jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -397,10 +673,70 @@ public class FirebaseManager {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getUploadSessionUri();
-                TKManager.getInstance().myData.SetUserImgThumb(downloadUrl.toString());
+                TKManager.getInstance().MyData.SetUserImgThumb(downloadUrl.toString());
             }
         });
     }
 
+
+    public void randomList(String index)
+    {
+
+        Random rnd = new Random();
+        int tempIndex = rnd.nextInt(4);
+        Map<String, Object> simpleUser = new HashMap<>();
+        simpleUser.put("value", index);
+        switch (tempIndex)
+        {
+            case 0:
+            mDataBase.collection("UserList_Hot").document(String.valueOf(index)).set(simpleUser, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+            break;
+
+            case 1:
+                mDataBase.collection("UserList_Dist").document(String.valueOf(index)).set(simpleUser, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+                break;
+
+            case 2:
+                mDataBase.collection("UserList_New").document(String.valueOf(index)).set(simpleUser, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+                break;
+        }
+
+    }
 
 }

@@ -40,7 +40,7 @@ public class BirthActivity extends AppCompatActivity {
         iv_Birth_Man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TKManager.getInstance().myData.SetUserGender(0);
+                TKManager.getInstance().MyData.SetUserGender(0);
             }
         });
 
@@ -48,7 +48,7 @@ public class BirthActivity extends AppCompatActivity {
         iv_Birth_Woman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TKManager.getInstance().myData.SetUserGender(1);
+                TKManager.getInstance().MyData.SetUserGender(1);
             }
         });
 
@@ -88,11 +88,11 @@ public class BirthActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),arrayList_birth.get(i)+"가 선택되었습니다.",
                         Toast.LENGTH_SHORT).show();
 
-                TKManager.getInstance().myData.SetUserAge(arrayList_birth.get(i));
+                TKManager.getInstance().MyData.SetUserAge(arrayList_birth.get(i));
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                TKManager.getInstance().myData.SetUserAge(50);
+                TKManager.getInstance().MyData.SetUserAge(50);
             }
         });
     }
