@@ -5,9 +5,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activty.SignUp.BirthActivity"
-    android:background="@drawable/login_icon">
+    android:background="@color/at_sign_birth_bg">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_logo"
+        android:padding="10dp"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
+        android:id="@+id/tv_SignUp_Birth_Comment"
+        style="@style/BaseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/tv_SignUp_Birth_Comment"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_SignUp_Birth_Birth"
+        style="@style/BaseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/sp_SignUp_Birth_Birth"
+        app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Birth_Comment"
+        android:text="@string/tv_SignUp_Birth_Birth"
+        android:textSize="20dp"/>
+
+    <Spinner
+        android:id="@+id/sp_SignUp_Birth_Birth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_SignUp_Birth_Birth"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Birth_Comment"
+        android:textSize="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_SignUp_Birth_Man"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/iv_SignUp_Birth_Woman"
+        app:layout_constraintTop_toBottomOf="@id/tv_SignUp_Birth_Birth"
+        android:src="@drawable/ic_man"/>
+
+    <ImageView
+        android:id="@+id/iv_SignUp_Birth_Woman"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/iv_SignUp_Birth_Man"
+        app:layout_constraintTop_toBottomOf="@id/tv_SignUp_Birth_Birth"
+        android:src="@drawable/ic_woman"/>
+
+    <ImageView
+        android:id="@+id/iv_SignUp_Birth_Next"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_SignUp_Birth_Man"
+        android:background="@color/iv_SignUp_Next"/>
+
+    <TextView
+        android:id="@+id/tv_SignUp_Birth_Next"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/BaseTextView"
+        app:layout_constraintTop_toTopOf="@+id/iv_SignUp_Birth_Next"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_SignUp_Birth_Next"
+        app:layout_constraintRight_toRightOf="@+id/iv_SignUp_Birth_Next"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_SignUp_Birth_Next"
+        android:textSize="20dp"
+        android:text="@string/tv_SignUp_Birth_Next"
+        android:gravity="center"/>
+
+   <!-- <TextView
         android:id="@+id/tv_Birth_Comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,6 +164,6 @@
         android:layout_marginRight="20dp"
         android:text="@string/bt_SignUp_Next"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bt_Birth_BackButton" />
+        app:layout_constraintTop_toTopOf="@id/bt_Birth_BackButton" />-->
 
 </android.support.constraint.ConstraintLayout>

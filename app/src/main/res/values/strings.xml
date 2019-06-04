@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">Fifty</string>
-    <string name="bt_SignUp_CheckNickName">중복검색</string>
+    <string name="tv_SignUp_Comment">사용하고 싶은 닉네임 입력</string>
+    <string name="tv_SignUp_Comment_Desc">FIFTY에서 사용하고 싶은 본인의 개성이 \n잘드러나는 대화명을 지정해주세요</string>
+    <string name="tv_SignUp_CheckNickName">중복검색</string>
+    <string name="et_SignUp_NickName">닉네임을 입력하세요</string>
+    <string name="tv_SignUp_Next">다음</string>
+    <string name="tv_SignUp_Birth_Comment">당신은..</string>
+    <string name="tv_SignUp_Birth_Birth">출생년도</string>
+    <string name="tv_SignUp_Birth_Next">다음</string>
+
+
+
     <string name="bt_SignUp_Next">다음</string>
     <string name="bt_SignUp_Back">뒤로</string>
     <string name="bt_Main_Alarm">알림</string>

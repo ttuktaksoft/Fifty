@@ -13,7 +13,7 @@ import fifty.fiftyhouse.com.fifty.R;
 public class LoginActivity extends AppCompatActivity {
 
     ImageView iv_Icon;
-    Button bt_Login;
+    ImageView iv_kakao_login;
 
 
     @Override
@@ -22,10 +22,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         iv_Icon = findViewById(R.id.iv_login);
-        bt_Login = findViewById(R.id.bt_login);
-        bt_Login.setOnClickListener(new View.OnClickListener() {
+        iv_kakao_login = findViewById(R.id.iv_kakao_login);
+        iv_kakao_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO 로그인 처리
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 finish();
             }
