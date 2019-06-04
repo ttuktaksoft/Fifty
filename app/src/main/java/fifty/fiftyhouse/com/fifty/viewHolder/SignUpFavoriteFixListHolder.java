@@ -22,13 +22,6 @@ public class SignUpFavoriteFixListHolder extends RecyclerView.ViewHolder {
 
     public void setData(int i)
     {
-        if(i == 0)
-            tv_SignUp_Favorite_Fix_Name.setText("야구");
-        else if(i == 1)
-            tv_SignUp_Favorite_Fix_Name.setText("야구농구배구축구야구요가헬스");
-        else if(i == 2)
-            tv_SignUp_Favorite_Fix_Name.setText("배구");
-        else
-            tv_SignUp_Favorite_Fix_Name.setText("축구");
+        tv_SignUp_Favorite_Fix_Name.setText("선택해주세요");
     }
 }

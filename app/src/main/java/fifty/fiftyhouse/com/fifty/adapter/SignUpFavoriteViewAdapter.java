@@ -18,7 +18,7 @@ public class SignUpFavoriteViewAdapter extends RecyclerView.Adapter<SignUpFavori
 
     @Override
     public SignUpFavoriteViewListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_sign_up_favorite_fix, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_sign_up_favorite_view, parent, false);
 
         return new SignUpFavoriteViewListHolder(view);
     }
@@ -34,7 +34,7 @@ public class SignUpFavoriteViewAdapter extends RecyclerView.Adapter<SignUpFavori
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 6;
         //return mMyData.arrChatTargetData.size();
     }
 

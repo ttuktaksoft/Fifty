@@ -8,11 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.BirthActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
 
 public class LoadingActivity extends AppCompatActivity {
 
@@ -37,10 +40,10 @@ public class LoadingActivity extends AppCompatActivity {
 
 
         CommonFunc.getInstance().mCurActivity = this;
-
-        CommonFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
+        startActivity(new Intent(getApplicationContext(), BirthActivity.class));
+        /*DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
         FirebaseManager.getInstance().GetUserList();
 
-        CommonFunc.getInstance().DismissLoadingPage();
+        DialogFunc.getInstance().DismissLoadingPage();*/
     }
 }

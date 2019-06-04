@@ -8,6 +8,15 @@
     android:background="@color/at_sign_birth_bg">
 
     <ImageView
+        android:id="@+id/iv_SignUp_BG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dummy_100"
+        android:tint="@color/iv_SignUp_BG"
+        android:tintMode="src_over"/>
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:src="@drawable/ic_logo"
@@ -31,6 +40,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/tv_SignUp_Birth_Comment"
+            android:textColor="@color/tv_SignUp_Birth_Comment"
             android:textSize="30dp"/>
 
         <TextView
@@ -43,6 +53,7 @@
             app:layout_constraintRight_toLeftOf="@+id/tv_SignUp_Birth_Birth_Data"
             app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Birth_Comment"
             android:text="@string/tv_SignUp_Birth_Birth"
+            android:textColor="@color/tv_SignUp_Birth_Birth"
             android:textSize="20dp"/>
 
         <TextView
@@ -55,6 +66,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Birth_Comment"
             android:textSize="30dp"
+            android:textColor="@color/tv_SignUp_Birth_Birth_Data"
             />
 
         <ImageView
@@ -65,7 +77,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/iv_SignUp_Birth_Woman"
             app:layout_constraintTop_toBottomOf="@id/tv_SignUp_Birth_Birth"
-            android:src="@drawable/ic_man"/>
+            android:src="@drawable/ic_man"
+            android:tint="@color/iv_SignUp_Birth_Man_Dis"
+            android:tintMode="src_atop"/>
 
         <ImageView
             android:id="@+id/iv_SignUp_Birth_Woman"
@@ -75,7 +89,9 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/iv_SignUp_Birth_Man"
             app:layout_constraintTop_toBottomOf="@id/tv_SignUp_Birth_Birth"
-            android:src="@drawable/ic_woman"/>
+            android:src="@drawable/ic_woman"
+            android:tint="@color/iv_SignUp_Birth_Woman_Ena"
+            android:tintMode="src_over"/>
 
         <ImageView
             android:id="@+id/iv_SignUp_Birth_Next"
@@ -87,7 +103,11 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_SignUp_Birth_Man"
-            android:background="@drawable/bg_white"/>
+            android:src="@drawable/bg_white"
+            android:tint="@color/iv_SignUp_Birth_Next"
+            android:tintMode="src_atop"
+            android:scaleType="fitXY"
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tv_SignUp_Birth_Next"

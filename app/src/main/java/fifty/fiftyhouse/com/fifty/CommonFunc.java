@@ -44,7 +44,7 @@ public class CommonFunc {
     private int mWidth;
     private  int mHeight;
     public int MainUserListSlotCount = 3;
-    private AppCompatDialog mProgressDialog = null;
+
     public Activity mCurActivity;
 
     public void GoMainActivity(Activity activity) {
@@ -112,124 +112,6 @@ public class CommonFunc {
             return "ERROR";
 
         return res.getString(id);
-    }
-
-    public interface ShowDefaultPopup_YesListener {
-        void YesListener();
-    }
-
-    public void ShowDefaultPopup(Context context, String title, String centerDesc) {
-        ShowDefaultPopup(context, null, null, title, centerDesc, null, null, false);
-    }
-
-    public void ShowDefaultPopup(Context context, final ShowDefaultPopup_YesListener listenerYes, final ShowDefaultPopup_YesListener listenerNo, String title, String centerDesc, String yesDesc, String noDesc) {
-        ShowDefaultPopup(context, listenerYes, listenerNo, title, centerDesc, yesDesc, noDesc, true);
-    }
-
-    public void ShowDefaultPopup(Context context, final ShowDefaultPopup_YesListener listenerYes, final ShowDefaultPopup_YesListener listenerNo, String title, String centerDesc, String yesDesc, String noDesc, Boolean btnView) {
-        TextView Title, CenterDesc;
-        Button YesButton, NoButton;
-
-        View v = LayoutInflater.from(context).inflate(R.layout.dialog_default_popup, null, false);
-
-        Title = (TextView) v.findViewById(R.id.tv_defaultPop_title);
-        CenterDesc = (TextView) v.findViewById(R.id.tv_defaultPop_msg);
-        YesButton = (Button) v.findViewById(R.id.bt_defaultPop_yes);
-        NoButton = (Button) v.findViewById(R.id.bt_defaultPop__no);
-
-        Title.setText(title);
-        CenterDesc.setText(centerDesc);
-
-
-        final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.show();
-
-        if (btnView) {
-            YesButton.setVisibility(View.VISIBLE);
-            NoButton.setVisibility(View.VISIBLE);
-
-            if(noDesc == null || noDesc.equals(""))
-                NoButton.setVisibility(View.GONE);
-
-            YesButton.setText(yesDesc);
-            NoButton.setText(noDesc);
-
-            YesButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listenerYes != null)
-                        listenerYes.YesListener();
-                    dialog.dismiss();
-                }
-            });
-            NoButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listenerNo != null)
-                        listenerNo.YesListener();
-                    dialog.dismiss();
-                }
-            });
-        } else {
-            YesButton.setVisibility(View.GONE);
-            NoButton.setVisibility(View.GONE);
-
-            YesButton.setOnClickListener(null);
-            NoButton.setOnClickListener(null);
-        }
-    }
-
-    public void ShowLoadingPage(Context context) {
-
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            SetShowLoadingPageMsg(context);
-        } else {
-
-            mProgressDialog = new AppCompatDialog(context);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            mProgressDialog.setContentView(R.layout.dialog_default_loading);
-            mProgressDialog.show();
-
-        }
-
-        TextView tv_progress_message = (TextView) mProgressDialog.findViewById(R.id.tv_progress_message);
-
-
-
-        ImageView iv_progress_loading = (ImageView) mProgressDialog.findViewById(R.id.iv_loading_logo);
-        Glide.with(context)
-                .asGif()
-                .load(R.raw.progressbar)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(iv_progress_loading);
-
-
-        //tv_progress_message.setText(message);
-    }
-
-    public void SetShowLoadingPageMsg(Context context) {
-
-        if (mProgressDialog == null || !mProgressDialog.isShowing()) {
-            return;
-        }
-        TextView tv_progress_message = (TextView) mProgressDialog.findViewById(R.id.tv_progress_message);
-
-
-        ImageView iv_progress_loading = (ImageView) mProgressDialog.findViewById(R.id.iv_loading_logo);
-        Glide.with(context)
-                .asGif()
-                .load(R.raw.progressbar)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(iv_progress_loading);
-        //tv_progress_message.setText(message);
-    }
-
-    public void DismissLoadingPage() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.dismiss();
-        }
     }
 
     public void ShowToast(Context context, String msg, boolean shortView)

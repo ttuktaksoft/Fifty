@@ -51,7 +51,7 @@ public class FavoriteDetailActivity extends AppCompatActivity {
         iv_SignUp_Favorite_Detail_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mSelectFavoriteList.size() == 0)
+                /*if(mSelectFavoriteList.size() == 0)
                 {
                     // TODO 관심사 선택 유도 팝업
                 }
@@ -60,7 +60,11 @@ public class FavoriteDetailActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), ProfileImgActivity.class);
                     startActivity(intent);
                     finish();
-                }
+                }*/
+
+                Intent intent = new Intent(getApplicationContext(), ProfileImgActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -86,7 +90,7 @@ public class FavoriteDetailActivity extends AppCompatActivity {
         rv_SignUp_Favorite_Detail_Select.setAdapter(mSelectAdapter);
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.CENTER)
-                .setMaxViewsInRow(2)
+                .setMaxViewsInRow(3)
                 .setGravityResolver(new IChildGravityResolver() {
                     @Override
                     public int getItemGravity(int i) {

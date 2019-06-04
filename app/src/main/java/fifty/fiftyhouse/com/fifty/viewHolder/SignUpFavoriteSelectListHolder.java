@@ -19,6 +19,9 @@ public class SignUpFavoriteSelectListHolder extends RecyclerView.ViewHolder {
 
     public void setData(int i)
     {
-
+        if(i == 0)
+            tv_SignUp_Favorite_Select_Name.setText("야구");
+        else
+            tv_SignUp_Favorite_Select_Name.setText("축구");
     }
 }

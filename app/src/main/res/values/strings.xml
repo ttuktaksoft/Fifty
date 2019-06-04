@@ -17,6 +17,14 @@
     <string name="tv_SignUp_Profile_Comment">프로필사진</string>
     <string name="tv_SignUp_Profile_Comment_Desc">자신을 표현 할 수 있는 사진을 선택해주세요</string>
     <string name="tv_SignUp_Profile_Next">다음</string>
+    <string name="tv_SignUp_Com_Popup_Desc">축하합니다!!\n당신은 FIFTY의 정회원이\n되었습니다!!\n관심사가 비슷한 친구들과\n마음껏 소통해보세요~</string>
+
+    <string name="MSG_OK">확인</string>
+    <string name="MSG_CANCEL">취소</string>
+    <string name="MSG_NOTICE">알림</string>
+    <string name="SIGN_UP_NICKNAME_EMPTY">닉네임을 입력해주세요</string>
+    <string name="SIGN_UP_NICKNAME_CHECK">닉네임 중복체크를 해주세요</string>
+    <string name="SIGN_UP_GENDER_CHECK">성별을 선택해주세요</string>
 
 
 

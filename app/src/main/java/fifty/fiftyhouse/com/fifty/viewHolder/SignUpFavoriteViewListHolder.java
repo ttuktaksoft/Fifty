@@ -16,6 +16,17 @@ public class SignUpFavoriteViewListHolder extends RecyclerView.ViewHolder {
 
     public void setData(int i)
     {
-
+        if(i == 0)
+            tv_SignUp_Favorite_View_Name.setText("야구");
+        else if(i == 1)
+            tv_SignUp_Favorite_View_Name.setText("배구");
+        else if(i == 2)
+            tv_SignUp_Favorite_View_Name.setText("탁구");
+        else if(i == 3)
+            tv_SignUp_Favorite_View_Name.setText("요가");
+        else if(i == 4)
+            tv_SignUp_Favorite_View_Name.setText("마라톤");
+        else
+            tv_SignUp_Favorite_View_Name.setText("축구");
     }
 }

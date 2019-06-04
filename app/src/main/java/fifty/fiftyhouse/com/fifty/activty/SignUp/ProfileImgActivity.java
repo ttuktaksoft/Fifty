@@ -20,6 +20,8 @@ import com.gun0912.tedpermission.TedPermission;
 import java.io.File;
 import java.util.List;
 
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -50,9 +52,18 @@ public class ProfileImgActivity extends AppCompatActivity {
         iv_SignUp_Profile_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SignUpCompleteActivity.class);
-                startActivity(intent);
-                finish();
+                DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                };
+
+                DialogFunc.getInstance().ShowSignUpCompletePopup(ProfileImgActivity.this, listener);
             }
         });
 

@@ -34,7 +34,7 @@ public class SignUpFavoriteFixAdapter extends RecyclerView.Adapter<SignUpFavorit
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 1;
         //return mMyData.arrChatTargetData.size();
     }
 

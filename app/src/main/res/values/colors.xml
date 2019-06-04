@@ -15,6 +15,7 @@
     <color name="gray_light">#e0e0e0</color>
     <color name="alpha">#00000000</color>
 
+    <color name="iv_SignUp_BG">#84000000</color>
     <color name="at_loading_bg">#f7e317</color>
     <color name="at_login_bg">#f7e317</color>
     <color name="at_sign_bg">#f7e317</color>
@@ -26,6 +27,32 @@
     <color name="iv_SignUp_Next">#ffe7e7</color>
     <color name="iv_SignUp_Birth_Next">#ffe7e7</color>
     <color name="iv_SignUp_Favorite_Detail_Next">#ffe7e7</color>
+    <color name="iv_SignUp_Favorite_Next">#ffe7e7</color>
+    <color name="iv_SignUp_Profile_Next">#ffe7e7</color>
+    <color name="iv_Msg_Popup_TitleBG">#f7e317</color>
+    <color name="iv_Msg_Popup_DescBG">#fffee9</color>
+    <color name="iv_Msg_Popup_Buttons_OK">#b3f1ff</color>
+    <color name="iv_Msg_Popup_Buttons_Cancel">#ffc6c9</color>
+    <color name="tv_SignUp_Comment">#ffffff</color>
+    <color name="tv_SignUp_Comment_Desc">#ffffff</color>
+    <color name="tv_SignUp_Birth_Comment">#ffffff</color>
+    <color name="tv_SignUp_Birth_Birth">#ffffff</color>
+    <color name="tv_SignUp_Birth_Birth_Data">#ffffff</color>
+    <color name="iv_SignUp_Birth_Man_Dis">#84000000</color>
+    <color name="iv_SignUp_Birth_Man_Ena">#00ffffff</color>
+    <color name="iv_SignUp_Birth_Woman_Dis">#84000000</color>
+    <color name="iv_SignUp_Birth_Woman_Ena">#00ffffff</color>
+    <color name="tv_SignUp_Favorite_Comment">#ffffff</color>
+    <color name="tv_SignUp_Favorite_Comment_Desc">#ffffff</color>
+    <color name="tv_SignUp_Profile_Comment">#ffffff</color>
+    <color name="tv_SignUp_Profile_Comment_Desc">#ffffff</color>
+
+
+
+
+
+
+
 
 
 

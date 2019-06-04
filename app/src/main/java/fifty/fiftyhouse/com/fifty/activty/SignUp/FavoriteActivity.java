@@ -26,7 +26,6 @@ public class FavoriteActivity extends AppCompatActivity {
     RecyclerView rv_SignUp_Favorite_Fix;
     ImageView iv_SignUp_Favorite_Next;
 
-    boolean mIsFavoriteSelect = false;
     SignUpFavoriteFixAdapter mAdapter = null;
     Context mContext;
 
@@ -43,16 +42,9 @@ public class FavoriteActivity extends AppCompatActivity {
         iv_SignUp_Favorite_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mIsFavoriteSelect == false)
-                {
-                    // TODO 관심사 선택 유도 팝업
-                }
-                else
-                {
-                    Intent intent = new Intent(getApplicationContext(), FavoriteDetailActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                Intent intent = new Intent(getApplicationContext(), FavoriteDetailActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

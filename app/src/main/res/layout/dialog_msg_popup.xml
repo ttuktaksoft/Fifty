@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_Msg_Popup_TitleBG"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/iv_Msg_Popup_TitleBG"/>
+
+    <TextView
+        android:id="@+id/tv_Msg_Popup_Title"
+        style="@style/BaseTextView"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:text="메세지"
+        app:layout_constraintTop_toTopOf="@+id/iv_Msg_Popup_TitleBG"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Msg_Popup_TitleBG"
+        app:layout_constraintRight_toRightOf="@id/iv_Msg_Popup_TitleBG"
+        app:layout_constraintLeft_toLeftOf="@id/iv_Msg_Popup_TitleBG"
+        android:gravity="center"
+        android:textSize="30dp"/>
+
+    <ImageView
+        android:id="@+id/iv_Msg_Popup_DescBG"
+        android:layout_width="350dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@+id/tv_Msg_Popup_Desc"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_Msg_Popup_Desc"
+        app:layout_constraintRight_toRightOf="@id/iv_Msg_Popup_TitleBG"
+        app:layout_constraintLeft_toLeftOf="@id/iv_Msg_Popup_TitleBG"
+        android:background="@color/iv_Msg_Popup_DescBG"/>
+
+    <TextView
+        android:id="@+id/tv_Msg_Popup_Desc"
+        style="@style/BaseTextView"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="메세지"
+        android:paddingTop="20dp"
+        android:paddingBottom="90dp"
+        app:layout_constraintTop_toBottomOf="@+id/iv_Msg_Popup_TitleBG"
+        app:layout_constraintRight_toRightOf="@id/iv_Msg_Popup_TitleBG"
+        app:layout_constraintLeft_toLeftOf="@id/iv_Msg_Popup_TitleBG"
+        android:gravity="center"
+        android:textSize="25dp"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Msg_Popup_Buttons"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_Msg_Popup_Desc"
+        app:layout_constraintRight_toRightOf="@id/iv_Msg_Popup_TitleBG"
+        app:layout_constraintLeft_toLeftOf="@id/iv_Msg_Popup_TitleBG">
+
+        <ImageView
+            android:id="@+id/iv_Msg_Popup_Buttons_OK"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Msg_Popup_Buttons"
+            app:layout_constraintRight_toLeftOf="@id/iv_Msg_Popup_Buttons_Cancel"
+            app:layout_constraintTop_toTopOf="@+id/v_Msg_Popup_Buttons"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Msg_Popup_Buttons"
+            android:background="@drawable/bg_white"/>
+
+        <TextView
+            android:id="@+id/tv_Msg_Popup_Buttons_OK"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            style="@style/BaseTextView"
+            app:layout_constraintTop_toTopOf="@+id/iv_Msg_Popup_Buttons_OK"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_Msg_Popup_Buttons_OK"
+            app:layout_constraintRight_toRightOf="@+id/iv_Msg_Popup_Buttons_OK"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_Msg_Popup_Buttons_OK"
+            android:textSize="20dp"
+            android:text="@string/MSG_OK"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_Msg_Popup_Buttons_Cancel"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            app:layout_constraintRight_toRightOf="@+id/v_Msg_Popup_Buttons"
+            app:layout_constraintLeft_toRightOf="@id/iv_Msg_Popup_Buttons_OK"
+            app:layout_constraintTop_toTopOf="@+id/v_Msg_Popup_Buttons"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Msg_Popup_Buttons"
+            android:background="@drawable/bg_white"/>
+
+        <TextView
+            android:id="@+id/tv_Msg_Popup_Buttons_Cancel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            style="@style/BaseTextView"
+            app:layout_constraintTop_toTopOf="@+id/iv_Msg_Popup_Buttons_Cancel"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_Msg_Popup_Buttons_Cancel"
+            app:layout_constraintRight_toRightOf="@+id/iv_Msg_Popup_Buttons_Cancel"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_Msg_Popup_Buttons_Cancel"
+            android:textSize="20dp"
+            android:text="@string/MSG_CANCEL"
+            android:gravity="center"/>
+
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
