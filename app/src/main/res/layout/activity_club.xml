@@ -13,7 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/baseColor"
         android:elevation="1dp"
-        app:title="asdfasdf"/>
+        app:title="asdfasdf" />
 
 <!--    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

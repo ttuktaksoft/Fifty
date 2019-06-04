@@ -22,57 +22,67 @@ import fifty.fiftyhouse.com.fifty.R;
 
 public class BirthActivity extends AppCompatActivity {
 
-    private Spinner spinner_birth;
+    private Spinner sp_SignUp_Birth_Birth;
     ArrayList<Integer> arrayList_birth;
     ArrayAdapter<String> arrayAdapter_birth;
 
-    ImageView iv_Birth_Man, iv_Birth_Woman;
+    ImageView iv_SignUp_Birth_Man, iv_SignUp_Birth_Woman, iv_SignUp_Birth_Next;
 
-    // 이미지로 변경 예정
-    Button bt_Birth_Back, bt_Birth_Next;
+    boolean mIsGenderSelect = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_birth);
 
-        iv_Birth_Man = (ImageView)findViewById(R.id.iv_Birth_Man);
-        iv_Birth_Man.setOnClickListener(new View.OnClickListener() {
+        sp_SignUp_Birth_Birth = findViewById(R.id.sp_SignUp_Birth_Birth);
+        iv_SignUp_Birth_Man = findViewById(R.id.iv_SignUp_Birth_Man);
+        iv_SignUp_Birth_Woman = findViewById(R.id.iv_SignUp_Birth_Woman);
+        iv_SignUp_Birth_Next = findViewById(R.id.iv_SignUp_Birth_Next);
+
+        iv_SignUp_Birth_Man.setColorFilter(R.color.gray_light);
+        iv_SignUp_Birth_Woman.setColorFilter(R.color.gray_light);
+        iv_SignUp_Birth_Next.setColorFilter(R.color.gray_light);
+
+        iv_SignUp_Birth_Man.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TKManager.getInstance().MyData.SetUserGender(0);
+                mIsGenderSelect = true;
+                iv_SignUp_Birth_Man.setColorFilter(R.color.white);
+                iv_SignUp_Birth_Woman.setColorFilter(R.color.gray_light);
+                iv_SignUp_Birth_Next.setColorFilter(R.color.white);
+                TKManager.getInstance().myData.SetUserGender(0);
             }
         });
 
-        iv_Birth_Woman= (ImageView)findViewById(R.id.iv_Birth_Woman);
-        iv_Birth_Woman.setOnClickListener(new View.OnClickListener() {
+        iv_SignUp_Birth_Woman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TKManager.getInstance().MyData.SetUserGender(1);
+                mIsGenderSelect = true;
+                iv_SignUp_Birth_Man.setColorFilter(R.color.gray_light);
+                iv_SignUp_Birth_Woman.setColorFilter(R.color.white);
+                iv_SignUp_Birth_Next.setColorFilter(R.color.white);
+                TKManager.getInstance().myData.SetUserGender(1);
             }
         });
 
-        bt_Birth_Back = (Button)findViewById(R.id.bt_Birth_BackButton);
-        bt_Birth_Back.setOnClickListener(new View.OnClickListener() {
+        iv_SignUp_Birth_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivity(intent);
-                finish();
+                if(mIsGenderSelect == false)
+                {
+                    // TODO 성별을 선택 유도 팝업
+                }
+                else
+                {
+                    Intent intent = new Intent(getApplicationContext(), FavoriteActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
-        bt_Birth_Next = (Button)findViewById(R.id.bt_Birth_NextButton);
-        bt_Birth_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FavoriteActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-
+        // TODO 카톡에서 연령을 받아오게 되면서 필요성이 있나?
         arrayList_birth = new ArrayList<>();
 
         for(int i = 1950; i<1971 ; i++)
@@ -80,19 +90,18 @@ public class BirthActivity extends AppCompatActivity {
             arrayList_birth.add(i);
         }
 
-        spinner_birth = (Spinner)findViewById(R.id.spinner2);
-        spinner_birth.setAdapter(arrayAdapter_birth);
-        spinner_birth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_SignUp_Birth_Birth.setAdapter(arrayAdapter_birth);
+        sp_SignUp_Birth_Birth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getApplicationContext(),arrayList_birth.get(i)+"가 선택되었습니다.",
                         Toast.LENGTH_SHORT).show();
 
-                TKManager.getInstance().MyData.SetUserAge(arrayList_birth.get(i));
+                TKManager.getInstance().myData.SetUserAge(arrayList_birth.get(i));
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                TKManager.getInstance().MyData.SetUserAge(50);
+                TKManager.getInstance().myData.SetUserAge(50);
             }
         });
     }

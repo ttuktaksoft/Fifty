@@ -14,4 +14,21 @@
     <color name="chatcontent">#9e9e9e</color>
     <color name="gray_light">#e0e0e0</color>
     <color name="alpha">#00000000</color>
+
+    <color name="at_loading_bg">#f7e317</color>
+    <color name="at_login_bg">#f7e317</color>
+    <color name="at_sign_bg">#f7e317</color>
+    <color name="at_sign_birth_bg">#f7e317</color>
+    <color name="at_sign_favorite_bg">#f7e317</color>
+    <color name="iv_SignUp_CheckNickName">#ffe7e7</color>
+    <color name="iv_SignUp_Next">#ffe7e7</color>
+    <color name="iv_SignUp_Birth_Next">#ffe7e7</color>
+
+
+
+    <color name="tool_bar_bg">#faed00</color>
+    <color name="main_at_top_bg">#faed00</color>
+    <color name="main_at_sub_type_bg">#faed00</color>
+    <color name="main_at_sub_info_bg">#faed00</color>
+    <color name="main_at_bottom_tab_bg">#faed00</color>
 </resources>
