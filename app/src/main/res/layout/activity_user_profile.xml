@@ -5,8 +5,301 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activty.Profile.UserProfileActivity"
-    android:background="@color/baseColor_2">
+    android:background="@color/at_user_profile_bg">
 
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_UserProfile_Scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:background="@color/ns_UserProfile_Scroll">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/v_UserProfile_Info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_UserProfile_Profile"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info"
+                app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info"
+                app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info"
+                android:layout_marginTop="56dp"
+                android:src="@drawable/bg_empty_circle"
+                />
+
+            <TextView
+                android:id="@+id/tv_UserProfile_Info_Name"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info"
+                app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info"
+                app:layout_constraintTop_toBottomOf="@+id/iv_UserProfile_Profile"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="닉네임"
+                android:textSize="25dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_UserProfile_Info_Age"
+                style="@style/BaseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info"
+                app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info"
+                app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Name"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="20세"
+                android:textSize="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/iv_UserProfile_Info_Gender"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintRight_toLeftOf="@+id/tv_UserProfile_Info_Age"
+                app:layout_constraintTop_toTopOf="@+id/tv_UserProfile_Info_Age"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_UserProfile_Info_Age"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_man_simple"
+                />
+
+
+
+            <TextView
+                android:id="@+id/tv_UserProfile_Info_Memo"
+                style="@style/BaseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info"
+                app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info"
+                app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Age"
+                android:paddingRight="40dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:text="안녕하세요 저는 원피스를 좋아하구요 야구도 좋아하고 배구도 좋아하고"
+                android:textSize="20dp"/>
+
+            <ImageView
+                android:id="@+id/iv_UserProfile_Info_Memo_BG"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info"
+                app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_UserProfile_Info_Memo"
+                app:layout_constraintTop_toTopOf="@+id/tv_UserProfile_Info_Memo"
+                android:background="@color/iv_UserProfile_Info_Memo_BG"
+                />
+
+            <ImageView
+                android:id="@+id/iv_UserProfile_Info_Memo_Button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintRight_toRightOf="@+id/iv_UserProfile_Info_Memo_BG"
+                app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Info_Memo_BG"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_Info_Memo_BG"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Memo_BG"
+                android:layout_marginRight="10dp"
+                android:scaleX="-1"
+                android:src="@drawable/ic_back"
+                />
+
+
+
+            <ImageView
+                android:id="@+id/iv_UserProfile_Info_Count_BG"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info"
+                app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info"
+                app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Memo"
+                android:background="@color/iv_UserProfile_Info_Count_BG"
+                />
+
+            <TextView
+                android:id="@+id/tv_UserProfile_Info_Count_Visit"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_Info_Count_BG"
+                app:layout_constraintRight_toLeftOf="@+id/tv_UserProfile_Info_Count_Like"
+                app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Info_Count_BG"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
+                android:gravity="center"
+                android:text="방문자 10 / 10k"
+                android:textSize="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/iv_UserProfile_Info_Count_Line_1"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                app:layout_constraintRight_toRightOf="@+id/tv_UserProfile_Info_Count_Visit"
+                app:layout_constraintTop_toTopOf="@+id/tv_UserProfile_Info_Count_Visit"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_UserProfile_Info_Count_Visit"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:alpha="0.5"
+                android:background="@color/gray_light"
+                />
+
+            <TextView
+                android:id="@+id/tv_UserProfile_Info_Count_Like"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Count_Visit"
+                app:layout_constraintRight_toLeftOf="@+id/tv_UserProfile_Info_Count_Near"
+                app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Info_Count_BG"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
+                android:gravity="center"
+                android:text="좋아요 10 / 1k"
+                android:textSize="15dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_UserProfile_Info_Count_Near"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Count_Like"
+                app:layout_constraintRight_toRightOf="@+id/iv_UserProfile_Info_Count_BG"
+                app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Info_Count_BG"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
+                android:gravity="center"
+                android:text="거리 10km"
+                android:textSize="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/iv_UserProfile_Info_Count_Line_2"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_UserProfile_Info_Count_Near"
+                app:layout_constraintTop_toTopOf="@+id/tv_UserProfile_Info_Count_Near"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_UserProfile_Info_Count_Near"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:alpha="0.5"
+                android:background="@color/gray_light"
+                />
+
+            <TextView
+                android:id="@+id/tv_UserProfile_Info_Photo"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info"
+                app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info"
+                app:layout_constraintTop_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
+                android:paddingLeft="10dp"
+                android:text="사진"
+                android:gravity="center_vertical"
+                />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_UserProfile_Info_Photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Photo"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_UserProfile_TopBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/v_UserProfile_TopBar">
+
+        <ImageView
+            android:id="@+id/iv_UserProfile_Back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_TopBar"
+            app:layout_constraintTop_toTopOf="@+id/v_UserProfile_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_TopBar"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_back"
+            />
+
+        <ImageView
+            android:id="@+id/iv_UserProfile_Alert"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintRight_toRightOf="@+id/v_UserProfile_TopBar"
+            app:layout_constraintTop_toTopOf="@+id/v_UserProfile_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_TopBar"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_alert"
+            />
+
+        <TextView
+            android:id="@+id/iv_UserProfile_Name"
+            style="@style/BaseTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintRight_toLeftOf="@+id/iv_UserProfile_Alert"
+            app:layout_constraintLeft_toRightOf="@+id/iv_UserProfile_Back"
+            app:layout_constraintTop_toTopOf="@+id/v_UserProfile_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_TopBar"
+            android:gravity="center"
+            android:text="닉네임"
+            android:textSize="25dp"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bnv_UserProfile_main_menu"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:itemBackground="@color/baseColor"
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:menu="@menu/userprofile_bottombar_menu" />
+<!--
+    <ImageView
+        android:id="@+id/iv_UserProfile_Alert11"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_alert"
+        />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bnv_UserProfile_main_menu"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:itemBackground="@color/baseColor"
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:menu="@menu/userprofile_bottombar_menu" />-->
+
+
+<!--
     <ImageView
         android:id="@+id/iv_UserProfile_Back"
         android:layout_width="30dp"
@@ -208,6 +501,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_chainStyle="spread_inside"
-        app:menu="@menu/userprofile_bottombar_menu" />
+        app:menu="@menu/userprofile_bottombar_menu" />-->
 
 </android.support.constraint.ConstraintLayout>
