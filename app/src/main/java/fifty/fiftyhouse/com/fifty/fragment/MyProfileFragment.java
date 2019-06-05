@@ -3,18 +3,41 @@ package fifty.fiftyhouse.com.fifty.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
+import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.adapter.MyProfileClubAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MyProfileEtcAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MyProfileFavoriteAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MyProfilePhotoAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.SignUpFavoriteSelectAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,14 +49,20 @@ import fifty.fiftyhouse.com.fifty.R;
  */
 public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBackPressedListener {
 
-    private Context mContext;
+    NestedScrollView ns_MyProfile_Scroll;
+    ConstraintLayout v_MyProfile_Info_Detail, v_MyProfile_TopBar;
+    ImageView iv_MyProfile_Profile, iv_MyProfile_Info_Gender, iv_MyProfile_Alarm, iv_MyProfile_Shop;
+    TextView tv_MyProfile_Info_Name, tv_MyProfile_Info_Age, tv_MyProfile_Info_Memo, tv_MyProfile_Info_Count_Visit, tv_MyProfile_Info_Count_Like, tv_MyProfile_Info_Count_Friend, tv_MyProfile_Name;
+    RecyclerView rv_MyProfile_Info_Favorite, rv_MyProfile_Info_Photo, rv_MyProfile_Info_Club, rv_MyProfile_Info_Etc;
+
+    Context mContext;
     private View MyProfileFragView;
-    private ImageView iv_ThumbNail;
-    public ImageView iv_Back;
 
-    private ImageView[] iv_ProfileImage = new ImageView[8];
+    MyProfileFavoriteAdapter mFavoriteAdapter;
+    MyProfilePhotoAdapter mPhotoAdapter;
+    MyProfileClubAdapter mClubAdapter;
+    MyProfileEtcAdapter mEtcAdapter;
 
-    private ImageView[] iv_ClubImage = new ImageView[3];
 
     public MyProfileFragment() {
     }
@@ -49,9 +78,6 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
     // TODO: Rename and change types and number of parameters
     public static MyProfileFragment newInstance(String param1, String param2) {
         MyProfileFragment fragment = new MyProfileFragment();
-
-
-        출처: https://mc10sw.tistory.com/16 [Make it possible]
         return fragment;
     }
 
@@ -72,112 +98,52 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         mFragmentMng.beginTransaction().addToBackStack(null);
 
         MyProfileFragView.setTag("MyProfileFragment");
-        iv_ThumbNail = MyProfileFragView.findViewById(R.id.iv_MyProfile_ThumbNail);
-        iv_Back = MyProfileFragView.findViewById(R.id.bt_MyProfile_Back);
+
+        ns_MyProfile_Scroll = MyProfileFragView.findViewById(R.id.ns_MyProfile_Scroll);
+        v_MyProfile_Info_Detail = MyProfileFragView.findViewById(R.id.v_MyProfile_Info_Detail);
+        iv_MyProfile_Profile = MyProfileFragView.findViewById(R.id.iv_MyProfile_Profile);
+        iv_MyProfile_Info_Gender = MyProfileFragView.findViewById(R.id.iv_MyProfile_Info_Gender);
+        iv_MyProfile_Alarm = MyProfileFragView.findViewById(R.id.iv_MyProfile_Alarm);
+        iv_MyProfile_Shop = MyProfileFragView.findViewById(R.id.iv_MyProfile_Shop);
+        tv_MyProfile_Info_Name = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Name);
+        tv_MyProfile_Info_Age = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Age);
+        tv_MyProfile_Info_Memo = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Memo);
+        tv_MyProfile_Info_Count_Visit = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Count_Visit);
+        tv_MyProfile_Info_Count_Like = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Count_Like);
+        tv_MyProfile_Info_Count_Friend = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Count_Friend);
+        tv_MyProfile_Name = MyProfileFragView.findViewById(R.id.tv_MyProfile_Name);
+        rv_MyProfile_Info_Favorite = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Favorite);
+        rv_MyProfile_Info_Photo = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Photo);
+        rv_MyProfile_Info_Club = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Club);
+        rv_MyProfile_Info_Etc = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Etc);
+        v_MyProfile_TopBar = MyProfileFragView.findViewById(R.id.v_MyProfile_TopBar);
+
+        v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.alpha));
+        tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.alpha));
+
+        ns_MyProfile_Scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener(){
+            @Override
+            public void onScrollChange(NestedScrollView var1, int x, int y, int oldx, int oldy)
+            {
+                Log.d("test", "test : " + CommonFunc.getInstance().convertPXtoDP(getResources(), y));
+                if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 50)
+                {
+                    v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.alpha));
+                    tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.alpha));
+                }
+                else
+                {
+                    v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.baseColor));
+                    tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                }
+            }
+        });
 
 
-        iv_ProfileImage[0] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_0);
-        iv_ProfileImage[1] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_1);
-        iv_ProfileImage[2] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_2);
-        iv_ProfileImage[3] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_3);
-        iv_ProfileImage[4] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_4);
-        iv_ProfileImage[5] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_5);
-        iv_ProfileImage[6] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_6);
-        iv_ProfileImage[7] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Img_7);
-
-        iv_ClubImage[0] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Club_0_Img);
-        iv_ClubImage[1] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Club_1_Img);
-        iv_ClubImage[2] = MyProfileFragView.findViewById(R.id.bt_MyProfile_Club_2_Img);
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_0)
-                .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ThumbNail);
-
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_0)
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ProfileImage[0]);
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_1)
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ProfileImage[1]);
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_4)
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ProfileImage[2]);
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_10)
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ProfileImage[3]);
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_14)
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ProfileImage[4]);
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_11)
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ProfileImage[5]);
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_6)
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ProfileImage[6]);
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_13)
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ProfileImage[7]);
-
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_12)
-                .circleCrop()
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ClubImage[0]);
-
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_11)
-                .circleCrop()
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ClubImage[1]);
-
-
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_13)
-                .circleCrop()
-                .thumbnail(0.1f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(iv_ClubImage[2]);
+        initFavoriteList();
+        initPhotoList();
+        initClubList();
+        initEtcList();
 
 
         return MyProfileFragView;
@@ -212,5 +178,112 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void initFavoriteList()
+    {
+        mFavoriteAdapter = new MyProfileFavoriteAdapter(mContext);
+        mFavoriteAdapter.setHasStableIds(true);
+
+        rv_MyProfile_Info_Favorite.setAdapter(mFavoriteAdapter);
+        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
+                .setChildGravity(Gravity.CENTER)
+                .setMaxViewsInRow(2)
+                .setGravityResolver(new IChildGravityResolver() {
+                    @Override
+                    public int getItemGravity(int i) {
+                        return Gravity.CENTER;
+                    }
+                })
+                .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER_DENSE)
+                .withLastRow(true)
+                .build();
+        rv_MyProfile_Info_Favorite.setLayoutManager(chipsLayoutManager);
+    }
+
+    public void initPhotoList()
+    {
+        mPhotoAdapter = new MyProfilePhotoAdapter(mContext);
+        mPhotoAdapter.setHasStableIds(true);
+
+        rv_MyProfile_Info_Photo.setAdapter(mPhotoAdapter);
+        rv_MyProfile_Info_Photo.setLayoutManager(new GridLayoutManager(mContext, 4));
+        rv_MyProfile_Info_Photo.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Info_Photo, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
+                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
+                if (mAppStatus.bCheckMultiSend == false) {
+                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
+
+                    if (mCommon.getClickStatus() == false)
+                        mCommon.MoveUserPage(getActivity(), stTargetData);
+                }*/
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
+            }
+        }));
+    }
+
+    public void initClubList()
+    {
+        mClubAdapter = new MyProfileClubAdapter(mContext);
+        mClubAdapter.setHasStableIds(true);
+
+        rv_MyProfile_Info_Club.setAdapter(mClubAdapter);
+        rv_MyProfile_Info_Club.setLayoutManager(new GridLayoutManager(mContext, 1));
+        rv_MyProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Info_Club, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
+                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
+                if (mAppStatus.bCheckMultiSend == false) {
+                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
+
+                    if (mCommon.getClickStatus() == false)
+                        mCommon.MoveUserPage(getActivity(), stTargetData);
+                }*/
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
+            }
+        }));
+    }
+
+    public void initEtcList()
+    {
+        mEtcAdapter = new MyProfileEtcAdapter(mContext);
+        mEtcAdapter.setHasStableIds(true);
+
+        rv_MyProfile_Info_Etc.setAdapter(mEtcAdapter);
+        rv_MyProfile_Info_Etc.setLayoutManager(new GridLayoutManager(mContext, 1));
+        rv_MyProfile_Info_Etc.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Info_Etc, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
+                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
+                if (mAppStatus.bCheckMultiSend == false) {
+                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
+
+                    if (mCommon.getClickStatus() == false)
+                        mCommon.MoveUserPage(getActivity(), stTargetData);
+                }*/
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
+            }
+        }));
+    }
+
 
 }

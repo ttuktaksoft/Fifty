@@ -64,6 +64,7 @@
             android:layout_height="100dp"
             android:layoutDirection="ltr"
             android:layout_marginTop="50dp"
+            android:nestedScrollingEnabled="false"
             app:layout_constraintTop_toBottomOf="@id/tv_SignUp_Favorite_Comment_Desc"
             app:layout_constraintBottom_toTopOf="@+id/iv_SignUp_Favorite_Next"/>
 
