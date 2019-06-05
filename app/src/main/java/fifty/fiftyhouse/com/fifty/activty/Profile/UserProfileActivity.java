@@ -1,10 +1,7 @@
 package fifty.fiftyhouse.com.fifty.activty.Profile;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,19 +16,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
-import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class UserProfileActivity extends AppCompatActivity {
 
     NestedScrollView ns_UserProfile_Scroll;
-    TextView iv_UserProfile_Name, tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_Visit, tv_UserProfile_Info_Count_Like, tv_UserProfile_Info_Count_Near;
+    TextView tv_UserProfile_Name, tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_Visit, tv_UserProfile_Info_Count_Like, tv_UserProfile_Info_Count_Near;
 
     ImageView iv_UserProfile_Info_Profile;
     ImageView iv_UserProfile_Info_Gender, iv_UserProfile_BottomBar_Like;
@@ -55,7 +48,7 @@ public class UserProfileActivity extends AppCompatActivity {
         ns_UserProfile_Scroll = findViewById(R.id.ns_UserProfile_Scroll);
 
         iv_UserProfile_Info_Profile = findViewById(R.id.iv_UserProfile_Profile);
-        iv_UserProfile_Name = findViewById(R.id.iv_UserProfile_Name);
+        tv_UserProfile_Name = findViewById(R.id.tv_UserProfile_Name);
         tv_UserProfile_Info_Name = findViewById(R.id.tv_UserProfile_Info_Name);
         tv_UserProfile_Info_Age = findViewById(R.id.tv_UserProfile_Info_Age);
         tv_UserProfile_Info_Memo = findViewById(R.id.tv_UserProfile_Info_Memo);
@@ -71,7 +64,7 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Chat = findViewById(R.id.v_UserProfile_BottomBar_Chat);
 
         v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-        iv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
+        tv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
 
         ns_UserProfile_Scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener(){
             @Override
@@ -81,12 +74,12 @@ public class UserProfileActivity extends AppCompatActivity {
                 if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 50)
                 {
                     v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-                    iv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
+                    tv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
                 }
                 else
                 {
                     v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.baseColor));
-                    iv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                    tv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                 }
             }
         });
@@ -96,7 +89,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(iv_UserProfile_Info_Profile);
 
-        iv_UserProfile_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+        tv_UserProfile_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         tv_UserProfile_Info_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().TargetUserData.GetUserAge() + "세");
         //tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());

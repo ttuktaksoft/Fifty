@@ -1,410 +1,765 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.MyProfileFragment">
+    tools:context=".fragment.MyProfileFragment"
+    android:background="@color/fm_my_profile_bg">
 
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/baseColor_2">
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Back"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/icon_backarrow"
-        />
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Alert"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Back"
-        android:layout_marginRight="10dp"
-        app:srcCompat="@drawable/block"
-        />
-
-    <ImageView
-        android:id="@+id/iv_MyProfile_ThumbNail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Back"
-        android:layout_marginTop="1dp"
-        app:srcCompat="@drawable/login_icon"/>
-
-    <TextView
-        android:id="@+id/tv_MyProfile_NickName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_MyProfile_ThumbNail"
-        android:layout_marginTop="20dp"
-        android:text="피프티하우스"
-        android:textSize="20dp"/>
-
-    <TextView
-        android:id="@+id/tv_MyProfile_Info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_NickName"
-        android:layout_marginTop="1dp"
-        android:text="성별표기/나이"
-        android:textSize="20dp"/>
-
-    <TextView
-        android:id="@+id/tv_MyProfile_Memo"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_MyProfile_Scroll"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Info"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="안녕하세요. 잘부탁드립니다"
-        android:gravity="center"
-        android:background="@drawable/border"
-        android:textSize="20dp"/>
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:background="@color/ns_MyProfile_Scroll">
 
-    <TextView
-        android:id="@+id/tv_MyProfile_Status"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/v_MyProfile_Info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/v_MyProfile_Info_Detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_MyProfile_Profile"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Info_Detail"
+                    android:layout_marginTop="96dp"
+                    android:src="@drawable/bg_empty_circle"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_MyProfile_Info_Name"
+                    style="@style/BaseTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_MyProfile_Profile"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="닉네임"
+                    android:textSize="25dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_MyProfile_Info_Age"
+                    style="@style/BaseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Info_Name"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="20세"
+                    android:textSize="15dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_MyProfile_Info_Gender"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintRight_toLeftOf="@+id/tv_MyProfile_Info_Age"
+                    app:layout_constraintTop_toTopOf="@+id/tv_MyProfile_Info_Age"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_MyProfile_Info_Age"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_man_simple"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_MyProfile_Info_Favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layoutDirection="ltr"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintTop_toBottomOf="@id/tv_MyProfile_Info_Age"/>
+
+                <ImageView
+                    android:id="@+id/iv_MyProfile_Info_Memo_BG"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_MyProfile_Info_Memo"
+                    app:layout_constraintTop_toTopOf="@+id/tv_MyProfile_Info_Memo"
+                    android:background="@color/iv_MyProfile_Info_Memo_BG"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_MyProfile_Info_Memo_Line"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    app:layout_constraintRight_toRightOf="@+id/iv_MyProfile_Info_Memo_BG"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_MyProfile_Info_Memo_BG"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Info_Memo_BG"
+                    android:alpha="0.5"
+                    android:background="@color/gray_light"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_MyProfile_Info_Memo"
+                    style="@style/BaseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="40dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info_Detail"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_MyProfile_Info_Favorite"
+                    android:layout_marginTop="10dp"
+                    android:paddingRight="40dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:gravity="center"
+                    android:text="자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개"
+                    android:textSize="20dp"/>
+
+
+
+                <ImageView
+                    android:id="@+id/iv_MyProfile_Info_Memo_Button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintRight_toRightOf="@+id/iv_MyProfile_Info_Memo_BG"
+                    app:layout_constraintTop_toTopOf="@+id/iv_MyProfile_Info_Memo_BG"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Info_Memo_BG"
+                    android:layout_marginRight="10dp"
+                    android:scaleX="-1"
+                    android:src="@drawable/ic_back"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/iv_MyProfile_Info_Count_BG"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info"
+                app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info"
+                app:layout_constraintTop_toBottomOf="@+id/v_MyProfile_Info_Detail"
+                android:background="@color/iv_MyProfile_Info_Count_BG"
+                />
+
+            <ImageView
+                android:id="@+id/iv_MyProfile_Info_Count_BG_Line"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                app:layout_constraintRight_toRightOf="@+id/iv_MyProfile_Info_Count_BG"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_MyProfile_Info_Count_BG"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Info_Count_BG"
+                android:alpha="0.5"
+                android:background="@color/gray_light"
+                />
+
+            <TextView
+                android:id="@+id/tv_MyProfile_Info_Count_Visit"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_MyProfile_Info_Count_BG"
+                app:layout_constraintRight_toLeftOf="@+id/tv_MyProfile_Info_Count_Like"
+                app:layout_constraintTop_toTopOf="@+id/iv_MyProfile_Info_Count_BG"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Info_Count_BG"
+                android:gravity="center"
+                android:text="방문자 10 / 10k"
+                android:textSize="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/iv_MyProfile_Info_Count_Line_1"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                app:layout_constraintRight_toRightOf="@+id/tv_MyProfile_Info_Count_Visit"
+                app:layout_constraintTop_toTopOf="@+id/tv_MyProfile_Info_Count_Visit"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_MyProfile_Info_Count_Visit"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:alpha="0.5"
+                android:background="@color/gray_light"
+                />
+
+            <TextView
+                android:id="@+id/tv_MyProfile_Info_Count_Like"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_MyProfile_Info_Count_Visit"
+                app:layout_constraintRight_toLeftOf="@+id/tv_MyProfile_Info_Count_Friend"
+                app:layout_constraintTop_toTopOf="@+id/iv_MyProfile_Info_Count_BG"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Info_Count_BG"
+                android:gravity="center"
+                android:text="좋아요 10 / 1k"
+                android:textSize="15dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_MyProfile_Info_Count_Friend"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_MyProfile_Info_Count_Like"
+                app:layout_constraintRight_toRightOf="@+id/iv_MyProfile_Info_Count_BG"
+                app:layout_constraintTop_toTopOf="@+id/iv_MyProfile_Info_Count_BG"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Info_Count_BG"
+                android:gravity="center"
+                android:text="친구 10/ 1k"
+                android:textSize="15dp"
+                />
+
+            <ImageView
+                android:id="@+id/iv_MyProfile_Info_Count_Line_2"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_MyProfile_Info_Count_Friend"
+                app:layout_constraintTop_toTopOf="@+id/tv_MyProfile_Info_Count_Friend"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_MyProfile_Info_Count_Friend"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:alpha="0.5"
+                android:background="@color/gray_light"
+                />
+
+            <TextView
+                android:id="@+id/tv_MyProfile_Info_Photo"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info"
+                app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info"
+                app:layout_constraintTop_toBottomOf="@+id/iv_MyProfile_Info_Count_BG"
+                android:paddingLeft="20dp"
+                android:text="@string/tv_MyProfile_Info_Photo"
+                android:gravity="center_vertical"
+                />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_MyProfile_Info_Photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Info_Photo"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="5dp"/>
+
+            <ImageView
+                android:id="@+id/iv_MyProfile_Info_Photo_Line"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                app:layout_constraintRight_toRightOf="@+id/rv_MyProfile_Info_Photo"
+                app:layout_constraintLeft_toLeftOf="@+id/rv_MyProfile_Info_Photo"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_MyProfile_Info_Photo"
+                android:alpha="0.5"
+                android:background="@color/gray_light"
+                />
+
+            <TextView
+                android:id="@+id/tv_MyProfile_Info_Club"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info"
+                app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info"
+                app:layout_constraintTop_toBottomOf="@+id/rv_MyProfile_Info_Photo"
+                android:paddingLeft="20dp"
+                android:text="@string/tv_MyProfile_Info_Club"
+                android:gravity="center_vertical"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_MyProfile_Info_Club"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Info_Club"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="5dp"/>
+
+            <ImageView
+                android:id="@+id/iv_MyProfile_Info_Club_Line"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Info"
+                app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Info"
+                app:layout_constraintBottom_toBottomOf="@+id/rv_MyProfile_Info_Club"
+                android:alpha="0.5"
+                android:background="@color/gray_light"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_MyProfile_Info_Etc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/rv_MyProfile_Info_Club"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="5dp"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_MyProfile_TopBar"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Memo"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="나는 지금 "
-        android:gravity="center"
-        android:background="@drawable/border"
-        android:textSize="20dp"/>
+        android:layout_height="56dp"
+        android:background="@color/v_MyProfile_TopBar">
 
-    <TextView
-        android:id="@+id/tv_MyProfile_Visit"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Status"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:text="방문자\n2/22"
-        android:gravity="center"
-        android:background="@drawable/border"
-        android:textSize="20dp"/>
+        <ImageView
+            android:id="@+id/iv_MyProfile_Alarm"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_TopBar"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_alarm"
+            />
 
-    <TextView
-        android:id="@+id/tv_MyProfile_Like"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Status"
-        android:layout_marginTop="10dp"
-        android:text="좋아요\n55/231"
-        android:gravity="center"
-        android:background="@drawable/border"
-        android:textSize="20dp"/>
+        <ImageView
+            android:id="@+id/iv_MyProfile_Shop"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintRight_toRightOf="@+id/v_MyProfile_TopBar"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_shop"
+            />
 
-    <TextView
-        android:id="@+id/tv_MyProfile_Friend"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Status"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:text="친구\n12km"
-        android:gravity="center"
-        android:background="@drawable/border"
-        android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/tv_MyProfile_Name"
+            style="@style/BaseTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintRight_toLeftOf="@+id/iv_MyProfile_Shop"
+            app:layout_constraintLeft_toRightOf="@+id/iv_MyProfile_Alarm"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
+            android:gravity="center"
+            android:text="닉네임"
+            android:textSize="25dp"
+            />
 
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Img_0"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_MyProfile_Friend"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="20dp"/>
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Img_1"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_0"
-        app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_0"
-        android:textSize="20dp"
-        android:layout_marginLeft="1dp"/>
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Img_2"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_1"
-        app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_1"
-        android:textSize="20dp"
-        android:layout_marginLeft="1dp"/>
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Img_3"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_2"
-        app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_2"
-        android:textSize="20dp"
-        android:layout_marginLeft="1dp"/>
-
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Img_4"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintLeft_toLeftOf="@id/bt_MyProfile_Img_0"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Img_3"
-        android:textSize="20dp"
-        android:layout_marginTop="1dp"/>
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Img_5"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_4"
-        app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_4"
-        android:textSize="20dp"
-        android:layout_marginLeft="1dp"
-        />
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Img_6"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_5"
-        app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_5"
-        android:textSize="20dp"
-        android:layout_marginLeft="1dp"/>
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Img_7"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_6"
-        app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_6"
-        android:textSize="20dp"
-        android:layout_marginLeft="1dp"/>
-
-    <ImageView
-        android:id="@+id/divider_club"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintLeft_toLeftOf="@+id/bt_MyProfile_Img_0"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Img_7"
-        app:srcCompat="@color/gray_light" />
-
-
-    <TextView
-        android:id="@+id/tv_MyProfile_Club_Title"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider_club"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:text="가입 모임"
-        android:gravity="center"
-        android:textSize="20dp"/>
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Club_0_Img"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_MyProfile_Club_Title"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
-
-    <TextView
-        android:id="@+id/bt_MyProfile_Club_0_Title"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Club_0_Img"
-        app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Club_Title"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="냥냥 클럽"
-        android:gravity="left"
-        android:textSize="20dp"/>
-
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Club_1_Img"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Club_0_Title"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
-
-    <TextView
-        android:id="@+id/bt_MyProfile_Club_1_Title"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Club_1_Img"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Club_0_Title"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="냥냥 클럽"
-        android:gravity="left"
-        android:textSize="20dp"/>
-
-
-    <ImageView
-        android:id="@+id/bt_MyProfile_Club_2_Img"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Club_1_Title"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
-
-    <TextView
-        android:id="@+id/bt_MyProfile_Club_2_Title"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Club_2_Img"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Club_1_Title"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="냥냥 클럽"
-        android:gravity="left"
-        android:textSize="20dp"/>
-
-    <ImageView
-        android:id="@+id/divider_Noti"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintLeft_toLeftOf="@+id/bt_MyProfile_Club_2_Img"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Club_2_Img"
-        app:srcCompat="@color/gray_light" />
-
-    <Button
-        android:id="@+id/bt_MyProfile_Event_Icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_Noti"
-        android:textSize="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/event"/>
-
-    <TextView
-        android:id="@+id/bt_MyProfile_Event_Title"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Event_Icon"
-        app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Event_Icon"
-        android:layout_marginLeft="20dp"
-        android:text="이벤트"
-        android:gravity="left"
-        android:textSize="20dp"/>
-
-
-    <Button
-        android:id="@+id/bt_MyProfile_Noti_Icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Event_Icon"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/notice"/>
-
-    <TextView
-        android:id="@+id/bt_MyProfile_Noti_Title"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Noti_Icon"
-        app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Noti_Icon"
-        android:layout_marginLeft="20dp"
-        android:text="공지사항"
-        android:gravity="left"
-        android:textSize="20dp"/>
-
-
-    <Button
-        android:id="@+id/bt_MyProfile_FAQ_Icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Noti_Icon"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/help"/>
-
-    <TextView
-        android:id="@+id/bt_MyProfile_FAQ_Title"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_FAQ_Icon"
-        app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_FAQ_Icon"
-        android:layout_marginLeft="20dp"
-        android:text="FAQ"
-        android:gravity="left"
-        android:textSize="20dp"/>
-
-
-    <Button
-        android:id="@+id/bt_MyProfile_Setting_Icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_FAQ_Icon"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/setting"/>
-
-    <TextView
-        android:id="@+id/bt_MyProfile_Setting_Title"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Setting_Icon"
-        app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Setting_Icon"
-        android:layout_marginLeft="20dp"
-        android:text="설정"
-        android:gravity="left"
-        android:textSize="20dp"/>
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>
 
-</ScrollView>
+    <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.MyProfileFragment"
+        android:background="@color/fm_my_profile_bg">-->
+    <!--
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    >
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/icon_backarrow"
+            />
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Alert"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Back"
+            android:layout_marginRight="10dp"
+            app:srcCompat="@drawable/block"
+            />
+
+        <ImageView
+            android:id="@+id/iv_MyProfile_ThumbNail"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Back"
+            android:layout_marginTop="1dp"
+            app:srcCompat="@drawable/login_icon"/>
+
+        <TextView
+            android:id="@+id/tv_MyProfile_NickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_MyProfile_ThumbNail"
+            android:layout_marginTop="20dp"
+            android:text="피프티하우스"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_NickName"
+            android:layout_marginTop="1dp"
+            android:text="성별표기/나이"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Memo"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Info"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="안녕하세요. 잘부탁드립니다"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Status"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Memo"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="나는 지금 "
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Visit"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Status"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="방문자\n2/22"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Like"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Status"
+            android:layout_marginTop="10dp"
+            android:text="좋아요\n55/231"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Friend"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Status"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:text="친구\n12km"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:textSize="20dp"/>
+
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Img_0"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_MyProfile_Friend"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Img_1"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_0"
+            app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_0"
+            android:textSize="20dp"
+            android:layout_marginLeft="1dp"/>
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Img_2"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_1"
+            app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_1"
+            android:textSize="20dp"
+            android:layout_marginLeft="1dp"/>
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Img_3"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_2"
+            app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_2"
+            android:textSize="20dp"
+            android:layout_marginLeft="1dp"/>
+
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Img_4"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toLeftOf="@id/bt_MyProfile_Img_0"
+            app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Img_3"
+            android:textSize="20dp"
+            android:layout_marginTop="1dp"/>
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Img_5"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_4"
+            app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_4"
+            android:textSize="20dp"
+            android:layout_marginLeft="1dp"
+            />
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Img_6"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_5"
+            app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_5"
+            android:textSize="20dp"
+            android:layout_marginLeft="1dp"/>
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Img_7"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toRightOf="@id/bt_MyProfile_Img_6"
+            app:layout_constraintTop_toTopOf="@id/bt_MyProfile_Img_6"
+            android:textSize="20dp"
+            android:layout_marginLeft="1dp"/>
+
+        <ImageView
+            android:id="@+id/divider_club"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="@+id/bt_MyProfile_Img_0"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Img_7"
+            app:srcCompat="@color/gray_light" />
+
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Club_Title"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider_club"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="가입 모임"
+            android:gravity="center"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Club_0_Img"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_MyProfile_Club_Title"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/bt_MyProfile_Club_0_Title"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Club_0_Img"
+            app:layout_constraintTop_toBottomOf="@+id/tv_MyProfile_Club_Title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="냥냥 클럽"
+            android:gravity="left"
+            android:textSize="20dp"/>
+
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Club_1_Img"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Club_0_Title"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/bt_MyProfile_Club_1_Title"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Club_1_Img"
+            app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Club_0_Title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="냥냥 클럽"
+            android:gravity="left"
+            android:textSize="20dp"/>
+
+
+        <ImageView
+            android:id="@+id/bt_MyProfile_Club_2_Img"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Club_1_Title"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/bt_MyProfile_Club_2_Title"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Club_2_Img"
+            app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Club_1_Title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="냥냥 클럽"
+            android:gravity="left"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/divider_Noti"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="@+id/bt_MyProfile_Club_2_Img"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_MyProfile_Club_2_Img"
+            app:srcCompat="@color/gray_light" />
+
+        <Button
+            android:id="@+id/bt_MyProfile_Event_Icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_Noti"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/event"/>
+
+        <TextView
+            android:id="@+id/bt_MyProfile_Event_Title"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Event_Icon"
+            app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Event_Icon"
+            android:layout_marginLeft="20dp"
+            android:text="이벤트"
+            android:gravity="left"
+            android:textSize="20dp"/>
+
+
+        <Button
+            android:id="@+id/bt_MyProfile_Noti_Icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Event_Icon"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/notice"/>
+
+        <TextView
+            android:id="@+id/bt_MyProfile_Noti_Title"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Noti_Icon"
+            app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Noti_Icon"
+            android:layout_marginLeft="20dp"
+            android:text="공지사항"
+            android:gravity="left"
+            android:textSize="20dp"/>
+
+
+        <Button
+            android:id="@+id/bt_MyProfile_FAQ_Icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_Noti_Icon"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/help"/>
+
+        <TextView
+            android:id="@+id/bt_MyProfile_FAQ_Title"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_FAQ_Icon"
+            app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_FAQ_Icon"
+            android:layout_marginLeft="20dp"
+            android:text="FAQ"
+            android:gravity="left"
+            android:textSize="20dp"/>
+
+
+        <Button
+            android:id="@+id/bt_MyProfile_Setting_Icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bt_MyProfile_FAQ_Icon"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/setting"/>
+
+        <TextView
+            android:id="@+id/bt_MyProfile_Setting_Title"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toRightOf="@+id/bt_MyProfile_Setting_Icon"
+            app:layout_constraintTop_toTopOf="@+id/bt_MyProfile_Setting_Icon"
+            android:layout_marginLeft="20dp"
+            android:text="설정"
+            android:gravity="left"
+            android:textSize="20dp"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>-->
