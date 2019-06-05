@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class UserProfilePhotoListHolder extends RecyclerView.ViewHolder {
@@ -32,9 +33,20 @@ public class UserProfilePhotoListHolder extends RecyclerView.ViewHolder {
 
     public void setData(int i)
     {
-        // TODO 비어 있을때
-        Glide.with(mContext).load(R.drawable.bg_empty_square)
-                .centerCrop()
-                .into(iv_UserProfile_Photo);
+        if(TKManager.getInstance().TargetUserData.GetUserImg(Integer.toString(i)) != null)
+        {
+            // TODO 비어 있을때
+            Glide.with(mContext).load(TKManager.getInstance().TargetUserData.GetUserImg(Integer.toString(i)) )
+                    .centerCrop()
+                    .into(iv_UserProfile_Photo);
+        }
+        else
+        {
+            // TODO 비어 있을때
+            Glide.with(mContext).load(R.drawable.bg_empty_square)
+                    .centerCrop()
+                    .into(iv_UserProfile_Photo);
+        }
+
     }
 }

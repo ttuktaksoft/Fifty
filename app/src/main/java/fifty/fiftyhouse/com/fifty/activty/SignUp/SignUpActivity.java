@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,11 +27,13 @@ public class SignUpActivity extends AppCompatActivity {
     ImageView iv_SignUp_BG, iv_SignUp_CheckNickName, iv_SignUp_Next;
 
     boolean mIsCheckNickName = false;
+    InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         iv_SignUp_BG = findViewById(R.id.iv_SignUp_BG);
         et_SignUp_NickName = findViewById(R.id.et_SignUp_NickName);
@@ -59,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else
                 {
-
+                    imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -88,6 +89,16 @@ public class FavoriteDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO 다른 관심사 추천
+                final String strNickName = et_SignUp_Favorite_Detail_Search.getText().toString();
+                if(TextUtils.isEmpty(strNickName))
+                    {
+
+                }
+                else
+                {
+                    TKManager.getInstance().MyData.SetUserFavorite(strNickName, strNickName);
+                    mSelectAdapter.notifyDataSetChanged();
+                }
             }
         });
 

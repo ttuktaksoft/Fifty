@@ -42,16 +42,20 @@ public class UserData {
     };
 
     private  String Img_ThumbNail;
-    private Map<Integer, String> ImgList = new LinkedHashMap<>();
+    private Map<String, String> ImgList = new LinkedHashMap<>();
 
-    private  int Age;
-    private  int Gender;
+    private  int Age = 50;
+    private  int Gender = 0;
 
-    private  int Visit;
-    private  int Like;
-    private  long Dist;
+    private  int Visit_Today = 0;
+    private  int Visit_Total = 0;
 
-    private Map<Integer, String> FriendList = new LinkedHashMap<>();
+    private  int Like_Today = 0;
+    private  int Like_Total = 0;
+
+    private  long Dist = 0;
+
+    private Map<String, String> FriendList = new LinkedHashMap<>();
 
 
   /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
@@ -160,17 +164,16 @@ public class UserData {
         FavoriteList.remove(key);
     }
 
-    public void SetUserImg(int Index, String Img)
+    public void SetUserImg(String Index, String Img)
     {
         ImgList.put(Index, Img);
     }
-    public String  GetUserImg(int Index)
+    public Map<String, String>  GetUserImg()
     {
-        if(ImgList.size() <= Index)
-        {
-            return null;
-        }
-
+        return ImgList;
+    }
+    public String  GetUserImg(String Index)
+    {
         return ImgList.get(Index);
     }
 
@@ -179,7 +182,7 @@ public class UserData {
         return ImgList.size();
     }
 
-    public void SetUserFriend(int index, String friendIdx)
+    public void SetUserFriend(String index, String friendIdx)
     {
         FriendList.put(index, friendIdx);
     }
@@ -194,20 +197,28 @@ public class UserData {
 
     public void  SetUserLike(int like)
     {
-        Like = like;
+        Like_Total += like;
     }
-    public int  GetUserLike()
+    public int  GetUserTodayLike()
     {
-        return Like;
+        return Like_Today;
+    }
+    public int  GetUserTotalLike()
+    {
+        return Like_Total;
     }
 
     public void  SetUserVisit(int visit)
     {
-        Visit = visit;
+        Visit_Total += visit;
     }
-    public int  GetUserVisit()
+    public int  GetUserTodayVisit()
     {
-        return Visit;
+        return Visit_Today;
+    }
+    public int  GetUserTotalVisit()
+    {
+        return Visit_Total;
     }
 
     public void  SetUserDist(long dist)

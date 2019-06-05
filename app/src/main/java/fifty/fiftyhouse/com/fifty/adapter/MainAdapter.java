@@ -126,7 +126,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
 
                 for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserImgCount(); i++)
                 {
-                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserImg(i);
+                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserImg(Integer.toString(i));
                 }
                 break;
 
@@ -136,7 +136,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
                 mUserDist = "400m";
                 for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserImgCount(); i++)
                 {
-                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserImg(i);
+                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserImg(Integer.toString(i));
                 }
                 break;
 
@@ -146,7 +146,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
                 mUserDist = "400m";
                 for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserImgCount(); i++)
                 {
-                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserImg(i);
+                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserImg(Integer.toString(i));
                 }
                 break;
 
@@ -156,7 +156,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
                 mUserDist = "400m";
                 for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserImgCount(); i++)
                 {
-                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserImg(i);
+                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserImg(Integer.toString(i));
                 }
                 break;
 

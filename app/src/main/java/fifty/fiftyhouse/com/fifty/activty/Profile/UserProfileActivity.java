@@ -33,6 +33,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     NestedScrollView ns_UserProfile_Scroll;
     TextView iv_UserProfile_Name, tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_Visit, tv_UserProfile_Info_Count_Like, tv_UserProfile_Info_Count_Near;
+    ImageView iv_UserProfile_Info_Profile;
     ImageView iv_UserProfile_Info_Gender;
     ConstraintLayout v_UserProfile_TopBar;
     RecyclerView rv_UserProfile_Info_Photo;
@@ -49,6 +50,8 @@ public class UserProfileActivity extends AppCompatActivity {
         CommonFunc.getInstance().mCurActivity = this;
 
         ns_UserProfile_Scroll = findViewById(R.id.ns_UserProfile_Scroll);
+
+        iv_UserProfile_Info_Profile = findViewById(R.id.iv_UserProfile_Profile);
         iv_UserProfile_Name = findViewById(R.id.iv_UserProfile_Name);
         tv_UserProfile_Info_Name = findViewById(R.id.tv_UserProfile_Info_Name);
         tv_UserProfile_Info_Age = findViewById(R.id.tv_UserProfile_Info_Age);
@@ -81,16 +84,34 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        if(true)
+        Glide.with(mContext).load(TKManager.getInstance().TargetUserData.GetUserImgThumb())
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_UserProfile_Info_Profile);
+
+        iv_UserProfile_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+        tv_UserProfile_Info_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+        tv_UserProfile_Info_Age.setText(TKManager.getInstance().TargetUserData.GetUserAge() + "세");
+        //tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
+
+        tv_UserProfile_Info_Count_Visit.setText("방문자 " + TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
+        tv_UserProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+        tv_UserProfile_Info_Count_Near.setText("거리 " + TKManager.getInstance().TargetUserData.GetUserDist() + " Km");
+
+        if(TKManager.getInstance().TargetUserData.GetUserGender() == 0)
         {
             Glide.with(mContext).load(R.drawable.ic_man_simple)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(iv_UserProfile_Info_Gender);
         }
         else
         {
             Glide.with(mContext).load(R.drawable.ic_woman_simple)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(iv_UserProfile_Info_Gender);
         }
+
+
 
         initRecyclerView();
 

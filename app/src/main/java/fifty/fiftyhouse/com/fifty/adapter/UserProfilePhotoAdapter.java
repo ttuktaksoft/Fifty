@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.viewHolder.UserProfilePhotoListHolder;
 
@@ -39,6 +40,7 @@ public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePho
     @Override
     public int getItemCount() {
         return 8;
+        //return  TKManager.getInstance().TargetUserData.GetUserImgCount();
         //return mMyData.arrChatTargetData.size();
     }
 

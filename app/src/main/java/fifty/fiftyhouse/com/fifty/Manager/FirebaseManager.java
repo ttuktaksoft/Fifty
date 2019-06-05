@@ -35,6 +35,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -150,6 +151,17 @@ public class FirebaseManager {
         if(mDataBase == null)
             GetFireStore();
 
+
+        Map<String, String> tempFavoriteData = TKManager.getInstance().MyData.GetUserFavoriteList();
+        Set set = tempFavoriteData.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String key = (String)entry.getKey();
+            String value = (String)entry.getValue();
+            SetUserFavoriteOnFireBase(value,TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserNickName() );
+        }
+
         Map<String, Object> user = new HashMap<>();
 
         user.put("UId", TKManager.getInstance().MyData.GetUserUId());
@@ -158,9 +170,14 @@ public class FirebaseManager {
 
         user.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
         user.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
+        user.put("Img", TKManager.getInstance().MyData.GetUserImg());
         user.put("FavoriteList", TKManager.getInstance().MyData.GetUserFavoriteList());
         user.put("Age", TKManager.getInstance().MyData.GetUserAge());
         user.put("Gender", TKManager.getInstance().MyData.GetUserGender());
+
+        user.put("Visit", TKManager.getInstance().MyData.GetUserTotalVisit());
+        user.put("Like", TKManager.getInstance().MyData.GetUserTotalLike());
+        user.put("Dist", TKManager.getInstance().MyData.GetUserDist());
 
         mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(user, SetOptions.merge())
@@ -187,6 +204,7 @@ public class FirebaseManager {
         simpleUser.put("Index", TKManager.getInstance().MyData.GetUserIndex());
         simpleUser.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
         simpleUser.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
+        simpleUser.put("Img", TKManager.getInstance().MyData.GetUserImg());
 
         mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(simpleUser, SetOptions.merge())
@@ -246,9 +264,10 @@ public class FirebaseManager {
                 });
     }
 
-    public void GetUserIndex()
+    public void GetUserIndex(final CheckFirebaseComplete listener)
     {
-        final DocumentReference sfDocRef = mDataBase.collection("USERCOUNT").document("Count");
+        final DocumentReference sfDocRef = mDataBase.collection("UserData_Count").document("Count");
+
 
         mDataBase.runTransaction(new Transaction.Function<Void>() {
             @Override
@@ -256,6 +275,7 @@ public class FirebaseManager {
                 DocumentSnapshot snapshot = transaction.get(sfDocRef);
                 double newPopulation = snapshot.getDouble("count") + 1;
                 transaction.update(sfDocRef, "count", newPopulation);
+                TKManager.getInstance().MyData.SetUserIndex(Double.toString(newPopulation));
 
                 // Success
                 return null;
@@ -264,6 +284,11 @@ public class FirebaseManager {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Transaction success!");
+                if(listener != null)
+                {
+                    listener.CompleteListener();
+                }
+
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
@@ -337,14 +362,13 @@ public class FirebaseManager {
                         if(document.getData().containsKey("FavoriteList"))
                         {
                             HashMap<String, String> tempFavorite = (HashMap<String, String>)document.getData().get("FavoriteList");
-
-                            int FavoriteSize = tempFavorite.size();
-
-                            String[] temp = new String[FavoriteSize];
-                            for(int i=0; i<FavoriteSize; i++)
-                            {
-                                temp[i] = tempFavorite.get( Integer.toString(i)).toString();
-                                TKManager.getInstance().TargetUserData.SetUserFavorite(temp[i], temp[i]);
+                            Set set = tempFavorite.entrySet();
+                            Iterator iterator = set.iterator();
+                            while(iterator.hasNext()){
+                                Map.Entry entry = (Map.Entry)iterator.next();
+                                String key = (String)entry.getKey();
+                                String value = (String)entry.getValue();
+                                TKManager.getInstance().TargetUserData.SetUserFavorite(key, value);
                             }
                         }
 
@@ -367,14 +391,13 @@ public class FirebaseManager {
                         if(document.getData().containsKey("Img"))
                         {
                             HashMap<String, String> tempImg = (HashMap<String, String>)document.getData().get("Img");
-
-                            int ImgSize = tempImg.size();
-
-                            String[] temp = new String[ImgSize];
-                            for(int i=0; i<ImgSize; i++)
-                            {
-                                temp[i] = tempImg.get( Integer.toString(i)).toString();
-                                TKManager.getInstance().TargetUserData.SetUserImg(i, temp[i]);
+                            Set set = tempImg.entrySet();
+                            Iterator iterator = set.iterator();
+                            while(iterator.hasNext()){
+                                Map.Entry entry = (Map.Entry)iterator.next();
+                                String key = (String)entry.getKey();
+                                String value = (String)entry.getValue();
+                                TKManager.getInstance().TargetUserData.SetUserImg(key, value);
                             }
                         }
 
@@ -422,7 +445,7 @@ public class FirebaseManager {
     {
         CollectionReference colRef = mDataBase.collection("UserList_Dist");
 
-        colRef.whereEqualTo("value", "86").limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.whereEqualTo("value", "1").limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -522,15 +545,15 @@ public class FirebaseManager {
                         if(document.getData().containsKey("Img"))
                         {
                             HashMap<String, String> tempImg = (HashMap<String, String>)document.getData().get("Img");
-
-                            int ImgSize = tempImg.size();
-
-                            String[] temp = new String[3];
-                            for(int i=0; i<ImgSize; i++)
-                            {
-                                temp[i] = tempImg.get( Integer.toString(i)).toString();
-                                tempUser.SetUserImg(i, temp[i]);
+                            Set set = tempImg.entrySet();
+                            Iterator iterator = set.iterator();
+                            while(iterator.hasNext()){
+                                Map.Entry entry = (Map.Entry)iterator.next();
+                                String key = (String)entry.getKey();
+                                String value = (String)entry.getValue();
+                                tempUser.SetUserImg(key, value);
                             }
+
                         }
 
                         TKManager.getInstance().UserData_Simple.put(userIndex, tempUser);
@@ -685,21 +708,31 @@ public class FirebaseManager {
         byte[] data = baos.toByteArray();
 
         UploadTask uploadTask = tempThumbnailRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return tempThumbnailRef.getDownloadUrl();
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getUploadSessionUri();
-                TKManager.getInstance().MyData.SetUserImgThumb(downloadUrl.toString());
-                if(listener != null)
-                    listener.CompleteListener();
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    TKManager.getInstance().MyData.SetUserImgThumb(downloadUri.toString());
+                    if(listener != null)
+                        listener.CompleteListener();
+                } else {
+                    // Handle failures
+                    // ...
+                }
             }
         });
+
     }
 
     public void UploadImg(String userIndex, Bitmap bitmap, final int imageIndex, final FirebaseManager.CheckFirebaseComplete listener)
@@ -710,22 +743,32 @@ public class FirebaseManager {
         byte[] data = baos.toByteArray();
 
         UploadTask uploadTask = tempThumbnailRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getUploadSessionUri();
-                TKManager.getInstance().MyData.SetUserImg(imageIndex, downloadUrl.toString());
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
 
-                if(listener != null)
-                    listener.CompleteListener();
+                // Continue with the task to get the download URL
+                return tempThumbnailRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    TKManager.getInstance().MyData.SetUserImg(Integer.toString(imageIndex), downloadUri.toString());
+                    if(listener != null)
+                        listener.CompleteListener();
+                } else {
+                    // Handle failures
+                    // ...
+                }
             }
         });
+
+
     }
 
 
