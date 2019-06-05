@@ -23,6 +23,7 @@
     <color name="at_sign_favorite_bg">#f7e317</color>
     <color name="at_sign_favorite_selet_bg">#f7e317</color>
     <color name="at_sign_profile_bg">#f7e317</color>
+    <color name="at_user_profile_bg">#fffee9</color>
     <color name="iv_SignUp_CheckNickName">#ffe7e7</color>
     <color name="iv_SignUp_Next">#ffe7e7</color>
     <color name="iv_SignUp_Birth_Next">#ffe7e7</color>
@@ -46,6 +47,13 @@
     <color name="tv_SignUp_Favorite_Comment_Desc">#ffffff</color>
     <color name="tv_SignUp_Profile_Comment">#ffffff</color>
     <color name="tv_SignUp_Profile_Comment_Desc">#ffffff</color>
+    <color name="v_UserProfile_TopBar">#faed00</color>
+    <color name="ns_UserProfile_Scroll">#fffee9</color>
+    <color name="iv_UserProfile_Info_Memo_BG">#fffcc8</color>
+    <color name="iv_UserProfile_Info_Count_BG">#fdf89b</color>
+
+
+
 
 
 
