@@ -435,6 +435,56 @@ public class FirebaseManager {
                             }
                         }
 
+                        if(document.getData().containsKey("LikeUserList"))
+                        {
+                            int tempTotayLikeCount = 0;
+
+                            HashMap<String, String> tempLikeUserList= (HashMap<String, String>)document.getData().get("LikeUserList");
+                            Set set = tempLikeUserList.entrySet();
+                            Iterator iterator = set.iterator();
+                            while(iterator.hasNext()){
+                                Map.Entry entry = (Map.Entry)iterator.next();
+                                String key = (String)entry.getKey();
+                                HashMap<String, Object> tempLikeUser = (HashMap<String, Object>)entry.getValue();
+                                userData.SetUserLikeList(tempLikeUser.get("Index").toString(), tempLikeUser.get("Date").toString());
+
+                                if(tempLikeUser.get("Date").toString().equals(CommonFunc.getInstance().GetCurrentDate()))
+                                {
+                                    tempTotayLikeCount++ ;
+                                    userData.SetUserTodayLike(tempTotayLikeCount);
+                                }
+                            }
+
+                            userData.SetUserTotalLike(userData.GetUserLikeListCount());
+                        }
+
+                        if(document.getData().containsKey("VisitUserList"))
+                        {
+                            int tempTotayVisitCount = 0;
+                            HashMap<String, String> tempVisitUserList= (HashMap<String, String>)document.getData().get("VisitUserList");
+                            Set set = tempVisitUserList.entrySet();
+                            Iterator iterator = set.iterator();
+                            while(iterator.hasNext()){
+                                Map.Entry entry = (Map.Entry)iterator.next();
+                                String key = (String)entry.getKey();
+                                HashMap<String, Object> tempVisitUser = (HashMap<String, Object>)entry.getValue();
+                                userData.SetUserVisitList(tempVisitUser.get("Index").toString(), tempVisitUser.get("Date").toString());
+
+                                if(tempVisitUser.get("Date").toString().equals(CommonFunc.getInstance().GetCurrentDate()))
+                                {
+                                    tempTotayVisitCount++ ;
+                                    userData.SetUserTodayVisit(tempTotayVisitCount);
+                                }
+                                int aa = 0;
+                            }
+
+                            userData.SetUserTotalVisit(userData.GetUseVisitListCount());
+
+
+                        }
+
+
+                        /*
                         if(document.getData().containsKey("TotalVisit"))
                         {
                             userData.SetUserTotalVisit(Integer.parseInt(document.getData().get("TotalVisit").toString()));
@@ -448,6 +498,8 @@ public class FirebaseManager {
                         }
                         else
                             userData.SetUserTotalLike(0);
+                        */
+
 
                         if(document.getData().containsKey("Dist"))
                         {
@@ -872,12 +924,21 @@ public class FirebaseManager {
     {
        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
 
-       Map<String, Object> LikeUserInMyData = new HashMap<>();
-        LikeUserInMyData.put("Index", targetIndex);
-        LikeUserInMyData.put("Date", CommonFunc.getInstance().GetCurrentDate());
+       /*
 
-        mDataBase.collection("UserData").document(userIndex).collection("LikeList").document(targetIndex)
-                .set(LikeUserInMyData, SetOptions.merge())
+        // 내가 좋아하는 사람들 리스트
+        Map<String, Object> tempDetailTarget = new HashMap<>();
+        tempDetailTarget.put("Index", targetIndex);
+        tempDetailTarget.put("Date", CommonFunc.getInstance().GetCurrentDate());
+
+        Map<String, Object> FavoriteUserData = new HashMap<>();
+        FavoriteUserData.put(targetIndex, tempDetailTarget);
+
+        Map<String, Object> FavoriteUser = new HashMap<>();
+        FavoriteUser.put("FavoriteUserList", FavoriteUserData);
+
+        mDataBase.collection("UserData").document(userIndex)
+                .set(FavoriteUser, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -890,13 +951,20 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+        */
+
+        Map<String, Object> LikeUserDetailInTargetData = new HashMap<>();
+        LikeUserDetailInTargetData.put("Index", userIndex);
+        LikeUserDetailInTargetData.put("Date", CommonFunc.getInstance().GetCurrentDate());
 
         Map<String, Object> LikeUserInTargetData = new HashMap<>();
-        LikeUserInTargetData.put("Index", userIndex);
-        LikeUserInTargetData.put("Date", CommonFunc.getInstance().GetCurrentDate());
+        LikeUserInTargetData.put(userIndex, LikeUserDetailInTargetData);
 
-        mDataBase.collection("UserData").document(targetIndex).collection("LikeList").document(userIndex)
-                .set(LikeUserInTargetData, SetOptions.merge())
+        Map<String, Object> LikeTarget = new HashMap<>();
+        LikeTarget.put("LikeUserList", LikeUserInTargetData);
+
+        mDataBase.collection("UserData").document(targetIndex)
+                .set(LikeTarget, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -913,43 +981,23 @@ public class FirebaseManager {
 
     public void RemoveLikeUser(final String targetIndex)
     {
+
+
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
 
-        Map<String, Object> LikeUserInMydata = new HashMap<>();
-        LikeUserInMydata.put(targetIndex, FieldValue.delete());
 
-        mDataBase.collection("UserData").document(userIndex).collection("LikeList").document(targetIndex)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
 
-        Map<String, Object> LikeUser = new HashMap<>();
-        LikeUser.put(targetIndex, FieldValue.delete());
+        Map<String, Object> removeMap = new HashMap<>();
+        removeMap.put("LikeUserList",  FieldValue.delete());
 
-        mDataBase.collection("UserData").document(targetIndex).collection("LikeList").document(userIndex)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
+        final DocumentReference sfDocRef = mDataBase.collection("UserData").document(targetIndex);
+
+        sfDocRef.update(removeMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            // [START_EXCLUDE]
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {}
+            // [START_EXCLUDE]
+        });
     }
 
     public void AddUserLikeCount(final String userIndex, final boolean like, final CheckFirebaseComplete listener)
@@ -990,5 +1038,38 @@ public class FirebaseManager {
                     }
                 });
     }
+
+
+    public void RegistVisitUser(final String targetIndex)
+    {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+
+        Map<String, Object> tempDetailTarget = new HashMap<>();
+        tempDetailTarget.put("Index", userIndex);
+        tempDetailTarget.put("Date", CommonFunc.getInstance().GetCurrentDate());
+
+        Map<String, Object> VisitUserData = new HashMap<>();
+        VisitUserData.put(userIndex, tempDetailTarget);
+
+        Map<String, Object> VisitUser = new HashMap<>();
+        VisitUser.put("VisitUserList", VisitUserData);
+
+
+        mDataBase.collection("UserData").document(targetIndex)
+                .set(VisitUser, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
 
 }

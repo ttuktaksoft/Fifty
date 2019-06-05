@@ -45,7 +45,7 @@ public class UserProfileActivity extends AppCompatActivity {
         mContext = getApplicationContext();
 
         CommonFunc.getInstance().mCurActivity = this;
-
+        FirebaseManager.getInstance().RegistVisitUser(TKManager.getInstance().TargetUserData.GetUserIndex());
 
         ns_UserProfile_Scroll = findViewById(R.id.ns_UserProfile_Scroll);
 
@@ -104,9 +104,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);
 
-
-                    if (TKManager.getInstance().MyData.GetUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null) {
-                            TKManager.getInstance().MyData.SetUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
+                    if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) == null){
+                        //TKManager.getInstance().MyData.SetUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
 
                         RefreshLikeCount(true);
 
@@ -151,7 +150,9 @@ public class UserProfileActivity extends AppCompatActivity {
                     .into(iv_UserProfile_Info_Gender);
         }
 
-        if (TKManager.getInstance().MyData.GetUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null) {
+
+        if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) == null)
+        {
             Glide.with(mContext).load(R.drawable.ic_like_empty)
                     .into(iv_UserProfile_BottomBar_Like);
         } else {
@@ -286,7 +287,7 @@ public class UserProfileActivity extends AppCompatActivity {
         {
             TKManager.getInstance().TargetUserData.AddUserTotalLike(-1);
             TKManager.getInstance().TargetUserData.AddUserTodayLike(-1);
-            FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+         //   FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
         }
 
         FirebaseManager.getInstance().AddUserLikeCount(TKManager.getInstance().TargetUserData.GetUserIndex(), like, listener);

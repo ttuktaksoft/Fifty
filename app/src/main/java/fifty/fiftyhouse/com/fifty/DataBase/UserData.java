@@ -229,14 +229,19 @@ public class UserData {
         return (int)Like_Total;
     }
 
-    public void SetUserLikeList(String index, String userIdx)
+    public void SetUserLikeList(String userIndex, String date)
     {
-        LikeList.put(index, userIdx);
+        LikeList.put(userIndex, date);
     }
     public String  GetUserLikeList(String index)
     {
         return LikeList.get(index);
     }
+    public Map<String, String>  GetUserLikeList()
+    {
+        return LikeList;
+    }
+    public Set GetUserLikeKeySet() { return  LikeList.keySet(); }
     public int  GetUserLikeListCount()
     {
         return LikeList.size();
@@ -245,6 +250,7 @@ public class UserData {
     {
         LikeList.remove(index);
     }
+
 
     public void  SetUserTotalVisit(int visit)
     {
@@ -273,9 +279,9 @@ public class UserData {
         return (int)Visit_Total;
     }
 
-    public void SetUserVisitList(String index, String userIdx)
+    public void SetUserVisitList(String userIdx, String date)
     {
-        VisitList.put(index, userIdx);
+        VisitList.put(userIdx, date);
     }
     public String  GetUserVisitList(String index)
     {
@@ -285,7 +291,11 @@ public class UserData {
     {
         return VisitList.size();
     }
-
+    public Map<String, String>  GetUserVisitList()
+    {
+        return VisitList;
+    }
+    public Set GetUserVisitKeySet() { return  VisitList.keySet(); }
 
     public void  SetUserDist(long dist)
     {
