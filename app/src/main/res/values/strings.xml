@@ -14,8 +14,11 @@
     <string name="et_SignUp_Favorite_Detail_Search">관심사를 검색해주세요</string>
     <string name="tv_SignUp_Favorite_Detail_Recom">다른관심사 추천</string>
     <string name="tv_SignUp_Favorite_Detail_Next">다음</string>
+    <string name="et_SignUp_Favorite_Detail_REGIST">두 가지 관심사를 등록해주세요</string>
+
     <string name="tv_SignUp_Profile_Comment">프로필사진</string>
     <string name="tv_SignUp_Profile_Comment_Desc">자신을 표현 할 수 있는 사진을 선택해주세요</string>
+    <string name="tv_SignUp_Profile_Upload_Fail">사진을 등록해주세요</string>
     <string name="tv_SignUp_Profile_Next">다음</string>
     <string name="tv_SignUp_Com_Popup_Desc">축하합니다!!\n당신은 FIFTY의 정회원이\n되었습니다!!\n관심사가 비슷한 친구들과\n마음껏 소통해보세요~</string>
     <string name="tv_UserProfile_Info_Photo">사진</string>
@@ -25,6 +28,8 @@
     <string name="MSG_NOTICE">알림</string>
     <string name="SIGN_UP_NICKNAME_EMPTY">닉네임을 입력해주세요</string>
     <string name="SIGN_UP_NICKNAME_CHECK">닉네임 중복체크를 해주세요</string>
+    <string name="SIGN_UP_NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
+    <string name="SIGN_UP_NICKNAME_CHECK_FAIL">중복된 닉네임입니다</string>
     <string name="SIGN_UP_GENDER_CHECK">성별을 선택해주세요</string>
 
 

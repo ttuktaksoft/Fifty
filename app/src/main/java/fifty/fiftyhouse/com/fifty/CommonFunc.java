@@ -189,8 +189,8 @@ public class CommonFunc {
                 img[2] = tempThumb[rnd.nextInt(15)];
 
 
-                tempData.SetUserData(Integer.toString(i), Integer.toString(i), randomHangulName(), fav, tempThumb[rnd.nextInt(15)], tempThumb[rnd.nextInt(15)], rnd.nextInt(20) + 50, rnd.nextInt(2));
-                FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, Integer.toString(i), tempData);
+               // tempData.SetUserData(Integer.toString(i), Integer.toString(i), randomHangulName(), fav, tempThumb[rnd.nextInt(15)], tempThumb[rnd.nextInt(15)], rnd.nextInt(20) + 50, rnd.nextInt(2));
+                //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, Integer.toString(i), tempData);
                 for(int j = 0; j<fav.length; j++)
                     FirebaseManager.getInstance().SetUserFavoriteOnFireBase(fav[j], Integer.toString(i), Integer.toString(i));
 

@@ -15,6 +15,8 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
@@ -35,6 +37,7 @@ public class FavoriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favorite);
 
         mContext = getApplicationContext();
+        CommonFunc.getInstance().mCurActivity = this;
 
         rv_SignUp_Favorite_Fix = findViewById(R.id.rv_SignUp_Favorite_Fix);
         iv_SignUp_Favorite_Next = findViewById(R.id.iv_SignUp_Favorite_Next);
@@ -42,9 +45,25 @@ public class FavoriteActivity extends AppCompatActivity {
         iv_SignUp_Favorite_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FavoriteDetailActivity.class);
-                startActivity(intent);
-                finish();
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(getApplicationContext(), FavoriteDetailActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                FirebaseManager.getInstance().GetPopFavoriteData(listener);
+
             }
         });
 

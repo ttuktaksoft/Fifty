@@ -37,6 +37,8 @@ public class TKManager {
     public ArrayList<String> UserList_Hot = new ArrayList<>();
     public ArrayList<String> UserList_Friend = new ArrayList<>();
 
+    public ArrayList<String> FavoriteLIst_Pop = new ArrayList<>();
+
     public boolean isWorkFireBase = true;
 
 

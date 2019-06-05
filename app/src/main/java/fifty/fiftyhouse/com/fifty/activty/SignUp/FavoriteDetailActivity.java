@@ -14,8 +14,13 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.SignUpFavoriteFixAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SignUpFavoriteSelectAdapter;
@@ -39,6 +44,7 @@ public class FavoriteDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_detail);
         mContext = getApplicationContext();
+        CommonFunc.getInstance().mCurActivity = this;
 
         rv_SignUp_Favorite_Detail_Select = findViewById(R.id.rv_SignUp_Favorite_Detail_Select);
         rv_SignUp_Favorite_Detail_List = findViewById(R.id.rv_SignUp_Favorite_Detail_List);
@@ -51,6 +57,18 @@ public class FavoriteDetailActivity extends AppCompatActivity {
         iv_SignUp_Favorite_Detail_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(TKManager.MyData.GetUserFavoriteListCount() < 2)
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(FavoriteDetailActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.et_SignUp_Favorite_Detail_REGIST));
+                }
+                else
+                {
+                    Intent intent = new Intent(getApplicationContext(), ProfileImgActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
                 /*if(mSelectFavoriteList.size() == 0)
                 {
                     // TODO 관심사 선택 유도 팝업
@@ -62,9 +80,7 @@ public class FavoriteDetailActivity extends AppCompatActivity {
                     finish();
                 }*/
 
-                Intent intent = new Intent(getApplicationContext(), ProfileImgActivity.class);
-                startActivity(intent);
-                finish();
+
             }
         });
 
@@ -78,8 +94,6 @@ public class FavoriteDetailActivity extends AppCompatActivity {
         RefreshFavoriteSelectList();
         RefreshFavoriteViewList();
 
-
-        FirebaseManager.getInstance().GetPopFavoriteData();
     }
 
     public void RefreshFavoriteSelectList()
@@ -107,7 +121,12 @@ public class FavoriteDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 //startActivity(new Intent(getContext(), UserProfileActivity.class));
+                Set tempKey = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+                List array = new ArrayList(tempKey);
 
+                String tempFavoriteSelect = TKManager.getInstance().MyData.GetUserFavoriteList(array.get(position).toString());
+                TKManager.getInstance().MyData.DelUserFavoriteList(tempFavoriteSelect);
+                mSelectAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -142,7 +161,19 @@ public class FavoriteDetailActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 //startActivity(new Intent(getContext(), UserProfileActivity.class));
+                String tempFavoriteSelect = TKManager.getInstance().FavoriteLIst_Pop.get(position);
 
+                TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
+
+              /*  if(TKManager.getInstance().MyData.GetUserFavoriteListCount() >= 2)
+                {
+                    TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
+                }
+                else
+                {
+                    TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
+                }*/
+                mSelectAdapter.notifyDataSetChanged();
             }
 
             @Override

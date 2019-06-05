@@ -16,8 +16,10 @@ import android.widget.ImageView;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
+// 닉네임 입니다
 public class SignUpActivity extends AppCompatActivity {
 
     private EditText et_SignUp_NickName;
@@ -49,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         iv_SignUp_CheckNickName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String strNickName = et_SignUp_NickName.getText().toString();
+                final String strNickName = et_SignUp_NickName.getText().toString();
                 if(TextUtils.isEmpty(strNickName))
                 {
                     // TODO 닉네임 입력 해달라는 팝업 표시
@@ -57,12 +59,31 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    FirebaseManager.getInstance().CheckNickName(strNickName);
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                            DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.SIGN_UP_NICKNAME_CHECK_SUCCESS));
+                            mIsCheckNickName = true;
+                            ImageViewCompat.setImageTintList(iv_SignUp_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iv_SignUp_Next)));
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                            DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.SIGN_UP_NICKNAME_CHECK_FAIL));
+                        }
+                    };
+
+                    FirebaseManager.getInstance().CheckNickName(strNickName, listener);
 
                     // TODO 중복체크 결과
                     // 중복 안됨
-                    mIsCheckNickName = true;
-                    ImageViewCompat.setImageTintList(iv_SignUp_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iv_SignUp_Next)));
+
                 }
             }
         });
@@ -80,11 +101,11 @@ public class SignUpActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(getApplicationContext(), BirthActivity.class);
                     startActivity(intent);
-                    finish();
             }
             }
         });
     }
+
 
 
 
