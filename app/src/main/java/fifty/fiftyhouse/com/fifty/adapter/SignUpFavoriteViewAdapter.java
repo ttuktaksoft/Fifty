@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.viewHolder.SignUpFavoriteViewListHolder;
 
@@ -23,8 +25,6 @@ public class SignUpFavoriteViewAdapter extends RecyclerView.Adapter<SignUpFavori
         return new SignUpFavoriteViewListHolder(view);
     }
 
-
-
     @Override
     public void onBindViewHolder(SignUpFavoriteViewListHolder holder, final int position) {
         int i = position;
@@ -34,7 +34,8 @@ public class SignUpFavoriteViewAdapter extends RecyclerView.Adapter<SignUpFavori
 
     @Override
     public int getItemCount() {
-        return 6;
+        return CommonData.Favorite_Pop_Count;
+        //return TKManager.getInstance().FavoriteLIst_Pop.size();
         //return mMyData.arrChatTargetData.size();
     }
 

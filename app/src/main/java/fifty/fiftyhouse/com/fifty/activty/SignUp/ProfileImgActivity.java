@@ -20,6 +20,7 @@ import com.gun0912.tedpermission.TedPermission;
 import java.io.File;
 import java.util.List;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -35,10 +36,14 @@ public class ProfileImgActivity extends AppCompatActivity {
     private File tempFile;
     private boolean isCamera = false;
 
+    private boolean isUpload = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_img);
+        CommonFunc.getInstance().mCurActivity = this;
+
         tv_SignUp_Profile_Thumbnail = findViewById(R.id.tv_SignUp_Profile_Thumbnail);
         iv_SignUp_Profile_Next = findViewById(R.id.iv_SignUp_Profile_Next);
 
@@ -52,18 +57,15 @@ public class ProfileImgActivity extends AppCompatActivity {
         iv_SignUp_Profile_Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
-                {
-                    @Override
-                    public void Listener()
-                    {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                };
 
-                DialogFunc.getInstance().ShowSignUpCompletePopup(ProfileImgActivity.this, listener);
+                if(isUpload == true)
+                {
+                    Intent intent = new Intent(getApplicationContext(), SignUpCompleteActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                    DialogFunc.getInstance().ShowMsgPopup(ProfileImgActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.tv_SignUp_Profile_Upload_Fail));
             }
         });
 
@@ -101,6 +103,8 @@ public class ProfileImgActivity extends AppCompatActivity {
 
     private void setImage() {
 
+        DialogFunc.getInstance().ShowLoadingPage(ProfileImgActivity.this);
+
         ImageResize.resizeFile(tempFile, tempFile, 1280, isCamera);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -111,7 +115,25 @@ public class ProfileImgActivity extends AppCompatActivity {
                 .circleCrop()
                 .into(tv_SignUp_Profile_Thumbnail);
 
-        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm);
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                isUpload = true;
+                DialogFunc.getInstance().DismissLoadingPage();
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+            }
+        };
+
+
+        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, TKManager.getInstance().MyData.GetUserImgCount(), listener);
+        FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, listener);
     }
 
     @Override

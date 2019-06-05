@@ -89,7 +89,7 @@ public class BirthActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(getApplicationContext(), FavoriteActivity.class);
                     startActivity(intent);
-                    finish();
+
                 }
             }
         });

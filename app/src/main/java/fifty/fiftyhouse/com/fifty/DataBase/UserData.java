@@ -7,6 +7,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -29,10 +33,16 @@ public class UserData {
 
     private String NickName ;
     private String Memo;
-    private ArrayList<String> FavoriteList = new ArrayList<>();
+    private Map<String, String> FavoriteList = new LinkedHashMap<String, String>(){
+        @Override
+        protected boolean removeEldestEntry(Entry<String, String> arg0)
+        {
+            return size() == 3? true : false;
+        }
+    };
 
     private  String Img_ThumbNail;
-    private ArrayList<String> ImgList = new ArrayList<>();
+    private Map<Integer, String> ImgList = new LinkedHashMap<>();
 
     private  int Age;
     private  int Gender;
@@ -41,42 +51,24 @@ public class UserData {
     private  int Like;
     private  long Dist;
 
-    private ArrayList<String> FriendList = new ArrayList<>();
-
-    private  void Init() {
-        UId = null;
-        Index = null;
-        Token = null;
-
-        NickName = "";
-        Memo = null;
-
-        Img_ThumbNail = null;
-
-        Age = 50;
-        Gender = 0;
-
-        Visit = 0;
-        Like = 0;
-        Dist = 0;
-    }
+    private Map<Integer, String> FriendList = new LinkedHashMap<>();
 
 
-    public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, String img, int age,  int gender)
+  /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
     {
         Index = index;
         Token = token;
         NickName = nickname;
 
         for(int length = 0; length < favorite.length; length++)
-            FavoriteList.add(favorite[length]);
+            FavoriteList.put(favorite[length]);
 
         Img_ThumbNail = thumb;
-        ImgList.add(img);
+        ImgList.put(0, thumb);
 
         Age = age;
         Gender = gender;
-    }
+    }*/
 
 
     public void SetUserUId(String uid)
@@ -142,26 +134,35 @@ public class UserData {
         return Gender;
     }
 
-    public void SetUserFavorite(String favorite)
+    public void SetUserFavorite(String key, String favorite)
     {
-        FavoriteList.add(favorite);
+        FavoriteList.put(key, favorite);
     }
-    public void SetUserFavorite(String[] favorite)
+    public String  GetUserFavoriteList(String key)
     {
-        FavoriteList.addAll(Arrays.asList(favorite));
+        return FavoriteList.get(key);
     }
-    public ArrayList<String>  GetUserFavoriteList()
+
+    public  Map<String, String> GetUserFavoriteList()
     {
         return FavoriteList;
     }
-
-    public void SetUserImg(String Img)
+    public int  GetUserFavoriteListCount()
     {
-        ImgList.add(Img);
+        return FavoriteList.size();
     }
-    public void SetUserImg(String[] Img)
+    public Set GetUserFavoriteListKeySet()
     {
-        ImgList.addAll(Arrays.asList(Img));
+        return FavoriteList.keySet();
+    }
+    public void  DelUserFavoriteList(String key)
+    {
+        FavoriteList.remove(key);
+    }
+
+    public void SetUserImg(int Index, String Img)
+    {
+        ImgList.put(Index, Img);
     }
     public String  GetUserImg(int Index)
     {
@@ -173,26 +174,22 @@ public class UserData {
         return ImgList.get(Index);
     }
 
-    public ArrayList<String>  GetUserImgList()
-    {
-        return ImgList;
-    }
     public int  GetUserImgCount()
     {
         return ImgList.size();
     }
 
-    public void SetUserFriend(String friendIdx)
+    public void SetUserFriend(int index, String friendIdx)
     {
-        FriendList.add(friendIdx);
+        FriendList.put(index, friendIdx);
     }
-    public void SetUserFriend(String[] friendIdx)
+    public String  GetUserFriendList(int index)
     {
-        FriendList.addAll(Arrays.asList(friendIdx));
+        return FriendList.get(index);
     }
-    public ArrayList<String>  GetUserFriendList()
+    public int  GetUserFriendListCount()
     {
-        return FriendList;
+        return FriendList.size();
     }
 
     public void  SetUserLike(int like)

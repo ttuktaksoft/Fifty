@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.viewHolder.SignUpFavoriteSelectListHolder;
 
@@ -34,7 +35,7 @@ public class SignUpFavoriteSelectAdapter extends RecyclerView.Adapter<SignUpFavo
 
     @Override
     public int getItemCount() {
-        return 2;
+        return TKManager.getInstance().MyData.GetUserFavoriteListCount();
         //return mMyData.arrChatTargetData.size();
     }
 

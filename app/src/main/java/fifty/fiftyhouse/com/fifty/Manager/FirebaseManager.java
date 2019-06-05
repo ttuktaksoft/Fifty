@@ -67,6 +67,19 @@ public class FirebaseManager {
         return _Instance;
     }
 
+    public interface CheckFirebaseComplete {
+        void CompleteListener();
+        void CompleteListener_Yes();
+        void CompleteListener_No();
+    }
+
+    public interface CheckFirebaseComplete_Yes {
+        void CompleteListener_Yes();
+    }
+    public interface CheckFirebaseComplete_No {
+        void CompleteListener_No();
+    }
+
     private static void Init()
     {
         GetFireBaseAuth();
@@ -132,45 +145,50 @@ public class FirebaseManager {
     }
 
 
-    public void SetUserDataOnFireBase(CommonData.CollentionType collectType, String documentName, Object obj)
+    public void SetMyDataOnFireBase(final FirebaseManager.CheckFirebaseComplete listener)
     {
         if(mDataBase == null)
             GetFireStore();
 
         Map<String, Object> user = new HashMap<>();
 
-        user.put("UId", ((UserData) obj).GetUserUId());
-        user.put("Index", ((UserData) obj).GetUserIndex());
-        user.put("Token", ((UserData) obj).GetUserToken());
-        user.put("NickName", ((UserData) obj).GetUserNickName());
-        user.put("Img_ThumbNail", ((UserData) obj).GetUserImgThumb());
-        user.put("FavoriteList", ((UserData) obj).GetUserFavoriteList());
-        user.put("Age", ((UserData) obj).GetUserAge());
-        user.put("Gender", ((UserData) obj).GetUserGender());
+        user.put("UId", TKManager.getInstance().MyData.GetUserUId());
+        user.put("Index", TKManager.getInstance().MyData.GetUserIndex());
+        user.put("Token", TKManager.getInstance().MyData.GetUserToken());
 
-        mDataBase.collection("UserData").document(documentName)
+        user.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
+        user.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
+        user.put("FavoriteList", TKManager.getInstance().MyData.GetUserFavoriteList());
+        user.put("Age", TKManager.getInstance().MyData.GetUserAge());
+        user.put("Gender", TKManager.getInstance().MyData.GetUserGender());
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(user, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        if(listener != null)
+                            listener.CompleteListener();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
+                        if(listener != null)
+                            listener.CompleteListener_No();
                     }
                 });
 
 
         Map<String, Object> simpleUser = new HashMap<>();
 
-        simpleUser.put("Index", ((UserData) obj).GetUserIndex());
-        simpleUser.put("NickName", ((UserData) obj).GetUserNickName());
-        simpleUser.put("Img_ThumbNail", ((UserData) obj).GetUserImgThumb());
+        simpleUser.put("Index", TKManager.getInstance().MyData.GetUserIndex());
+        simpleUser.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
+        simpleUser.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
 
-        mDataBase.collection("UserData_Simple").document(documentName)
+        mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(simpleUser, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -186,9 +204,9 @@ public class FirebaseManager {
                 });
 
         Map<String, Object> nickName = new HashMap<>();
-        nickName.put(((UserData) obj).GetUserNickName(), ((UserData) obj).GetUserIndex());
+        nickName.put(TKManager.getInstance().MyData.GetUserNickName(), TKManager.getInstance().MyData.GetUserIndex());
 
-        mDataBase.collection("UserData_NickName").document(((UserData) obj).GetUserNickName())
+        mDataBase.collection("UserData_NickName").document(TKManager.getInstance().MyData.GetUserNickName())
                 .set(nickName)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -326,11 +344,9 @@ public class FirebaseManager {
                             for(int i=0; i<FavoriteSize; i++)
                             {
                                 temp[i] = tempFavorite.get( Integer.toString(i)).toString();
-                                TKManager.getInstance().TargetUserData.SetUserFavorite(temp[i]);
+                                TKManager.getInstance().TargetUserData.SetUserFavorite(temp[i], temp[i]);
                             }
                         }
-                        else
-                            TKManager.getInstance().TargetUserData.SetUserFavorite("");
 
 
                         if(document.getData().containsKey("Gender"))
@@ -358,11 +374,9 @@ public class FirebaseManager {
                             for(int i=0; i<ImgSize; i++)
                             {
                                 temp[i] = tempImg.get( Integer.toString(i)).toString();
-                                TKManager.getInstance().TargetUserData.SetUserImg(temp[i]);
+                                TKManager.getInstance().TargetUserData.SetUserImg(i, temp[i]);
                             }
                         }
-                        else
-                            TKManager.getInstance().TargetUserData.SetUserImg("");
 
                         if(document.getData().containsKey("Visit"))
                         {
@@ -515,11 +529,9 @@ public class FirebaseManager {
                             for(int i=0; i<ImgSize; i++)
                             {
                                 temp[i] = tempImg.get( Integer.toString(i)).toString();
-                                tempUser.SetUserImg(temp[i]);
+                                tempUser.SetUserImg(i, temp[i]);
                             }
                         }
-                        else
-                            tempUser.SetUserImg("");
 
                         TKManager.getInstance().UserData_Simple.put(userIndex, tempUser);
 
@@ -617,16 +629,21 @@ public class FirebaseManager {
                 });
     }
 
-    public void GetPopFavoriteData()
+    public void GetPopFavoriteData(final FirebaseManager.CheckFirebaseComplete listener)
     {
         CollectionReference colRef = mDataBase.collection("PopFavorite");
-        colRef.orderBy("count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.orderBy("count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
         @Override
         public void onComplete(@NonNull Task<QuerySnapshot> task) {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Log.d(TAG, document.getId() + " => " + document.getData());
+                    TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
                 }
+
+                if (listener != null)
+                    listener.CompleteListener();
+
             } else {
                 Log.d(TAG, "Error getting documents: ", task.getException());
             }
@@ -634,9 +651,9 @@ public class FirebaseManager {
     });
     }
 
-    public void CheckNickName(final String nickName)
+    public void CheckNickName(final String nickName, final CheckFirebaseComplete listener)
     {
-        DocumentReference docRef = mDataBase.collection("NickNameList").document(nickName);
+        DocumentReference docRef = mDataBase.collection("UserData_NickName").document(nickName);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -644,9 +661,14 @@ public class FirebaseManager {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        if (listener != null)
+                            listener.CompleteListener_No();
+
                     } else {
                         Log.d(TAG, "No such document");
                         TKManager.getInstance().MyData.SetUserNickName(nickName);
+                        if (listener != null)
+                            listener.CompleteListener_Yes();
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -655,9 +677,34 @@ public class FirebaseManager {
         });
     }
 
-    public void UploadImg(String userIndex, Bitmap bitmap)
+    public void UploadThumbImg(String userIndex, Bitmap bitmap, final FirebaseManager.CheckFirebaseComplete listener)
     {
         final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().MyData.GetUserIndex() + "/thumbnail.jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = tempThumbnailRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                Uri downloadUrl = taskSnapshot.getUploadSessionUri();
+                TKManager.getInstance().MyData.SetUserImgThumb(downloadUrl.toString());
+                if(listener != null)
+                    listener.CompleteListener();
+            }
+        });
+    }
+
+    public void UploadImg(String userIndex, Bitmap bitmap, final int imageIndex, final FirebaseManager.CheckFirebaseComplete listener)
+    {
+        final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().MyData.GetUserIndex() + "/" + imageIndex + "/Image.jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -673,7 +720,10 @@ public class FirebaseManager {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getUploadSessionUri();
-                TKManager.getInstance().MyData.SetUserImgThumb(downloadUrl.toString());
+                TKManager.getInstance().MyData.SetUserImg(imageIndex, downloadUrl.toString());
+
+                if(listener != null)
+                    listener.CompleteListener();
             }
         });
     }
