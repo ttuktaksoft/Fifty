@@ -57,6 +57,12 @@
     <color name="v_MyProfile_TopBar">#faed00</color>
     <color name="iv_MyProfile_Info_Memo_BG">#fffcc8</color>
     <color name="iv_MyProfile_Info_Count_BG">#fdf89b</color>
+    <color name="v_UserList_TopBar">#faed00</color>
+    <color name="v_StrContentList_TopBar">#faed00</color>
+    <color name="at_user_list">#fffee9</color>
+    <color name="at_str_content_list">#fffee9</color>
+    <color name="at_str_content">#fffee9</color>
+
 
 
 

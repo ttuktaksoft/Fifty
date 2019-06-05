@@ -14,13 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/NoTitleBar">
-        <activity android:name=".activty.LoadingActivity"
+        <activity
+            android:name=".activty.LoadingActivity"
             android:theme="@style/NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
         <activity
@@ -28,8 +28,9 @@
             android:parentActivityName=".activty.LoadingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitleBar" />
-        <activity android:name=".activty.LoginActivity"
-            android:theme="@style/NoTitleBar"/>
+        <activity
+            android:name=".activty.LoginActivity"
+            android:theme="@style/NoTitleBar" />
         <activity android:name=".activty.SignUp.SignUpActivity" />
         <activity android:name=".activty.SignUp.BirthActivity" />
         <activity android:name=".activty.SignUp.FavoriteActivity" />
@@ -41,7 +42,10 @@
         <activity android:name=".activty.ClubActivity" />
         <activity android:name=".activty.ClubBodyActivity" />
         <activity android:name=".activty.ChatBodyActivity" />
-        <activity android:name=".activty.SignUp.SignUpCompleteActivity"></activity>
+        <activity android:name=".activty.SignUp.SignUpCompleteActivity" />
+        <activity android:name=".activty.UserListActivity" />
+        <activity android:name=".activty.StrContentListActivity" />
+        <activity android:name=".activty.StrContentActivity"></activity>
     </application>
 
 </manifest>

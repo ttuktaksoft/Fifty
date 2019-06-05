@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_MyProfile_Etc"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -29,6 +29,6 @@
         android:text="asdfasdf"
         android:gravity="center_vertical"
         android:layout_marginLeft="20dp"
-        android:textSize="20dp"/>
+        android:textSize="15dp"/>
 
 </android.support.constraint.ConstraintLayout>

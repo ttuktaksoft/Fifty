@@ -28,21 +28,28 @@ public class MyProfileEtcListHolder extends RecyclerView.ViewHolder {
         if(i == 0)
         {
             tv_MyProfile_Etc.setText("이벤트");
-            Glide.with(mContext).load(R.drawable.dummy_1)
+            Glide.with(mContext).load(R.drawable.ic_confetti)
                     .centerCrop()
                     .into(iv_MyProfile_Etc);
         }
         else if(i == 1)
         {
             tv_MyProfile_Etc.setText("공지사항");
-            Glide.with(mContext).load(R.drawable.dummy_2)
+            Glide.with(mContext).load(R.drawable.ic_loudspeaker)
+                    .centerCrop()
+                    .into(iv_MyProfile_Etc);
+        }
+        else if(i == 2)
+        {
+            tv_MyProfile_Etc.setText("FAQ");
+            Glide.with(mContext).load(R.drawable.ic_faq)
                     .centerCrop()
                     .into(iv_MyProfile_Etc);
         }
         else
         {
-            tv_MyProfile_Etc.setText("FAQ");
-            Glide.with(mContext).load(R.drawable.dummy_3)
+            tv_MyProfile_Etc.setText("설정");
+            Glide.with(mContext).load(R.drawable.ic_settings)
                     .centerCrop()
                     .into(iv_MyProfile_Etc);
         }

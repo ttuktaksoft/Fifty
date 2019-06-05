@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -31,6 +32,9 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileEtcAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileFavoriteAdapter;
@@ -136,6 +140,37 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
                     v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.baseColor));
                     tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
                 }
+            }
+        });
+
+        v_MyProfile_Info_Detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO 정보 수정 엑티비티
+            }
+        });
+
+        tv_MyProfile_Info_Count_Visit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO 유저 리스트
+                startActivity(new Intent(mContext, UserListActivity.class));
+            }
+        });
+
+        tv_MyProfile_Info_Count_Like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO 유저 리스트
+                startActivity(new Intent(mContext, UserListActivity.class));
+            }
+        });
+
+        tv_MyProfile_Info_Count_Friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO 유저 리스트
+                startActivity(new Intent(mContext, UserListActivity.class));
             }
         });
 
@@ -267,15 +302,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         rv_MyProfile_Info_Etc.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Info_Etc, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
-                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
-                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
-                if (mAppStatus.bCheckMultiSend == false) {
-                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
-
-                    if (mCommon.getClickStatus() == false)
-                        mCommon.MoveUserPage(getActivity(), stTargetData);
-                }*/
+                startActivity(new Intent(mContext, StrContentListActivity.class));
             }
 
             @Override
