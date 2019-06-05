@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
 
+        CommonFunc.getInstance().mCurActivity = this;
+
         mMainFragment = new MainFragment();
         mChatFragment = new ChatFragment();
         mClubFragment = new ClubFragment();

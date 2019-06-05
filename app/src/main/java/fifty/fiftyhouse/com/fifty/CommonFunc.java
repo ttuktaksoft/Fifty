@@ -20,8 +20,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -122,6 +124,15 @@ public class CommonFunc {
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
     }
 
+    public String GetCurrentDate()
+    {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String getTime = sdf.format(date);
+        return getTime;
+    }
+
     int i = 0;
     public void MoveActivity(Activity from, Class  to)
     {
@@ -141,8 +152,6 @@ public class CommonFunc {
             from.startActivity(new Intent(from, UserProfileActivity.class));
             from.finish();
     }
-
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -22,9 +22,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpCompleteActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
@@ -51,7 +55,6 @@ public class UserProfileActivity extends AppCompatActivity {
         CommonFunc.getInstance().mCurActivity = this;
 
 
-
         ns_UserProfile_Scroll = findViewById(R.id.ns_UserProfile_Scroll);
 
         iv_UserProfile_Info_Profile = findViewById(R.id.iv_UserProfile_Profile);
@@ -73,18 +76,14 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
         iv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
 
-        ns_UserProfile_Scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener(){
+        ns_UserProfile_Scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollChange(NestedScrollView var1, int x, int y, int oldx, int oldy)
-            {
+            public void onScrollChange(NestedScrollView var1, int x, int y, int oldx, int oldy) {
                 Log.d("test", "test : " + CommonFunc.getInstance().convertPXtoDP(getResources(), y));
-                if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 50)
-                {
+                if (CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 50) {
                     v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
                     iv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-                }
-                else
-                {
+                } else {
                     v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.baseColor));
                     iv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                 }
@@ -105,26 +104,66 @@ public class UserProfileActivity extends AppCompatActivity {
         tv_UserProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
         tv_UserProfile_Info_Count_Near.setText("거리 " + TKManager.getInstance().TargetUserData.GetUserDist() + " Km");
 
-        if(TKManager.getInstance().TargetUserData.GetUserGender() == 0)
-        {
+        tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
+
+        v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.v_UserProfile_BottomBar_Like) {
+
+                    DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);
+
+
+                    if (TKManager.getInstance().MyData.GetUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null) {
+                            TKManager.getInstance().MyData.SetUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
+
+                        RefreshLikeCount(true);
+
+                        Glide.with(mContext).load(R.drawable.ic_like)
+                                .into(iv_UserProfile_BottomBar_Like);
+                    } else {
+                        TKManager.getInstance().MyData.DelUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex());
+
+                        RefreshLikeCount(false);
+
+                        Glide.with(mContext).load(R.drawable.ic_like_empty)
+                                .into(iv_UserProfile_BottomBar_Like);
+                    }
+
+                    tv_UserProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+                }
+
+            }
+        });
+
+        v_UserProfile_BottomBar_Chat.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.v_UserProfile_BottomBar_Chat) {
+                    int index = 11;
+                    TKManager.getInstance().MyData.SetUserIndex(Integer.toString(index));
+                    index ++;
+                }
+
+            }
+        });
+
+
+
+        if (TKManager.getInstance().TargetUserData.GetUserGender() == 0) {
             Glide.with(mContext).load(R.drawable.ic_man_simple)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(iv_UserProfile_Info_Gender);
-        }
-        else
-        {
+        } else {
             Glide.with(mContext).load(R.drawable.ic_woman_simple)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(iv_UserProfile_Info_Gender);
         }
 
-        if(true)
-        {
+        if (TKManager.getInstance().MyData.GetUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null) {
             Glide.with(mContext).load(R.drawable.ic_like_empty)
                     .into(iv_UserProfile_BottomBar_Like);
-        }
-        else
-        {
+        } else {
             Glide.with(mContext).load(R.drawable.ic_like)
                     .into(iv_UserProfile_BottomBar_Like);
         }
@@ -186,8 +225,7 @@ public class UserProfileActivity extends AppCompatActivity {
 */
     }
 
-    private void initRecyclerView()
-    {
+    private void initRecyclerView() {
         mAdapter = new UserProfilePhotoAdapter(mContext);
         mAdapter.setHasStableIds(true);
 
@@ -228,5 +266,40 @@ public class UserProfileActivity extends AppCompatActivity {
                 }*/
             }
         });
+    }
+
+    private void RefreshLikeCount(boolean like)
+    {
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                DialogFunc.getInstance().DismissLoadingPage();
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+            }
+        };
+
+        if(like)
+        {
+            TKManager.getInstance().TargetUserData.AddUserTotalLike(1);
+            TKManager.getInstance().TargetUserData.AddUserTodayLike(1);
+            FirebaseManager.getInstance().RegistLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+        }
+        else
+        {
+            TKManager.getInstance().TargetUserData.AddUserTotalLike(-1);
+            TKManager.getInstance().TargetUserData.AddUserTodayLike(-1);
+            FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+        }
+
+        FirebaseManager.getInstance().AddUserLikeCount(TKManager.getInstance().TargetUserData.GetUserIndex(), like, listener);
+
+
     }
 }

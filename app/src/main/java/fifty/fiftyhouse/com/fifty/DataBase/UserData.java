@@ -47,15 +47,19 @@ public class UserData {
     private  int Age = 50;
     private  int Gender = 0;
 
-    private  int Visit_Today = 0;
-    private  int Visit_Total = 0;
+    private  double Visit_Today = 0;
+    private  double Visit_Total = 0;
 
-    private  int Like_Today = 0;
-    private  int Like_Total = 0;
+    private  double Like_Today = 0;
+    private  double Like_Total = 0;
 
     private  long Dist = 0;
 
     private Map<String, String> FriendList = new LinkedHashMap<>();
+
+    private Map<String, String> LikeList = new LinkedHashMap<>();
+    private Map<String, String> VisitList = new LinkedHashMap<>();
+
 
 
   /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
@@ -109,6 +113,15 @@ public class UserData {
     public String GetUserIndex()
     {
         return Index;
+    }
+
+    public void SetUserMemo(String memo)
+    {
+        Memo = memo;
+    }
+    public String GetUserMemo()
+    {
+        return Memo;
     }
 
     public void SetUserImgThumb(String thumb)
@@ -186,7 +199,7 @@ public class UserData {
     {
         FriendList.put(index, friendIdx);
     }
-    public String  GetUserFriendList(int index)
+    public String  GetUserFriendList(String index)
     {
         return FriendList.get(index);
     }
@@ -195,31 +208,84 @@ public class UserData {
         return FriendList.size();
     }
 
-    public void  SetUserLike(int like)
+    public void  SetUserTotalLike(double like){ Like_Total = like; }
+    public void  AddUserTotalLike(double like){ Like_Total += like; }
+
+    public void  SetUserTodayLike(double like)
     {
-        Like_Total += like;
+        Like_Today = like;
     }
+    public void  AddUserTodayLike(double like)
+    {
+        Like_Today += like;
+    }
+
     public int  GetUserTodayLike()
     {
-        return Like_Today;
+        return (int)Like_Today;
     }
     public int  GetUserTotalLike()
     {
-        return Like_Total;
+        return (int)Like_Total;
     }
 
-    public void  SetUserVisit(int visit)
+    public void SetUserLikeList(String index, String userIdx)
+    {
+        LikeList.put(index, userIdx);
+    }
+    public String  GetUserLikeList(String index)
+    {
+        return LikeList.get(index);
+    }
+    public int  GetUserLikeListCount()
+    {
+        return LikeList.size();
+    }
+    public void DelUserLikeList(String index)
+    {
+        LikeList.remove(index);
+    }
+
+    public void  SetUserTotalVisit(int visit)
+    {
+        Visit_Total = visit;
+    }
+    public void  AddUserTotalVisit(int visit)
     {
         Visit_Total += visit;
     }
+
+    public void  SetUserTodayVisit(int visit)
+    {
+        Visit_Today = visit;
+    }
+    public void  AddUserTodayVisit(int visit)
+    {
+        Visit_Today += visit;
+    }
+
     public int  GetUserTodayVisit()
     {
-        return Visit_Today;
+        return (int)Visit_Today;
     }
     public int  GetUserTotalVisit()
     {
-        return Visit_Total;
+        return (int)Visit_Total;
     }
+
+    public void SetUserVisitList(String index, String userIdx)
+    {
+        VisitList.put(index, userIdx);
+    }
+    public String  GetUserVisitList(String index)
+    {
+        return VisitList.get(index);
+    }
+    public int  GetUseVisitListCount()
+    {
+        return VisitList.size();
+    }
+
 
     public void  SetUserDist(long dist)
     {

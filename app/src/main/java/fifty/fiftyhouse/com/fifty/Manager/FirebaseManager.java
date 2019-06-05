@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -175,8 +176,12 @@ public class FirebaseManager {
         user.put("Age", TKManager.getInstance().MyData.GetUserAge());
         user.put("Gender", TKManager.getInstance().MyData.GetUserGender());
 
-        user.put("Visit", TKManager.getInstance().MyData.GetUserTotalVisit());
-        user.put("Like", TKManager.getInstance().MyData.GetUserTotalLike());
+        user.put("TotalVisit", TKManager.getInstance().MyData.GetUserTotalVisit());
+        user.put("TodayVisit", TKManager.getInstance().MyData.GetUserTodayVisit());
+
+        user.put("TotalLike", TKManager.getInstance().MyData.GetUserTotalLike());
+        user.put("TodayLike", TKManager.getInstance().MyData.GetUserTodayLike());
+
         user.put("Dist", TKManager.getInstance().MyData.GetUserDist());
 
         mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
@@ -325,7 +330,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserData(String userIndex)
+    public void GetUserData(String userIndex, final UserData userData, final CheckFirebaseComplete listener)
     {
         DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -336,28 +341,45 @@ public class FirebaseManager {
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
+                        if(document.getData().containsKey("Index"))
+                        {
+                            String Index = document.getData().get("Index").toString();
+                            //TKManager.getInstance().TargetUserData.SetUserNickName(NickName);
+                            userData.SetUserIndex(Index);
+                        }
+                        else
+                            userData.SetUserIndex("1");
+
                         if(document.getData().containsKey("NickName"))
                         {
                             String NickName = document.getData().get("NickName").toString();
-                            TKManager.getInstance().TargetUserData.SetUserNickName(NickName);
+                            //TKManager.getInstance().TargetUserData.SetUserNickName(NickName);
+                            userData.SetUserNickName(NickName);
                         }
                         else
-                            TKManager.getInstance().TargetUserData.SetUserNickName(null);
+                            userData.SetUserNickName(null);
 
                         if(document.getData().containsKey("Token"))
                         {
                             String Token = document.getData().get("Token").toString();
-                            TKManager.getInstance().TargetUserData.SetUserToken(Token);
+                            userData.SetUserToken(Token);
                         }
                         else
-                            TKManager.getInstance().TargetUserData.SetUserToken(null);
+                            userData.SetUserToken(null);
 
                         if(document.getData().containsKey("Age"))
                         {
-                            TKManager.getInstance().TargetUserData.SetUserAge(Integer.parseInt(document.getData().get("Age").toString()));
+                            userData.SetUserAge(Integer.parseInt(document.getData().get("Age").toString()));
                         }
                         else
-                            TKManager.getInstance().TargetUserData.SetUserAge(50);
+                            userData.SetUserAge(50);
+
+                        if(document.getData().containsKey("Memo"))
+                        {
+                            userData.SetUserMemo(document.getData().get("Memo").toString());
+                        }
+                        else
+                            userData.SetUserMemo(null);
 
                         if(document.getData().containsKey("FavoriteList"))
                         {
@@ -368,25 +390,37 @@ public class FirebaseManager {
                                 Map.Entry entry = (Map.Entry)iterator.next();
                                 String key = (String)entry.getKey();
                                 String value = (String)entry.getValue();
-                                TKManager.getInstance().TargetUserData.SetUserFavorite(key, value);
+                                userData.SetUserFavorite(key, value);
                             }
                         }
 
+                        if(document.getData().containsKey("FriendList"))
+                        {
+                            HashMap<String, String> tempFavorite = (HashMap<String, String>)document.getData().get("FriendList");
+                            Set set = tempFavorite.entrySet();
+                            Iterator iterator = set.iterator();
+                            while(iterator.hasNext()){
+                                Map.Entry entry = (Map.Entry)iterator.next();
+                                String key = (String)entry.getKey();
+                                String value = (String)entry.getValue();
+                                userData.SetUserFriend(key, value);
+                            }
+                        }
 
                         if(document.getData().containsKey("Gender"))
                         {
-                            TKManager.getInstance().TargetUserData.SetUserGender(Integer.parseInt(document.getData().get("Gender").toString()));
+                            userData.SetUserGender(Integer.parseInt(document.getData().get("Gender").toString()));
                         }
                         else
-                            TKManager.getInstance().TargetUserData.SetUserGender(0);
+                            userData.SetUserGender(0);
 
                         if(document.getData().containsKey("Img_ThumbNail"))
                         {
                             String ThumbNail = document.getData().get("Img_ThumbNail").toString();
-                            TKManager.getInstance().TargetUserData.SetUserImgThumb(ThumbNail);
+                            userData.SetUserImgThumb(ThumbNail);
                         }
                         else
-                            TKManager.getInstance().TargetUserData.SetUserImgThumb(null);
+                            userData.SetUserImgThumb(null);
 
                         if(document.getData().containsKey("Img"))
                         {
@@ -397,36 +431,38 @@ public class FirebaseManager {
                                 Map.Entry entry = (Map.Entry)iterator.next();
                                 String key = (String)entry.getKey();
                                 String value = (String)entry.getValue();
-                                TKManager.getInstance().TargetUserData.SetUserImg(key, value);
+                                userData.SetUserImg(key, value);
                             }
                         }
 
-                        if(document.getData().containsKey("Visit"))
+                        if(document.getData().containsKey("TotalVisit"))
                         {
-                            TKManager.getInstance().TargetUserData.SetUserVisit(Integer.parseInt(document.getData().get("Visit").toString()));
+                            userData.SetUserTotalVisit(Integer.parseInt(document.getData().get("TotalVisit").toString()));
                         }
                         else
-                            TKManager.getInstance().TargetUserData.SetUserVisit(0);
+                            userData.SetUserTotalVisit(0);
 
-                        if(document.getData().containsKey("Like"))
+                        if(document.getData().containsKey("TotalLike"))
                         {
-                            TKManager.getInstance().TargetUserData.SetUserLike(Integer.parseInt(document.getData().get("Like").toString()));
+                            userData.SetUserTotalLike(Double.parseDouble(document.getData().get("TotalLike").toString()));
                         }
                         else
-                            TKManager.getInstance().TargetUserData.SetUserLike(0);
+                            userData.SetUserTotalLike(0);
 
                         if(document.getData().containsKey("Dist"))
                         {
-                            TKManager.getInstance().TargetUserData.SetUserDist(Integer.parseInt(document.getData().get("Dist").toString()));
+                            userData.SetUserDist(Integer.parseInt(document.getData().get("Dist").toString()));
                         }
                         else
-                            TKManager.getInstance().TargetUserData.SetUserDist(0);
+                            userData.SetUserDist(0);
 
-
-                        CommonFunc.getInstance().MoveUserActivity(CommonFunc.getInstance().mCurActivity);
+                        if(listener != null)
+                            listener.CompleteListener();
 
                     } else {
                         Log.d(TAG, "No such document");
+                        if(listener != null)
+                            listener.CompleteListener_No();
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -830,6 +866,129 @@ public class FirebaseManager {
                 break;
         }
 
+    }
+
+    public void RegistLikeUser(final String targetIndex)
+    {
+       String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+
+       Map<String, Object> LikeUserInMyData = new HashMap<>();
+        LikeUserInMyData.put("Index", targetIndex);
+        LikeUserInMyData.put("Date", CommonFunc.getInstance().GetCurrentDate());
+
+        mDataBase.collection("UserData").document(userIndex).collection("LikeList").document(targetIndex)
+                .set(LikeUserInMyData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        Map<String, Object> LikeUserInTargetData = new HashMap<>();
+        LikeUserInTargetData.put("Index", userIndex);
+        LikeUserInTargetData.put("Date", CommonFunc.getInstance().GetCurrentDate());
+
+        mDataBase.collection("UserData").document(targetIndex).collection("LikeList").document(userIndex)
+                .set(LikeUserInTargetData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public void RemoveLikeUser(final String targetIndex)
+    {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+
+        Map<String, Object> LikeUserInMydata = new HashMap<>();
+        LikeUserInMydata.put(targetIndex, FieldValue.delete());
+
+        mDataBase.collection("UserData").document(userIndex).collection("LikeList").document(targetIndex)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+
+        Map<String, Object> LikeUser = new HashMap<>();
+        LikeUser.put(targetIndex, FieldValue.delete());
+
+        mDataBase.collection("UserData").document(targetIndex).collection("LikeList").document(userIndex)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+    }
+
+    public void AddUserLikeCount(final String userIndex, final boolean like, final CheckFirebaseComplete listener)
+    {
+        final DocumentReference sfDocRef = mDataBase.collection("UserData").document(userIndex);
+
+        mDataBase.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                double newPopulation;
+                if(like)
+                {
+                    newPopulation = snapshot.getDouble("TotalLike") + 1;
+                }
+                else
+                    newPopulation = snapshot.getDouble("TotalLike") - 1;
+
+                transaction.update(sfDocRef, "TotalLike", newPopulation);
+                // Success
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Transaction success!");
+                if(listener != null)
+                {
+                    listener.CompleteListener();
+                }
+
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Transaction failure.", e);
+                    }
+                });
     }
 
 }
