@@ -16,7 +16,7 @@ import fifty.fiftyhouse.com.fifty.R;
 
 public class UserProfilePhotoListHolder extends RecyclerView.ViewHolder {
 
-    ImageView iv_UserProfile_Photo;
+    public  ImageView iv_UserProfile_Photo;
     Context mContext;
 
     public UserProfilePhotoListHolder(View itemView) {

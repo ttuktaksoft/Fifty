@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.activty.Profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -22,6 +23,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -97,6 +99,18 @@ public class UserProfileActivity extends AppCompatActivity {
 
         tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
 
+        iv_UserProfile_Info_Profile.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.iv_UserProfile_Profile) {
+
+                    Intent intent = new Intent(UserProfileActivity.this, CustomPhotoView.class);
+                    intent.putExtra("ImgSrc",TKManager.getInstance().TargetUserData.GetUserImgThumb());
+                    startActivity(intent);
+                }
+            }
+        });
+
         v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +134,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     tv_UserProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
                 }
-
             }
         });
 
@@ -135,8 +148,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         if (TKManager.getInstance().TargetUserData.GetUserGender() == 0) {
             Glide.with(mContext).load(R.drawable.ic_man_simple)

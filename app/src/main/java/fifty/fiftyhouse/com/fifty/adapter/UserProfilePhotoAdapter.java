@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import com.bumptech.glide.Glide;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
+import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.viewHolder.UserProfilePhotoListHolder;
 
 public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePhotoListHolder> {
@@ -35,6 +38,7 @@ public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePho
         int i = position;
 
         holder.setData(i);
+
     }
 
     @Override

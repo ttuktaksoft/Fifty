@@ -50,7 +50,8 @@
         <activity android:name=".activty.NickNameEditActivity" />
         <activity android:name=".activty.StoryEditActivity" />
         <activity android:name=".activty.LocationEditActivity" />
-        <activity android:name=".activty.FavoriteEditActivity"></activity>
+        <activity android:name=".activty.FavoriteEditActivity" />
+        <activity android:name=".activty.CustomPhotoView"></activity>
     </application>
 
 </manifest>
