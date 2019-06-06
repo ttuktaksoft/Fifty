@@ -1,8 +1,12 @@
 package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,14 +31,14 @@ import fifty.fiftyhouse.com.fifty.R;
 public class MainDistanceViewPager extends Fragment {
 
     TextView tv_Main_Dis_Curr_Pos;
-    Button bt_Main_Dis_Sort_Type;
+    TextView tv_Main_Dis_Sort_Type;
 
     RecyclerView rv_Main_Dis_UserList;
     View v_FragmentView = null;
 
     MainAdapter mAdapter;
-    CommonData.MainSortType mSortType = CommonData.MainSortType.ALL;
 
+    boolean mSortEnable = false;
     private String UserIndex;
     public MainDistanceViewPager() {
         super();
@@ -48,9 +52,18 @@ public class MainDistanceViewPager extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_distance, container, false);
             rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
-            bt_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.bt_Main_Dis_Sort_Type);
+            tv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.tv_Main_Dis_Sort_Type);
 
-            initSubInfo();
+            RefreshSortTypeColor();
+
+            tv_Main_Dis_Sort_Type.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mSortEnable = !mSortEnable;
+                    RefreshSortTypeColor();
+                }
+            });
+
             initRecyclerView();
         }
         else
@@ -61,10 +74,16 @@ public class MainDistanceViewPager extends Fragment {
         return v_FragmentView;
     }
 
-    private void initSubInfo()
+    private void RefreshSortTypeColor()
     {
-        bt_Main_Dis_Sort_Type.setText(CommonFunc.getInstance().getMainSortTypeStr(getResources(), CommonData.MainSortType.ALL));
-        mSortType = CommonData.MainSortType.ALL;
+        if(mSortEnable)
+        {
+            tv_Main_Dis_Sort_Type.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+        }
+        else
+        {
+            tv_Main_Dis_Sort_Type.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_light));
+        }
     }
 
     private void initRecyclerView()

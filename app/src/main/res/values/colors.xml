@@ -15,6 +15,11 @@
     <color name="gray_light">#e0e0e0</color>
     <color name="alpha">#00000000</color>
 
+    <color name="v_Main_TopBar">#fff64e</color>
+    <color name="tl_Main_TopTab">#fdf89b</color>
+    <color name="vp_Main_UserList">#fffee9</color>
+    <color name="v_Main_Dis_SubInfo">#fffcc8</color>
+
     <color name="iv_SignUp_BG">#84000000</color>
     <color name="at_loading_bg">#f7e317</color>
     <color name="at_login_bg">#f7e317</color>
