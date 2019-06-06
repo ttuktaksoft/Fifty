@@ -13,13 +13,14 @@
             android:id="@+id/v_Main_Dis_SubInfo"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/baseColor_3"
+            android:background="@color/v_Main_Dis_SubInfo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tv_Main_Dis_Curr_Pos"
+            style="@style/BaseTextView"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="서울특별시 영등포구 여의도동"
@@ -31,24 +32,17 @@
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_Dis_SubInfo" />
 
         <TextView
-            android:id="@+id/tv_Main_Dis_Thumbnail_Info_State"
+            android:id="@+id/tv_Main_Dis_Sort_Type"
+            style="@style/BaseTextView"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="@string/tv_Main_Sort_Title"
+            android:text="관심사정렬 ON"
             android:textSize="15dp"
-            android:gravity="center"
-            android:layout_marginRight="5dp"
+            android:gravity="center_vertical|left"
+            android:layout_marginRight="10dp"
             app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_Dis_SubInfo"
-            app:layout_constraintRight_toLeftOf="@+id/bt_Main_Dis_Sort_Type"/>
-
-        <Button
-            android:id="@+id/bt_Main_Dis_Sort_Type"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Main_Dis_SubInfo"
-            app:layout_constraintRight_toRightOf="@+id/v_Main_Dis_SubInfo"/>
+            app:layout_constraintRight_toRightOf="@+id/v_Main_Dis_SubInfo" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_Main_Dis_UserList"

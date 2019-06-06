@@ -21,6 +21,7 @@
 
     <TextView
         android:id="@+id/tv_Main_Today_Desc"
+        style="@style/BaseTextView"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="오늘의 멤버"

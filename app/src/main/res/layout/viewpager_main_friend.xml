@@ -21,6 +21,7 @@
 
     <TextView
         android:id="@+id/tv_Main_Friend_Count"
+        style="@style/BaseTextView"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="현재 친구수 : 30명"

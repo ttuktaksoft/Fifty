@@ -30,11 +30,11 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 public class UserProfileActivity extends AppCompatActivity {
 
     NestedScrollView ns_UserProfile_Scroll;
-    TextView tv_UserProfile_Name, tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_Visit, tv_UserProfile_Info_Count_Like, tv_UserProfile_Info_Count_Near;
+    TextView tv_UserProfile_Name, tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_Visit, tv_UserProfile_Info_Count_Like, tv_UserProfile_Info_Count_Near, tv_UserProfile_Info_Favorite;
 
     ImageView iv_UserProfile_Info_Profile;
     ImageView iv_UserProfile_Info_Gender, iv_UserProfile_BottomBar_Like;
-    ConstraintLayout v_UserProfile_TopBar, v_UserProfile_BottomBar_Like, v_UserProfile_BottomBar_Chat;
+    ConstraintLayout v_UserProfile_TopBar, v_UserProfile_BottomBar_Like, v_UserProfile_BottomBar_Chat, v_UserProfile_BottomBar_Friend;
     RecyclerView rv_UserProfile_Info_Photo;
     Context mContext;
 
@@ -59,6 +59,7 @@ public class UserProfileActivity extends AppCompatActivity {
         tv_UserProfile_Info_Count_Visit = findViewById(R.id.tv_UserProfile_Info_Count_Visit);
         tv_UserProfile_Info_Count_Like = findViewById(R.id.tv_UserProfile_Info_Count_Like);
         tv_UserProfile_Info_Count_Near = findViewById(R.id.tv_UserProfile_Info_Count_Near);
+        tv_UserProfile_Info_Favorite = findViewById(R.id.tv_UserProfile_Info_Favorite);
         iv_UserProfile_Info_Gender = findViewById(R.id.iv_UserProfile_Info_Gender);
         v_UserProfile_TopBar = findViewById(R.id.v_UserProfile_TopBar);
         rv_UserProfile_Info_Photo = findViewById(R.id.rv_UserProfile_Info_Photo);
@@ -66,6 +67,7 @@ public class UserProfileActivity extends AppCompatActivity {
         iv_UserProfile_BottomBar_Like = findViewById(R.id.iv_UserProfile_BottomBar_Like);
         v_UserProfile_BottomBar_Like = findViewById(R.id.v_UserProfile_BottomBar_Like);
         v_UserProfile_BottomBar_Chat = findViewById(R.id.v_UserProfile_BottomBar_Chat);
+        v_UserProfile_BottomBar_Friend  = findViewById(R.id.v_UserProfile_BottomBar_Friend);
 
         v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
         tv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));

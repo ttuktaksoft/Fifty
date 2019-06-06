@@ -18,7 +18,9 @@
     <string name="et_Favorite_Edit_Search">관심사를 검색해주세요</string>
     <string name="tv_Favorite_Edit_Recom">다른관심사 추천</string>
     <string name="tv_Favorite_Edit_Save">저장</string>
-
+    <string name="tv_UserProfile_BottomBar_Like">좋아요</string>
+    <string name="tv_UserProfile_BottomBar_Chat">대화하기</string>
+    <string name="tv_UserProfile_BottomBar_Friend">친구추가</string>
 
     <string name="tv_SignUp_Profile_Comment">프로필사진</string>
     <string name="tv_SignUp_Profile_Comment_Desc">자신을 표현 할 수 있는 사진을 선택해주세요</string>
