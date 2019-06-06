@@ -3,113 +3,113 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="82dp"
-
-    >
+    android:layout_height="82dp">
 
 
     <ImageView
-        android:id="@+id/iv_profile"
+        android:id="@+id/iv_Chat_Profile"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/border"
-        android:padding="1dp"
+        android:src="@drawable/bg_empty_square"
         android:scaleType="fitCenter"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <TextView
-        android:id="@+id/tv_nickname"
+        android:id="@+id/tv_Chat_Nickname"
+        style="@style/BaseTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:paddingTop="5dp"
         android:maxLength="15"
-        android:text="asd"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@+id/iv_profile"
-        app:layout_constraintTop_toTopOf="@+id/iv_profile" />
-
-    <ImageView
-        android:id="@+id/iv_grade"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-
-        android:layout_marginLeft="3dp"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
-        app:layout_constraintLeft_toRightOf="@+id/tv_nickname"
-        app:layout_constraintTop_toTopOf="@+id/tv_nickname" />
-
-    <ImageView
-        android:id="@+id/iv_item"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
-        app:layout_constraintLeft_toRightOf="@+id/iv_grade"
-        app:layout_constraintTop_toTopOf="@+id/tv_nickname" />
-
+        android:text="닉네임"
+        android:textSize="14dp"
+        app:layout_constraintLeft_toRightOf="@+id/iv_Chat_Profile"
+        app:layout_constraintTop_toTopOf="@+id/iv_Chat_Profile" />
 
     <TextView
-        android:id="@+id/tv_chat"
+        android:id="@+id/tv_Chat_Msg"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-
-        android:gravity="center_vertical"
-        android:maxWidth="200dp"
-        android:text="TextView"
-        android:textColor="@color/chatcontent"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
-        app:layout_constraintLeft_toLeftOf="@id/tv_nickname"
-        app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
+        android:gravity="left|center_vertical"
+        android:maxWidth="230dp"
+        android:text="안녕하세요"
+        android:textColor="@color/gray"
+        android:maxLines="2"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Profile"
+        app:layout_constraintLeft_toLeftOf="@id/tv_Chat_Nickname"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Chat_Nickname" />
 
 
     <TextView
-        android:id="@+id/tv_date"
+        android:id="@+id/tv_Chat_Date"
+        style="@style/BaseTextView"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-
-
+        android:layout_height="0dp"
         android:layout_marginRight="16dp"
-        android:gravity="center_vertical | center_horizontal"
+        android:gravity="center"
         android:text="17/8/19"
         android:textColor="@android:color/darker_gray"
-        android:textSize="12sp"
+        android:textSize="12dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_profile" />
+        app:layout_constraintTop_toTopOf="@+id/tv_Chat_Nickname"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_Chat_Nickname"/>
+
 
     <ImageView
-        android:id="@+id/tv_check"
-        android:layout_width="7dp"
-        android:layout_height="7dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/border"
+        android:id="@+id/iv_Chat_Check"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ic_red_dot"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Profile" />
+
+    <TextView
+        android:id="@+id/tv_Chat_Check"
+        style="@style/BaseTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="@+id/tv_date"
-        app:layout_constraintRight_toRightOf="@+id/tv_date"
-        app:layout_constraintTop_toBottomOf="@+id/tv_date" />
-
+        android:text="99+"
+        android:textSize="14dp"
+        android:textColor="@color/white"
+        app:layout_constraintRight_toRightOf="@+id/iv_Chat_Check"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Chat_Check"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Check"
+        app:layout_constraintTop_toTopOf="@+id/iv_Chat_Check" />
 
     <ImageView
-        android:id="@+id/divider_fan"
+        android:id="@+id/iv_Chat_Line"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="@color/gray_light"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/iv_Chat_Profile"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+<!--    <ImageView
+        android:id="@+id/divider_fan1"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="@+id/tv_nickname"
+        android:id="@+id/iv_Chat_Check"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ic_red_dot"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_profile"
-        app:srcCompat="@color/gray_light" />
+        app:srcCompat="@color/gray_light" />-->
+
 
 
 </android.support.constraint.ConstraintLayout>

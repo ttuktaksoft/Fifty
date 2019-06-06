@@ -15,15 +15,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ChatBodyAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ChatBodyActivity extends AppCompatActivity {
-    Toolbar v_ChatBody_ToolBar;
     RecyclerView rv_Chat_Body_List;
-    Button bt_Chat_Body_Plus, bt_Chat_Body_Send;
+    ImageView iv_Chat_Body_Plus, iv_Chat_Body_Send, iv_ChatBody_Back;
+    TextView tv_ChatBody_Title;
     EditText et_Chat_Body_Msg;
 
     ChatBodyAdapter mAdapter;
@@ -32,21 +34,21 @@ public class ChatBodyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_body);
 
-        v_ChatBody_ToolBar = findViewById(R.id.v_ChatBody_ToolBar);
+        iv_ChatBody_Back = findViewById(R.id.iv_ChatBody_Back);
+        tv_ChatBody_Title = findViewById(R.id.tv_ChatBody_Title);
         rv_Chat_Body_List = findViewById(R.id.rv_Chat_Body_List);
-        bt_Chat_Body_Plus = findViewById(R.id.bt_Chat_Body_Plus);
-        bt_Chat_Body_Send = findViewById(R.id.bt_Chat_Body_Send);
+        iv_Chat_Body_Plus = findViewById(R.id.iv_Chat_Body_Plus);
+        iv_Chat_Body_Send = findViewById(R.id.iv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
 
-        v_ChatBody_ToolBar.setNavigationIcon(R.drawable.icon_backarrow);
-        v_ChatBody_ToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+        iv_ChatBody_Back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                onBackPressed();
+            public void onClick(View view) {
+                finish();
             }
         });
-        v_ChatBody_ToolBar.setTitle("피프티");
-        setSupportActionBar(v_ChatBody_ToolBar);
+
+        tv_ChatBody_Title.setText("피프티");
 
         initRecyclerView();
     }

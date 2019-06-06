@@ -56,18 +56,6 @@ public class CommonFunc {
         activity.finish();
     }
 
-    public String getMainSortTypeStr(Resources res, CommonData.MainSortType type)
-    {
-        switch (type)
-        {
-            case ALL:
-                return getStr(res, R.string.bt_Main_Sort_Type_All);
-            case ONLINE:
-                return getStr(res, R.string.bt_Main_Sort_Type_Online);
-        }
-
-        return getStr(res, R.string.STR_ERROR);
-    }
 
     public int getWidthByDevice()
     {
