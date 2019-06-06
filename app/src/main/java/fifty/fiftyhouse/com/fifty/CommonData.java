@@ -50,4 +50,7 @@ public class CommonData {
     // 메인 화면 기준별 보여지는 유져 인원 수
     public static int UserList_Loding_Count = 10;
 
+
+    public static int UserData_Loding_Count = 5;
+
 }
