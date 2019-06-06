@@ -287,7 +287,7 @@ public class UserData {
     {
         return VisitList.get(index);
     }
-    public int  GetUseVisitListCount()
+    public int  GetUserVisitListCount()
     {
         return VisitList.size();
     }
