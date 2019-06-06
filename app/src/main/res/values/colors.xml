@@ -59,9 +59,23 @@
     <color name="iv_MyProfile_Info_Count_BG">#fdf89b</color>
     <color name="v_UserList_TopBar">#faed00</color>
     <color name="v_StrContentList_TopBar">#faed00</color>
+    <color name="v_MyProfile_Edit_TopBar">#faed00</color>
+    <color name="v_NickName_Edit_TopBar">#faed00</color>
+    <color name="v_Story_Edit_TopBar">#faed00</color>
     <color name="at_user_list">#fffee9</color>
     <color name="at_str_content_list">#fffee9</color>
     <color name="at_str_content">#fffee9</color>
+    <color name="at_my_profile_edit_bg">#fffee9</color>
+    <color name="at_nickname_edit_bg">#fffee9</color>
+    <color name="iv_NickName_Edit_Save">#ffe7e7</color>
+    <color name="at_story_edit_bg">#fffee9</color>
+    <color name="iv_Story_Edit_Save">#ffe7e7</color>
+    <color name="at_location_edit_bg">#fffee9</color>
+    <color name="v_Location_Edit_TopBar">#faed00</color>
+    <color name="iv_Location_Edit_Save">#ffe7e7</color>
+    <color name="at_favorite_edit_bg">#fffee9</color>
+    <color name="v_Favorite_Edit_TopBar">#faed00</color>
+
 
 
 

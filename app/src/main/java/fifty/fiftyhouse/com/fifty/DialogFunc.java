@@ -1,7 +1,10 @@
 package fifty.fiftyhouse.com.fifty;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
 import android.view.LayoutInflater;
@@ -47,9 +50,8 @@ public class DialogFunc {
         NoButton =  v.findViewById(R.id.iv_Msg_Popup_Buttons_Cancel);
         NoButtonDesc =  v.findViewById(R.id.tv_Msg_Popup_Buttons_Cancel);
 
-        YesButton.setColorFilter(R.color.iv_Msg_Popup_Buttons_OK);
-        NoButton.setColorFilter(R.color.iv_Msg_Popup_Buttons_Cancel);
-
+        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iv_Msg_Popup_Buttons_OK)));
+        ImageViewCompat.setImageTintList(NoButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iv_Msg_Popup_Buttons_Cancel)));
         Title.setText(title);
         CenterDesc.setText(centerDesc);
 
@@ -103,7 +105,7 @@ public class DialogFunc {
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_signup_complete_popup, null, false);
 
         YesButton = v.findViewById(R.id.iv_SignUp_Com_Popup_Buttons_OK);
-        YesButton.setColorFilter(R.color.iv_Msg_Popup_Buttons_OK);
+        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iv_Msg_Popup_Buttons_OK)));
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

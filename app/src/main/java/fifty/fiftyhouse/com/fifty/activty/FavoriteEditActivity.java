@@ -1,4 +1,4 @@
-package fifty.fiftyhouse.com.fifty.activty.SignUp;
+package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
@@ -23,84 +22,55 @@ import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.adapter.SignUpFavoriteFixAdapter;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.FavoriteDetailActivity;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
+import fifty.fiftyhouse.com.fifty.adapter.FavoriteEditSelectAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.FavoriteEditViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SignUpFavoriteSelectAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SignUpFavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
-public class FavoriteDetailActivity extends AppCompatActivity {
+public class FavoriteEditActivity extends AppCompatActivity{
 
-    RecyclerView rv_SignUp_Favorite_Detail_Select, rv_SignUp_Favorite_Detail_List;
-    EditText et_SignUp_Favorite_Detail_Search;
-    ImageView iv_SignUp_Favorite_Detail_Recom, iv_SignUp_Favorite_Detail_Next;
-
-    SignUpFavoriteSelectAdapter mSelectAdapter;
-    SignUpFavoriteViewAdapter mViewAdapter;
+    ImageView iv_Favorite_Edit_Back, iv_Favorite_Edit_Recom, iv_Favorite_Edit_Save;
+    RecyclerView rv_Favorite_Edit_View_List, rv_Favorite_Edit_Select;
+    FavoriteEditSelectAdapter mSelectAdapter;
+    FavoriteEditViewAdapter mViewAdapter;
     Context mContext;
-
-    ArrayList<String> mSelectFavoriteList = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_detail);
+        setContentView(R.layout.activity_favorite_edit);
         mContext = getApplicationContext();
-        CommonFunc.getInstance().mCurActivity = this;
 
-        rv_SignUp_Favorite_Detail_Select = findViewById(R.id.rv_SignUp_Favorite_Detail_Select);
-        rv_SignUp_Favorite_Detail_List = findViewById(R.id.rv_SignUp_Favorite_Detail_List);
-        et_SignUp_Favorite_Detail_Search = findViewById(R.id.et_SignUp_Favorite_Detail_Search);
-        iv_SignUp_Favorite_Detail_Recom = findViewById(R.id.iv_SignUp_Favorite_Detail_Recom);
-        iv_SignUp_Favorite_Detail_Next = findViewById(R.id.iv_SignUp_Favorite_Detail_Next);
+        iv_Favorite_Edit_Back = findViewById(R.id.iv_Favorite_Edit_Back);
+        iv_Favorite_Edit_Recom = findViewById(R.id.iv_Favorite_Edit_Recom);
+        iv_Favorite_Edit_Save = findViewById(R.id.iv_Favorite_Edit_Save);
+        rv_Favorite_Edit_View_List = findViewById(R.id.rv_Favorite_Edit_View_List);
+        rv_Favorite_Edit_Select = findViewById(R.id.rv_Favorite_Edit_Select);
 
-        ImageViewCompat.setImageTintList(iv_SignUp_Favorite_Detail_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.gray_light)));
-        iv_SignUp_Favorite_Detail_Next.setOnClickListener(new View.OnClickListener() {
+        iv_Favorite_Edit_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
 
-                if(TKManager.MyData.GetUserFavoriteListCount() < 2)
-                {
-                    DialogFunc.getInstance().ShowMsgPopup(FavoriteDetailActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.et_SignUp_Favorite_Detail_REGIST));
-                }
-                else
-                {
-                    Intent intent = new Intent(getApplicationContext(), ProfileImgActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-
-                /*if(mSelectFavoriteList.size() == 0)
-                {
-                    // TODO 관심사 선택 유도 팝업
-                }
-                else
-                {
-                    Intent intent = new Intent(getApplicationContext(), ProfileImgActivity.class);
-                    startActivity(intent);
-                    finish();
-                }*/
+        ImageViewCompat.setImageTintList(iv_Favorite_Edit_Save, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.gray_light)));
+        iv_Favorite_Edit_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
 
             }
         });
 
-        iv_SignUp_Favorite_Detail_Recom.setOnClickListener(new View.OnClickListener() {
+        iv_Favorite_Edit_Recom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO 다른 관심사 추천
-                final String strNickName = et_SignUp_Favorite_Detail_Search.getText().toString();
-                if(TextUtils.isEmpty(strNickName))
-                    {
-
-                }
-                else
-                {
-                    TKManager.getInstance().MyData.SetUserFavorite(strNickName, strNickName);
-                    mSelectAdapter.notifyDataSetChanged();
-                }
             }
         });
 
@@ -111,10 +81,10 @@ public class FavoriteDetailActivity extends AppCompatActivity {
 
     public void RefreshFavoriteSelectList()
     {
-        mSelectAdapter = new SignUpFavoriteSelectAdapter(mContext);
+        mSelectAdapter = new FavoriteEditSelectAdapter(mContext);
         mSelectAdapter.setHasStableIds(true);
 
-        rv_SignUp_Favorite_Detail_Select.setAdapter(mSelectAdapter);
+        rv_Favorite_Edit_Select.setAdapter(mSelectAdapter);
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.CENTER)
                 .setMaxViewsInRow(3)
@@ -128,18 +98,18 @@ public class FavoriteDetailActivity extends AppCompatActivity {
                 .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER_DENSE)
                 .withLastRow(true)
                 .build();
-        rv_SignUp_Favorite_Detail_Select.setLayoutManager(chipsLayoutManager);
+        rv_Favorite_Edit_Select.setLayoutManager(chipsLayoutManager);
 
-        rv_SignUp_Favorite_Detail_Select.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_SignUp_Favorite_Detail_Select, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Favorite_Edit_Select.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_Favorite_Edit_Select, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //startActivity(new Intent(getContext(), UserProfileActivity.class));
-                Set tempKey = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+/*                Set tempKey = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
                 List array = new ArrayList(tempKey);
 
                 String tempFavoriteSelect = TKManager.getInstance().MyData.GetUserFavoriteList(array.get(position).toString());
                 TKManager.getInstance().MyData.DelUserFavoriteList(tempFavoriteSelect);
-                mSelectAdapter.notifyDataSetChanged();
+                mSelectAdapter.notifyDataSetChanged();*/
             }
 
             @Override
@@ -151,10 +121,10 @@ public class FavoriteDetailActivity extends AppCompatActivity {
 
     public void RefreshFavoriteViewList()
     {
-        mViewAdapter = new SignUpFavoriteViewAdapter(mContext);
+        mViewAdapter = new FavoriteEditViewAdapter(mContext);
         mViewAdapter.setHasStableIds(true);
 
-        rv_SignUp_Favorite_Detail_List.setAdapter(mViewAdapter);
+        rv_Favorite_Edit_View_List.setAdapter(mViewAdapter);
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.CENTER)
                 .setMaxViewsInRow(2)
@@ -168,25 +138,25 @@ public class FavoriteDetailActivity extends AppCompatActivity {
                 .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER_DENSE)
                 .withLastRow(true)
                 .build();
-        rv_SignUp_Favorite_Detail_List.setLayoutManager(chipsLayoutManager);
+        rv_Favorite_Edit_View_List.setLayoutManager(chipsLayoutManager);
 
-        rv_SignUp_Favorite_Detail_List.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_SignUp_Favorite_Detail_List, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Favorite_Edit_View_List.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_Favorite_Edit_View_List, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //startActivity(new Intent(getContext(), UserProfileActivity.class));
-                String tempFavoriteSelect = TKManager.getInstance().FavoriteLIst_Pop.get(position);
+/*                String tempFavoriteSelect = TKManager.getInstance().FavoriteLIst_Pop.get(position);
 
                 TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
 
-              /*  if(TKManager.getInstance().MyData.GetUserFavoriteListCount() >= 2)
+              *//*  if(TKManager.getInstance().MyData.GetUserFavoriteListCount() >= 2)
                 {
                     TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
                 }
                 else
                 {
                     TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
-                }*/
-                mSelectAdapter.notifyDataSetChanged();
+                }*//*
+                mSelectAdapter.notifyDataSetChanged();*/
             }
 
             @Override

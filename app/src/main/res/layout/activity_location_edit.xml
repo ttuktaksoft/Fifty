@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.LocationEditActivity"
+    android:background="@color/at_location_edit_bg">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Location_Edit_TopBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/v_Location_Edit_TopBar">
+
+        <ImageView
+            android:id="@+id/iv_Location_Edit_Back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Location_Edit_TopBar"
+            app:layout_constraintTop_toTopOf="@+id/v_Location_Edit_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Location_Edit_TopBar"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_back"
+            />
+
+        <TextView
+            android:id="@+id/tv_Location_Edit_Title"
+            style="@style/BaseTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintRight_toLeftOf="@+id/iv_Location_Edit_Save"
+            app:layout_constraintLeft_toRightOf="@+id/iv_Location_Edit_Back"
+            app:layout_constraintTop_toTopOf="@+id/v_Location_Edit_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Location_Edit_TopBar"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/LOCATION_EDIT"
+            android:textSize="25dp"
+            />
+
+        <ImageView
+            android:id="@+id/iv_Location_Edit_Save"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/v_Location_Edit_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Location_Edit_TopBar"
+            android:src="@drawable/bg_white"
+            android:tint="@color/iv_Location_Edit_Save"
+            android:tintMode="src_atop"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/tv_Location_Edit_Save"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            style="@style/BaseTextView"
+            app:layout_constraintTop_toTopOf="@+id/iv_Location_Edit_Save"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_Location_Edit_Save"
+            app:layout_constraintRight_toRightOf="@+id/iv_Location_Edit_Save"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_Location_Edit_Save"
+            android:textSize="20dp"
+            android:text="@string/tv_Location_Edit_Save"
+            android:gravity="center"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_Location_Edit_Desc"
+        style="@style/BaseTextView"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintRight_toLeftOf="@+id/tv_Location_Edit_Count"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_Location_Edit_TopBar"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:text="@string/LOCATION_EDIT"
+        android:textSize="15dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_Location_Edit_Count"
+        style="@style/BaseTextView"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tv_Location_Edit_Desc"
+        app:layout_constraintTop_toBottomOf="@+id/v_Location_Edit_TopBar"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="15"
+        android:textSize="15dp"
+        />
+
+    <EditText
+        android:id="@+id/et_Location_Edit_Location"
+        style="@style/BaseEditTextView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Location_Edit_Desc"
+        android:hint="@string/et_Store_Edit_NickName"
+        android:inputType="textNoSuggestions"
+        android:cursorVisible="true"
+        android:background="@drawable/border"
+        />
+
+</android.support.constraint.ConstraintLayout>

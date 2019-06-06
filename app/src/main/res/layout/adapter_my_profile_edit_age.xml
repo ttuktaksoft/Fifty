@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_MyProfile_Edit_Age_Menu"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Edit_Age_Menu_Title"
+            style="@style/BaseTextView"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Edit_Age_Menu"
+            app:layout_constraintRight_toLeftOf="@+id/tv_MyProfile_Edit_Age_Menu_Gender"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Age_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Age_Menu"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:text="@string/MY_PROFILE_AGE"
+            android:textSize="20dp"
+            />
+
+        <ImageView
+            android:id="@+id/tv_MyProfile_Edit_Age_Menu_Gender"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintLeft_toRightOf="@+id/tv_MyProfile_Edit_Age_Menu_Title"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Age_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Age_Menu"
+            android:src="@drawable/ic_man_simple"
+            />
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Edit_Age_Menu_Age"
+            style="@style/BaseTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toRightOf="@+id/tv_MyProfile_Edit_Age_Menu_Gender"
+            app:layout_constraintRight_toLeftOf="@+id/tv_MyProfile_Edit_Age_Menu_Arrow"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Age_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Age_Menu"
+            android:layout_marginLeft="5dp"
+            android:gravity="left|center_vertical"
+            android:text="닉네임"
+            android:textSize="15dp"
+            />
+
+        <ImageView
+            android:id="@+id/tv_MyProfile_Edit_Age_Menu_Arrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Edit_Age_Menu"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Age_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Age_Menu"
+            android:layout_marginRight="10dp"
+            android:alpha="0.5"
+            android:scaleX="-1"
+            android:src="@drawable/ic_back"
+            />
+
+        <ImageView
+            android:id="@+id/iv_MyProfile_Edit_Line"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Edit_Age_Menu"
+            app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Edit_Age_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Age_Menu"
+            android:alpha="0.5"
+            android:background="@color/gray_light"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

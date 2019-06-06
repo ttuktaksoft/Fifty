@@ -33,6 +33,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileClubAdapter;
@@ -56,8 +57,8 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
     NestedScrollView ns_MyProfile_Scroll;
     ConstraintLayout v_MyProfile_Info_Detail, v_MyProfile_TopBar;
     ImageView iv_MyProfile_Profile, iv_MyProfile_Info_Gender, iv_MyProfile_Alarm, iv_MyProfile_Shop;
-    TextView tv_MyProfile_Info_Name, tv_MyProfile_Info_Age, tv_MyProfile_Info_Memo, tv_MyProfile_Info_Count_Visit, tv_MyProfile_Info_Count_Like, tv_MyProfile_Info_Count_Friend, tv_MyProfile_Name;
-    RecyclerView rv_MyProfile_Info_Favorite, rv_MyProfile_Info_Photo, rv_MyProfile_Info_Club, rv_MyProfile_Info_Etc;
+    TextView tv_MyProfile_Info_Name, tv_MyProfile_Info_Age, tv_MyProfile_Info_Memo, tv_MyProfile_Info_Count_Visit, tv_MyProfile_Info_Count_Like, tv_MyProfile_Info_Count_Friend, tv_MyProfile_Name, tv_MyProfile_Info_Favorite;
+    RecyclerView rv_MyProfile_Info_Photo, rv_MyProfile_Info_Club, rv_MyProfile_Info_Etc;
 
     Context mContext;
     private View MyProfileFragView;
@@ -116,11 +117,11 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         tv_MyProfile_Info_Count_Like = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Count_Like);
         tv_MyProfile_Info_Count_Friend = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Count_Friend);
         tv_MyProfile_Name = MyProfileFragView.findViewById(R.id.tv_MyProfile_Name);
-        rv_MyProfile_Info_Favorite = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Favorite);
         rv_MyProfile_Info_Photo = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Photo);
         rv_MyProfile_Info_Club = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Club);
         rv_MyProfile_Info_Etc = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Etc);
         v_MyProfile_TopBar = MyProfileFragView.findViewById(R.id.v_MyProfile_TopBar);
+        tv_MyProfile_Info_Favorite = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Favorite);
 
         v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.alpha));
         tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.alpha));
@@ -147,6 +148,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
             @Override
             public void onClick(View view) {
                 // TODO 정보 수정 엑티비티
+                startActivity(new Intent(mContext, MyProfileEditActivity.class));
             }
         });
 
@@ -175,7 +177,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         });
 
 
-        initFavoriteList();
+        //initFavoriteList();
         initPhotoList();
         initClubList();
         initEtcList();
@@ -214,7 +216,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         void onFragmentInteraction(Uri uri);
     }
 
-    public void initFavoriteList()
+    /*public void initFavoriteList()
     {
         mFavoriteAdapter = new MyProfileFavoriteAdapter(mContext);
         mFavoriteAdapter.setHasStableIds(true);
@@ -234,7 +236,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
                 .withLastRow(true)
                 .build();
         rv_MyProfile_Info_Favorite.setLayoutManager(chipsLayoutManager);
-    }
+    }*/
 
     public void initPhotoList()
     {

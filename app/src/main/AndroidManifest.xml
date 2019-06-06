@@ -45,7 +45,12 @@
         <activity android:name=".activty.SignUp.SignUpCompleteActivity" />
         <activity android:name=".activty.UserListActivity" />
         <activity android:name=".activty.StrContentListActivity" />
-        <activity android:name=".activty.StrContentActivity"></activity>
+        <activity android:name=".activty.StrContentActivity" />
+        <activity android:name=".activty.MyProfileEditActivity" />
+        <activity android:name=".activty.NickNameEditActivity" />
+        <activity android:name=".activty.StoryEditActivity" />
+        <activity android:name=".activty.LocationEditActivity" />
+        <activity android:name=".activty.FavoriteEditActivity"></activity>
     </application>
 
 </manifest>
