@@ -50,6 +50,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.activty.LoadingActivity;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.FavoriteDetailActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpCompleteActivity;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.UserData_Loding_Count;
@@ -87,14 +88,31 @@ public class FirebaseManager {
     public interface CheckFirebaseComplete_Yes {
         void CompleteListener_Yes();
     }
+
     public interface CheckFirebaseComplete_No {
         void CompleteListener_No();
+    }
+
+    public int FireBaseLoadingCount = 0;
+
+    public void SetFireBaseLoadingCount(int count)
+    {
+        FireBaseLoadingCount = count;
+    }
+    public void AddFireBaseLoadingCount()
+    {
+        FireBaseLoadingCount++;
+    }
+
+    public int GetFireBaseLoadingCount()
+    {
+        return  FireBaseLoadingCount ;
     }
 
     public void Complete(final FirebaseManager.CheckFirebaseComplete listener)
     {
         UserLoading++;
-        if(UserLoading == UserData_Loding_Count)
+        if(UserLoading == GetFireBaseLoadingCount())
         {
             UserLoading = 0;
             if(listener != null)
@@ -230,6 +248,8 @@ public class FirebaseManager {
         simpleUser.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
         simpleUser.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
         simpleUser.put("Img", TKManager.getInstance().MyData.GetUserImg());
+        simpleUser.put("Age", TKManager.getInstance().MyData.GetUserAge());
+        simpleUser.put("Gender", TKManager.getInstance().MyData.GetUserGender());
 
         mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(simpleUser, SetOptions.merge())
@@ -471,6 +491,8 @@ public class FirebaseManager {
 
     public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener)
     {
+        SetFireBaseLoadingCount(5);
+
         DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -636,13 +658,14 @@ public class FirebaseManager {
     }
 
 
-    public void GetUserList()
+    public void GetUserList(final CheckFirebaseComplete listener)
     {
-        GetUserListDist();
-        GetUserListHot();
-        GetUserListNew();
+        SetFireBaseLoadingCount(0);
+        GetUserListDist(listener);
+        GetUserListHot(listener);
+        GetUserListNew(listener);
     }
-    public void GetUserListDist()
+    public void GetUserListDist(final CheckFirebaseComplete listener)
     {
         CollectionReference colRef = mDataBase.collection("UserList_Dist");
 
@@ -650,11 +673,13 @@ public class FirebaseManager {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
 
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        AddFireBaseLoadingCount();
+                        Log.d(TAG, document.getId() + " => " + document.getData());
                         TKManager.getInstance().UserList_Dist.add(document.getId().toString());
-                        GetUserData_Simple(document.getId());
+                        GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -663,19 +688,21 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserListHot()
+    public void GetUserListHot(final CheckFirebaseComplete listener)
     {
         CollectionReference colRef = mDataBase.collection("UserList_Hot");
 
         colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
 
+                        AddFireBaseLoadingCount();
+                        Log.d(TAG, document.getId() + " => " + document.getData());
                         TKManager.getInstance().UserList_Hot.add(document.getId().toString());
-                        GetUserData_Simple(document.getId());
+                        GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -684,7 +711,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserListNew()
+    public void GetUserListNew(final CheckFirebaseComplete listener)
     {
         CollectionReference colRef = mDataBase.collection("UserList_New");
 
@@ -693,10 +720,11 @@ public class FirebaseManager {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
 
+                        AddFireBaseLoadingCount();
+                        Log.d(TAG, document.getId() + " => " + document.getData());
                         TKManager.getInstance().UserList_New.add(document.getId().toString());
-                        GetUserData_Simple(document.getId());
+                        GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -706,7 +734,7 @@ public class FirebaseManager {
     }
 
 
-    public void GetUserData_Simple(final String userIndex)
+    public void GetUserData_Simple(final String userIndex, final Map<String, UserData> getData, final FirebaseManager.CheckFirebaseComplete listener)
     {
         final DocumentReference docRef = mDataBase.collection("UserData_Simple").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -754,12 +782,29 @@ public class FirebaseManager {
                                 String value = (String)entry.getValue();
                                 tempUser.SetUserImg(key, value);
                             }
-
                         }
 
-                        TKManager.getInstance().UserData_Simple.put(userIndex, tempUser);
+                        if(document.getData().containsKey("Age"))
+                        {
+                            int Age = Integer.parseInt(document.getData().get("Age").toString());
+                            tempUser.SetUserAge(Age);
+                        }
+                        else
+                            tempUser.SetUserAge(50);
 
-                        CommonFunc.getInstance().MoveActivity(CommonFunc.getInstance().mCurActivity, MainActivity.class);
+                        if(document.getData().containsKey("Gender"))
+                        {
+                            int Gender = Integer.parseInt(document.getData().get("Gender").toString());
+                            tempUser.SetUserGender(Gender);
+                        }
+                        else
+                            tempUser.SetUserGender(0);
+
+                        getData.put(userIndex, tempUser);
+
+                        //AddFireBaseLoadingCount();
+                        Complete(listener);
+
                     } else {
                         Log.d(TAG, "No such document");
                     }

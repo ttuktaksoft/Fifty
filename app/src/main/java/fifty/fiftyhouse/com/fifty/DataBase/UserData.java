@@ -207,6 +207,10 @@ public class UserData {
     {
         return FriendList.size();
     }
+    public Set  GetUserFriendListKey()
+    {
+        return FriendList.keySet();
+    }
 
     public void  SetUserTotalLike(double like){ Like_Total = like; }
     public void  AddUserTotalLike(double like){ Like_Total += like; }
@@ -279,14 +283,8 @@ public class UserData {
         return (int)Visit_Total;
     }
 
-    public void SetUserVisitList(String userIdx, String date)
-    {
-        VisitList.put(userIdx, date);
-    }
-    public String  GetUserVisitList(String index)
-    {
-        return VisitList.get(index);
-    }
+    public void SetUserVisitList(String userIdx, String date){ VisitList.put(userIdx, date); }
+    public String  GetUserVisitList(String index){ return VisitList.get(index); }
     public int  GetUserVisitListCount()
     {
         return VisitList.size();

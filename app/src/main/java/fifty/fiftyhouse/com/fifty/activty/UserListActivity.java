@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
@@ -21,14 +23,44 @@ public class UserListActivity extends AppCompatActivity {
     TextView tv_UserList_Title;
     RecyclerView rv_UserList_List;
     UserListAdapter mAdapter;
+
+    CommonData.MyProfileViewType Type;
+    int Count;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
 
+
+
         iv_UserList_Back = findViewById(R.id.iv_UserList_Back);
         tv_UserList_Title = findViewById(R.id.tv_UserList_Title);
         rv_UserList_List = findViewById(R.id.rv_UserList_List);
+
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        int ntype = getIntent().getIntExtra("Type", 0);
+
+        switch (ntype)
+        {
+            case 0:
+                tv_UserList_Title.setText("방문자 목록");
+                Type = CommonData.MyProfileViewType.VISIT;
+                break;
+            case 1:
+                tv_UserList_Title.setText("좋아요 목록");
+                Type = CommonData.MyProfileViewType.LIKE;
+                break;
+            case 2:
+                tv_UserList_Title.setText("친구 목록");
+                Type = CommonData.MyProfileViewType.FRIEND;
+                break;
+
+        }
+        Count  = getIntent().getIntExtra("Count", 0);
+
+
 
         iv_UserList_Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,14 +69,15 @@ public class UserListActivity extends AppCompatActivity {
             }
         });
 
-        initRecyclerView();
+        initRecyclerView(Type, Count);
     }
 
 
-    private void initRecyclerView()
+    private void initRecyclerView(CommonData.MyProfileViewType type , int count)
     {
         mAdapter = new UserListAdapter(getApplicationContext());
         mAdapter.setHasStableIds(true);
+        mAdapter.SetItemCountByType(type, count);
 
         rv_UserList_List.setAdapter(mAdapter);
         rv_UserList_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));

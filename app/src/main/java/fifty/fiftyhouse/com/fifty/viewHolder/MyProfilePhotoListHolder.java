@@ -31,9 +31,21 @@ public class MyProfilePhotoListHolder extends RecyclerView.ViewHolder {
 
     public void setData(int i)
     {
-        // TODO 비어 있을때
-        Glide.with(mContext).load(R.drawable.bg_empty_square)
-                .centerCrop()
-                .into(iv_MyProfile_Photo);
+
+        if(TKManager.getInstance().MyData.GetUserImg(Integer.toString(i)) != null)
+        {
+            // TODO 비어 있을때
+            Glide.with(mContext).load(TKManager.getInstance().MyData.GetUserImg(Integer.toString(i)) )
+                    .centerCrop()
+                    .into(iv_MyProfile_Photo);
+        }
+        else
+        {
+            // TODO 비어 있을때
+            Glide.with(mContext).load(R.drawable.bg_empty_square)
+                    .centerCrop()
+                    .into(iv_MyProfile_Photo);
+        }
+
     }
 }

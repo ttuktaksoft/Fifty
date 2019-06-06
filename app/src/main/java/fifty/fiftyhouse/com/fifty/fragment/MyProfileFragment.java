@@ -25,15 +25,21 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
+import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileClubAdapter;
@@ -156,7 +162,34 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
             @Override
             public void onClick(View view) {
                 // TODO 유저 리스트
-                startActivity(new Intent(mContext, UserListActivity.class));
+
+                Set KeySet = TKManager.getInstance().MyData.GetUserVisitKeySet();
+                Iterator iterator = KeySet.iterator();
+
+                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserVisitListCount());
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(mContext, UserListActivity.class);
+                        intent.putExtra("Type",0);
+                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserVisitListCount());
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                while(iterator.hasNext()){
+                    String key = (String)iterator.next();
+                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().MyData_Simple, listener);
+                }
             }
         });
 
@@ -176,6 +209,8 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
             }
         });
 
+
+        initUserData();
 
         //initFavoriteList();
         initPhotoList();
@@ -237,6 +272,52 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
                 .build();
         rv_MyProfile_Info_Favorite.setLayoutManager(chipsLayoutManager);
     }*/
+
+    public void initUserData()
+    {
+        tv_MyProfile_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
+        tv_MyProfile_Info_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
+
+        Glide.with(mContext).load(TKManager.getInstance().MyData.GetUserImgThumb())
+                .centerCrop()
+                .circleCrop()
+                .into(iv_MyProfile_Profile);
+
+
+        if (TKManager.getInstance().MyData.GetUserGender() == 0) {
+            Glide.with(mContext).load(R.drawable.ic_man_simple)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(iv_MyProfile_Info_Gender);
+        } else {
+            Glide.with(mContext).load(R.drawable.ic_woman_simple)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(iv_MyProfile_Info_Gender);
+        }
+
+        tv_MyProfile_Info_Age.setText(TKManager.getInstance().MyData.GetUserAge() + "세");
+
+        Map<String, String> tempMapFavorite = TKManager.getInstance().MyData.GetUserFavoriteList();
+        Set EntrySet = tempMapFavorite.entrySet();
+        Iterator iterator = EntrySet.iterator();
+
+        ArrayList<String> tempFavorite = new ArrayList<>();
+
+        while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String key = (String)entry.getKey();
+            String value = (String)entry.getValue();
+            tempFavorite.add(value);
+        }
+
+        tv_MyProfile_Info_Favorite.setText(tempFavorite.get(0) + ", " + tempFavorite.get(1));
+
+        tv_MyProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
+
+        tv_MyProfile_Info_Count_Visit.setText("방문자 " + TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
+        tv_MyProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
+        tv_MyProfile_Info_Count_Friend.setText("친구 " + TKManager.getInstance().MyData.GetUserFriendListCount());
+    }
+
 
     public void initPhotoList()
     {

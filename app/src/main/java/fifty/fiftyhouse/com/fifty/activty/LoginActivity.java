@@ -13,6 +13,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpCompleteActivity;
+import fifty.fiftyhouse.com.fifty.viewPager.MainDistanceViewPager;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,7 +33,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // TODO 로그인 처리
                 FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
-                startActivity(new Intent(getApplicationContext(),SignUpActivity.class));
+                //startActivity(new Intent(getApplicationContext(),SignUpActivity.class));
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 finish();
             }
         });

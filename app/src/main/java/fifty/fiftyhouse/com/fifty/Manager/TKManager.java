@@ -25,6 +25,8 @@ public class TKManager {
 
     private static final String TAG = "!!!TKManager";
     public static UserData MyData = new UserData();
+    public Map<String, UserData> MyData_Simple = new HashMap<>();
+
 
     public static UserData TargetUserData = new UserData();
 

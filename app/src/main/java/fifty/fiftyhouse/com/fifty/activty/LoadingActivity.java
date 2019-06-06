@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -13,11 +14,13 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.BirthActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.FavoriteActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.FavoriteDetailActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpCompleteActivity;
 
 public class LoadingActivity extends AppCompatActivity {
 
@@ -42,11 +45,48 @@ public class LoadingActivity extends AppCompatActivity {
 
 
         TKManager.getInstance().MyData.SetUserIndex("1");
+
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+
+                FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserList(Innerlistener);
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+                DialogFunc.getInstance().DismissLoadingPage();
+            }
+        };
+
+        FirebaseManager.getInstance().GetUserData(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData, listener );
         CommonFunc.getInstance().mCurActivity = this;
         //startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+
         /*DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
-        FirebaseManager.getInstance().GetUserList();
+
 
         DialogFunc.getInstance().DismissLoadingPage();*/
     }
