@@ -23,8 +23,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     @Override
     public ChatListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_chat, parent, false);
-
-        view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,CommonFunc.getInstance().getHeightByDevice()/7));
         return new ChatListHolder(view);
     }
 
@@ -34,13 +32,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     public void onBindViewHolder(ChatListHolder holder, final int position) {
         int i = position;
 
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.login_icon)
-                .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .thumbnail(0.1f)
-                .into(holder.imageView);
     }
 
     @Override

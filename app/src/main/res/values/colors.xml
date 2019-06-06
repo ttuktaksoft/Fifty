@@ -64,6 +64,7 @@
     <color name="iv_MyProfile_Info_Count_BG">#fdf89b</color>
     <color name="v_UserList_TopBar">#faed00</color>
     <color name="v_StrContentList_TopBar">#faed00</color>
+    <color name="v_ChatBody_TopBar">#faed00</color>
     <color name="v_MyProfile_Edit_TopBar">#faed00</color>
     <color name="v_NickName_Edit_TopBar">#faed00</color>
     <color name="v_Story_Edit_TopBar">#faed00</color>

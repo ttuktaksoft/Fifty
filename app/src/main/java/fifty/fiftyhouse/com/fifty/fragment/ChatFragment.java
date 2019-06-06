@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class ChatFragment extends Fragment {
         mAdapter.setHasStableIds(true);
 
         ChatRecyclerView.setAdapter(mAdapter);
-        ChatRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ChatRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
 
         ChatRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mContext, ChatRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
