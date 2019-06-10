@@ -5,7 +5,7 @@
     <font
         android:fontStyle="normal"
         app:fontStyle="normal"
-        android:font="@font/kopubdotumbold"
-        app:font="@font/kopubdotumbold" />
+        android:font="@font/kopubdotummid"
+        app:font="@font/kopubdotummid" />
 
 </font-family>

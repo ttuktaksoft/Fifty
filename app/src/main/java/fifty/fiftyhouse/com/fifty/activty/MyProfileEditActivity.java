@@ -107,7 +107,7 @@ public class MyProfileEditActivity extends AppCompatActivity {
                 }
                 else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX)
                 {
-                    startActivity(new Intent(getApplicationContext(), FavoriteEditActivity.class));
+                    startActivity(new Intent(getApplicationContext(), FavoriteSelectActivity.class));
                 }
             }
 

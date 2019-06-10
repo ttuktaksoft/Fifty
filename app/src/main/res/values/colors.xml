@@ -29,16 +29,16 @@
     <color name="str_white">#ffffff</color>
     <color name="str_base">#3b4c3a</color>
     <color name="chat_my_bg">#5cab51</color>
+    <color name="str_title_bg_gray">#eef2ee</color>
 
     <color name="test">#af8ec9</color>
-
-
 
     // 특수한 색상
 
     <color name="main_button_icon_tint">#6AB95F</color>
-    <color name="main_sub_tab_bg">#77cf6b</color>
-    <color name="main_sub_info_bg">#83e276</color>
+    <color name="main_sub_tab_bg">#84df77</color>
+    <color name="main_sub_info_bg">#c9f9c3</color>
+    <color name="main_sub_tab_str">#f7fcf6</color>
     <color name="sign_bg_tint">#84000000</color>
     <color name="popup_title_bg">#6AB95F</color>
     <color name="popup_descc_bg">#f2fcf1</color>
@@ -50,6 +50,8 @@
     <color name="iv_UserProfile_Info_Count_BG">#f2fcf1</color>
     <color name="iv_MyProfile_Info_Memo_BG">#f2fcf1</color>
     <color name="iv_MyProfile_Info_Count_BG">#f2fcf1</color>
+    <color name="black_icon_tint">#f7fcf6</color>
+    <color name="favorite_view_bg_tint">#c9f9c3</color>
 
     <!--
         <color name="v_Main_TopBar">#fff64e</color>
