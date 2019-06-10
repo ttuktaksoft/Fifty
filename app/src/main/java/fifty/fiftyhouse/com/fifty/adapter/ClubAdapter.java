@@ -5,14 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.viewHolder.ClubListHolder;
 
 public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
 
@@ -112,4 +113,16 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
         //return mMyData.arrChatTargetData.size();
     }
 
+}
+
+class ClubListHolder extends RecyclerView.ViewHolder {
+
+    public ImageView iv_Club_Profile;
+    public TextView tv_Club_Name;
+
+    public ClubListHolder(View itemView) {
+        super(itemView);
+        iv_Club_Profile = itemView.findViewById(R.id.iv_Club_Profile);
+        tv_Club_Name = itemView.findViewById(R.id.tv_Club_Name);
+    }
 }
