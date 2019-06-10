@@ -15,12 +15,46 @@
     <color name="gray_light">#e0e0e0</color>
     <color name="alpha">#00000000</color>
 
+    <color name="topbar_bg">#fce44e</color>
+    <color name="bottombar_bg">#fffef9</color>
+    <color name="loading_bg">#fce44e</color>
+    <color name="activity_bg">#fdfcf4</color>
+    <color name="str_color_1">#2d1803</color>
+    <color name="str_color_2">#f0fdef</color>
+    <color name="button_enable">#fadf32</color>
+    <color name="button_disable">#fde968</color>
+    <color name="button_ok">#fce031</color>
+    <color name="button_cancel">#fde967</color>
+    <color name="str_white">#ffffff</color>
+    <color name="str_base">#2d1803</color>
+    <color name="chat_my_bg">#fce44e</color>
+    <color name="chat_my_bg_test">#eff1ee</color>
+
+
+
+    // 특수한 색상
+
+    <color name="main_button_icon_tint">#db603e</color>
+    <color name="main_sub_tab_bg">#ffea67</color>
+    <color name="main_sub_info_bg">#fded88</color>
+    <color name="sign_bg_tint">#84000000</color>
+    <color name="popup_title_bg">#fce44e</color>
+    <color name="popup_descc_bg">#f9e777</color>
+    <color name="iv_SignUp_Birth_Man_Dis">#84000000</color>
+    <color name="iv_SignUp_Birth_Man_Ena">#00ffffff</color>
+    <color name="iv_SignUp_Birth_Woman_Dis">#84000000</color>
+    <color name="iv_SignUp_Birth_Woman_Ena">#00ffffff</color>
+    <color name="iv_UserProfile_Info_Memo_BG">#f2f2f2</color>
+    <color name="iv_UserProfile_Info_Count_BG">#f2f2f2</color>
+    <color name="iv_MyProfile_Info_Memo_BG">#f2f2f2</color>
+    <color name="iv_MyProfile_Info_Count_BG">#f2f2f2</color>
+<!--
     <color name="v_Main_TopBar">#fff64e</color>
     <color name="tl_Main_TopTab">#fdf89b</color>
     <color name="vp_Main_UserList">#fffee9</color>
     <color name="v_Main_Dis_SubInfo">#fffcc8</color>
 
-    <color name="iv_SignUp_BG">#84000000</color>
+
     <color name="at_loading_bg">#f7e317</color>
     <color name="at_login_bg">#f7e317</color>
     <color name="at_sign_bg">#f7e317</color>
@@ -45,10 +79,7 @@
     <color name="tv_SignUp_Birth_Comment">#ffffff</color>
     <color name="tv_SignUp_Birth_Birth">#ffffff</color>
     <color name="tv_SignUp_Birth_Birth_Data">#ffffff</color>
-    <color name="iv_SignUp_Birth_Man_Dis">#84000000</color>
-    <color name="iv_SignUp_Birth_Man_Ena">#00ffffff</color>
-    <color name="iv_SignUp_Birth_Woman_Dis">#84000000</color>
-    <color name="iv_SignUp_Birth_Woman_Ena">#00ffffff</color>
+
     <color name="tv_SignUp_Favorite_Comment">#ffffff</color>
     <color name="tv_SignUp_Favorite_Comment_Desc">#ffffff</color>
     <color name="tv_SignUp_Profile_Comment">#ffffff</color>
@@ -56,12 +87,10 @@
     <color name="v_UserProfile_TopBar">#faed00</color>
     <color name="v_UserProfile_BottomBar">#faed00</color>
     <color name="ns_UserProfile_Scroll">#fffee9</color>
-    <color name="iv_UserProfile_Info_Memo_BG">#fffcc8</color>
-    <color name="iv_UserProfile_Info_Count_BG">#fdf89b</color>
+
     <color name="ns_MyProfile_Scroll">#fffee9</color>
     <color name="v_MyProfile_TopBar">#faed00</color>
-    <color name="iv_MyProfile_Info_Memo_BG">#fffcc8</color>
-    <color name="iv_MyProfile_Info_Count_BG">#fdf89b</color>
+
     <color name="v_UserList_TopBar">#faed00</color>
     <color name="v_StrContentList_TopBar">#faed00</color>
     <color name="v_ChatBody_TopBar">#faed00</color>
@@ -100,5 +129,5 @@
     <color name="main_at_top_bg">#faed00</color>
     <color name="main_at_sub_type_bg">#faed00</color>
     <color name="main_at_sub_info_bg">#faed00</color>
-    <color name="main_at_bottom_tab_bg">#faed00</color>
+    <color name="main_at_bottom_tab_bg">#faed00</color>-->
 </resources>

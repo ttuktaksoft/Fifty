@@ -79,7 +79,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 if (CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 50) {
                     v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
                 } else {
-                    v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.baseColor));
+                    v_UserProfile_TopBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.topbar_bg));
                     tv_UserProfile_Name.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                 }
             }

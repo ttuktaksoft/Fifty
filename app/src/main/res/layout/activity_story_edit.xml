@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activty.StoryEditActivity"
-    android:background="@color/at_story_edit_bg">
+    android:background="@color/activity_bg">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/v_Story_Edit_TopBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/v_Story_Edit_TopBar">
+        android:background="@color/topbar_bg">
 
         <ImageView
             android:id="@+id/iv_Story_Edit_Back"
@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_Story_Edit_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_Story_Edit_TopBar"
             android:src="@drawable/bg_white"
-            android:tint="@color/iv_Story_Edit_Save"
+            android:tint="@color/button_enable"
             android:tintMode="src_atop"
             android:scaleType="fitXY"/>
 

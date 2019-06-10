@@ -39,7 +39,7 @@
                 android:id="@+id/iv_Chat_Body_Msg_BG"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/baseColor"
+                android:background="@color/chat_my_bg"
                 app:layout_constraintTop_toTopOf="@id/tv_Chat_Body_Msg"
                 app:layout_constraintBottom_toBottomOf="@id/tv_Chat_Body_Msg"
                 app:layout_constraintLeft_toLeftOf="@id/tv_Chat_Body_Msg"

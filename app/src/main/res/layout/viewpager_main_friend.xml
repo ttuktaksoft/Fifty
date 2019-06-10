@@ -14,7 +14,7 @@
         android:id="@+id/v_Main_Friend_SubInfo"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/baseColor_3"
+        android:background="@color/main_sub_info_bg"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

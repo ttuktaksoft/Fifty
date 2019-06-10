@@ -5,15 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.MyProfileFragment"
-    android:background="@color/fm_my_profile_bg">
+    tools:context=".fragment.MyProfileFragment">
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/ns_MyProfile_Scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:background="@color/ns_MyProfile_Scroll">
+        android:background="@color/activity_bg">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/v_MyProfile_Info"
@@ -361,7 +360,7 @@
         android:id="@+id/v_MyProfile_TopBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/v_MyProfile_TopBar">
+        android:background="@color/topbar_bg">
 
         <ImageView
             android:id="@+id/iv_MyProfile_Alarm"

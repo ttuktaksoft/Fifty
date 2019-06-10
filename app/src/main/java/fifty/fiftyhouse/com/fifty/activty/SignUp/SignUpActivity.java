@@ -73,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
                         public void CompleteListener_Yes() {
                             DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.SIGN_UP_NICKNAME_CHECK_SUCCESS));
                             mIsCheckNickName = true;
-                            ImageViewCompat.setImageTintList(iv_SignUp_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iv_SignUp_Next)));
+                            ImageViewCompat.setImageTintList(iv_SignUp_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.button_enable)));
                         }
 
                         @Override

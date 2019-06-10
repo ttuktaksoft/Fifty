@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activty.SignUp.BirthActivity"
-    android:background="@color/at_sign_birth_bg">
+    tools:context=".activty.SignUp.BirthActivity">
 
     <ImageView
         android:id="@+id/iv_SignUp_BG"
@@ -13,7 +12,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/dummy_100"
-        android:tint="@color/iv_SignUp_BG"
+        android:tint="@color/sign_bg_tint"
         android:tintMode="src_over"/>
 
     <ImageView
@@ -40,7 +39,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/tv_SignUp_Birth_Comment"
-            android:textColor="@color/tv_SignUp_Birth_Comment"
+            android:textColor="@color/str_white"
             android:textSize="30dp"/>
 
         <TextView
@@ -53,7 +52,7 @@
             app:layout_constraintRight_toLeftOf="@+id/tv_SignUp_Birth_Birth_Data"
             app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Birth_Comment"
             android:text="@string/tv_SignUp_Birth_Birth"
-            android:textColor="@color/tv_SignUp_Birth_Birth"
+            android:textColor="@color/str_white"
             android:textSize="20dp"/>
 
         <TextView
@@ -66,7 +65,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Birth_Comment"
             android:textSize="30dp"
-            android:textColor="@color/tv_SignUp_Birth_Birth_Data"
+            android:textColor="@color/str_white"
             />
 
         <ImageView
@@ -104,7 +103,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_SignUp_Birth_Man"
             android:src="@drawable/bg_white"
-            android:tint="@color/iv_SignUp_Birth_Next"
+            android:tint="@color/button_enable"
             android:tintMode="src_atop"
             android:scaleType="fitXY"
             android:gravity="center" />

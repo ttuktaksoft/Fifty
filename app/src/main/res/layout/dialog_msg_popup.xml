@@ -10,7 +10,7 @@
         android:layout_height="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:background="@color/iv_Msg_Popup_TitleBG"/>
+        android:background="@color/popup_title_bg"/>
 
     <TextView
         android:id="@+id/tv_Msg_Popup_Title"
@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_Msg_Popup_Desc"
         app:layout_constraintRight_toRightOf="@id/iv_Msg_Popup_TitleBG"
         app:layout_constraintLeft_toLeftOf="@id/iv_Msg_Popup_TitleBG"
-        android:background="@color/iv_Msg_Popup_DescBG"/>
+        android:background="@color/popup_descc_bg"/>
 
     <TextView
         android:id="@+id/tv_Msg_Popup_Desc"

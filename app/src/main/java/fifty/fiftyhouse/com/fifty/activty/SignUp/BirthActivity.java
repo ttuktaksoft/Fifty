@@ -58,7 +58,7 @@ public class BirthActivity extends AppCompatActivity {
                 ImageViewCompat.setImageTintMode(iv_SignUp_Birth_Man, PorterDuff.Mode.SRC_ATOP);
                 ImageViewCompat.setImageTintList(iv_SignUp_Birth_Woman, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iv_SignUp_Birth_Woman_Dis)));
                 ImageViewCompat.setImageTintMode(iv_SignUp_Birth_Woman, PorterDuff.Mode.SRC_ATOP);
-                ImageViewCompat.setImageTintList(iv_SignUp_Birth_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iv_SignUp_Birth_Next)));
+                ImageViewCompat.setImageTintList(iv_SignUp_Birth_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.button_enable)));
                 TKManager.getInstance().MyData.SetUserGender(0);
             }
         });
@@ -71,7 +71,7 @@ public class BirthActivity extends AppCompatActivity {
                 ImageViewCompat.setImageTintMode(iv_SignUp_Birth_Man, PorterDuff.Mode.SRC_ATOP);
                 ImageViewCompat.setImageTintList(iv_SignUp_Birth_Woman, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iv_SignUp_Birth_Woman_Ena)));
                 ImageViewCompat.setImageTintMode(iv_SignUp_Birth_Woman, PorterDuff.Mode.SRC_ATOP);
-                ImageViewCompat.setImageTintList(iv_SignUp_Birth_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iv_SignUp_Birth_Next)));
+                ImageViewCompat.setImageTintList(iv_SignUp_Birth_Next, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.button_enable)));
 
                 TKManager.getInstance().MyData.SetUserGender(1);
             }

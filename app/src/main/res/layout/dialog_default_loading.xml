@@ -3,14 +3,14 @@
     android:id="@+id/loading_frame_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/baseColor">
+    android:background="@color/activity_bg">
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="vertical"
-        android:textColor="@color/baseColor">
+        android:textColor="@color/activity_bg">
 
         <ImageView
             android:id="@+id/iv_loading_logo"
@@ -23,7 +23,7 @@
             android:layout_marginTop="16dp"
             android:textSize="25dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/baseColor"/>
+            android:textColor="@color/activity_bg"/>
 
 
     </LinearLayout>
