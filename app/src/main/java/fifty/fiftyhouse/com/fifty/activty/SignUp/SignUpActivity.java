@@ -33,7 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        /*imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         iv_SignUp_BG = findViewById(R.id.iv_SignUp_BG);
         et_SignUp_NickName = findViewById(R.id.et_SignUp_NickName);
@@ -106,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
                     startActivity(intent);
             }
             }
-        });
+        });*/
     }
 
 

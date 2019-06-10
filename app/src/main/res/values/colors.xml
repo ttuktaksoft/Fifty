@@ -14,106 +14,105 @@
     <color name="chatcontent">#9e9e9e</color>
     <color name="gray_light">#e0e0e0</color>
     <color name="alpha">#00000000</color>
+    <color name="gray_light_2">#e7ede6</color>
 
-    <color name="topbar_bg">#fce44e</color>
-    <color name="bottombar_bg">#fffef9</color>
-    <color name="loading_bg">#fce44e</color>
-    <color name="activity_bg">#fdfcf4</color>
-    <color name="str_color_1">#2d1803</color>
+    <color name="topbar_bg">#6AB95F</color>
+    <color name="bottombar_bg">#f2fcf1</color>
+    <color name="loading_bg">#6AB95F</color>
+    <color name="activity_bg">#f6fcf5</color>
+    <color name="str_color_1">#3b4c3a</color>
     <color name="str_color_2">#f0fdef</color>
-    <color name="button_enable">#fadf32</color>
-    <color name="button_disable">#fde968</color>
-    <color name="button_ok">#fce031</color>
-    <color name="button_cancel">#fde967</color>
+    <color name="button_enable">#76cc6a</color>
+    <color name="button_disable">#3a6434</color>
+    <color name="button_ok">#76cc6a</color>
+    <color name="button_cancel">#3a6434</color>
     <color name="str_white">#ffffff</color>
-    <color name="str_base">#2d1803</color>
-    <color name="chat_my_bg">#fce44e</color>
-    <color name="chat_my_bg_test">#eff1ee</color>
+    <color name="str_base">#3b4c3a</color>
+    <color name="chat_my_bg">#5cab51</color>
+
+    <color name="test">#af8ec9</color>
 
 
 
     // 특수한 색상
 
-    <color name="main_button_icon_tint">#db603e</color>
-    <color name="main_sub_tab_bg">#ffea67</color>
-    <color name="main_sub_info_bg">#fded88</color>
+    <color name="main_button_icon_tint">#6AB95F</color>
+    <color name="main_sub_tab_bg">#77cf6b</color>
+    <color name="main_sub_info_bg">#83e276</color>
     <color name="sign_bg_tint">#84000000</color>
-    <color name="popup_title_bg">#fce44e</color>
-    <color name="popup_descc_bg">#f9e777</color>
+    <color name="popup_title_bg">#6AB95F</color>
+    <color name="popup_descc_bg">#f2fcf1</color>
     <color name="iv_SignUp_Birth_Man_Dis">#84000000</color>
     <color name="iv_SignUp_Birth_Man_Ena">#00ffffff</color>
     <color name="iv_SignUp_Birth_Woman_Dis">#84000000</color>
     <color name="iv_SignUp_Birth_Woman_Ena">#00ffffff</color>
-    <color name="iv_UserProfile_Info_Memo_BG">#f2f2f2</color>
-    <color name="iv_UserProfile_Info_Count_BG">#f2f2f2</color>
-    <color name="iv_MyProfile_Info_Memo_BG">#f2f2f2</color>
-    <color name="iv_MyProfile_Info_Count_BG">#f2f2f2</color>
-<!--
-    <color name="v_Main_TopBar">#fff64e</color>
-    <color name="tl_Main_TopTab">#fdf89b</color>
-    <color name="vp_Main_UserList">#fffee9</color>
-    <color name="v_Main_Dis_SubInfo">#fffcc8</color>
+    <color name="iv_UserProfile_Info_Memo_BG">#f2fcf1</color>
+    <color name="iv_UserProfile_Info_Count_BG">#f2fcf1</color>
+    <color name="iv_MyProfile_Info_Memo_BG">#f2fcf1</color>
+    <color name="iv_MyProfile_Info_Count_BG">#f2fcf1</color>
+
+    <!--
+        <color name="v_Main_TopBar">#fff64e</color>
+        <color name="tl_Main_TopTab">#fdf89b</color>
+        <color name="vp_Main_UserList">#fffee9</color>
+        <color name="v_Main_Dis_SubInfo">#fffcc8</color>
 
 
-    <color name="at_loading_bg">#f7e317</color>
-    <color name="at_login_bg">#f7e317</color>
-    <color name="at_sign_bg">#f7e317</color>
-    <color name="at_sign_birth_bg">#f7e317</color>
-    <color name="at_sign_favorite_bg">#f7e317</color>
-    <color name="at_sign_favorite_selet_bg">#f7e317</color>
-    <color name="at_sign_profile_bg">#f7e317</color>
-    <color name="at_user_profile_bg">#fffee9</color>
-    <color name="fm_my_profile_bg">#fffee9</color>
-    <color name="iv_SignUp_CheckNickName">#ffe7e7</color>
-    <color name="iv_SignUp_Next">#ffe7e7</color>
-    <color name="iv_SignUp_Birth_Next">#ffe7e7</color>
-    <color name="iv_SignUp_Favorite_Detail_Next">#ffe7e7</color>
-    <color name="iv_SignUp_Favorite_Next">#ffe7e7</color>
-    <color name="iv_SignUp_Profile_Next">#ffe7e7</color>
-    <color name="iv_Msg_Popup_TitleBG">#f7e317</color>
-    <color name="iv_Msg_Popup_DescBG">#fffee9</color>
-    <color name="iv_Msg_Popup_Buttons_OK">#b3f1ff</color>
-    <color name="iv_Msg_Popup_Buttons_Cancel">#ffc6c9</color>
-    <color name="tv_SignUp_Comment">#ffffff</color>
-    <color name="tv_SignUp_Comment_Desc">#ffffff</color>
-    <color name="tv_SignUp_Birth_Comment">#ffffff</color>
-    <color name="tv_SignUp_Birth_Birth">#ffffff</color>
-    <color name="tv_SignUp_Birth_Birth_Data">#ffffff</color>
+        <color name="at_loading_bg">#f7e317</color>
+        <color name="at_login_bg">#f7e317</color>
+        <color name="at_sign_bg">#f7e317</color>
+        <color name="at_sign_birth_bg">#f7e317</color>
+        <color name="at_sign_favorite_bg">#f7e317</color>
+        <color name="at_sign_favorite_selet_bg">#f7e317</color>
+        <color name="at_sign_profile_bg">#f7e317</color>
+        <color name="at_user_profile_bg">#fffee9</color>
+        <color name="fm_my_profile_bg">#fffee9</color>
+        <color name="iv_SignUp_CheckNickName">#ffe7e7</color>
+        <color name="iv_SignUp_Next">#ffe7e7</color>
+        <color name="iv_SignUp_Birth_Next">#ffe7e7</color>
+        <color name="iv_SignUp_Favorite_Detail_Next">#ffe7e7</color>
+        <color name="iv_SignUp_Favorite_Next">#ffe7e7</color>
+        <color name="iv_SignUp_Profile_Next">#ffe7e7</color>
+        <color name="iv_Msg_Popup_TitleBG">#f7e317</color>
+        <color name="iv_Msg_Popup_DescBG">#fffee9</color>
+        <color name="iv_Msg_Popup_Buttons_OK">#b3f1ff</color>
+        <color name="iv_Msg_Popup_Buttons_Cancel">#ffc6c9</color>
+        <color name="tv_SignUp_Comment">#ffffff</color>
+        <color name="tv_SignUp_Comment_Desc">#ffffff</color>
+        <color name="tv_SignUp_Birth_Comment">#ffffff</color>
+        <color name="tv_SignUp_Birth_Birth">#ffffff</color>
+        <color name="tv_SignUp_Birth_Birth_Data">#ffffff</color>
 
-    <color name="tv_SignUp_Favorite_Comment">#ffffff</color>
-    <color name="tv_SignUp_Favorite_Comment_Desc">#ffffff</color>
-    <color name="tv_SignUp_Profile_Comment">#ffffff</color>
-    <color name="tv_SignUp_Profile_Comment_Desc">#ffffff</color>
-    <color name="v_UserProfile_TopBar">#faed00</color>
-    <color name="v_UserProfile_BottomBar">#faed00</color>
-    <color name="ns_UserProfile_Scroll">#fffee9</color>
+        <color name="tv_SignUp_Favorite_Comment">#ffffff</color>
+        <color name="tv_SignUp_Favorite_Comment_Desc">#ffffff</color>
+        <color name="tv_SignUp_Profile_Comment">#ffffff</color>
+        <color name="tv_SignUp_Profile_Comment_Desc">#ffffff</color>
+        <color name="v_UserProfile_TopBar">#faed00</color>
+        <color name="v_UserProfile_BottomBar">#faed00</color>
+        <color name="ns_UserProfile_Scroll">#fffee9</color>
 
-    <color name="ns_MyProfile_Scroll">#fffee9</color>
-    <color name="v_MyProfile_TopBar">#faed00</color>
+        <color name="ns_MyProfile_Scroll">#fffee9</color>
+        <color name="v_MyProfile_TopBar">#faed00</color>
 
-    <color name="v_UserList_TopBar">#faed00</color>
-    <color name="v_StrContentList_TopBar">#faed00</color>
-    <color name="v_ChatBody_TopBar">#faed00</color>
-    <color name="v_MyProfile_Edit_TopBar">#faed00</color>
-    <color name="v_NickName_Edit_TopBar">#faed00</color>
-    <color name="v_Story_Edit_TopBar">#faed00</color>
-    <color name="at_user_list">#fffee9</color>
-    <color name="at_str_content_list">#fffee9</color>
-    <color name="at_str_content">#fffee9</color>
-    <color name="at_my_profile_edit_bg">#fffee9</color>
-    <color name="at_nickname_edit_bg">#fffee9</color>
-    <color name="iv_NickName_Edit_Save">#ffe7e7</color>
-    <color name="at_story_edit_bg">#fffee9</color>
-    <color name="iv_Story_Edit_Save">#ffe7e7</color>
-    <color name="at_location_edit_bg">#fffee9</color>
-    <color name="v_Location_Edit_TopBar">#faed00</color>
-    <color name="iv_Location_Edit_Save">#ffe7e7</color>
-    <color name="at_favorite_edit_bg">#fffee9</color>
-    <color name="v_Favorite_Edit_TopBar">#faed00</color>
-
-
-
-
+        <color name="v_UserList_TopBar">#faed00</color>
+        <color name="v_StrContentList_TopBar">#faed00</color>
+        <color name="v_ChatBody_TopBar">#faed00</color>
+        <color name="v_MyProfile_Edit_TopBar">#faed00</color>
+        <color name="v_NickName_Edit_TopBar">#faed00</color>
+        <color name="v_Story_Edit_TopBar">#faed00</color>
+        <color name="at_user_list">#fffee9</color>
+        <color name="at_str_content_list">#fffee9</color>
+        <color name="at_str_content">#fffee9</color>
+        <color name="at_my_profile_edit_bg">#fffee9</color>
+        <color name="at_nickname_edit_bg">#fffee9</color>
+        <color name="iv_NickName_Edit_Save">#ffe7e7</color>
+        <color name="at_story_edit_bg">#fffee9</color>
+        <color name="iv_Story_Edit_Save">#ffe7e7</color>
+        <color name="at_location_edit_bg">#fffee9</color>
+        <color name="v_Location_Edit_TopBar">#faed00</color>
+        <color name="iv_Location_Edit_Save">#ffe7e7</color>
+        <color name="at_favorite_edit_bg">#fffee9</color>
+        <color name="v_Favorite_Edit_TopBar">#faed00</color>
 
 
 
@@ -125,9 +124,13 @@
 
 
 
-    <color name="tool_bar_bg">#faed00</color>
-    <color name="main_at_top_bg">#faed00</color>
-    <color name="main_at_sub_type_bg">#faed00</color>
-    <color name="main_at_sub_info_bg">#faed00</color>
-    <color name="main_at_bottom_tab_bg">#faed00</color>-->
+
+
+
+
+        <color name="tool_bar_bg">#faed00</color>
+        <color name="main_at_top_bg">#faed00</color>
+        <color name="main_at_sub_type_bg">#faed00</color>
+        <color name="main_at_sub_info_bg">#faed00</color>
+        <color name="main_at_bottom_tab_bg">#faed00</color>-->
 </resources>

@@ -67,6 +67,7 @@
     <string name="STORE_EDIT">자기소개 수정</string>
     <string name="LOCATION_EDIT">지역 수정</string>
     <string name="FAVORITE_EDIT">관심사 수정</string>
+    <string name="FAVORITE_SELECT">관심사 선택</string>
 
 
     <string name="bt_SignUp_Next">다음</string>
