@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activty.SignUp.FavoriteActivity"
-    android:background="@color/at_sign_favorite_bg">
+    tools:context=".activty.SignUp.FavoriteActivity">
 
     <ImageView
         android:id="@+id/iv_SignUp_BG"
@@ -13,7 +12,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/dummy_100"
-        android:tint="@color/iv_SignUp_BG"
+        android:tint="@color/sign_bg_tint"
         android:tintMode="src_over"/>
 
     <ImageView
@@ -40,7 +39,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/tv_SignUp_Favorite_Comment"
-            android:textColor="@color/tv_SignUp_Favorite_Comment"
+            android:textColor="@color/str_white"
             android:textSize="30dp"/>
 
         <TextView
@@ -54,7 +53,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Favorite_Comment"
             android:text="@string/tv_SignUp_Favorite_Comment_Desc"
             android:textAlignment="center"
-            android:textColor="@color/tv_SignUp_Favorite_Comment_Desc"
+            android:textColor="@color/str_white"
             android:textSize="15dp"/>
 
 
@@ -79,7 +78,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_SignUp_Favorite_Fix"
             android:src="@drawable/bg_white"
-            android:tint="@color/iv_SignUp_Favorite_Next"
+            android:tint="@color/button_enable"
             android:tintMode="src_atop"
             android:scaleType="fitXY"
             android:gravity="center"/>

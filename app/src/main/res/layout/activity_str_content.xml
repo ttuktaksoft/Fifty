@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activty.StrContentActivity"
-    android:background="@color/at_str_content">
+    android:background="@color/activity_bg">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/v_StrContent_TopBar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/v_StrContentList_TopBar">
+        android:background="@color/topbar_bg">
 
         <ImageView
             android:id="@+id/iv_StrContent_Back"

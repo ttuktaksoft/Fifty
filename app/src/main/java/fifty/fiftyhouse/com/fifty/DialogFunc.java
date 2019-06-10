@@ -50,8 +50,8 @@ public class DialogFunc {
         NoButton =  v.findViewById(R.id.iv_Msg_Popup_Buttons_Cancel);
         NoButtonDesc =  v.findViewById(R.id.tv_Msg_Popup_Buttons_Cancel);
 
-        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iv_Msg_Popup_Buttons_OK)));
-        ImageViewCompat.setImageTintList(NoButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iv_Msg_Popup_Buttons_Cancel)));
+        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.button_ok)));
+        ImageViewCompat.setImageTintList(NoButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.button_cancel)));
         Title.setText(title);
         CenterDesc.setText(centerDesc);
 
@@ -105,7 +105,7 @@ public class DialogFunc {
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_signup_complete_popup, null, false);
 
         YesButton = v.findViewById(R.id.iv_SignUp_Com_Popup_Buttons_OK);
-        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.iv_Msg_Popup_Buttons_OK)));
+        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.button_ok)));
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

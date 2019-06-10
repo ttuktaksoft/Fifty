@@ -70,7 +70,7 @@ public class ClubActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.baseColor));
+                    v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.topbar_bg));
                     v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                 }
             }

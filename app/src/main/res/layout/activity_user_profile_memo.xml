@@ -11,7 +11,7 @@
         android:id="@+id/cl_UserProfileMemo_Top"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/baseColor">
+        android:background="@color/topbar_bg">
 
         <Button
             android:id="@+id/bt_UserProfile_Back"

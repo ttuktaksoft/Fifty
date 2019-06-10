@@ -11,7 +11,7 @@
         android:id="@+id/v_Club_ToolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/baseColor"
+        android:background="@color/topbar_bg"
         android:elevation="1dp"
         app:title="asdfasdf" />
 
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        android:background="@color/baseColor_4">
+        android:background="@color/activity_bg">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

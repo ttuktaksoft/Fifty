@@ -144,7 +144,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
                 }
                 else
                 {
-                    v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.baseColor));
+                    v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.topbar_bg));
                     tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
                 }
             }

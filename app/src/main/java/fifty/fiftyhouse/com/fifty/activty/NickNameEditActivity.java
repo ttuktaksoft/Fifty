@@ -77,7 +77,7 @@ public class NickNameEditActivity extends AppCompatActivity {
                         public void CompleteListener_Yes() {
                             DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EDIT_CHECK_SUCCESS));
                             mIsNickNameCheck = true;
-                            ImageViewCompat.setImageTintList(iv_NickName_Edit_Save, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.iv_NickName_Edit_Save)));
+                            ImageViewCompat.setImageTintList(iv_NickName_Edit_Save, ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.button_enable)));
                         }
 
                         @Override
