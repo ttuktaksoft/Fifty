@@ -178,7 +178,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
 
                 while(iterator.hasNext()){
                     String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().MyData_Simple, listener);
+                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                 }
             }
         });
@@ -212,7 +212,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
 
                 while(iterator.hasNext()){
                     String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().MyData_Simple, listener);
+                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                 }
             }
         });
@@ -247,7 +247,7 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
 
                 while(iterator.hasNext()){
                     String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().MyData_Simple, listener);
+                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                 }
             }
         });

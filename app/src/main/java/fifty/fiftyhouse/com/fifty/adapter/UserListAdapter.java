@@ -133,11 +133,11 @@ class UserListListHolder extends RecyclerView.ViewHolder {
 
         array = new ArrayList(tempKey);
 
-        UserNickName = TKManager.getInstance().MyData_Simple.get(array.get(position).toString()).GetUserNickName();
-        UserImgThumb = TKManager.getInstance().MyData_Simple.get(array.get(position).toString()).GetUserImgThumb();
+        UserNickName = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserNickName();
+        UserImgThumb = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserImgThumb();
 
-        UserAge = TKManager.getInstance().MyData_Simple.get(array.get(position).toString()).GetUserAge();
-        UserGender = TKManager.getInstance().MyData_Simple.get(array.get(position).toString()).GetUserGender();
+        UserAge = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserAge();
+        UserGender = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserGender();
 
 
     }

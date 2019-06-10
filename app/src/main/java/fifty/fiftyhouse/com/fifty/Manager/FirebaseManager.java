@@ -709,10 +709,14 @@ public class FirebaseManager {
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        AddFireBaseLoadingCount();
-                        Log.d(TAG, document.getId() + " => " + document.getData());
                         TKManager.getInstance().UserList_Dist.add(document.getId().toString());
-                        GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+
+                        if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                        {
+                            AddFireBaseLoadingCount();
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                        }
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -731,10 +735,14 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        AddFireBaseLoadingCount();
-                        Log.d(TAG, document.getId() + " => " + document.getData());
                         TKManager.getInstance().UserList_Hot.add(document.getId().toString());
-                        GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+
+                        if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                        {
+                            AddFireBaseLoadingCount();
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                        }
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -752,10 +760,13 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        AddFireBaseLoadingCount();
-                        Log.d(TAG, document.getId() + " => " + document.getData());
                         TKManager.getInstance().UserList_New.add(document.getId().toString());
-                        GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                        if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                        {
+                            AddFireBaseLoadingCount();
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                        }
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());

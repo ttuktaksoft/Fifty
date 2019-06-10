@@ -114,7 +114,7 @@ public class UserListActivity extends AppCompatActivity {
                 }
 
                 array = new ArrayList(tempKey);
-                tempUserIndex = TKManager.getInstance().MyData_Simple.get(array.get(position).toString()).GetUserIndex();
+                tempUserIndex = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserIndex();
 
                 DialogFunc.getInstance().ShowLoadingPage(UserListActivity.this);
 
