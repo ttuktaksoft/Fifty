@@ -71,8 +71,7 @@ public class FirebaseManager {
 
 
     public static FirebaseManager getInstance() {
-        if (_Instance == null)
-        {
+        if (_Instance == null) {
             _Instance = new FirebaseManager();
             Init();
         }
@@ -81,7 +80,9 @@ public class FirebaseManager {
 
     public interface CheckFirebaseComplete {
         void CompleteListener();
+
         void CompleteListener_Yes();
+
         void CompleteListener_No();
     }
 
@@ -95,72 +96,61 @@ public class FirebaseManager {
 
     public int FireBaseLoadingCount = 0;
 
-    public void SetFireBaseLoadingCount(int count)
-    {
+    public void SetFireBaseLoadingCount(int count) {
         FireBaseLoadingCount = count;
     }
-    public void AddFireBaseLoadingCount()
-    {
+
+    public void AddFireBaseLoadingCount() {
         FireBaseLoadingCount++;
     }
 
-    public int GetFireBaseLoadingCount()
-    {
-        return  FireBaseLoadingCount ;
+    public int GetFireBaseLoadingCount() {
+        return FireBaseLoadingCount;
     }
 
-    public void Complete(final FirebaseManager.CheckFirebaseComplete listener)
-    {
+    public void Complete(final FirebaseManager.CheckFirebaseComplete listener) {
         UserLoading++;
-        if(UserLoading == GetFireBaseLoadingCount())
-        {
+        if (UserLoading == GetFireBaseLoadingCount()) {
             UserLoading = 0;
-            if(listener != null)
+            if (listener != null)
                 listener.CompleteListener();
         }
     }
 
-    private static void Init()
-    {
+    private static void Init() {
         GetFireBaseAuth();
         GetFireStore();
         GetFireStorage();
     }
 
-    public static FirebaseAuth GetFireBaseAuth()
-    {
+    public static FirebaseAuth GetFireBaseAuth() {
         mAuth = FirebaseAuth.getInstance();
         return mAuth;
     }
 
-    public static FirebaseFirestore GetFireStore()
-    {
+    public static FirebaseFirestore GetFireStore() {
         mDataBase = FirebaseFirestore.getInstance();
         return mDataBase;
     }
 
-    public static FirebaseStorage GetFireStorage()
-    {
+    public static FirebaseStorage GetFireStorage() {
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReference();
         return mStorage;
     }
 
 
-
-    public FirebaseUser GetCurUser()
-    {
-        if(mAuth == null)
+    public FirebaseUser GetCurUser() {
+        if (mAuth == null)
             GetFireBaseAuth();
 
         // Check if user is signed in (non-null) and update UI accordingly.
         currentUser = mAuth.getCurrentUser();
-        return  currentUser;
+        return currentUser;
     }
 
-    public void SignInAnonymously(final Activity activity)
-    {
-        if(mAuth == null)
+    public void SignInAnonymously(final Activity activity) {
+        if (mAuth == null)
             GetFireBaseAuth();
 
         mAuth.signInAnonymously()
@@ -185,20 +175,19 @@ public class FirebaseManager {
     }
 
 
-    public void SetMyDataOnFireBase(final FirebaseManager.CheckFirebaseComplete listener)
-    {
-        if(mDataBase == null)
+    public void SetMyDataOnFireBase(final FirebaseManager.CheckFirebaseComplete listener) {
+        if (mDataBase == null)
             GetFireStore();
 
 
         Map<String, String> tempFavoriteData = TKManager.getInstance().MyData.GetUserFavoriteList();
         Set set = tempFavoriteData.entrySet();
         Iterator iterator = set.iterator();
-        while(iterator.hasNext()){
-            Map.Entry entry = (Map.Entry)iterator.next();
-            String key = (String)entry.getKey();
-            String value = (String)entry.getValue();
-            SetUserFavoriteOnFireBase(value,TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserNickName() );
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
+            SetUserFavoriteOnFireBase(value, TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserNickName());
         }
 
         Map<String, Object> user = new HashMap<>();
@@ -228,7 +217,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        if(listener != null)
+                        if (listener != null)
                             listener.CompleteListener();
                     }
                 })
@@ -236,7 +225,7 @@ public class FirebaseManager {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
-                        if(listener != null)
+                        if (listener != null)
                             listener.CompleteListener_No();
                     }
                 });
@@ -303,7 +292,7 @@ public class FirebaseManager {
 
         Map<String, Object> New = new HashMap<>();
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
-        New.put("value",TodayDate);
+        New.put("value", TodayDate);
         mDataBase.collection("UserList_New").document(TKManager.getInstance().MyData.GetUserIndex()).set(Dist, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -319,12 +308,10 @@ public class FirebaseManager {
                 });
 
 
-
     }
 
-    public void SetUserDataOnFireBase(CommonData.CollentionType collectType, String documentName, String key, Object obj)
-    {
-        if(mDataBase == null)
+    public void SetUserDataOnFireBase(CommonData.CollentionType collectType, String documentName, String key, Object obj) {
+        if (mDataBase == null)
             GetFireStore();
 
         Map<String, Object> user = new HashMap<>();
@@ -346,8 +333,7 @@ public class FirebaseManager {
                 });
     }
 
-    public void GetUserIndex(final CheckFirebaseComplete listener)
-    {
+    public void GetUserIndex(final CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("UserData_Count").document("Count");
 
 
@@ -366,8 +352,7 @@ public class FirebaseManager {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Transaction success!");
-                if(listener != null)
-                {
+                if (listener != null) {
                     listener.CompleteListener();
                 }
 
@@ -381,8 +366,7 @@ public class FirebaseManager {
                 });
     }
 
-    public void GetMyData(String userIndex)
-    {
+    public void GetMyData(String userIndex) {
         DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -393,8 +377,8 @@ public class FirebaseManager {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
 
-                            TKManager.getInstance().MyData.SetUserNickName(document.getData().get("NickName").toString());
-                            Log.d(TAG, "DocumentSnapshot NickName: " + document.getData().get("NickName").toString());
+                        TKManager.getInstance().MyData.SetUserNickName(document.getData().get("NickName").toString());
+                        Log.d(TAG, "DocumentSnapshot NickName: " + document.getData().get("NickName").toString());
 
 
                     } else {
@@ -407,8 +391,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserFavoriteList(String userIndex, final UserData userData, final CheckFirebaseComplete listener)
-    {
+    public void GetUserFavoriteList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("FavoriteList");
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
@@ -422,7 +405,7 @@ public class FirebaseManager {
                         userData.SetUserFavorite(document.getData().get("Name").toString(), document.getData().get("Name").toString());
                     }
 
-                    if(listener != null)
+                    if (listener != null)
                         listener.CompleteListener();
 
                 } else {
@@ -432,12 +415,46 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserFriendList(String userIndex, final UserData userData, final CheckFirebaseComplete listener)
-    {
+    public void GetUserChatList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
+        CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList");
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        String tempRoomName = document.getId().toString();
+                        int idx = tempRoomName.indexOf("_");
+                        String tempFrom = tempRoomName.substring(0, idx);
+                        String tempTo = tempRoomName.substring(idx+1);
+
+                        if(tempFrom.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                        {
+                            userData.SetUserChatList(tempRoomName, tempTo);
+                        }
+                        else
+                        {
+                            userData.SetUserChatList(tempRoomName, tempFrom);
+                        }
+                    }
+
+                    if (listener != null)
+                        listener.CompleteListener();
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetUserFriendList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("FriendUsers");
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
-        colRef.limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -446,7 +463,7 @@ public class FirebaseManager {
                         userData.SetUserFriend(document.getData().get("Index").toString(), document.getData().get("Index").toString());
                     }
 
-                    if(listener != null)
+                    if (listener != null)
                         listener.CompleteListener();
 
                 } else {
@@ -456,8 +473,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserLikeList(String userIndex, final UserData userData, final CheckFirebaseComplete listener)
-    {
+    public void GetUserLikeList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("LikeUsers");
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
@@ -472,15 +488,14 @@ public class FirebaseManager {
 
                         userData.SetUserLikeList(document.getData().get("Index").toString(), document.getData().get("Date").toString());
 
-                        if(Integer.parseInt(document.getData().get("Date").toString())== TodayDate)
-                        {
-                            tempTotayLikeCount++ ;
+                        if (Integer.parseInt(document.getData().get("Date").toString()) == TodayDate) {
+                            tempTotayLikeCount++;
                             userData.SetUserTodayLike(tempTotayLikeCount);
                         }
                     }
                     userData.SetUserTotalLike(userData.GetUserLikeListCount());
 
-                    if(listener != null)
+                    if (listener != null)
                         listener.CompleteListener();
 
                 } else {
@@ -489,7 +504,6 @@ public class FirebaseManager {
             }
         });
     }
-
 
 
     private void GetUserVisitList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
@@ -507,15 +521,14 @@ public class FirebaseManager {
 
                         userData.SetUserVisitList(document.getData().get("Index").toString(), document.getData().get("Date").toString());
 
-                        if(Integer.parseInt(document.getData().get("Date").toString())== TodayDate)
-                        {
-                            tempTotayVisitCount++ ;
+                        if (Integer.parseInt(document.getData().get("Date").toString()) == TodayDate) {
+                            tempTotayVisitCount++;
                             userData.SetUserTodayVisit(tempTotayVisitCount);
                         }
                     }
                     userData.SetUserTotalVisit(userData.GetUserVisitListCount());
 
-                    if(listener != null)
+                    if (listener != null)
                         listener.CompleteListener();
 
                 } else {
@@ -526,9 +539,8 @@ public class FirebaseManager {
     }
 
 
-    public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener)
-    {
-        SetFireBaseLoadingCount(5);
+    public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
+        SetFireBaseLoadingCount(6);
 
         DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -540,73 +552,75 @@ public class FirebaseManager {
 
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
-                        if(document.getData().containsKey("Index"))
-                        {
+                        if (document.getData().containsKey("Index")) {
                             String Index = document.getData().get("Index").toString();
                             //TKManager.getInstance().TargetUserData.SetUserNickName(NickName);
                             userData.SetUserIndex(Index);
-                        }
-                        else
+                        } else
                             userData.SetUserIndex("1");
 
-                        if(document.getData().containsKey("NickName"))
-                        {
+                        if (document.getData().containsKey("NickName")) {
                             String NickName = document.getData().get("NickName").toString();
                             //TKManager.getInstance().TargetUserData.SetUserNickName(NickName);
                             userData.SetUserNickName(NickName);
-                        }
-                        else
+                        } else
                             userData.SetUserNickName(null);
 
-                        if(document.getData().containsKey("Token"))
-                        {
+                        if (document.getData().containsKey("Token")) {
                             String Token = document.getData().get("Token").toString();
                             userData.SetUserToken(Token);
-                        }
-                        else
+                        } else
                             userData.SetUserToken(null);
 
-                        if(document.getData().containsKey("Age"))
-                        {
+                        if (document.getData().containsKey("Age")) {
                             userData.SetUserAge(Integer.parseInt(document.getData().get("Age").toString()));
-                        }
-                        else
+                        } else
                             userData.SetUserAge(50);
 
-                        if(document.getData().containsKey("Memo"))
-                        {
+                        if (document.getData().containsKey("Memo")) {
                             userData.SetUserMemo(document.getData().get("Memo").toString());
-                        }
-                        else
+                        } else
                             userData.SetUserMemo(null);
 
-                        if(document.getData().containsKey("Gender"))
-                        {
+                        if (document.getData().containsKey("Gender")) {
                             userData.SetUserGender(Integer.parseInt(document.getData().get("Gender").toString()));
-                        }
-                        else
+                        } else
                             userData.SetUserGender(0);
 
-                        if(document.getData().containsKey("Img_ThumbNail"))
-                        {
+                        if (document.getData().containsKey("Img_ThumbNail")) {
                             String ThumbNail = document.getData().get("Img_ThumbNail").toString();
                             userData.SetUserImgThumb(ThumbNail);
-                        }
-                        else
+                        } else
                             userData.SetUserImgThumb(null);
 
-                        if(document.getData().containsKey("Img"))
-                        {
-                            HashMap<String, String> tempImg = (HashMap<String, String>)document.getData().get("Img");
+                        if (document.getData().containsKey("Img")) {
+                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("Img");
                             Set set = tempImg.entrySet();
                             Iterator iterator = set.iterator();
-                            while(iterator.hasNext()){
-                                Map.Entry entry = (Map.Entry)iterator.next();
-                                String key = (String)entry.getKey();
-                                String value = (String)entry.getValue();
+                            while (iterator.hasNext()) {
+                                Map.Entry entry = (Map.Entry) iterator.next();
+                                String key = (String) entry.getKey();
+                                String value = (String) entry.getValue();
                                 userData.SetUserImg(key, value);
                             }
                         }
+
+                        FirebaseManager.CheckFirebaseComplete ChatListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Complete(listener);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+                        GetUserChatList(userIndex, userData, ChatListener);
+
 
                         FirebaseManager.CheckFirebaseComplete FriendUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -673,18 +687,16 @@ public class FirebaseManager {
                         };
                         GetUserVisitList(userIndex, userData, VisitUserListener);
 
-                        if(document.getData().containsKey("Dist"))
-                        {
+                        if (document.getData().containsKey("Dist")) {
                             userData.SetUserDist(Integer.parseInt(document.getData().get("Dist").toString()));
-                        }
-                        else
+                        } else
                             userData.SetUserDist(0);
 
                         Complete(listener);
 
                     } else {
                         Log.d(TAG, "No such document");
-                        if(listener != null)
+                        if (listener != null)
                             listener.CompleteListener_No();
                     }
                 } else {
@@ -695,15 +707,14 @@ public class FirebaseManager {
     }
 
 
-    public void GetUserList(final CheckFirebaseComplete listener)
-    {
+    public void GetUserList(final CheckFirebaseComplete listener) {
         SetFireBaseLoadingCount(0);
         GetUserListDist(listener);
         GetUserListHot(listener);
         GetUserListNew(listener);
     }
-    public void GetUserListDist(final CheckFirebaseComplete listener)
-    {
+
+    public void GetUserListDist(final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserList_Dist");
 
         colRef.whereEqualTo("value", "1").limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -725,8 +736,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserListHot(final CheckFirebaseComplete listener)
-    {
+    public void GetUserListHot(final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserList_Hot");
 
         colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -748,8 +758,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserListNew(final CheckFirebaseComplete listener)
-    {
+    public void GetUserListNew(final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserList_New");
 
         colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -770,8 +779,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserData_Simple(final String userIndex, final Map<String, UserData> getData, final FirebaseManager.CheckFirebaseComplete listener)
-    {
+    public void GetUserData_Simple(final String userIndex, final Map<String, UserData> getData, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference docRef = mDataBase.collection("UserData_Simple").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -783,57 +791,46 @@ public class FirebaseManager {
 
                         UserData tempUser = new UserData();
 
-                        if(document.getData().containsKey("NickName"))
-                        {
+                        if (document.getData().containsKey("NickName")) {
                             String NickName = document.getData().get("NickName").toString();
                             tempUser.SetUserNickName(NickName);
-                        }
-                        else
+                        } else
                             tempUser.SetUserNickName(null);
 
-                        if(document.getData().containsKey("Index"))
-                        {
+                        if (document.getData().containsKey("Index")) {
                             String Index = document.getData().get("Index").toString();
                             tempUser.SetUserIndex(Index);
-                        }
-                        else
+                        } else
                             tempUser.SetUserIndex("1");
 
-                        if(document.getData().containsKey("Img_ThumbNail"))
-                        {
+                        if (document.getData().containsKey("Img_ThumbNail")) {
                             String tempData = document.getData().get("Img_ThumbNail").toString();
                             tempUser.SetUserImgThumb(tempData);
-                        }
-                        else
+                        } else
                             tempUser.SetUserImgThumb(null);
 
-                        if(document.getData().containsKey("Img"))
-                        {
-                            HashMap<String, String> tempImg = (HashMap<String, String>)document.getData().get("Img");
+                        if (document.getData().containsKey("Img")) {
+                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("Img");
                             Set set = tempImg.entrySet();
                             Iterator iterator = set.iterator();
-                            while(iterator.hasNext()){
-                                Map.Entry entry = (Map.Entry)iterator.next();
-                                String key = (String)entry.getKey();
-                                String value = (String)entry.getValue();
+                            while (iterator.hasNext()) {
+                                Map.Entry entry = (Map.Entry) iterator.next();
+                                String key = (String) entry.getKey();
+                                String value = (String) entry.getValue();
                                 tempUser.SetUserImg(key, value);
                             }
                         }
 
-                        if(document.getData().containsKey("Age"))
-                        {
+                        if (document.getData().containsKey("Age")) {
                             int Age = Integer.parseInt(document.getData().get("Age").toString());
                             tempUser.SetUserAge(Age);
-                        }
-                        else
+                        } else
                             tempUser.SetUserAge(50);
 
-                        if(document.getData().containsKey("Gender"))
-                        {
+                        if (document.getData().containsKey("Gender")) {
                             int Gender = Integer.parseInt(document.getData().get("Gender").toString());
                             tempUser.SetUserGender(Gender);
-                        }
-                        else
+                        } else
                             tempUser.SetUserGender(0);
 
                         getData.put(userIndex, tempUser);
@@ -851,9 +848,8 @@ public class FirebaseManager {
         });
     }
 
-    public void SetUserFavoriteOnFireBase(final String favoriteName, final String index, final String nickName)
-    {
-        if(mDataBase == null)
+    public void SetUserFavoriteOnFireBase(final String favoriteName, final String index, final String nickName) {
+        if (mDataBase == null)
             GetFireStore();
 
         final DocumentReference sfDocRef = mDataBase.collection("PopFavorite").document(favoriteName);
@@ -918,30 +914,28 @@ public class FirebaseManager {
 
     }
 
-    public void GetPopFavoriteData(final FirebaseManager.CheckFirebaseComplete listener)
-    {
+    public void GetPopFavoriteData(final FirebaseManager.CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("PopFavorite");
         colRef.orderBy("count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-        @Override
-        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Log.d(TAG, document.getId() + " => " + document.getData());
-                    TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
+                    }
+
+                    if (listener != null)
+                        listener.CompleteListener();
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-
-                if (listener != null)
-                    listener.CompleteListener();
-
-            } else {
-                Log.d(TAG, "Error getting documents: ", task.getException());
             }
-          }
-    });
+        });
     }
 
-    public void CheckNickName(final String nickName, final CheckFirebaseComplete listener)
-    {
+    public void CheckNickName(final String nickName, final CheckFirebaseComplete listener) {
         DocumentReference docRef = mDataBase.collection("UserData_NickName").document(nickName);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -966,8 +960,7 @@ public class FirebaseManager {
         });
     }
 
-    public void UploadThumbImg(String userIndex, Bitmap bitmap, final FirebaseManager.CheckFirebaseComplete listener)
-    {
+    public void UploadThumbImg(String userIndex, Bitmap bitmap, final FirebaseManager.CheckFirebaseComplete listener) {
         final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().MyData.GetUserIndex() + "/thumbnail.jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
@@ -991,7 +984,7 @@ public class FirebaseManager {
                     Uri downloadUri = task.getResult();
                     TKManager.getInstance().MyData.SetUserImgThumb(downloadUri.toString());
                     SetUserImgThumb();
-                    if(listener != null)
+                    if (listener != null)
                         listener.CompleteListener();
                 } else {
                     // Handle failures
@@ -1002,8 +995,7 @@ public class FirebaseManager {
 
     }
 
-    public void UploadImg(String userIndex, Bitmap bitmap, final int imageIndex, final FirebaseManager.CheckFirebaseComplete listener)
-    {
+    public void UploadImg(String userIndex, Bitmap bitmap, final int imageIndex, final FirebaseManager.CheckFirebaseComplete listener) {
         final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().MyData.GetUserIndex() + "/" + imageIndex + "/Image.jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -1027,7 +1019,7 @@ public class FirebaseManager {
                     Uri downloadUri = task.getResult();
                     TKManager.getInstance().MyData.SetUserImg(Integer.toString(imageIndex), downloadUri.toString());
                     SetUserImg();
-                    if(listener != null)
+                    if (listener != null)
                         listener.CompleteListener();
                 } else {
                     // Handle failures
@@ -1039,8 +1031,7 @@ public class FirebaseManager {
 
     }
 
-    public void SetUserImgThumb()
-    {
+    public void SetUserImgThumb() {
         Map<String, Object> UserThumb = new HashMap<>();
         UserThumb.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
 
@@ -1075,8 +1066,7 @@ public class FirebaseManager {
                 });
     }
 
-    public void SetUserImg()
-    {
+    public void SetUserImg() {
         Map<String, Object> UserImg = new HashMap<>();
         UserImg.put("Img", TKManager.getInstance().MyData.GetUserImg());
 
@@ -1112,8 +1102,7 @@ public class FirebaseManager {
     }
 
 
-    public void SetUserMemo()
-    {
+    public void SetUserMemo() {
         Map<String, Object> UserMemo = new HashMap<>();
         UserMemo.put("Memo", TKManager.getInstance().MyData.GetUserMemo());
 
@@ -1133,8 +1122,7 @@ public class FirebaseManager {
                 });
     }
 
-    public void SetUserLocation()
-    {
+    public void SetUserLocation() {
         Map<String, Object> UserLocation = new HashMap<>();
         UserLocation.put("Location", TKManager.getInstance().MyData.GetUserMemo());
 
@@ -1154,30 +1142,28 @@ public class FirebaseManager {
                 });
     }
 
-    public void randomList(String index)
-    {
+    public void randomList(String index) {
 
         Random rnd = new Random();
         int tempIndex = rnd.nextInt(4);
         Map<String, Object> simpleUser = new HashMap<>();
         simpleUser.put("value", index);
-        switch (tempIndex)
-        {
+        switch (tempIndex) {
             case 0:
-            mDataBase.collection("UserList_Hot").document(String.valueOf(index)).set(simpleUser, SetOptions.merge())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
-                        }
-                    });
-            break;
+                mDataBase.collection("UserList_Hot").document(String.valueOf(index)).set(simpleUser, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+                break;
 
             case 1:
                 mDataBase.collection("UserList_Dist").document(String.valueOf(index)).set(simpleUser, SetOptions.merge())
@@ -1213,6 +1199,63 @@ public class FirebaseManager {
         }
     }
 
+    public void RegistChatList(String targetIndex) {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+        String ChatRoomIndex = userIndex + "_" + targetIndex;
+
+        Map<String, Object> ChatListData = new HashMap<>();
+        ChatListData.put("Index", ChatRoomIndex);
+        ChatListData.put("Date", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+        ChatListData.put("LastMsg", "반갑습니다");
+
+        //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+
+
+        mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList").document(ChatRoomIndex)
+                .set(ChatListData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        mDataBase.collection("UserData").document(targetIndex).collection("ChatRoomList").document(ChatRoomIndex)
+                .set(ChatListData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        mDataBase.collection("ChatRoomData").document(ChatRoomIndex)
+                .set(ChatListData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
 
     public void RegistFavoriteListInUserData(String favoriteName)
     {

@@ -10,7 +10,14 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.viewHolder.ChatListHolder;
 
@@ -31,12 +38,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     @Override
     public void onBindViewHolder(ChatListHolder holder, final int position) {
         int i = position;
-
+        holder.setData(i);
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return TKManager.getInstance().MyData.GetUserChatListCount();
         //return mMyData.arrChatTargetData.size();
     }
 
