@@ -28,7 +28,7 @@ public class MyProfileClubListHolder extends RecyclerView.ViewHolder{
     {
         if(i == 0)
         {
-            tv_MyProfile_Club.setText("배틀그라운드");
+            tv_MyProfile_Club.setText("등산");
             Glide.with(mContext).load(R.drawable.dummy_1)
                     .centerCrop()
                     .into(iv_MyProfile_Club);

@@ -112,7 +112,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:textSize="20dp"
-                    android:text="축구, 배틀그라운드"
+                    android:text="축구, 등산"
                     android:gravity="center"
                     />
                 <ImageView

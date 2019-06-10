@@ -116,6 +116,31 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (v.getId() == R.id.v_UserProfile_BottomBar_Friend) {
+
+                    DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);
+
+                    if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) == null){
+
+                        Glide.with(mContext).load(R.drawable.ic_like)
+                                .into(iv_UserProfile_BottomBar_Like);
+                    } else {
+
+
+                        Glide.with(mContext).load(R.drawable.ic_like_empty)
+                                .into(iv_UserProfile_BottomBar_Like);
+                    }
+
+                    tv_UserProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+                }
+            }
+        });
+
+
+
+        v_UserProfile_BottomBar_Friend.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Like) {
 
                     DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);

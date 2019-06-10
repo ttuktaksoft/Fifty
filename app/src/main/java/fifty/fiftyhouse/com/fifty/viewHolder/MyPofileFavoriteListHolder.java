@@ -22,6 +22,6 @@ public class MyPofileFavoriteListHolder extends RecyclerView.ViewHolder{
         if(i == 0)
             tv_MyProfile_Favorite_Name.setText("축구");
         else
-            tv_MyProfile_Favorite_Name.setText("배틀그라운드");
+            tv_MyProfile_Favorite_Name.setText("등산");
     }
 }

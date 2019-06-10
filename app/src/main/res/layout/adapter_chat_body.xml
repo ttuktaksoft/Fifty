@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text="asldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjajasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfjasldkfj"
+                android:text="안녕하세요 채팅방 내용입니다"
                 android:maxWidth="250dp"
                 android:padding="10dp"
                 app:layout_constraintRight_toRightOf="@id/v_Chat_Body_Type_Msg"

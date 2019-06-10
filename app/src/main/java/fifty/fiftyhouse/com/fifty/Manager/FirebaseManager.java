@@ -283,6 +283,43 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
+
+        Map<String, Object> Dist = new HashMap<>();
+        Dist.put("value", "1");
+        mDataBase.collection("UserList_Dist").document(TKManager.getInstance().MyData.GetUserIndex()).set(Dist, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        Map<String, Object> New = new HashMap<>();
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+        New.put("value",TodayDate);
+        mDataBase.collection("UserList_New").document(TKManager.getInstance().MyData.GetUserIndex()).set(Dist, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+
     }
 
     public void SetUserDataOnFireBase(CommonData.CollentionType collectType, String documentName, String key, Object obj)

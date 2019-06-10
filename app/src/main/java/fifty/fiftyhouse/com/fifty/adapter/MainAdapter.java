@@ -30,7 +30,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
     CommonData.MainViewType UserType = CommonData.MainViewType.DIST;
     String mUserName = null;
     String mUserDist = null;
-    String[] mUserImg = new String[3];
+    String[] mUserImg = new String[8];
 
     public MainAdapter(Context context) {
         mContext = context;
