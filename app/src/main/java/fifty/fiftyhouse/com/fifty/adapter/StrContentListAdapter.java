@@ -5,9 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.viewHolder.StrContentListListHolder;
 
 public class StrContentListAdapter extends RecyclerView.Adapter<StrContentListListHolder> {
 
@@ -39,4 +39,22 @@ public class StrContentListAdapter extends RecyclerView.Adapter<StrContentListLi
         //return mMyData.arrChatTargetData.size();
     }
 
+}
+
+class StrContentListListHolder extends RecyclerView.ViewHolder {
+
+    TextView tv_StrContent_Desc;
+    Context mContext;
+
+    public StrContentListListHolder(View itemView) {
+        super(itemView);
+        mContext = itemView.getContext();
+
+        tv_StrContent_Desc = itemView.findViewById(R.id.tv_StrContent_Desc);
+    }
+
+    public void setData(int i)
+    {
+        tv_StrContent_Desc.setText("내용 입니다_" + i);
+    }
 }

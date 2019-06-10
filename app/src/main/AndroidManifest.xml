@@ -35,7 +35,6 @@
         <activity android:name=".activty.SignUp.BirthActivity" />
         <activity android:name=".activty.SignUp.FavoriteActivity" />
         <activity android:name=".activty.SignUp.ProfileImgActivity" />
-        <activity android:name=".activty.SignUp.FavoriteDetailActivity" />
         <activity android:name=".activty.Profile.MyProfileActivity" />
         <activity android:name=".activty.Profile.UserProfileActivity" />
         <activity android:name=".activty.Profile.UserProfile_Memo" />
@@ -50,8 +49,8 @@
         <activity android:name=".activty.NickNameEditActivity" />
         <activity android:name=".activty.StoryEditActivity" />
         <activity android:name=".activty.LocationEditActivity" />
-        <activity android:name=".activty.FavoriteEditActivity" />
-        <activity android:name=".activty.CustomPhotoView"></activity>
+        <activity android:name=".activty.CustomPhotoView" />
+        <activity android:name=".activty.FavoriteSelectActivity"></activity>
     </application>
 
 </manifest>

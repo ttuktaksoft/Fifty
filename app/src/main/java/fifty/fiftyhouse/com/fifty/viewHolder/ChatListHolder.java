@@ -35,25 +35,5 @@ public class ChatListHolder extends RecyclerView.ViewHolder {
         tv_Chat_Check = itemView.findViewById(R.id.tv_Chat_Check);
     }
 
-    public void setData(int i)
-    {
-        Set tempKey = TKManager.getInstance().MyData.GetUserChatListKeySet();
-        List array = new ArrayList(tempKey);
-        ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(i).toString());
 
-        tv_Chat_Msg.setText(tempChatData.GetLastMsg());
-        tv_Chat_Date.setText(tempChatData.GetLastMsgDate());
-
-        if(tempChatData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
-        {
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Profile, tempChatData.GetToThumbNail(), true);
-            tv_Chat_Nickname.setText(tempChatData.GetToNickName());
-
-        }
-        else
-        {
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Profile, tempChatData.GetFromThumbNail(), true);
-            tv_Chat_Nickname.setText(tempChatData.GetFromNickName());
-        }
-    }
 }

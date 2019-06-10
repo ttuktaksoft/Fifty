@@ -22,7 +22,7 @@
         <item name="android:textColor">@color/str_base</item>
     </style>
 
-    <style name="BaseTextView_not_size" parent="BaseTextView">
+    <style name="BaseTextView_AutoSize" parent="BaseTextView">
         <item name="autoSizeTextType">uniform</item>
         <item name="autoSizeMinTextSize">10dp</item>
         <item name="autoSizeMaxTextSize">23dp</item>

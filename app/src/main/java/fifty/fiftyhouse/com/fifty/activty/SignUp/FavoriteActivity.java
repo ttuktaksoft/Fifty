@@ -18,6 +18,7 @@ import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SignUpFavoriteFixAdapter;
@@ -49,7 +50,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        Intent intent = new Intent(getApplicationContext(), FavoriteDetailActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), FavoriteSelectActivity.class);
                         startActivity(intent);
                     }
 
