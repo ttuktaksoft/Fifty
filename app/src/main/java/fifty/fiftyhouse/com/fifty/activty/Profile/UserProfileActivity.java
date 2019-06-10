@@ -124,11 +124,11 @@ public class UserProfileActivity extends AppCompatActivity {
 
                         Glide.with(mContext).load(R.drawable.ic_like)
                                 .into(iv_UserProfile_BottomBar_Like);
+                        RefreshLikeCount(true);
                     } else {
-
-
                         Glide.with(mContext).load(R.drawable.ic_like_empty)
                                 .into(iv_UserProfile_BottomBar_Like);
+                        RefreshLikeCount(false);
                     }
 
                     tv_UserProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
