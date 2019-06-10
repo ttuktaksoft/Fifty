@@ -211,6 +211,11 @@ public class UserData {
     {
         return FriendList.keySet();
     }
+    public void  DelUserFriendList(String key)
+    {
+        FriendList.remove(key);
+    }
+
 
     public void  SetUserTotalLike(double like){ Like_Total = like; }
     public void  AddUserTotalLike(double like){ Like_Total += like; }

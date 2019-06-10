@@ -770,7 +770,6 @@ public class FirebaseManager {
         });
     }
 
-
     public void GetUserData_Simple(final String userIndex, final Map<String, UserData> getData, final FirebaseManager.CheckFirebaseComplete listener)
     {
         final DocumentReference docRef = mDataBase.collection("UserData_Simple").document(userIndex);
@@ -1129,10 +1128,10 @@ public class FirebaseManager {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
 
         Map<String, Object> FriendUserData = new HashMap<>();
-        FriendUserData.put("Index", userIndex);
+        FriendUserData.put("Index", targetIndex);
         FriendUserData.put("Date", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
 
-        mDataBase.collection("UserData").document(targetIndex).collection("FriendUsers").document(userIndex)
+        mDataBase.collection("UserData").document(userIndex).collection("FriendUsers").document(targetIndex)
                 .set(FriendUserData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -1232,7 +1231,7 @@ public class FirebaseManager {
     {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
 
-        final DocumentReference sfDocRef = mDataBase.collection("UserData").document(targetIndex).collection("FriendUsers").document(userIndex);
+        final DocumentReference sfDocRef = mDataBase.collection("UserData").document(userIndex).collection("FriendUsers").document(targetIndex);
 
         sfDocRef.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

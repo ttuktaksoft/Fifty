@@ -145,21 +145,16 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);
 
-                    if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) == null){
-                        RefreshLikeCount(true);
-
-                        Glide.with(mContext).load(R.drawable.ic_like)
-                                .into(iv_UserProfile_BottomBar_Like);
-                    } else {
-                        TKManager.getInstance().MyData.DelUserLikeList(TKManager.getInstance().TargetUserData.GetUserIndex());
-
-                        RefreshLikeCount(false);
-
-                        Glide.with(mContext).load(R.drawable.ic_like_empty)
-                                .into(iv_UserProfile_BottomBar_Like);
+                    if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null){
+                        FirebaseManager.getInstance().RegistFriendInUserData(TKManager.getInstance().TargetUserData.GetUserIndex());
+                        TKManager.getInstance().MyData.SetUserFriend(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
                     }
 
-                    tv_UserProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+                    else
+                    {
+                        FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex());
+                        TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
+                    }
                 }
             }
         });

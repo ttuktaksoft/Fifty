@@ -91,6 +91,22 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
     @Override
     public long getItemId(int position) {
         long rtValue = 0;
+
+        switch (UserType)
+        {
+            case DIST:
+                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserIndex());
+                break;
+            case NEW:
+                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserIndex());
+                break;
+            case HOT:
+                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserIndex());
+                break;
+            case FRIEND:
+                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserIndex());
+                break;
+        }
         //rtValue = Long.valueOf(mMyData.arrUserAll_Hot_Age.get(position).Idx);
 
         return rtValue;
