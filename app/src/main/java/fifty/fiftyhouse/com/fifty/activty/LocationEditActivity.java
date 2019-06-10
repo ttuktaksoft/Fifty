@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 public class LocationEditActivity extends AppCompatActivity {
 
@@ -27,6 +30,21 @@ public class LocationEditActivity extends AppCompatActivity {
         iv_Location_Edit_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
+
+        iv_Location_Edit_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String tempLocation  = et_Location_Edit_Location.getText().toString();
+                if(tempLocation.getBytes().length > 0)
+                {
+                    TKManager.getInstance().MyData.SetUserLocation(tempLocation);
+                    FirebaseManager.getInstance().SetUserLocation();
+                }
+
+                startActivity(new Intent(LocationEditActivity.this, MyProfileEditActivity.class));
                 finish();
             }
         });

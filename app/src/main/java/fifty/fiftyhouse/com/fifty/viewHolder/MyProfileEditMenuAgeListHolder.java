@@ -23,6 +23,8 @@ public class MyProfileEditMenuAgeListHolder extends RecyclerView.ViewHolder {
 
         tv_MyProfile_Edit_Age_Menu_Gender = itemView.findViewById(R.id.tv_MyProfile_Edit_Age_Menu_Gender);
         tv_MyProfile_Edit_Age_Menu_Age = itemView.findViewById(R.id.tv_MyProfile_Edit_Age_Menu_Age);
+
+
     }
 
     public void setData()
@@ -36,6 +38,6 @@ public class MyProfileEditMenuAgeListHolder extends RecyclerView.ViewHolder {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(tv_MyProfile_Edit_Age_Menu_Gender);
         }
-        tv_MyProfile_Edit_Age_Menu_Age.setText("56세");
+        tv_MyProfile_Edit_Age_Menu_Age.setText(TKManager.getInstance().MyData.GetUserAge() + "세");
     }
 }

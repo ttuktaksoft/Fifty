@@ -990,6 +990,7 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     TKManager.getInstance().MyData.SetUserImgThumb(downloadUri.toString());
+                    SetUserImgThumb();
                     if(listener != null)
                         listener.CompleteListener();
                 } else {
@@ -1025,6 +1026,7 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     TKManager.getInstance().MyData.SetUserImg(Integer.toString(imageIndex), downloadUri.toString());
+                    SetUserImg();
                     if(listener != null)
                         listener.CompleteListener();
                 } else {
@@ -1037,6 +1039,120 @@ public class FirebaseManager {
 
     }
 
+    public void SetUserImgThumb()
+    {
+        Map<String, Object> UserThumb = new HashMap<>();
+        UserThumb.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .update(UserThumb)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
+                .update(UserThumb)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public void SetUserImg()
+    {
+        Map<String, Object> UserImg = new HashMap<>();
+        UserImg.put("Img", TKManager.getInstance().MyData.GetUserImg());
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .update(UserImg)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
+                .update(UserImg)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+
+    public void SetUserMemo()
+    {
+        Map<String, Object> UserMemo = new HashMap<>();
+        UserMemo.put("Memo", TKManager.getInstance().MyData.GetUserMemo());
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .update(UserMemo)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public void SetUserLocation()
+    {
+        Map<String, Object> UserLocation = new HashMap<>();
+        UserLocation.put("Location", TKManager.getInstance().MyData.GetUserMemo());
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .update(UserLocation)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
 
     public void randomList(String index)
     {

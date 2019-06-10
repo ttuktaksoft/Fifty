@@ -33,6 +33,9 @@ public class UserData {
 
     private String NickName ;
     private String Memo;
+    private  String Location;
+
+
     private Map<String, String> FavoriteList = new LinkedHashMap<String, String>(){
         @Override
         protected boolean removeEldestEntry(Entry<String, String> arg0)
@@ -123,6 +126,16 @@ public class UserData {
     {
         return Memo;
     }
+    public void SetUserLocation(String location)
+    {
+        Location = location;
+    }
+    public String GetUserLocation()
+    {
+        return Location;
+    }
+
+
 
     public void SetUserImgThumb(String thumb)
     {

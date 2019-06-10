@@ -308,8 +308,10 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
             String value = (String)entry.getValue();
             tempFavorite.add(value);
         }
-
-        tv_MyProfile_Info_Favorite.setText(tempFavorite.get(0) + ", " + tempFavorite.get(1));
+        if(tempFavorite.size() >= 2)
+        {
+            tv_MyProfile_Info_Favorite.setText(tempFavorite.get(0) + ", " + tempFavorite.get(1));
+        }
 
         tv_MyProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
 
