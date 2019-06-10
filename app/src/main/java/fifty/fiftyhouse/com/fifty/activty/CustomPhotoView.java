@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
@@ -23,9 +24,7 @@ public class CustomPhotoView extends AppCompatActivity {
         PhotoView photoView = findViewById(R.id.photoView);
    //     photoView.setImageResource(R.drawable.image4);
 
-        Glide.with(getApplicationContext()).load(ImgSrc)
-                .centerCrop()
-                .into(photoView);
+        CommonFunc.getInstance().DrawImageByGlide(getApplicationContext(), photoView, ImgSrc, false);
 
     }
 }

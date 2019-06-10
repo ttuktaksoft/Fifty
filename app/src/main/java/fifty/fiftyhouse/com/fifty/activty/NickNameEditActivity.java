@@ -90,5 +90,7 @@ public class NickNameEditActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 }

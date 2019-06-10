@@ -132,7 +132,7 @@ public class ProfileImgActivity extends AppCompatActivity {
         };
 
 
-        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, TKManager.getInstance().MyData.GetUserImgCount(), listener);
+        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, 0, listener);
         FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, listener);
     }
 

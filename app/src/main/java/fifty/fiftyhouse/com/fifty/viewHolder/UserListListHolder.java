@@ -83,7 +83,7 @@ public class UserListListHolder extends RecyclerView.ViewHolder {
                 break;
 
             case FRIEND:
-                tempKey = TKManager.getInstance().MyData.GetUserFriendListKey();
+                tempKey = TKManager.getInstance().MyData.GetUserFriendListKeySet();
                 break;
 
         }

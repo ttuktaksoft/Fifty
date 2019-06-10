@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 public class StoryEditActivity extends AppCompatActivity {
 
@@ -30,5 +33,21 @@ public class StoryEditActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        iv_Story_Edit_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String tempMemo = et_Story_Edit_Story.getText().toString();
+                if(tempMemo.getBytes().length > 0)
+                {
+                    TKManager.getInstance().MyData.SetUserMemo(tempMemo);
+                    FirebaseManager.getInstance().SetUserMemo();
+                }
+
+                startActivity(new Intent(StoryEditActivity.this, MyProfileEditActivity.class));
+                finish();
+            }
+        });
+
     }
 }
