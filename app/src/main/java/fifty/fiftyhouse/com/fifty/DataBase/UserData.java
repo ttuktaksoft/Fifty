@@ -220,7 +220,7 @@ public class UserData {
     {
         return FriendList.size();
     }
-    public Set  GetUserFriendListKey()
+    public Set  GetUserFriendListKeySet()
     {
         return FriendList.keySet();
     }

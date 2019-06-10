@@ -107,7 +107,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 if (v.getId() == R.id.iv_UserProfile_Profile) {
 
                     Intent intent = new Intent(UserProfileActivity.this, CustomPhotoView.class);
-                    intent.putExtra("ImgSrc",TKManager.getInstance().TargetUserData.GetUserImgThumb());
+                    intent.putExtra("ImgSrc",TKManager.getInstance().TargetUserData.GetUserImg("0"));
                     startActivity(intent);
                 }
             }
@@ -116,7 +116,7 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v.getId() == R.id.v_UserProfile_BottomBar_Friend) {
+                if (v.getId() == R.id.v_UserProfile_BottomBar_Like) {
 
                     DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);
 
@@ -141,7 +141,7 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Friend.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v.getId() == R.id.v_UserProfile_BottomBar_Like) {
+                if (v.getId() == R.id.v_UserProfile_BottomBar_Friend) {
 
                     DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);
 

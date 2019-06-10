@@ -9,7 +9,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
@@ -73,7 +79,7 @@ public class UserListActivity extends AppCompatActivity {
     }
 
 
-    private void initRecyclerView(CommonData.MyProfileViewType type , int count)
+    private void initRecyclerView(final CommonData.MyProfileViewType type , int count)
     {
         mAdapter = new UserListAdapter(getApplicationContext());
         mAdapter.setHasStableIds(true);
@@ -84,7 +90,54 @@ public class UserListActivity extends AppCompatActivity {
         rv_UserList_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_UserList_List, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+
+                String tempUserIndex = null;
+                Set tempKey = null;
+                List array = new ArrayList();
+
+                switch (type)
+                {
+                    case VISIT:
+                        tv_UserList_Title.setText("방문자 목록");
+                        tempKey =  TKManager.getInstance().MyData.GetUserVisitKeySet();
+                        break;
+                    case LIKE:
+                        tv_UserList_Title.setText("좋아요 목록");
+                        tempKey =  TKManager.getInstance().MyData.GetUserLikeKeySet();
+
+                        break;
+                    case FRIEND:
+                        tv_UserList_Title.setText("친구 목록");
+                        tempKey =  TKManager.getInstance().MyData.GetUserFriendListKeySet();
+                        break;
+
+                }
+
+                array = new ArrayList(tempKey);
+                tempUserIndex = TKManager.getInstance().MyData_Simple.get(array.get(position).toString()).GetUserIndex();
+
+                DialogFunc.getInstance().ShowLoadingPage(UserListActivity.this);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserData(tempUserIndex, TKManager.getInstance().TargetUserData, listener);
+
+
             }
 
             @Override

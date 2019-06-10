@@ -197,7 +197,33 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
             @Override
             public void onClick(View view) {
                 // TODO 유저 리스트
-                startActivity(new Intent(mContext, UserListActivity.class));
+                Set KeySet = TKManager.getInstance().MyData.GetUserLikeKeySet();
+                Iterator iterator = KeySet.iterator();
+
+                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserLikeListCount());
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(mContext, UserListActivity.class);
+                        intent.putExtra("Type",1);
+                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserLikeListCount());
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                while(iterator.hasNext()){
+                    String key = (String)iterator.next();
+                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().MyData_Simple, listener);
+                }
             }
         });
 
@@ -205,7 +231,34 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
             @Override
             public void onClick(View view) {
                 // TODO 유저 리스트
-                startActivity(new Intent(mContext, UserListActivity.class));
+                // TODO 유저 리스트
+                Set KeySet = TKManager.getInstance().MyData.GetUserFriendListKeySet();
+                Iterator iterator = KeySet.iterator();
+
+                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount());
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(mContext, UserListActivity.class);
+                        intent.putExtra("Type",2);
+                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserFriendListCount());
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                while(iterator.hasNext()){
+                    String key = (String)iterator.next();
+                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().MyData_Simple, listener);
+                }
             }
         });
 
