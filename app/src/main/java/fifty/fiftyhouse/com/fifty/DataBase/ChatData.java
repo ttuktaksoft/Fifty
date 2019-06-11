@@ -1,5 +1,7 @@
 package fifty.fiftyhouse.com.fifty.DataBase;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
+
 /**
  * Created by boram on 2019-06-11.
  */
@@ -7,16 +9,18 @@ package fifty.fiftyhouse.com.fifty.DataBase;
 public class ChatData {
     private  String RoomIndex;
 
-    private  String FromIndex ;
-    private  String FromNickName;
-    private  String FromThumbNail;
+    private String FromIndex ;
+    private String FromNickName;
+    private String FromThumbNail;
 
-    private  String ToIndex ;
-    private  String ToNickName;
-    private  String ToThumbNail;
+    private String ToIndex ;
+    private String ToNickName;
+    private String ToThumbNail;
 
-    private  String LastMsg;
-    private  String LastMsgDate;
+    private String Msg;
+    private String MSGSender;
+    private CommonData.MSGType MSGType;
+    private long MsgDate;
 
     public void SetRoomIndex(String roomIndex)
     {
@@ -26,7 +30,6 @@ public class ChatData {
     {
         return RoomIndex;
     }
-
 
     public void SetFromIndex(String fromIndex)
     {
@@ -57,11 +60,11 @@ public class ChatData {
     {
         ToIndex = Index;
     }
-    public String GettOIndex()
+    public String GetToIndex()
     {
         return ToIndex;
     }
-    public void SettONickName(String nickName){ ToNickName = nickName;}
+    public void SetToNickName(String nickName){ ToNickName = nickName;}
     public String GetToNickName()
     {
         return ToNickName;
@@ -72,14 +75,26 @@ public class ChatData {
         return ToThumbNail;
     }
 
-    public void SetLastMsg(String Msg) {LastMsg = Msg;}
-    public String GetLastMsg()
+    public void SetMSG(String msg) {Msg = msg;}
+    public String GetMSG()
     {
-        return LastMsg;
+        return Msg;
     }
-    public void SetLastMsgDate(String MsgDate) {LastMsgDate = MsgDate;}
-    public String GetLastMsgDate()
+    public void SetMSGSender(String msgSender) {MSGSender = msgSender;}
+    public String GetMSGSender()
     {
-        return LastMsgDate;
+        return MSGSender;
     }
+
+    public void SetMSGType(CommonData.MSGType type) {MSGType = type;}
+    public CommonData.MSGType GetMSGType()
+    {
+        return MSGType;
+    }
+    public void SetMsgDate(long msgDate) {MsgDate = msgDate;}
+    public long GetMsgDate()
+    {
+        return MsgDate;
+    }
+
 }

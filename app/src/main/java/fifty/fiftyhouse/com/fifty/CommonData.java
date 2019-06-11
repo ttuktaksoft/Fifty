@@ -42,6 +42,12 @@ public class CommonData {
         FRIEND
     }
 
+    public static enum MSGType
+    {
+        MSG,
+        IMG,
+        VIDEO
+    }
 
     // 처음에 보여줄 인기 관심사 갯수
     public static int Favorite_Pop_Count = 6;

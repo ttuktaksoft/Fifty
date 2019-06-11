@@ -38,6 +38,7 @@ import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 
 public class FirebaseManager {
@@ -1199,16 +1200,19 @@ public class FirebaseManager {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
         String ChatRoomIndex = userIndex + "_" + targetIndex;
 
-        Map<String, Object> ChatListData = new HashMap<>();
+/*        Map<String, Object> ChatListData = new HashMap<>();
         ChatListData.put("Index", ChatRoomIndex);
         ChatListData.put("Date", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
-        ChatListData.put("LastMsg", "반갑습니다");
+        ChatListData.put("Msg", "");*/
+
+        Map<String, Object> tempChatData = new HashMap<>();
+        tempChatData.put("Date", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+        tempChatData.put("Create", false);
 
         //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
 
-
-        mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList").document(ChatRoomIndex)
-                .set(ChatListData, SetOptions.merge())
+        mDataBase.collection("ChatRoomList").document(targetIndex).collection("ChatRoomIndex").document(ChatRoomIndex)
+                .set(tempChatData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -1222,8 +1226,14 @@ public class FirebaseManager {
                     }
                 });
 
-        mDataBase.collection("UserData").document(targetIndex).collection("ChatRoomList").document(ChatRoomIndex)
-                .set(ChatListData, SetOptions.merge())
+        Map<String, Object> tempChatList = new HashMap<>();
+        tempChatList.put("Date", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+        tempChatList.put("Index", targetIndex);
+
+        //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+
+        mDataBase.collection("UserData").document(userIndex).collection("ChatList").document(ChatRoomIndex)
+                .set(tempChatList, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -1236,9 +1246,32 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+    }
+
+    public void RegistChatData(String targetIndex)
+    {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+        String ChatRoomIndex = userIndex + "_" + targetIndex;
+
+        ChatData tempChatData = new ChatData();
+        tempChatData.SetRoomIndex(ChatRoomIndex);
+
+        tempChatData.SetFromIndex(userIndex);
+        tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+        tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+
+        tempChatData.SetToIndex(targetIndex);
+        tempChatData.SetToNickName(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName());
+        tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
+
+        tempChatData.SetMsgDate(Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+        tempChatData.SetMSGType(CommonData.MSGType.MSG);
+        tempChatData.SetMSG(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
+
+        //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
 
         mDataBase.collection("ChatRoomData").document(ChatRoomIndex)
-                .set(ChatListData, SetOptions.merge())
+                .set(tempChatData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
