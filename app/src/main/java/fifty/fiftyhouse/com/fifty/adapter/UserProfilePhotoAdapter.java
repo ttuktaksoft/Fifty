@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -17,6 +19,9 @@ import fifty.fiftyhouse.com.fifty.R;
 public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePhotoListHolder> {
 
     Context mContext;
+    int mItemCount = 0;
+    ArrayList<String> mItemList = new ArrayList<>();
+
     public UserProfilePhotoAdapter(Context context) {
         mContext = context;
     }
@@ -34,7 +39,15 @@ public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePho
     public void onBindViewHolder(UserProfilePhotoListHolder holder, final int position) {
         int i = position;
 
-        holder.setData(i);
+        if(mItemList.size() <= i)
+        {
+            holder.setData("");
+        }
+        else
+        {
+            holder.setData(mItemList.get(i));
+        }
+
 
     }
 
@@ -43,6 +56,17 @@ public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePho
         return 8;
         //return  TKManager.getInstance().TargetUserData.GetUserImgCount();
         //return mMyData.arrChatTargetData.size();
+    }
+
+    public void setItemCount(int count)
+    {
+        mItemCount = count;
+    }
+
+    public void setItemData(ArrayList<String> list)
+    {
+        mItemList.clear();
+        mItemList.addAll(list);
     }
 
 }
@@ -64,22 +88,19 @@ class UserProfilePhotoListHolder extends RecyclerView.ViewHolder {
         iv_UserProfile_Photo.setLayoutParams(lp_Photo);
     }
 
-    public void setData(int i)
+    public void setData(String str)
     {
-        if(TKManager.getInstance().TargetUserData.GetUserImg(Integer.toString(i)) != null)
+        if(str.isEmpty())
         {
-            // TODO 비어 있을때
-            Glide.with(mContext).load(TKManager.getInstance().TargetUserData.GetUserImg(Integer.toString(i)) )
+            Glide.with(mContext).load(R.drawable.bg_empty_square)
                     .centerCrop()
                     .into(iv_UserProfile_Photo);
         }
         else
         {
-            // TODO 비어 있을때
-            Glide.with(mContext).load(R.drawable.bg_empty_square)
+            Glide.with(mContext).load(str)
                     .centerCrop()
                     .into(iv_UserProfile_Photo);
         }
-
     }
 }

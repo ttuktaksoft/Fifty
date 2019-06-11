@@ -1,11 +1,13 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -34,10 +36,6 @@ import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
-import fifty.fiftyhouse.com.fifty.adapter.MyProfileClubAdapter;
-import fifty.fiftyhouse.com.fifty.adapter.MyProfileEtcAdapter;
-import fifty.fiftyhouse.com.fifty.adapter.MyProfileFavoriteAdapter;
-import fifty.fiftyhouse.com.fifty.adapter.MyProfilePhotoAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 /**
@@ -50,32 +48,17 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
  */
 public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBackPressedListener {
 
-    NestedScrollView ns_MyProfile_Scroll;
-    ConstraintLayout v_MyProfile_Info_Detail, v_MyProfile_TopBar;
-    ImageView iv_MyProfile_Profile, iv_MyProfile_Info_Gender, iv_MyProfile_Alarm, iv_MyProfile_Shop;
-    TextView tv_MyProfile_Info_Name, tv_MyProfile_Info_Age, tv_MyProfile_Info_Memo, tv_MyProfile_Info_Count_Visit, tv_MyProfile_Info_Count_Like, tv_MyProfile_Info_Count_Friend, tv_MyProfile_Name, tv_MyProfile_Info_Favorite;
-    RecyclerView rv_MyProfile_Info_Photo, rv_MyProfile_Info_Club, rv_MyProfile_Info_Etc;
-
+    ImageView iv_MyProfile_Alarm, iv_MyProfile_Shop;
+    TextView tv_MyProfile_Name;
     Context mContext;
-    private View MyProfileFragView;
+    FragmentManager mFragmentMgr;
+    View v_FragmentView = null;
 
-    MyProfileFavoriteAdapter mFavoriteAdapter;
-    MyProfilePhotoAdapter mPhotoAdapter;
-    MyProfileClubAdapter mClubAdapter;
-    MyProfileEtcAdapter mEtcAdapter;
-
+    UserProfileFragment mUserProfileFragment;
 
     public MyProfileFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MyProfileFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static MyProfileFragment newInstance(String param1, String param2) {
         MyProfileFragment fragment = new MyProfileFragment();
@@ -93,175 +76,17 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mContext = getActivity();
+        mFragmentMgr = ((FragmentActivity) mContext).getSupportFragmentManager();
+        mUserProfileFragment = new UserProfileFragment();
+        mUserProfileFragment.setMyProfileView(true);
+        v_FragmentView = inflater.inflate(R.layout.fragment_my_profile, container, false);
+        mFragmentMgr.beginTransaction().addToBackStack(null);
 
-        MyProfileFragView = inflater.inflate(R.layout.fragment_my_profile, container, false);
-        FragmentManager mFragmentMng = getFragmentManager();
-        mFragmentMng.beginTransaction().addToBackStack(null);
+        mFragmentMgr.beginTransaction().replace(R.id.fl_MyProfile_FrameLayout, mUserProfileFragment, "UserProfileFragment").commit();
 
-        MyProfileFragView.setTag("MyProfileFragment");
+        v_FragmentView.setTag("MyProfileFragment");
 
-        ns_MyProfile_Scroll = MyProfileFragView.findViewById(R.id.ns_MyProfile_Scroll);
-        v_MyProfile_Info_Detail = MyProfileFragView.findViewById(R.id.v_MyProfile_Info_Detail);
-        iv_MyProfile_Profile = MyProfileFragView.findViewById(R.id.iv_MyProfile_Profile);
-        iv_MyProfile_Info_Gender = MyProfileFragView.findViewById(R.id.iv_MyProfile_Info_Gender);
-        iv_MyProfile_Alarm = MyProfileFragView.findViewById(R.id.iv_MyProfile_Alarm);
-        iv_MyProfile_Shop = MyProfileFragView.findViewById(R.id.iv_MyProfile_Shop);
-        tv_MyProfile_Info_Name = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Name);
-        tv_MyProfile_Info_Age = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Age);
-        tv_MyProfile_Info_Memo = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Memo);
-        tv_MyProfile_Info_Count_Visit = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Count_Visit);
-        tv_MyProfile_Info_Count_Like = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Count_Like);
-        tv_MyProfile_Info_Count_Friend = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Count_Friend);
-        tv_MyProfile_Name = MyProfileFragView.findViewById(R.id.tv_MyProfile_Name);
-        rv_MyProfile_Info_Photo = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Photo);
-        rv_MyProfile_Info_Club = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Club);
-        rv_MyProfile_Info_Etc = MyProfileFragView.findViewById(R.id.rv_MyProfile_Info_Etc);
-        v_MyProfile_TopBar = MyProfileFragView.findViewById(R.id.v_MyProfile_TopBar);
-        tv_MyProfile_Info_Favorite = MyProfileFragView.findViewById(R.id.tv_MyProfile_Info_Favorite);
-
-        v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.alpha));
-        tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.alpha));
-
-        ns_MyProfile_Scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener(){
-            @Override
-            public void onScrollChange(NestedScrollView var1, int x, int y, int oldx, int oldy)
-            {
-                Log.d("test", "test : " + CommonFunc.getInstance().convertPXtoDP(getResources(), y));
-                if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 50)
-                {
-                    v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.alpha));
-                    tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.alpha));
-                }
-                else
-                {
-                    v_MyProfile_TopBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.topbar_bg));
-                    tv_MyProfile_Name.setTextColor(ContextCompat.getColor(mContext, R.color.white));
-                }
-            }
-        });
-
-        v_MyProfile_Info_Detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO 정보 수정 엑티비티
-                startActivity(new Intent(mContext, MyProfileEditActivity.class));
-            }
-        });
-
-        tv_MyProfile_Info_Count_Visit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO 유저 리스트
-
-                Set KeySet = TKManager.getInstance().MyData.GetUserVisitKeySet();
-                Iterator iterator = KeySet.iterator();
-
-                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserVisitListCount());
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        Intent intent = new Intent(mContext, UserListActivity.class);
-                        intent.putExtra("Type",0);
-                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserVisitListCount());
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-
-                while(iterator.hasNext()){
-                    String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
-                }
-            }
-        });
-
-        tv_MyProfile_Info_Count_Like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO 유저 리스트
-                Set KeySet = TKManager.getInstance().MyData.GetUserLikeKeySet();
-                Iterator iterator = KeySet.iterator();
-
-                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserLikeListCount());
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        Intent intent = new Intent(mContext, UserListActivity.class);
-                        intent.putExtra("Type",1);
-                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserLikeListCount());
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-
-                while(iterator.hasNext()){
-                    String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
-                }
-            }
-        });
-
-        tv_MyProfile_Info_Count_Friend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO 유저 리스트
-                // TODO 유저 리스트
-                Set KeySet = TKManager.getInstance().MyData.GetUserFriendListKeySet();
-                Iterator iterator = KeySet.iterator();
-
-                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount());
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        Intent intent = new Intent(mContext, UserListActivity.class);
-                        intent.putExtra("Type",2);
-                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserFriendListCount());
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-
-                while(iterator.hasNext()){
-                    String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
-                }
-            }
-        });
-
-
-        initUserData();
-
-        //initFavoriteList();
-        initPhotoList();
-        initClubList();
-        initEtcList();
-
-
-        return MyProfileFragView;
+        return v_FragmentView;
     }
 
     @Override
@@ -293,152 +118,4 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-    /*public void initFavoriteList()
-    {
-        mFavoriteAdapter = new MyProfileFavoriteAdapter(mContext);
-        mFavoriteAdapter.setHasStableIds(true);
-
-        rv_MyProfile_Info_Favorite.setAdapter(mFavoriteAdapter);
-        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
-                .setChildGravity(Gravity.CENTER)
-                .setMaxViewsInRow(2)
-                .setGravityResolver(new IChildGravityResolver() {
-                    @Override
-                    public int getItemGravity(int i) {
-                        return Gravity.CENTER;
-                    }
-                })
-                .setOrientation(ChipsLayoutManager.HORIZONTAL)
-                .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER_DENSE)
-                .withLastRow(true)
-                .build();
-        rv_MyProfile_Info_Favorite.setLayoutManager(chipsLayoutManager);
-    }*/
-
-    public void initUserData()
-    {
-        tv_MyProfile_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
-        tv_MyProfile_Info_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
-
-        Glide.with(mContext).load(TKManager.getInstance().MyData.GetUserImgThumb())
-                .centerCrop()
-                .circleCrop()
-                .into(iv_MyProfile_Profile);
-
-
-        if (TKManager.getInstance().MyData.GetUserGender() == 0) {
-            Glide.with(mContext).load(R.drawable.ic_man_simple)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(iv_MyProfile_Info_Gender);
-        } else {
-            Glide.with(mContext).load(R.drawable.ic_woman_simple)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(iv_MyProfile_Info_Gender);
-        }
-
-        tv_MyProfile_Info_Age.setText(TKManager.getInstance().MyData.GetUserAge() + "세");
-
-        Map<String, String> tempMapFavorite = TKManager.getInstance().MyData.GetUserFavoriteList();
-        Set EntrySet = tempMapFavorite.entrySet();
-        Iterator iterator = EntrySet.iterator();
-
-        ArrayList<String> tempFavorite = new ArrayList<>();
-
-        while(iterator.hasNext()){
-            Map.Entry entry = (Map.Entry)iterator.next();
-            String key = (String)entry.getKey();
-            String value = (String)entry.getValue();
-            tempFavorite.add(value);
-        }
-        if(tempFavorite.size() >= 2)
-        {
-            tv_MyProfile_Info_Favorite.setText(tempFavorite.get(0) + ", " + tempFavorite.get(1));
-        }
-
-        tv_MyProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
-
-        tv_MyProfile_Info_Count_Visit.setText("방문자 " + TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
-        tv_MyProfile_Info_Count_Like.setText("좋아요 " + TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
-        tv_MyProfile_Info_Count_Friend.setText("친구 " + TKManager.getInstance().MyData.GetUserFriendListCount());
-    }
-
-
-    public void initPhotoList()
-    {
-        mPhotoAdapter = new MyProfilePhotoAdapter(mContext);
-        mPhotoAdapter.setHasStableIds(true);
-
-        rv_MyProfile_Info_Photo.setAdapter(mPhotoAdapter);
-        rv_MyProfile_Info_Photo.setLayoutManager(new GridLayoutManager(mContext, 4));
-        rv_MyProfile_Info_Photo.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Info_Photo, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
-                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
-                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
-                if (mAppStatus.bCheckMultiSend == false) {
-                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
-
-                    if (mCommon.getClickStatus() == false)
-                        mCommon.MoveUserPage(getActivity(), stTargetData);
-                }*/
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
-            }
-        }));
-    }
-
-    public void initClubList()
-    {
-        mClubAdapter = new MyProfileClubAdapter(mContext);
-        mClubAdapter.setHasStableIds(true);
-
-        rv_MyProfile_Info_Club.setAdapter(mClubAdapter);
-        rv_MyProfile_Info_Club.setLayoutManager(new GridLayoutManager(mContext, 1));
-        rv_MyProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Info_Club, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
-                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
-                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
-                if (mAppStatus.bCheckMultiSend == false) {
-                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
-
-                    if (mCommon.getClickStatus() == false)
-                        mCommon.MoveUserPage(getActivity(), stTargetData);
-                }*/
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
-            }
-        }));
-    }
-
-    public void initEtcList()
-    {
-        mEtcAdapter = new MyProfileEtcAdapter(mContext);
-        mEtcAdapter.setHasStableIds(true);
-
-        rv_MyProfile_Info_Etc.setAdapter(mEtcAdapter);
-        rv_MyProfile_Info_Etc.setLayoutManager(new GridLayoutManager(mContext, 1));
-        rv_MyProfile_Info_Etc.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Info_Etc, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                startActivity(new Intent(mContext, StrContentListActivity.class));
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
-            }
-        }));
-    }
-
-
 }

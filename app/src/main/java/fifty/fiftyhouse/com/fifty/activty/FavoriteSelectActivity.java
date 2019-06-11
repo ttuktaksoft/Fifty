@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -131,6 +132,8 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     public void RefreshFavoriteViewList()
     {
         mViewAdapter = new FavoriteViewAdapter(mContext);
+        mViewAdapter.setItemCount(CommonData.Favorite_Pop_Count);
+        mViewAdapter.setItemData(TKManager.getInstance().FavoriteLIst_Pop);
         mViewAdapter.setHasStableIds(true);
 
         rv_FavoriteSelect_View.setAdapter(mViewAdapter);

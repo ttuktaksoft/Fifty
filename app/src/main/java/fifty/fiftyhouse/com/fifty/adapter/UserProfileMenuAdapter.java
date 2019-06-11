@@ -12,24 +12,24 @@ import com.bumptech.glide.Glide;
 
 import fifty.fiftyhouse.com.fifty.R;
 
-public class MyProfileEtcAdapter extends RecyclerView.Adapter<MyProfileEtcListHolder> {
+public class UserProfileMenuAdapter extends RecyclerView.Adapter<UserProfileMenuListHolder> {
 
     Context mContext;
 
-    public MyProfileEtcAdapter(Context context) {
+    public UserProfileMenuAdapter(Context context) {
         mContext = context;
     }
 
     @Override
-    public MyProfileEtcListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_myprofile_etc, parent, false);
+    public UserProfileMenuListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_user_profile_menu, parent, false);
 
-        return new MyProfileEtcListHolder(view);
+        return new UserProfileMenuListHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(MyProfileEtcListHolder holder, final int position) {
+    public void onBindViewHolder(UserProfileMenuListHolder holder, final int position) {
         int i = position;
         holder.setData(i);;
     }
@@ -41,48 +41,48 @@ public class MyProfileEtcAdapter extends RecyclerView.Adapter<MyProfileEtcListHo
     }
 }
 
-class MyProfileEtcListHolder extends RecyclerView.ViewHolder {
+class UserProfileMenuListHolder extends RecyclerView.ViewHolder {
 
-    ImageView iv_MyProfile_Etc;
-    TextView tv_MyProfile_Etc;
+    ImageView iv_UserProfile_Menu;
+    TextView tv_UserProfile_Menu;
     Context mContext;
-    public MyProfileEtcListHolder(View itemView) {
+    public UserProfileMenuListHolder(View itemView) {
         super(itemView);
         mContext = itemView.getContext();
 
-        iv_MyProfile_Etc = itemView.findViewById(R.id.iv_MyProfile_Etc);
-        tv_MyProfile_Etc = itemView.findViewById(R.id.tv_MyProfile_Etc);
+        iv_UserProfile_Menu = itemView.findViewById(R.id.iv_UserProfile_Menu);
+        tv_UserProfile_Menu = itemView.findViewById(R.id.tv_UserProfile_Menu);
     }
 
     public void setData(int i)
     {
         if(i == 0)
         {
-            tv_MyProfile_Etc.setText("이벤트");
+            tv_UserProfile_Menu.setText("이벤트");
             Glide.with(mContext).load(R.drawable.ic_confetti)
                     .centerCrop()
-                    .into(iv_MyProfile_Etc);
+                    .into(iv_UserProfile_Menu);
         }
         else if(i == 1)
         {
-            tv_MyProfile_Etc.setText("공지사항");
+            tv_UserProfile_Menu.setText("공지사항");
             Glide.with(mContext).load(R.drawable.ic_loudspeaker)
                     .centerCrop()
-                    .into(iv_MyProfile_Etc);
+                    .into(iv_UserProfile_Menu);
         }
         else if(i == 2)
         {
-            tv_MyProfile_Etc.setText("FAQ");
+            tv_UserProfile_Menu.setText("FAQ");
             Glide.with(mContext).load(R.drawable.ic_faq)
                     .centerCrop()
-                    .into(iv_MyProfile_Etc);
+                    .into(iv_UserProfile_Menu);
         }
         else
         {
-            tv_MyProfile_Etc.setText("설정");
+            tv_UserProfile_Menu.setText("설정");
             Glide.with(mContext).load(R.drawable.ic_settings)
                     .centerCrop()
-                    .into(iv_MyProfile_Etc);
+                    .into(iv_UserProfile_Menu);
         }
     }
 }

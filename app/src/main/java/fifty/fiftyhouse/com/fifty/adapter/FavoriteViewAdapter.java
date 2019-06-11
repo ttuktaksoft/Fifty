@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -14,6 +16,9 @@ import fifty.fiftyhouse.com.fifty.R;
 public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder> {
 
     Context mContext;
+    int mItemCount = 0;
+    ArrayList<String> mItemList = new ArrayList<>();
+
     public FavoriteViewAdapter(Context context) {
         mContext = context;
     }
@@ -28,17 +33,23 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
     @Override
     public void onBindViewHolder(FavoriteViewHolder holder, final int position) {
         int i = position;
-        holder.setData(i, true);
+        holder.setData(mItemList.get(i));
     }
 
     @Override
     public int getItemCount() {
-        boolean signup = true;
-        if(signup)
-            return CommonData.Favorite_Pop_Count;
-        else
-            return 40;
+        return mItemCount;
+    }
 
+    public void setItemCount(int count)
+    {
+        mItemCount = count;
+    }
+
+    public void setItemData(ArrayList<String> list)
+    {
+        mItemList.clear();
+        mItemList.addAll(list);
     }
 
 }
@@ -55,11 +66,8 @@ class FavoriteViewHolder extends RecyclerView.ViewHolder {
         tv_Favorite_View_Name = itemView.findViewById(R.id.tv_Favorite_View_Name);
     }
 
-    public void setData(int i, boolean signup)
+    public void setData(String favorite)
     {
-        if(signup)
-        {
-            tv_Favorite_View_Name.setText(TKManager.getInstance().FavoriteLIst_Pop.get(i));
-        }
+        tv_Favorite_View_Name.setText(favorite);
     }
 }

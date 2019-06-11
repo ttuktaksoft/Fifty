@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/iv_MyProfile_Etc"
+        android:id="@+id/iv_UserProfile_Menu"
         android:layout_width="30dp"
         android:layout_height="30dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,17 +18,16 @@
         android:src="@drawable/dummy_7"/>
 
     <TextView
-        android:id="@+id/tv_MyProfile_Etc"
+        android:id="@+id/tv_UserProfile_Menu"
         style="@style/BaseTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/iv_MyProfile_Etc"
+        app:layout_constraintLeft_toRightOf="@+id/iv_UserProfile_Menu"
         app:layout_constraintRight_toRightOf="parent"
         android:text="asdfasdf"
         android:gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:textSize="15dp"/>
-
 </android.support.constraint.ConstraintLayout>

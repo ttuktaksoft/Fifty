@@ -17,7 +17,6 @@ import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.BirthActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.FavoriteActivity;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.FavoriteDetailActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpCompleteActivity;
