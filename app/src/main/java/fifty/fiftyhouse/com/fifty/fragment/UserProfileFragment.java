@@ -2,11 +2,9 @@ package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -27,13 +25,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;

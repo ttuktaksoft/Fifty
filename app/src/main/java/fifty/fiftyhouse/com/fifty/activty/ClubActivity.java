@@ -1,8 +1,6 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Intent;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +17,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
-import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ClubActivity extends AppCompatActivity {

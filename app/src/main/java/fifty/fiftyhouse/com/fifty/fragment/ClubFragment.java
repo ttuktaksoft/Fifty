@@ -2,7 +2,6 @@ package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,15 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
-import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubAdapter;
-import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ClubFragment extends Fragment {

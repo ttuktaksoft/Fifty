@@ -4,23 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
-import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
-import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SignUpFavoriteFixAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 

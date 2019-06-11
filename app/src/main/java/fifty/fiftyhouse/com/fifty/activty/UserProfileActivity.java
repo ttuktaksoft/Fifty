@@ -1,37 +1,23 @@
-package fifty.fiftyhouse.com.fifty.activty.Profile;
+package fifty.fiftyhouse.com.fifty.activty;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import org.w3c.dom.Text;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
-import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
 import fifty.fiftyhouse.com.fifty.fragment.UserProfileFragment;
-import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -72,6 +58,14 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Chat = findViewById(R.id.v_UserProfile_BottomBar_Chat);
         v_UserProfile_BottomBar_Friend = findViewById(R.id.v_UserProfile_BottomBar_Friend);
 
+        iv_UserProfile_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        tv_UserProfile_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+
         v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +84,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         RefreshLikeCount(false);
                     }
 
-                    mUserProfileFragment.setCountInfoStr_1("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+                    mUserProfileFragment.setCountInfoStr_2("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
                 }
             }
         });

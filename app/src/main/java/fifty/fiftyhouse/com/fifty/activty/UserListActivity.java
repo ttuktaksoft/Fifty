@@ -18,8 +18,6 @@ import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
-import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserListAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 

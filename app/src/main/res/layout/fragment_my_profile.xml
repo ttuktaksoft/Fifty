@@ -21,6 +21,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
             android:layout_marginLeft="10dp"
+            android:tint="@color/black_icon_tint"
             android:src="@drawable/ic_alarm"
             />
 
@@ -32,6 +33,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
             android:layout_marginRight="10dp"
+            android:tint="@color/black_icon_tint"
             android:src="@drawable/ic_shop"
             />
 
@@ -45,6 +47,8 @@
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
             android:gravity="center"
+            android:textColor="@color/black_icon_tint"
+            android:textStyle="bold"
             android:text="닉네임"
             android:textSize="25dp"
             />

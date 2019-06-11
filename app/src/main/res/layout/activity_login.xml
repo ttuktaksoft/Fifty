@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:scaleX="0.5"
         android:scaleY="0.5"
+        android:tint="@color/white"
         app:srcCompat="@drawable/ic_logo" />
 
     <ImageView

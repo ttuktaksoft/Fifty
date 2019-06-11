@@ -5,21 +5,13 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Display;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.BirthActivity;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.FavoriteActivity;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpCompleteActivity;
 
 public class LoadingActivity extends AppCompatActivity {
 

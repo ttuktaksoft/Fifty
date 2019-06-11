@@ -1,7 +1,10 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -128,6 +131,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Check = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Check.rightToLeft = tv_Chat_Body_Date.getId();
             lp_Chat_Body_Check.bottomToBottom = tv_Chat_Body_Date.getId();
+
+            ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.chat_my_bg)));
         }
         else
         {
@@ -172,6 +177,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Check = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Check.leftToRight = tv_Chat_Body_Date.getId();
             lp_Chat_Body_Check.bottomToBottom = tv_Chat_Body_Date.getId();
+
+            ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.white)));
         }
 
         iv_Chat_Body_Profile.setLayoutParams(lp_Chat_Body_Profile);

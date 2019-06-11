@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
-import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 

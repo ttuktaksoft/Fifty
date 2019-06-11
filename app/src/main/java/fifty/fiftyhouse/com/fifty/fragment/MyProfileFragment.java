@@ -86,6 +86,12 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
 
         v_FragmentView.setTag("MyProfileFragment");
 
+        iv_MyProfile_Alarm = v_FragmentView.findViewById(R.id.iv_MyProfile_Alarm);
+        iv_MyProfile_Shop = v_FragmentView.findViewById(R.id.iv_MyProfile_Shop);
+        tv_MyProfile_Name = v_FragmentView.findViewById(R.id.tv_MyProfile_Name);
+
+        tv_MyProfile_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
+
         return v_FragmentView;
     }
 

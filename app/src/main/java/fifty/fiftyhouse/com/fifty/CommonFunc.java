@@ -1,28 +1,15 @@
 package fifty.fiftyhouse.com.fifty;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
-import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialog;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -33,8 +20,7 @@ import java.util.Random;
 
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
-import fifty.fiftyhouse.com.fifty.Manager.TKManager;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 
 public class CommonFunc {
 

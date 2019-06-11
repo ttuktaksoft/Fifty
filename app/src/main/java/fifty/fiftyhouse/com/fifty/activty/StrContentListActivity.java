@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.Profile.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.StrContentListAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 

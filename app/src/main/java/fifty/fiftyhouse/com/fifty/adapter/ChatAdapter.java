@@ -43,7 +43,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
 
     @Override
     public int getItemCount() {
-        return TKManager.getInstance().MyData.GetUserChatListCount();
+        return 1;
+        //return TKManager.getInstance().MyData.GetUserChatListCount();
         //return mMyData.arrChatTargetData.size();
     }
 
@@ -68,7 +69,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
     public void setData(int i)
     {
-        Set tempKey = TKManager.getInstance().MyData.GetUserChatListKeySet();
+        /*Set tempKey = TKManager.getInstance().MyData.GetUserChatListKeySet();
         List array = new ArrayList(tempKey);
         ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(i).toString());
 
@@ -85,6 +86,6 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         {
             CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Profile, tempChatData.GetFromThumbNail(), true);
             tv_Chat_Nickname.setText(tempChatData.GetFromNickName());
-        }
+        }*/
     }
 }

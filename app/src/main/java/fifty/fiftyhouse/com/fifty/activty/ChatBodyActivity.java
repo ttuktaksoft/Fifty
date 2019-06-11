@@ -23,9 +23,12 @@ import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ChatBodyActivity extends AppCompatActivity {
+
+    View ui_ChatBody_TopBar;
+    TextView tv_TopBar_Title;
+    ImageView iv_TopBar_Back;
     RecyclerView rv_Chat_Body_List;
-    ImageView iv_Chat_Body_Plus, iv_Chat_Body_Send, iv_ChatBody_Back;
-    TextView tv_ChatBody_Title;
+    ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus, iv_Chat_Body_Send;
     EditText et_Chat_Body_Msg;
 
     ChatBodyAdapter mAdapter;
@@ -34,21 +37,23 @@ public class ChatBodyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_body);
 
-        iv_ChatBody_Back = findViewById(R.id.iv_ChatBody_Back);
-        tv_ChatBody_Title = findViewById(R.id.tv_ChatBody_Title);
+        ui_ChatBody_TopBar = findViewById(R.id.ui_ChatBody_TopBar);
+        tv_TopBar_Title = ui_ChatBody_TopBar.findViewById(R.id.tv_TopBar_Title);
+        iv_TopBar_Back = ui_ChatBody_TopBar.findViewById(R.id.iv_TopBar_Back);
         rv_Chat_Body_List = findViewById(R.id.rv_Chat_Body_List);
+        iv_ChatBody_Alert = findViewById(R.id.iv_ChatBody_Alert);
         iv_Chat_Body_Plus = findViewById(R.id.iv_Chat_Body_Plus);
         iv_Chat_Body_Send = findViewById(R.id.iv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
 
-        iv_ChatBody_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        tv_ChatBody_Title.setText("피프티");
+        tv_TopBar_Title.setText("닉네임추가");
 
         initRecyclerView();
     }
