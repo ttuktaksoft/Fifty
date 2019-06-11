@@ -72,8 +72,8 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         List array = new ArrayList(tempKey);
         ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(i).toString());
 
-        tv_Chat_Msg.setText(tempChatData.GetLastMsg());
-        tv_Chat_Date.setText(tempChatData.GetLastMsgDate());
+        tv_Chat_Msg.setText(tempChatData.GetMSG());
+        tv_Chat_Date.setText(Long.toString(tempChatData.GetMsgDate()));
 
         if(tempChatData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
         {
