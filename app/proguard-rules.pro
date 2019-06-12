@@ -26,5 +26,7 @@
   public *;
 }
 
+-keepclassmembers class com.fifty.fiftyhouse.com.fifty.** { *; }
+
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule

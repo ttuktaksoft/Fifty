@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -75,15 +74,16 @@ public class MemoEditActivity extends AppCompatActivity {
         tv_Story_Edit_Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tempMemo = et_Story_Edit_Memo.getText().toString();
-                if(tempMemo.getBytes().length > 0)
-                {
-                    TKManager.getInstance().MyData.SetUserMemo(tempMemo);
-                    FirebaseManager.getInstance().SetUserMemo();
-                }
+            String tempMemo = et_Story_Edit_Memo.getText().toString();
 
-                startActivity(new Intent(MemoEditActivity.this, MyProfileEditActivity.class));
-                finish();
+            if(CommonFunc.getInstance().CheckStringNull(tempMemo) == false)
+            {
+                TKManager.getInstance().MyData.SetUserMemo(tempMemo);
+                FirebaseManager.getInstance().SetUserMemo();
+            }
+
+            startActivity(new Intent(MemoEditActivity.this, MyProfileEditActivity.class));
+            finish();
             }
         });
 

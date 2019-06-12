@@ -12,9 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.w3c.dom.Text;
-
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -82,12 +80,12 @@ public class LocationEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String tempLocation  = et_Location_Edit_Location.getText().toString();
-                if(tempLocation.getBytes().length > 0)
+
+                if(CommonFunc.getInstance().CheckStringNull(tempLocation) == false)
                 {
                     TKManager.getInstance().MyData.SetUserLocation(tempLocation);
                     FirebaseManager.getInstance().SetUserLocation();
                 }
-
                 startActivity(new Intent(LocationEditActivity.this, MyProfileEditActivity.class));
                 finish();
             }

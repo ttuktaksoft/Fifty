@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.text.InputFilter;
 import android.util.TypedValue;
 import android.widget.EditText;
@@ -150,14 +151,21 @@ public class CommonFunc {
 
 
     }
-
     public void setEditTextMaxSize(EditText et, int size)
     {
         InputFilter[] FilterArray = new InputFilter[1];
         FilterArray[0] = new InputFilter.LengthFilter(size);
         et.setFilters(FilterArray);
     }
-
+    public boolean CheckStringNull(String str)
+    {
+        if(TextUtils.isEmpty(str))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
 
 
 
