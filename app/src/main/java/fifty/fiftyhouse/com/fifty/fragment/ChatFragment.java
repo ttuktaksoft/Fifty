@@ -13,6 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
@@ -72,7 +80,28 @@ public class ChatFragment extends Fragment {
         ChatRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mContext, ChatRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(getContext(), ChatBodyActivity.class));
+
+                Set tempKey = TKManager.getInstance().MyData.GetUserChatDataListKeySet();
+                List array = new ArrayList(tempKey);
+                ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(position).toString());
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        startActivity(new Intent(getContext(), ChatBodyActivity.class));
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, false, listener);
+
                 //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {

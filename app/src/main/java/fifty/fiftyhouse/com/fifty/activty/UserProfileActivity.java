@@ -120,9 +120,8 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Chat) {
-                    int index = 11;
-                    TKManager.getInstance().MyData.SetUserIndex(Integer.toString(index));
-                    index ++;
+                    FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex());
+                    FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex());
                 }
 
             }

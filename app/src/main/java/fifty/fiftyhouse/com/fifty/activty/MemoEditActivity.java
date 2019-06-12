@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -38,7 +39,8 @@ public class MemoEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String tempMemo = et_Story_Edit_Story.getText().toString();
-                if(tempMemo.getBytes().length > 0)
+
+                if(CommonFunc.getInstance().CheckStringNull(tempMemo) == false)
                 {
                     TKManager.getInstance().MyData.SetUserMemo(tempMemo);
                     FirebaseManager.getInstance().SetUserMemo();

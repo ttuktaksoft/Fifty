@@ -7,20 +7,21 @@ import fifty.fiftyhouse.com.fifty.CommonData;
  */
 
 public class ChatData {
-    private  String RoomIndex;
+    public   String RoomIndex;
 
-    private String FromIndex ;
-    private String FromNickName;
-    private String FromThumbNail;
+    public  String FromIndex ;
+    public  String FromNickName;
+    public  String FromThumbNail;
 
-    private String ToIndex ;
-    private String ToNickName;
-    private String ToThumbNail;
+    public  String ToIndex ;
+    public  String ToNickName;
+    public  String ToThumbNail;
 
-    private String Msg;
-    private String MSGSender;
-    private CommonData.MSGType MSGType;
-    private long MsgDate;
+    public  String Msg;
+    public   String MsgIndex;
+    public  String MsgSender;
+    public  CommonData.MSGType MsgType;
+    public  long MsgDate;
 
     public void SetRoomIndex(String roomIndex)
     {
@@ -75,21 +76,27 @@ public class ChatData {
         return ToThumbNail;
     }
 
-    public void SetMSG(String msg) {Msg = msg;}
-    public String GetMSG()
+    public void SetMsgIndex(String msgindex) {MsgIndex = msgindex;}
+    public String GetMsgIndex()
+    {
+        return MsgIndex;
+    }
+
+    public void SetMsg(String msg) {Msg = msg;}
+    public String GetMsg()
     {
         return Msg;
     }
-    public void SetMSGSender(String msgSender) {MSGSender = msgSender;}
-    public String GetMSGSender()
+    public void SetMsgSender(String msgSender) {MsgSender = msgSender;}
+    public String GetMsgSender()
     {
-        return MSGSender;
+        return MsgSender;
     }
 
-    public void SetMSGType(CommonData.MSGType type) {MSGType = type;}
-    public CommonData.MSGType GetMSGType()
+    public void SetMsgType(CommonData.MSGType type) {MsgType = type;}
+    public CommonData.MSGType GetMsgType()
     {
-        return MSGType;
+        return MsgType;
     }
     public void SetMsgDate(long msgDate) {MsgDate = msgDate;}
     public long GetMsgDate()

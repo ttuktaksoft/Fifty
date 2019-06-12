@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -305,10 +307,11 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
         tv_UserProfile_Info_Count_3.setText("거리 " + TKManager.getInstance().TargetUserData.GetUserDist() + " Km");
 
-        if(TKManager.getInstance().TargetUserData.GetUserMemo().isEmpty())
+        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserMemo()))
             tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
         else
             tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
+
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, false);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -148,6 +149,17 @@ public class CommonFunc {
 
 
     }
+
+    public boolean CheckStringNull(String str)
+    {
+        if(TextUtils.isEmpty(str))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
 
 
 

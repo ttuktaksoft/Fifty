@@ -90,7 +90,7 @@ class UserProfilePhotoListHolder extends RecyclerView.ViewHolder {
 
     public void setData(String str)
     {
-        if(str.isEmpty())
+        if(CommonFunc.getInstance().CheckStringNull(str))
         {
             Glide.with(mContext).load(R.drawable.bg_empty_square)
                     .centerCrop()

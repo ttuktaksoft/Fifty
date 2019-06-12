@@ -16,7 +16,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
@@ -44,7 +51,7 @@ public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
 
     @Override
     public int getItemCount() {
-        return 20;
+        return TKManager.getInstance().MyData.GetUserChatDataCount();
     }
 }
 
@@ -77,8 +84,15 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
     public void setChatData(int pos)
     {
-        Boolean mSend = pos % 2 == 1 ? true : false;
-        int ChatType = pos % 3;
+        Set tempKey = TKManager.getInstance().MyData.GetUserChatDataKeySet();
+        List array = new ArrayList(tempKey);
+
+        ChatData tempData = TKManager.getInstance().MyData.GetUserChatData(array.get(pos).toString());
+
+        Boolean mSend = tempData.GetMsgSender().equals(TKManager.getInstance().MyData.GetUserIndex());
+
+        /*Boolean mSend = pos % 2 == 1 ? true : false;
+        int ChatType = pos % 3;*/
 
         ConstraintLayout.LayoutParams lp_Chat_Body_Profile = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_NickName = null;
@@ -116,9 +130,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
             // 타입별 나누기
             int AttachID = 0;
-            if(ChatType == 0)
+            if(tempData.GetMsgType() == CommonData.MSGType.MSG)
                 AttachID = v_Chat_Body_Type_Msg.getId();
-            else if(ChatType == 1)
+            else if(tempData.GetMsgType() == CommonData.MSGType.IMG)
                 AttachID = v_Chat_Body_Type_Img.getId();
             else
                 AttachID = v_Chat_Body_Type_Video.getId();
@@ -162,9 +176,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
             // 타입별 나누기
             int AttachID = 0;
-            if(ChatType == 0)
+            if(tempData.GetMsgType() == CommonData.MSGType.MSG)
                 AttachID = v_Chat_Body_Type_Msg.getId();
-            else if(ChatType == 1)
+            else if(tempData.GetMsgType() == CommonData.MSGType.IMG)
                 AttachID = v_Chat_Body_Type_Img.getId();
             else
                 AttachID = v_Chat_Body_Type_Video.getId();
@@ -193,9 +207,10 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         v_Chat_Body_Type_Msg.setVisibility(View.GONE);
         v_Chat_Body_Type_Img.setVisibility(View.GONE);
         v_Chat_Body_Type_Video.setVisibility(View.GONE);
-        if(ChatType == 0)
+
+        if(tempData.GetMsgType() == CommonData.MSGType.MSG)
             v_Chat_Body_Type_Msg.setVisibility(View.VISIBLE);
-        else if(ChatType == 1)
+        else if(tempData.GetMsgType() == CommonData.MSGType.IMG)
             v_Chat_Body_Type_Img.setVisibility(View.VISIBLE);
         else
             v_Chat_Body_Type_Video.setVisibility(View.VISIBLE);
@@ -210,6 +225,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             v_Chat_Body_Type_Video.setPadding(0,0, 0, 0);
             tv_Chat_Body_Date.setPadding(0,0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0);
             tv_Chat_Body_Check.setPadding(0,0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0);
+
         }
         else
         {
@@ -221,14 +237,13 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             v_Chat_Body_Type_Video.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0, 0);
             tv_Chat_Body_Date.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0, 0);
             tv_Chat_Body_Check.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0, 0);
+
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Profile, tempData.ToThumbNail, true);
+            tv_Chat_Body_NickName.setText(tempData.GetToNickName());
         }
 
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_4)
-                .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .thumbnail(0.1f)
-                .into(iv_Chat_Body_Profile);
+
+        tv_Chat_Body_Msg.setText(tempData.GetMsg());
+
     }
 }
