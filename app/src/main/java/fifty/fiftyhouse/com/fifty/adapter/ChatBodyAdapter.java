@@ -242,8 +242,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             tv_Chat_Body_NickName.setText(tempData.GetToNickName());
         }
 
-
         tv_Chat_Body_Msg.setText(tempData.GetMsg());
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
 
     }
 }

@@ -15,7 +15,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ChatBodyAdapter;
@@ -50,6 +53,29 @@ public class ChatBodyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        iv_Chat_Body_Send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChatData tempData = new ChatData();
+
+                tempData.SetFromIndex(TKManager.getInstance().MyData.GetUserIndex());
+                tempData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+                tempData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+
+                tempData.SetMsg(et_Chat_Body_Msg.getText().toString());
+
+                tempData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
+                tempData.SetToIndex("14");
+                tempData.SetToNickName("14");
+                tempData.SetToThumbNail("14");
+
+                tempData.SetMsgType(CommonData.MSGType.MSG);
+                tempData.SetRoomIndex("1_1");
+
+
+                FirebaseManager.getInstance().AddChatData("1_1",tempData);
             }
         });
 

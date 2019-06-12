@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -120,8 +122,31 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Chat) {
-                    FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex());
-                    FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex());
+
+                    String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+                    String targetIndex =  TKManager.getInstance().TargetUserData.GetUserIndex();
+                    String ChatRoomIndex = userIndex + "_" +targetIndex;
+
+                    ChatData tempChatData = new ChatData();
+                    tempChatData.SetRoomIndex(ChatRoomIndex);
+
+                    tempChatData.SetFromIndex(userIndex);
+                    tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+                    tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+
+                    tempChatData.SetToIndex(targetIndex);
+                    tempChatData.SetToNickName(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName());
+                    tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
+
+                    tempChatData.SetMsgIndex("0");
+                    tempChatData.SetMsgDate(Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+                    tempChatData.SetMsgType(CommonData.MSGType.MSG);
+                    tempChatData.SetMsgSender(userIndex);
+                    tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
+
+
+                    FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+                    FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
                 }
 
             }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -412,6 +413,8 @@ public class FirebaseManager {
     }
 
     public void GetUserChatData(final String chatRoomIndex, final UserData userData, boolean lastmsg, final CheckFirebaseComplete listener) {
+
+        TKManager.getInstance().MyData.ClearUserChatData();
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
@@ -427,8 +430,6 @@ public class FirebaseManager {
                             int idx = tempRoomName.indexOf("_");
                             String tempFrom = tempRoomName.substring(0, idx);
                             String tempTo = tempRoomName.substring(idx+1);
-
-                            document.getData().get("Index");
 
                             ChatData tempData = new ChatData();
                             tempData.SetRoomIndex(document.getData().get("RoomIndex").toString());
@@ -475,61 +476,68 @@ public class FirebaseManager {
 
         else
         {
-            colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            colRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        TKManager.getInstance().MyData.ClearUserChatData();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                            String tempRoomName = chatRoomIndex;
-                            int idx = tempRoomName.indexOf("_");
-                            String tempFrom = tempRoomName.substring(0, idx);
-                            String tempTo = tempRoomName.substring(idx+1);
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
 
-                            document.getData().get("Index");
+                    for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
+                        switch (document.getType()) {
+                            case ADDED:
+                            case MODIFIED:
+                                String tempRoomName = document.getDocument().getId().toString();
 
-                            ChatData tempData = new ChatData();
-                            tempData.SetRoomIndex(document.getData().get("RoomIndex").toString());
+                                if(!document.getDocument().getId().equals("Index"))
+                                {
+                                    ChatData tempData = new ChatData();
+                                    tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
 
-                            tempData.SetFromIndex(document.getData().get("FromIndex").toString());
-                            tempData.SetFromNickName(document.getData().get("FromNickName").toString());
-                            tempData.SetFromThumbNail(document.getData().get("FromThumbNail").toString());
+                                    tempData.SetFromIndex(document.getDocument().getData().get("FromIndex").toString());
+                                    tempData.SetFromNickName(document.getDocument().getData().get("FromNickName").toString());
+                                    tempData.SetFromThumbNail(document.getDocument().getData().get("FromThumbNail").toString());
 
-                            tempData.SetToIndex(document.getData().get("ToIndex").toString());
-                            tempData.SetToNickName(document.getData().get("ToNickName").toString());
-                            tempData.SetToThumbNail(document.getData().get("ToThumbNail").toString());
+                                    tempData.SetToIndex(document.getDocument().getData().get("ToIndex").toString());
+                                    tempData.SetToNickName(document.getDocument().getData().get("ToNickName").toString());
+                                    tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
 
-                            tempData.SetMsg(document.getData().get("Msg").toString());
-                            tempData.SetMsgIndex(document.getData().get("MsgIndex").toString());
-                            tempData.SetMsgSender(document.getData().get("MsgSender").toString());
-                            tempData.SetMsgDate(Integer.parseInt(document.getData().get("MsgDate").toString()));
+                                    tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
+                                    tempData.SetMsgIndex(document.getDocument().getData().get("MsgIndex").toString());
+                                    tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
+                                    tempData.SetMsgDate(Integer.parseInt(document.getDocument().getData().get("MsgDate").toString()));
 
-                            String tempType = document.getData().get("MsgType").toString();
+                                    String tempType = document.getDocument().getData().get("MsgType").toString();
 
-                            switch (tempType)
-                            {
-                                case "MSG":
-                                    tempData.SetMsgType(CommonData.MSGType.MSG);
-                                    break;
-                                case "IMG":
-                                    tempData.SetMsgType(CommonData.MSGType.IMG);
-                                    break;
-                                case "VIDEO":
-                                    tempData.SetMsgType(CommonData.MSGType.VIDEO);
-                                    break;
-                            }
-                            userData.SetUserChatData(tempData.GetMsgIndex(), tempData);
+                                    switch (tempType)
+                                    {
+                                        case "MSG":
+                                            tempData.SetMsgType(CommonData.MSGType.MSG);
+                                            break;
+                                        case "IMG":
+                                            tempData.SetMsgType(CommonData.MSGType.IMG);
+                                            break;
+                                        case "VIDEO":
+                                            tempData.SetMsgType(CommonData.MSGType.VIDEO);
+                                            break;
+                                    }
+                                    userData.SetUserChatData(tempData.GetMsgIndex(), tempData);
+                                }
+
+
+                                break;
+                            case REMOVED:
+                                tempRoomName = document.getDocument().getId().toString();
+                                userData.DelUserChatList(tempRoomName);
+                                break;
                         }
-
-                        if (listener != null)
-                            listener.CompleteListener();
-
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 }
             });
+
+            if (listener != null)
+                listener.CompleteListener();
         }
 
     }
@@ -550,26 +558,40 @@ public class FirebaseManager {
                 for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
                     switch (document.getType()) {
                         case ADDED:
-                            String tempRoomName = document.getDocument().getId().toString();
-                            int idx = tempRoomName.indexOf("_");
-                            String tempFrom = tempRoomName.substring(0, idx);
-                            String tempTo = tempRoomName.substring(idx+1);
-
-                            if(tempFrom.equals(TKManager.getInstance().MyData.GetUserIndex()))
-                            {
-                                userData.SetUserChatList(tempRoomName, tempTo);
-                            }
-                            else
-                            {
-                                userData.SetUserChatList(tempRoomName, tempFrom);
-                            }
-
-                            GetUserChatData(tempRoomName, userData, true, listener);
-
-                            break;
                         case MODIFIED:
-                            tempRoomName = document.getDocument().getId().toString();
-                            GetUserChatData(tempRoomName, userData, true, listener);
+                            String tempRoomName = document.getDocument().getId().toString();
+
+                            ChatData tempData = new ChatData();
+                            tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
+
+                            tempData.SetFromIndex(document.getDocument().getData().get("FromIndex").toString());
+                            tempData.SetFromNickName(document.getDocument().getData().get("FromNickName").toString());
+                            tempData.SetFromThumbNail(document.getDocument().getData().get("FromThumbNail").toString());
+
+                            tempData.SetToIndex(document.getDocument().getData().get("ToIndex").toString());
+                            tempData.SetToNickName(document.getDocument().getData().get("ToNickName").toString());
+                            tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
+
+                            tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
+                            tempData.SetMsgIndex(document.getDocument().getData().get("MsgIndex").toString());
+                            tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
+                            tempData.SetMsgDate(Integer.parseInt(document.getDocument().getData().get("MsgDate").toString()));
+
+                            String tempType = document.getDocument().getData().get("MsgType").toString();
+
+                            switch (tempType)
+                            {
+                                case "MSG":
+                                    tempData.SetMsgType(CommonData.MSGType.MSG);
+                                    break;
+                                case "IMG":
+                                    tempData.SetMsgType(CommonData.MSGType.IMG);
+                                    break;
+                                case "VIDEO":
+                                    tempData.SetMsgType(CommonData.MSGType.VIDEO);
+                                    break;
+                            }
+                            userData.SetUserChatDataList(tempRoomName, tempData);
                             break;
                         case REMOVED:
                             tempRoomName = document.getDocument().getId().toString();
@@ -1412,23 +1434,64 @@ public class FirebaseManager {
         }
     }
 
-    public void RegistChatList(String targetIndex) {
+
+    public void AddChatData(final String roomIndex, final ChatData chatData) {
+
+        final String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+        final Long[] newPopulation = new Long[1];
+
+        final DocumentReference sfChatIndexRef = mDataBase.collection("ChatRoomData").document(roomIndex).collection(roomIndex).document("Index");
+        mDataBase.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(sfChatIndexRef);
+
+                newPopulation[0] = snapshot.getLong("Index") + 1;
+                transaction.update(sfChatIndexRef, "Index", newPopulation[0]);
+                // Success
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Transaction success!");
+
+                chatData.SetMsgIndex((newPopulation[0]).toString());
+                mDataBase.collection("ChatRoomData").document(roomIndex).collection(roomIndex).document( newPopulation[0].toString())
+                        .set(chatData, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Transaction failure.", e);
+                    }
+                });
+
+
+
+    }
+
+
+    public void RegistChatList(String targetIndex, ChatData chatData) {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
         String ChatRoomIndex = userIndex + "_" + targetIndex;
 
-/*        Map<String, Object> ChatListData = new HashMap<>();
-        ChatListData.put("Index", ChatRoomIndex);
-        ChatListData.put("Date", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
-        ChatListData.put("Msg", "");*/
-
-        Map<String, Object> tempChatData = new HashMap<>();
-        tempChatData.put("Date", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
-        tempChatData.put("Create", false);
-
-        //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
-
         mDataBase.collection("ChatRoomList").document(targetIndex).collection("ChatRoomIndex").document(ChatRoomIndex)
-                .set(tempChatData, SetOptions.merge())
+                .set(chatData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -1449,7 +1512,7 @@ public class FirebaseManager {
         //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
 
         mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList").document(ChatRoomIndex)
-                .set(tempChatList, SetOptions.merge())
+                .set(chatData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -1464,35 +1527,32 @@ public class FirebaseManager {
                 });
     }
 
-    public void RegistChatData(String targetIndex)
+    public void RegistChatData(String targetIndex, ChatData chatData)
     {
+
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
         String ChatRoomIndex = userIndex + "_" + targetIndex;
-
-        ChatData tempChatData = new ChatData();
-        tempChatData.SetRoomIndex(ChatRoomIndex);
-
-        tempChatData.SetFromIndex(userIndex);
-        tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
-        tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
-
-        tempChatData.SetToIndex(targetIndex);
-        tempChatData.SetToNickName(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName());
-        tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
-
-        tempChatData.SetMsgIndex("1");
-        tempChatData.SetMsgDate(Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
-        tempChatData.SetMsgType(CommonData.MSGType.MSG);
-        tempChatData.SetMsgSender(userIndex);
-        tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
-
-        Map<String, ChatData> tempData = new HashMap<>();
-
-        tempData.put("1", tempChatData);
         //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
 
         mDataBase.collection("ChatRoomData").document(ChatRoomIndex).collection(ChatRoomIndex).document("0")
-                .set(tempChatData, SetOptions.merge())
+                .set(chatData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        Map<String, Object> tempIndex = new HashMap<>();
+        tempIndex.put("Index", 0);
+        mDataBase.collection("ChatRoomData").document(ChatRoomIndex).collection(ChatRoomIndex).document("Index")
+                .set(tempIndex, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
