@@ -12,10 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Random;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
@@ -42,6 +45,9 @@ public class ChatBodyActivity extends AppCompatActivity {
     String strRoomIndex;
 
     ChatBodyAdapter mAdapter;
+
+    InputMethodManager imm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,9 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         strRoomIndex = getIntent().getStringExtra("RoomIndex");
+
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+
 
         ui_ChatBody_TopBar = findViewById(R.id.ui_ChatBody_TopBar);
         tv_TopBar_Title = ui_ChatBody_TopBar.findViewById(R.id.tv_TopBar_Title);
@@ -72,22 +81,50 @@ public class ChatBodyActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ChatData tempData = new ChatData();
 
-                tempData.SetFromIndex(TKManager.getInstance().MyData.GetUserIndex());
-                tempData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
-                tempData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+                Random random = new Random();
 
-                tempData.SetMsg(et_Chat_Body_Msg.getText().toString());
 
-                tempData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
-                tempData.SetToIndex("14");
-                tempData.SetToNickName("14");
-                tempData.SetToThumbNail("14");
+                if(random.nextInt(2) == 1)
+                {
+                    tempData.SetFromIndex(TKManager.getInstance().MyData.GetUserIndex());
+                    tempData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+                    tempData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
 
-                tempData.SetMsgType(CommonData.MSGType.MSG);
-                tempData.SetRoomIndex("1_1");
+                    tempData.SetMsg(et_Chat_Body_Msg.getText().toString());
 
+                    tempData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
+                    tempData.SetMsgType(CommonData.MSGType.MSG);
+
+                    tempData.SetToIndex("14");
+                    tempData.SetToNickName("14");
+                    tempData.SetToThumbNail("14");
+
+
+                    tempData.SetRoomIndex("1_1");
+                }
+                else
+                {
+                    tempData.SetToIndex(TKManager.getInstance().MyData.GetUserIndex());
+                    tempData.SetToNickName(TKManager.getInstance().MyData.GetUserNickName());
+                    tempData.SetToThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+
+                    tempData.SetMsg(et_Chat_Body_Msg.getText().toString());
+
+                    tempData.SetMsgSender("14");
+                    tempData.SetMsgType(CommonData.MSGType.MSG);
+
+                    tempData.SetFromIndex("14");
+                    tempData.SetFromNickName("14");
+                    tempData.SetFromThumbNail("14");
+
+
+                    tempData.SetRoomIndex("1_1");
+                }
 
                 FirebaseManager.getInstance().AddChatData("1_1",tempData);
+
+                imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
+                et_Chat_Body_Msg.setText(null);
             }
         });
 
@@ -111,10 +148,12 @@ public class ChatBodyActivity extends AppCompatActivity {
         mAdapter = new ChatBodyAdapter(getApplicationContext());
         mAdapter.setHasStableIds(true);
 
+
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
                 mAdapter.notifyDataSetChanged();
+                rv_Chat_Body_List.scrollToPosition(mAdapter.getItemCount() - 1);
             }
 
             @Override
@@ -129,6 +168,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         FirebaseManager.getInstance().MonitorChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
 
         rv_Chat_Body_List.setAdapter(mAdapter);
+
         rv_Chat_Body_List.setLayoutManager(new LinearLayoutManager(this)) ;
         //rv_Chat_Body_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         rv_Chat_Body_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Chat_Body_List, new RecyclerItemClickListener.OnItemClickListener() {

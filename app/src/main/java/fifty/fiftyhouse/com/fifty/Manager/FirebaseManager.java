@@ -525,6 +525,8 @@ public class FirebaseManager {
                                             break;
                                     }
                                     userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
+
+                                    userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
                                 }
 
 
