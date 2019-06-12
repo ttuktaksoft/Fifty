@@ -53,6 +53,20 @@ public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
     public int getItemCount() {
         return TKManager.getInstance().MyData.GetUserChatDataCount();
     }
+
+    @Override
+    public long getItemId(int position) {
+        long rtValue = 0;
+
+        Set tempKey = TKManager.getInstance().MyData.GetUserChatDataKeySet();
+        List array = new ArrayList(tempKey);
+        ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatData(array.get(position).toString());
+        rtValue = tempChatData.GetMsgIndex();
+        //rtValue = Long.valueOf(mMyData.arrUserAll_Hot_Age.get(position).Idx);
+
+        return rtValue;
+    }
+
 }
 
 class ChatBodyListHolder extends RecyclerView.ViewHolder {

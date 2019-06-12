@@ -18,7 +18,7 @@ public class ChatData {
     public  String ToThumbNail;
 
     public  String Msg;
-    public   String MsgIndex;
+    public  long MsgIndex;
     public  String MsgSender;
     public  CommonData.MSGType MsgType;
     public  long MsgDate;
@@ -76,8 +76,8 @@ public class ChatData {
         return ToThumbNail;
     }
 
-    public void SetMsgIndex(String msgindex) {MsgIndex = msgindex;}
-    public String GetMsgIndex()
+    public void SetMsgIndex(long msgindex) {MsgIndex = msgindex;}
+    public long GetMsgIndex()
     {
         return MsgIndex;
     }

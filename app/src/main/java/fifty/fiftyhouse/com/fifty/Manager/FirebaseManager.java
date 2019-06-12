@@ -418,7 +418,7 @@ public class FirebaseManager {
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
-            colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            colRef.orderBy("MsgIndex", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
@@ -438,7 +438,7 @@ public class FirebaseManager {
                                 tempData.SetToThumbNail(document.getData().get("ToThumbNail").toString());
 
                                 tempData.SetMsg(document.getData().get("Msg").toString());
-                                tempData.SetMsgIndex(document.getData().get("MsgIndex").toString());
+                                tempData.SetMsgIndex(Long.parseLong(document.getData().get("MsgIndex").toString()));
                                 tempData.SetMsgSender(document.getData().get("MsgSender").toString());
                                 tempData.SetMsgDate(Integer.parseInt(document.getData().get("MsgDate").toString()));
 
@@ -456,7 +456,7 @@ public class FirebaseManager {
                                         tempData.SetMsgType(CommonData.MSGType.VIDEO);
                                         break;
                                 }
-                                userData.SetUserChatData(tempData.GetMsgIndex(), tempData);
+                                userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
                             }
                         }
 
@@ -506,7 +506,7 @@ public class FirebaseManager {
                                     tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
 
                                     tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
-                                    tempData.SetMsgIndex(document.getDocument().getData().get("MsgIndex").toString());
+                                    tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                                     tempData.SetMsgDate(Integer.parseInt(document.getDocument().getData().get("MsgDate").toString()));
 
@@ -524,7 +524,7 @@ public class FirebaseManager {
                                             tempData.SetMsgType(CommonData.MSGType.VIDEO);
                                             break;
                                     }
-                                    userData.SetUserChatData(tempData.GetMsgIndex(), tempData);
+                                    userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
                                 }
 
 
@@ -576,7 +576,7 @@ public class FirebaseManager {
                             tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
 
                             tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
-                            tempData.SetMsgIndex(document.getDocument().getData().get("MsgIndex").toString());
+                            tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
                             tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                             tempData.SetMsgDate(Integer.parseInt(document.getDocument().getData().get("MsgDate").toString()));
 
@@ -1459,7 +1459,7 @@ public class FirebaseManager {
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Transaction success!");
 
-                chatData.SetMsgIndex((newPopulation[0]).toString());
+                chatData.SetMsgIndex((newPopulation[0]));
                 mDataBase.collection("ChatRoomData").document(roomIndex).collection(roomIndex).document( newPopulation[0].toString())
                         .set(chatData, SetOptions.merge())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
