@@ -1,7 +1,6 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,9 +14,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -29,19 +28,20 @@ import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileEditMenuAdapter;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class MyProfileEditActivity extends AppCompatActivity {
 
-    ImageView iv_MyProfile_Edit_Back, iv_MyProfile_Edit_Profile;
+    View ui_MyProfile_Edit_TopBar;
+    TextView tv_TopBar_Title;
+    ImageView iv_TopBar_Back;
+    ImageView iv_MyProfile_Edit_Profile;
     RecyclerView rv_MyProfile_Edit_Menu;
 
     MyProfileEditMenuAdapter mAdapter;
     private Context mContext;
-    private Activity mActivity;
 
     private static final int GET_FROM_GALLERY = 1;
     private File tempFile;
@@ -53,14 +53,14 @@ public class MyProfileEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile_edit);
-
-        mActivity = MyProfileEditActivity.this;
         mContext = getApplicationContext();
 
-        iv_MyProfile_Edit_Back = findViewById(R.id.iv_MyProfile_Edit_Back);
+        ui_MyProfile_Edit_TopBar = findViewById(R.id.ui_MyProfile_Edit_TopBar);
+        tv_TopBar_Title = ui_MyProfile_Edit_TopBar.findViewById(R.id.tv_TopBar_Title);
+        iv_TopBar_Back = ui_MyProfile_Edit_TopBar.findViewById(R.id.iv_TopBar_Back);
         iv_MyProfile_Edit_Profile = findViewById(R.id.iv_MyProfile_Edit_Profile);
         rv_MyProfile_Edit_Menu = findViewById(R.id.rv_MyProfile_Edit_Menu);
-        iv_MyProfile_Edit_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -97,7 +97,7 @@ public class MyProfileEditActivity extends AppCompatActivity {
                 }
                 else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX)
                 {
-                    startActivity(new Intent(getApplicationContext(), StoryEditActivity.class));
+                    startActivity(new Intent(getApplicationContext(), MemoEditActivity.class));
                     finish();
                 }
                 else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX)

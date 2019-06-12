@@ -11,7 +11,7 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-public class StoryEditActivity extends AppCompatActivity {
+public class MemoEditActivity extends AppCompatActivity {
 
     ImageView iv_Story_Edit_Save, iv_Story_Edit_Back;
     TextView tv_Story_Edit_Count;
@@ -20,7 +20,7 @@ public class StoryEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_story_edit);
+        setContentView(R.layout.activity_memo_edit);
 
         iv_Story_Edit_Back = findViewById(R.id.iv_Story_Edit_Back);
         iv_Story_Edit_Save = findViewById(R.id.iv_Story_Edit_Save);
@@ -44,7 +44,7 @@ public class StoryEditActivity extends AppCompatActivity {
                     FirebaseManager.getInstance().SetUserMemo();
                 }
 
-                startActivity(new Intent(StoryEditActivity.this, MyProfileEditActivity.class));
+                startActivity(new Intent(MemoEditActivity.this, MyProfileEditActivity.class));
                 finish();
             }
         });

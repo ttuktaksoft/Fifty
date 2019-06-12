@@ -74,6 +74,7 @@
     <string name="FAVORITE_SELECT_VIEW">선택한 관심사</string>
     <string name="FAVORITE_SELECT_RECOM">관심사 추천</string>
     <string name="FAVORITE_SELECT_LACK">두 가지 관심사를 등록해주세요</string>
+    <string name="DEFAULT_USERPROFILE_MEMO">자기소개 입니다</string>
 
 
     <string name="bt_SignUp_Next">다음</string>

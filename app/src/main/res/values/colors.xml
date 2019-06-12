@@ -32,6 +32,7 @@
     <color name="str_title_bg_gray">#eef2ee</color>
     <color name="userprofile_bottombar_bg">#d8fdd2</color>
     <color name="chat_body_bg">#f7fdf6</color>
+    <color name="default_bg_color_1">#6AB95F</color>
 
     <color name="test">#af8ec9</color>
 

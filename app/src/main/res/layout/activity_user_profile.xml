@@ -6,60 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".activty.UserProfileActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/v_UserProfile_TopBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/top_bar_height"
-        android:background="@color/topbar_bg">
+    <include
+        android:id="@+id/ui_UserProfile_TopBar"
+        layout="@layout/ui_topbar"/>
 
-        <ImageView
-            android:id="@+id/iv_UserProfile_Back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_TopBar"
-            app:layout_constraintTop_toTopOf="@+id/v_UserProfile_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_TopBar"
-            android:layout_marginLeft="10dp"
-            android:tint="@color/black_icon_tint"
-            android:src="@drawable/ic_back"
-            />
-
-        <ImageView
-            android:id="@+id/iv_UserProfile_Alert"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            app:layout_constraintRight_toRightOf="@+id/v_UserProfile_TopBar"
-            app:layout_constraintTop_toTopOf="@+id/v_UserProfile_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_TopBar"
-            android:layout_marginRight="10dp"
-            android:tint="@color/black_icon_tint"
-            android:src="@drawable/ic_alert"
-            />
-
-        <TextView
-            android:id="@+id/tv_UserProfile_Name"
-            style="@style/BaseTextView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintRight_toLeftOf="@+id/iv_UserProfile_Alert"
-            app:layout_constraintLeft_toRightOf="@+id/iv_UserProfile_Back"
-            app:layout_constraintTop_toTopOf="@+id/v_UserProfile_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_TopBar"
-            android:gravity="center"
-            android:textColor="@color/black_icon_tint"
-            android:textStyle="bold"
-            android:text="닉네임"
-            android:textSize="25dp"
-            />
-
-    </android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_UserProfile_Alert"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_constraintRight_toRightOf="@+id/ui_UserProfile_TopBar"
+        app:layout_constraintTop_toTopOf="@+id/ui_UserProfile_TopBar"
+        app:layout_constraintBottom_toBottomOf="@+id/ui_UserProfile_TopBar"
+        android:layout_marginRight="10dp"
+        android:tint="@color/black_icon_tint"
+        android:src="@drawable/ic_alert"
+        />
 
 
     <FrameLayout
         android:id="@+id/fl_UserProfile_FrameLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/v_UserProfile_TopBar"
+        app:layout_constraintTop_toBottomOf="@+id/ui_UserProfile_TopBar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/v_UserProfile_BottomBar"/>

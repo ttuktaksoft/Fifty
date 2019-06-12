@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -32,6 +33,7 @@ import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileMemoActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileMenuAdapter;
@@ -249,7 +251,10 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().MyData.GetUserAge() + "세");
         tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
 
-        tv_UserProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
+        if(TKManager.getInstance().MyData.GetUserMemo().isEmpty())
+            tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
+        else
+            tv_UserProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
 
         tv_UserProfile_Info_Count_1.setText("방문자 " + TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
         tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
@@ -275,6 +280,13 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
+        tv_UserProfile_Info_Memo.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, UserProfileMemoActivity.class));
+            }
+        });
+
         if (TKManager.getInstance().TargetUserData.GetUserGender() == 0) {
             Glide.with(mContext).load(R.drawable.ic_man_simple)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -293,7 +305,10 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
         tv_UserProfile_Info_Count_3.setText("거리 " + TKManager.getInstance().TargetUserData.GetUserDist() + " Km");
 
-        tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
+        if(TKManager.getInstance().TargetUserData.GetUserMemo().isEmpty())
+            tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
+        else
+            tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, false);

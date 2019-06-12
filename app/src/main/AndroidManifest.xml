@@ -45,10 +45,11 @@
         <activity android:name=".activty.StrContentActivity" />
         <activity android:name=".activty.MyProfileEditActivity" />
         <activity android:name=".activty.NickNameEditActivity" />
-        <activity android:name=".activty.StoryEditActivity" />
+        <activity android:name=".activty.MemoEditActivity" />
         <activity android:name=".activty.LocationEditActivity" />
         <activity android:name=".activty.CustomPhotoView" />
-        <activity android:name=".activty.FavoriteSelectActivity"></activity>
+        <activity android:name=".activty.FavoriteSelectActivity" />
+        <activity android:name=".activty.UserProfileMemoActivity"></activity>
     </application>
 
 </manifest>

@@ -21,8 +21,11 @@ import fifty.fiftyhouse.com.fifty.fragment.UserProfileFragment;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    ImageView iv_UserProfile_Back, iv_UserProfile_Alert, iv_UserProfile_BottomBar_Like, iv_UserProfile_BottomBar_Friend;
-    TextView tv_UserProfile_Name;
+    View ui_UserProfile_TopBar;
+    TextView tv_TopBar_Title;
+    ImageView iv_TopBar_Back;
+
+    ImageView iv_UserProfile_Alert, iv_UserProfile_BottomBar_Like, iv_UserProfile_BottomBar_Friend;
     ConstraintLayout v_UserProfile_BottomBar_Like, v_UserProfile_BottomBar_Chat, v_UserProfile_BottomBar_Friend;
 
     Context mContext;
@@ -49,22 +52,23 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mFragmentMgr.beginTransaction().replace(R.id.fl_UserProfile_FrameLayout, mUserProfileFragment, "UserProfileFragment").commit();
 
-        iv_UserProfile_Back = findViewById(R.id.iv_UserProfile_Back);
+        ui_UserProfile_TopBar = findViewById(R.id.ui_UserProfile_TopBar);
+        tv_TopBar_Title = ui_UserProfile_TopBar.findViewById(R.id.tv_TopBar_Title);
+        iv_TopBar_Back = ui_UserProfile_TopBar.findViewById(R.id.iv_TopBar_Back);
         iv_UserProfile_Alert = findViewById(R.id.iv_UserProfile_Alert);
         iv_UserProfile_BottomBar_Like = findViewById(R.id.iv_UserProfile_BottomBar_Like);
         iv_UserProfile_BottomBar_Friend = findViewById(R.id.iv_UserProfile_BottomBar_Friend);
-        tv_UserProfile_Name = findViewById(R.id.tv_UserProfile_Name);
         v_UserProfile_BottomBar_Like = findViewById(R.id.v_UserProfile_BottomBar_Like);
         v_UserProfile_BottomBar_Chat = findViewById(R.id.v_UserProfile_BottomBar_Chat);
         v_UserProfile_BottomBar_Friend = findViewById(R.id.v_UserProfile_BottomBar_Friend);
 
-        iv_UserProfile_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        tv_UserProfile_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+        tv_TopBar_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
 
         v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
             @Override
