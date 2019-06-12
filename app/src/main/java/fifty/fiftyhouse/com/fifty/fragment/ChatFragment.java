@@ -24,6 +24,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -83,12 +84,15 @@ public class ChatFragment extends Fragment {
 
                 Set tempKey = TKManager.getInstance().MyData.GetUserChatDataListKeySet();
                 List array = new ArrayList(tempKey);
-                ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(position).toString());
+                final ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(position).toString());
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        startActivity(new Intent(getContext(), ChatBodyActivity.class));
+
+                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                        intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                        startActivity(intent);
                     }
 
                     @Override
@@ -100,7 +104,7 @@ public class ChatFragment extends Fragment {
                     }
                 };
 
-                FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, false, listener);
+                FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
 
                 //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);

@@ -47,6 +47,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
         //return mMyData.arrChatTargetData.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        long rtValue = 0;
+
+        Set tempKey = TKManager.getInstance().MyData.GetUserChatDataListKeySet();
+        List array = new ArrayList(tempKey);
+        ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(position).toString());
+        rtValue = tempChatData.GetMsgIndex();
+        //rtValue = Long.valueOf(mMyData.arrUserAll_Hot_Age.get(position).Idx);
+
+        return rtValue;
+    }
+
 }
 
 class ChatListHolder extends RecyclerView.ViewHolder {
