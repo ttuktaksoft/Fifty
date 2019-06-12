@@ -8,6 +8,12 @@
     <string name="MSG_NOTICE_LONG">공지사항</string>
     <string name="MSG_FAQ">FAQ</string>
     <string name="MSG_SETTING">설정</string>
+    <string name="MSG_GENDER">성별</string>
+    <string name="MSG_AGE">나이</string>
+    <string name="MSG_MAN">남자</string>
+    <string name="MSG_WOMAN">여자</string>
+    <string name="MSG_FAVORITE">관심사</string>
+    <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
     <string name="TITLE_PROFILE_EDIT">프로필 수정</string>
     <string name="TITLE_MEMO_EDIT">자기소개 수정</string>
@@ -16,8 +22,16 @@
     <string name="TITLE_USER_LIST_VISIT">방문자 목록</string>
     <string name="TITLE_USER_LIST_LIKE">좋아요 목록</string>
     <string name="TITLE_USER_LIST_FRIEND">친구 목록</string>
-
-
+    <string name="NICKNAME_HINT">닉네임을 입력하세요 (2~10자)</string>
+    <string name="NICKNAME_CHECK">중복체크</string>
+    <string name="NICKNAME_CHECK_YES">사용가능한 닉네임 입니다</string>
+    <string name="NICKNAME_CHECK_NO">중복체크를 해주세요</string>
+    <string name="NICKNAME_EMPTY">닉네임을 입력해주세요</string>
+    <string name="NICKNAME_LEAK">닉네임이 너무 짧습니다</string>
+    <string name="NICKNAME_CHECK_ASK">닉네임 중복체크를 해주세요</string>
+    <string name="NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
+    <string name="NICKNAME_CHECK_FAIL">중복된 닉네임입니다</string>
+    <string name="PROFILE_EMPTY">사진을 등록해주세요</string>
 
 
 
@@ -86,11 +100,7 @@
     <string name="MY_PROFILE_LOCATION_HINT">자주가는 지역을 입력해보세요</string>
     <string name="MY_PROFILE_FAVORITE">관심사</string>
     <string name="NICKNAME_EDIT">닉네임 수정</string>
-    <string name="NICKNAME_EDIT_EMPTY">닉네임을 입력해주세요</string>
-    <string name="NICKNAME_EDIT_LEAK">닉네임이 너무 짧습니다</string>
-    <string name="NICKNAME_EDIT_CHECK">닉네임 중복체크를 해주세요</string>
-    <string name="NICKNAME_EDIT_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
-    <string name="NICKNAME_EDIT_CHECK_FAIL">중복된 닉네임입니다</string>
+
     <string name="STORE_EDIT">자기소개 수정</string>
     <string name="LOCATION_EDIT">지역 수정</string>
     <string name="FAVORITE_EDIT">관심사 수정</string>
@@ -99,8 +109,7 @@
     <string name="FAVORITE_SELECT_RECOM">관심사 추천</string>
     <string name="FAVORITE_SELECT_LACK">두 가지 관심사를 등록해주세요</string>
     <string name="DEFAULT_USERPROFILE_MEMO">자기소개 입니다</string>
-    <string name="NICK_NAME_CHECK_YES">사용가능한 닉네임 입니다</string>
-    <string name="NICK_NAME_CHECK_NO">중복체크를 해주세요</string>
+
 
 
     <string name="bt_SignUp_Next">다음</string>

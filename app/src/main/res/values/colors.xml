@@ -36,9 +36,6 @@
     <color name="chat_body_bg">#f7fdf6</color>
     <color name="default_bg_color_1">#6AB95F</color>
 
-    <color name="test">#6c8fcf</color>
-    <color name="test2">#a9c4f7</color>
-
     // 특수한 색상
 
     <color name="main_button_icon_tint">#6AB95F</color>
@@ -57,7 +54,8 @@
     <color name="iv_MyProfile_Info_Memo_BG">#f2fcf1</color>
     <color name="iv_MyProfile_Info_Count_BG">#f2fcf1</color>
     <color name="black_icon_tint">#f7fcf6</color>
-    <color name="favorite_view_bg_tint">#6AB95F</color>
+    <color name="favorite_view_bg_tint_1">#6c8fcf</color>
+    <color name="favorite_view_bg_tint_2">#a9c4f7</color>
 
     <!--
         <color name="v_Main_TopBar">#fff64e</color>

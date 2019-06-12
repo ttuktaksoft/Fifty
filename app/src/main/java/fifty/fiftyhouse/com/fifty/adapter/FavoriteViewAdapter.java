@@ -33,6 +33,9 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
     @Override
     public void onBindViewHolder(FavoriteViewHolder holder, final int position) {
         int i = position;
+        if(mItemList.size() <= position)
+            return;
+
         holder.setData(mItemList.get(i));
     }
 

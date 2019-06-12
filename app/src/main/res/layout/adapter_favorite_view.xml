@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_Favorite_View_Name"
         app:layout_constraintRight_toRightOf="@+id/tv_Favorite_View_Name"
         app:layout_constraintLeft_toLeftOf="@+id/tv_Favorite_View_Name"
-        android:tint="@color/favorite_view_bg_tint"
+        android:tint="@color/favorite_view_bg_tint_1"
         android:scaleType="fitXY"
         android:src="@drawable/bg_white"/>
 
