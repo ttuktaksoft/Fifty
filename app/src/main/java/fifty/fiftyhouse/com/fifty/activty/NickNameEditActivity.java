@@ -62,7 +62,7 @@ public class NickNameEditActivity extends AppCompatActivity {
 
         et_NickName_Edit_NickName.setText(TKManager.getInstance().MyData.GetUserNickName());
         CommonFunc.getInstance().setEditTextMaxSize(et_NickName_Edit_NickName, CommonData.NickNameMaxSize);
-        if(TextUtils.isEmpty(TKManager.getInstance().MyData.GetUserNickName()))
+        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserNickName()))
             tv_NickName_Edit_Count.setText(Integer.toString(CommonData.LocationMaxSize));
         else
             tv_NickName_Edit_Count.setText(Integer.toString(CommonData.NickNameMaxSize - TKManager.getInstance().MyData.GetUserNickName().length()));
@@ -104,7 +104,7 @@ public class NickNameEditActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String strNickName = et_NickName_Edit_NickName.getText().toString();
 
-                if(TextUtils.isEmpty(strNickName))
+                if(CommonFunc.getInstance().CheckStringNull(strNickName))
                 {
                     // TODO 닉네임 입력 해달라는 팝업 표시
                     DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EDIT_EMPTY));

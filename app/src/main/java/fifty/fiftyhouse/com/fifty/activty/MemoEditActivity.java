@@ -49,7 +49,7 @@ public class MemoEditActivity extends AppCompatActivity {
 
         et_Story_Edit_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
         CommonFunc.getInstance().setEditTextMaxSize(et_Story_Edit_Memo, CommonData.MemoMaxSize);
-        if(TextUtils.isEmpty(TKManager.getInstance().MyData.GetUserMemo()))
+        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()))
             tv_Story_Edit_Count.setText(Integer.toString(CommonData.MemoMaxSize));
         else
             tv_Story_Edit_Count.setText(Integer.toString(CommonData.MemoMaxSize - TKManager.getInstance().MyData.GetUserMemo().length()));

@@ -254,7 +254,7 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().MyData.GetUserAge() + "세");
         tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
 
-        if(TextUtils.isEmpty(TKManager.getInstance().MyData.GetUserMemo()))
+        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()))
             tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
         else
             tv_UserProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());

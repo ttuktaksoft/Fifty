@@ -54,7 +54,7 @@ public class LocationEditActivity extends AppCompatActivity {
 
         et_Location_Edit_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
         CommonFunc.getInstance().setEditTextMaxSize(et_Location_Edit_Location, CommonData.LocationMaxSize);
-        if(TextUtils.isEmpty(TKManager.getInstance().MyData.GetUserLocation()))
+        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserLocation()))
             tv_Location_Edit_Count.setText(Integer.toString(CommonData.LocationMaxSize));
         else
             tv_Location_Edit_Count.setText(Integer.toString(CommonData.LocationMaxSize - TKManager.getInstance().MyData.GetUserLocation().length()));
