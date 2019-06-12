@@ -7,39 +7,9 @@
     tools:context=".activty.StrContentActivity"
     android:background="@color/activity_bg">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/v_StrContent_TopBar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/topbar_bg">
-
-        <ImageView
-            android:id="@+id/iv_StrContent_Back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:layout_constraintLeft_toLeftOf="@+id/v_StrContent_TopBar"
-            app:layout_constraintTop_toTopOf="@+id/v_StrContent_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_StrContent_TopBar"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_back"
-            />
-
-        <TextView
-            android:id="@+id/tv_StrContent_Title"
-            style="@style/BaseTextView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintRight_toRightOf="@+id/v_StrContent_TopBar"
-            app:layout_constraintLeft_toRightOf="@+id/iv_StrContent_Back"
-            app:layout_constraintTop_toTopOf="@+id/v_StrContent_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_StrContent_TopBar"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:text="타이틀"
-            android:textSize="25dp"
-            />
-
-    </android.support.constraint.ConstraintLayout>
+    <include
+        android:id="@+id/ui_StrContent_TopBar"
+        layout="@layout/ui_topbar"/>
 
     <TextView
         android:id="@+id/tv_StrContent_Desc"
@@ -48,17 +18,18 @@
         android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_StrContent_TopBar"
+        app:layout_constraintTop_toBottomOf="@+id/ui_StrContent_TopBar"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="10dp"
+        android:padding="10dp"
         android:scrollbars="vertical"
         android:gravity="left"
+        android:background="@color/white"
         android:text=" 아니한 사랑의 인간의 인생을 듣는다. 생의 것은 피가 위하여 이상의 말이다. 전인 것은 피는 뜨거운지라, 것이 꽃 남는 인간의 생명을 것이다. 미묘한 천자만홍이 커다란 할지라도 찬미를 끝까지 용감하고 부패뿐이다. 봄날의 목숨을 몸이 아름답고 지혜는 소리다.이것은 것이다. 청춘을 피는 인간의 풀이 피가 주며, 청춘의 것이다. 위하여, 설산에서 없으면, 목숨을 앞이 이상은 밥을 살았으며, 철환하였는가? 자신과 예가 청춘의 품었기 들어 작고 맺어, 동산에는 보내는 있는가? 같이, 영원히 힘차게 것이다. 피어나는 인생을 보배를 돋고, 인생에 구하지 이것이다.
 
 우리 원질이 인간이 끝까지 수 보는 이 운다. 인생에 맺어, 인간의 노년에게서 뜨거운지라, 원질이 미묘한 있는가? 무엇을 넣는 시들어 풀이 길을 끓는다. 바이며, 못하다 오직 싶이 이상 무엇을 풀밭에 부패뿐이다. 고동을 청춘의 얼마나 평화스러운 소리다.이것은 원대하고, 가진 칼이다. 밥을 들어 풍부하게 할지라도 유소년에게서 얼음이 튼튼하며, 것이다. 영원히 우리의 품고 그들을 충분히 긴지라 유소년에게서 내는 황금시대다. 끓는 인생의 방지하는 황금시대의 있으랴? 작고 행복스럽고 황금시대를 얼마나 이것은 같지 인생을 쓸쓸하랴?
 
 보이는 인간의 무엇을 설산에서 기쁘며, 불러 대고, 보라. 시들어 고행을 얼마나 그들은 피가 착목한는 곳으로 기관과 오직 것이다. 설산에서 끓는 인간의 것이다. 꾸며 어디 이상의 위하여 인생의 오직 사라지지 영락과 칼이다. 봄바람을 기쁘며, 고행을 역사를 사막이다. 바이며, 피가 꽃 우리의 끓는다. 속에 것은 청춘의 반짝이는 인생의 무엇을 뿐이다. 인간의 따뜻한 청춘의 그들의 광야에서 얼마나 설레는 그들은 사막이다. 아니더면, 얼음에 방황하여도, 속잎나고, 그들에게 가지에 철환하였는가? 무한한 위하여 그들의 영원히 밥을 설산에서 그들은 하였으며, 것이다."
-        android:textSize="20dp"
+        android:textSize="15dp"
         />
 
 </android.support.constraint.ConstraintLayout>

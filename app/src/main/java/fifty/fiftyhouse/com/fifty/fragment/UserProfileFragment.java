@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class UserProfileFragment extends Fragment {
 
     ConstraintLayout v_UserProfile_Info_Detail, v_UserProfile_Info_Favorite, v_UserProfile_Info_Photo, v_UserProfile_Info_Club,
             v_UserProfile_Info_Menu;
-    ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender;
+    ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender, iv_UserProfile_Info_Memo_BG;
     TextView tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Location,
             tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3;
     RecyclerView rv_UserProfile_Info_Favorite, rv_UserProfile_Info_Club, rv_UserProfile_Info_Photo, rv_UserProfile_Info_Menu;
@@ -88,6 +89,7 @@ public class UserProfileFragment extends Fragment {
         v_UserProfile_Info_Menu = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Menu);
         iv_UserProfile_Profile = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Profile);
         iv_UserProfile_Info_Gender = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Gender);
+        iv_UserProfile_Info_Memo_BG  = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Memo_BG);
         tv_UserProfile_Info_Name = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Name);
         tv_UserProfile_Info_Age = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Age);
         tv_UserProfile_Info_Location = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Location);
@@ -251,7 +253,7 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().MyData.GetUserAge() + "세");
         tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
 
-        if(TKManager.getInstance().MyData.GetUserMemo().isEmpty())
+        if(TextUtils.isEmpty(TKManager.getInstance().MyData.GetUserMemo()))
             tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
         else
             tv_UserProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
@@ -280,7 +282,7 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        tv_UserProfile_Info_Memo.setOnClickListener(new ImageView.OnClickListener() {
+        iv_UserProfile_Info_Memo_BG.setOnClickListener(new ImageView.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(mContext, UserProfileMemoActivity.class));
@@ -305,7 +307,7 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
         tv_UserProfile_Info_Count_3.setText("거리 " + TKManager.getInstance().TargetUserData.GetUserDist() + " Km");
 
-        if(TKManager.getInstance().TargetUserData.GetUserMemo().isEmpty())
+        if(TextUtils.isEmpty(TKManager.getInstance().TargetUserData.GetUserMemo()))
             tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
         else
             tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
@@ -484,7 +486,16 @@ public class UserProfileFragment extends Fragment {
         rv_UserProfile_Info_Menu.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Menu, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(mContext, StrContentListActivity.class));
+                if(position == 3)
+                {
+
+                }
+                else
+                {
+                    Intent intent = new Intent(mContext, StrContentListActivity.class);
+                    intent.putExtra("Type",position);
+                    startActivity(intent);
+                }
             }
 
             @Override

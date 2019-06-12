@@ -261,6 +261,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Favorite"
+                    android:layout_marginTop="5dp"
                     android:nestedScrollingEnabled="false"/>
             </android.support.constraint.ConstraintLayout>
 
@@ -292,6 +293,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Photo"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:nestedScrollingEnabled="false"/>
 
 
@@ -325,6 +329,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Club"
+                    android:layout_marginTop="5dp"
                     android:nestedScrollingEnabled="false"/>
             </android.support.constraint.ConstraintLayout>
 
@@ -356,6 +361,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Menu"
+                    android:layout_marginTop="5dp"
                     android:nestedScrollingEnabled="false"/>
             </android.support.constraint.ConstraintLayout>
 

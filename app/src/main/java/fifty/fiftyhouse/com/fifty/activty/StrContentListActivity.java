@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,32 +10,62 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.StrContentListAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class StrContentListActivity extends AppCompatActivity {
 
-    ImageView iv_StrContentList_Back;
-    TextView tv_StrContentList_Title;
+    View ui_StrContentList_TopBar;
+    TextView tv_TopBar_Title;
+    ImageView iv_TopBar_Back;
+    Context mContext;
+
     RecyclerView rv_StrContent_List;
     StrContentListAdapter mAdapter;
+    CommonData.MyProfileMenuType Type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_str_content_list);
-
-        iv_StrContentList_Back = findViewById(R.id.iv_StrContentList_Back);
-        tv_StrContentList_Title = findViewById(R.id.tv_StrContentList_Title);
+        mContext = getApplicationContext();
+        ui_StrContentList_TopBar = findViewById(R.id.ui_StrContentList_TopBar);
+        tv_TopBar_Title = ui_StrContentList_TopBar.findViewById(R.id.tv_TopBar_Title);
+        iv_TopBar_Back = ui_StrContentList_TopBar.findViewById(R.id.iv_TopBar_Back);
         rv_StrContent_List = findViewById(R.id.rv_StrContent_List);
 
-        iv_StrContentList_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        int ntype = getIntent().getIntExtra("Type", 0);
+
+        switch (ntype)
+        {
+            case 0:
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_EVENT));
+                Type = CommonData.MyProfileMenuType.EVENT;
+                break;
+            case 1:
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_NOTICE_LONG));
+                Type = CommonData.MyProfileMenuType.NOTICE;
+                break;
+            case 2:
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FAQ));
+                Type = CommonData.MyProfileMenuType.FAQ;
+                break;
+/*            case 3:
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SETTING));
+                Type = CommonData.MyProfileMenuType.SETTING;
+                break;*/
+        }
 
         initRecyclerView();
     }

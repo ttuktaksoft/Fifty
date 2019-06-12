@@ -80,9 +80,8 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         mUserProfileFragment = new UserProfileFragment();
         mUserProfileFragment.setMyProfileView(true);
         v_FragmentView = inflater.inflate(R.layout.fragment_my_profile, container, false);
-        mFragmentMgr.beginTransaction().addToBackStack(null);
 
-        mFragmentMgr.beginTransaction().replace(R.id.fl_MyProfile_FrameLayout, mUserProfileFragment, "UserProfileFragment").commit();
+        mFragmentMgr.beginTransaction().replace(R.id.fl_MyProfile_FrameLayout, mUserProfileFragment, "MyProfileInfoFragment").commit();
 
         v_FragmentView.setTag("MyProfileFragment");
 

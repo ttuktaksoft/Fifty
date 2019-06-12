@@ -42,6 +42,14 @@ public class CommonData {
         FRIEND
     }
 
+    public static enum MyProfileMenuType
+    {
+        EVENT,
+        NOTICE,
+        FAQ,
+        SETTING,
+    }
+
     public static enum MSGType
     {
         MSG,
@@ -59,5 +67,10 @@ public class CommonData {
 
 
     public static int UserData_Loding_Count = 5;
+
+    public static int NickNameMinSize = 2;
+    public static int NickNameMaxSize = 15;
+    public static int MemoMaxSize = 4000;
+    public static int LocationMaxSize = 30;
 
 }

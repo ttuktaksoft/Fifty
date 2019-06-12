@@ -83,8 +83,10 @@ class UserProfilePhotoListHolder extends RecyclerView.ViewHolder {
         iv_UserProfile_Photo = itemView.findViewById(R.id.iv_UserProfile_Photo);
 
         int viewCount = 4;
-        int thumbnailSize = CommonFunc.getInstance().getWidthByDevice() / viewCount - CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 2);
+        int thumbnailSize = CommonFunc.getInstance().getWidthByDevice() / viewCount;
         ConstraintLayout.LayoutParams lp_Photo = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
+        int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(),2);
+        iv_UserProfile_Photo.setPadding(padding,padding,padding,padding);
         iv_UserProfile_Photo.setLayoutParams(lp_Photo);
     }
 

@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -23,25 +25,34 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class UserListActivity extends AppCompatActivity {
 
-    ImageView iv_UserList_Back;
-    TextView tv_UserList_Title;
+    View ui_UserList_TopBar;
+    TextView tv_TopBar_Title;
+    ImageView iv_TopBar_Back;
+
     RecyclerView rv_UserList_List;
     UserListAdapter mAdapter;
 
     CommonData.MyProfileViewType Type;
     int Count;
-
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+        mContext = getApplicationContext();
 
-
-
-        iv_UserList_Back = findViewById(R.id.iv_UserList_Back);
-        tv_UserList_Title = findViewById(R.id.tv_UserList_Title);
+        ui_UserList_TopBar = findViewById(R.id.ui_UserList_TopBar);
+        tv_TopBar_Title = ui_UserList_TopBar.findViewById(R.id.tv_TopBar_Title);
+        iv_TopBar_Back = ui_UserList_TopBar.findViewById(R.id.iv_TopBar_Back);
         rv_UserList_List = findViewById(R.id.rv_UserList_List);
+
+        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         int ntype = getIntent().getIntExtra("Type", 0);
@@ -49,29 +60,20 @@ public class UserListActivity extends AppCompatActivity {
         switch (ntype)
         {
             case 0:
-                tv_UserList_Title.setText("방문자 목록");
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_VISIT));
                 Type = CommonData.MyProfileViewType.VISIT;
                 break;
             case 1:
-                tv_UserList_Title.setText("좋아요 목록");
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_LIKE));
                 Type = CommonData.MyProfileViewType.LIKE;
                 break;
             case 2:
-                tv_UserList_Title.setText("친구 목록");
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_FRIEND));
                 Type = CommonData.MyProfileViewType.FRIEND;
                 break;
 
         }
         Count  = getIntent().getIntExtra("Count", 0);
-
-
-
-        iv_UserList_Back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         initRecyclerView(Type, Count);
     }
@@ -96,16 +98,12 @@ public class UserListActivity extends AppCompatActivity {
                 switch (type)
                 {
                     case VISIT:
-                        tv_UserList_Title.setText("방문자 목록");
                         tempKey =  TKManager.getInstance().MyData.GetUserVisitKeySet();
                         break;
                     case LIKE:
-                        tv_UserList_Title.setText("좋아요 목록");
                         tempKey =  TKManager.getInstance().MyData.GetUserLikeKeySet();
-
                         break;
                     case FRIEND:
-                        tv_UserList_Title.setText("친구 목록");
                         tempKey =  TKManager.getInstance().MyData.GetUserFriendListKeySet();
                         break;
 

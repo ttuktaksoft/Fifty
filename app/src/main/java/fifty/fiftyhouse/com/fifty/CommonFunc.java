@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.text.InputFilter;
 import android.util.TypedValue;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -147,6 +149,13 @@ public class CommonFunc {
                     .into(view);
 
 
+    }
+
+    public void setEditTextMaxSize(EditText et, int size)
+    {
+        InputFilter[] FilterArray = new InputFilter[1];
+        FilterArray[0] = new InputFilter.LengthFilter(size);
+        et.setFilters(FilterArray);
     }
 
 
