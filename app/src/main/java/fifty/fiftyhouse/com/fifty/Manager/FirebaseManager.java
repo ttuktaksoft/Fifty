@@ -412,56 +412,52 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserChatData(final String chatRoomIndex, final UserData userData, boolean lastmsg, final CheckFirebaseComplete listener) {
+    public void GetUserChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         TKManager.getInstance().MyData.ClearUserChatData();
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
-        if(lastmsg)
-        {
-            colRef.orderBy("MsgIndex", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
-                            String tempRoomName = chatRoomIndex;
-                            int idx = tempRoomName.indexOf("_");
-                            String tempFrom = tempRoomName.substring(0, idx);
-                            String tempTo = tempRoomName.substring(idx+1);
-
-                            ChatData tempData = new ChatData();
-                            tempData.SetRoomIndex(document.getData().get("RoomIndex").toString());
-
-                            tempData.SetFromIndex(document.getData().get("FromIndex").toString());
-                            tempData.SetFromNickName(document.getData().get("FromNickName").toString());
-                            tempData.SetFromThumbNail(document.getData().get("FromThumbNail").toString());
-
-                            tempData.SetToIndex(document.getData().get("ToIndex").toString());
-                            tempData.SetToNickName(document.getData().get("ToNickName").toString());
-                            tempData.SetToThumbNail(document.getData().get("ToThumbNail").toString());
-
-                            tempData.SetMsg(document.getData().get("Msg").toString());
-                            tempData.SetMsgIndex(document.getData().get("MsgIndex").toString());
-                            tempData.SetMsgSender(document.getData().get("MsgSender").toString());
-                            tempData.SetMsgDate(Integer.parseInt(document.getData().get("MsgDate").toString()));
-
-                            String tempType = document.getData().get("MsgType").toString();
-
-                            switch (tempType)
+                            if(!document.getId().equals("Index"))
                             {
-                                case "MSG":
-                                    tempData.SetMsgType(CommonData.MSGType.MSG);
-                                    break;
-                                case "IMG":
-                                    tempData.SetMsgType(CommonData.MSGType.IMG);
-                                    break;
-                                case "VIDEO":
-                                    tempData.SetMsgType(CommonData.MSGType.VIDEO);
-                                    break;
+                                ChatData tempData = new ChatData();
+                                tempData.SetRoomIndex(document.getData().get("RoomIndex").toString());
+
+                                tempData.SetFromIndex(document.getData().get("FromIndex").toString());
+                                tempData.SetFromNickName(document.getData().get("FromNickName").toString());
+                                tempData.SetFromThumbNail(document.getData().get("FromThumbNail").toString());
+
+                                tempData.SetToIndex(document.getData().get("ToIndex").toString());
+                                tempData.SetToNickName(document.getData().get("ToNickName").toString());
+                                tempData.SetToThumbNail(document.getData().get("ToThumbNail").toString());
+
+                                tempData.SetMsg(document.getData().get("Msg").toString());
+                                tempData.SetMsgIndex(document.getData().get("MsgIndex").toString());
+                                tempData.SetMsgSender(document.getData().get("MsgSender").toString());
+                                tempData.SetMsgDate(Integer.parseInt(document.getData().get("MsgDate").toString()));
+
+                                String tempType = document.getData().get("MsgType").toString();
+
+                                switch (tempType)
+                                {
+                                    case "MSG":
+                                        tempData.SetMsgType(CommonData.MSGType.MSG);
+                                        break;
+                                    case "IMG":
+                                        tempData.SetMsgType(CommonData.MSGType.IMG);
+                                        break;
+                                    case "VIDEO":
+                                        tempData.SetMsgType(CommonData.MSGType.VIDEO);
+                                        break;
+                                }
+                                userData.SetUserChatData(tempData.GetMsgIndex(), tempData);
                             }
-                            userData.SetUserChatDataList(tempRoomName, tempData);
                         }
 
                         if (listener != null)
@@ -472,9 +468,15 @@ public class FirebaseManager {
                     }
                 }
             });
-        }
 
-        else
+    }
+
+
+
+    public void MonitorChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
+
+        CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
         {
             colRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
@@ -533,11 +535,12 @@ public class FirebaseManager {
                                 break;
                         }
                     }
+                    if (listener != null)
+                        listener.CompleteListener();
                 }
             });
 
-            if (listener != null)
-                listener.CompleteListener();
+
         }
 
     }
@@ -637,12 +640,12 @@ public class FirebaseManager {
                                 userData.SetUserChatList(tempRoomName, tempFrom);
                             }
 
-                            GetUserChatData(tempRoomName, userData, true, listener);
+                            //GetUserChatData(tempRoomName, userData, true, listener);
 
                             break;
                         case MODIFIED:
                             tempRoomName = document.getDocument().getId().toString();
-                            GetUserChatData(tempRoomName, userData, true, listener);
+                         //   GetUserChatData(tempRoomName, userData, true, listener);
                             break;
                         case REMOVED:
                             tempRoomName = document.getDocument().getId().toString();
@@ -1480,9 +1483,6 @@ public class FirebaseManager {
                         Log.w(TAG, "Transaction failure.", e);
                     }
                 });
-
-
-
     }
 
 
