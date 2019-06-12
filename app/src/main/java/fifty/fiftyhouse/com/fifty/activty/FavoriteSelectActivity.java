@@ -71,7 +71,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 {
                     if(TKManager.MyData.GetUserFavoriteListCount() < 2)
                     {
-                        DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
+                        DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
                     }
                     else
                     {

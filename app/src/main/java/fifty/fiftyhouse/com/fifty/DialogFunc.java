@@ -32,27 +32,20 @@ public class DialogFunc {
         void Listener();
     }
 
-    public void ShowMsgPopup(Context context, String title, String centerDesc) {
-        ShowMsgPopup(context, null, null, title, centerDesc, null, null);
+    public void ShowMsgPopup(Context context, String centerDesc) {
+        ShowMsgPopup(context, null, null, centerDesc, null, null);
     }
 
-    public void ShowMsgPopup(Context context, final MsgPopupListener listenerYes, final MsgPopupListener listenerNo, String title, String centerDesc, String yesDesc, String noDesc) {
-        TextView Title, CenterDesc;
-        ImageView YesButton, NoButton;
+    public void ShowMsgPopup(Context context, final MsgPopupListener listenerYes, final MsgPopupListener listenerNo, String centerDesc, String yesDesc, String noDesc) {
+        TextView CenterDesc;
         TextView YesButtonDesc, NoButtonDesc;
 
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_msg_popup, null, false);
 
-        Title = (TextView) v.findViewById(R.id.tv_Msg_Popup_Title);
         CenterDesc = (TextView) v.findViewById(R.id.tv_Msg_Popup_Desc);
-        YesButton = v.findViewById(R.id.iv_Msg_Popup_Buttons_OK);
         YesButtonDesc = v.findViewById(R.id.tv_Msg_Popup_Buttons_OK);
-        NoButton =  v.findViewById(R.id.iv_Msg_Popup_Buttons_Cancel);
         NoButtonDesc =  v.findViewById(R.id.tv_Msg_Popup_Buttons_Cancel);
 
-        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.button_ok)));
-        ImageViewCompat.setImageTintList(NoButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.button_cancel)));
-        Title.setText(title);
         CenterDesc.setText(centerDesc);
 
 
@@ -60,14 +53,11 @@ public class DialogFunc {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
 
-        YesButton.setVisibility(View.VISIBLE);
         YesButtonDesc.setVisibility(View.VISIBLE);
-        NoButton.setVisibility(View.VISIBLE);
         NoButtonDesc.setVisibility(View.VISIBLE);
 
         if(noDesc == null || noDesc.equals(""))
         {
-            NoButton.setVisibility(View.GONE);
             NoButtonDesc.setVisibility(View.GONE);
         }
 
@@ -81,7 +71,7 @@ public class DialogFunc {
         else
             NoButtonDesc.setText(noDesc);
 
-        YesButton.setOnClickListener(new View.OnClickListener() {
+        YesButtonDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listenerYes != null)
@@ -89,7 +79,7 @@ public class DialogFunc {
                 dialog.dismiss();
             }
         });
-        NoButton.setOnClickListener(new View.OnClickListener() {
+        NoButtonDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listenerNo != null)

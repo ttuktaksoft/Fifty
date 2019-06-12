@@ -65,7 +65,7 @@ public class ProfileImgActivity extends AppCompatActivity {
                     finish();
                 }
                 else
-                    DialogFunc.getInstance().ShowMsgPopup(ProfileImgActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.tv_SignUp_Profile_Upload_Fail));
+                    DialogFunc.getInstance().ShowMsgPopup(ProfileImgActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.tv_SignUp_Profile_Upload_Fail));
             }
         });
 
