@@ -60,6 +60,7 @@ public class MyProfileEditActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_MyProfile_Edit_TopBar.findViewById(R.id.iv_TopBar_Back);
         iv_MyProfile_Edit_Profile = findViewById(R.id.iv_MyProfile_Edit_Profile);
         rv_MyProfile_Edit_Menu = findViewById(R.id.rv_MyProfile_Edit_Menu);
+        tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_PROFILE_EDIT));
         iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

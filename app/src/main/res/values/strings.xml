@@ -1,5 +1,28 @@
 <resources>
     <string name="app_name">Fifty</string>
+    <string name="MSG_OK">확인</string>
+    <string name="MSG_CANCEL">취소</string>
+    <string name="MSG_NOTICE">알림</string>
+    <string name="MSG_SAVE">저장</string>
+    <string name="MSG_EVENT">이벤트</string>
+    <string name="MSG_NOTICE_LONG">공지사항</string>
+    <string name="MSG_FAQ">FAQ</string>
+    <string name="MSG_SETTING">설정</string>
+    <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
+    <string name="TITLE_PROFILE_EDIT">프로필 수정</string>
+    <string name="TITLE_MEMO_EDIT">자기소개 수정</string>
+    <string name="TITLE_LOCATION_EDIT">지역 수정</string>
+    <string name="TITLE_MEMO">자기소개</string>
+    <string name="TITLE_USER_LIST_VISIT">방문자 목록</string>
+    <string name="TITLE_USER_LIST_LIKE">좋아요 목록</string>
+    <string name="TITLE_USER_LIST_FRIEND">친구 목록</string>
+
+
+
+
+
+
+
     <string name="tv_SignUp_Comment">사용하고 싶은 닉네임 입력</string>
     <string name="tv_SignUp_Comment_Desc">FIFTY에서 사용하고 싶은 본인의 개성이 \n잘드러나는 대화명을 지정해주세요</string>
     <string name="tv_SignUp_CheckNickName">중복검색</string>
@@ -40,16 +63,16 @@
 
     <string name="tv_MyProfile_Edit_Profile_Desc">수정된 사진은 프로필 화면에 반영됩니다.</string>
     <string name="tv_MyProfile_Edit_Title">프로필 수정</string>
-    <string name="et_NickName_Edit_NickName">닉네임을 입력하세요</string>
+    <string name="et_NickName_Edit_NickName">닉네임을 입력하세요 (2~10자)</string>
     <string name="tv_NickName_Edit_Save">저장</string>
     <string name="tv_NickName_Edit_Check">중복체크</string>
     <string name="et_Store_Edit_NickName">자기소개를 입력하세요</string>
     <string name="tv_Store_Edit_Save">저장</string>
     <string name="tv_Location_Edit_Save">저장</string>
+    <string name="et_Location_Edit_Location">주로 활동하는 곳을 입력하세요</string>
 
-    <string name="MSG_OK">확인</string>
-    <string name="MSG_CANCEL">취소</string>
-    <string name="MSG_NOTICE">알림</string>
+
+
     <string name="SIGN_UP_NICKNAME_EMPTY">닉네임을 입력해주세요</string>
     <string name="SIGN_UP_NICKNAME_CHECK">닉네임 중복체크를 해주세요</string>
     <string name="SIGN_UP_NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
@@ -64,6 +87,7 @@
     <string name="MY_PROFILE_FAVORITE">관심사</string>
     <string name="NICKNAME_EDIT">닉네임 수정</string>
     <string name="NICKNAME_EDIT_EMPTY">닉네임을 입력해주세요</string>
+    <string name="NICKNAME_EDIT_LEAK">닉네임이 너무 짧습니다</string>
     <string name="NICKNAME_EDIT_CHECK">닉네임 중복체크를 해주세요</string>
     <string name="NICKNAME_EDIT_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
     <string name="NICKNAME_EDIT_CHECK_FAIL">중복된 닉네임입니다</string>
@@ -75,6 +99,8 @@
     <string name="FAVORITE_SELECT_RECOM">관심사 추천</string>
     <string name="FAVORITE_SELECT_LACK">두 가지 관심사를 등록해주세요</string>
     <string name="DEFAULT_USERPROFILE_MEMO">자기소개 입니다</string>
+    <string name="NICK_NAME_CHECK_YES">사용가능한 닉네임 입니다</string>
+    <string name="NICK_NAME_CHECK_NO">중복체크를 해주세요</string>
 
 
     <string name="bt_SignUp_Next">다음</string>

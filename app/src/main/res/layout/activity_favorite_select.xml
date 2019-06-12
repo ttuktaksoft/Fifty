@@ -77,8 +77,6 @@
         android:layoutDirection="ltr"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintHeight_max="280dp"
         app:layout_constraintTop_toBottomOf="@id/tv_FavoriteSelect_Recom_Title"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -93,6 +91,7 @@
         android:textSize="20dp"
         android:textColor="@color/white"
         android:text="@string/MSG_OK"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textStyle="bold"/>
 
 </android.support.constraint.ConstraintLayout>

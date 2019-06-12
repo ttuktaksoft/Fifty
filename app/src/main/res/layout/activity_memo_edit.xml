@@ -7,88 +7,50 @@
     tools:context=".activty.MemoEditActivity"
     android:background="@color/activity_bg">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/v_Story_Edit_TopBar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/topbar_bg">
+    <include
+        android:id="@+id/ui_Memo_Edit_TopBar"
+        layout="@layout/ui_topbar"/>
 
-        <ImageView
-            android:id="@+id/iv_Story_Edit_Back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:layout_constraintLeft_toLeftOf="@+id/v_Story_Edit_TopBar"
-            app:layout_constraintTop_toTopOf="@+id/v_Story_Edit_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Story_Edit_TopBar"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_back"
-            />
-
-        <TextView
-            android:id="@+id/tv_Story_Edit_Title"
-            style="@style/BaseTextView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintRight_toRightOf="@+id/v_Story_Edit_TopBar"
-            app:layout_constraintLeft_toRightOf="@+id/iv_Story_Edit_Back"
-            app:layout_constraintTop_toTopOf="@+id/v_Story_Edit_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Story_Edit_TopBar"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:text="@string/STORE_EDIT"
-            android:textSize="25dp"
-            />
-
-        <ImageView
-            android:id="@+id/iv_Story_Edit_Save"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="5dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/v_Story_Edit_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Story_Edit_TopBar"
-            android:src="@drawable/bg_white"
-            android:tint="@color/button_enable"
-            android:tintMode="src_atop"
-            android:scaleType="fitXY"/>
-
-        <TextView
-            android:id="@+id/tv_Story_Edit_Save"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            style="@style/BaseTextView"
-            app:layout_constraintTop_toTopOf="@+id/iv_Story_Edit_Save"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_Story_Edit_Save"
-            app:layout_constraintRight_toRightOf="@+id/iv_Story_Edit_Save"
-            app:layout_constraintLeft_toLeftOf="@+id/iv_Story_Edit_Save"
-            android:textSize="20dp"
-            android:text="@string/tv_Store_Edit_Save"
-            android:gravity="center"/>
-
-    </android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/tv_Story_Edit_Save"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        style="@style/BaseTextView"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toTopOf="@+id/ui_Memo_Edit_TopBar"
+        app:layout_constraintBottom_toBottomOf="@+id/ui_Memo_Edit_TopBar"
+        app:layout_constraintRight_toRightOf="@+id/ui_Memo_Edit_TopBar"
+        android:textSize="20dp"
+        android:text="@string/tv_Store_Edit_Save"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tv_Story_Edit_Desc"
-        style="@style/BaseTextView"
+        style="@style/BaseTextView_AutoSize"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        app:layout_constraintRight_toLeftOf="@+id/tv_Story_Edit_Count"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_Story_Edit_TopBar"
-        android:layout_marginLeft="10dp"
-        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/ui_Memo_Edit_TopBar"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:gravity="center|left"
         android:text="@string/STORE_EDIT"
-        android:textSize="15dp"
+        android:background="@color/str_title_bg_gray"
         />
 
     <TextView
         android:id="@+id/tv_Story_Edit_Count"
-        style="@style/BaseTextView"
+        style="@style/BaseTextView_AutoSize"
         android:layout_width="40dp"
         android:layout_height="30dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/tv_Story_Edit_Desc"
-        app:layout_constraintTop_toBottomOf="@+id/v_Story_Edit_TopBar"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_Story_Edit_Desc"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:text="4000"
@@ -96,7 +58,7 @@
         />
 
     <EditText
-        android:id="@+id/et_Story_Edit_Story"
+        android:id="@+id/et_Story_Edit_Memo"
         style="@style/BaseEditTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -106,8 +68,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:paddingTop="10dp"
         android:gravity="top"
+        android:scrollHorizontally="true"
         android:hint="@string/et_Store_Edit_NickName"
-        android:inputType="textNoSuggestions"
+        android:inputType="textNoSuggestions|textMultiLine|textImeMultiLine"
         android:cursorVisible="true"
         android:background="@drawable/bg_white"
         />

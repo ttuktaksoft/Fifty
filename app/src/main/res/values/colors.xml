@@ -10,6 +10,8 @@
     <color name="baseColor_4">#fffee9</color>
     <color name="white">#ffffff</color>
     <color name="black">#ff000000</color>
+    <color name="red">#f71616</color>
+    <color name="blue">#1170ff</color>
     <color name="gray">#7d7d7d</color>
     <color name="chatcontent">#9e9e9e</color>
     <color name="gray_light">#e0e0e0</color>
@@ -34,7 +36,8 @@
     <color name="chat_body_bg">#f7fdf6</color>
     <color name="default_bg_color_1">#6AB95F</color>
 
-    <color name="test">#af8ec9</color>
+    <color name="test">#6c8fcf</color>
+    <color name="test2">#a9c4f7</color>
 
     // 특수한 색상
 
