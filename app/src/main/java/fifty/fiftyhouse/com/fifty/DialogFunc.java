@@ -1,12 +1,15 @@
 package fifty.fiftyhouse.com.fifty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +17,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.util.ArrayList;
+
+import fifty.fiftyhouse.com.fifty.activty.SettingAccountActivity;
+import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.SettingAdapter;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class DialogFunc {
     private static DialogFunc _Instance;
@@ -32,42 +42,31 @@ public class DialogFunc {
         void Listener();
     }
 
-    public void ShowMsgPopup(Context context, String title, String centerDesc) {
-        ShowMsgPopup(context, null, null, title, centerDesc, null, null);
+    public void ShowMsgPopup(Context context, String centerDesc) {
+        ShowMsgPopup(context, null, null, centerDesc, null, null);
     }
 
-    public void ShowMsgPopup(Context context, final MsgPopupListener listenerYes, final MsgPopupListener listenerNo, String title, String centerDesc, String yesDesc, String noDesc) {
-        TextView Title, CenterDesc;
-        ImageView YesButton, NoButton;
+    public void ShowMsgPopup(Context context, final MsgPopupListener listenerYes, final MsgPopupListener listenerNo, String centerDesc, String yesDesc, String noDesc) {
+        TextView CenterDesc;
         TextView YesButtonDesc, NoButtonDesc;
 
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_msg_popup, null, false);
 
-        Title = (TextView) v.findViewById(R.id.tv_Msg_Popup_Title);
         CenterDesc = (TextView) v.findViewById(R.id.tv_Msg_Popup_Desc);
-        YesButton = v.findViewById(R.id.iv_Msg_Popup_Buttons_OK);
         YesButtonDesc = v.findViewById(R.id.tv_Msg_Popup_Buttons_OK);
-        NoButton =  v.findViewById(R.id.iv_Msg_Popup_Buttons_Cancel);
         NoButtonDesc =  v.findViewById(R.id.tv_Msg_Popup_Buttons_Cancel);
 
-        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.button_ok)));
-        ImageViewCompat.setImageTintList(NoButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.button_cancel)));
-        Title.setText(title);
         CenterDesc.setText(centerDesc);
-
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
 
-        YesButton.setVisibility(View.VISIBLE);
         YesButtonDesc.setVisibility(View.VISIBLE);
-        NoButton.setVisibility(View.VISIBLE);
         NoButtonDesc.setVisibility(View.VISIBLE);
 
         if(noDesc == null || noDesc.equals(""))
         {
-            NoButton.setVisibility(View.GONE);
             NoButtonDesc.setVisibility(View.GONE);
         }
 
@@ -81,7 +80,7 @@ public class DialogFunc {
         else
             NoButtonDesc.setText(noDesc);
 
-        YesButton.setOnClickListener(new View.OnClickListener() {
+        YesButtonDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listenerYes != null)
@@ -89,7 +88,7 @@ public class DialogFunc {
                 dialog.dismiss();
             }
         });
-        NoButton.setOnClickListener(new View.OnClickListener() {
+        NoButtonDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (listenerNo != null)
@@ -124,7 +123,7 @@ public class DialogFunc {
     public void ShowLoadingPage(Context context) {
 
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            SetShowLoadingPageMsg(context);
+            return;
         } else {
 
             mProgressDialog = new AppCompatDialog(context);
@@ -135,11 +134,7 @@ public class DialogFunc {
 
         }
 
-        TextView tv_progress_message = (TextView) mProgressDialog.findViewById(R.id.tv_progress_message);
-
-
-
-        ImageView iv_progress_loading = (ImageView) mProgressDialog.findViewById(R.id.iv_loading_logo);
+        ImageView iv_progress_loading = (ImageView) mProgressDialog.findViewById(R.id.iv_Loading_Icon);
         Glide.with(context)
                 .asGif()
                 .load(R.raw.progressbar)
@@ -147,23 +142,6 @@ public class DialogFunc {
                 .into(iv_progress_loading);
 
 
-        //tv_progress_message.setText(message);
-    }
-
-    public void SetShowLoadingPageMsg(Context context) {
-
-        if (mProgressDialog == null || !mProgressDialog.isShowing()) {
-            return;
-        }
-        TextView tv_progress_message = (TextView) mProgressDialog.findViewById(R.id.tv_progress_message);
-
-
-        ImageView iv_progress_loading = (ImageView) mProgressDialog.findViewById(R.id.iv_loading_logo);
-        Glide.with(context)
-                .asGif()
-                .load(R.raw.progressbar)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .into(iv_progress_loading);
         //tv_progress_message.setText(message);
     }
 
@@ -173,4 +151,37 @@ public class DialogFunc {
         }
     }
 
+    public void ShowMenuListPopup(Context context, final ArrayList<String> menuStr, final ArrayList<MsgPopupListener> menuListener) {
+
+        RecyclerView rv_Menu_List;
+        DialogMenuListAdapter mAdapter;
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_menu_list_popup, null, false);
+
+        rv_Menu_List = v.findViewById(R.id.rv_Menu_List);
+
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        mAdapter = new DialogMenuListAdapter(context);
+        mAdapter.setItemCount(menuStr.size());
+        mAdapter.setItemData(menuStr);
+        mAdapter.setHasStableIds(true);
+
+        rv_Menu_List.setAdapter(mAdapter);
+        rv_Menu_List.setLayoutManager(new GridLayoutManager(context, 1));
+        rv_Menu_List.addOnItemTouchListener(new RecyclerItemClickListener(context, rv_Menu_List, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                menuListener.get(position).Listener();
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+
+            }
+        }));
+    }
 }

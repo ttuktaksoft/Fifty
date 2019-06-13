@@ -49,7 +49,11 @@
         <activity android:name=".activty.LocationEditActivity" />
         <activity android:name=".activty.CustomPhotoView" />
         <activity android:name=".activty.FavoriteSelectActivity" />
-        <activity android:name=".activty.UserProfileMemoActivity"></activity>
+        <activity android:name=".activty.UserProfileMemoActivity" />
+        <activity android:name=".activty.UserNoticeActivity" />
+        <activity android:name=".activty.SettingActivity" />
+        <activity android:name=".activty.SettingAccountActivity" />
+        <activity android:name=".activty.UserReportActivity"></activity>
     </application>
 
 </manifest>

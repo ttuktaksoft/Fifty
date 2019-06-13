@@ -83,7 +83,7 @@ public class BirthActivity extends AppCompatActivity {
                 if(mIsGenderSelect == false)
                 {
                     // TODO 성별을 선택 유도 팝업
-                    DialogFunc.getInstance().ShowMsgPopup(BirthActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.SIGN_UP_GENDER_CHECK));
+                    DialogFunc.getInstance().ShowMsgPopup(BirthActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.SIGN_UP_GENDER_CHECK));
                 }
                 else
                 {

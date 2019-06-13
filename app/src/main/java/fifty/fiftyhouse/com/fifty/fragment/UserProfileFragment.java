@@ -34,6 +34,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
+import fifty.fiftyhouse.com.fifty.activty.SettingActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileMemoActivity;
@@ -520,7 +521,7 @@ public class UserProfileFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 if(position == 3)
                 {
-
+                    Intent intent = new Intent(mContext, SettingActivity.class);
                 }
                 else
                 {

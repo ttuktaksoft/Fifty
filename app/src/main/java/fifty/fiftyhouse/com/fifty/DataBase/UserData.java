@@ -40,7 +40,7 @@ public class UserData {
         @Override
         protected boolean removeEldestEntry(Entry<String, String> arg0)
         {
-            return size() == 3? true : false;
+            return size() == 6? true : false;
         }
     };
 

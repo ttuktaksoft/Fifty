@@ -1,14 +1,10 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,7 +18,6 @@ import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
 
 public class NickNameEditActivity extends AppCompatActivity {
 
@@ -69,7 +64,7 @@ public class NickNameEditActivity extends AppCompatActivity {
 
 
         mIsNickNameCheck = false;
-        tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICK_NAME_CHECK_NO));
+        tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
         tv_NickName_Edit_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
 
         et_NickName_Edit_NickName.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +72,7 @@ public class NickNameEditActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // 입력을 시도 했을경우 중복체크 안함으로 수정
                 mIsNickNameCheck = false;
-                tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICK_NAME_CHECK_NO));
+                tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
                 tv_NickName_Edit_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
             }
         });
@@ -107,12 +102,12 @@ public class NickNameEditActivity extends AppCompatActivity {
                 if(CommonFunc.getInstance().CheckStringNull(strNickName))
                 {
                     // TODO 닉네임 입력 해달라는 팝업 표시
-                    DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EDIT_EMPTY));
+                    DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
                 }
-                else if(strNickName.length() < CommonData.NickNameMaxSize)
+                else if(strNickName.length() < CommonData.NickNameMinSize)
                 {
                     // TODO 닉네임 입력 해달라는 팝업 표시
-                    DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EDIT_LEAK));
+                    DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_LEAK));
                 }
                 else
                 {
@@ -125,17 +120,17 @@ public class NickNameEditActivity extends AppCompatActivity {
 
                         @Override
                         public void CompleteListener_Yes() {
-                            DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EDIT_CHECK_SUCCESS));
+                            DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_SUCCESS));
                             mIsNickNameCheck = true;
-                            tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICK_NAME_CHECK_YES));
+                            tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_YES));
                             tv_NickName_Edit_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
                         }
 
                         @Override
                         public void CompleteListener_No() {
-                            DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_NOTICE), CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EDIT_CHECK_FAIL));
+                            DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_FAIL));
                             mIsNickNameCheck = false;
-                            tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICK_NAME_CHECK_NO));
+                            tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
                             tv_NickName_Edit_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
                         }
                     };

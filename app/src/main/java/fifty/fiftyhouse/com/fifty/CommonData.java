@@ -56,6 +56,11 @@ public class CommonData {
         IMG,
         VIDEO
     }
+    public static enum FavoriteSelectType
+    {
+        SIGNUP,
+        EDIT
+    }
 
     // 처음에 보여줄 인기 관심사 갯수
     public static int Favorite_Pop_Count = 6;
@@ -68,9 +73,12 @@ public class CommonData {
 
     public static int UserData_Loding_Count = 5;
 
+    public static int FavoriteSelectMinCount = 2;
+    public static int FavoriteSelectMaxCount = 5;
     public static int NickNameMinSize = 2;
-    public static int NickNameMaxSize = 15;
+    public static int NickNameMaxSize = 10;
     public static int MemoMaxSize = 4000;
     public static int LocationMaxSize = 30;
+    public static int UserReportMaxSize = 4000;
 
 }

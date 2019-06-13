@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.SettingAccountActivity"
+    android:background="@color/activity_bg">
+
+    <include
+        android:id="@+id/ui_Setting_Account_TopBar"
+        layout="@layout/ui_topbar"/>
+
+    <TextView
+        android:id="@+id/tv_Setting_Account_Save"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        style="@style/BaseTextView"
+        app:layout_constraintTop_toTopOf="@+id/ui_Setting_Account_TopBar"
+        app:layout_constraintBottom_toBottomOf="@+id/ui_Setting_Account_TopBar"
+        app:layout_constraintRight_toRightOf="@+id/ui_Setting_Account_TopBar"
+        android:textSize="20dp"
+        android:text="@string/MSG_SAVE"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_Setting_Account_Desc"
+        style="@style/BaseTextView_AutoSize"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ui_Setting_Account_TopBar"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/SETTING_ACCOUNT_DESC"
+        android:gravity="center"
+        android:background="@color/str_title_bg_gray"
+        />
+
+    <EditText
+        android:id="@+id/et_Setting_Account_Email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/BaseEditTextView"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Setting_Account_Desc"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:hint="@string/SETTING_ACCOUNT_EMAIL_HINT"
+        android:inputType="textNoSuggestions"
+        android:cursorVisible="true"/>
+
+    <EditText
+        android:id="@+id/et_Setting_Account_Password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/BaseEditTextView"
+        app:layout_constraintTop_toBottomOf="@+id/et_Setting_Account_Email"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:hint="@string/SETTING_ACCOUNT_PASSWORD_HINT"
+        android:inputType="textNoSuggestions"
+        android:cursorVisible="true"/>
+
+
+    <!--
+
+    <TextView
+        android:id="@+id/tv_Setting_Account_Save1"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        style="@style/BaseTextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ui_Setting_Account_TopBar"
+        android:textSize="13dp"
+        android:text="계정을 등록하시면 데이터를 동기화 할 수 있습니다"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/et_SignUp_NickName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/BaseEditTextView"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Setting_Account_Save1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:hint="이메일을 입력하세요"
+        android:inputType="textNoSuggestions"
+        android:cursorVisible="true"/>
+
+    <EditText
+        android:id="@+id/et_SignUp_NickName2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/BaseEditTextView"
+        app:layout_constraintTop_toBottomOf="@+id/et_SignUp_NickName"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:hint="비밀번호를 입력하세요"
+        android:inputType="textNoSuggestions"
+        android:cursorVisible="true"/>-->
+
+
+
+</android.support.constraint.ConstraintLayout>

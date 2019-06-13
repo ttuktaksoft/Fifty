@@ -77,7 +77,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Like) {
 
-                    DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);
+                    DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
 
                     if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) == null){
 
@@ -102,7 +102,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Friend) {
 
-                    DialogFunc.getInstance().SetShowLoadingPageMsg(UserProfileActivity.this);
+                    DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
 
                     if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null){
                         FirebaseManager.getInstance().RegistFriendInUserData(TKManager.getInstance().TargetUserData.GetUserIndex());
