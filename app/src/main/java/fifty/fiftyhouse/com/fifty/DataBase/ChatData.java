@@ -22,6 +22,7 @@ public class ChatData {
     public  String MsgSender;
     public  CommonData.MSGType MsgType;
     public  long MsgDate;
+    public  boolean MsgReadCheck;
 
     public void SetRoomIndex(String roomIndex)
     {
@@ -104,4 +105,9 @@ public class ChatData {
         return MsgDate;
     }
 
+    public void SetMsgReadCheck(boolean msgReadCheck) {MsgReadCheck = msgReadCheck;}
+    public boolean GetMsgReadCheck()
+    {
+        return MsgReadCheck;
+    }
 }

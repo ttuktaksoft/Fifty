@@ -2,8 +2,10 @@ package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.common.internal.service.Common;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -43,6 +49,10 @@ public class ChatFragment extends Fragment {
     private TextView txt_empty;
     RecyclerView ChatRecyclerView;
     ChatAdapter mAdapter;
+
+    String strTargetIndex;
+
+    static final int REFRESH_CHATFRAGMENT = 0;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -86,13 +96,53 @@ public class ChatFragment extends Fragment {
                 List array = new ArrayList(tempKey);
                 final ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(position).toString());
 
+                int idx = tempChatData.GetRoomIndex().indexOf("_");
+                String tempStr = tempChatData.GetRoomIndex().substring(0, idx);
+                String tempStrBack = tempChatData.GetRoomIndex().substring(idx+1);
+                if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                {
+                    strTargetIndex = tempStrBack;
+                }
+                else
+                {
+                    strTargetIndex = tempStr;
+                }
+
+
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
 
-                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                        intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
-                        startActivity(intent);
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                                //startActivity(intent);
+                                    startActivityForResult(intent, REFRESH_CHATFRAGMENT);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        if(TKManager.getInstance().UserData_Simple.get(strTargetIndex) != null)
+                        {
+                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                            intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                            startActivityForResult(intent, REFRESH_CHATFRAGMENT);
+                        }
+                        else
+                        {
+                            FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                            FirebaseManager.getInstance().GetUserData_Simple(strTargetIndex, TKManager.getInstance().UserData_Simple, listener);
+                        }
+
                     }
 
                     @Override
@@ -138,5 +188,15 @@ public class ChatFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REFRESH_CHATFRAGMENT) {
+            mAdapter.notifyDataSetChanged();
+
+        }
     }
 }

@@ -62,6 +62,12 @@ public class CommonData {
         EDIT
     }
 
+    public static enum ACTIVITY_INTENT_FLAG
+    {
+        CHATFRAGMENT
+    }
+
+
     // 처음에 보여줄 인기 관심사 갯수
     public static int Favorite_Pop_Count = 2;
     // 처음에 검색할 인기 관심사 갯수

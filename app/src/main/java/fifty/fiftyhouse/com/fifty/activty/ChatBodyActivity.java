@@ -21,6 +21,7 @@ import android.widget.TextView;
 import java.util.Random;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -43,6 +44,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     Context mContext;
     Activity mActivity;
     String strRoomIndex;
+    String strTargetIndex;
 
     ChatBodyAdapter mAdapter;
 
@@ -57,6 +59,17 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         strRoomIndex = getIntent().getStringExtra("RoomIndex");
+        int idx = strRoomIndex.indexOf("_");
+        String tempStr = strRoomIndex.substring(0, idx);
+        String tempStrBack = strRoomIndex.substring(idx+1);
+        if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
+        {
+            strTargetIndex = tempStrBack;
+        }
+        else
+        {
+            strTargetIndex = tempStr;
+        }
 
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
@@ -79,56 +92,34 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_Chat_Body_Send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ChatData tempData = new ChatData();
 
-                Random random = new Random();
+                tempData.SetRoomIndex(strRoomIndex);
 
+                tempData.SetFromIndex(TKManager.getInstance().MyData.GetUserIndex());
+                tempData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+                tempData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
 
-                if(random.nextInt(2) == 1)
-                {
-                    tempData.SetFromIndex(TKManager.getInstance().MyData.GetUserIndex());
-                    tempData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
-                    tempData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+                tempData.SetMsg(et_Chat_Body_Msg.getText().toString());
 
-                    tempData.SetMsg(et_Chat_Body_Msg.getText().toString());
+                tempData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
+                tempData.SetMsgType(CommonData.MSGType.MSG);
+                tempData.SetMsgReadCheck(false);
+                tempData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
 
-                    tempData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
-                    tempData.SetMsgType(CommonData.MSGType.MSG);
+                tempData.SetToIndex(strTargetIndex);
+                tempData.SetToNickName(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
+                tempData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserImgThumb());
 
-                    tempData.SetToIndex("14");
-                    tempData.SetToNickName("14");
-                    tempData.SetToThumbNail("14");
-
-
-                    tempData.SetRoomIndex("1_1");
-                }
-                else
-                {
-                    tempData.SetToIndex(TKManager.getInstance().MyData.GetUserIndex());
-                    tempData.SetToNickName(TKManager.getInstance().MyData.GetUserNickName());
-                    tempData.SetToThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
-
-                    tempData.SetMsg(et_Chat_Body_Msg.getText().toString());
-
-                    tempData.SetMsgSender("14");
-                    tempData.SetMsgType(CommonData.MSGType.MSG);
-
-                    tempData.SetFromIndex("14");
-                    tempData.SetFromNickName("14");
-                    tempData.SetFromThumbNail("14");
-
-
-                    tempData.SetRoomIndex("1_1");
-                }
-
-                FirebaseManager.getInstance().AddChatData("1_1",tempData);
+                FirebaseManager.getInstance().AddChatData(strRoomIndex,tempData);
 
                 imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
                 et_Chat_Body_Msg.setText(null);
             }
         });
 
-        tv_TopBar_Title.setText("닉네임추가");
+        tv_TopBar_Title.setText(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
 
         initRecyclerView();
     }

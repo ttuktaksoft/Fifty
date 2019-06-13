@@ -115,6 +115,16 @@ public class CommonFunc {
         return getTime;
     }
 
+    public String GetCurrentTime()
+    {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        String getTime = sdf.format(date);
+        return getTime;
+    }
+
+
     int i = 0;
     public void MoveActivity(Activity from, Class  to)
     {
