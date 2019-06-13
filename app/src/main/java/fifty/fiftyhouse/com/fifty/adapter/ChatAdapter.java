@@ -64,7 +64,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
 
 class ChatListHolder extends RecyclerView.ViewHolder {
 
-    public ImageView iv_Chat_Profile;
+    public ImageView iv_Chat_Profile, iv_Chat_Check;
     public TextView tv_Chat_Nickname,tv_Chat_Msg, tv_Chat_Date, tv_Chat_Check;
     Context mContext;
 
@@ -77,6 +77,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         tv_Chat_Msg = itemView.findViewById(R.id.tv_Chat_Msg);
         tv_Chat_Date = itemView.findViewById(R.id.tv_Chat_Date);
         tv_Chat_Check = itemView.findViewById(R.id.tv_Chat_Check);
+        iv_Chat_Check = itemView.findViewById(R.id.iv_Chat_Check);
     }
 
     public void setData(int i)
@@ -99,5 +100,22 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Profile, tempChatData.GetFromThumbNail(), true);
             tv_Chat_Nickname.setText(tempChatData.GetFromNickName());
         }
+
+        long tempReadCount = tempChatData.GetMsgIndex() - TKManager.getInstance().MyData.GetUserChatReadIndexList(tempChatData.GetRoomIndex());
+
+        if(tempReadCount > 0)
+        {
+            tv_Chat_Check.setVisibility(View.VISIBLE);
+            iv_Chat_Check.setVisibility(View.VISIBLE);
+
+            tv_Chat_Check.setText(Long.toString(tempReadCount));
+        }
+
+        else
+        {
+            tv_Chat_Check.setVisibility(View.INVISIBLE);
+            iv_Chat_Check.setVisibility(View.INVISIBLE);
+        }
+
     }
 }

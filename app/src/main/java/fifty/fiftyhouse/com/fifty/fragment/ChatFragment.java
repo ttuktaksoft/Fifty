@@ -2,8 +2,10 @@ package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.internal.service.Common;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -48,6 +51,8 @@ public class ChatFragment extends Fragment {
     ChatAdapter mAdapter;
 
     String strTargetIndex;
+
+    static final int REFRESH_CHATFRAGMENT = 0;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -113,7 +118,8 @@ public class ChatFragment extends Fragment {
                             public void CompleteListener() {
                                 Intent intent = new Intent(mContext, ChatBodyActivity.class);
                                 intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
-                                startActivity(intent);
+                                //startActivity(intent);
+                                    startActivityForResult(intent, REFRESH_CHATFRAGMENT);
                             }
 
                             @Override
@@ -129,7 +135,7 @@ public class ChatFragment extends Fragment {
                         {
                             Intent intent = new Intent(mContext, ChatBodyActivity.class);
                             intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
-                            startActivity(intent);
+                            startActivityForResult(intent, REFRESH_CHATFRAGMENT);
                         }
                         else
                         {
@@ -182,5 +188,15 @@ public class ChatFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REFRESH_CHATFRAGMENT) {
+            mAdapter.notifyDataSetChanged();
+
+        }
     }
 }

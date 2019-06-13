@@ -447,7 +447,33 @@ public class FirebaseManager {
                                 tempData.SetToThumbNail(document.getData().get("ToThumbNail").toString());
 
                                 tempData.SetMsg(document.getData().get("Msg").toString());
-                                tempData.SetMsgReadCheck(Boolean.valueOf((document.getData().get("MsgReadCheck").toString())).booleanValue());
+                                if(tempData.GetToIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                                {
+                                    tempData.SetMsgReadCheck(true);
+
+                                    Map<String, Object> ReadCheck = new HashMap<>();
+                                    ReadCheck.put("MsgReadCheck", true);
+
+                                    mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(Long.toString(tempData.MsgIndex))
+                                            .set(ReadCheck, SetOptions.merge())
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error writing document", e);
+                                                }
+                                            });
+                                }
+                                else
+                                {
+                                    tempData.SetMsgReadCheck(Boolean.valueOf((document.getData().get("MsgReadCheck").toString())).booleanValue());
+                                }
+
                                 tempData.SetMsgIndex(Long.parseLong(document.getData().get("MsgIndex").toString()));
                                 tempData.SetMsgSender(document.getData().get("MsgSender").toString());
                                 tempData.SetMsgDate(Long.parseLong(document.getData().get("MsgDate").toString()));
@@ -467,6 +493,7 @@ public class FirebaseManager {
                                         break;
                                 }
                                 userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
+                                userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
                             }
                         }
 
@@ -537,21 +564,6 @@ public class FirebaseManager {
                                     }
                                     userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
                                     userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
-
-                                    mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(chatRoomIndex)
-                                            .set(tempData, SetOptions.merge())
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w(TAG, "Error writing document", e);
-                                                }
-                                            });
                                 }
 
 
@@ -695,6 +707,7 @@ public class FirebaseManager {
                                     break;
                             }
                             userData.SetUserChatDataList(tempRoomName, tempData);
+                            userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
 
 
                             break;
@@ -1534,6 +1547,22 @@ public class FirebaseManager {
                             }
                         });
 
+                mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(roomIndex)
+                        .set(chatData, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+                TKManager.getInstance().MyData.SetUserChatReadIndexList(chatData.GetRoomIndex(), chatData.GetMsgIndex());
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
