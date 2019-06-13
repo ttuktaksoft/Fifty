@@ -25,6 +25,7 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
     Context mContext;
     String mAddString;
     boolean mAdd = false;
+    boolean mSelectView = false;
     int mItemCount = 0;
     ArrayList<String> mItemList = new ArrayList<>();
 
@@ -45,12 +46,12 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
         if(mAdd)
         {
             if(mItemCount - 1 <= position)
-                holder.setData(mAddString, true);
+                holder.setData(mAddString, true, mSelectView);
             else
-                holder.setData(mItemList.get(i), false);
+                holder.setData(mItemList.get(i), false, mSelectView);
         }
         else
-            holder.setData(mItemList.get(i), false);
+            holder.setData(mItemList.get(i), false, mSelectView);
 
     }
 
@@ -63,6 +64,11 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
     {
         mAdd = true;
         mAddString = str;
+    }
+
+    public void setSelectView(boolean enable)
+    {
+        mSelectView = enable;
     }
     public void setItemCount(int count)
     {
@@ -94,12 +100,24 @@ class FavoriteViewHolder extends RecyclerView.ViewHolder {
         tv_Favorite_View_Name = itemView.findViewById(R.id.tv_Favorite_View_Name);
     }
 
-    public void setData(String favorite, boolean add)
+    public void setData(String favorite, boolean add, boolean selectView)
     {
         if(add == false)
         {
-            ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_1)));
-            tv_Favorite_View_Name.setText(favorite);
+            if(selectView)
+            {
+                if(TKManager.getInstance().MyData.GetUserFavoriteList().containsKey(favorite))
+                    ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_3)));
+                else
+                    ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_1)));
+
+                tv_Favorite_View_Name.setText(favorite);
+            }
+            else
+            {
+                ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_1)));
+                tv_Favorite_View_Name.setText(favorite);
+            }
         }
         else
         {

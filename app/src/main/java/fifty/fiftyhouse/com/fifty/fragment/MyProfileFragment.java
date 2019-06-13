@@ -34,8 +34,10 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
+import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpCompleteActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 /**
@@ -90,6 +92,14 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         tv_MyProfile_Name = v_FragmentView.findViewById(R.id.tv_MyProfile_Name);
 
         tv_MyProfile_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
+
+        iv_MyProfile_Alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, UserNoticeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return v_FragmentView;
     }

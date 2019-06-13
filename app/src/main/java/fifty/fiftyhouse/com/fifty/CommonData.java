@@ -63,7 +63,7 @@ public class CommonData {
     }
 
     // 처음에 보여줄 인기 관심사 갯수
-    public static int Favorite_Pop_Count = 6;
+    public static int Favorite_Pop_Count = 2;
     // 처음에 검색할 인기 관심사 갯수
     public static int Favorite_Search_Pop_Count = 30;
 

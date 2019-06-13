@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/v_SignUp_View"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -66,7 +68,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="90dp"
                 android:hint="@string/NICKNAME_HINT"
-                android:inputType="textNoSuggestions"
+                android:inputType="textNoSuggestions|text"
                 android:cursorVisible="true"/>
 
             <TextView
