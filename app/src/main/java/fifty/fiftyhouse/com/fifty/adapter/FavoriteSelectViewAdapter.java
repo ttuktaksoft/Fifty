@@ -31,16 +31,12 @@ public class FavoriteSelectViewAdapter extends RecyclerView.Adapter<FavoriteSele
     @Override
     public void onBindViewHolder(FavoriteSelectViewHolder holder, final int position) {
         int i = position;
-        holder.setData(i, true);
+        holder.setData(i);
     }
 
     @Override
     public int getItemCount() {
-        boolean signup = true;
-        if(signup)
-            return TKManager.getInstance().MyData.GetUserFavoriteListCount();
-        else
-            return 40;
+        return TKManager.getInstance().MyData.GetUserFavoriteListCount();
     }
 
 }
@@ -57,18 +53,11 @@ class FavoriteSelectViewHolder extends RecyclerView.ViewHolder {
         tv_Favorite_Select_View_Name = itemView.findViewById(R.id.tv_Favorite_Select_View_Name);
     }
 
-    public void setData(int i, boolean signup)
+    public void setData(int i)
     {
-        if(signup)
-        {
-            Set tempKey = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
-            List array = new ArrayList(tempKey);
+        Set tempKey = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+        List array = new ArrayList(tempKey);
 
-            tv_Favorite_Select_View_Name.setText(TKManager.getInstance().MyData.GetUserFavoriteList(array.get(i).toString()));
-        }
-        else
-        {
-            tv_Favorite_Select_View_Name.setText("내용 입니다_" + i);
-        }
+        tv_Favorite_Select_View_Name.setText(TKManager.getInstance().MyData.GetUserFavoriteList(array.get(i).toString()));
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,10 +22,8 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteSelectViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
@@ -41,7 +40,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     FavoriteViewAdapter mViewAdapter;
     FavoriteSelectViewAdapter mSelectViewAdapter;
     Context mContext;
-
+    InputMethodManager imm;
     CommonData.FavoriteSelectType mType = CommonData.FavoriteSelectType.SIGNUP;
 
     @Override
@@ -49,6 +48,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_select);
         mContext = getApplicationContext();
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         ui_FavoriteSelect_TopBar = findViewById(R.id.ui_FavoriteSelect_TopBar);
         tv_TopBar_Title = ui_FavoriteSelect_TopBar.findViewById(R.id.tv_TopBar_Title);
@@ -103,16 +103,24 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         iv_FavoriteSelect_Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
                 if(CommonFunc.getInstance().CheckStringNull(et_FavoriteSelect_Search.getText().toString()))
                 {
                     DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_SEARCH_EMPTY));
                 }
-                // TODO 관심사 검색
+                else
+                {
+                    String favorite = et_FavoriteSelect_Search.getText().toString();
+                    TKManager.getInstance().MyData.SetUserFavorite(favorite, favorite);
+                    RefreshFavoriteSelectViewListDesc();
+                    mSelectViewAdapter.notifyDataSetChanged();
+                }
             }
         });
 
         RefreshFavoriteSelectList();
         RefreshFavoriteViewList();
+        RefreshFavoriteSelectViewListDesc();
     }
 
     public void RefreshFavoriteSelectList()
@@ -147,14 +155,9 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                     String tempFavoriteSelect = TKManager.getInstance().MyData.GetUserFavoriteList(array.get(position).toString());
                     TKManager.getInstance().MyData.DelUserFavoriteList(tempFavoriteSelect);
 
-                    if(TKManager.getInstance().MyData.GetUserFavoriteList().size() <= 0)
-                        tv_FavoriteSelect_Empty.setVisibility(View.VISIBLE);
-                    else
-                        tv_FavoriteSelect_Empty.setVisibility(View.GONE);
+                    RefreshFavoriteSelectViewListDesc();
+
                     mSelectViewAdapter.notifyDataSetChanged();
-
-
-
                 }
             }
 
@@ -167,14 +170,13 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     public void RefreshFavoriteViewList()
     {
         mViewAdapter = new FavoriteViewAdapter(mContext);
-        mViewAdapter.setItemCount(CommonData.Favorite_Pop_Count);
-        mViewAdapter.setItemData(TKManager.getInstance().FavoriteLIst_Pop);
+        RefreshFavoriteViewListSlot();
         mViewAdapter.setHasStableIds(true);
 
         rv_FavoriteSelect_View.setAdapter(mViewAdapter);
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.CENTER)
-                .setMaxViewsInRow(10)
+                .setMaxViewsInRow(3)
                 .setGravityResolver(new IChildGravityResolver() {
                     @Override
                     public int getItemGravity(int i) {
@@ -192,29 +194,23 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 if(mType == CommonData.FavoriteSelectType.SIGNUP)
                 {
-                    String tempFavoriteSelect = TKManager.getInstance().FavoriteLIst_Pop.get(position);
-                    TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
+                    int itemCount = mViewAdapter.getItemCount();
 
-                    if(TKManager.getInstance().MyData.GetUserFavoriteList().size() <= 0)
-                        tv_FavoriteSelect_Empty.setVisibility(View.VISIBLE);
-                    else
-                        tv_FavoriteSelect_Empty.setVisibility(View.GONE);
-
-                    mSelectViewAdapter.notifyDataSetChanged();
-
-
-                    // TODO 다른 관심사 추천
-                    // 관심사를 추천할때 마지막에 관심사 갱신 버튼 추가
-                    /*final String strNickName = et_SignUp_Favorite_Detail_Search.getText().toString();
-                    if(TextUtils.isEmpty(strNickName))
+                    if(itemCount - 1 > position)
                     {
+                        String tempFavoriteSelect = TKManager.getInstance().FavoriteLIst_Pop.get(position);
+                        TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
 
+                        RefreshFavoriteSelectViewListDesc();
+
+                        mSelectViewAdapter.notifyDataSetChanged();
                     }
                     else
                     {
-                        TKManager.getInstance().MyData.SetUserFavorite(strNickName, strNickName);
-                        mSelectAdapter.notifyDataSetChanged();
-                    }*/
+                        // TODO 관심사 추천
+                        RefreshFavoriteViewListSlot();
+                        mViewAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -222,5 +218,22 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             public void onLongItemClick(View view, int position) {
             }
         }));
+    }
+
+    private void RefreshFavoriteSelectViewListDesc()
+    {
+        if(TKManager.getInstance().MyData.GetUserFavoriteList().size() <= 0)
+            tv_FavoriteSelect_Empty.setVisibility(View.VISIBLE);
+        else
+            tv_FavoriteSelect_Empty.setVisibility(View.GONE);
+    }
+
+    private void RefreshFavoriteViewListSlot()
+    {
+        if(mType == CommonData.FavoriteSelectType.SIGNUP)
+            mViewAdapter.addSlot(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FAVORITE_RECOMMEND));
+
+        mViewAdapter.setItemCount(CommonData.Favorite_Pop_Count);
+        mViewAdapter.setItemData(TKManager.getInstance().FavoriteLIst_Pop);
     }
 }

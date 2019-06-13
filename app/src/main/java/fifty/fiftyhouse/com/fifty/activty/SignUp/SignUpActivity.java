@@ -28,11 +28,15 @@ import com.gun0912.tedpermission.TedPermission;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -54,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     Context mContext;
     static final int GET_FROM_GALLERY = 1;
+    static final int GET_FROM_FAVORITE_SELECT = 2;
     File tempFile;
     boolean isCamera = false;
     boolean isProfileUpload = false;
@@ -184,9 +189,32 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent intent = new Intent(getApplicationContext(), SignUpCompleteActivity.class);
-                    startActivity(intent);
-                    finish();
+                    FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                            {
+                                @Override
+                                public void Listener()
+                                {
+                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    finish();
+                                }
+                            };
+                            DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
+
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    FirebaseManager.getInstance().SetMyDataOnFireBase(firebaseListener);
                 }
             }
         });
@@ -196,12 +224,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void initFavoriteList()
     {
-        ArrayList<String> list = new ArrayList<>();
-        list.add("+");
-
         mFavoriteAdapter = new FavoriteViewAdapter(mContext);
-        mFavoriteAdapter.setItemCount(list.size());
-        mFavoriteAdapter.setItemData(list);
+        RefreshFavoriteViewListSlot();
         mFavoriteAdapter.setHasStableIds(true);
 
         rv_SignUp_Favorite.setAdapter(mFavoriteAdapter);
@@ -223,28 +247,24 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
 
-                if(position == 0) // 추가 해야 하는 놈
-                {
-                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                        @Override
-                        public void CompleteListener() {
-                            Intent intent = new Intent(getApplicationContext(), FavoriteSelectActivity.class);
-                            intent.putExtra("Type",0);
-                            startActivity(intent);
-                        }
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(getApplicationContext(), FavoriteSelectActivity.class);
+                        intent.putExtra("Type",0);
+                        startActivityForResult(intent, GET_FROM_FAVORITE_SELECT);
+                    }
 
-                        @Override
-                        public void CompleteListener_Yes() {
-                        }
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
 
-                        @Override
-                        public void CompleteListener_No() {
-                        }
-                    };
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
 
-                    FirebaseManager.getInstance().GetPopFavoriteData(listener);
-                }
-
+                FirebaseManager.getInstance().GetPopFavoriteData(listener);
             }
 
             @Override
@@ -316,6 +336,26 @@ public class SignUpActivity extends AppCompatActivity {
         FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, listener);
     }
 
+    private void RefreshFavoriteViewListSlot()
+    {
+        ArrayList<String> list = new ArrayList<>();
+
+        Map<String, String> tempMapFavorite = TKManager.getInstance().MyData.GetUserFavoriteList();
+        Set EntrySet = tempMapFavorite.entrySet();
+        Iterator iterator = EntrySet.iterator();
+
+        while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String key = (String)entry.getKey();
+            String value = (String)entry.getValue();
+            list.add(value);
+        }
+
+        mFavoriteAdapter.addSlot(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FAVORITE_PLUS));
+        mFavoriteAdapter.setItemCount(list.size());
+        mFavoriteAdapter.setItemData(list);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -343,7 +383,13 @@ public class SignUpActivity extends AppCompatActivity {
             setImage();
 
         }
+        else if(requestCode == GET_FROM_FAVORITE_SELECT)
+        {
+            RefreshFavoriteViewListSlot();
+            mFavoriteAdapter.notifyDataSetChanged();
+        }
     }
+
 
 
 

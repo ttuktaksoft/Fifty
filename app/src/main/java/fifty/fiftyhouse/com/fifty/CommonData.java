@@ -73,6 +73,8 @@ public class CommonData {
 
     public static int UserData_Loding_Count = 5;
 
+    public static int FavoriteSelectMinCount = 2;
+    public static int FavoriteSelectMaxCount = 5;
     public static int NickNameMinSize = 2;
     public static int NickNameMaxSize = 10;
     public static int MemoMaxSize = 4000;

@@ -15,6 +15,8 @@
     <string name="MSG_FAVORITE">관심사</string>
     <string name="MSG_ACCOUNT">계정</string>
     <string name="MSG_REPORT">신고</string>
+    <string name="MSG_FAVORITE_RECOMMEND">관심사 추천</string>
+    <string name="MSG_FAVORITE_PLUS"> + </string>
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
     <string name="TITLE_PROFILE_EDIT">프로필 수정</string>
