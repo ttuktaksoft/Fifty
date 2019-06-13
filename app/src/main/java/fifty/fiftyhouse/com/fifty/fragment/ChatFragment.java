@@ -13,10 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.common.internal.service.Common;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -43,6 +46,8 @@ public class ChatFragment extends Fragment {
     private TextView txt_empty;
     RecyclerView ChatRecyclerView;
     ChatAdapter mAdapter;
+
+    String strTargetIndex;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -86,13 +91,52 @@ public class ChatFragment extends Fragment {
                 List array = new ArrayList(tempKey);
                 final ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(position).toString());
 
+                int idx = tempChatData.GetRoomIndex().indexOf("_");
+                String tempStr = tempChatData.GetRoomIndex().substring(0, idx);
+                String tempStrBack = tempChatData.GetRoomIndex().substring(idx+1);
+                if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                {
+                    strTargetIndex = tempStrBack;
+                }
+                else
+                {
+                    strTargetIndex = tempStr;
+                }
+
+
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
 
-                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                        intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
-                        startActivity(intent);
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        if(TKManager.getInstance().UserData_Simple.get(strTargetIndex) != null)
+                        {
+                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                            intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                            FirebaseManager.getInstance().GetUserData_Simple(strTargetIndex, TKManager.getInstance().UserData_Simple, listener);
+                        }
+
                     }
 
                     @Override

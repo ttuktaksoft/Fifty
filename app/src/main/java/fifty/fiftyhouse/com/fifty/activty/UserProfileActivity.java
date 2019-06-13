@@ -139,7 +139,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
 
                     tempChatData.SetMsgIndex(0);
-                    tempChatData.SetMsgDate(Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+                    tempChatData.SetMsgReadCheck(false);
+                    tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
                     tempChatData.SetMsgType(CommonData.MSGType.MSG);
                     tempChatData.SetMsgSender(userIndex);
                     tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");

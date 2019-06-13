@@ -28,6 +28,7 @@ import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -135,6 +136,9 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // 방문자
+
+                DialogFunc.getInstance().ShowLoadingPage(mContext);
+
                 Set KeySet = TKManager.getInstance().MyData.GetUserVisitKeySet();
                 Iterator iterator = KeySet.iterator();
 
@@ -143,6 +147,7 @@ public class UserProfileFragment extends Fragment {
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
                         Intent intent = new Intent(mContext, UserListActivity.class);
                         intent.putExtra("Type",0);
                         intent.putExtra("Count",TKManager.getInstance().MyData.GetUserVisitListCount());
@@ -160,7 +165,12 @@ public class UserProfileFragment extends Fragment {
 
                 while(iterator.hasNext()){
                     String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                    if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                    {
+                        FirebaseManager.getInstance().Complete(listener);
+                    }
+                    else
+                        FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                 }
             }
         });
@@ -169,6 +179,10 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // 좋아요
+
+                DialogFunc.getInstance().ShowLoadingPage(mContext);
+
+
                 Set KeySet = TKManager.getInstance().MyData.GetUserLikeKeySet();
                 Iterator iterator = KeySet.iterator();
 
@@ -177,6 +191,7 @@ public class UserProfileFragment extends Fragment {
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
                         Intent intent = new Intent(mContext, UserListActivity.class);
                         intent.putExtra("Type",1);
                         intent.putExtra("Count",TKManager.getInstance().MyData.GetUserLikeListCount());
@@ -194,7 +209,12 @@ public class UserProfileFragment extends Fragment {
 
                 while(iterator.hasNext()){
                     String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                    if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                    {
+                        FirebaseManager.getInstance().Complete(listener);
+                    }
+                    else
+                        FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                 }
             }
         });
@@ -203,6 +223,9 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // 친구
+
+                DialogFunc.getInstance().ShowLoadingPage(mContext);
+
                 Set KeySet = TKManager.getInstance().MyData.GetUserFriendListKeySet();
                 Iterator iterator = KeySet.iterator();
 
@@ -211,6 +234,8 @@ public class UserProfileFragment extends Fragment {
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+
                         Intent intent = new Intent(mContext, UserListActivity.class);
                         intent.putExtra("Type",2);
                         intent.putExtra("Count",TKManager.getInstance().MyData.GetUserFriendListCount());
@@ -228,7 +253,12 @@ public class UserProfileFragment extends Fragment {
 
                 while(iterator.hasNext()){
                     String key = (String)iterator.next();
-                    FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                    if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                    {
+                        FirebaseManager.getInstance().Complete(listener);
+                    }
+                    else
+                        FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                 }
             }
         });

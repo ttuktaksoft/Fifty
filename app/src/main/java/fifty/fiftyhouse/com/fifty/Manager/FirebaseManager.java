@@ -105,6 +105,15 @@ public class FirebaseManager {
         return FireBaseLoadingCount;
     }
 
+    public void CompleteFireBaseLoadingCount(final FirebaseManager.CheckFirebaseComplete listener) {
+        UserLoading++;
+        if (UserLoading == GetFireBaseLoadingCount()) {
+            UserLoading = 0;
+            if (listener != null)
+                listener.CompleteListener();
+        }
+    }
+
     public void Complete(final FirebaseManager.CheckFirebaseComplete listener) {
         UserLoading++;
         if (UserLoading == GetFireBaseLoadingCount()) {
@@ -438,9 +447,10 @@ public class FirebaseManager {
                                 tempData.SetToThumbNail(document.getData().get("ToThumbNail").toString());
 
                                 tempData.SetMsg(document.getData().get("Msg").toString());
+                                tempData.SetMsgReadCheck(Boolean.valueOf((document.getData().get("MsgReadCheck").toString())).booleanValue());
                                 tempData.SetMsgIndex(Long.parseLong(document.getData().get("MsgIndex").toString()));
                                 tempData.SetMsgSender(document.getData().get("MsgSender").toString());
-                                tempData.SetMsgDate(Integer.parseInt(document.getData().get("MsgDate").toString()));
+                                tempData.SetMsgDate(Long.parseLong(document.getData().get("MsgDate").toString()));
 
                                 String tempType = document.getData().get("MsgType").toString();
 
@@ -507,8 +517,9 @@ public class FirebaseManager {
 
                                     tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
                                     tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
+                                    tempData.SetMsgReadCheck(Boolean.valueOf((document.getDocument().getData().get("MsgReadCheck").toString())).booleanValue());
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
-                                    tempData.SetMsgDate(Integer.parseInt(document.getDocument().getData().get("MsgDate").toString()));
+                                    tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
 
                                     String tempType = document.getDocument().getData().get("MsgType").toString();
 
@@ -525,8 +536,22 @@ public class FirebaseManager {
                                             break;
                                     }
                                     userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
-
                                     userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
+
+                                    mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(chatRoomIndex)
+                                            .set(tempData, SetOptions.merge())
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error writing document", e);
+                                                }
+                                            });
                                 }
 
 
@@ -564,41 +589,48 @@ public class FirebaseManager {
                     switch (document.getType()) {
                         case ADDED:
                         case MODIFIED:
-                            String tempRoomName = document.getDocument().getId().toString();
 
-                            ChatData tempData = new ChatData();
-                            tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
-
-                            tempData.SetFromIndex(document.getDocument().getData().get("FromIndex").toString());
-                            tempData.SetFromNickName(document.getDocument().getData().get("FromNickName").toString());
-                            tempData.SetFromThumbNail(document.getDocument().getData().get("FromThumbNail").toString());
-
-                            tempData.SetToIndex(document.getDocument().getData().get("ToIndex").toString());
-                            tempData.SetToNickName(document.getDocument().getData().get("ToNickName").toString());
-                            tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
-
-                            tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
-                            tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
-                            tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
-                            tempData.SetMsgDate(Integer.parseInt(document.getDocument().getData().get("MsgDate").toString()));
-
-                            String tempType = document.getDocument().getData().get("MsgType").toString();
-
-                            switch (tempType)
+                            if(document!= null && document.getDocument().exists())
                             {
-                                case "MSG":
-                                    tempData.SetMsgType(CommonData.MSGType.MSG);
-                                    break;
-                                case "IMG":
-                                    tempData.SetMsgType(CommonData.MSGType.IMG);
-                                    break;
-                                case "VIDEO":
-                                    tempData.SetMsgType(CommonData.MSGType.VIDEO);
-                                    break;
+                                String tempRoomName = document.getDocument().getId().toString();
+
+                                ChatData tempData = new ChatData();
+                                tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
+
+                                tempData.SetFromIndex(document.getDocument().getData().get("FromIndex").toString());
+                                tempData.SetFromNickName(document.getDocument().getData().get("FromNickName").toString());
+                                tempData.SetFromThumbNail(document.getDocument().getData().get("FromThumbNail").toString());
+
+                                tempData.SetToIndex(document.getDocument().getData().get("ToIndex").toString());
+                                tempData.SetToNickName(document.getDocument().getData().get("ToNickName").toString());
+                                tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
+
+                                tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
+                                tempData.SetMsgReadCheck(Boolean.valueOf((document.getDocument().getData().get("MsgReadCheck").toString())).booleanValue());
+                                tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
+                                tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
+                                tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
+
+                                String tempType = document.getDocument().getData().get("MsgType").toString();
+
+                                switch (tempType)
+                                {
+                                    case "MSG":
+                                        tempData.SetMsgType(CommonData.MSGType.MSG);
+                                        break;
+                                    case "IMG":
+                                        tempData.SetMsgType(CommonData.MSGType.IMG);
+                                        break;
+                                    case "VIDEO":
+                                        tempData.SetMsgType(CommonData.MSGType.VIDEO);
+                                        break;
+                                }
+                                userData.SetUserChatDataList(tempRoomName, tempData);
                             }
-                            userData.SetUserChatDataList(tempRoomName, tempData);
+
                             break;
                         case REMOVED:
+                            String tempRoomName = document.getDocument().getId().toString();
                             tempRoomName = document.getDocument().getId().toString();
                             userData.DelUserChatList(tempRoomName);
                             break;
@@ -628,26 +660,43 @@ public class FirebaseManager {
                 for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
                     switch (document.getType()) {
                         case ADDED:
-                            String tempRoomName = document.getDocument().getId().toString();
-                            int idx = tempRoomName.indexOf("_");
-                            String tempFrom = tempRoomName.substring(0, idx);
-                            String tempTo = tempRoomName.substring(idx+1);
-
-                            if(tempFrom.equals(TKManager.getInstance().MyData.GetUserIndex()))
-                            {
-                                userData.SetUserChatList(tempRoomName, tempTo);
-                            }
-                            else
-                            {
-                                userData.SetUserChatList(tempRoomName, tempFrom);
-                            }
-
-                            //GetUserChatData(tempRoomName, userData, true, listener);
-
-                            break;
                         case MODIFIED:
-                            tempRoomName = document.getDocument().getId().toString();
-                         //   GetUserChatData(tempRoomName, userData, true, listener);
+                            String tempRoomName = document.getDocument().getId().toString();
+
+                            ChatData tempData = new ChatData();
+                            tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
+
+                            tempData.SetFromIndex(document.getDocument().getData().get("FromIndex").toString());
+                            tempData.SetFromNickName(document.getDocument().getData().get("FromNickName").toString());
+                            tempData.SetFromThumbNail(document.getDocument().getData().get("FromThumbNail").toString());
+
+                            tempData.SetToIndex(document.getDocument().getData().get("ToIndex").toString());
+                            tempData.SetToNickName(document.getDocument().getData().get("ToNickName").toString());
+                            tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
+
+                            tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
+                            tempData.SetMsgReadCheck(Boolean.valueOf((document.getDocument().getData().get("MsgReadCheck").toString())).booleanValue());
+                            tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
+                            tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
+                            tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
+
+                            String tempType = document.getDocument().getData().get("MsgType").toString();
+
+                            switch (tempType)
+                            {
+                                case "MSG":
+                                    tempData.SetMsgType(CommonData.MSGType.MSG);
+                                    break;
+                                case "IMG":
+                                    tempData.SetMsgType(CommonData.MSGType.IMG);
+                                    break;
+                                case "VIDEO":
+                                    tempData.SetMsgType(CommonData.MSGType.VIDEO);
+                                    break;
+                            }
+                            userData.SetUserChatDataList(tempRoomName, tempData);
+
+
                             break;
                         case REMOVED:
                             tempRoomName = document.getDocument().getId().toString();
@@ -754,7 +803,11 @@ public class FirebaseManager {
 
 
     public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
-        SetFireBaseLoadingCount(7);
+
+        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+            SetFireBaseLoadingCount(7);
+        else
+            SetFireBaseLoadingCount(5);
 
         DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -833,7 +886,9 @@ public class FirebaseManager {
                             public void CompleteListener_No() {
                             }
                         };
-                        GetUserChatList(userIndex, userData, ChatRoomListener);
+
+                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            GetUserChatList(userIndex, userData, ChatRoomListener);
 
                         FirebaseManager.CheckFirebaseComplete ChatListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -849,7 +904,9 @@ public class FirebaseManager {
                             public void CompleteListener_No() {
                             }
                         };
-                        GetChatList(userIndex, userData, ChatListener);
+                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            GetChatList(userIndex, userData, ChatListener);
+
 
                         FirebaseManager.CheckFirebaseComplete FriendUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
