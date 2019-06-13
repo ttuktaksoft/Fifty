@@ -52,7 +52,8 @@
         <activity android:name=".activty.UserProfileMemoActivity" />
         <activity android:name=".activty.UserNoticeActivity" />
         <activity android:name=".activty.SettingActivity" />
-        <activity android:name=".activty.SettingAccountActivity"></activity>
+        <activity android:name=".activty.SettingAccountActivity" />
+        <activity android:name=".activty.UserReportActivity"></activity>
     </application>
 
 </manifest>

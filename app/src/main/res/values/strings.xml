@@ -14,6 +14,7 @@
     <string name="MSG_WOMAN">여자</string>
     <string name="MSG_FAVORITE">관심사</string>
     <string name="MSG_ACCOUNT">계정</string>
+    <string name="MSG_REPORT">신고</string>
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
     <string name="TITLE_PROFILE_EDIT">프로필 수정</string>
@@ -24,6 +25,9 @@
     <string name="TITLE_USER_LIST_LIKE">좋아요 목록</string>
     <string name="TITLE_USER_LIST_FRIEND">친구 목록</string>
     <string name="TITLE_USER_NOTICE">알림</string>
+    <string name="TITLE_FAVORITE_SELECT">관심사 선택</string>
+    <string name="TITLE_FAVORITE_EDIT">관심사 수정</string>
+    <string name="TITLE_USER_REPORT">신고하기</string>
     <string name="NICKNAME_HINT">닉네임을 입력하세요 (2~10자)</string>
     <string name="NICKNAME_CHECK">중복체크</string>
     <string name="NICKNAME_CHECK_YES">사용가능한 닉네임 입니다</string>
@@ -37,7 +41,11 @@
     <string name="SETTING_ACCOUNT_DESC">계정을 등록하시면 데이터를 동기화 할 수 있습니다</string>
     <string name="SETTING_ACCOUNT_EMAIL_HINT">이메일을 입력해주세요</string>
     <string name="SETTING_ACCOUNT_PASSWORD_HINT">비밀번호를 입력해주세요</string>
-
+    <string name="FAVORITE_SELECT_LACK">두 가지 관심사를 등록해주세요</string>
+    <string name="FAVORITE_SELECT_SEARCH_EMPTY">검색할 관심사를 적어주세요</string>
+    <string name="FAVORITE_SELECT_EMPTY">관심사를 선택해주세요</string>
+    <string name="USER_REPORT_DESC">신고사유</string>
+    <string name="USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
 
 
     <string name="tv_SignUp_Comment">사용하고 싶은 닉네임 입력</string>
@@ -109,7 +117,7 @@
     <string name="FAVORITE_SELECT">관심사 선택</string>
     <string name="FAVORITE_SELECT_VIEW">선택한 관심사</string>
     <string name="FAVORITE_SELECT_RECOM">관심사 추천</string>
-    <string name="FAVORITE_SELECT_LACK">두 가지 관심사를 등록해주세요</string>
+
     <string name="DEFAULT_USERPROFILE_MEMO">자기소개 입니다</string>
 
 

@@ -21,6 +21,7 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.SignUp.ProfileImgActivity;
@@ -32,16 +33,16 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
     View ui_FavoriteSelect_TopBar;
     TextView tv_TopBar_Title;
-    ImageView iv_TopBar_Back;
+    ImageView iv_TopBar_Back, iv_FavoriteSelect_Search;
     RecyclerView rv_FavoriteSelect_Select, rv_FavoriteSelect_View;
     EditText et_FavoriteSelect_Search;
-    TextView tv_FavoriteSelect_Ok;
+    TextView tv_FavoriteSelect_Ok, tv_FavoriteSelect_Empty;
 
     FavoriteViewAdapter mViewAdapter;
     FavoriteSelectViewAdapter mSelectViewAdapter;
     Context mContext;
 
-    boolean mIsSignUp = true;
+    CommonData.FavoriteSelectType mType = CommonData.FavoriteSelectType.SIGNUP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,27 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         ui_FavoriteSelect_TopBar = findViewById(R.id.ui_FavoriteSelect_TopBar);
         tv_TopBar_Title = ui_FavoriteSelect_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_FavoriteSelect_TopBar.findViewById(R.id.iv_TopBar_Back);
+        iv_FavoriteSelect_Search  = findViewById(R.id.iv_FavoriteSelect_Search);
         rv_FavoriteSelect_Select = findViewById(R.id.rv_FavoriteSelect_Select);
         rv_FavoriteSelect_View = findViewById(R.id.rv_FavoriteSelect_View);
         et_FavoriteSelect_Search = findViewById(R.id.et_FavoriteSelect_Search);
         tv_FavoriteSelect_Ok = findViewById(R.id.tv_FavoriteSelect_Ok);
+        tv_FavoriteSelect_Empty = findViewById(R.id.tv_FavoriteSelect_Empty);
+
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        int ntype = getIntent().getIntExtra("Type", 0);
+
+        switch (ntype)
+        {
+            case 0:
+                mType = CommonData.FavoriteSelectType.SIGNUP;
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_FAVORITE_SELECT));
+                break;
+            case 1:
+                mType = CommonData.FavoriteSelectType.EDIT;
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_FAVORITE_EDIT));
+                break;
+        }
 
         iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,11 +85,11 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         tv_FavoriteSelect_Ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mIsSignUp)
+                if(mType == CommonData.FavoriteSelectType.SIGNUP)
                 {
                     if(TKManager.MyData.GetUserFavoriteListCount() < 2)
                     {
-                        DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
+                        DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
                     }
                     else
                     {
@@ -79,6 +97,17 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                     }
                 }
 
+            }
+        });
+
+        iv_FavoriteSelect_Search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CommonFunc.getInstance().CheckStringNull(et_FavoriteSelect_Search.getText().toString()))
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_SEARCH_EMPTY));
+                }
+                // TODO 관심사 검색
             }
         });
 
@@ -110,14 +139,22 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         rv_FavoriteSelect_Select.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_Select, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if(mIsSignUp)
+                if(mType == CommonData.FavoriteSelectType.SIGNUP)
                 {
                     Set tempKey = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
                     List array = new ArrayList(tempKey);
 
                     String tempFavoriteSelect = TKManager.getInstance().MyData.GetUserFavoriteList(array.get(position).toString());
                     TKManager.getInstance().MyData.DelUserFavoriteList(tempFavoriteSelect);
+
+                    if(TKManager.getInstance().MyData.GetUserFavoriteList().size() <= 0)
+                        tv_FavoriteSelect_Empty.setVisibility(View.VISIBLE);
+                    else
+                        tv_FavoriteSelect_Empty.setVisibility(View.GONE);
                     mSelectViewAdapter.notifyDataSetChanged();
+
+
+
                 }
             }
 
@@ -153,10 +190,16 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         rv_FavoriteSelect_View.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_View, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if(mIsSignUp)
+                if(mType == CommonData.FavoriteSelectType.SIGNUP)
                 {
                     String tempFavoriteSelect = TKManager.getInstance().FavoriteLIst_Pop.get(position);
                     TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
+
+                    if(TKManager.getInstance().MyData.GetUserFavoriteList().size() <= 0)
+                        tv_FavoriteSelect_Empty.setVisibility(View.VISIBLE);
+                    else
+                        tv_FavoriteSelect_Empty.setVisibility(View.GONE);
+
                     mSelectViewAdapter.notifyDataSetChanged();
 
 

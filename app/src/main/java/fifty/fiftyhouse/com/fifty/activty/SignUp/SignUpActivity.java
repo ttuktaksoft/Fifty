@@ -176,7 +176,6 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(mIsCheckNickName == false)
                 {
-                    // TODO 중복체크 요청 팝업
                     DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_ASK));
                 }
                 else if(isProfileUpload == false)
@@ -230,6 +229,7 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void CompleteListener() {
                             Intent intent = new Intent(getApplicationContext(), FavoriteSelectActivity.class);
+                            intent.putExtra("Type",0);
                             startActivity(intent);
                         }
 
