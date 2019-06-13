@@ -16,6 +16,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +43,9 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     Context mContext;
     InputMethodManager imm;
     CommonData.FavoriteSelectType mType = CommonData.FavoriteSelectType.SIGNUP;
+
+    int mFavoriteRecommend = 0;
+    ArrayList<String> mFavoriteViewList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +162,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                     RefreshFavoriteSelectViewListDesc();
 
                     mSelectViewAdapter.notifyDataSetChanged();
+                    mViewAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -170,6 +175,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     public void RefreshFavoriteViewList()
     {
         mViewAdapter = new FavoriteViewAdapter(mContext);
+        mViewAdapter.setSelectView(true);
         RefreshFavoriteViewListSlot();
         mViewAdapter.setHasStableIds(true);
 
@@ -198,16 +204,18 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
                     if(itemCount - 1 > position)
                     {
-                        String tempFavoriteSelect = TKManager.getInstance().FavoriteLIst_Pop.get(position);
+                        String tempFavoriteSelect = mFavoriteViewList.get(position);
                         TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
 
                         RefreshFavoriteSelectViewListDesc();
 
                         mSelectViewAdapter.notifyDataSetChanged();
+                        mViewAdapter.notifyDataSetChanged();
                     }
                     else
                     {
                         // TODO 관심사 추천
+                        mFavoriteRecommend++;
                         RefreshFavoriteViewListSlot();
                         mViewAdapter.notifyDataSetChanged();
                     }
@@ -230,10 +238,25 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
     private void RefreshFavoriteViewListSlot()
     {
+        mFavoriteViewList.clear();
+        int min = mFavoriteRecommend * CommonData.Favorite_Pop_Count;
+        int max = (mFavoriteRecommend + 1)* CommonData.Favorite_Pop_Count;
+        int index = min;
+        for(int i = min ; i < max ; i++)
+        {
+            if(i >= TKManager.getInstance().FavoriteLIst_Pop.size())
+            {
+                mFavoriteRecommend = 0;
+                break;
+            }
+            mFavoriteViewList.add(TKManager.getInstance().FavoriteLIst_Pop.get(i));
+        }
+
+
         if(mType == CommonData.FavoriteSelectType.SIGNUP)
             mViewAdapter.addSlot(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FAVORITE_RECOMMEND));
 
         mViewAdapter.setItemCount(CommonData.Favorite_Pop_Count);
-        mViewAdapter.setItemData(TKManager.getInstance().FavoriteLIst_Pop);
+        mViewAdapter.setItemData(mFavoriteViewList);
     }
 }

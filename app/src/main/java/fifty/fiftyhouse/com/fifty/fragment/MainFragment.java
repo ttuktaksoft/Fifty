@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
 import fifty.fiftyhouse.com.fifty.viewPager.MainDistanceViewPager;
 import fifty.fiftyhouse.com.fifty.viewPager.MainFriendViewPager;
 import fifty.fiftyhouse.com.fifty.viewPager.MainNewViewPager;
@@ -33,6 +36,8 @@ public class MainFragment extends Fragment {
     MainTodayViewPager mMainTodayViewPager = null;
     MainFriendViewPager mMainFriendViewPager = null;
 
+    ImageView iv_Main_Alarm, iv_Main_Shop;
+
     public MainFragment() {
         // Required empty public constructor
     }
@@ -45,6 +50,16 @@ public class MainFragment extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.fragment_main, container, false);
             tl_TopBarTab = v_FragmentView.findViewById(R.id.tl_Main_TopTab);
             vp_UserList = v_FragmentView.findViewById(R.id.vp_Main_UserList);
+            iv_Main_Alarm = v_FragmentView.findViewById(R.id.iv_Main_Alarm);
+            iv_Main_Shop = v_FragmentView.findViewById(R.id.iv_Main_Shop);
+
+            iv_Main_Alarm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                    startActivity(intent);
+                }
+            });
 
 /*
             bt_Main_Sort_Type.setOnClickListener(new View.OnClickListener() {

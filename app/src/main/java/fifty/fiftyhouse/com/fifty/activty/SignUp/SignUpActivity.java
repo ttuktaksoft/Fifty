@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 // 닉네임 입니다
 public class SignUpActivity extends AppCompatActivity {
 
+    ConstraintLayout v_SignUp_View;
     View ui_SignUp_TopBar;
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
@@ -78,6 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
         isProfileUpload = false;
         mIsCheckNickName = false;
 
+        v_SignUp_View = findViewById(R.id.v_SignUp_View);
         ui_SignUp_TopBar = findViewById(R.id.ui_SignUp_TopBar);
         tv_TopBar_Title = ui_SignUp_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_SignUp_TopBar.findViewById(R.id.iv_TopBar_Back);
@@ -93,6 +96,13 @@ public class SignUpActivity extends AppCompatActivity {
 
         iv_TopBar_Back.setVisibility(View.GONE);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_SIGNUP));
+
+        v_SignUp_View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
+            }
+        });
 
         iv_SignUp_Profile.setOnClickListener(new View.OnClickListener() {
             @Override

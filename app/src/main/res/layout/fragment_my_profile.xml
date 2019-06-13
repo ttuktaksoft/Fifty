@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/iv_MyProfile_Alarm"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
@@ -27,8 +27,8 @@
 
         <ImageView
             android:id="@+id/iv_MyProfile_Shop"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:layout_constraintRight_toRightOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"

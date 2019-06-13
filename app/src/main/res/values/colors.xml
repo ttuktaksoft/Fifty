@@ -56,6 +56,7 @@
     <color name="black_icon_tint">#f7fcf6</color>
     <color name="favorite_view_bg_tint_1">#6c8fcf</color>
     <color name="favorite_view_bg_tint_2">#a9c4f7</color>
+    <color name="favorite_view_bg_tint_3">#fd9c5c</color>
 
     <!--
         <color name="v_Main_TopBar">#fff64e</color>
