@@ -101,7 +101,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             tv_Chat_Nickname.setText(tempChatData.GetFromNickName());
         }
 
-        long tempReadCount = tempChatData.GetMsgIndex() - TKManager.getInstance().MyData.GetUserChatReadIndexList(tempChatData.GetRoomIndex());
+        /*long tempReadCount = tempChatData.GetMsgIndex() - TKManager.getInstance().MyData.GetUserChatReadIndexList(tempChatData.GetRoomIndex());
 
         if(tempReadCount > 0)
         {
@@ -115,7 +115,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         {
             tv_Chat_Check.setVisibility(View.INVISIBLE);
             iv_Chat_Check.setVisibility(View.INVISIBLE);
-        }
+        }*/
 
     }
 }

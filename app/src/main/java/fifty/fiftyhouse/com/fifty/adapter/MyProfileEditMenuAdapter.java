@@ -150,10 +150,13 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
                 tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_STORY));
                 tv_MyProfile_Edit_Menu_Desc.setTextColor(ContextCompat.getColor(mContext, R.color.black));
 
-                if(TKManager.getInstance().MyData.GetUserMemo().length() >= 20)
-                    tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserMemo().substring(0, 20));
-                else
-                    tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserMemo());
+                if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()) == false) {
+
+                    if (TKManager.getInstance().MyData.GetUserMemo().length() >= 20)
+                        tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserMemo().substring(0, 20));
+                    else
+                        tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserMemo());
+                }
             }
             else
             {

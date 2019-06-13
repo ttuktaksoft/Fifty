@@ -252,8 +252,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             tv_Chat_Body_Date.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0, 0);
             tv_Chat_Body_Check.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0, 0);
 
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Profile, tempData.ToThumbNail, true);
-            tv_Chat_Body_NickName.setText(tempData.GetToNickName());
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Profile, tempData.GetFromThumbNail(), true);
+            tv_Chat_Body_NickName.setText(tempData.GetFromNickName());
         }
 
         tv_Chat_Body_Msg.setText(tempData.GetMsg());
