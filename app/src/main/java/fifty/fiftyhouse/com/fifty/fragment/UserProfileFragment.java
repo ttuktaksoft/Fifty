@@ -143,41 +143,49 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View view) {
                 // 방문자
 
-                DialogFunc.getInstance().ShowLoadingPage(mContext);
-
-                Set KeySet = TKManager.getInstance().MyData.GetUserVisitKeySet();
-                Iterator iterator = KeySet.iterator();
-
-                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserVisitListCount());
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                        Intent intent = new Intent(mContext, UserListActivity.class);
-                        intent.putExtra("Type",0);
-                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserVisitListCount());
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-
-                while(iterator.hasNext()){
-                    String key = (String)iterator.next();
-                    if(TKManager.getInstance().UserData_Simple.get(key) != null)
-                    {
-                        FirebaseManager.getInstance().Complete(listener);
-                    }
-                    else
-                        FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                if(TKManager.getInstance().MyData.GetUserVisitListCount() < 1)
+                {
+                    DialogFunc.getInstance().ShowToast(mContext, "방문자 없는 내용", true);
                 }
+                else
+                {
+                    DialogFunc.getInstance().ShowLoadingPage(mContext);
+
+                    Set KeySet = TKManager.getInstance().MyData.GetUserVisitKeySet();
+                    Iterator iterator = KeySet.iterator();
+
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserVisitListCount());
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+                            Intent intent = new Intent(mContext, UserListActivity.class);
+                            intent.putExtra("Type",0);
+                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserVisitListCount());
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    while(iterator.hasNext()){
+                        String key = (String)iterator.next();
+                        if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                        {
+                            FirebaseManager.getInstance().Complete(listener);
+                        }
+                        else
+                            FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                    }
+                }
+
             }
         });
 
@@ -186,42 +194,50 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View view) {
                 // 좋아요
 
-                DialogFunc.getInstance().ShowLoadingPage(mContext);
-
-
-                Set KeySet = TKManager.getInstance().MyData.GetUserLikeKeySet();
-                Iterator iterator = KeySet.iterator();
-
-                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserLikeListCount());
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                        Intent intent = new Intent(mContext, UserListActivity.class);
-                        intent.putExtra("Type",1);
-                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserLikeListCount());
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-
-                while(iterator.hasNext()){
-                    String key = (String)iterator.next();
-                    if(TKManager.getInstance().UserData_Simple.get(key) != null)
-                    {
-                        FirebaseManager.getInstance().Complete(listener);
-                    }
-                    else
-                        FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                if(TKManager.getInstance().MyData.GetUserLikeListCount() < 1)
+                {
+                    DialogFunc.getInstance().ShowToast(mContext, "좋아요 없는 내용", true);
                 }
+                else
+                {
+                    DialogFunc.getInstance().ShowLoadingPage(mContext);
+
+
+                    Set KeySet = TKManager.getInstance().MyData.GetUserLikeKeySet();
+                    Iterator iterator = KeySet.iterator();
+
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserLikeListCount());
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+                            Intent intent = new Intent(mContext, UserListActivity.class);
+                            intent.putExtra("Type",1);
+                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserLikeListCount());
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    while(iterator.hasNext()){
+                        String key = (String)iterator.next();
+                        if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                        {
+                            FirebaseManager.getInstance().Complete(listener);
+                        }
+                        else
+                            FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                    }
+                }
+
             }
         });
 
@@ -230,42 +246,50 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View view) {
                 // 친구
 
-                DialogFunc.getInstance().ShowLoadingPage(mContext);
-
-                Set KeySet = TKManager.getInstance().MyData.GetUserFriendListKeySet();
-                Iterator iterator = KeySet.iterator();
-
-                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount());
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-
-                        Intent intent = new Intent(mContext, UserListActivity.class);
-                        intent.putExtra("Type",2);
-                        intent.putExtra("Count",TKManager.getInstance().MyData.GetUserFriendListCount());
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-
-                while(iterator.hasNext()){
-                    String key = (String)iterator.next();
-                    if(TKManager.getInstance().UserData_Simple.get(key) != null)
-                    {
-                        FirebaseManager.getInstance().Complete(listener);
-                    }
-                    else
-                        FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                if(TKManager.getInstance().MyData.GetUserFriendListCount() < 1)
+                {
+                    DialogFunc.getInstance().ShowToast(mContext, "친없찐쓰애끼", true);
                 }
+                else
+                {
+                    DialogFunc.getInstance().ShowLoadingPage(mContext);
+
+                    Set KeySet = TKManager.getInstance().MyData.GetUserFriendListKeySet();
+                    Iterator iterator = KeySet.iterator();
+
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount());
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+
+                            Intent intent = new Intent(mContext, UserListActivity.class);
+                            intent.putExtra("Type",2);
+                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserFriendListCount());
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    while(iterator.hasNext()){
+                        String key = (String)iterator.next();
+                        if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                        {
+                            FirebaseManager.getInstance().Complete(listener);
+                        }
+                        else
+                            FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                    }
+                }
+
             }
         });
 

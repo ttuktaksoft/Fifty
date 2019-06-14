@@ -58,6 +58,9 @@ public class UserData {
     private  double Like_Total = 0;
 
     private  long Dist = 0;
+    private  double Dist_Lat = 0;
+    private  double Dist_Lon = 0;
+    private  double Dist_Region = 0;
 
     private Map<String, String> FriendList = new LinkedHashMap<>();
 
@@ -422,4 +425,32 @@ public class UserData {
     {
         return Dist;
     }
+
+    public void  SetUserDist_Lat(double dist)
+    {
+        Dist_Lat = dist;
+    }
+    public double  GetUserDist_Lat()
+    {
+        return Dist_Lat;
+    }
+
+    public void  SetUserDist_Lon(long dist)
+    {
+        Dist_Lon = dist;
+    }
+    public double  GetUserDist_Lon()
+    {
+        return Dist_Lon;
+    }
+
+    public void  SetUserDist_Region(long dist)
+    {
+        Dist_Region = dist;
+    }
+    public double  GetUserDist_Region()
+    {
+        return Dist_Region;
+    }
+
 }

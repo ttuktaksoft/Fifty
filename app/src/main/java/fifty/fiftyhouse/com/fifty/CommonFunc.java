@@ -280,6 +280,27 @@ public class CommonFunc {
                 .check();
 
     }
+
+    public void GetPermissionForLocation(final Activity activity, final int intentFlag) {
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+            }
+        };
+
+        TedPermission.with(activity)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(activity.getResources().getString(R.string.permission_cammera))
+                .setDeniedMessage(activity.getResources().getString(R.string.permission_request))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /// 테스트 함수 //
     //////////////////////////////////////////////////////////////////////////////////////////////////
