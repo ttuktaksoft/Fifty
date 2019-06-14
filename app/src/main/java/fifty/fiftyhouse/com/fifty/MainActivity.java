@@ -115,11 +115,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if(requestCode == 100)
-            DialogFunc.getInstance().ShowToast(MainActivity.this, "테스트1", true);
-    }
 
 }
