@@ -17,6 +17,8 @@
     <string name="MSG_REPORT">신고</string>
     <string name="MSG_FAVORITE_RECOMMEND">관심사 추천</string>
     <string name="MSG_FAVORITE_PLUS"> + </string>
+    <string name="MSG_VIEW">보기</string>
+
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
     <string name="TITLE_PROFILE_EDIT">프로필 수정</string>
@@ -58,6 +60,21 @@
     <string name="MSG_BLOCK_COMPLETE">차단이 완료 되었습니다</string>
     <string name="MSG_PROFILE_PHOTO_CAMERA_ADD">사진을 촬영하여 등록</string>
     <string name="MSG_PROFILE_PHOTO_GALLERY_ADD">사진을 앨범에서 등록</string>
+    <string name="MSG_PHOTO_SELECT">사진 선택</string>
+
+    <string name="FRIEND_ADD">친구추가</string>
+    <string name="FRIEND_REMOVE">친구삭제</string>
+
+    <!-- android-image-cropper 용-->
+    <string name="crop_image_menu_rotate_left">반시계 회전</string>
+    <string name="crop_image_menu_rotate_right">회전</string>
+    <string name="crop_image_menu_crop">완료</string>
+    <string name="crop_image_menu_flip">반전</string>
+    <string name="crop_image_menu_flip_horizontally">좌우반전</string>
+    <string name="crop_image_menu_flip_vertically">상하반전</string>
+    <string name="pick_image_intent_chooser_title">이미지 선택</string>
+    <string name="crop_image_activity_no_permissions">필수 권한이 없어서 취소합니다.</string>
+
 
     <string name="tv_SignUp_Comment">사용하고 싶은 닉네임 입력</string>
     <string name="tv_SignUp_Comment_Desc">FIFTY에서 사용하고 싶은 본인의 개성이 \n잘드러나는 대화명을 지정해주세요</string>

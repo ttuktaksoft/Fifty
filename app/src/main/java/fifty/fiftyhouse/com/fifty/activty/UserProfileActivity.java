@@ -154,12 +154,9 @@ public class UserProfileActivity extends AppCompatActivity {
                         FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex());
                         TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
                     }
-<<<<<<< .merge_file_a14224
                     DialogFunc.getInstance().DismissLoadingPage();
-=======
 
                     RefreshFriendIcon();
->>>>>>> .merge_file_a05684
                 }
             }
         });
