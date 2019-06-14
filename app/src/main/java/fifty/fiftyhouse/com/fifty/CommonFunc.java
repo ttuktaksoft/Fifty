@@ -199,13 +199,19 @@ public class CommonFunc {
     }
 
     public void GetPhotoInGallery(Activity activity, int ActivityFlag) {
-        CropImage.activity(null)
-                .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(activity);
-        /*Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        activity.startActivityForResult(intent, ActivityFlag);*/
+        if(ActivityFlag == 0)
+        {
+            CropImage.activity(null)
+                    .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(activity);
+        }
+        else
+        {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            activity.startActivityForResult(intent, ActivityFlag);
+        }
     }
 
     public void SetImage(Context context, File file, boolean camera, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
