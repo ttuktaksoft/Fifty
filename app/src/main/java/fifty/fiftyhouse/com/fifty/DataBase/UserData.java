@@ -44,6 +44,7 @@ public class UserData {
         }
     };
 
+    private  String Img_Chat;
     private  String Img_ThumbNail;
     private Map<String, String> ImgList = new LinkedHashMap<>();
 
@@ -141,7 +142,14 @@ public class UserData {
         return Location;
     }
 
-
+    public void SetUserImgChat(String img)
+    {
+        Img_Chat = img;
+    }
+    public String GetUserImgChat()
+    {
+        return Img_Chat;
+    }
 
     public void SetUserImgThumb(String thumb)
     {

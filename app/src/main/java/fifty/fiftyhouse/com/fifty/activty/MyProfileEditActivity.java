@@ -203,27 +203,31 @@ public class MyProfileEditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == GET_FROM_GALLERY) {
-            Uri photoUri = data.getData();
-            Cursor cursor = null;
+            if(data != null && data.getData() != null)
+            {
+                Uri photoUri = data.getData();
+                Cursor cursor = null;
 
-            try {
-                String[] proj = { MediaStore.Images.Media.DATA };
-                assert photoUri != null;
-                cursor = getContentResolver().query(photoUri, proj, null, null, null);
+                try {
+                    String[] proj = { MediaStore.Images.Media.DATA };
+                    assert photoUri != null;
+                    cursor = getContentResolver().query(photoUri, proj, null, null, null);
 
-                assert cursor != null;
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    assert cursor != null;
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 
-                cursor.moveToFirst();
-                tempFile = new File(cursor.getString(column_index));
+                    cursor.moveToFirst();
+                    tempFile = new File(cursor.getString(column_index));
 
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
                 }
+
+                setImage();
             }
 
-            setImage();
 
         }
         else if(resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX ||

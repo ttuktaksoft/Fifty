@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -86,7 +87,15 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         List array = new ArrayList(tempKey);
         ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(i).toString());
 
-        tv_Chat_Msg.setText(tempChatData.GetMsg());
+        if(tempChatData.GetMsgType() == CommonData.MSGType.MSG)
+        {
+            tv_Chat_Msg.setText(tempChatData.GetMsg());
+        }
+        else
+        {
+            tv_Chat_Msg.setText("사진이 추가되었습니다");
+        }
+
         tv_Chat_Date.setText(Long.toString(tempChatData.GetMsgDate()));
 
         if(tempChatData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))

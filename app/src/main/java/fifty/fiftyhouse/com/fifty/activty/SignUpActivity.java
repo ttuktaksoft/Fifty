@@ -96,7 +96,8 @@ public class SignUpActivity extends AppCompatActivity {
         iv_SignUp_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetPermission();
+                isCamera = true;
+                CommonFunc.getInstance().GetPermissionForGallery(SignUpActivity.this, GET_FROM_GALLERY);
             }
         });
 
@@ -283,11 +284,12 @@ public class SignUpActivity extends AppCompatActivity {
         }));
     }
 
-    private void GetPermission() {
+    /*private void GetPermission() {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                GetPhotoInGallery();
+
+                CommonFunc.getInstance().GetPhotoInGallery(SignUpActivity.this, GET_FROM_GALLERY);
             }
 
             @Override
@@ -302,8 +304,9 @@ public class SignUpActivity extends AppCompatActivity {
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
 
-    }
+    }*/
 
+    /*
     private void GetPhotoInGallery() {
 
         isCamera = true;
@@ -311,40 +314,7 @@ public class SignUpActivity extends AppCompatActivity {
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, GET_FROM_GALLERY);
     }
-
-    private void setImage() {
-
-        DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);
-
-        ImageResize.resizeFile(tempFile, tempFile, 1280, isCamera);
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
-        iv_SignUp_Profile.setImageBitmap(originalBm);
-        Glide.with(this).load(originalBm)
-                .centerCrop()
-                .circleCrop()
-                .into(iv_SignUp_Profile);
-
-        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-            @Override
-            public void CompleteListener() {
-                isProfileUpload = true;
-                DialogFunc.getInstance().DismissLoadingPage();
-            }
-
-            @Override
-            public void CompleteListener_Yes() {
-            }
-
-            @Override
-            public void CompleteListener_No() {
-            }
-        };
-
-        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, 0, listener);
-        FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, listener);
-    }
+*/
 
     private void RefreshFavoriteViewListSlot()
     {
@@ -370,27 +340,49 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == GET_FROM_GALLERY) {
-            Uri photoUri = data.getData();
-            Cursor cursor = null;
+            if(data != null && data.getData() != null)
+            {
+                Uri photoUri = data.getData();
+                Cursor cursor = null;
 
-            try {
-                String[] proj = { MediaStore.Images.Media.DATA };
-                assert photoUri != null;
-                cursor = getContentResolver().query(photoUri, proj, null, null, null);
+                try {
+                    String[] proj = { MediaStore.Images.Media.DATA };
+                    assert photoUri != null;
+                    cursor = getContentResolver().query(photoUri, proj, null, null, null);
 
-                assert cursor != null;
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    assert cursor != null;
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 
-                cursor.moveToFirst();
-                tempFile = new File(cursor.getString(column_index));
+                    cursor.moveToFirst();
+                    tempFile = new File(cursor.getString(column_index));
 
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
                 }
-            }
 
-            setImage();
+                DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        isProfileUpload = true;
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                CommonFunc.getInstance().SetImage(SignUpActivity.this, tempFile, isCamera, iv_SignUp_Profile, listener);
+
+            }
 
         }
         else if(requestCode == GET_FROM_FAVORITE_SELECT)

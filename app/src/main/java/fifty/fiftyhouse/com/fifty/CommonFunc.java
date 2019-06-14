@@ -1,9 +1,13 @@
 package fifty.fiftyhouse.com.fifty;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.text.InputFilter;
 import android.util.TypedValue;
@@ -13,7 +17,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +30,10 @@ import java.util.Random;
 
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
+import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
+import fifty.fiftyhouse.com.fifty.util.ImageResize;
 
 public class CommonFunc {
 
@@ -153,6 +163,23 @@ public class CommonFunc {
 
 
     }
+
+    public void DrawImageByGlide(Context context, ImageView view, Bitmap bmp, boolean circle)
+    {
+        if(circle)
+        {
+            Glide.with(context).load(bmp)
+                    .circleCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(view);
+        }
+        else
+            Glide.with(context).load(bmp)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(view);
+
+
+    }
     public void setEditTextMaxSize(EditText et, int size)
     {
         InputFilter[] FilterArray = new InputFilter[1];
@@ -169,8 +196,90 @@ public class CommonFunc {
             return false;
     }
 
+    public void GetPhotoInGallery(Activity activity, int ActivityFlag) {
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+        activity.startActivityForResult(intent, ActivityFlag);
+    }
+
+    public void SetImage(Context context, File file, boolean camera, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
+
+        ImageResize.resizeFile(file, file, 1280, camera);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        //iv_SignUp_Profile.setImageBitmap(originalBm);
+        DrawImageByGlide(context, imageView, originalBm, true);
+
+        final FirebaseManager.CheckFirebaseComplete uploadlistener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                if (listener!=null)
+                    listener.CompleteListener();
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+            }
+        };
+
+        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, 0, uploadlistener);
+        FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, uploadlistener);
+    }
+
+    public void SetImageInChatRoom(Context context, File file, boolean camera,  String roomIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+
+        ImageResize.resizeFile(file, file, 1280, camera);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        //iv_SignUp_Profile.setImageBitmap(originalBm);
+
+        final FirebaseManager.CheckFirebaseComplete uploadlistener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                if (listener!=null)
+                    listener.CompleteListener();
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+            }
+        };
+
+        FirebaseManager.getInstance().UploadImgInChatRoom(roomIndex, roomIndex, originalBm,  uploadlistener);
+    }
 
 
+    public void GetPermissionForGallery(final Activity activity, final int intentFlag) {
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CommonFunc.getInstance().GetPhotoInGallery(activity, intentFlag);
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+            }
+        };
+
+        TedPermission.with(activity)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(activity.getResources().getString(R.string.permission_cammera))
+                .setDeniedMessage(activity.getResources().getString(R.string.permission_request))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+
+    }
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /// 테스트 함수 //
     //////////////////////////////////////////////////////////////////////////////////////////////////
