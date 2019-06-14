@@ -32,6 +32,7 @@ public class UserProfileActivity extends AppCompatActivity {
     ImageView iv_TopBar_Back;
 
     ImageView iv_UserProfile_Alert, iv_UserProfile_BottomBar_Like, iv_UserProfile_BottomBar_Friend;
+    TextView tv_UserProfile_BottomBar_Friend;
     ConstraintLayout v_UserProfile_BottomBar_Like, v_UserProfile_BottomBar_Chat, v_UserProfile_BottomBar_Friend;
 
     Context mContext;
@@ -67,6 +68,7 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Like = findViewById(R.id.v_UserProfile_BottomBar_Like);
         v_UserProfile_BottomBar_Chat = findViewById(R.id.v_UserProfile_BottomBar_Chat);
         v_UserProfile_BottomBar_Friend = findViewById(R.id.v_UserProfile_BottomBar_Friend);
+        tv_UserProfile_BottomBar_Friend = findViewById(R.id.tv_UserProfile_BottomBar_Friend);
 
         iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +77,9 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
         tv_TopBar_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+
+
+        RefreshFriendIcon();
 
         iv_UserProfile_Alert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +154,12 @@ public class UserProfileActivity extends AppCompatActivity {
                         FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex());
                         TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
                     }
+<<<<<<< .merge_file_a14224
                     DialogFunc.getInstance().DismissLoadingPage();
+=======
+
+                    RefreshFriendIcon();
+>>>>>>> .merge_file_a05684
                 }
             }
         });
@@ -207,6 +217,22 @@ public class UserProfileActivity extends AppCompatActivity {
             TKManager.getInstance().TargetUserData.DelUserLikeList(TKManager.getInstance().MyData.GetUserIndex());
 
             FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+        }
+    }
+
+    private void RefreshFriendIcon()
+    {
+        if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null){
+            Glide.with(mContext).load(R.drawable.ic_add_friend)
+                    .into(iv_UserProfile_BottomBar_Friend);
+            tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.FRIEND_ADD));
+        }
+
+        else
+        {
+            Glide.with(mContext).load(R.drawable.ic_remove_friend)
+                    .into(iv_UserProfile_BottomBar_Friend);
+            tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.FRIEND_REMOVE));
         }
     }
 }

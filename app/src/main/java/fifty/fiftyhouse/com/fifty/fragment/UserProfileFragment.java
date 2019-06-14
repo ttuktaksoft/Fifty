@@ -338,7 +338,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CustomPhotoView.class);
-                intent.putExtra("ImgSrc",TKManager.getInstance().TargetUserData.GetUserImg("0"));
+                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_MY_PROFILE);
                 startActivity(intent);
             }
         });
@@ -518,8 +518,9 @@ public class UserProfileFragment extends Fragment {
                     {
                         // TODO 사진은 바로 리스트로 본다고 했었나??
                         ArrayList<String> menuList = new ArrayList<>();
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_CAMERA_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_GALLERY_ADD));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoViewFunc();
@@ -537,16 +538,12 @@ public class UserProfileFragment extends Fragment {
 
                         DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
                     }
-                    else
-                    {
-                        // TODO 제거 해야함
-                        DialogFunc.getInstance().ShowToast(mContext, "반응 없음", true);
-                    }
-
                 }
                 else
                 {
-                    DialogFunc.getInstance().ShowToast(mContext, "사진 보기 리스트 호출", true);
+                    Intent intent = new Intent(mContext, CustomPhotoView.class);
+                    intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_USER_PROFILE_LIST);
+                    startActivity(intent);
                 }
 
             }
@@ -651,7 +648,32 @@ public class UserProfileFragment extends Fragment {
     private ArrayList<DialogFunc.MsgPopupListener> getPhotoViewFunc()
     {
         ArrayList<DialogFunc.MsgPopupListener> list = new ArrayList<>();
-
+        list.add(new DialogFunc.MsgPopupListener()
+        {
+            @Override
+            public void Listener()
+            {
+                Intent intent = new Intent(mContext, CustomPhotoView.class);
+                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_MY_PROFILE_LIST);
+                startActivity(intent);
+            }
+        });
+        list.add(new DialogFunc.MsgPopupListener()
+        {
+            @Override
+            public void Listener()
+            {
+                DialogFunc.getInstance().ShowToast(mContext, "사진을 촬영해서 등록", true);
+            }
+        });
+        list.add(new DialogFunc.MsgPopupListener()
+        {
+            @Override
+            public void Listener()
+            {
+                DialogFunc.getInstance().ShowToast(mContext, "사진을 앨범에서 등록", true);
+            }
+        });
 
 
         return list;
