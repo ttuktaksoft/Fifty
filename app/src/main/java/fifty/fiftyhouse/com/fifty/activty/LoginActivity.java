@@ -4,16 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpActivity;
-import fifty.fiftyhouse.com.fifty.activty.SignUp.SignUpCompleteActivity;
-import fifty.fiftyhouse.com.fifty.viewPager.MainDistanceViewPager;
 
 public class LoginActivity extends AppCompatActivity {
 

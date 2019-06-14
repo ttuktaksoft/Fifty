@@ -239,24 +239,28 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     private void RefreshFavoriteViewListSlot()
     {
         mFavoriteViewList.clear();
-        int min = mFavoriteRecommend * CommonData.Favorite_Pop_Count;
-        int max = (mFavoriteRecommend + 1)* CommonData.Favorite_Pop_Count;
-        int index = min;
-        for(int i = min ; i < max ; i++)
+        int viewCount = CommonData.Favorite_Pop_Count;
+        while(viewCount > 0)
         {
-            if(i >= TKManager.getInstance().FavoriteLIst_Pop.size())
+            int min = mFavoriteRecommend * CommonData.Favorite_Pop_Count;
+            int max = (mFavoriteRecommend + 1)* CommonData.Favorite_Pop_Count;
+            int index = min;
+            for(int i = min ; i < max ; i++)
             {
-                mFavoriteRecommend = 0;
-                break;
+                if(i >= TKManager.getInstance().FavoriteLIst_Pop.size())
+                {
+                    mFavoriteRecommend = 0;
+                    break;
+                }
+                mFavoriteViewList.add(TKManager.getInstance().FavoriteLIst_Pop.get(i));
+                viewCount--;
             }
-            mFavoriteViewList.add(TKManager.getInstance().FavoriteLIst_Pop.get(i));
         }
-
 
         if(mType == CommonData.FavoriteSelectType.SIGNUP)
             mViewAdapter.addSlot(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FAVORITE_RECOMMEND));
 
-        mViewAdapter.setItemCount(CommonData.Favorite_Pop_Count);
+        mViewAdapter.setItemCount(mFavoriteViewList.size());
         mViewAdapter.setItemData(mFavoriteViewList);
     }
 }

@@ -14,12 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SettingAccountActivity;
 import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SettingAdapter;
@@ -37,6 +39,14 @@ public class DialogFunc {
     }
 
     private AppCompatDialog mProgressDialog = null;
+
+    public void ShowToast(Context context, String msg, boolean shortView)
+    {
+        if(shortView)
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+    }
 
     public interface MsgPopupListener {
         void Listener();
@@ -99,12 +109,11 @@ public class DialogFunc {
     }
 
     public void ShowSignUpCompletePopup(Context context, final MsgPopupListener listenerYes) {
-        ImageView YesButton;
+        TextView YesButton;
 
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_signup_complete_popup, null, false);
 
-        YesButton = v.findViewById(R.id.iv_SignUp_Com_Popup_Buttons_OK);
-        ImageViewCompat.setImageTintList(YesButton, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.button_ok)));
+        YesButton = v.findViewById(R.id.tv_SignUp_Com_Popup_Buttons_OK);
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

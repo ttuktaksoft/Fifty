@@ -31,15 +31,11 @@
         <activity
             android:name=".activty.LoginActivity"
             android:theme="@style/NoTitleBar" />
-        <activity android:name=".activty.SignUp.SignUpActivity" />
-        <activity android:name=".activty.SignUp.BirthActivity" />
-        <activity android:name=".activty.SignUp.FavoriteActivity" />
-        <activity android:name=".activty.SignUp.ProfileImgActivity" />
+        <activity android:name=".activty.SignUpActivity" />
         <activity android:name=".activty.UserProfileActivity" />
         <activity android:name=".activty.ClubActivity" />
         <activity android:name=".activty.ClubBodyActivity" />
         <activity android:name=".activty.ChatBodyActivity" />
-        <activity android:name=".activty.SignUp.SignUpCompleteActivity" />
         <activity android:name=".activty.UserListActivity" />
         <activity android:name=".activty.StrContentListActivity" />
         <activity android:name=".activty.StrContentActivity" />

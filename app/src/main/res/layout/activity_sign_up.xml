@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    android:id="@+id/v_SignUp_View"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activty.SignUp.SignUpActivity"
+    tools:context=".activty.SignUpActivity"
     android:background="@color/activity_bg">
 
     <include
@@ -43,19 +42,19 @@
             <ImageView
                 android:id="@+id/v_SignUp_Profile_BG"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 app:layout_constraintTop_toTopOf="@+id/v_SignUp_Info"
                 android:background="@color/topbar_bg"
                 />
 
             <ImageView
                 android:id="@+id/iv_SignUp_Profile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/v_SignUp_Profile_BG"
                 app:layout_constraintBottom_toBottomOf="@+id/v_SignUp_Profile_BG"
-                android:layout_marginBottom="20dp"
                 android:src="@drawable/bg_empty_circle_plus"/>
 
             <EditText

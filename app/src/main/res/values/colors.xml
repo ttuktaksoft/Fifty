@@ -26,8 +26,8 @@
     <color name="str_color_2">#f0fdef</color>
     <color name="button_enable">#76cc6a</color>
     <color name="button_disable">#3a6434</color>
-    <color name="button_ok">#76cc6a</color>
-    <color name="button_cancel">#3a6434</color>
+    <color name="button_ok">#6AB95F</color>
+    <color name="button_cancel">#d8fdd2</color>
     <color name="str_white">#ffffff</color>
     <color name="str_base">#3b4c3a</color>
     <color name="chat_my_bg">#5cab51</color>

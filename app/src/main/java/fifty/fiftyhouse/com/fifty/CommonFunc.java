@@ -98,14 +98,6 @@ public class CommonFunc {
         return res.getString(id);
     }
 
-    public void ShowToast(Context context, String msg, boolean shortView)
-    {
-        if(shortView)
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-    }
-
     public String GetCurrentDate()
     {
         long now = System.currentTimeMillis();

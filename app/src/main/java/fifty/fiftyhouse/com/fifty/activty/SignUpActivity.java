@@ -1,4 +1,4 @@
-package fifty.fiftyhouse.com.fifty.activty.SignUp;
+package fifty.fiftyhouse.com.fifty.activty;
 
 import android.Manifest;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +40,6 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
@@ -49,7 +47,6 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 // 닉네임 입니다
 public class SignUpActivity extends AppCompatActivity {
 
-    ConstraintLayout v_SignUp_View;
     View ui_SignUp_TopBar;
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
@@ -80,7 +77,6 @@ public class SignUpActivity extends AppCompatActivity {
         isProfileUpload = false;
         mIsCheckNickName = false;
 
-        v_SignUp_View = findViewById(R.id.v_SignUp_View);
         ui_SignUp_TopBar = findViewById(R.id.ui_SignUp_TopBar);
         tv_TopBar_Title = ui_SignUp_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_SignUp_TopBar.findViewById(R.id.iv_TopBar_Back);
@@ -96,13 +92,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         iv_TopBar_Back.setVisibility(View.GONE);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_SIGNUP));
-
-        v_SignUp_View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
-            }
-        });
 
         iv_SignUp_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +134,7 @@ public class SignUpActivity extends AppCompatActivity {
         tv_SignUp_NickName_Check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
                 final String strNickName = et_SignUp_NickName.getText().toString();
 
                 if(CommonFunc.getInstance().CheckStringNull(strNickName))
@@ -157,7 +147,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
+
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
@@ -166,7 +156,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void CompleteListener_Yes() {
-                            DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_SUCCESS));
+                            DialogFunc.getInstance().ShowToast(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_SUCCESS), true);
                             mIsCheckNickName = true;
                             tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_YES));
                             tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
@@ -189,6 +179,7 @@ public class SignUpActivity extends AppCompatActivity {
         tv_SignUp_Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
                 if(mIsCheckNickName == false)
                 {
                     DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_ASK));
@@ -196,6 +187,10 @@ public class SignUpActivity extends AppCompatActivity {
                 else if(isProfileUpload == false)
                 {
                     DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.PROFILE_EMPTY));
+                }
+                else if(TKManager.getInstance().MyData.GetUserFavoriteListCount() < CommonData.FavoriteSelectMinCount)
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
                 }
                 else
                 {
