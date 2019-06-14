@@ -63,11 +63,11 @@ public class MainFragment extends Fragment {
             });
 
             iv_Main_Shop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
-                }
-            });
+            @Override
+            public void onClick(View view) {
+                DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+            }
+        });
 
 /*
             bt_Main_Sort_Type.setOnClickListener(new View.OnClickListener() {
