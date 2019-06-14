@@ -160,6 +160,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Check.rightToLeft = tv_Chat_Body_Date.getId();
             lp_Chat_Body_Check.bottomToBottom = tv_Chat_Body_Date.getId();
 
+            iv_Chat_Body_Msg_BG.setScaleX(1.0f);
             ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.chat_my_bg)));
         }
         else
@@ -206,6 +207,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Check.leftToRight = tv_Chat_Body_Date.getId();
             lp_Chat_Body_Check.bottomToBottom = tv_Chat_Body_Date.getId();
 
+            iv_Chat_Body_Msg_BG.setScaleX(-1.0f);
             ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.white)));
         }
 

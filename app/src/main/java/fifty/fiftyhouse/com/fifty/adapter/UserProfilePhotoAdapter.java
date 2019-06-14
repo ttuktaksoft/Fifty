@@ -18,9 +18,15 @@ import fifty.fiftyhouse.com.fifty.R;
 
 public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePhotoListHolder> {
 
+    public enum PROFILE_PHOTO_TYPE
+    {
+        MY_PROFILE,
+        USER_PROFILE
+    }
     Context mContext;
     int mItemCount = 0;
     ArrayList<String> mItemList = new ArrayList<>();
+    PROFILE_PHOTO_TYPE mProfilePhotoType = PROFILE_PHOTO_TYPE.USER_PROFILE;
 
     public UserProfilePhotoAdapter(Context context) {
         mContext = context;
@@ -41,11 +47,19 @@ public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePho
 
         if(mItemList.size() <= i)
         {
-            holder.setData("");
+            if(mProfilePhotoType == PROFILE_PHOTO_TYPE.MY_PROFILE)
+            {
+                if(i == mItemList.size())
+                    holder.setData("", true);
+                else
+                    holder.setData("", false);
+            }
+            else
+                holder.setData("", false);
         }
         else
         {
-            holder.setData(mItemList.get(i));
+            holder.setData(mItemList.get(i), false);
         }
 
 
@@ -56,6 +70,11 @@ public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePho
         return 8;
         //return  TKManager.getInstance().TargetUserData.GetUserImgCount();
         //return mMyData.arrChatTargetData.size();
+    }
+
+    public void setProfilePhotoType(PROFILE_PHOTO_TYPE type)
+    {
+        mProfilePhotoType = type;
     }
 
     public void setItemCount(int count)
@@ -90,13 +109,23 @@ class UserProfilePhotoListHolder extends RecyclerView.ViewHolder {
         iv_UserProfile_Photo.setLayoutParams(lp_Photo);
     }
 
-    public void setData(String str)
+    public void setData(String str, boolean plus)
     {
         if(CommonFunc.getInstance().CheckStringNull(str))
         {
-            Glide.with(mContext).load(R.drawable.bg_empty_square)
-                    .centerCrop()
-                    .into(iv_UserProfile_Photo);
+            if(plus)
+            {
+                Glide.with(mContext).load(R.drawable.bg_empty_square_plus)
+                        .centerCrop()
+                        .into(iv_UserProfile_Photo);
+            }
+            else
+            {
+                Glide.with(mContext).load(R.drawable.bg_empty_square)
+                        .centerCrop()
+                        .into(iv_UserProfile_Photo);
+            }
+
         }
         else
         {

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
@@ -25,7 +26,7 @@ import fifty.fiftyhouse.com.fifty.R;
 public class MainDistanceViewPager extends Fragment {
 
     TextView tv_Main_Dis_Curr_Pos;
-    TextView tv_Main_Dis_Sort_Type;
+    Switch sw_Main_Dis_Sort_Type;
 
     RecyclerView rv_Main_Dis_UserList;
     View v_FragmentView = null;
@@ -46,16 +47,19 @@ public class MainDistanceViewPager extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_distance, container, false);
             rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
-            tv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.tv_Main_Dis_Sort_Type);
+            sw_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.sw_Main_Dis_Sort_Type);
 
-            RefreshSortTypeColor();
-
-            tv_Main_Dis_Sort_Type.setOnClickListener(new View.OnClickListener() {
+            sw_Main_Dis_Sort_Type.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    mSortEnable = !mSortEnable;
-                    RefreshSortTypeColor();
+                public void onClick(View v) {
+                    if(sw_Main_Dis_Sort_Type.isChecked()) {
+                        DialogFunc.getInstance().ShowToast(getContext(), "관심사정렬 ON", true);
+                    }
+                    else{
+                        DialogFunc.getInstance().ShowToast(getContext(), "관심사정렬 OFF", true);;
+                    }
                 }
+
             });
 
             initRecyclerView();
@@ -66,18 +70,6 @@ public class MainDistanceViewPager extends Fragment {
         }
 
         return v_FragmentView;
-    }
-
-    private void RefreshSortTypeColor()
-    {
-        if(mSortEnable)
-        {
-            tv_Main_Dis_Sort_Type.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
-        }
-        else
-        {
-            tv_Main_Dis_Sort_Type.setTextColor(ContextCompat.getColor(getContext(), R.color.gray_light));
-        }
     }
 
     private void initRecyclerView()

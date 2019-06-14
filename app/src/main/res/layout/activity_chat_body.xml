@@ -41,8 +41,9 @@
 
     <ImageView
         android:id="@+id/iv_Chat_Body_Plus"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="7dp"
         app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Body_Bottom"
         app:layout_constraintTop_toTopOf="@+id/v_Chat_Body_Bottom"
         app:layout_constraintBottom_toBottomOf="@+id/v_Chat_Body_Bottom"
@@ -70,6 +71,8 @@
         app:layout_constraintLeft_toLeftOf="@+id/iv_Chat_Body_Send"
         app:layout_constraintTop_toTopOf="@+id/iv_Chat_Body_Send"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Body_Send"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:background="@color/button_enable"/>
 
     <EditText

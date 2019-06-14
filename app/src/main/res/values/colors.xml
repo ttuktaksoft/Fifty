@@ -30,10 +30,11 @@
     <color name="button_cancel">#d8fdd2</color>
     <color name="str_white">#ffffff</color>
     <color name="str_base">#3b4c3a</color>
-    <color name="chat_my_bg">#5cab51</color>
+    <color name="chat_my_bg">#a3ea99</color>
+    <color name="chat_you_bg">#f9fff8</color>
     <color name="str_title_bg_gray">#eef2ee</color>
     <color name="userprofile_bottombar_bg">#d8fdd2</color>
-    <color name="chat_body_bg">#f7fdf6</color>
+    <color name="chat_body_bg">#f5f5f5</color>
     <color name="default_bg_color_1">#6AB95F</color>
 
     // 특수한 색상

@@ -180,9 +180,14 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
+
                 if(mIsCheckNickName == false)
                 {
                     DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_ASK));
+                }
+                else if(CommonFunc.getInstance().CheckStringNull(et_SignUp_NickName.getText().toString()))
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
                 }
                 else if(isProfileUpload == false)
                 {

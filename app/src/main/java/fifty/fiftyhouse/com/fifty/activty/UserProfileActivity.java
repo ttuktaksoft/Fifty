@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.activty;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +13,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -71,6 +75,37 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
         tv_TopBar_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+
+        iv_UserProfile_Alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<String> menuList = new ArrayList<>();
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        startActivity(new Intent(mContext, UserReportActivity.class));
+                    }
+                });
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_BLOCK_COMPLETE), true);
+                        finish();
+                    }
+                });
+
+                DialogFunc.getInstance().ShowMenuListPopup(UserProfileActivity.this, menuList, menuListenerList);
+            }
+        });
 
         v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
             @Override

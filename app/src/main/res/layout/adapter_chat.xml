@@ -35,11 +35,12 @@
 
     <TextView
         android:id="@+id/tv_Chat_Msg"
+        style="@style/BaseTextView"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="left|center_vertical"
         android:maxWidth="230dp"
-        android:text="안녕하세요"
+        android:text="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
         android:textColor="@color/gray"
         android:maxLines="2"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Profile"

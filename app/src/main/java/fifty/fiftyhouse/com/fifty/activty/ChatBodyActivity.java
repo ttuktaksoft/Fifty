@@ -14,9 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -107,6 +110,37 @@ public class ChatBodyActivity extends AppCompatActivity {
 
                 imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
                 et_Chat_Body_Msg.setText(null);
+            }
+        });
+
+        iv_ChatBody_Alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<String> menuList = new ArrayList<>();
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        startActivity(new Intent(mContext, UserReportActivity.class));
+                    }
+                });
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_BLOCK_COMPLETE), true);
+                        finish();
+                    }
+                });
+
+                DialogFunc.getInstance().ShowMenuListPopup(ChatBodyActivity.this, menuList, menuListenerList);
             }
         });
 

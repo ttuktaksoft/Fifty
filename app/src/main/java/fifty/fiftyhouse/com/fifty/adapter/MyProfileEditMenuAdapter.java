@@ -27,10 +27,11 @@ public class MyProfileEditMenuAdapter extends RecyclerView.Adapter<RecyclerView.
     public static int MY_PROFILE_EDIT_MENU_TYPE_AGE = 1;
 
     public static int MY_PROFILE_EDIT_MENU_NICKNAME_INDEX = 0;
-    public static int MY_PROFILE_EDIT_MENU_STORY_INDEX = 2;
-    public static int MY_PROFILE_EDIT_MENU_NICKNAME_AGE = 3;
-    public static int MY_PROFILE_EDIT_MENU_LOC_INDEX = 4;
     public static int MY_PROFILE_EDIT_MENU_FAVORITE_INDEX = 1;
+    public static int MY_PROFILE_EDIT_MENU_STORY_INDEX = 2;
+    public static int MY_PROFILE_EDIT_MENU_AGE_INDEX = 3;
+    public static int MY_PROFILE_EDIT_MENU_LOC_INDEX = 4;
+
 
     Context mContext;
 
@@ -75,7 +76,7 @@ public class MyProfileEditMenuAdapter extends RecyclerView.Adapter<RecyclerView.
     public int getItemViewType(int position) {
         // Just as an example, return 0 or 2 depending on position
         // Note that unlike in ListView adapters, types don't have to be contiguous
-        if(position == MY_PROFILE_EDIT_MENU_NICKNAME_AGE)
+        if(position == MY_PROFILE_EDIT_MENU_AGE_INDEX)
             return MY_PROFILE_EDIT_MENU_TYPE_AGE;
 
         return MY_PROFILE_EDIT_MENU_TYPE_DEFAULT;
@@ -144,19 +145,12 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
         else if(i == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX)
         {
             // 자기소개
-            if(true)
+            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()) == false)
             {
                 // 있음
                 tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_STORY));
                 tv_MyProfile_Edit_Menu_Desc.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-
-                if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()) == false) {
-
-                    if (TKManager.getInstance().MyData.GetUserMemo().length() >= 20)
-                        tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserMemo().substring(0, 20));
-                    else
-                        tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserMemo());
-                }
+                tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserMemo());
             }
             else
             {
@@ -169,12 +163,12 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
         else if(i == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX)
         {
             // 지역
-            if(true)
+            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserLocation()) == false)
             {
                 // 있음
                 tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_LOCATION));
                 tv_MyProfile_Edit_Menu_Desc.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-                tv_MyProfile_Edit_Menu_Desc.setText("지역설정");
+                tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserLocation());
             }
             else
             {

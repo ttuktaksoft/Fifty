@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -112,6 +113,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(requestCode == 100)
+            DialogFunc.getInstance().ShowToast(MainActivity.this, "테스트1", true);
     }
 
 }

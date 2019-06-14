@@ -75,14 +75,8 @@ public class MemoEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
             String tempMemo = et_Story_Edit_Memo.getText().toString();
-
-            if(CommonFunc.getInstance().CheckStringNull(tempMemo) == false)
-            {
-                TKManager.getInstance().MyData.SetUserMemo(tempMemo);
-                FirebaseManager.getInstance().SetUserMemo();
-            }
-
-            startActivity(new Intent(MemoEditActivity.this, MyProfileEditActivity.class));
+            TKManager.getInstance().MyData.SetUserMemo(tempMemo);
+            FirebaseManager.getInstance().SetUserMemo();
             finish();
             }
         });

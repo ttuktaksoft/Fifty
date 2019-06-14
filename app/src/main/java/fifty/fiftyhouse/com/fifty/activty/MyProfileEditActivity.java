@@ -93,24 +93,36 @@ public class MyProfileEditActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX)
                 {
-                    startActivity(new Intent(getApplicationContext(), NickNameEditActivity.class));
-                    finish();
+                    startActivityForResult(new Intent(getApplicationContext(), NickNameEditActivity.class), MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX);
                 }
                 else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX)
                 {
-                    startActivity(new Intent(getApplicationContext(), MemoEditActivity.class));
-                    finish();
+                    startActivityForResult(new Intent(getApplicationContext(), MemoEditActivity.class), MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX);
                 }
                 else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX)
                 {
-                    startActivity(new Intent(getApplicationContext(), LocationEditActivity.class));
-                    finish();
+                    startActivityForResult(new Intent(getApplicationContext(), LocationEditActivity.class), MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX);
                 }
                 else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX)
                 {
-                    Intent intent = new Intent(getApplicationContext(), FavoriteSelectActivity.class);
-                    intent.putExtra("Type",1);
-                    startActivity(intent);
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            Intent intent = new Intent(getApplicationContext(), FavoriteSelectActivity.class);
+                            intent.putExtra("Type",1);
+                            startActivityForResult(intent, MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    FirebaseManager.getInstance().GetPopFavoriteData(listener);
                 }
             }
 
@@ -214,5 +226,18 @@ public class MyProfileEditActivity extends AppCompatActivity {
             setImage();
 
         }
+        else if(resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX ||
+                resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX ||
+                resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX ||
+                resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_AGE_INDEX ||
+                resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX)
+        {
+            RefreshUI();
+        }
+    }
+
+    private void RefreshUI()
+    {
+        mAdapter.notifyDataSetChanged();
     }
 }

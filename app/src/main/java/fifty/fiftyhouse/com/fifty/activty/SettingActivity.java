@@ -44,6 +44,8 @@ public class SettingActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        initRecyclerView();
     }
 
     private void initRecyclerView()

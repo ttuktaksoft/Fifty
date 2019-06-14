@@ -48,7 +48,16 @@
     <string name="FAVORITE_SELECT_EMPTY">관심사를 선택해주세요</string>
     <string name="USER_REPORT_DESC">신고사유</string>
     <string name="USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
-
+    <string name="MSG_SORT_DISTANCE">거리순</string>
+    <string name="MSG_SORT_NEW_MEMBER">신입멤버</string>
+    <string name="MSG_SORT_TODAY_MEMBER">오늘의멤버</string>
+    <string name="MSG_SORT_MY_FRIEND">내친구</string>
+    <string name="MSG_SORT_FAVORITE">관심사정렬</string>
+    <string name="MSG_REPORT_MENU_REPORT">신고하기</string>
+    <string name="MSG_REPORT_MENU_BLOCK">차단하기</string>
+    <string name="MSG_BLOCK_COMPLETE">차단이 완료 되었습니다</string>
+    <string name="MSG_PROFILE_PHOTO_CAMERA_ADD">사진을 촬영하여 등록</string>
+    <string name="MSG_PROFILE_PHOTO_GALLERY_ADD">사진을 앨범에서 등록</string>
 
     <string name="tv_SignUp_Comment">사용하고 싶은 닉네임 입력</string>
     <string name="tv_SignUp_Comment_Desc">FIFTY에서 사용하고 싶은 본인의 개성이 \n잘드러나는 대화명을 지정해주세요</string>

@@ -60,27 +60,37 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
         lp_Main_Thumbnail_1.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
         lp_Main_Thumbnail_1.setMargins(thumbnailMargin + CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 5),thumbnailMargin,thumbnailMargin,thumbnailMargin);
         holder.iv_Main_Thumbnail_1.setLayoutParams(lp_Main_Thumbnail_1);
-        Glide.with(mContext).load(mUserImg[0])
-                .centerCrop()
-                .into(holder.iv_Main_Thumbnail_1);
+        if(CommonFunc.getInstance().CheckStringNull(mUserImg[0]) == false)
+        {
+            Glide.with(mContext).load(mUserImg[0])
+                    .centerCrop()
+                    .into(holder.iv_Main_Thumbnail_1);
+        }
+
 
         ConstraintLayout.LayoutParams lp_Main_Thumbnail_2 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Main_Thumbnail_2.leftToRight = holder.iv_Main_Thumbnail_1.getId();
         lp_Main_Thumbnail_2.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
         lp_Main_Thumbnail_2.setMargins(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
         holder.iv_Main_Thumbnail_2.setLayoutParams(lp_Main_Thumbnail_2);
-        Glide.with(mContext).load(mUserImg[1])
-                .centerCrop()
-                .into(holder.iv_Main_Thumbnail_2);
+        if(CommonFunc.getInstance().CheckStringNull(mUserImg[1]) == false)
+        {
+            Glide.with(mContext).load(mUserImg[1])
+                    .centerCrop()
+                    .into(holder.iv_Main_Thumbnail_2);
+        }
 
         ConstraintLayout.LayoutParams lp_Main_Thumbnail_3 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Main_Thumbnail_3.leftToRight = holder.iv_Main_Thumbnail_2.getId();
         lp_Main_Thumbnail_3.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
         lp_Main_Thumbnail_3.setMargins(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
         holder.iv_Main_Thumbnail_3.setLayoutParams(lp_Main_Thumbnail_3);
-        Glide.with(mContext).load(mUserImg[2])
-                .centerCrop()
-                .into(holder.iv_Main_Thumbnail_3);
+        if(CommonFunc.getInstance().CheckStringNull(mUserImg[2]) == false)
+        {
+            Glide.with(mContext).load(mUserImg[2])
+                    .centerCrop()
+                    .into(holder.iv_Main_Thumbnail_3);
+        }
 
     }
 

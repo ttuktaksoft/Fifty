@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -97,21 +99,19 @@ public class NickNameEditActivity extends AppCompatActivity {
         tv_NickName_Edit_Check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imm.hideSoftInputFromWindow(et_NickName_Edit_NickName.getWindowToken(), 0);
                 final String strNickName = et_NickName_Edit_NickName.getText().toString();
 
                 if(CommonFunc.getInstance().CheckStringNull(strNickName))
                 {
-                    // TODO 닉네임 입력 해달라는 팝업 표시
                     DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
                 }
                 else if(strNickName.length() < CommonData.NickNameMinSize)
                 {
-                    // TODO 닉네임 입력 해달라는 팝업 표시
                     DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_LEAK));
                 }
                 else
                 {
-                    imm.hideSoftInputFromWindow(et_NickName_Edit_NickName.getWindowToken(), 0);
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
@@ -120,7 +120,7 @@ public class NickNameEditActivity extends AppCompatActivity {
 
                         @Override
                         public void CompleteListener_Yes() {
-                            DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_SUCCESS));
+                            DialogFunc.getInstance().ShowToast(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_SUCCESS), true);
                             mIsNickNameCheck = true;
                             tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_YES));
                             tv_NickName_Edit_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
@@ -136,6 +136,37 @@ public class NickNameEditActivity extends AppCompatActivity {
                     };
 
                     FirebaseManager.getInstance().CheckNickName(strNickName, listener);
+                }
+            }
+        });
+
+        tv_NickName_Edit_Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imm.hideSoftInputFromWindow(et_NickName_Edit_NickName.getWindowToken(), 0);
+
+                String tempNickName = et_NickName_Edit_NickName.getText().toString();
+
+                if(CommonFunc.getInstance().CheckStringNull(tempNickName))
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
+                    return;
+                }
+                else
+                {
+                    if(tempNickName.equals(TKManager.getInstance().MyData.GetUserNickName()))
+                        finish();
+                }
+
+                if(mIsNickNameCheck == false)
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(NickNameEditActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_ASK));
+                }
+                else
+                {
+                    // TODO 닉네임 변경
+                    TKManager.getInstance().MyData.SetUserNickName(tempNickName);
+                    finish();
                 }
             }
         });

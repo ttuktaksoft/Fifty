@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
 import fifty.fiftyhouse.com.fifty.viewPager.MainDistanceViewPager;
@@ -61,6 +62,13 @@ public class MainFragment extends Fragment {
                 }
             });
 
+            iv_Main_Shop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+                }
+            });
+
 /*
             bt_Main_Sort_Type.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,10 +96,10 @@ public class MainFragment extends Fragment {
                 }
             });*/
 
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.bt_Main_Distance)));
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.bt_Main_New)));
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.bt_Main_Today)));
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.bt_Main_Friend)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_DISTANCE)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_NEW_MEMBER)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_TODAY_MEMBER)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_MY_FRIEND)));
             tl_TopBarTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {

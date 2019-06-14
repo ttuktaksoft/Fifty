@@ -37,7 +37,9 @@ import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.SettingActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileMemoActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserReportActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileMenuAdapter;
@@ -129,7 +131,8 @@ public class UserProfileFragment extends Fragment {
         v_UserProfile_Info_Detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mContext, MyProfileEditActivity.class));
+                // TODO 메인화면 갱신이 필요함
+                startActivityForResult(new Intent(mContext, MyProfileEditActivity.class), 100);
             }
         });
 
@@ -470,6 +473,10 @@ public class UserProfileFragment extends Fragment {
         }
 
         mPhotoAdapter = new UserProfilePhotoAdapter(mContext);
+        if(mMyProfile)
+            mPhotoAdapter.setProfilePhotoType(UserProfilePhotoAdapter.PROFILE_PHOTO_TYPE.MY_PROFILE);
+        else
+            mPhotoAdapter.setProfilePhotoType(UserProfilePhotoAdapter.PROFILE_PHOTO_TYPE.USER_PROFILE);
         mPhotoAdapter.setItemCount(list.size());
         mPhotoAdapter.setItemData(list);
         mPhotoAdapter.setHasStableIds(true);
@@ -479,7 +486,43 @@ public class UserProfileFragment extends Fragment {
         rv_UserProfile_Info_Photo.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Photo, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(mContext, StrContentListActivity.class));
+                if(mMyProfile)
+                {
+                    if(position < TKManager.getInstance().MyData.GetUserImgCount())
+                    {
+                        // TODO 사진은 바로 리스트로 본다고 했었나??
+                        ArrayList<String> menuList = new ArrayList<>();
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                        ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoViewFunc();
+
+                        DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                    }
+                    else if(position == TKManager.getInstance().MyData.GetUserImgCount())
+                    {
+                        ArrayList<String> menuList = new ArrayList<>();
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_CAMERA_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_GALLERY_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                        ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoAddFunc();
+
+                        DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                    }
+                    else
+                    {
+                        // TODO 제거 해야함
+                        DialogFunc.getInstance().ShowToast(mContext, "반응 없음", true);
+                    }
+
+                }
+                else
+                {
+                    DialogFunc.getInstance().ShowToast(mContext, "사진 보기 리스트 호출", true);
+                }
+
             }
 
             @Override
@@ -522,6 +565,7 @@ public class UserProfileFragment extends Fragment {
                 if(position == 3)
                 {
                     Intent intent = new Intent(mContext, SettingActivity.class);
+                    startActivity(intent);
                 }
                 else
                 {
@@ -551,5 +595,39 @@ public class UserProfileFragment extends Fragment {
     public void setCountInfoStr_3(String str)
     {
         tv_UserProfile_Info_Count_3.setText(str);
+    }
+
+
+    private ArrayList<DialogFunc.MsgPopupListener> getPhotoAddFunc()
+    {
+        ArrayList<DialogFunc.MsgPopupListener> list = new ArrayList<>();
+
+        list.add(new DialogFunc.MsgPopupListener()
+        {
+            @Override
+            public void Listener()
+            {
+                DialogFunc.getInstance().ShowToast(mContext, "사진을 촬영해서 등록", true);
+            }
+        });
+        list.add(new DialogFunc.MsgPopupListener()
+        {
+            @Override
+            public void Listener()
+            {
+                DialogFunc.getInstance().ShowToast(mContext, "사진을 앨범에서 등록", true);
+            }
+        });
+
+        return list;
+    }
+
+    private ArrayList<DialogFunc.MsgPopupListener> getPhotoViewFunc()
+    {
+        ArrayList<DialogFunc.MsgPopupListener> list = new ArrayList<>();
+
+
+
+        return list;
     }
 }

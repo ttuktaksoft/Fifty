@@ -86,7 +86,6 @@ public class LocationEditActivity extends AppCompatActivity {
                     TKManager.getInstance().MyData.SetUserLocation(tempLocation);
                     FirebaseManager.getInstance().SetUserLocation();
                 }
-                startActivity(new Intent(LocationEditActivity.this, MyProfileEditActivity.class));
                 finish();
             }
         });

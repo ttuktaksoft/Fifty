@@ -183,7 +183,10 @@ public class DialogFunc {
         rv_Menu_List.addOnItemTouchListener(new RecyclerItemClickListener(context, rv_Menu_List, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                menuListener.get(position).Listener();
+
+                if(menuListener.size() > position && menuListener.get(position) != null)
+                    menuListener.get(position).Listener();
+
                 dialog.dismiss();
             }
 
