@@ -64,6 +64,8 @@ public class UserProfileFragment extends Fragment {
 
     boolean mMyProfile = true;
 
+    int MY_PROFILE_EDIT = 1;
+
     public UserProfileFragment() {
         // Required empty public constructor
     }
@@ -132,7 +134,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // TODO 메인화면 갱신이 필요함
-                startActivityForResult(new Intent(mContext, MyProfileEditActivity.class), 100);
+                startActivityForResult(new Intent(mContext, MyProfileEditActivity.class), MY_PROFILE_EDIT);
             }
         });
 
@@ -629,5 +631,45 @@ public class UserProfileFragment extends Fragment {
 
 
         return list;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == MY_PROFILE_EDIT) {
+            if(mMyProfile)
+            {
+                tv_UserProfile_Info_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
+
+                if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()))
+                    tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
+                else
+                    tv_UserProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
+
+                ArrayList<String> list = new ArrayList<>();
+                Map<String, String> mapList = new HashMap<>();
+                mapList = TKManager.getInstance().MyData.GetUserFavoriteList();
+                Set EntrySet = mapList.entrySet();
+                Iterator iterator = EntrySet.iterator();
+                while(iterator.hasNext()){
+                    Map.Entry entry = (Map.Entry)iterator.next();
+                    String key = (String)entry.getKey();
+                    String value = (String)entry.getValue();
+                    list.add(value);
+                }
+
+                mFavoriteAdapter.setItemCount(list.size());
+                mFavoriteAdapter.setItemData(list);
+                mFavoriteAdapter.notifyDataSetChanged();
+
+                Glide.with(mContext).load(TKManager.getInstance().MyData.GetUserImgThumb())
+                        .centerCrop()
+                        .circleCrop()
+                        .into(iv_UserProfile_Profile);
+
+                mPhotoAdapter.notifyDataSetChanged();
+            }
+        }
     }
 }
