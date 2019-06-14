@@ -17,8 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.List;
@@ -73,7 +75,7 @@ public class MyProfileEditActivity extends AppCompatActivity {
         iv_MyProfile_Edit_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetPermission();
+                CommonFunc.getInstance().GetPermissionForGallery(MyProfileEditActivity.this, 0);
             }
         });
 
@@ -133,28 +135,6 @@ public class MyProfileEditActivity extends AppCompatActivity {
         }));
     }
 
-
-    private void GetPermission() {
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                GetPhotoInGallery();
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-            }
-        };
-
-        TedPermission.with(this)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage(getResources().getString(R.string.permission_cammera))
-                .setDeniedMessage(getResources().getString(R.string.permission_request))
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
-
-    }
-
     // 앨범에서 가져오기
     private void GetPhotoInGallery() {
 
@@ -202,7 +182,18 @@ public class MyProfileEditActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == GET_FROM_GALLERY) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+
+                Glide.with(getApplicationContext()).load(result.getUri())
+                        .circleCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(iv_MyProfile_Edit_Profile);
+            }
+        }
+        else if (requestCode == GET_FROM_GALLERY) {
             if(data != null && data.getData() != null)
             {
                 Uri photoUri = data.getData();
@@ -227,8 +218,6 @@ public class MyProfileEditActivity extends AppCompatActivity {
 
                 setImage();
             }
-
-
         }
         else if(resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX ||
                 resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX ||

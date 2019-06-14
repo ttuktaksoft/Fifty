@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -197,10 +199,13 @@ public class CommonFunc {
     }
 
     public void GetPhotoInGallery(Activity activity, int ActivityFlag) {
-
-        Intent intent = new Intent(Intent.ACTION_PICK);
+        CropImage.activity(null)
+                .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(activity);
+        /*Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        activity.startActivityForResult(intent, ActivityFlag);
+        activity.startActivityForResult(intent, ActivityFlag);*/
     }
 
     public void SetImage(Context context, File file, boolean camera, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
