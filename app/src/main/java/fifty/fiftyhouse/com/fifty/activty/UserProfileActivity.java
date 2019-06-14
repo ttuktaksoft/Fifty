@@ -130,6 +130,8 @@ public class UserProfileActivity extends AppCompatActivity {
                         RefreshLikeCount(false);
                     }
 
+                    DialogFunc.getInstance().DismissLoadingPage();
+
                     mUserProfileFragment.setCountInfoStr_2("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
                 }
             }
@@ -191,6 +193,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
                     FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+
+                    Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                    intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+
                 }
 
             }

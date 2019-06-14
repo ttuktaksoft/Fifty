@@ -160,6 +160,23 @@ public class CommonFunc {
             from.finish();
     }
 
+    public void DrawImageByGlide(Context context, ImageView view, int src, boolean circle)
+    {
+        if(circle)
+        {
+            Glide.with(context).load(src)
+                    .circleCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(view);
+        }
+        else
+            Glide.with(context).load(src)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(view);
+
+
+    }
+
     public void DrawImageByGlide(Context context, ImageView view, String src, boolean circle)
     {
         if(circle)
@@ -369,6 +386,21 @@ public class CommonFunc {
                 gpsLocationListener);
 
     }
+
+    public double DistanceByDegree(double _latitude1, double _longitude1, double _latitude2, double _longitude2){
+        Location startPos = new Location("PointA");
+        Location endPos = new Location("PointB");
+
+        startPos.setLatitude(_latitude1);
+        startPos.setLongitude(_longitude1);
+        endPos.setLatitude(_latitude2);
+        endPos.setLongitude(_longitude2);
+
+        double distance = startPos.distanceTo(endPos);
+
+        return distance;
+    }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /// 테스트 함수 //

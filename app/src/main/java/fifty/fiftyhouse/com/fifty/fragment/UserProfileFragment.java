@@ -366,7 +366,10 @@ public class UserProfileFragment extends Fragment {
 
         tv_UserProfile_Info_Count_1.setText("방문자 " + TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
         tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
-        tv_UserProfile_Info_Count_3.setText("거리 " + TKManager.getInstance().TargetUserData.GetUserDist() + " Km");
+
+        Double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), TKManager.getInstance().TargetUserData.GetUserDist_Lat(), TKManager.getInstance().TargetUserData.GetUserDist_Lon());
+        tv_UserProfile_Info_Count_3.setText("거리 " + Distance + " m");
+
 
         if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserMemo()))
             tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));

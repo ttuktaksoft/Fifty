@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,25 +61,30 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
         lp_Main_Thumbnail_1.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
         lp_Main_Thumbnail_1.setMargins(thumbnailMargin + CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 5),thumbnailMargin,thumbnailMargin,thumbnailMargin);
         holder.iv_Main_Thumbnail_1.setLayoutParams(lp_Main_Thumbnail_1);
+
         if(CommonFunc.getInstance().CheckStringNull(mUserImg[0]) == false)
         {
             Glide.with(mContext).load(mUserImg[0])
                     .centerCrop()
                     .into(holder.iv_Main_Thumbnail_1);
         }
-
+        else
+            CommonFunc.getInstance().DrawImageByGlide(mContext, holder.iv_Main_Thumbnail_1, R.drawable.bg_empty_square, false);
 
         ConstraintLayout.LayoutParams lp_Main_Thumbnail_2 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Main_Thumbnail_2.leftToRight = holder.iv_Main_Thumbnail_1.getId();
         lp_Main_Thumbnail_2.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
         lp_Main_Thumbnail_2.setMargins(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
         holder.iv_Main_Thumbnail_2.setLayoutParams(lp_Main_Thumbnail_2);
+
         if(CommonFunc.getInstance().CheckStringNull(mUserImg[1]) == false)
         {
             Glide.with(mContext).load(mUserImg[1])
                     .centerCrop()
                     .into(holder.iv_Main_Thumbnail_2);
         }
+        else
+            CommonFunc.getInstance().DrawImageByGlide(mContext, holder.iv_Main_Thumbnail_2, R.drawable.bg_empty_square, false);
 
         ConstraintLayout.LayoutParams lp_Main_Thumbnail_3 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Main_Thumbnail_3.leftToRight = holder.iv_Main_Thumbnail_2.getId();
@@ -87,11 +93,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
         holder.iv_Main_Thumbnail_3.setLayoutParams(lp_Main_Thumbnail_3);
         if(CommonFunc.getInstance().CheckStringNull(mUserImg[2]) == false)
         {
-            Glide.with(mContext).load(mUserImg[2])
-                    .centerCrop()
-                    .into(holder.iv_Main_Thumbnail_3);
+            CommonFunc.getInstance().DrawImageByGlide(mContext, holder.iv_Main_Thumbnail_3, mUserImg[2], false);
         }
-
+        else
+            CommonFunc.getInstance().DrawImageByGlide(mContext, holder.iv_Main_Thumbnail_3, R.drawable.bg_empty_square, false);
     }
 
     @Override
@@ -144,7 +149,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
             case DIST:
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)));
                 mUserName = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserNickName();
-                mUserDist = "400m";
+
+                double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
+                mUserDist = Distance + "m";
+
+                for(int i = 0 ; i< 8 ; i++)
+                    mUserImg[i] = null;
 
                 for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserImgCount(); i++)
                 {
@@ -155,7 +165,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
             case NEW:
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)));
                 mUserName = tempData.GetUserNickName();
-                mUserDist = "400m";
+                Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
+                mUserDist = Distance + "m";
+
+                for(int i = 0 ; i< 8 ; i++)
+                    mUserImg[i] = null;
+
                 for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserImgCount(); i++)
                 {
                     mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserImg(Integer.toString(i));
@@ -165,7 +180,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
             case HOT:
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)));
                 mUserName = tempData.GetUserNickName();
-                mUserDist = "400m";
+                Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
+                mUserDist = Distance + "m";
+
+                for(int i = 0 ; i< 8 ; i++)
+                    mUserImg[i] = null;
+
                 for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserImgCount(); i++)
                 {
                     mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserImg(Integer.toString(i));
@@ -175,7 +195,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
             case FRIEND:
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)));
                 mUserName = tempData.GetUserNickName();
-                mUserDist = "400m";
+                Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
+                mUserDist = Distance + "m";
+
+                for(int i = 0 ; i< 8 ; i++)
+                    mUserImg[i] = null;
+
                 for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserImgCount(); i++)
                 {
                     mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserImg(Integer.toString(i));

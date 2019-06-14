@@ -217,6 +217,12 @@ public class FirebaseManager {
 
         user.put("Dist", TKManager.getInstance().MyData.GetUserDist());
 
+        user.put("Dist_Lon", TKManager.getInstance().MyData.GetUserDist_Lon());
+        user.put("Dist_Lat", TKManager.getInstance().MyData.GetUserDist_Lat());
+
+        user.put("Dist_Region", TKManager.getInstance().MyData.GetUserDist_Region());
+        user.put("Dist_Area", TKManager.getInstance().MyData.GetUserDist_Area());
+
         mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(user, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -990,6 +996,26 @@ public class FirebaseManager {
                             userData.SetUserDist(Integer.parseInt(document.getData().get("Dist").toString()));
                         } else
                             userData.SetUserDist(0);
+
+                        if (document.getData().containsKey("Dist_Lon")) {
+                            userData.SetUserDist_Lon(Integer.parseInt(document.getData().get("Dist_Lon").toString()));
+                        } else
+                            userData.SetUserDist_Lon(126.978425);
+
+                        if (document.getData().containsKey("Dist_Lat")) {
+                            userData.SetUserDist_Lat(Integer.parseInt(document.getData().get("Dist_Lat").toString()));
+                        } else
+                            userData.SetUserDist_Lat(37.566659);
+
+                        if (document.getData().containsKey("Dist_Region")) {
+                            userData.SetUserDist_Region(Integer.parseInt(document.getData().get("Dist_Region").toString()));
+                        } else
+                            userData.SetUserDist_Region(0);
+
+                        if (document.getData().containsKey("Dist_Area")) {
+                            userData.SetUserDist_Area(document.getData().get("Dist_Area").toString());
+                        } else
+                            userData.SetUserDist_Area("대한민국");
 
                         Complete(listener);
 
