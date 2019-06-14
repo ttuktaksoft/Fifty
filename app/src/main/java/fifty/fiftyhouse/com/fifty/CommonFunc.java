@@ -1,15 +1,27 @@
 package fifty.fiftyhouse.com.fifty;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +34,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -290,23 +303,70 @@ public class CommonFunc {
 
     }
 
-    public void GetPermissionForLocation(final Activity activity, final int intentFlag) {
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
+
+
+
+    @SuppressLint("MissingPermission")
+    public void GetUserLocation(Activity activity)
+    {
+        final Geocoder geocoder = new Geocoder(activity);
+
+        final LocationListener gpsLocationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+
+                String provider = location.getProvider();
+                double longitude = location.getLongitude();
+                double latitude = location.getLatitude();
+                double altitude = location.getAltitude();
+
+
+                List<Address> list = null;
+                try {
+                    list = geocoder.getFromLocation(
+                            latitude, // 위도
+                            longitude, // 경도
+                            10); // 얻어올 값의 개수
+
+
+                    TKManager.getInstance().MyData.SetUserDist_Lon(longitude);
+                    TKManager.getInstance().MyData.SetUserDist_Lat(latitude);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (list != null) {
+                    if (list.size() == 0) {
+                        TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                    } else {
+
+                        TKManager.getInstance().MyData.SetUserDist_Area(list.get(0).getAdminArea() + " " + list.get(0).getSubLocality() + " " + list.get(0).getThoroughfare());
+
+                        Log.d("asdsad", list.get(0).toString());
+                    }
+                }
+
             }
 
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            public void onProviderEnabled(String provider) {
+            }
+
+            public void onProviderDisabled(String provider) {
             }
         };
 
-        TedPermission.with(activity)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage(activity.getResources().getString(R.string.permission_cammera))
-                .setDeniedMessage(activity.getResources().getString(R.string.permission_request))
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
+        final LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+            1000 * 60 * 60,
+            1 * 100,
+            gpsLocationListener);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                1000 * 60 * 60,
+                1 * 100,
+                gpsLocationListener);
 
     }
 

@@ -49,6 +49,8 @@ public class MainDistanceViewPager extends Fragment {
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
             sw_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.sw_Main_Dis_Sort_Type);
 
+            tv_Main_Dis_Curr_Pos.setText(TKManager.getInstance().MyData.GetUserDist_Area());
+
             sw_Main_Dis_Sort_Type.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -61,6 +61,7 @@ public class UserData {
     private  double Dist_Lat = 0;
     private  double Dist_Lon = 0;
     private  double Dist_Region = 0;
+    private  String Dist_Area = null;
 
     private Map<String, String> FriendList = new LinkedHashMap<>();
 
@@ -435,7 +436,7 @@ public class UserData {
         return Dist_Lat;
     }
 
-    public void  SetUserDist_Lon(long dist)
+    public void  SetUserDist_Lon(double dist)
     {
         Dist_Lon = dist;
     }
@@ -453,4 +454,12 @@ public class UserData {
         return Dist_Region;
     }
 
+    public void  SetUserDist_Area(String dist)
+    {
+        Dist_Area = dist;
+    }
+    public String  GetUserDist_Area()
+    {
+        return Dist_Area;
+    }
 }
