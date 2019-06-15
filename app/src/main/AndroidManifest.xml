@@ -58,6 +58,18 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="fifty.fiftyhouse.com.fifty.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
     </application>
+
+
 
 </manifest>

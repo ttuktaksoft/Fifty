@@ -17,12 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.common.internal.service.Common;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.List;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -43,7 +47,6 @@ public class MyProfileEditActivity extends AppCompatActivity {
     MyProfileEditMenuAdapter mAdapter;
     private Context mContext;
 
-    private static final int GET_FROM_GALLERY = 1;
     private File tempFile;
     private boolean isCamera = false;
 
@@ -73,7 +76,7 @@ public class MyProfileEditActivity extends AppCompatActivity {
         iv_MyProfile_Edit_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetPermission();
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(MyProfileEditActivity.this, CommonData.GET_PHOTO_FROM_CAMERA);
             }
         });
 
@@ -134,101 +137,29 @@ public class MyProfileEditActivity extends AppCompatActivity {
     }
 
 
-    private void GetPermission() {
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                GetPhotoInGallery();
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-            }
-        };
-
-        TedPermission.with(this)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage(getResources().getString(R.string.permission_cammera))
-                .setDeniedMessage(getResources().getString(R.string.permission_request))
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
-
-    }
-
-    // 앨범에서 가져오기
-    private void GetPhotoInGallery() {
-
-        isCamera = true;
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, GET_FROM_GALLERY);
-    }
-
-    private void setImage() {
-
-        DialogFunc.getInstance().ShowLoadingPage(MyProfileEditActivity.this);
-
-        ImageResize.resizeFile(tempFile, tempFile, 1280, isCamera);
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
-        iv_MyProfile_Edit_Profile.setImageBitmap(originalBm);
-        Glide.with(this).load(originalBm)
-                .centerCrop()
-                .circleCrop()
-                .into(iv_MyProfile_Edit_Profile);
-
-        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-            @Override
-            public void CompleteListener() {
-                isUpload = true;
-                DialogFunc.getInstance().DismissLoadingPage();
-            }
-
-            @Override
-            public void CompleteListener_Yes() {
-            }
-
-            @Override
-            public void CompleteListener_No() {
-            }
-        };
-
-
-        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, 0, listener);
-        FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, listener);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == GET_FROM_GALLERY) {
-            if(data != null && data.getData() != null)
-            {
-                Uri photoUri = data.getData();
-                Cursor cursor = null;
-
-                try {
-                    String[] proj = { MediaStore.Images.Media.DATA };
-                    assert photoUri != null;
-                    cursor = getContentResolver().query(photoUri, proj, null, null, null);
-
-                    assert cursor != null;
-                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-                    cursor.moveToFirst();
-                    tempFile = new File(cursor.getString(column_index));
-
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                DialogFunc.getInstance().ShowLoadingPage(MyProfileEditActivity.this);
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
                     }
-                }
 
-                setImage();
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+                Uri resultUri = result.getUri();
+                CommonFunc.getInstance().SetCropImage(mContext, resultUri, 0, iv_MyProfile_Edit_Profile, listener);
             }
-
-
         }
         else if(resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX ||
                 resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX ||

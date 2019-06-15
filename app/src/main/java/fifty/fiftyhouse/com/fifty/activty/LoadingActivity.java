@@ -61,7 +61,7 @@ public class LoadingActivity extends AppCompatActivity {
 
 
         } else {
-            CommonFunc.getInstance().GetUserLocation(this);
+            //CommonFunc.getInstance().GetUserLocation(this);
             GetUserList();
         }
 
@@ -97,7 +97,7 @@ public class LoadingActivity extends AppCompatActivity {
 
     public void GetUserList()
     {
-        TKManager.getInstance().MyData.SetUserIndex("14");
+        TKManager.getInstance().MyData.SetUserIndex("1");
 
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override

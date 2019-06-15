@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,8 +34,6 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ChatBodyAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
-
-import static fifty.fiftyhouse.com.fifty.activty.SignUpActivity.GET_FROM_GALLERY;
 
 public class ChatBodyActivity extends AppCompatActivity {
 
@@ -100,7 +100,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_Chat_Body_Plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGallery(ChatBodyActivity.this, GET_FROM_GALLERY);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
@@ -242,7 +242,30 @@ public class ChatBodyActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == GET_FROM_GALLERY) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                isProfileUpload = true;
+                DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.this);
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+                Uri resultUri = result.getUri();
+                CommonFunc.getInstance().SetImageInChatRoom(ChatBodyActivity.this, resultUri, strRoomIndex,  listener);
+            }
+        }
+        /*if (requestCode == GET_FROM_GALLERY) {
             if(data != null && data.getData() != null)
             {
                 Uri photoUri = data.getData();
@@ -289,7 +312,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
             }
 
-        }
+        }*/
     }
 
 
