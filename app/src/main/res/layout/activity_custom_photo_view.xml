@@ -10,7 +10,7 @@
         android:id="@+id/ui_Custom_Photo_TopBar"
         layout="@layout/ui_topbar"/>
 
-    <android.support.v4.view.ViewPager
+    <fifty.fiftyhouse.com.fifty.viewPager.PhotoViewPager
         android:id="@+id/vp_Custom_Photo_View"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -2,15 +2,20 @@ package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -94,30 +99,42 @@ public class CustomPhotoView extends AppCompatActivity {
             }
         });
 
-        vp_Custom_Photo_View.setAdapter(new PhotoPagerAdapter(getSupportFragmentManager(), mPhotoSrcList.size()));
+        vp_Custom_Photo_View.setAdapter(new PhotoPagerAdapter());
         vp_Custom_Photo_View.setCurrentItem(0);
 
     }
 
     //     photoView.setImageResource(R.drawable.image4);
-    private class PhotoPagerAdapter extends FragmentStatePagerAdapter {
-        private  int tabCount;
-        public PhotoPagerAdapter(FragmentManager fm, int tabCount) {
-            super(fm);
-            this.tabCount = tabCount;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            PhotoViewPager PhotoPage = new PhotoViewPager();
-            PhotoPage.setMyProfilePhoto(true);
-            PhotoPage.setImgSrc(mPhotoSrcList.get(position));
-            return PhotoPage;
+    private class PhotoPagerAdapter extends PagerAdapter {
+        PhotoView pv_Photo_View;
+        LayoutInflater mLayoutInflater;
+        public PhotoPagerAdapter() {
+            mLayoutInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
         public int getCount() {
-            return tabCount;
+            return mPhotoSrcList.size();
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            View itemView = mLayoutInflater.inflate(R.layout.viewpager_photo_view, container,false);
+            pv_Photo_View = itemView.findViewById(R.id.pv_Photo_View);
+            CommonFunc.getInstance().DrawImageByGlide(mContext, pv_Photo_View, mPhotoSrcList.get(position), false);
+            container.addView(itemView);
+            return itemView;
+
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((ConstraintLayout)object);
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((ConstraintLayout)object);
         }
     }
 }

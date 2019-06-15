@@ -133,6 +133,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
             tv_Chat_Body_Msg.setGravity(Gravity.RIGHT);
+            int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
+            tv_Chat_Body_Msg.setPadding(padding, padding, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding);
 
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.rightToLeft = iv_Chat_Body_Profile.getId();
@@ -180,6 +182,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
             tv_Chat_Body_Msg.setGravity(Gravity.LEFT);
+            int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
+            tv_Chat_Body_Msg.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding, padding, padding);
 
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.leftToRight = iv_Chat_Body_Profile.getId();
