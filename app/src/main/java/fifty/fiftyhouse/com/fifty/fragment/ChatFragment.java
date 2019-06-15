@@ -69,7 +69,6 @@ public class ChatFragment extends Fragment {
     public void onResume() {
         super.onResume();  // Always call the superclass method first
             //CommonFunc.getInstance().RefreshChatListData(mAdapter);
-            TKManager.getInstance().SetCurFrag(2);
     }
 
     @Override

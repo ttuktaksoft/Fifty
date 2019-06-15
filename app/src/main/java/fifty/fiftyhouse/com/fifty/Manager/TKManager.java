@@ -44,17 +44,4 @@ public class TKManager {
 
     public boolean isWorkFireBase = true;
 
-    private int nCurVisibleFrag;
-    public void SetCurFrag(int Frag) {
-        nCurVisibleFrag = Frag;
-    }
-    public int GetCurFrag() {
-        return nCurVisibleFrag;
-    }
-
-    public void Test(Activity activity)
-    {
-        ((MainActivity)activity).refreshFragment();
-    }
-
 }
