@@ -356,10 +356,12 @@ public class CommonFunc {
                     if (list.size() == 0) {
                         TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
                     } else {
-
                         TKManager.getInstance().MyData.SetUserDist_Area(list.get(0).getAdminArea() + " " + list.get(0).getSubLocality() + " " + list.get(0).getThoroughfare());
 
                         Log.d("asdsad", list.get(0).toString());
+
+                        TKManager.getInstance().MyData.SetUserDist_Region(1);
+                        FirebaseManager.getInstance().RegistUserDistInfo();
                     }
                 }
 
@@ -377,12 +379,12 @@ public class CommonFunc {
 
         final LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-            1000 * 60 * 60,
-            1 * 100,
+            1000 * 60,
+            1 * 10,
             gpsLocationListener);
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                1000 * 60 * 60,
-                1 * 100,
+                1000 * 60,
+                1 * 10,
                 gpsLocationListener);
 
     }

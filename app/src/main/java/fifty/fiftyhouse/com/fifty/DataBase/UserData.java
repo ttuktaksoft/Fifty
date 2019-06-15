@@ -444,7 +444,7 @@ public class UserData {
         return Dist_Lon;
     }
 
-    public void  SetUserDist_Region(long dist)
+    public void  SetUserDist_Region(double dist)
     {
         Dist_Region = dist;
     }
