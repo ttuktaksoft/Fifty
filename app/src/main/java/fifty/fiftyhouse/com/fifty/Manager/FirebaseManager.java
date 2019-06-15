@@ -1069,17 +1069,17 @@ public class FirebaseManager {
                             userData.SetUserDist(0);
 
                         if (document.getData().containsKey("Dist_Lon")) {
-                            userData.SetUserDist_Lon(Integer.parseInt(document.getData().get("Dist_Lon").toString()));
+                            userData.SetUserDist_Lon(Double.parseDouble(document.getData().get("Dist_Lon").toString()));
                         } else
                             userData.SetUserDist_Lon(126.978425);
 
                         if (document.getData().containsKey("Dist_Lat")) {
-                            userData.SetUserDist_Lat(Integer.parseInt(document.getData().get("Dist_Lat").toString()));
+                            userData.SetUserDist_Lat(Double.parseDouble(document.getData().get("Dist_Lat").toString()));
                         } else
                             userData.SetUserDist_Lat(37.566659);
 
                         if (document.getData().containsKey("Dist_Region")) {
-                            userData.SetUserDist_Region(Integer.parseInt(document.getData().get("Dist_Region").toString()));
+                            userData.SetUserDist_Region(Double.parseDouble(document.getData().get("Dist_Region").toString()));
                         } else
                             userData.SetUserDist_Region(0);
 
@@ -2035,6 +2035,32 @@ public class FirebaseManager {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Transaction failure.", e);
+                    }
+                });
+    }
+
+    public void RegistUserDistInfo()
+    {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+
+        Map<String, Object> UserDistInfo = new HashMap<>();
+        UserDistInfo.put("Dist_Lat", TKManager.getInstance().MyData.GetUserDist_Lat());
+        UserDistInfo.put("Dist_Lon", TKManager.getInstance().MyData.GetUserDist_Lon());
+        UserDistInfo.put("Dist_Region", TKManager.getInstance().MyData.GetUserDist_Region());
+        UserDistInfo.put("Dist_Area", TKManager.getInstance().MyData.GetUserDist_Area());
+
+        mDataBase.collection("UserData").document(userIndex)
+                .set(UserDistInfo, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
                     }
                 });
     }
