@@ -162,6 +162,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
             iv_Chat_Body_Msg_BG.setScaleX(1.0f);
             ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.chat_my_bg)));
+
+
         }
         else
         {
@@ -209,6 +211,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
             iv_Chat_Body_Msg_BG.setScaleX(-1.0f);
             ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.white)));
+
+
         }
 
         iv_Chat_Body_Profile.setLayoutParams(lp_Chat_Body_Profile);
@@ -261,6 +265,11 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         tv_Chat_Body_Msg.setText(tempData.GetMsg());
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
+        tv_Chat_Body_Date.setText(Long.toString(tempData.GetMsgDate()));
 
+        if(tempData.GetMsgReadCheck())
+            tv_Chat_Body_Check.setVisibility(View.INVISIBLE);
+        else
+            tv_Chat_Body_Check.setVisibility(View.VISIBLE);
     }
 }

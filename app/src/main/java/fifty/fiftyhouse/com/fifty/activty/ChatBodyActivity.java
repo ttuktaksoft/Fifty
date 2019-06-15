@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -105,7 +107,11 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_Chat_Body_Send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SendChatData(CommonData.MSGType.MSG);
+                if(!CommonFunc.getInstance().CheckStringNull(et_Chat_Body_Msg.getText().toString()))
+                {
+                    SendChatData(CommonData.MSGType.MSG);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
 /*
@@ -188,7 +194,8 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         };
 
-        FirebaseManager.getInstance().MonitorChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
+        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
+
 
         rv_Chat_Body_List.setAdapter(mAdapter);
 
@@ -315,4 +322,11 @@ public class ChatBodyActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
         et_Chat_Body_Msg.setText(null);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FirebaseManager.getInstance().RemoveMonitorUserChatData();
+    }
+
 }

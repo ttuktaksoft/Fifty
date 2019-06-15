@@ -168,34 +168,152 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Chat) {
 
-                    String userIndex = TKManager.getInstance().MyData.GetUserIndex();
-                    String targetIndex =  TKManager.getInstance().TargetUserData.GetUserIndex();
-                    String ChatRoomIndex = userIndex + "_" +targetIndex;
+                    final String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+                    final String targetIndex =  TKManager.getInstance().TargetUserData.GetUserIndex();
+                    final String ChatRoomIndex = userIndex + "_" +targetIndex;
+                    final String AnotherChatRoomIndex = targetIndex+ "_" + userIndex ;
 
-                    ChatData tempChatData = new ChatData();
-                    tempChatData.SetRoomIndex(ChatRoomIndex);
+                    DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
 
-                    tempChatData.SetFromIndex(userIndex);
-                    tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
-                    tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
-
-                    tempChatData.SetToIndex(targetIndex);
-                    tempChatData.SetToNickName(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName());
-                    tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
-
-                    tempChatData.SetMsgIndex(0);
-                    tempChatData.SetMsgReadCheck(false);
-                    tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
-                    tempChatData.SetMsgType(CommonData.MSGType.MSG);
-                    tempChatData.SetMsgSender(userIndex);
-                    tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
 
 
-                    FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
-                    FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+                              FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
 
-                    Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                    intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                        @Override
+                                        public void CompleteListener() {
+                                            DialogFunc.getInstance().DismissLoadingPage();
+                                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                            intent.putExtra("RoomIndex",ChatRoomIndex);
+                                            startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_Yes() {
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_No() {
+                                        }
+                                    };
+
+                                    if(TKManager.getInstance().UserData_Simple.get(targetIndex) != null)
+                                    {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                        intent.putExtra("RoomIndex",ChatRoomIndex);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                                        FirebaseManager.getInstance().GetUserData_Simple(targetIndex, TKManager.getInstance().UserData_Simple, listener);
+                                    }
+
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                }
+                            };
+
+                            FirebaseManager.getInstance().GetUserChatData(ChatRoomIndex, TKManager.getInstance().MyData, listener);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+
+                                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                        @Override
+                                        public void CompleteListener() {
+                                            DialogFunc.getInstance().DismissLoadingPage();
+                                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                            intent.putExtra("RoomIndex",ChatRoomIndex);
+                                            startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_Yes() {
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_No() {
+                                        }
+                                    };
+
+                                    if(TKManager.getInstance().UserData_Simple.get(targetIndex) != null)
+                                    {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                        intent.putExtra("RoomIndex",ChatRoomIndex);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                                        FirebaseManager.getInstance().GetUserData_Simple(targetIndex, TKManager.getInstance().UserData_Simple, listener);
+                                    }
+
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                }
+                            };
+
+                            FirebaseManager.getInstance().GetUserChatData(ChatRoomIndex, TKManager.getInstance().MyData, listener);
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+
+                            ChatData tempChatData = new ChatData();
+                            tempChatData.SetRoomIndex(ChatRoomIndex);
+
+                            tempChatData.SetFromIndex(userIndex);
+                            tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+                            tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+
+                            tempChatData.SetToIndex(targetIndex);
+                            tempChatData.SetToNickName(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName());
+                            tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
+
+                            tempChatData.SetMsgIndex(0);
+                            tempChatData.SetMsgReadCheck(false);
+                            tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
+                            tempChatData.SetMsgType(CommonData.MSGType.MSG);
+                            tempChatData.SetMsgSender(userIndex);
+                            tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
+
+                            FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+                            FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+
+                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                            intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                            startActivity(intent);
+
+                        }
+                    };
+
+                    FirebaseManager.getInstance().ExistChatRoom(targetIndex, listener);
+
 
                 }
 

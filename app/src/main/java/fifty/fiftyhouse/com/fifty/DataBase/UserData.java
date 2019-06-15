@@ -68,7 +68,6 @@ public class UserData {
     private Map<String, String> LikeList = new LinkedHashMap<>();
     private Map<String, String> VisitList = new LinkedHashMap<>();
 
-    private Map<String, String> ChatRoomList = new LinkedHashMap<>();
     private Map<String, ChatData> ChatRoomDataList = new LinkedHashMap<>();
 
     private Map<String, ChatData> ChatRoomData = new LinkedHashMap<>();
@@ -224,7 +223,7 @@ public class UserData {
     {
         return ImgList.size();
     }
-
+/*
     public void SetUserChatList(String chatRoomIdx, String index)
     {
         ChatRoomList.put(chatRoomIdx, index);
@@ -244,7 +243,7 @@ public class UserData {
     public void  DelUserChatList(String chatRoomIdx)
     {
         ChatRoomList.remove(chatRoomIdx);
-    }
+    }*/
 
     public void SetUserChatDataList(String chatRoomIdx, ChatData data)
     {
@@ -273,7 +272,7 @@ public class UserData {
     }
     public Long  GetUserChatReadIndexList(String chatRoomIdx)
     {
-        return ChatReadIndex.get(chatRoomIdx);
+      return ChatReadIndex.get(chatRoomIdx);
     }
     public int  GetUserChatReadIndexListCount()
     {

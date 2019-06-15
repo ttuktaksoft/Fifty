@@ -19,6 +19,7 @@ import com.google.android.gms.common.internal.service.Common;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -65,6 +66,13 @@ public class ChatFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+            //CommonFunc.getInstance().RefreshChatListData(mAdapter);
+            TKManager.getInstance().SetCurFrag(2);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -84,6 +92,30 @@ public class ChatFragment extends Fragment {
 
         mAdapter = new ChatAdapter(getContext());
         mAdapter.setHasStableIds(true);
+
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                mAdapter.notifyDataSetChanged();
+                ChatRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+            }
+        };
+
+        Set KeySet = TKManager.getInstance().MyData.GetUserChatReadIndexListKeySet();
+        Iterator iterator = KeySet.iterator();
+
+        while(iterator.hasNext()){
+            String key = (String)iterator.next();
+            FirebaseManager.getInstance().MonitorChatData(key, TKManager.getInstance().MyData, listener);
+        }
 
         ChatRecyclerView.setAdapter(mAdapter);
         ChatRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
