@@ -141,7 +141,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Msg.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
-            tv_Chat_Body_Msg.setGravity(Gravity.RIGHT);
+            tv_Chat_Body_Msg.setGravity(Gravity.LEFT);
             int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
             tv_Chat_Body_Msg.setPadding(padding, padding, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding);
 
