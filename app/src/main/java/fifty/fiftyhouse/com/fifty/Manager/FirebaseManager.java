@@ -899,7 +899,7 @@ public class FirebaseManager {
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
             SetFireBaseLoadingCount(5);
         else
-            SetFireBaseLoadingCount(5);
+            SetFireBaseLoadingCount(4);
 
         final DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
