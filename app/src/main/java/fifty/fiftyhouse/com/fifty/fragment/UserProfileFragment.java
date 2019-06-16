@@ -525,7 +525,7 @@ public class UserProfileFragment extends Fragment {
                     }
                 }
                 else {
-                    if (position < TKManager.getInstance().MyData.GetUserImgCount())
+                    if (position < TKManager.getInstance().TargetUserData.GetUserImgCount())
                     {
                         Intent intent = new Intent(mContext, CustomPhotoView.class);
                         intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_USER_PROFILE_LIST);
@@ -552,7 +552,7 @@ public class UserProfileFragment extends Fragment {
         rv_UserProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Club, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(mContext, StrContentListActivity.class));
+                //startActivity(new Intent(mContext, StrContentListActivity.class));
             }
 
             @Override
@@ -574,14 +574,14 @@ public class UserProfileFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 if(position == 3)
                 {
-                    Intent intent = new Intent(mContext, SettingActivity.class);
-                    startActivity(intent);
+                    /*Intent intent = new Intent(mContext, SettingActivity.class);
+                    startActivity(intent);*/
                 }
                 else
                 {
-                    Intent intent = new Intent(mContext, StrContentListActivity.class);
+                    /*Intent intent = new Intent(mContext, StrContentListActivity.class);
                     intent.putExtra("Type",position);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             }
 
