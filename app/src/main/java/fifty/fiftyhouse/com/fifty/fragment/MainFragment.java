@@ -104,6 +104,10 @@ public class MainFragment extends Fragment {
             tl_TopBarTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
+                    int i = tab.getPosition();
+                    if(i == 3)
+                        mMainFriendViewPager.RefreshUI();
+
                     vp_UserList.setCurrentItem(tab.getPosition());
                 }
 

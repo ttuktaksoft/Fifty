@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -22,8 +23,8 @@ import fifty.fiftyhouse.com.fifty.R;
 public class UserListAdapter extends RecyclerView.Adapter<UserListListHolder> {
 
     Context mContext;
-    int UserCount = 0;
-    CommonData.MyProfileViewType UserType = CommonData.MyProfileViewType.VISIT;
+    int mItemCount = 0;
+    ArrayList<String> mItemList = new ArrayList<>();
 
 
     public UserListAdapter(Context context) {
@@ -43,22 +44,23 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListListHolder> {
     public void onBindViewHolder(UserListListHolder holder, final int position) {
         int i = position;
 
-        holder.SetItemByType(UserType, i);
-
-        holder.setData(i);
+        holder.setData(mItemList.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return UserCount;
-        //return  TKManager.getInstance().TargetUserData.GetUserImgCount();
-        //return mMyData.arrChatTargetData.size();
+        return mItemCount;
     }
 
-    public void SetItemCountByType(CommonData.MyProfileViewType type, int count)
+    public void setItemCount(int count)
     {
-        UserType = type;
-        UserCount = count;
+        mItemCount = count;
+    }
+
+    public void setItemData(ArrayList<String> list)
+    {
+        mItemList.clear();
+        mItemList.addAll(list);
     }
 
 }
@@ -68,9 +70,6 @@ class UserListListHolder extends RecyclerView.ViewHolder {
     ImageView iv_User_List_Profile, iv_User_List_Gender;
     TextView tv_User_List_Name, tv_User_List_Age, tv_User_List_Dis;
     Context mContext;
-
-    String UserNickName,UserImgThumb , UserDist;
-    int UserAge, UserGender;
 
     public UserListListHolder(View itemView) {
         super(itemView);
@@ -83,16 +82,17 @@ class UserListListHolder extends RecyclerView.ViewHolder {
         tv_User_List_Dis = itemView.findViewById(R.id.tv_User_List_Dis);
     }
 
-    public void setData(int i)
+    public void setData(String key)
     {
+        UserData data = TKManager.getInstance().UserData_Simple.get(key);
 
-        Glide.with(mContext).load(UserImgThumb)
+        Glide.with(mContext).load(data.GetUserImgThumb())
                 .centerCrop()
                 .circleCrop()
                 .into(iv_User_List_Profile);
 
 
-        if (UserGender == 0) {
+        if (data.GetUserGender() == 0) {
             Glide.with(mContext).load(R.drawable.ic_man_simple)
                     .centerCrop()
                     .into(iv_User_List_Gender);
@@ -103,42 +103,8 @@ class UserListListHolder extends RecyclerView.ViewHolder {
                     .into(iv_User_List_Gender);
         }
 
-        tv_User_List_Name.setText(UserNickName);
-        tv_User_List_Age.setText(UserAge + "세");
-        //tv_User_List_Dis.setText(UserDist);
-        tv_User_List_Dis.setText("1Km");
-    }
-
-    public void SetItemByType(CommonData.MyProfileViewType type, int position)
-    {
-        UserData tempData = new UserData();
-        Set tempKey = null;
-        List array = new ArrayList();
-
-        switch (type)
-        {
-            case VISIT:
-                tempKey =  TKManager.getInstance().MyData.GetUserVisitKeySet();
-                break;
-
-            case LIKE:
-                tempKey = TKManager.getInstance().MyData.GetUserLikeKeySet();
-                break;
-
-            case FRIEND:
-                tempKey = TKManager.getInstance().MyData.GetUserFriendListKeySet();
-                break;
-
-        }
-
-        array = new ArrayList(tempKey);
-
-        UserNickName = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserNickName();
-        UserImgThumb = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserImgThumb();
-
-        UserAge = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserAge();
-        UserGender = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserGender();
-
-
+        tv_User_List_Name.setText(data.GetUserNickName());
+        tv_User_List_Age.setText(data.GetUserAge() + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.MSG_AGE_END));
+        tv_User_List_Dis.setText(data.GetUserAge() + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.DEFAULT_DISTANCE));
     }
 }

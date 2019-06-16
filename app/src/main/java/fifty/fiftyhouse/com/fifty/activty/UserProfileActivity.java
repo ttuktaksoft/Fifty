@@ -147,7 +147,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     DialogFunc.getInstance().DismissLoadingPage();
 
-                    mUserProfileFragment.setCountInfoStr_2("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+                    mUserProfileFragment.RefreshCountText();
 
                 }
             }

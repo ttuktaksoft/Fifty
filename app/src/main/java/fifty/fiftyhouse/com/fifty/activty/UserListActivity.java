@@ -1,7 +1,9 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,8 +12,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.common.internal.service.Common;
+import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
@@ -30,11 +39,13 @@ public class UserListActivity extends AppCompatActivity {
     ImageView iv_TopBar_Back;
 
     RecyclerView rv_UserList_List;
+    TextView tv_UserList_List_Empty;
     UserListAdapter mAdapter;
 
-    CommonData.MyProfileViewType Type;
-    int Count;
     Context mContext;
+    ArrayList<String> mUserList = new ArrayList<>();
+
+    int mUserListType = CommonData.USER_LIST_MY_VISIT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +57,7 @@ public class UserListActivity extends AppCompatActivity {
         tv_TopBar_Title = ui_UserList_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_UserList_TopBar.findViewById(R.id.iv_TopBar_Back);
         rv_UserList_List = findViewById(R.id.rv_UserList_List);
+        tv_UserList_List_Empty = findViewById(R.id.tv_UserList_List_Empty);
 
         iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,35 +67,46 @@ public class UserListActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent(); //getIntent()로 받을준비
-        int ntype = getIntent().getIntExtra("Type", 0);
+        mUserListType = getIntent().getIntExtra("Type", 0);
 
-        switch (ntype)
+        if(mUserListType == CommonData.USER_LIST_MY_LIKE)
         {
-            case 0:
-                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_VISIT));
-                Type = CommonData.MyProfileViewType.VISIT;
-                break;
-            case 1:
-                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_LIKE));
-                Type = CommonData.MyProfileViewType.LIKE;
-                break;
-            case 2:
-                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_FRIEND));
-                Type = CommonData.MyProfileViewType.FRIEND;
-                break;
-
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_VISIT));
         }
-        Count  = getIntent().getIntExtra("Count", 0);
+        else if(mUserListType == CommonData.USER_LIST_MY_VISIT)
+        {
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_LIKE));
+        }
+        else if(mUserListType == CommonData.USER_LIST_MY_FRIEND)
+        {
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_FRIEND));
+        }
 
-        initRecyclerView(Type, Count);
+        RefreshUserList(mUserListType);
+        if (mUserListType == CommonData.USER_LIST_MY_LIKE)
+        {
+            tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_LIST_EMPTY_LIKE));
+        }
+        else if (mUserListType == CommonData.USER_LIST_MY_VISIT)
+        {
+            tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_LIST_EMPTY_VISIT));
+        }
+        else if (mUserListType == CommonData.USER_LIST_MY_FRIEND)
+        {
+            tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_LIST_EMPTY_FRIEND));
+        }
+
+        initRecyclerView();
+
+
+
     }
 
-
-    private void initRecyclerView(final CommonData.MyProfileViewType type , int count)
+    private void initRecyclerView()
     {
         mAdapter = new UserListAdapter(getApplicationContext());
+        RefreshAdapter(mUserListType);
         mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(type, count);
 
         rv_UserList_List.setAdapter(mAdapter);
         rv_UserList_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
@@ -95,15 +118,15 @@ public class UserListActivity extends AppCompatActivity {
                 Set tempKey = null;
                 List array = new ArrayList();
 
-                switch (type)
+                switch (mUserListType)
                 {
-                    case VISIT:
+                    case CommonData.USER_LIST_MY_LIKE:
                         tempKey =  TKManager.getInstance().MyData.GetUserVisitKeySet();
                         break;
-                    case LIKE:
+                    case CommonData.USER_LIST_MY_VISIT:
                         tempKey =  TKManager.getInstance().MyData.GetUserLikeKeySet();
                         break;
-                    case FRIEND:
+                    case CommonData.USER_LIST_MY_FRIEND:
                         tempKey =  TKManager.getInstance().MyData.GetUserFriendListKeySet();
                         break;
 
@@ -118,7 +141,7 @@ public class UserListActivity extends AppCompatActivity {
                     @Override
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
-                        startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
+                        startActivityForResult(new Intent(getApplicationContext(), UserProfileActivity.class), mUserListType);
                     }
 
                     @Override
@@ -141,5 +164,60 @@ public class UserListActivity extends AppCompatActivity {
                 //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
             }
         }));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CommonData.USER_LIST_MY_LIKE)
+        {
+            RefreshAdapter(CommonData.USER_LIST_MY_LIKE);
+            mAdapter.notifyDataSetChanged();
+        }
+        else if (requestCode == CommonData.USER_LIST_MY_VISIT)
+        {
+            RefreshAdapter(CommonData.USER_LIST_MY_VISIT);
+            mAdapter.notifyDataSetChanged();
+        }
+        else if (requestCode == CommonData.USER_LIST_MY_FRIEND)
+        {
+            RefreshAdapter(CommonData.USER_LIST_MY_FRIEND);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void RefreshAdapter(int type)
+    {
+        RefreshUserList(type);
+        mAdapter.setItemCount(mUserList.size());
+        mAdapter.setItemData(mUserList);
+    }
+
+    public void RefreshUserList(int type)
+    {
+        mUserList.clear();
+        if (type == CommonData.USER_LIST_MY_LIKE)
+        {
+            mUserList.addAll(TKManager.getInstance().MyData.GetUserLikeKeySet());
+        }
+        else if (type == CommonData.USER_LIST_MY_VISIT)
+        {
+            mUserList.addAll(TKManager.getInstance().MyData.GetUserVisitKeySet());
+        }
+        else if (type == CommonData.USER_LIST_MY_FRIEND)
+        {
+            mUserList.addAll(TKManager.getInstance().MyData.GetUserFriendListKeySet());
+        }
+
+        if(mUserList.size() == 0)
+        {
+            tv_UserList_List_Empty.setVisibility(View.VISIBLE);
+            rv_UserList_List.setVisibility(View.GONE);
+        }
+        else
+        {
+            tv_UserList_List_Empty.setVisibility(View.GONE);
+            rv_UserList_List.setVisibility(View.VISIBLE);
+        }
     }
 }

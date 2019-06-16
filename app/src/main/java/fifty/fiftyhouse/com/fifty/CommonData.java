@@ -35,13 +35,6 @@ public class CommonData {
         FRIEND
     }
 
-    public static enum MyProfileViewType
-    {
-        VISIT,
-        LIKE,
-        FRIEND
-    }
-
     public static enum MyProfileMenuType
     {
         EVENT,
@@ -59,6 +52,12 @@ public class CommonData {
     public static enum ACTIVITY_INTENT_FLAG
     {
         CHATFRAGMENT
+    }
+    public static enum USER_LIST_TYPE
+    {
+        MY_LIKE_LIST,
+        MY_VISIT_LIST,
+        MY_FRIEND_LIST
     }
 
 
@@ -88,5 +87,9 @@ public class CommonData {
     public static final int MAX_PROFILE_IMG_COUNT = 8;
 
     public static final String[] REFERENCE_DAY = {"낚시", "요리", "골프", "Cook", "Golf", "여행", "수영"};
+
+    public static final int USER_LIST_MY_LIKE = 1;
+    public static final int USER_LIST_MY_VISIT = 2;
+    public static final int USER_LIST_MY_FRIEND = 3;
 
 }

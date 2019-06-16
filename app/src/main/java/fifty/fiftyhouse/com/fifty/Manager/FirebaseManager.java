@@ -955,6 +955,7 @@ public class FirebaseManager {
                             userData.SetUserImgThumb(null);
 
                         if (document.getData().containsKey("Img")) {
+                            userData.ClearUserImg();
                             HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("Img");
                             Set set = tempImg.entrySet();
                             Iterator iterator = set.iterator();
@@ -1274,6 +1275,7 @@ public class FirebaseManager {
                             tempUser.SetUserImgThumb(null);
 
                         if (document.getData().containsKey("Img")) {
+                            tempUser.ClearUserImg();
                             HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("Img");
                             Set set = tempImg.entrySet();
                             Iterator iterator = set.iterator();
