@@ -300,7 +300,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                         public void CompleteListener() {
                                             DialogFunc.getInstance().DismissLoadingPage();
                                             Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                                            intent.putExtra("RoomIndex",ChatRoomIndex);
+                                            intent.putExtra("RoomIndex",AnotherChatRoomIndex);
                                             startActivity(intent);
                                         }
 
@@ -317,7 +317,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                     {
                                         DialogFunc.getInstance().DismissLoadingPage();
                                         Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                                        intent.putExtra("RoomIndex",ChatRoomIndex);
+                                        intent.putExtra("RoomIndex",AnotherChatRoomIndex);
                                         startActivity(intent);
                                     }
                                     else
@@ -342,6 +342,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                         @Override
                         public void CompleteListener_No() {
+                            TKManager.getInstance().MyData.ClearUserChatData();
                             DialogFunc.getInstance().DismissLoadingPage();
 
                             ChatData tempChatData = new ChatData();
