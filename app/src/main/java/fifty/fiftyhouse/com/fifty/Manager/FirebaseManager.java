@@ -175,8 +175,8 @@ public class FirebaseManager {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInAnonymously:success");
-                            Toast.makeText(activity, "Authentication success.",
-                                    Toast.LENGTH_SHORT).show();
+                 /*           Toast.makeText(activity, "Authentication success.",
+                                    Toast.LENGTH_SHORT).show();*/
                             FirebaseUser user = mAuth.getCurrentUser();
 
                         } else {
