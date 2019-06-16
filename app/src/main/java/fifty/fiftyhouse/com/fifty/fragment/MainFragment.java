@@ -118,7 +118,7 @@ public class MainFragment extends Fragment {
                 }
             });
 
-            vp_UserList.setOffscreenPageLimit(3);
+            vp_UserList.setOffscreenPageLimit(5);
             vp_UserList.setAdapter(new TabPagerAdapter(getFragmentManager(),tl_TopBarTab.getTabCount()));
             vp_UserList.setCurrentItem(0);
             vp_UserList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_TopBarTab));

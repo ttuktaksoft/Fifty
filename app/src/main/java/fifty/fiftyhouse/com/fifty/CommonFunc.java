@@ -445,6 +445,8 @@ public class CommonFunc {
             }
 
             public void onProviderDisabled(String provider) {
+                if(listener != null)
+                    listener.CompleteListener_No();
             }
         };
 

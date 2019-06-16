@@ -208,9 +208,10 @@ public class FirebaseManager {
 
         Map<String, Object> user = new HashMap<>();
 
-        user.put("UId", TKManager.getInstance().MyData.GetUserUId());
+        user.put("UId", TKManager.getInstance().MyData.GetUserIndex());
         user.put("Index", TKManager.getInstance().MyData.GetUserIndex());
-        user.put("Token", TKManager.getInstance().MyData.GetUserToken());
+
+        user.put("Token", TKManager.getInstance().MyData.GetUserIndex());
 
         user.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
         user.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
@@ -896,7 +897,7 @@ public class FirebaseManager {
     public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
-            SetFireBaseLoadingCount(6);
+            SetFireBaseLoadingCount(5);
         else
             SetFireBaseLoadingCount(5);
 
@@ -1003,7 +1004,8 @@ public class FirebaseManager {
                         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
                             GetUserChatList(userIndex, userData, ChatRoomListener);
 
-                        FirebaseManager.CheckFirebaseComplete FriendUserListener = new FirebaseManager.CheckFirebaseComplete() {
+
+                     /*   FirebaseManager.CheckFirebaseComplete FriendUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
                                 Complete(listener);
@@ -1017,8 +1019,7 @@ public class FirebaseManager {
                             public void CompleteListener_No() {
                             }
                         };
-                        GetUserFriendList(userIndex, userData, FriendUserListener);
-
+                        GetUserFriendList(userIndex, userData, FriendUserListener);*/
 
                         FirebaseManager.CheckFirebaseComplete FavoriteUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -1067,6 +1068,8 @@ public class FirebaseManager {
                             }
                         };
                         GetUserVisitList(userIndex, userData, VisitUserListener);
+
+
 
                         if (document.getData().containsKey("Dist")) {
                             userData.SetUserDist(Integer.parseInt(document.getData().get("Dist").toString()));
@@ -1193,15 +1196,15 @@ public class FirebaseManager {
     }
 
     public void GetUserListFriend(final CheckFirebaseComplete listener) {
-        CollectionReference colRef = mDataBase.collection("UserList_Friend");
-
-        colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        //CollectionReference colRef = mDataBase.collection("UserList_Friend");
+        CollectionReference colRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FriendUsers");
+        colRef.orderBy("Date", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        TKManager.getInstance().UserList_Friend.add(document.getId().toString());
+                        TKManager.getInstance().MyData.SetUserFriend(document.getId().toString(), document.getId().toString());
                         if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                         {
                             AddFireBaseLoadingCount();

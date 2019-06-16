@@ -54,14 +54,14 @@ public class MainFriendViewPager extends Fragment {
 
     private void initSubInfo()
     {
-        tv_Main_Friend_Count.setText("현재 친구 : 10명");
+        tv_Main_Friend_Count.setText("친구 " + TKManager.getInstance().MyData.GetUserFriendListCount() + "명");
     }
 
     private void initRecyclerView()
     {
         mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().UserList_Friend.size());
+        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
 
         rv_Main_Friend_UserList.setAdapter(mAdapter);
         rv_Main_Friend_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
