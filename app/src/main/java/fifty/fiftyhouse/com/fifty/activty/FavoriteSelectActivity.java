@@ -16,6 +16,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteSelectViewAdapter;
@@ -104,8 +106,19 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Set EntrySet = mFavoriteSelectList.entrySet();
+
+                    Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
                     Iterator iterator = EntrySet.iterator();
+
+                    while(iterator.hasNext()){
+                        String key = (String)iterator.next();
+                        FirebaseManager.getInstance().RemoveFavoriteUser(key);
+                    }
+
+                    TKManager.getInstance().MyData.ClearUserFavorite();
+
+                    EntrySet = mFavoriteSelectList.entrySet();
+                    iterator = EntrySet.iterator();
 
                     ArrayList<String> tempFavorite = new ArrayList<>();
 
@@ -114,7 +127,10 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                         String key = (String)entry.getKey();
                         String value = (String)entry.getValue();
                         TKManager.getInstance().MyData.SetUserFavorite(key, value);
+                        FirebaseManager.getInstance().SetUserFavoriteOnFireBase(TKManager.getInstance().MyData.GetUserFavoriteList(key), true);
                     }
+
+                    //FirebaseManager.getInstance().UpdateFavoriteListInUserData();
                     finish();
                 }
             }

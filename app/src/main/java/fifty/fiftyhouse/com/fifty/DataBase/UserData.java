@@ -206,6 +206,10 @@ public class UserData {
     {
         FavoriteList.remove(key);
     }
+    public void ClearUserFavorite()
+    {
+        FavoriteList.clear();
+    }
 
     public void SetUserImg(String Index, String Img)
     {

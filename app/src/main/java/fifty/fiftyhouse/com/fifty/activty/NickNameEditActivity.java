@@ -145,7 +145,7 @@ public class NickNameEditActivity extends AppCompatActivity {
             public void onClick(View view) {
                 imm.hideSoftInputFromWindow(et_NickName_Edit_NickName.getWindowToken(), 0);
 
-                String tempNickName = et_NickName_Edit_NickName.getText().toString();
+                final String tempNickName = et_NickName_Edit_NickName.getText().toString();
 
                 if(CommonFunc.getInstance().CheckStringNull(tempNickName))
                 {
@@ -164,9 +164,28 @@ public class NickNameEditActivity extends AppCompatActivity {
                 }
                 else
                 {
+
+                  //  DialogFunc.getInstance().ShowLoadingPage(NickNameEditActivity.this);
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                   //         DialogFunc.getInstance().DismissLoadingPage();
+                            TKManager.getInstance().MyData.SetUserNickName(tempNickName);
+                            FirebaseManager.getInstance().UpdateUserName();
+                            finish();
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    FirebaseManager.getInstance().RemoveUserNickName(listener);
                     // TODO 닉네임 변경
-                    TKManager.getInstance().MyData.SetUserNickName(tempNickName);
-                    finish();
                 }
             }
         });

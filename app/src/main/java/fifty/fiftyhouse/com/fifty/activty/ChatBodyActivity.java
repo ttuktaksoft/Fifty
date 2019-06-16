@@ -251,6 +251,7 @@ public class ChatBodyActivity extends AppCompatActivity {
                     @Override
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
+                        SendChatData(CommonData.MSGType.IMG);
                     }
 
                     @Override
