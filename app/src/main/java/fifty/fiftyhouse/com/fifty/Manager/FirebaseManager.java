@@ -1113,12 +1113,13 @@ public class FirebaseManager {
         GetUserListDist(listener);
         GetUserListHot(listener);
         GetUserListNew(listener);
+        GetUserListFriend(listener);
     }
 
     public void GetUserListDist(final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserList_Dist");
 
-        colRef.whereEqualTo("value", "1").limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.whereEqualTo("value", TKManager.getInstance().MyData.GetUserDist_Region()).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -1177,6 +1178,30 @@ public class FirebaseManager {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         TKManager.getInstance().UserList_New.add(document.getId().toString());
+                        if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                        {
+                            AddFireBaseLoadingCount();
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetUserListFriend(final CheckFirebaseComplete listener) {
+        CollectionReference colRef = mDataBase.collection("UserList_Friend");
+
+        colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        TKManager.getInstance().UserList_Friend.add(document.getId().toString());
                         if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                         {
                             AddFireBaseLoadingCount();
