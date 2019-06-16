@@ -227,6 +227,10 @@ public class UserData {
     {
         return ImgList.size();
     }
+    public void ClearUserImg()
+    {
+        ImgList.clear();
+    }
 /*
     public void SetUserChatList(String chatRoomIdx, String index)
     {
