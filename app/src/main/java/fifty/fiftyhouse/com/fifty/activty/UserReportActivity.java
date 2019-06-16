@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -71,7 +72,8 @@ public class UserReportActivity extends AppCompatActivity {
         tv_UserReport_Report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                DialogFunc.getInstance().ShowToast(UserReportActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_REPORT_RESULT), true);
+                finish();
             }
         });
 

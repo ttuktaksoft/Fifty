@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty.activty;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -130,7 +131,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         TKManager.getInstance().TargetUserData.DelUserLikeList(TKManager.getInstance().MyData.GetUserIndex());
 
                         FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
-
+                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_UNLIKE), true);
                     }
                     else
                     {
@@ -140,10 +141,8 @@ public class UserProfileActivity extends AppCompatActivity {
                         TKManager.getInstance().TargetUserData.AddUserTodayLike(1);
 
                         TKManager.getInstance().TargetUserData.SetUserLikeList(TKManager.getInstance().MyData.GetUserIndex(), CommonFunc.getInstance().GetCurrentDate());
-
+                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIKE), true);
                         FirebaseManager.getInstance().RegistLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
-
-                        DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserNickName() + "님을 좋아합니다", true);
                     }
 
                     DialogFunc.getInstance().DismissLoadingPage();
@@ -159,26 +158,67 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Friend) {
 
-                    DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
+                    if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null)
+                    {
+                        DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                        {
 
-                    if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null){
-                        FirebaseManager.getInstance().RegistFriendInUserData(TKManager.getInstance().TargetUserData.GetUserIndex());
-                        TKManager.getInstance().MyData.SetUserFriend(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
+                            @Override
+                            public void Listener()
+                            {
+                                FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                    }
 
-                        DialogFunc.getInstance().ShowToast(mContext, "친구 목록에 " + TKManager.getInstance().TargetUserData.GetUserNickName() + "님을 추가합니다", true);
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
 
+                                    @Override
+                                    public void CompleteListener_No() {
+                                    }
+                                };
+
+                                DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
+                                FirebaseManager.getInstance().RegistFriendInUserData(TKManager.getInstance().TargetUserData.GetUserIndex(), firebaseListener);
+                                TKManager.getInstance().MyData.SetUserFriend(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
+                                RefreshFriendIcon();
+                            }
+                        };
+                        DialogFunc.getInstance().ShowMsgPopup(UserProfileActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ASK_FRIND_ADD), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_OK), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
                     }
-
                     else
                     {
-                        FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex());
-                        TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
+                        DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                        {
+                            @Override
+                            public void Listener()
+                            {
+                                FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                    }
 
-                        DialogFunc.getInstance().ShowToast(mContext, "친구 목록에 " + TKManager.getInstance().TargetUserData.GetUserNickName() + "님을 제외합니다", true);
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                    }
+                                };
+                                DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
+                                FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex(), firebaseListener);
+                                TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
+                                RefreshFriendIcon();
+                            }
+                        };
+                        DialogFunc.getInstance().ShowMsgPopup(UserProfileActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ASK_FRIND_REMOVE), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_OK), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
                     }
-                    DialogFunc.getInstance().DismissLoadingPage();
 
-                    RefreshFriendIcon();
                 }
             }
         });

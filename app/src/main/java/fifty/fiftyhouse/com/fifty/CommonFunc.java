@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.InputFilter;
@@ -276,6 +277,46 @@ public class CommonFunc {
         }
     }
 
+    private void GetPhotoInGallery(Context context, Fragment fragment, int ActivityFlag) {
+        if(ActivityFlag == CommonData.GET_PHOTO_FROM_CROP)
+        {
+            CropImage.activity()
+                    .setActivityTitle(getStr(context.getResources(), R.string.MSG_PHOTO_SELECT))
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(context, fragment);
+        }
+        else if(ActivityFlag == CommonData.GET_PHOTO_FROM_CAMERA)
+        {
+            //https://developer.android.com/training/camera/photobasics.html
+            /*// 이미지 파일 이름 ( blackJin_{시간}_ )
+            String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
+            String imageFileName = "fifty_" + timeStamp + "_";
+            File storageDir = new File(Environment.getExternalStorageDirectory() + "/fifty/");
+            if (!storageDir.exists()) storageDir.mkdirs();
+            File image = null;
+            try{
+                // 빈 파일 생성
+                image =  File.createTempFile(imageFileName, ".jpg", storageDir);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+
+            if (image != null) {
+
+                Uri photoUri = FileProvider.getUriForFile(activity, "fifty.fiftyhouse.com.fifty.fileprovider", image);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                activity.startActivityForResult(intent, ActivityFlag);
+            }*/
+        }
+        else
+        {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            fragment.startActivityForResult(intent, ActivityFlag);
+        }
+    }
+
     public void SetCropImage(Context context, Uri uri, int addImgIndex, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
 
         Bitmap originalBm = null;
@@ -368,6 +409,27 @@ public class CommonFunc {
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage(activity.getResources().getString(R.string.permission_cammera))
                 .setDeniedMessage(activity.getResources().getString(R.string.permission_request))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+
+    }
+
+    public void GetPermissionForGalleryCamera(final Context context, final Fragment fragment, final int intentFlag) {
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CommonFunc.getInstance().GetPhotoInGallery(context, fragment, intentFlag);
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+            }
+        };
+
+        TedPermission.with(context)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(context.getResources().getString(R.string.permission_cammera))
+                .setDeniedMessage(context.getResources().getString(R.string.permission_request))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
 
