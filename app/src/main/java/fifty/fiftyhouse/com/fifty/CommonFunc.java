@@ -537,6 +537,9 @@ public class CommonFunc {
         lm.requestSingleUpdate(criteria, new LocationListener(){
         @Override
         public void onLocationChanged(Location location) {
+
+            Log.d("@@@@ Location  ", "onLocationChanged" + location);
+
             //위치 받아왔을 때 실행시킬 명령어 입력
             String provider = location.getProvider();
             double longitude = location.getLongitude();
@@ -594,15 +597,18 @@ public class CommonFunc {
         @Override
         public void onProviderDisabled(String provider) {
             // TODO Auto-generated method stub
+            Log.d("@@@@ Location  ", "onProviderDisabled" + provider);
         }
         @Override
         public void onProviderEnabled(String provider) {
             // TODO Auto-generated method stub
+            Log.d("@@@@ Location  ", "onProviderEnabled" + provider);
         }
         @Override
         public void onStatusChanged(String provider, int status,
                                     Bundle extras) {
             // TODO Auto-generated method stub
+            Log.d("@@@@ Location  ", "onStatusChanged" + provider);
         }
     }, null);
 /*
@@ -689,8 +695,6 @@ public class CommonFunc {
 
                // tempData.SetUserData(Integer.toString(i), Integer.toString(i), randomHangulName(), fav, tempThumb[rnd.nextInt(15)], tempThumb[rnd.nextInt(15)], rnd.nextInt(20) + 50, rnd.nextInt(2));
                 //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, Integer.toString(i), tempData);
-                for(int j = 0; j<fav.length; j++)
-                    FirebaseManager.getInstance().SetUserFavoriteOnFireBase(fav[j], Integer.toString(i), Integer.toString(i));
 
 
                 FirebaseManager.getInstance().randomList(Integer.toString(i));

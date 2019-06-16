@@ -163,6 +163,8 @@ public class SignUpActivity extends AppCompatActivity {
                             mIsCheckNickName = true;
                             tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_YES));
                             tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
+
+                            TKManager.getInstance().MyData.SetUserNickName(strNickName);
                         }
 
                         @Override

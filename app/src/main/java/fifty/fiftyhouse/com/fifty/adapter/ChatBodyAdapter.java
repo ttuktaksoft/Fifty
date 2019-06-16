@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -8,6 +9,7 @@ import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,8 +25,15 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
 
@@ -101,7 +110,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         Set tempKey = TKManager.getInstance().MyData.GetUserChatDataKeySet();
         List array = new ArrayList(tempKey);
 
-        ChatData tempData = TKManager.getInstance().MyData.GetUserChatData(array.get(pos).toString());
+        final ChatData tempData = TKManager.getInstance().MyData.GetUserChatData(array.get(pos).toString());
 
         Boolean mSend = tempData.GetMsgSender().equals(TKManager.getInstance().MyData.GetUserIndex());
 
@@ -267,8 +276,57 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         }
 
         tv_Chat_Body_Msg.setText(tempData.GetMsg());
+
+
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
+
+        iv_Chat_Body_Profile.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                String UserIndex = tempData.GetFromIndex();
+                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        Intent intent = new Intent(mContext, UserProfileActivity.class);
+                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+
+                return false;
+            }
+        });
+
+        iv_Chat_Body_Img.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+                Intent intent = new Intent(mContext, CustomPhotoView.class);
+                intent.putExtra("ImgSrc",tempData.GetMsg());
+                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_CHAT_BODY);
+                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+                DialogFunc.getInstance().DismissLoadingPage();
+                return false;
+            }
+        });
 
         String tempMsgDate = Long.toString(tempData.GetMsgDate());
 

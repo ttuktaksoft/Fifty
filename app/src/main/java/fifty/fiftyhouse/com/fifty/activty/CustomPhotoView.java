@@ -42,6 +42,7 @@ public class CustomPhotoView extends AppCompatActivity {
     public static int PHOTO_VIEW_TYPE_MY_PROFILE_LIST = 2;
     public static int PHOTO_VIEW_TYPE_USER_PROFILE = 3;
     public static int PHOTO_VIEW_TYPE_USER_PROFILE_LIST = 4;
+    public static int PHOTO_VIEW_TYPE_CHAT_BODY = 5;
 
     ArrayList<String> mPhotoSrcList = new ArrayList<>();
 
@@ -89,6 +90,11 @@ public class CustomPhotoView extends AppCompatActivity {
             }
 
             tv_TopBar_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+        }
+        else if(type == PHOTO_VIEW_TYPE_CHAT_BODY)
+        {
+            mPhotoSrcList.add(ImgSrc);
+            tv_TopBar_Title.setText("");
         }
 
 

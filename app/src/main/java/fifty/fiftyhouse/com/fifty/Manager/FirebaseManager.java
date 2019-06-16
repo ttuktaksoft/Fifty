@@ -204,7 +204,7 @@ public class FirebaseManager {
             Map.Entry entry = (Map.Entry) iterator.next();
             String key = (String) entry.getKey();
             String value = (String) entry.getValue();
-            SetUserFavoriteOnFireBase(value, TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserNickName());
+            SetUserFavoriteOnFireBase(value, false);
         }
 
         Map<String, Object> user = new HashMap<>();
@@ -234,6 +234,8 @@ public class FirebaseManager {
 
         user.put("Dist_Region", TKManager.getInstance().MyData.GetUserDist_Region());
         user.put("Dist_Area", TKManager.getInstance().MyData.GetUserDist_Area());
+
+        user.put("Location", "");
 
         mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(user, SetOptions.merge())
@@ -422,7 +424,7 @@ public class FirebaseManager {
         CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("FavoriteList");
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
-        colRef.limit(2).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 int tempTotayLikeCount = 0;
@@ -1096,6 +1098,13 @@ public class FirebaseManager {
                         } else
                             userData.SetUserDist_Area("대한민국");
 
+                        if (document.getData().containsKey("Location")) {
+                            String Location = document.getData().get("Location").toString();
+                            userData.SetUserLocation(Location);
+                        } else
+                            userData.SetUserLocation("");
+
+
                         Complete(listener);
 
                     } else {
@@ -1129,14 +1138,18 @@ public class FirebaseManager {
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        TKManager.getInstance().UserList_Dist.add(document.getId().toString());
-
-                        if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                        if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                         {
-                            AddFireBaseLoadingCount();
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                            TKManager.getInstance().UserList_Dist.add(document.getId().toString());
+
+                            if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                            {
+                                AddFireBaseLoadingCount();
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                            }
                         }
+
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -1154,12 +1167,16 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        TKManager.getInstance().UserList_Hot.add(document.getId().toString());
-                        if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                        if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                         {
-                            AddFireBaseLoadingCount();
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                            TKManager.getInstance().UserList_Hot.add(document.getId().toString());
+
+                            if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                            {
+                                AddFireBaseLoadingCount();
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                            }
                         }
                     }
                 } else {
@@ -1178,12 +1195,16 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        TKManager.getInstance().UserList_New.add(document.getId().toString());
-                        if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                        if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                         {
-                            AddFireBaseLoadingCount();
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                            TKManager.getInstance().UserList_New.add(document.getId().toString());
+
+                            if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                            {
+                                AddFireBaseLoadingCount();
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                            }
                         }
                     }
                 } else {
@@ -1202,13 +1223,18 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        TKManager.getInstance().MyData.SetUserFriend(document.getId().toString(), document.getId().toString());
-                        if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                        if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                         {
-                            AddFireBaseLoadingCount();
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                            TKManager.getInstance().MyData.SetUserFriend(document.getId().toString(), document.getId().toString());
+                            if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                            {
+                                AddFireBaseLoadingCount();
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                            }
                         }
+
+
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -1308,7 +1334,7 @@ public class FirebaseManager {
         });
     }
 
-    public void SetUserFavoriteOnFireBase(final String favoriteName, final String index, final String nickName) {
+    public void SetUserFavoriteOnFireBase(final String favoriteName, boolean update) {
         if (mDataBase == null)
             GetFireStore();
 
@@ -1370,8 +1396,8 @@ public class FirebaseManager {
             }
         });
 
-        RegistFavoriteListInUserData(favoriteName);
-
+        RegistFavoriteListInUserData(favoriteName, update);
+        RegistFavoriteList(favoriteName);
     }
 
     public void GetPopFavoriteData(final FirebaseManager.CheckFirebaseComplete listener) {
@@ -1409,7 +1435,7 @@ public class FirebaseManager {
 
                     } else {
                         Log.d(TAG, "No such document");
-                        TKManager.getInstance().MyData.SetUserNickName(nickName);
+                        //TKManager.getInstance().MyData.SetUserNickName(nickName);
                         if (listener != null)
                             listener.CompleteListener_Yes();
                     }
@@ -1418,6 +1444,78 @@ public class FirebaseManager {
                 }
             }
         });
+    }
+
+    public void UpdateUserName()
+    {
+        Map<String, Object> tempData = new HashMap<>();
+        tempData.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .set(tempData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
+                .set(tempData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        mDataBase.collection("UserData_NickName").document(TKManager.getInstance().MyData.GetUserNickName())
+                .set(tempData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+    }
+
+    public void RemoveUserNickName(final FirebaseManager.CheckFirebaseComplete listener)
+    {
+        mDataBase.collection("UserData_NickName").document(TKManager.getInstance().MyData.GetUserNickName()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
     }
 
     public void UploadThumbImg(String userIndex, Bitmap bitmap, final FirebaseManager.CheckFirebaseComplete listener) {
@@ -1619,7 +1717,7 @@ public class FirebaseManager {
 
     public void SetUserLocation() {
         Map<String, Object> UserLocation = new HashMap<>();
-        UserLocation.put("Location", TKManager.getInstance().MyData.GetUserMemo());
+        UserLocation.put("Location", TKManager.getInstance().MyData.GetUserLocation());
 
         mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
                 .update(UserLocation)
@@ -1903,6 +2001,24 @@ public class FirebaseManager {
                 });
     }
 
+    public void UpdateFavoriteListInUserData()
+    {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+
+        Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+        Iterator iterator = EntrySet.iterator();
+
+        while(iterator.hasNext()){
+            String key = (String)iterator.next();
+            Map<String, Object> favoriteData = new HashMap<>();
+            favoriteData.put("Name", key);
+            mDataBase.collection("UserData").document(userIndex).collection("FavoriteList").document(key)
+                    .set(favoriteData);
+
+            RegistFavoriteList(key);
+        }
+    }
+
     public void RegistFavoriteList(String favoriteName)
     {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
@@ -1926,7 +2042,7 @@ public class FirebaseManager {
                 });
     }
 
-    public void RegistFavoriteListInUserData(String favoriteName)
+    public void RegistFavoriteListInUserData(String favoriteName, boolean update)
     {
         Map<String, Object> favoriteData = new HashMap<>();
         favoriteData.put("Name", favoriteName);
@@ -1934,20 +2050,41 @@ public class FirebaseManager {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
 
 
-        mDataBase.collection("UserData").document(userIndex).collection("FavoriteList").document(favoriteName)
-                .set(favoriteData, SetOptions.merge())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
+        if(update)
+        {
+            mDataBase.collection("UserData").document(userIndex).collection("FavoriteList").document(favoriteName)
+                    .set(favoriteData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+        else
+        {
+            mDataBase.collection("UserData").document(userIndex).collection("FavoriteList").document(favoriteName)
+                    .set(favoriteData, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+
     }
 
 
@@ -2034,6 +2171,43 @@ public class FirebaseManager {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public void RemoveFavoriteUser(final String favorite)
+    {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+
+        DocumentReference sfDocRef = mDataBase.collection("UserData").document(userIndex).collection("FavoriteList").document(favorite);
+
+        sfDocRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+
+        sfDocRef = mDataBase.collection("FavoriteList").document(favorite).collection("UserIndex").document(userIndex);
+
+        sfDocRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
                     }
                 });
     }
