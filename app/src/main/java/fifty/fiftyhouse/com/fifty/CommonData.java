@@ -76,7 +76,6 @@ public class CommonData {
     // 메인 화면 기준별 보여지는 유져 인원 수
     public static int UserList_Loding_Count = 10;
 
-
     public static int UserData_Loding_Count = 5;
 
     public static int FavoriteSelectMinCount = 2;
@@ -93,5 +92,7 @@ public class CommonData {
     public static final int GET_PHOTO_FROM_CROP = 3;
 
     public static final int MAX_PROFILE_IMG_COUNT = 8;
+
+    public static final String[] REFERENCE_DAY = {"낚시", "요리", "골프", "Cook", "Golf", "여행", "수영"};
 
 }

@@ -55,6 +55,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import static com.google.firebase.firestore.DocumentChange.Type.ADDED;
 import static com.google.firebase.firestore.DocumentChange.Type.MODIFIED;
 import static com.google.firebase.firestore.DocumentChange.Type.REMOVED;
+import static fifty.fiftyhouse.com.fifty.CommonData.REFERENCE_DAY;
 import static fifty.fiftyhouse.com.fifty.MainActivity.mFragmentMng;
 
 public class FirebaseManager {
@@ -1145,17 +1146,15 @@ public class FirebaseManager {
     }
 
     public void GetUserListHot(final CheckFirebaseComplete listener) {
-        CollectionReference colRef = mDataBase.collection("UserList_Hot");
-
-        colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        //CollectionReference colRef = mDataBase.collection("UserList_Hot");
+        CollectionReference colRef = mDataBase.collection("FavoriteList").document(REFERENCE_DAY[4]).collection("UserIndex");
+        colRef.orderBy("Index", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         TKManager.getInstance().UserList_Hot.add(document.getId().toString());
-
                         if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                         {
                             AddFireBaseLoadingCount();
@@ -1908,10 +1907,10 @@ public class FirebaseManager {
     {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
         Map<String, Object> favoriteData = new HashMap<>();
-        favoriteData.put(userIndex, userIndex);
+        favoriteData.put("Index", userIndex);
         //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
 
-        mDataBase.collection("FavoriteList").document(favoriteName)
+        mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex").document(userIndex)
                 .set(favoriteData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
