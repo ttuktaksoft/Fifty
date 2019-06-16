@@ -17,7 +17,9 @@ import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
@@ -46,6 +48,13 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
     int mFavoriteRecommend = 0;
     ArrayList<String> mFavoriteViewList = new ArrayList<>();
+    Map<String, String> mFavoriteSelectList = new LinkedHashMap<String, String>(){
+        @Override
+        protected boolean removeEldestEntry(Entry<String, String> arg0)
+        {
+            return size() == CommonData.FavoriteSelectMaxCountCheck? true : false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,8 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         Intent intent = getIntent(); //getIntent()로 받을준비
         int ntype = getIntent().getIntExtra("Type", 0);
 
+        mFavoriteSelectList.putAll(TKManager.getInstance().MyData.GetUserFavoriteList());
+
         switch (ntype)
         {
             case 0:
@@ -82,6 +93,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
                 finish();
             }
         });
@@ -91,12 +103,23 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(mType == CommonData.FavoriteSelectType.SIGNUP)
                 {
-                    if(TKManager.MyData.GetUserFavoriteListCount() < 2)
+                    if(mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount)
                     {
                         DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
                     }
                     else
                     {
+                        Set EntrySet = mFavoriteSelectList.entrySet();
+                        Iterator iterator = EntrySet.iterator();
+
+                        ArrayList<String> tempFavorite = new ArrayList<>();
+
+                        while(iterator.hasNext()){
+                            Map.Entry entry = (Map.Entry)iterator.next();
+                            String key = (String)entry.getKey();
+                            String value = (String)entry.getValue();
+                            TKManager.getInstance().MyData.SetUserFavorite(key, value);
+                        }
                         finish();
                     }
                 }
@@ -115,8 +138,9 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 else
                 {
                     String favorite = et_FavoriteSelect_Search.getText().toString();
-                    TKManager.getInstance().MyData.SetUserFavorite(favorite, favorite);
+                    mFavoriteSelectList.put(favorite, favorite);
                     RefreshFavoriteSelectViewListDesc();
+                    RefreshFavoriteSelectViewListSlot();
                     mSelectViewAdapter.notifyDataSetChanged();
                 }
             }
@@ -130,6 +154,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     public void RefreshFavoriteSelectList()
     {
         mSelectViewAdapter = new FavoriteSelectViewAdapter(mContext);
+        RefreshFavoriteSelectViewListSlot();
         mSelectViewAdapter.setHasStableIds(true);
 
         rv_FavoriteSelect_Select.setAdapter(mSelectViewAdapter);
@@ -153,14 +178,14 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 if(mType == CommonData.FavoriteSelectType.SIGNUP)
                 {
-                    Set tempKey = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+                    Set tempKey = mFavoriteSelectList.keySet();
                     List array = new ArrayList(tempKey);
 
-                    String tempFavoriteSelect = TKManager.getInstance().MyData.GetUserFavoriteList(array.get(position).toString());
-                    TKManager.getInstance().MyData.DelUserFavoriteList(tempFavoriteSelect);
-
+                    String tempFavoriteSelect = mFavoriteSelectList.get(array.get(position).toString());
+                    mFavoriteSelectList.remove(tempFavoriteSelect);
                     RefreshFavoriteSelectViewListDesc();
-
+                    RefreshFavoriteSelectViewListSlot();
+                    RefreshFavoriteViewListSlot();
                     mSelectViewAdapter.notifyDataSetChanged();
                     mViewAdapter.notifyDataSetChanged();
                 }
@@ -205,9 +230,10 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                     if(itemCount - 1 > position)
                     {
                         String tempFavoriteSelect = mFavoriteViewList.get(position);
-                        TKManager.getInstance().MyData.SetUserFavorite(tempFavoriteSelect, tempFavoriteSelect);
-
+                        mFavoriteSelectList.put(tempFavoriteSelect, tempFavoriteSelect);
                         RefreshFavoriteSelectViewListDesc();
+                        RefreshFavoriteSelectViewListSlot();
+                        RefreshFavoriteViewListSlot();
 
                         mSelectViewAdapter.notifyDataSetChanged();
                         mViewAdapter.notifyDataSetChanged();
@@ -230,7 +256,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
     private void RefreshFavoriteSelectViewListDesc()
     {
-        if(TKManager.getInstance().MyData.GetUserFavoriteList().size() <= 0)
+        if(mFavoriteSelectList.size() <= 0)
             tv_FavoriteSelect_Empty.setVisibility(View.VISIBLE);
         else
             tv_FavoriteSelect_Empty.setVisibility(View.GONE);
@@ -262,5 +288,41 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
         mViewAdapter.setItemCount(mFavoriteViewList.size());
         mViewAdapter.setItemData(mFavoriteViewList);
+
+
+        ArrayList<String> list = new ArrayList<>();
+        Set EntrySet = mFavoriteSelectList.entrySet();
+        Iterator iterator = EntrySet.iterator();
+
+        ArrayList<String> tempFavorite = new ArrayList<>();
+
+        while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String key = (String)entry.getKey();
+            String value = (String)entry.getValue();
+            list.add(value);
+        }
+
+        mViewAdapter.setSelectItemData(list);
+
+    }
+
+    private void RefreshFavoriteSelectViewListSlot()
+    {
+        ArrayList<String> list = new ArrayList<>();
+        Set EntrySet = mFavoriteSelectList.entrySet();
+        Iterator iterator = EntrySet.iterator();
+
+        ArrayList<String> tempFavorite = new ArrayList<>();
+
+        while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String key = (String)entry.getKey();
+            String value = (String)entry.getValue();
+            list.add(value);
+        }
+
+        mSelectViewAdapter.setItemCount(list.size());
+        mSelectViewAdapter.setItemData(list);
     }
 }
