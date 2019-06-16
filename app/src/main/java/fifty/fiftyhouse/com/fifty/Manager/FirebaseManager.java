@@ -235,6 +235,8 @@ public class FirebaseManager {
         user.put("Dist_Region", TKManager.getInstance().MyData.GetUserDist_Region());
         user.put("Dist_Area", TKManager.getInstance().MyData.GetUserDist_Area());
 
+        user.put("Location", "");
+
         mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(user, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -1095,6 +1097,13 @@ public class FirebaseManager {
                             userData.SetUserDist_Area(document.getData().get("Dist_Area").toString());
                         } else
                             userData.SetUserDist_Area("대한민국");
+
+                        if (document.getData().containsKey("Location")) {
+                            String Location = document.getData().get("Location").toString();
+                            userData.SetUserLocation(Location);
+                        } else
+                            userData.SetUserLocation("");
+
 
                         Complete(listener);
 
