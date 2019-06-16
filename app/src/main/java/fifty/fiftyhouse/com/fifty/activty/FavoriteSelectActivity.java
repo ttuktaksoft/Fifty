@@ -283,6 +283,9 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 }
                 mFavoriteViewList.add(TKManager.getInstance().FavoriteLIst_Pop.get(i));
                 viewCount--;
+
+                if(viewCount <= 0)
+                    break;
             }
         }
 
