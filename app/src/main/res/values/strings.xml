@@ -63,6 +63,14 @@
     <string name="MSG_PROFILE_PHOTO_GALLERY_ADD">사진을 앨범에서 등록</string>
     <string name="MSG_PROFILE_PHOTO_ADD">사진 등록</string>
     <string name="MSG_PHOTO_SELECT">사진 선택</string>
+    <string name="MSG_DEFAULT_LOCATION">FIFTY에서 활동중 입니다.</string>
+    <string name="MSG_DEFAULT_LOCATION_MEMO_1">안녕하세요</string>
+    <string name="MSG_DEFAULT_LOCATION_MEMO_2">입니다</string>
+    <string name="MSG_USER_LIKE">좋아요를 신청했습니다</string>
+    <string name="MSG_USER_UNLIKE">좋아요를 해제했습니다</string>
+    <string name="MSG_ASK_FRIND_ADD">친구 신청을 하시겠습니까?</string>
+    <string name="MSG_ASK_FRIND_REMOVE">친구 삭제를 하시겠습니까?</string>
+    <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
 
     <string name="FRIEND_ADD">친구추가</string>
     <string name="FRIEND_REMOVE">친구삭제</string>
@@ -147,8 +155,6 @@
     <string name="FAVORITE_SELECT">관심사 선택</string>
     <string name="FAVORITE_SELECT_VIEW">선택한 관심사</string>
     <string name="FAVORITE_SELECT_RECOM">관심사 추천</string>
-
-    <string name="DEFAULT_USERPROFILE_MEMO">자기소개 입니다</string>
 
 
     <string name="bt_SignUp_Next">다음</string>

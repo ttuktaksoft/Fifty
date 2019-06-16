@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -33,6 +35,8 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileEditMenuAdapter;
+import fifty.fiftyhouse.com.fifty.fragment.MyProfileEditFragment;
+import fifty.fiftyhouse.com.fifty.fragment.UserProfileFragment;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -41,28 +45,31 @@ public class MyProfileEditActivity extends AppCompatActivity {
     View ui_MyProfile_Edit_TopBar;
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
-    ImageView iv_MyProfile_Edit_Profile;
-    RecyclerView rv_MyProfile_Edit_Menu;
 
-    MyProfileEditMenuAdapter mAdapter;
-    private Context mContext;
+    Context mContext;
+    Activity mActivity;
+    FragmentManager mFragmentMgr;
 
-    private File tempFile;
-    private boolean isCamera = false;
-
-    private boolean isUpload = false;
+    MyProfileEditFragment mMyProfileEditFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile_edit);
+
+        mActivity = this;
         mContext = getApplicationContext();
+        mFragmentMgr = getSupportFragmentManager();
+        // mFragmentMgr.beginTransaction().addToBackStack(null);
+
+        mMyProfileEditFragment = new MyProfileEditFragment();
+        CommonFunc.getInstance().mCurActivity = this;
+        mFragmentMgr.beginTransaction().replace(R.id.fl_MyProfile_Edit_FrameLayout, mMyProfileEditFragment, "MyProfileEditFragmentFragment").commit();
+
 
         ui_MyProfile_Edit_TopBar = findViewById(R.id.ui_MyProfile_Edit_TopBar);
         tv_TopBar_Title = ui_MyProfile_Edit_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_MyProfile_Edit_TopBar.findViewById(R.id.iv_TopBar_Back);
-        iv_MyProfile_Edit_Profile = findViewById(R.id.iv_MyProfile_Edit_Profile);
-        rv_MyProfile_Edit_Menu = findViewById(R.id.rv_MyProfile_Edit_Menu);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_PROFILE_EDIT));
         iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,109 +77,5 @@ public class MyProfileEditActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_MyProfile_Edit_Profile, TKManager.getInstance().MyData.GetUserImgThumb(), true);
-
-        iv_MyProfile_Edit_Profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(MyProfileEditActivity.this, CommonData.GET_PHOTO_FROM_CROP);
-            }
-        });
-
-        initRecyclerView();
-    }
-
-
-    private void initRecyclerView()
-    {
-        mAdapter = new MyProfileEditMenuAdapter(getApplicationContext());
-        mAdapter.setHasStableIds(true);
-
-        rv_MyProfile_Edit_Menu.setAdapter(mAdapter);
-        rv_MyProfile_Edit_Menu.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_MyProfile_Edit_Menu.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_MyProfile_Edit_Menu, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX)
-                {
-                    startActivityForResult(new Intent(getApplicationContext(), NickNameEditActivity.class), MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX);
-                }
-                else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX)
-                {
-                    startActivityForResult(new Intent(getApplicationContext(), MemoEditActivity.class), MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX);
-                }
-                else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX)
-                {
-                    startActivityForResult(new Intent(getApplicationContext(), LocationEditActivity.class), MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX);
-                }
-                else if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX)
-                {
-                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                        @Override
-                        public void CompleteListener() {
-                            Intent intent = new Intent(getApplicationContext(), FavoriteSelectActivity.class);
-                            intent.putExtra("Type",1);
-                            startActivityForResult(intent, MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX);
-                        }
-
-                        @Override
-                        public void CompleteListener_Yes() {
-                        }
-
-                        @Override
-                        public void CompleteListener_No() {
-                        }
-                    };
-
-                    FirebaseManager.getInstance().GetPopFavoriteData(listener);
-                }
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
-            }
-        }));
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                DialogFunc.getInstance().ShowLoadingPage(MyProfileEditActivity.this);
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-                Uri resultUri = result.getUri();
-                CommonFunc.getInstance().SetCropImage(mContext, resultUri, 0, iv_MyProfile_Edit_Profile, listener);
-            }
-        }
-        else if(resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX ||
-                resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX ||
-                resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX ||
-                resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_AGE_INDEX ||
-                resultCode == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX)
-        {
-            RefreshUI();
-        }
-    }
-
-    private void RefreshUI()
-    {
-        mAdapter.notifyDataSetChanged();
     }
 }

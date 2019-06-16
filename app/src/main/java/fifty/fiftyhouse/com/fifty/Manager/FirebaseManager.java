@@ -1908,7 +1908,7 @@ public class FirebaseManager {
     }
 
 
-    public void RegistFriendInUserData(final String targetIndex)
+    public void RegistFriendInUserData(final String targetIndex, final CheckFirebaseComplete listener)
     {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
 
@@ -1922,6 +1922,10 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        if(listener != null)
+                        {
+                            listener.CompleteListener();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -2012,7 +2016,7 @@ public class FirebaseManager {
                 });
     }
 
-    public void RemoveFriendUser(final String targetIndex)
+    public void RemoveFriendUser(final String targetIndex, final CheckFirebaseComplete listener)
     {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
 
@@ -2023,6 +2027,10 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        if(listener != null)
+                        {
+                            listener.CompleteListener();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
