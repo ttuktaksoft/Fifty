@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_MyProfile_Edit_Favorite_Menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintHeight_min="60dp">
+
+        <TextView
+            android:id="@+id/tv_MyProfile_Edit_Favorite_Menu_Title"
+            style="@style/BaseTextView"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            android:layout_marginLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:text="@string/MY_PROFILE_FAVORITE"
+            android:textSize="20dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_MyProfile_Edit_Favorite_Menu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintLeft_toRightOf="@+id/tv_MyProfile_Edit_Favorite_Menu_Title"
+            app:layout_constraintRight_toLeftOf="@+id/tv_MyProfile_Edit_Favorite_Menu_Arrow"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Favorite_Menu"/>
+
+        <ImageView
+            android:id="@+id/tv_MyProfile_Edit_Favorite_Menu_Arrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_MyProfile_Edit_Favorite_Menu"
+            android:layout_marginRight="10dp"
+            android:alpha="0.5"
+            android:scaleX="-1"
+            android:src="@drawable/ic_back"
+            />
+
+        <ImageView
+            android:id="@+id/iv_MyProfile_Edit_Line"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Favorite_Menu"
+            android:alpha="0.5"
+            android:background="@color/gray_light"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

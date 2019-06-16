@@ -109,7 +109,7 @@ public class MyProfileEditFragment extends Fragment {
                         public void CompleteListener() {
                             Intent intent = new Intent(mContext, FavoriteSelectActivity.class);
                             intent.putExtra("Type",1);
-                            startActivityForResult(intent, MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX);
+                            MyProfileEditFragment.this.startActivityForResult(intent, MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX);
                         }
 
                         @Override

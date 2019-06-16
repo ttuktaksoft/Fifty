@@ -44,7 +44,6 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     FavoriteSelectViewAdapter mSelectViewAdapter;
     Context mContext;
     InputMethodManager imm;
-    CommonData.FavoriteSelectType mType = CommonData.FavoriteSelectType.SIGNUP;
 
     int mFavoriteRecommend = 0;
     ArrayList<String> mFavoriteViewList = new ArrayList<>();
@@ -81,11 +80,9 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         switch (ntype)
         {
             case 0:
-                mType = CommonData.FavoriteSelectType.SIGNUP;
                 tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_FAVORITE_SELECT));
                 break;
             case 1:
-                mType = CommonData.FavoriteSelectType.EDIT;
                 tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_FAVORITE_EDIT));
                 break;
         }
@@ -101,29 +98,25 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         tv_FavoriteSelect_Ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mType == CommonData.FavoriteSelectType.SIGNUP)
+                if(mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount)
                 {
-                    if(mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount)
-                    {
-                        DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
-                    }
-                    else
-                    {
-                        Set EntrySet = mFavoriteSelectList.entrySet();
-                        Iterator iterator = EntrySet.iterator();
-
-                        ArrayList<String> tempFavorite = new ArrayList<>();
-
-                        while(iterator.hasNext()){
-                            Map.Entry entry = (Map.Entry)iterator.next();
-                            String key = (String)entry.getKey();
-                            String value = (String)entry.getValue();
-                            TKManager.getInstance().MyData.SetUserFavorite(key, value);
-                        }
-                        finish();
-                    }
+                    DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
                 }
+                else
+                {
+                    Set EntrySet = mFavoriteSelectList.entrySet();
+                    Iterator iterator = EntrySet.iterator();
 
+                    ArrayList<String> tempFavorite = new ArrayList<>();
+
+                    while(iterator.hasNext()){
+                        Map.Entry entry = (Map.Entry)iterator.next();
+                        String key = (String)entry.getKey();
+                        String value = (String)entry.getValue();
+                        TKManager.getInstance().MyData.SetUserFavorite(key, value);
+                    }
+                    finish();
+                }
             }
         });
 
@@ -176,19 +169,16 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         rv_FavoriteSelect_Select.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_Select, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if(mType == CommonData.FavoriteSelectType.SIGNUP)
-                {
-                    Set tempKey = mFavoriteSelectList.keySet();
-                    List array = new ArrayList(tempKey);
+                Set tempKey = mFavoriteSelectList.keySet();
+                List array = new ArrayList(tempKey);
 
-                    String tempFavoriteSelect = mFavoriteSelectList.get(array.get(position).toString());
-                    mFavoriteSelectList.remove(tempFavoriteSelect);
-                    RefreshFavoriteSelectViewListDesc();
-                    RefreshFavoriteSelectViewListSlot();
-                    RefreshFavoriteViewListSlot();
-                    mSelectViewAdapter.notifyDataSetChanged();
-                    mViewAdapter.notifyDataSetChanged();
-                }
+                String tempFavoriteSelect = mFavoriteSelectList.get(array.get(position).toString());
+                mFavoriteSelectList.remove(tempFavoriteSelect);
+                RefreshFavoriteSelectViewListDesc();
+                RefreshFavoriteSelectViewListSlot();
+                RefreshFavoriteViewListSlot();
+                mSelectViewAdapter.notifyDataSetChanged();
+                mViewAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -223,28 +213,25 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         rv_FavoriteSelect_View.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_View, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if(mType == CommonData.FavoriteSelectType.SIGNUP)
+                int itemCount = mViewAdapter.getItemCount();
+
+                if(itemCount - 1 > position)
                 {
-                    int itemCount = mViewAdapter.getItemCount();
+                    String tempFavoriteSelect = mFavoriteViewList.get(position);
+                    mFavoriteSelectList.put(tempFavoriteSelect, tempFavoriteSelect);
+                    RefreshFavoriteSelectViewListDesc();
+                    RefreshFavoriteSelectViewListSlot();
+                    RefreshFavoriteViewListSlot();
 
-                    if(itemCount - 1 > position)
-                    {
-                        String tempFavoriteSelect = mFavoriteViewList.get(position);
-                        mFavoriteSelectList.put(tempFavoriteSelect, tempFavoriteSelect);
-                        RefreshFavoriteSelectViewListDesc();
-                        RefreshFavoriteSelectViewListSlot();
-                        RefreshFavoriteViewListSlot();
-
-                        mSelectViewAdapter.notifyDataSetChanged();
-                        mViewAdapter.notifyDataSetChanged();
-                    }
-                    else
-                    {
-                        // TODO 관심사 추천
-                        mFavoriteRecommend++;
-                        RefreshFavoriteViewListSlot();
-                        mViewAdapter.notifyDataSetChanged();
-                    }
+                    mSelectViewAdapter.notifyDataSetChanged();
+                    mViewAdapter.notifyDataSetChanged();
+                }
+                else
+                {
+                    // TODO 관심사 추천
+                    mFavoriteRecommend++;
+                    RefreshFavoriteViewListSlot();
+                    mViewAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -283,9 +270,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             }
         }
 
-        if(mType == CommonData.FavoriteSelectType.SIGNUP)
-            mViewAdapter.addSlot(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FAVORITE_RECOMMEND));
-
+        mViewAdapter.addSlot(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FAVORITE_RECOMMEND));
         mViewAdapter.setItemCount(mFavoriteViewList.size());
         mViewAdapter.setItemData(mFavoriteViewList);
 

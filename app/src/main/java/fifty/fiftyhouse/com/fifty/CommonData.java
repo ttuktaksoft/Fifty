@@ -56,12 +56,6 @@ public class CommonData {
         IMG,
         VIDEO
     }
-    public static enum FavoriteSelectType
-    {
-        SIGNUP,
-        EDIT
-    }
-
     public static enum ACTIVITY_INTENT_FLAG
     {
         CHATFRAGMENT
