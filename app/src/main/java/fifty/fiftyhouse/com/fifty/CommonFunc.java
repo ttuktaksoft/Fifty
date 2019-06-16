@@ -40,10 +40,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
@@ -406,6 +411,12 @@ public class CommonFunc {
 
                 } catch (IOException e) {
                     e.printStackTrace();
+
+                    TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+                    TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+                    TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                    TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
                     if(listener != null)
                         listener.CompleteListener_No();
                 }
@@ -418,15 +429,12 @@ public class CommonFunc {
 
                         Log.d("asdsad", list.get(0).toString());
 
-                        TKManager.getInstance().MyData.SetUserDist_Region(1);
+                        TKManager.getInstance().MyData.SetUserDist_Region(1.0);
                     }
 
                     if(listener != null)
                         listener.CompleteListener();
                 }
-
-                if(listener != null)
-                    listener.CompleteListener_No();
 
             }
 
@@ -466,6 +474,20 @@ public class CommonFunc {
         return distance;
     }
 
+    private void SortByDistance()
+    {
+        ArrayList<String> tempDataList = new ArrayList<String>(TKManager.getInstance().UserList_Dist);
+        Map<String, UserData> tempDataMap = new LinkedHashMap<String, UserData>(TKManager.getInstance().UserData_Simple);
+
+
+        //tempDataMap = mMyData.arrMyFanDataList;
+ /*       Iterator it = sortByValue(tempDataMap).iterator();
+        mMyData.arrMyFanList.clear();
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            mMyData.arrMyFanList.add(tempDataMap.get(temp));
+        }*/
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /// 테스트 함수 //
