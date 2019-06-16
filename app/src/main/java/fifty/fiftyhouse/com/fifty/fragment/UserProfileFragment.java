@@ -369,8 +369,29 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Count_1.setText("방문자 " + TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
         tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
 
+
+
+        if(TKManager.getInstance().TargetUserData.GetUserDist_Lat() == 0)
+        {
+            TKManager.getInstance().TargetUserData.SetUserDist_Lat(37.566659);
+        }
+        if(TKManager.getInstance().TargetUserData.GetUserDist_Lon() == 0)
+        {
+            TKManager.getInstance().TargetUserData.SetUserDist_Lon(126.978425);
+        }
+
         Double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), TKManager.getInstance().TargetUserData.GetUserDist_Lat(), TKManager.getInstance().TargetUserData.GetUserDist_Lon());
-        tv_UserProfile_Info_Count_3.setText("거리 " + Distance + " m");
+
+        String mUserDist = null;
+        if(Distance < 1000)
+        {
+            mUserDist = "1km 이내";
+        }
+        else
+        {
+            mUserDist = (int)(Distance / 1000) + "km";
+        }
+        tv_UserProfile_Info_Count_3.setText("거리 " + mUserDist);
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, false);

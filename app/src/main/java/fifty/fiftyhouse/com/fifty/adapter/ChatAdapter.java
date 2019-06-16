@@ -113,7 +113,25 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             tv_Chat_Msg.setText("사진이 추가되었습니다");
         }
 
-        tv_Chat_Date.setText(Long.toString(tempChatData.GetMsgDate()));
+        String tempMsgDate = Long.toString(tempChatData.GetMsgDate());
+
+        String tempDate = tempMsgDate.substring(0, 7);
+        String tempTime = tempMsgDate.substring(8, 12);
+
+        String tempHour = tempTime.substring(0, 2);
+        int tempHourInteger = Integer.parseInt(tempHour);
+
+        String tempMinute = tempTime.substring(2, 4);
+        if(Integer.parseInt(tempHour) > 12) {
+            tempHour = Integer.toString(tempHourInteger - 12);
+            tv_Chat_Date.setText("오후 "+ tempHour + ":" + tempMinute);
+        }
+        else
+        {
+            tv_Chat_Date.setText("오전 "+ tempHour + ":" + tempMinute);
+        }
+
+        //tv_Chat_Date.setText(Long.toString(tempChatData.GetMsgDate()));
 
         if(tempChatData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
         {

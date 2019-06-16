@@ -269,7 +269,26 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         tv_Chat_Body_Msg.setText(tempData.GetMsg());
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
-        tv_Chat_Body_Date.setText(Long.toString(tempData.GetMsgDate()));
+
+        String tempMsgDate = Long.toString(tempData.GetMsgDate());
+
+        String tempDate = tempMsgDate.substring(0, 7);
+        String tempTime = tempMsgDate.substring(8, 12);
+
+        String tempHour = tempTime.substring(0, 2);
+        int tempHourInteger = Integer.parseInt(tempHour);
+
+        String tempMinute = tempTime.substring(2, 4);
+        if(Integer.parseInt(tempHour) > 12) {
+
+            tempHour = Integer.toString(tempHourInteger - 12);
+
+            tv_Chat_Body_Date.setText("오후 "+ tempHour + ":" + tempMinute);
+        }
+        else
+        {
+            tv_Chat_Body_Date.setText("오전 "+ tempHour + ":" + tempMinute);
+        }
 
         if(tempData.GetMsgReadCheck())
             tv_Chat_Body_Check.setVisibility(View.INVISIBLE);
