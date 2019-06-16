@@ -1916,7 +1916,7 @@ public class FirebaseManager {
         final String ChatRoomIndex = userIndex + "_" + targetIndex;
         final String AnotherChatRoomIndex = targetIndex+ "_" + userIndex ;
 
-        DocumentReference docRef = mDataBase.collection("ChatRoomList").document(targetIndex).collection("ChatRoomIndex").document(ChatRoomIndex);
+        DocumentReference docRef = mDataBase.collection("ChatRoomData").document(ChatRoomIndex).collection(ChatRoomIndex).document("0");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -1929,7 +1929,7 @@ public class FirebaseManager {
 
                     } else {
                         Log.d(TAG, "No such document");
-                        DocumentReference  docRef = mDataBase.collection("ChatRoomList").document(targetIndex).collection("ChatRoomIndex").document(AnotherChatRoomIndex);
+                        DocumentReference  docRef = mDataBase.collection("ChatRoomData").document(AnotherChatRoomIndex).collection(AnotherChatRoomIndex).document("0");
                         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
