@@ -65,7 +65,10 @@ public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePho
 
 
     }
-
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
     @Override
     public int getItemCount() {
         return CommonData.MAX_PROFILE_IMG_COUNT;

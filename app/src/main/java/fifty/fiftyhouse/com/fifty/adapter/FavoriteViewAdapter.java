@@ -14,9 +14,12 @@ import android.widget.TextView;
 import com.google.android.gms.common.internal.service.Common;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
@@ -55,7 +58,10 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
             holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
 
     }
-
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
     @Override
     public int getItemCount() {
         return mItemCount;

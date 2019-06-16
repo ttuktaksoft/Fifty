@@ -213,7 +213,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         rv_FavoriteSelect_View.setAdapter(mViewAdapter);
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.CENTER)
-                .setMaxViewsInRow(3)
+                .setMaxViewsInRow(4)
                 .setGravityResolver(new IChildGravityResolver() {
                     @Override
                     public int getItemGravity(int i) {
