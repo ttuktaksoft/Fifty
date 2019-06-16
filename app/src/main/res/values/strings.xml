@@ -61,6 +61,7 @@
     <string name="MSG_BLOCK_COMPLETE">차단이 완료 되었습니다</string>
     <string name="MSG_PROFILE_PHOTO_CAMERA_ADD">사진을 촬영하여 등록</string>
     <string name="MSG_PROFILE_PHOTO_GALLERY_ADD">사진을 앨범에서 등록</string>
+    <string name="MSG_PROFILE_PHOTO_ADD">사진 등록</string>
     <string name="MSG_PHOTO_SELECT">사진 선택</string>
 
     <string name="FRIEND_ADD">친구추가</string>

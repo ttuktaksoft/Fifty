@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -74,8 +75,14 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
         iv_MyProfile_Alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, UserNoticeActivity.class);
-                startActivity(intent);
+                DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+            }
+        });
+
+        iv_MyProfile_Shop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
             }
         });
 

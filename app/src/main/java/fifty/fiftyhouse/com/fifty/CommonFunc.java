@@ -283,7 +283,8 @@ public class CommonFunc {
             e.printStackTrace();
         }
 
-        DrawImageByGlide(context, imageView, originalBm, true);
+        if(imageView != null)
+            DrawImageByGlide(context, imageView, originalBm, true);
 
         final FirebaseManager.CheckFirebaseComplete uploadlistener = new FirebaseManager.CheckFirebaseComplete() {
             @Override

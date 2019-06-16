@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -67,7 +68,7 @@ public class UserProfilePhotoAdapter extends RecyclerView.Adapter<UserProfilePho
 
     @Override
     public int getItemCount() {
-        return 8;
+        return CommonData.MAX_PROFILE_IMG_COUNT;
         //return  TKManager.getInstance().TargetUserData.GetUserImgCount();
         //return mMyData.arrChatTargetData.size();
     }

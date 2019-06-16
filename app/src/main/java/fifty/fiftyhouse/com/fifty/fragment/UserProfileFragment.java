@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -67,6 +68,7 @@ public class UserProfileFragment extends Fragment {
     boolean mMyProfile = true;
 
     int MY_PROFILE_EDIT = 1;
+    int mSelectPhotoIndex = 0;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -250,7 +252,7 @@ public class UserProfileFragment extends Fragment {
 
                 if(TKManager.getInstance().MyData.GetUserFriendListCount() < 1)
                 {
-                    DialogFunc.getInstance().ShowToast(mContext, "친없찐쓰애끼", true);
+                    DialogFunc.getInstance().ShowToast(mContext, "친구없음", true);
                 }
                 else
                 {
@@ -519,24 +521,27 @@ public class UserProfileFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 if(mMyProfile)
                 {
+
+
                     if(position < TKManager.getInstance().MyData.GetUserImgCount())
                     {
+                        mSelectPhotoIndex = position;
                         // TODO 사진은 바로 리스트로 본다고 했었나??
                         ArrayList<String> menuList = new ArrayList<>();
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_CAMERA_ADD));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_GALLERY_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_ADD));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoViewFunc();
 
                         DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
                     }
-                    else if(position == TKManager.getInstance().MyData.GetUserImgCount())
+                    else if(position >= TKManager.getInstance().MyData.GetUserImgCount())
                     {
+                        mSelectPhotoIndex = TKManager.getInstance().MyData.GetUserImgCount() - 1;
+
                         ArrayList<String> menuList = new ArrayList<>();
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_CAMERA_ADD));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_GALLERY_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_ADD));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoAddFunc();
@@ -635,15 +640,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void Listener()
             {
-                DialogFunc.getInstance().ShowToast(mContext, "사진을 촬영해서 등록", true);
-            }
-        });
-        list.add(new DialogFunc.MsgPopupListener()
-        {
-            @Override
-            public void Listener()
-            {
-                DialogFunc.getInstance().ShowToast(mContext, "사진을 앨범에서 등록", true);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(getActivity(), CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
@@ -668,15 +665,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void Listener()
             {
-                DialogFunc.getInstance().ShowToast(mContext, "사진을 촬영해서 등록", true);
-            }
-        });
-        list.add(new DialogFunc.MsgPopupListener()
-        {
-            @Override
-            public void Listener()
-            {
-                DialogFunc.getInstance().ShowToast(mContext, "사진을 앨범에서 등록", true);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(getActivity(), CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
@@ -722,14 +711,34 @@ public class UserProfileFragment extends Fragment {
                 mPhotoAdapter.notifyDataSetChanged();
             }
         }
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            /*CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                DialogFunc.getInstance().ShowLoadingPage(MyProfileEditActivity.this);
+        else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == Activity.RESULT_OK) {
+                DialogFunc.getInstance().ShowLoadingPage(mContext);
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
+                        if(mMyProfile)
+                        {
+                            ArrayList<String> list = new ArrayList<>();
+                            Map<String, String> mapList = TKManager.getInstance().MyData.GetUserImg();
+                            Set EntrySet = mapList.entrySet();
+
+                            Iterator iterator = EntrySet.iterator();
+                            while(iterator.hasNext()){
+                                Map.Entry entry = (Map.Entry)iterator.next();
+                                String key = (String)entry.getKey();
+                                String value = (String)entry.getValue();
+                                list.add(value);
+                            }
+
+                            mPhotoAdapter.setProfilePhotoType(UserProfilePhotoAdapter.PROFILE_PHOTO_TYPE.MY_PROFILE);
+                            mPhotoAdapter.setItemCount(list.size());
+                            mPhotoAdapter.setItemData(list);
+
+                            mPhotoAdapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -741,8 +750,8 @@ public class UserProfileFragment extends Fragment {
                     }
                 };
                 Uri resultUri = result.getUri();
-                CommonFunc.getInstance().SetCropImage(mContext, resultUri, 0, iv_MyProfile_Edit_Profile, listener);
-            }*/
+                CommonFunc.getInstance().SetCropImage(mContext, resultUri, mSelectPhotoIndex, null, listener);
+            }
         }
     }
 }

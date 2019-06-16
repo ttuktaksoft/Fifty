@@ -91,4 +91,6 @@ public class CommonData {
     public static final int GET_PHOTO_FROM_CAMERA = 2;
     public static final int GET_PHOTO_FROM_CROP = 3;
 
+    public static final int MAX_PROFILE_IMG_COUNT = 8;
+
 }

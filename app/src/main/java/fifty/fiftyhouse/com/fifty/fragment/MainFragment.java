@@ -57,8 +57,9 @@ public class MainFragment extends Fragment {
             iv_Main_Alarm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), UserNoticeActivity.class);
-                    startActivity(intent);
+                    DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+                    /*Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                    startActivity(intent);*/
                 }
             });
 

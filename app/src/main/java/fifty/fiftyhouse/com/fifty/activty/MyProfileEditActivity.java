@@ -76,7 +76,7 @@ public class MyProfileEditActivity extends AppCompatActivity {
         iv_MyProfile_Edit_Profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(MyProfileEditActivity.this, CommonData.GET_PHOTO_FROM_CAMERA);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(MyProfileEditActivity.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
