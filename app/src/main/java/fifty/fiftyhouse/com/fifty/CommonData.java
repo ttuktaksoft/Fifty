@@ -87,4 +87,8 @@ public class CommonData {
     public static int LocationMaxSize = 30;
     public static int UserReportMaxSize = 4000;
 
+    public static final int GET_PHOTO_FROM_GALLERY = 1;
+    public static final int GET_PHOTO_FROM_CAMERA = 2;
+    public static final int GET_PHOTO_FROM_CROP = 3;
+
 }

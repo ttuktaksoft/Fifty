@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty.activty;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
     RecyclerView rv_SignUp_Favorite;
 
     Context mContext;
-    static final int GET_FROM_GALLERY = 1;
+
     static final int GET_FROM_FAVORITE_SELECT = 2;
     File tempFile;
     boolean isCamera = false;
@@ -97,7 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isCamera = true;
-                CommonFunc.getInstance().GetPermissionForGallery(SignUpActivity.this, GET_FROM_GALLERY);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(SignUpActivity.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
@@ -215,6 +217,11 @@ public class SignUpActivity extends AppCompatActivity {
                                         @Override
                                         public void Listener()
                                         {
+                                            SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
+                                            editor.commit();
+                                            
                                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                             finish();
                                         }
@@ -304,38 +311,6 @@ public class SignUpActivity extends AppCompatActivity {
         }));
     }
 
-    /*private void GetPermission() {
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-
-                CommonFunc.getInstance().GetPhotoInGallery(SignUpActivity.this, GET_FROM_GALLERY);
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-            }
-        };
-
-        TedPermission.with(this)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage(getResources().getString(R.string.permission_cammera))
-                .setDeniedMessage(getResources().getString(R.string.permission_request))
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
-
-    }*/
-
-    /*
-    private void GetPhotoInGallery() {
-
-        isCamera = true;
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, GET_FROM_GALLERY);
-    }
-*/
-
     private void RefreshFavoriteViewListSlot()
     {
         ArrayList<String> list = new ArrayList<>();
@@ -359,35 +334,14 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == GET_FROM_GALLERY) {
-            if(data != null && data.getData() != null)
-            {
-                Uri photoUri = data.getData();
-                Cursor cursor = null;
-
-                try {
-                    String[] proj = { MediaStore.Images.Media.DATA };
-                    assert photoUri != null;
-                    cursor = getContentResolver().query(photoUri, proj, null, null, null);
-
-                    assert cursor != null;
-                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-
-                    cursor.moveToFirst();
-                    tempFile = new File(cursor.getString(column_index));
-
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                }
-
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                isProfileUpload = true;
                 DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);
-
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        isProfileUpload = true;
                         DialogFunc.getInstance().DismissLoadingPage();
                     }
 
@@ -399,11 +353,9 @@ public class SignUpActivity extends AppCompatActivity {
                     public void CompleteListener_No() {
                     }
                 };
-
-                CommonFunc.getInstance().SetImage(SignUpActivity.this, tempFile, isCamera, iv_SignUp_Profile, listener);
-
+                Uri resultUri = result.getUri();
+                CommonFunc.getInstance().SetCropImage(mContext, resultUri, 0, iv_SignUp_Profile, listener);
             }
-
         }
         else if(requestCode == GET_FROM_FAVORITE_SELECT)
         {

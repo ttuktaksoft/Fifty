@@ -14,11 +14,14 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,6 +37,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -226,13 +230,37 @@ public class CommonFunc {
             return false;
     }
 
-    public void GetPhotoInGallery(Activity activity, int ActivityFlag) {
-        if(ActivityFlag == 0)
+    private void GetPhotoInGallery(Activity activity, int ActivityFlag) {
+        if(ActivityFlag == CommonData.GET_PHOTO_FROM_CROP)
         {
-            CropImage.activity(null)
+            CropImage.activity()
                     .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .start(activity);
+        }
+        else if(ActivityFlag == CommonData.GET_PHOTO_FROM_CAMERA)
+        {
+            //https://developer.android.com/training/camera/photobasics.html
+            /*// 이미지 파일 이름 ( blackJin_{시간}_ )
+            String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
+            String imageFileName = "fifty_" + timeStamp + "_";
+            File storageDir = new File(Environment.getExternalStorageDirectory() + "/fifty/");
+            if (!storageDir.exists()) storageDir.mkdirs();
+            File image = null;
+            try{
+                // 빈 파일 생성
+                image =  File.createTempFile(imageFileName, ".jpg", storageDir);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+
+            if (image != null) {
+
+                Uri photoUri = FileProvider.getUriForFile(activity, "fifty.fiftyhouse.com.fifty.fileprovider", image);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                activity.startActivityForResult(intent, ActivityFlag);
+            }*/
         }
         else
         {
@@ -242,13 +270,19 @@ public class CommonFunc {
         }
     }
 
-    public void SetImage(Context context, File file, boolean camera, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
+    public void SetCropImage(Context context, Uri uri, int addImgIndex, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
 
-        ImageResize.resizeFile(file, file, 1280, camera);
+        Bitmap originalBm = null;
+        try {
+            originalBm = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        //iv_SignUp_Profile.setImageBitmap(originalBm);
         DrawImageByGlide(context, imageView, originalBm, true);
 
         final FirebaseManager.CheckFirebaseComplete uploadlistener = new FirebaseManager.CheckFirebaseComplete() {
@@ -267,17 +301,29 @@ public class CommonFunc {
             }
         };
 
-        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, 0, uploadlistener);
-        FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, uploadlistener);
+        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, addImgIndex, uploadlistener);
+        if(addImgIndex == 0)
+            FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, uploadlistener);
     }
 
-    public void SetImageInChatRoom(Context context, File file, boolean camera,  String roomIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+    public void SetImageInChatRoom(Context context, Uri uri,  String roomIndex, final FirebaseManager.CheckFirebaseComplete listener) {
 
-        ImageResize.resizeFile(file, file, 1280, camera);
+        //ImageResize.resizeFile(file, file, 1280, camera);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+/*        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);*/
         //iv_SignUp_Profile.setImageBitmap(originalBm);
+
+        Bitmap originalBm = null;
+        try {
+            originalBm = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         final FirebaseManager.CheckFirebaseComplete uploadlistener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
@@ -299,7 +345,7 @@ public class CommonFunc {
     }
 
 
-    public void GetPermissionForGallery(final Activity activity, final int intentFlag) {
+    public void GetPermissionForGalleryCamera(final Activity activity, final int intentFlag) {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {

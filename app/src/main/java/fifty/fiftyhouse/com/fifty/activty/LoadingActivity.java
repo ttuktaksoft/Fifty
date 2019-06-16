@@ -68,12 +68,6 @@ public class LoadingActivity extends AppCompatActivity {
                 @Override
                 public void CompleteListener() {
 
-                    SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
-                    editor.commit();
-
                     int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
                     if(permissionCamera == PackageManager.PERMISSION_DENIED) {
                         ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
