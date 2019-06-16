@@ -1,6 +1,8 @@
 package fifty.fiftyhouse.com.fifty.viewPager;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,11 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
@@ -53,6 +62,7 @@ public class MainFriendViewPager extends Fragment {
         }
         else
         {
+            mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
             mAdapter.notifyDataSetChanged();
         }
 
@@ -87,7 +97,7 @@ public class MainFriendViewPager extends Fragment {
                     @Override
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
-                        startActivity(new Intent(MainActivity.mActivity, UserProfileActivity.class));
+                        startActivityForResult(new Intent(MainActivity.mActivity, UserProfileActivity.class), 1000);
                     }
 
                     @Override
@@ -132,6 +142,22 @@ public class MainFriendViewPager extends Fragment {
                 }*/
             }
         });
+    }
+
+    public void RefreshUI()
+    {
+        initSubInfo();
+        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1000)
+        {
+            RefreshUI();
+        }
+
     }
 
 }

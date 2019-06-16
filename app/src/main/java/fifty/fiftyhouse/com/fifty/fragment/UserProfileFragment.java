@@ -145,14 +145,13 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Count_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 방문자
-
-                if(TKManager.getInstance().MyData.GetUserVisitListCount() < 1)
+                if(TKManager.getInstance().MyData.GetUserVisitListCount() == 0)
                 {
-                    DialogFunc.getInstance().ShowToast(mContext, "방문자 없는 내용", true);
+                    Intent intent = new Intent(mContext, UserListActivity.class);
+                    intent.putExtra("Type",CommonData.USER_LIST_MY_VISIT);
+                    startActivityForResult(intent, 1000);
                 }
-                else
-                {
+                else{
                     DialogFunc.getInstance().ShowLoadingPage(mContext);
 
                     Set KeySet = TKManager.getInstance().MyData.GetUserVisitKeySet();
@@ -165,9 +164,8 @@ public class UserProfileFragment extends Fragment {
                         public void CompleteListener() {
                             DialogFunc.getInstance().DismissLoadingPage();
                             Intent intent = new Intent(mContext, UserListActivity.class);
-                            intent.putExtra("Type",0);
-                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserVisitListCount());
-                            startActivity(intent);
+                            intent.putExtra("Type",CommonData.USER_LIST_MY_VISIT);
+                            startActivityForResult(intent,1000);
                         }
 
                         @Override
@@ -189,7 +187,6 @@ public class UserProfileFragment extends Fragment {
                             FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                     }
                 }
-
             }
         });
 
@@ -197,13 +194,13 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // 좋아요
-
-                if(TKManager.getInstance().MyData.GetUserLikeListCount() < 1)
+                if(TKManager.getInstance().MyData.GetUserLikeListCount() == 0)
                 {
-                    DialogFunc.getInstance().ShowToast(mContext, "좋아요 없는 내용", true);
+                    Intent intent = new Intent(mContext, UserListActivity.class);
+                    intent.putExtra("Type",CommonData.USER_LIST_MY_LIKE);
+                    startActivityForResult(intent, 1000);
                 }
-                else
-                {
+                else {
                     DialogFunc.getInstance().ShowLoadingPage(mContext);
 
 
@@ -217,9 +214,8 @@ public class UserProfileFragment extends Fragment {
                         public void CompleteListener() {
                             DialogFunc.getInstance().DismissLoadingPage();
                             Intent intent = new Intent(mContext, UserListActivity.class);
-                            intent.putExtra("Type",1);
-                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserLikeListCount());
-                            startActivity(intent);
+                            intent.putExtra("Type", CommonData.USER_LIST_MY_LIKE);
+                            startActivityForResult(intent, 1000);
                         }
 
                         @Override
@@ -231,28 +227,25 @@ public class UserProfileFragment extends Fragment {
                         }
                     };
 
-                    while(iterator.hasNext()){
-                        String key = (String)iterator.next();
-                        if(TKManager.getInstance().UserData_Simple.get(key) != null)
-                        {
+                    while (iterator.hasNext()) {
+                        String key = (String) iterator.next();
+                        if (TKManager.getInstance().UserData_Simple.get(key) != null) {
                             FirebaseManager.getInstance().Complete(listener);
-                        }
-                        else
+                        } else
                             FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                     }
                 }
-
             }
         });
 
         tv_UserProfile_Info_Count_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 친구
-
-                if(TKManager.getInstance().MyData.GetUserFriendListCount() < 1)
+                if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
                 {
-                    DialogFunc.getInstance().ShowToast(mContext, "친구없음", true);
+                    Intent intent = new Intent(mContext, UserListActivity.class);
+                    intent.putExtra("Type",CommonData.USER_LIST_MY_FRIEND);
+                    startActivityForResult(intent, 1000);
                 }
                 else
                 {
@@ -269,9 +262,8 @@ public class UserProfileFragment extends Fragment {
                             DialogFunc.getInstance().DismissLoadingPage();
 
                             Intent intent = new Intent(mContext, UserListActivity.class);
-                            intent.putExtra("Type",2);
-                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserFriendListCount());
-                            startActivity(intent);
+                            intent.putExtra("Type",CommonData.USER_LIST_MY_FRIEND);
+                            startActivityForResult(intent, 1000);
                         }
 
                         @Override
@@ -293,7 +285,6 @@ public class UserProfileFragment extends Fragment {
                             FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                     }
                 }
-
             }
         });
 
@@ -319,10 +310,8 @@ public class UserProfileFragment extends Fragment {
 
         RefreshLocationText();
         RefreshMemoText();
+        RefreshCountText();
 
-        tv_UserProfile_Info_Count_1.setText("방문자 " + TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
-        tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
-        tv_UserProfile_Info_Count_3.setText("친구 " + TKManager.getInstance().MyData.GetUserFriendListCount());
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, true);
@@ -340,7 +329,7 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, CustomPhotoView.class);
                 intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_USER_PROFILE);
-                startActivity(intent);
+                startActivityForResult(intent, 1000);
             }
         });
 
@@ -365,33 +354,9 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().TargetUserData.GetUserAge() + "세");
         RefreshLocationText();
         RefreshMemoText();
-
-        tv_UserProfile_Info_Count_1.setText("방문자 " + TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
-        tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+        RefreshCountText();
 
 
-
-        if(TKManager.getInstance().TargetUserData.GetUserDist_Lat() == 0)
-        {
-            TKManager.getInstance().TargetUserData.SetUserDist_Lat(37.566659);
-        }
-        if(TKManager.getInstance().TargetUserData.GetUserDist_Lon() == 0)
-        {
-            TKManager.getInstance().TargetUserData.SetUserDist_Lon(126.978425);
-        }
-
-        Double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), TKManager.getInstance().TargetUserData.GetUserDist_Lat(), TKManager.getInstance().TargetUserData.GetUserDist_Lon());
-
-        String mUserDist = null;
-        if(Distance < 1000)
-        {
-            mUserDist = "1km 이내";
-        }
-        else
-        {
-            mUserDist = (int)(Distance / 1000) + "km";
-        }
-        tv_UserProfile_Info_Count_3.setText("거리 " + mUserDist);
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, false);
@@ -564,7 +529,7 @@ public class UserProfileFragment extends Fragment {
                     {
                         Intent intent = new Intent(mContext, CustomPhotoView.class);
                         intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_USER_PROFILE_LIST);
-                        startActivity(intent);
+                        startActivityForResult(intent, 1000);
                     }
                 }
 
@@ -750,6 +715,9 @@ public class UserProfileFragment extends Fragment {
                 CommonFunc.getInstance().SetCropImage(mContext, resultUri, mSelectPhotoIndex, null, listener);
             }
         }
+
+        // TODO 무조건 갱신
+        RefreshCountText();
     }
 
     private void RefreshMyPhotoList()
@@ -807,6 +775,50 @@ public class UserProfileFragment extends Fragment {
                 tv_UserProfile_Info_Location.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
             else
                 tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserLocation());
+        }
+
+    }
+
+    public void RefreshCountText()
+    {
+        String MSG_VISITER = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VISITER);
+        String MSG_FRIEND = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FRIEND);
+        String MSG_DISTANCE = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DISTANCE);
+        String MSG_LIKE = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_LIKE);
+        if(mMyProfile)
+        {
+            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + " " +TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
+            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + " " +TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
+            tv_UserProfile_Info_Count_3.setText(MSG_FRIEND + " " +TKManager.getInstance().MyData.GetUserFriendListCount());
+        }
+        else
+        {
+            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + " " +TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
+            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + " " +TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+
+
+
+            if(TKManager.getInstance().TargetUserData.GetUserDist_Lat() == 0)
+            {
+                TKManager.getInstance().TargetUserData.SetUserDist_Lat(37.566659);
+            }
+            if(TKManager.getInstance().TargetUserData.GetUserDist_Lon() == 0)
+            {
+                TKManager.getInstance().TargetUserData.SetUserDist_Lon(126.978425);
+            }
+
+            Double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), TKManager.getInstance().TargetUserData.GetUserDist_Lat(), TKManager.getInstance().TargetUserData.GetUserDist_Lon());
+
+            String mUserDist = null;
+            if(Distance < 1000)
+            {
+                mUserDist = "1km 이내";
+            }
+            else
+            {
+                mUserDist = (int)(Distance / 1000) + "km";
+            }
+            tv_UserProfile_Info_Count_3.setText(MSG_DISTANCE + " " +mUserDist);
         }
 
     }

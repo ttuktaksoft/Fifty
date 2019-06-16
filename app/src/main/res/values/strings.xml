@@ -19,6 +19,12 @@
     <string name="MSG_FAVORITE_RECOMMEND">관심사 추천</string>
     <string name="MSG_FAVORITE_PLUS"> + </string>
     <string name="MSG_VIEW">보기</string>
+    <string name="MSG_LIKE">좋아요</string>
+    <string name="MSG_VISITER">방문자</string>
+    <string name="MSG_FRIEND">친구</string>
+    <string name="MSG_DISTANCE">거리</string>
+    <string name="MSG_AGE_END">세</string>
+    <string name="DEFAULT_DISTANCE">1km</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
@@ -71,6 +77,9 @@
     <string name="MSG_ASK_FRIND_ADD">친구 신청을 하시겠습니까?</string>
     <string name="MSG_ASK_FRIND_REMOVE">친구 삭제를 하시겠습니까?</string>
     <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
 
     <string name="FRIEND_ADD">친구추가</string>
     <string name="FRIEND_REMOVE">친구삭제</string>
