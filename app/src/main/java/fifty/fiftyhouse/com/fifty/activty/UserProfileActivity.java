@@ -80,6 +80,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
         RefreshFriendIcon();
+        RefreshLikeIcon();
+
 
         iv_UserProfile_Alert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,25 +121,38 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
 
-                    if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) == null){
+                    if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) != null)
+                    {
+                        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like_empty, false);
 
-                        Glide.with(mContext).load(R.drawable.ic_like)
-                                .into(iv_UserProfile_BottomBar_Like);
-                        RefreshLikeCount(true);
-                    } else {
-                        Glide.with(mContext).load(R.drawable.ic_like_empty)
-                                .into(iv_UserProfile_BottomBar_Like);
-                        RefreshLikeCount(false);
+                        TKManager.getInstance().TargetUserData.AddUserTotalLike(-1);
+                        TKManager.getInstance().TargetUserData.AddUserTodayLike(-1);
+                        TKManager.getInstance().TargetUserData.DelUserLikeList(TKManager.getInstance().MyData.GetUserIndex());
+
+                        FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+
+                    }
+                    else
+                    {
+                        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like, false);
+
+                        TKManager.getInstance().TargetUserData.AddUserTotalLike(1);
+                        TKManager.getInstance().TargetUserData.AddUserTodayLike(1);
+
+                        TKManager.getInstance().TargetUserData.SetUserLikeList(TKManager.getInstance().MyData.GetUserIndex(), CommonFunc.getInstance().GetCurrentDate());
+
+                        FirebaseManager.getInstance().RegistLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+
+                        DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserNickName() + "님을 좋아합니다", true);
                     }
 
                     DialogFunc.getInstance().DismissLoadingPage();
 
                     mUserProfileFragment.setCountInfoStr_2("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+
                 }
             }
         });
-
-
 
         v_UserProfile_BottomBar_Friend.setOnClickListener(new ImageView.OnClickListener() {
             @Override
@@ -149,12 +164,17 @@ public class UserProfileActivity extends AppCompatActivity {
                     if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null){
                         FirebaseManager.getInstance().RegistFriendInUserData(TKManager.getInstance().TargetUserData.GetUserIndex());
                         TKManager.getInstance().MyData.SetUserFriend(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
+
+                        DialogFunc.getInstance().ShowToast(mContext, "친구 목록에 " + TKManager.getInstance().TargetUserData.GetUserNickName() + "님을 추가합니다", true);
+
                     }
 
                     else
                     {
                         FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex());
                         TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
+
+                        DialogFunc.getInstance().ShowToast(mContext, "친구 목록에 " + TKManager.getInstance().TargetUserData.GetUserNickName() + "님을 제외합니다", true);
                     }
                     DialogFunc.getInstance().DismissLoadingPage();
 
@@ -297,7 +317,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                             tempChatData.SetMsgIndex(0);
                             tempChatData.SetMsgReadCheck(false);
-                            tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
+                            tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
                             tempChatData.SetMsgType(CommonData.MSGType.MSG);
                             tempChatData.SetMsgSender(userIndex);
                             tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
@@ -321,24 +341,17 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void RefreshLikeCount(boolean like)
+    private void RefreshLikeIcon()
     {
-        if(like)
+        if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) != null)
         {
-            TKManager.getInstance().TargetUserData.AddUserTotalLike(1);
-            TKManager.getInstance().TargetUserData.AddUserTodayLike(1);
-            TKManager.getInstance().TargetUserData.SetUserLikeList(TKManager.getInstance().MyData.GetUserIndex(), CommonFunc.getInstance().GetCurrentDate());
-
-            FirebaseManager.getInstance().RegistLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like, false);
         }
         else
         {
-            TKManager.getInstance().TargetUserData.AddUserTotalLike(-1);
-            TKManager.getInstance().TargetUserData.AddUserTodayLike(-1);
-            TKManager.getInstance().TargetUserData.DelUserLikeList(TKManager.getInstance().MyData.GetUserIndex());
-
-            FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like_empty, false);
         }
+
     }
 
     private void RefreshFriendIcon()
