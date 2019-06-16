@@ -194,6 +194,8 @@ public class FirebaseManager {
             GetFireStore();
 
 
+        FirebaseManager.getInstance().RegistUserDistInfo();
+
         Map<String, String> tempFavoriteData = TKManager.getInstance().MyData.GetUserFavoriteList();
         Set set = tempFavoriteData.entrySet();
         Iterator iterator = set.iterator();
@@ -258,6 +260,8 @@ public class FirebaseManager {
         simpleUser.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
         simpleUser.put("Img", TKManager.getInstance().MyData.GetUserImg());
         simpleUser.put("Age", TKManager.getInstance().MyData.GetUserAge());
+        simpleUser.put("Dist_Lon", TKManager.getInstance().MyData.GetUserDist_Lon());
+        simpleUser.put("Dist_Lat", TKManager.getInstance().MyData.GetUserDist_Lat());
         simpleUser.put("Gender", TKManager.getInstance().MyData.GetUserGender());
 
         mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
@@ -295,7 +299,7 @@ public class FirebaseManager {
 
 
         Map<String, Object> Dist = new HashMap<>();
-        Dist.put("value", "1");
+        Dist.put("value", TKManager.getInstance().MyData.GetUserDist_Region());
         mDataBase.collection("UserList_Dist").document(TKManager.getInstance().MyData.GetUserIndex()).set(Dist, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -363,7 +367,8 @@ public class FirebaseManager {
                 DocumentSnapshot snapshot = transaction.get(sfDocRef);
                 double newPopulation = snapshot.getDouble("count") + 1;
                 transaction.update(sfDocRef, "count", newPopulation);
-                TKManager.getInstance().MyData.SetUserIndex(Double.toString(newPopulation));
+                int tempIndex = (int)newPopulation;
+                TKManager.getInstance().MyData.SetUserIndex(Integer.toString(tempIndex));
 
                 // Success
                 return null;

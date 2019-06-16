@@ -203,17 +203,37 @@ public class SignUpActivity extends AppCompatActivity {
                     FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
-                            DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
-                            {
+
+                            DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);
+                            FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
-                                public void Listener()
-                                {
-                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                    finish();
+                                public void CompleteListener() {
+                                    DialogFunc.getInstance().DismissLoadingPage();
+
+                                    DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                                    {
+                                        @Override
+                                        public void Listener()
+                                        {
+                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                            finish();
+                                        }
+                                    };
+                                    DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
+
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                    DialogFunc.getInstance().DismissLoadingPage();
                                 }
                             };
-                            DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
 
+                            FirebaseManager.getInstance().GetUserList(Innerlistener);
                         }
 
                         @Override

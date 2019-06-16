@@ -7,29 +7,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.kakao.auth.AccessTokenCallback;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
-import com.kakao.auth.authorization.accesstoken.AccessToken;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.LoginButton;
 import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
-import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -127,15 +123,15 @@ public class LoginActivity extends AppCompatActivity {
                     Logger.d("email: " + response.getKakaoAccount().getAgeRange());
                     Logger.d("email: " + response.getKakaoAccount().getGender());
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
-                    MoveMainActivity();
+                    GetUserList();
                 }
             });
 
         }
     }
 
-    protected void redirectSignupActivity() {
-        final Intent intent = new Intent(this, MainActivity.class);
+    protected void MoveSignUpActivity() {
+        final Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
         finish();
     }
@@ -145,4 +141,48 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public void GetUserList()
+    {
+
+        DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
+
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+
+                FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        MoveMainActivity();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserList(Innerlistener);
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+                DialogFunc.getInstance().DismissLoadingPage();
+                MoveSignUpActivity();
+            }
+        };
+
+        FirebaseManager.getInstance().GetUserData(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData, listener );
+    }
+
 }

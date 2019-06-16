@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.location.LocationManager;
@@ -53,21 +54,108 @@ public class LoadingActivity extends AppCompatActivity {
         CommonFunc.getInstance().setWidthByDevice(size.x);
         CommonFunc.getInstance().setHeightByDevice(size.y);
 
+        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
+        //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
+        String userIndex = sf.getString("Index","");
+
+        if(CommonFunc.getInstance().CheckStringNull(userIndex))
+        {
+            // 회ㅏ우너가입
+
+            FirebaseManager.CheckFirebaseComplete listen = new FirebaseManager.CheckFirebaseComplete() {
+                @Override
+                public void CompleteListener() {
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
+                    editor.commit();
+
+                    int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+                    if(permissionCamera == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+                    } else {
+                        CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                finish();
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                finish();
+                            }
+                        };
+
+                        CommonFunc.getInstance().GetUserLocation(LoadingActivity.this, listener);
+                       // GetUserList();
+                    }
+                }
+
+                @Override
+                public void CompleteListener_Yes() {
+                }
+
+                @Override
+                public void CompleteListener_No() {
+                    DialogFunc.getInstance().DismissLoadingPage();
+                }
+            };
+
+            FirebaseManager.getInstance().GetUserIndex(listen);
+        }
+        else
+        {
+            TKManager.getInstance().MyData.SetUserIndex(userIndex);
+
+            int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+            if(permissionCamera == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+            } else {
+                CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                        finish();
+                    }
+                };
+
+                CommonFunc.getInstance().GetUserLocation(this, listener);
+
+               // GetUserList();
+            }
+        }
+
         //FirebaseManager.getInstance().GetMyData("1");
 
         //CommonFunc.getInstance().AddDummy(100);
 
-        int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-        if(permissionCamera == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
 
-        } else {
-            CommonFunc.getInstance().GetUserLocation(this);
-            GetUserList();
-        }
 
-        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //  lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 
 
@@ -86,8 +174,28 @@ public class LoadingActivity extends AppCompatActivity {
                     int grantResult = grantResults[i];
                     if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         if(grantResult == PackageManager.PERMISSION_GRANTED) {
-                            CommonFunc.getInstance().GetUserLocation(this);
-                            GetUserList();
+
+                            CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                    finish();
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                                    finish();
+                                }
+                            };
+
+                            CommonFunc.getInstance().GetUserLocation(this, listener);
+                        //    GetUserList();
                         } else {
                             android.os.Process.killProcess(android.os.Process.myPid());
                         }
@@ -95,47 +203,6 @@ public class LoadingActivity extends AppCompatActivity {
                 }
                 break;
         }
-    }
-
-    public void GetUserList()
-    {
-        TKManager.getInstance().MyData.SetUserIndex("14");
-
-        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-            @Override
-            public void CompleteListener() {
-
-                FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                        finish();
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                    }
-                };
-
-                FirebaseManager.getInstance().GetUserList(Innerlistener);
-            }
-
-            @Override
-            public void CompleteListener_Yes() {
-            }
-
-            @Override
-            public void CompleteListener_No() {
-                DialogFunc.getInstance().DismissLoadingPage();
-            }
-        };
-
-        FirebaseManager.getInstance().GetUserData(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData, listener );
     }
 
 

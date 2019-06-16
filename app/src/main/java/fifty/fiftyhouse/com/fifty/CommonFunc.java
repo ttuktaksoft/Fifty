@@ -323,8 +323,17 @@ public class CommonFunc {
 
 
 
+
+    public interface CheckLocationComplete {
+        void CompleteListener();
+
+        void CompleteListener_Yes();
+
+        void CompleteListener_No();
+    }
+
     @SuppressLint("MissingPermission")
-    public void GetUserLocation(Activity activity)
+    public void GetUserLocation(Activity activity, final CommonFunc.CheckLocationComplete listener)
     {
         final Geocoder geocoder = new Geocoder(activity);
 
@@ -350,6 +359,8 @@ public class CommonFunc {
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    if(listener != null)
+                        listener.CompleteListener_No();
                 }
 
                 if (list != null) {
@@ -361,9 +372,14 @@ public class CommonFunc {
                         Log.d("asdsad", list.get(0).toString());
 
                         TKManager.getInstance().MyData.SetUserDist_Region(1);
-                        FirebaseManager.getInstance().RegistUserDistInfo();
                     }
+
+                    if(listener != null)
+                        listener.CompleteListener();
                 }
+
+                if(listener != null)
+                    listener.CompleteListener_No();
 
             }
 
