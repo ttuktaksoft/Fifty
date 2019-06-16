@@ -70,7 +70,7 @@
     <string name="MSG_PROFILE_PHOTO_ADD">사진 등록</string>
     <string name="MSG_PHOTO_SELECT">사진 선택</string>
     <string name="MSG_DEFAULT_LOCATION">FIFTY에서 활동중 입니다.</string>
-    <string name="MSG_DEFAULT_LOCATION_MEMO_1">안녕하세요</string>
+    <string name="MSG_DEFAULT_LOCATION_MEMO_1">안녕하세요 </string>
     <string name="MSG_DEFAULT_LOCATION_MEMO_2">입니다</string>
     <string name="MSG_USER_LIKE">좋아요를 등록하였습니다</string>
     <string name="MSG_USER_UNLIKE">좋아요를 해제했습니다</string>
