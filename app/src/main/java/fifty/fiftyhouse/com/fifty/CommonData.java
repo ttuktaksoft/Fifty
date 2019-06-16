@@ -64,7 +64,7 @@ public class CommonData {
     // 처음에 보여줄 인기 관심사 갯수
     public static int Favorite_Pop_Count = 30;
     // 처음에 검색할 인기 관심사 갯수
-    public static int Favorite_Search_Pop_Count = 30;
+    public static int Favorite_Search_Pop_Count = 300;
 
     // 메인 화면 기준별 보여지는 유져 인원 수
     public static int UserList_Loding_Count = 10;
