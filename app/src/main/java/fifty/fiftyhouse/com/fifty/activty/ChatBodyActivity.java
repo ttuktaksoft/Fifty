@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -183,7 +184,27 @@ public class ChatBodyActivity extends AppCompatActivity {
             @Override
             public void CompleteListener() {
                 mAdapter.notifyDataSetChanged();
-                rv_Chat_Body_List.scrollToPosition(mAdapter.getItemCount() - 1);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        rv_Chat_Body_List.scrollToPosition(mAdapter.getItemCount() - 1);
+                    }
+                }, 500);
+
+                /*rv_Chat_Body_List.postDelayed(new Runnable() {
+
+                    @Override
+
+                    public void run() {
+
+                        // Select the last row so it will scroll into view...
+
+                        rv_Chat_Body_List.scrollToPosition(mAdapter.getItemCount() - 1);
+
+                    }
+
+                },100);*/
             }
 
             @Override
