@@ -18,6 +18,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,16 +73,16 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
 
         tv_MyProfile_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
 
-        iv_MyProfile_Alarm.setOnClickListener(new View.OnClickListener() {
+        iv_MyProfile_Alarm.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
             }
         });
 
-        iv_MyProfile_Shop.setOnClickListener(new View.OnClickListener() {
+        iv_MyProfile_Shop.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
             }
         });

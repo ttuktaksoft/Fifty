@@ -33,6 +33,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.firestore.auth.User;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -45,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -538,6 +540,7 @@ public class CommonFunc {
         @Override
         public void onLocationChanged(Location location) {
 
+            DialogFunc.getInstance().ShowToast(activity, " 위치정보 받아 오는 중", true);
             Log.d("@@@@ Location  ", "onLocationChanged" + location);
 
             //위치 받아왔을 때 실행시킬 명령어 입력
@@ -577,6 +580,8 @@ public class CommonFunc {
                     TKManager.getInstance().MyData.SetUserDist_Region(1.0);
 
                 }
+
+                DialogFunc.getInstance().ShowToast(activity, TKManager.getInstance().MyData.GetUserDist_Area(), true);
                 if(listener != null)
                     listener.CompleteListener();
             }
@@ -634,19 +639,40 @@ public class CommonFunc {
         return distance;
     }
 
-    private void SortByDistance()
+    public void SortByDistance(ArrayList<String> UserList)
     {
-        ArrayList<String> tempDataList = new ArrayList<String>(TKManager.getInstance().UserList_Dist);
-        Map<String, UserData> tempDataMap = new LinkedHashMap<String, UserData>(TKManager.getInstance().UserData_Simple);
+        ArrayList<String> tempDataList = new ArrayList<String>();
+        tempDataList = UserList;
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
 
+        for(int i=0; i<UserList.size(); i++)
+        {
+            tempDataMap.put(tempDataList.get(i), TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist());
+        }
 
-        //tempDataMap = mMyData.arrMyFanDataList;
- /*       Iterator it = sortByValue(tempDataMap).iterator();
-        mMyData.arrMyFanList.clear();
+        Iterator it = sortByDist(tempDataMap).iterator();
+
+        UserList.clear();
         while(it.hasNext()) {
             String temp = (String) it.next();
-            mMyData.arrMyFanList.add(tempDataMap.get(temp));
-        }*/
+            System.out.println(temp + " = " + tempDataMap.get(temp));
+            UserList.add(temp);
+        }
+    }
+
+    public static List sortByDist(final Map map) {
+        List<String> list = new ArrayList();
+        list.addAll(map.keySet());
+
+        Collections.sort(list,new Comparator() {
+            public int compare(Object o1,Object o2) {
+                Object v1 = map.get(o1);
+                Object v2 = map.get(o2);
+                return ((Comparable) v2).compareTo(v1);
+            }
+        });
+        Collections.reverse(list); // 주석시 오름차순
+        return list;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+
 public class SettingAccountActivity extends AppCompatActivity {
 
     View ui_Setting_Account_TopBar;
@@ -34,9 +36,9 @@ public class SettingAccountActivity extends AppCompatActivity {
         et_Setting_Account_Password = findViewById(R.id.et_Setting_Account_Password);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ACCOUNT));
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });

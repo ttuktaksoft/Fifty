@@ -16,6 +16,8 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+
 public class MemoEditActivity extends AppCompatActivity {
 
     View ui_Memo_Edit_TopBar;
@@ -40,9 +42,9 @@ public class MemoEditActivity extends AppCompatActivity {
         tv_Story_Edit_Count = findViewById(R.id.tv_Story_Edit_Count);
         et_Story_Edit_Memo = findViewById(R.id.et_Story_Edit_Memo);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_MEMO_EDIT));
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });
@@ -71,9 +73,9 @@ public class MemoEditActivity extends AppCompatActivity {
             }
         });
 
-        tv_Story_Edit_Save.setOnClickListener(new View.OnClickListener() {
+        tv_Story_Edit_Save.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
             String tempMemo = et_Story_Edit_Memo.getText().toString();
             TKManager.getInstance().MyData.SetUserMemo(tempMemo);
             FirebaseManager.getInstance().SetUserMemo();

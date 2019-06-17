@@ -38,6 +38,7 @@ import fifty.fiftyhouse.com.fifty.adapter.MyProfileEditMenuAdapter;
 import fifty.fiftyhouse.com.fifty.fragment.MyProfileEditFragment;
 import fifty.fiftyhouse.com.fifty.fragment.UserProfileFragment;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class MyProfileEditActivity extends AppCompatActivity {
@@ -71,9 +72,9 @@ public class MyProfileEditActivity extends AppCompatActivity {
         tv_TopBar_Title = ui_MyProfile_Edit_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_MyProfile_Edit_TopBar.findViewById(R.id.iv_TopBar_Back);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_PROFILE_EDIT));
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
                 finish();
             }
         });

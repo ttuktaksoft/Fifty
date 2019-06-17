@@ -19,6 +19,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import fifty.fiftyhouse.com.fifty.R;
@@ -51,9 +52,9 @@ public class MainDistanceViewPager extends Fragment {
 
             tv_Main_Dis_Curr_Pos.setText(TKManager.getInstance().MyData.GetUserDist_Area());
 
-            sw_Main_Dis_Sort_Type.setOnClickListener(new View.OnClickListener() {
+            sw_Main_Dis_Sort_Type.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     if(sw_Main_Dis_Sort_Type.isChecked()) {
                         DialogFunc.getInstance().ShowToast(getContext(), "관심사정렬 ON", true);
                     }

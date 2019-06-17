@@ -44,6 +44,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 // 닉네임 입니다
@@ -95,9 +96,9 @@ public class SignUpActivity extends AppCompatActivity {
         iv_TopBar_Back.setVisibility(View.GONE);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_SIGNUP));
 
-        iv_SignUp_Profile.setOnClickListener(new View.OnClickListener() {
+        iv_SignUp_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 isCamera = true;
                 CommonFunc.getInstance().GetPermissionForGalleryCamera(SignUpActivity.this, CommonData.GET_PHOTO_FROM_CROP);
             }
@@ -124,9 +125,9 @@ public class SignUpActivity extends AppCompatActivity {
         tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
         tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
 
-        et_SignUp_NickName.setOnClickListener(new View.OnClickListener() {
+        et_SignUp_NickName.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 // 입력을 시도 했을경우 중복체크 안함으로 수정
                 mIsCheckNickName = false;
                 tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
@@ -134,9 +135,9 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        tv_SignUp_NickName_Check.setOnClickListener(new View.OnClickListener() {
+        tv_SignUp_NickName_Check.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
                 final String strNickName = et_SignUp_NickName.getText().toString();
 
@@ -181,9 +182,9 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        tv_SignUp_Save.setOnClickListener(new View.OnClickListener() {
+        tv_SignUp_Save.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
 
                 if(mIsCheckNickName == false)
@@ -213,6 +214,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void CompleteListener() {
                                     DialogFunc.getInstance().DismissLoadingPage();
+
+                                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist);
 
                                     DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
                                     {

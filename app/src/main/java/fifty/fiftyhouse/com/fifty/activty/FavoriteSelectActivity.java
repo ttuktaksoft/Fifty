@@ -31,6 +31,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteSelectViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class FavoriteSelectActivity extends AppCompatActivity {
@@ -89,17 +90,17 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 break;
         }
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
                 finish();
             }
         });
 
-        tv_FavoriteSelect_Ok.setOnClickListener(new View.OnClickListener() {
+        tv_FavoriteSelect_Ok.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if(mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount)
                 {
                     DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
@@ -136,9 +137,9 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             }
         });
 
-        iv_FavoriteSelect_Search.setOnClickListener(new View.OnClickListener() {
+        iv_FavoriteSelect_Search.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
                 if(CommonFunc.getInstance().CheckStringNull(et_FavoriteSelect_Search.getText().toString()))
                 {

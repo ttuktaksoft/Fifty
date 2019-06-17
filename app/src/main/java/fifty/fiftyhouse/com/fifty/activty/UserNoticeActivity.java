@@ -14,6 +14,7 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.StrContentListAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserNoticeAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class UserNoticeActivity extends AppCompatActivity {
@@ -36,9 +37,9 @@ public class UserNoticeActivity extends AppCompatActivity {
         rv_User_Notice_List = findViewById(R.id.rv_User_Notice_List);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_NOTICE));
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });
