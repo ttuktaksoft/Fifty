@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,8 @@ import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
+import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.fragment.ChatFragment;
 import fifty.fiftyhouse.com.fifty.fragment.ClubFragment;
 import fifty.fiftyhouse.com.fifty.fragment.MainFragment;
@@ -103,9 +106,18 @@ public class MainActivity extends AppCompatActivity {
         {
             if(getSupportFragmentManager().getBackStackEntryCount() == 0)
             {
-              /*  Toast toast = new Toast(getApplicationContext());
-                toast.makeText(getApplicationContext(),"뒤로가기", Toast.LENGTH_SHORT);
-                toast.show();*/
+                DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        finish();
+                        System.exit(0);
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
+                    }
+                };
+                DialogFunc.getInstance().ShowMsgPopup(MainActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_APP_EXIT), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_EXIT), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
             }
             else
             {

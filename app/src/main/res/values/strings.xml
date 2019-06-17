@@ -80,6 +80,8 @@
     <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
+    <string name="MSG_APP_EXIT">피프티를 종료하시겠습니까?</string>
+    <string name="MSG_EXIT">종료</string>
 
     <string name="FRIEND_ADD">친구추가</string>
     <string name="FRIEND_REMOVE">친구삭제</string>
