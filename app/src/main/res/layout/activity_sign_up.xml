@@ -50,9 +50,21 @@
                 />
 
             <ImageView
+                android:id="@+id/iv_SignUp_Profile_Border"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_SignUp_Profile"
+                app:layout_constraintRight_toRightOf="@+id/iv_SignUp_Profile"
+                app:layout_constraintTop_toTopOf="@+id/iv_SignUp_Profile"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SignUp_Profile"
+                android:tint="@color/gray"
+                android:src="@drawable/bg_empty_circle" />
+
+            <ImageView
                 android:id="@+id/iv_SignUp_Profile"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:padding="1dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/v_SignUp_Profile_BG"
