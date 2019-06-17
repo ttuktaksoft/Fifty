@@ -28,7 +28,7 @@ import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
  * Use the {@link MyProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBackPressedListener {
+public class MyProfileFragment extends Fragment{
 
     ImageView iv_MyProfile_Alarm, iv_MyProfile_Shop;
     TextView tv_MyProfile_Name;
@@ -94,15 +94,15 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        ((MainActivity)context).setOnKeyBackPressedListener((MainActivity.onKeyBackPressedListener) this);
+       // ((MainActivity)context).setOnKeyBackPressedListener((MainActivity.onKeyBackPressedListener) this);
     }
 
-    @Override
+/*    @Override
     public void onBackKey() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.setOnKeyBackPressedListener(null);
+    //    activity.setOnKeyBackPressedListener(null);
         activity.onBackPressed();
-    }
+    }*/
 
 
     /**

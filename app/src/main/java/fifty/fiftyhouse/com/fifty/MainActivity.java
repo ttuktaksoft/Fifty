@@ -32,6 +32,7 @@ import fifty.fiftyhouse.com.fifty.fragment.ChatFragment;
 import fifty.fiftyhouse.com.fifty.fragment.ClubFragment;
 import fifty.fiftyhouse.com.fifty.fragment.MainFragment;
 import fifty.fiftyhouse.com.fifty.fragment.MyProfileFragment;
+import fifty.fiftyhouse.com.fifty.util.BackPressCloseHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ChatFragment mChatFragment;
     private ClubFragment mClubFragment;
     private MyProfileFragment mMyProfileFragment;
+    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         mActivity = this;
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
+
+        backPressCloseHandler = new BackPressCloseHandler(mActivity);
 
         CommonFunc.getInstance().mCurActivity = this;
 
@@ -87,45 +91,9 @@ public class MainActivity extends AppCompatActivity {
         mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
     }
 
-    public interface onKeyBackPressedListener{
-        void onBackKey();
-    }
-    private onKeyBackPressedListener mOnKeyBackPressedListener;
-    public void setOnKeyBackPressedListener(onKeyBackPressedListener listener)
-    {
-        mOnKeyBackPressedListener = listener;
-    }
-
-    @Override
-    public void onBackPressed()
-    {
-        if(mOnKeyBackPressedListener != null)
-            mOnKeyBackPressedListener.onBackKey();
-
-        else
-        {
-            if(getSupportFragmentManager().getBackStackEntryCount() == 0)
-            {
-                DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
-                {
-                    @Override
-                    public void Listener()
-                    {
-                        finish();
-                        System.exit(0);
-                        int pid = android.os.Process.myPid();
-                        android.os.Process.killProcess(pid);
-                    }
-                };
-                DialogFunc.getInstance().ShowMsgPopup(MainActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_APP_EXIT), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_EXIT), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
-            }
-            else
-            {
-                super.onBackPressed();
-            }
-
-        }
-    }
-
+    @Override public void onBackPressed() {
+        //super.onBackPressed();
+         backPressCloseHandler.onBackPressed();
+         }
 
 }
