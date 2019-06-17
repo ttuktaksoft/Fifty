@@ -70,11 +70,11 @@ public class UserListActivity extends AppCompatActivity {
         Intent intent = getIntent(); //getIntent()로 받을준비
         mUserListType = getIntent().getIntExtra("Type", 0);
 
-        if(mUserListType == CommonData.USER_LIST_MY_LIKE)
+        if(mUserListType == CommonData.USER_LIST_MY_VISIT)
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_VISIT));
         }
-        else if(mUserListType == CommonData.USER_LIST_MY_VISIT)
+        else if(mUserListType == CommonData.USER_LIST_MY_LIKE)
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_LIKE));
         }
@@ -121,10 +121,10 @@ public class UserListActivity extends AppCompatActivity {
 
                 switch (mUserListType)
                 {
-                    case CommonData.USER_LIST_MY_LIKE:
+                    case CommonData.USER_LIST_MY_VISIT:
                         tempKey =  TKManager.getInstance().MyData.GetUserVisitKeySet();
                         break;
-                    case CommonData.USER_LIST_MY_VISIT:
+                    case CommonData.USER_LIST_MY_LIKE:
                         tempKey =  TKManager.getInstance().MyData.GetUserLikeKeySet();
                         break;
                     case CommonData.USER_LIST_MY_FRIEND:
