@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         iv_kakao_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
                 // TODO 로그인 처리
                 FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
                 Session session = Session.getCurrentSession();
@@ -150,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
-
                 FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
