@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -639,7 +640,7 @@ public class CommonFunc {
         return distance;
     }
 
-    public void SortByDistance(ArrayList<String> UserList)
+    public void SortByDistance(ArrayList<String> UserList, boolean descending)
     {
         ArrayList<String> tempDataList = new ArrayList<String>();
         tempDataList = UserList;
@@ -650,7 +651,7 @@ public class CommonFunc {
             tempDataMap.put(tempDataList.get(i), TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist());
         }
 
-        Iterator it = sortByDist(tempDataMap).iterator();
+        Iterator it = sortByValue(tempDataMap, descending).iterator();
 
         UserList.clear();
         while(it.hasNext()) {
@@ -660,7 +661,36 @@ public class CommonFunc {
         }
     }
 
-    public static List sortByDist(final Map map) {
+    public void SortByChatDate(ArrayList<String> chatRoomIndex, boolean descending)
+    {
+        ArrayList<String> tempDataList = new ArrayList<String>();
+        tempDataList = chatRoomIndex;
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
+        Map<String, ChatData> tempChatDataMap = new LinkedHashMap<String, ChatData>();
+
+        for(int i=0; i<tempDataList.size(); i++)
+        {
+            tempDataMap.put(tempDataList.get(i), TKManager.getInstance().MyData.GetUserChatDataList(tempDataList.get(i)).GetMsgDate());
+        }
+
+        Iterator it = sortByValue(tempDataMap, descending).iterator();
+
+        chatRoomIndex.clear();
+
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            System.out.println(temp + " = " + tempDataMap.get(temp));
+            chatRoomIndex.add(temp);
+            tempChatDataMap.put(temp, TKManager.getInstance().MyData.GetUserChatDataList(temp));
+        }
+        TKManager.getInstance().MyData.ClearUserChatDataList();
+        TKManager.getInstance().MyData.SetUserChatDataList(tempChatDataMap);
+
+
+
+    }
+
+    public static List sortByValue(final Map map, boolean descending) {
         List<String> list = new ArrayList();
         list.addAll(map.keySet());
 
@@ -671,7 +701,10 @@ public class CommonFunc {
                 return ((Comparable) v2).compareTo(v1);
             }
         });
-        Collections.reverse(list); // 주석시 오름차순
+
+        if(descending)
+            Collections.reverse(list); // 주석시 오름차순
+
         return list;
     }
 

@@ -95,8 +95,14 @@ public class ChatFragment extends Fragment {
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
-                mAdapter.notifyDataSetChanged();
-                ChatRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+                //if(TKManager.getInstance().MyData.UserList_Chat.size() == TKManager.getInstance().MyData.GetUserChatDataListCount())
+                {
+                 //   CommonFunc.getInstance().SortByChatDate(TKManager.getInstance().MyData.UserList_Chat, false );
+                    mAdapter.notifyDataSetChanged();
+                    ChatRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+                }
+              //
+
             }
 
             @Override

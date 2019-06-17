@@ -172,6 +172,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void CompleteListener() {
                                         DialogFunc.getInstance().DismissLoadingPage();
+                                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ASK_FRIND_REGIST), true);
                                     }
 
                                     @Override
@@ -241,7 +242,6 @@ public class UserProfileActivity extends AppCompatActivity {
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
-
 
                               FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
