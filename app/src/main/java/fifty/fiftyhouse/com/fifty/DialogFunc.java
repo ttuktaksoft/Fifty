@@ -27,6 +27,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SettingAccountActivity;
 import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SettingAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class DialogFunc {
@@ -92,17 +93,17 @@ public class DialogFunc {
         else
             NoButtonDesc.setText(noDesc);
 
-        YesButtonDesc.setOnClickListener(new View.OnClickListener() {
+        YesButtonDesc.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if (listenerYes != null)
                     listenerYes.Listener();
                 dialog.dismiss();
             }
         });
-        NoButtonDesc.setOnClickListener(new View.OnClickListener() {
+        NoButtonDesc.setOnClickListener(new OnSingleClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if (listenerNo != null)
                     listenerNo.Listener();
                 dialog.dismiss();
@@ -121,9 +122,9 @@ public class DialogFunc {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
 
-        YesButton.setOnClickListener(new View.OnClickListener() {
+        YesButton.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if (listenerYes != null)
                     listenerYes.Listener();
                 dialog.dismiss();

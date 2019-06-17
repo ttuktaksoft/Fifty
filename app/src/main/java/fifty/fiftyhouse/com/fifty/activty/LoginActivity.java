@@ -27,6 +27,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -50,15 +51,16 @@ public class LoginActivity extends AppCompatActivity {
 
         callback= new SessionCallback();
 
-        iv_kakao_login.setOnClickListener(new View.OnClickListener() {
+        iv_kakao_login.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-                DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
+            public void onSingleClick(View view) {
                 // TODO 로그인 처리
                 FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
-                Session session = Session.getCurrentSession();
+                GetUserList();
+
+                /*Session session = Session.getCurrentSession();
                 session.addCallback(callback);
-                session.open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);
+                session.open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);*/
 
             }
         });
@@ -125,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                     Logger.d("email: " + response.getKakaoAccount().getGender());
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                     GetUserList();
+                 //   MoveSignUpActivity();
                 }
             });
 
@@ -155,6 +158,12 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
+
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot);
+
+
                         MoveMainActivity();
                     }
 

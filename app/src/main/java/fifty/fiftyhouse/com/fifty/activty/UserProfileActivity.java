@@ -25,6 +25,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.fragment.UserProfileFragment;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -71,9 +72,9 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Friend = findViewById(R.id.v_UserProfile_BottomBar_Friend);
         tv_UserProfile_BottomBar_Friend = findViewById(R.id.tv_UserProfile_BottomBar_Friend);
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });
@@ -84,9 +85,9 @@ public class UserProfileActivity extends AppCompatActivity {
         RefreshLikeIcon();
 
 
-        iv_UserProfile_Alert.setOnClickListener(new View.OnClickListener() {
+        iv_UserProfile_Alert.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 ArrayList<String> menuList = new ArrayList<>();
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
@@ -115,9 +116,9 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
+        v_UserProfile_BottomBar_Like.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Like) {
 
                     DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
@@ -153,9 +154,10 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        v_UserProfile_BottomBar_Friend.setOnClickListener(new ImageView.OnClickListener() {
+
+        v_UserProfile_BottomBar_Friend.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Friend) {
 
                     if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null)
@@ -221,11 +223,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
                 }
             }
+
         });
 
-        v_UserProfile_BottomBar_Chat.setOnClickListener(new ImageView.OnClickListener() {
+        v_UserProfile_BottomBar_Chat.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Chat) {
 
                     final String userIndex = TKManager.getInstance().MyData.GetUserIndex();

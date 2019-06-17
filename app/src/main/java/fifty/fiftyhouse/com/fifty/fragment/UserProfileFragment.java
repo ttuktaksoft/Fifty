@@ -47,6 +47,7 @@ import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileMenuAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class UserProfileFragment extends Fragment {
@@ -134,17 +135,17 @@ public class UserProfileFragment extends Fragment {
 
     public void setMyProfileData()
     {
-        v_UserProfile_Info_Detail.setOnClickListener(new View.OnClickListener() {
+        v_UserProfile_Info_Detail.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 // TODO 메인화면 갱신이 필요함
                 startActivityForResult(new Intent(mContext, MyProfileEditActivity.class), MY_PROFILE_EDIT);
             }
         });
 
-        tv_UserProfile_Info_Count_1.setOnClickListener(new View.OnClickListener() {
+        tv_UserProfile_Info_Count_1.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if(TKManager.getInstance().MyData.GetUserVisitListCount() == 0)
                 {
                     Intent intent = new Intent(mContext, UserListActivity.class);
@@ -190,9 +191,9 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        tv_UserProfile_Info_Count_2.setOnClickListener(new View.OnClickListener() {
+        tv_UserProfile_Info_Count_2.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 // 좋아요
                 if(TKManager.getInstance().MyData.GetUserLikeListCount() == 0)
                 {
@@ -238,9 +239,9 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        tv_UserProfile_Info_Count_3.setOnClickListener(new View.OnClickListener() {
+        tv_UserProfile_Info_Count_3.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
                 if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
                 {
                     Intent intent = new Intent(mContext, UserListActivity.class);
@@ -324,18 +325,18 @@ public class UserProfileFragment extends Fragment {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(iv_UserProfile_Profile);
 
-        iv_UserProfile_Profile.setOnClickListener(new ImageView.OnClickListener() {
+        iv_UserProfile_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent intent = new Intent(mContext, CustomPhotoView.class);
                 intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_USER_PROFILE);
                 startActivityForResult(intent, 1000);
             }
         });
 
-        iv_UserProfile_Info_Memo_BG.setOnClickListener(new ImageView.OnClickListener() {
+        iv_UserProfile_Info_Memo_BG.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 startActivity(new Intent(mContext, UserProfileMemoActivity.class));
             }
         });
@@ -799,26 +800,14 @@ public class UserProfileFragment extends Fragment {
             tv_UserProfile_Info_Count_2.setText(MSG_LIKE + " " +TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
 
 
-
-            if(TKManager.getInstance().TargetUserData.GetUserDist_Lat() == 0)
-            {
-                TKManager.getInstance().TargetUserData.SetUserDist_Lat(37.566659);
-            }
-            if(TKManager.getInstance().TargetUserData.GetUserDist_Lon() == 0)
-            {
-                TKManager.getInstance().TargetUserData.SetUserDist_Lon(126.978425);
-            }
-
-            Double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), TKManager.getInstance().TargetUserData.GetUserDist_Lat(), TKManager.getInstance().TargetUserData.GetUserDist_Lon());
-
             String mUserDist = null;
-            if(Distance < 1000)
+            if(TKManager.getInstance().TargetUserData.GetUserDist()  < 1000)
             {
                 mUserDist = "1km 이내";
             }
             else
             {
-                mUserDist = (int)(Distance / 1000) + "km";
+                mUserDist = (int)(TKManager.getInstance().TargetUserData.GetUserDist()  / 1000) + "km";
             }
             tv_UserProfile_Info_Count_3.setText(MSG_DISTANCE + " " +mUserDist);
         }

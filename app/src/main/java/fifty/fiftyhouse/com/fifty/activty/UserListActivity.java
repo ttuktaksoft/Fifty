@@ -30,6 +30,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.UserListAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class UserListActivity extends AppCompatActivity {
@@ -59,9 +60,9 @@ public class UserListActivity extends AppCompatActivity {
         rv_UserList_List = findViewById(R.id.rv_UserList_List);
         tv_UserList_List_Empty = findViewById(R.id.tv_UserList_List_Empty);
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });

@@ -21,6 +21,7 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.viewPager.MainDistanceViewPager;
 import fifty.fiftyhouse.com.fifty.viewPager.MainFriendViewPager;
 import fifty.fiftyhouse.com.fifty.viewPager.MainNewViewPager;
@@ -54,18 +55,18 @@ public class MainFragment extends Fragment {
             iv_Main_Alarm = v_FragmentView.findViewById(R.id.iv_Main_Alarm);
             iv_Main_Shop = v_FragmentView.findViewById(R.id.iv_Main_Shop);
 
-            iv_Main_Alarm.setOnClickListener(new View.OnClickListener() {
+            iv_Main_Alarm.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
                     /*Intent intent = new Intent(getContext(), UserNoticeActivity.class);
                     startActivity(intent);*/
                 }
             });
 
-            iv_Main_Shop.setOnClickListener(new View.OnClickListener() {
+            iv_Main_Shop.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
                 }
             });

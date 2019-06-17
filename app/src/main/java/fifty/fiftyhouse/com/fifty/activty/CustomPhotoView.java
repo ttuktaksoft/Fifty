@@ -27,6 +27,7 @@ import java.util.Map;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.viewPager.PhotoViewPager;
 
 public class CustomPhotoView extends AppCompatActivity {
@@ -98,9 +99,9 @@ public class CustomPhotoView extends AppCompatActivity {
         }
 
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
                 finish();
             }
         });

@@ -18,6 +18,8 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+
 public class LocationEditActivity extends AppCompatActivity {
 
     View ui_Location_Edit_TopBar;
@@ -45,9 +47,9 @@ public class LocationEditActivity extends AppCompatActivity {
         et_Location_Edit_Location = findViewById(R.id.et_Location_Edit_Location);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_LOCATION_EDIT));
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });
@@ -76,9 +78,9 @@ public class LocationEditActivity extends AppCompatActivity {
             }
         });
 
-        tv_Location_Edit_Save.setOnClickListener(new View.OnClickListener() {
+        tv_Location_Edit_Save.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 String tempLocation  = et_Location_Edit_Location.getText().toString();
 
                 if(CommonFunc.getInstance().CheckStringNull(tempLocation) == false)

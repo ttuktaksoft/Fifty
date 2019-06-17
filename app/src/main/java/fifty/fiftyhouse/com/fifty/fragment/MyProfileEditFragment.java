@@ -29,6 +29,7 @@ import fifty.fiftyhouse.com.fifty.activty.MemoEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.NickNameEditActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileEditMenuAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class MyProfileEditFragment extends Fragment {
@@ -68,9 +69,9 @@ public class MyProfileEditFragment extends Fragment {
 
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_MyProfile_Edit_Profile, TKManager.getInstance().MyData.GetUserImgThumb(), true);
 
-        iv_MyProfile_Edit_Profile.setOnClickListener(new View.OnClickListener() {
+        iv_MyProfile_Edit_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
                 CommonFunc.getInstance().GetPermissionForGalleryCamera(mContext, MyProfileEditFragment.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });

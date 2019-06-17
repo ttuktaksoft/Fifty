@@ -1099,6 +1099,9 @@ public class FirebaseManager {
                         } else
                             userData.SetUserDist_Area("대한민국");
 
+                        double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), userData.GetUserDist_Lat(), userData.GetUserDist_Lon());
+                        userData.SetUserDist((long)Distance);
+
                         if (document.getData().containsKey("Location")) {
                             String Location = document.getData().get("Location").toString();
                             userData.SetUserLocation(Location);
@@ -1308,6 +1311,10 @@ public class FirebaseManager {
                             tempUser.SetUserDist_Lat(Double.parseDouble(document.getData().get("Dist_Lat").toString()));
                         } else
                             tempUser.SetUserDist_Lat(37.566659);
+
+                        double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempUser.GetUserDist_Lat(), tempUser.GetUserDist_Lon());
+                        tempUser.SetUserDist((long)Distance);
+
 
                         if (document.getData().containsKey("Age")) {
                             int Age = Integer.parseInt(document.getData().get("Age").toString());

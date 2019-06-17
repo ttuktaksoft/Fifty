@@ -33,6 +33,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ChatBodyAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ChatBodyActivity extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     EditText et_Chat_Body_Msg;
 
     Context mContext;
-    Activity mActivity;
+    public static Activity mChatBodyActivity;
     String strRoomIndex;
     String strTargetIndex;
 
@@ -61,7 +62,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_body);
         mContext = getApplicationContext();
-        mActivity = this;
+        mChatBodyActivity = this;
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         strRoomIndex = getIntent().getStringExtra("RoomIndex");
@@ -90,23 +91,23 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_Chat_Body_Send = findViewById(R.id.iv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
                 finish();
             }
         });
 
-        iv_Chat_Body_Plus.setOnClickListener(new View.OnClickListener() {
+        iv_Chat_Body_Plus.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
-        iv_Chat_Body_Send.setOnClickListener(new View.OnClickListener() {
+        iv_Chat_Body_Send.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if(!CommonFunc.getInstance().CheckStringNull(et_Chat_Body_Msg.getText().toString()))
                 {
                     SendChatData(CommonData.MSGType.MSG);
@@ -126,9 +127,9 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         });*/
 
-        iv_ChatBody_Alert.setOnClickListener(new View.OnClickListener() {
+        iv_ChatBody_Alert.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 ArrayList<String> menuList = new ArrayList<>();
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));

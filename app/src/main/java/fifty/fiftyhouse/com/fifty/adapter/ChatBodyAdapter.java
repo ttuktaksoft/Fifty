@@ -30,8 +30,11 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleTouchListener;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -302,11 +305,11 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
 
-        iv_Chat_Body_Profile.setOnTouchListener(new View.OnTouchListener() {
+        iv_Chat_Body_Profile.setOnTouchListener(new OnSingleTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onSingleTouch(View v) {
                 String UserIndex = tempData.GetFromIndex();
-                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+                DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.mChatBodyActivity);
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
@@ -329,15 +332,14 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
                 };
 
                 FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
-
-                return false;
             }
+
         });
 
-        iv_Chat_Body_Img.setOnTouchListener(new View.OnTouchListener() {
+        iv_Chat_Body_Img.setOnTouchListener(new OnSingleTouchListener(){
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+            public void onSingleTouch(View v) {
+                DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.mChatBodyActivity);
 
                 Intent intent = new Intent(mContext, CustomPhotoView.class);
                 intent.putExtra("ImgSrc",tempData.GetMsg());
@@ -345,7 +347,6 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
                 DialogFunc.getInstance().DismissLoadingPage();
-                return false;
             }
         });
 
