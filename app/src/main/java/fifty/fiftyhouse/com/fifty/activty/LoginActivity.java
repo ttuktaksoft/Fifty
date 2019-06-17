@@ -160,9 +160,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
 
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist);
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New);
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
 
 
                         MoveMainActivity();

@@ -215,8 +215,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 public void CompleteListener() {
                                     DialogFunc.getInstance().DismissLoadingPage();
 
-                                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist);
-
                                     DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
                                     {
                                         @Override

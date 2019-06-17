@@ -667,6 +667,7 @@ public class FirebaseManager {
     public void MonitorChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
+        //CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
         {
             colRef.orderBy("MsgIndex", Query.Direction.DESCENDING).limit(1).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -789,6 +790,7 @@ public class FirebaseManager {
                             }
 
                             userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
+                            userData.UserList_Chat.add(tempRoomName);
 
                             //userData.SetUserChatList(tempRoomName, tempRoomName);
 
