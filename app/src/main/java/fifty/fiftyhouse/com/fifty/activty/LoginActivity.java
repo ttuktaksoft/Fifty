@@ -154,7 +154,6 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
-
                 FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
