@@ -83,7 +83,7 @@ public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
 
 class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
-    public ImageView iv_Chat_Body_Profile;
+    public ImageView iv_Chat_Body_Profile, iv_Chat_Body_Profile_Border;
     public ConstraintLayout v_Chat_Body, v_Chat_Body_Type_Msg, v_Chat_Body_Type_Img, v_Chat_Body_Type_Video;
     public ImageView iv_Chat_Body_Msg_BG, iv_Chat_Body_Img, iv_Chat_Body_Video;
     public TextView tv_Chat_Body_NickName, tv_Chat_Body_Msg, tv_Chat_Body_Date, tv_Chat_Body_Check;
@@ -95,6 +95,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
 
         iv_Chat_Body_Profile = itemView.findViewById(R.id.iv_Chat_Body_Profile);
+        iv_Chat_Body_Profile_Border = itemView.findViewById(R.id.iv_Chat_Body_Profile_Border);
         v_Chat_Body = itemView.findViewById(R.id.v_Chat_Body);
         v_Chat_Body_Type_Msg = itemView.findViewById(R.id.v_Chat_Body_Type_Msg);
         v_Chat_Body_Type_Img = itemView.findViewById(R.id.v_Chat_Body_Type_Img);
@@ -121,6 +122,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         int ChatType = pos % 3;*/
 
         ConstraintLayout.LayoutParams lp_Chat_Body_Profile = null;
+        ConstraintLayout.LayoutParams lp_Chat_Body_Profile_Border = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_NickName = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Type_Msg = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Type_Img = null;
@@ -135,6 +137,13 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Profile = new ConstraintLayout.LayoutParams(ProfileSize, ProfileSize);
             lp_Chat_Body_Profile.rightToRight = v_Chat_Body.getId();
             lp_Chat_Body_Profile.topToTop = v_Chat_Body.getId();
+
+            int ProfileSizeBoder = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 40);
+            lp_Chat_Body_Profile_Border = new ConstraintLayout.LayoutParams(ProfileSizeBoder, ProfileSizeBoder);
+            lp_Chat_Body_Profile_Border.rightToRight = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.leftToLeft = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.topToTop = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.bottomToBottom = iv_Chat_Body_Profile.getId();
 
             lp_Chat_Body_NickName = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_NickName.rightToRight = iv_Chat_Body_Profile.getId();
@@ -187,6 +196,13 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Profile.leftToLeft = v_Chat_Body.getId();
             lp_Chat_Body_Profile.topToTop = v_Chat_Body.getId();
 
+            int ProfileSizeBoder = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 40);
+            lp_Chat_Body_Profile_Border = new ConstraintLayout.LayoutParams(ProfileSizeBoder, ProfileSizeBoder);
+            lp_Chat_Body_Profile_Border.rightToRight = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.leftToLeft = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.topToTop = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.bottomToBottom = iv_Chat_Body_Profile.getId();
+
             lp_Chat_Body_NickName = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_NickName.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_NickName.topToTop = iv_Chat_Body_Profile.getId();
@@ -232,6 +248,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         }
 
         iv_Chat_Body_Profile.setLayoutParams(lp_Chat_Body_Profile);
+        int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 1);
+        iv_Chat_Body_Profile.setPadding(padding, padding, padding, padding);
+        iv_Chat_Body_Profile_Border.setLayoutParams(lp_Chat_Body_Profile_Border);
         tv_Chat_Body_NickName.setLayoutParams(lp_Chat_Body_NickName);
         v_Chat_Body_Type_Msg.setLayoutParams(lp_Chat_Body_Type_Msg);
         v_Chat_Body_Type_Img.setLayoutParams(lp_Chat_Body_Type_Img);
@@ -254,6 +273,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         if(mSend)
         {
             iv_Chat_Body_Profile.setVisibility(View.GONE);
+            iv_Chat_Body_Profile_Border.setVisibility(View.GONE);
             tv_Chat_Body_NickName.setVisibility(View.GONE);
             tv_Chat_Body_NickName.setPadding(0,0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0);
             v_Chat_Body_Type_Msg.setPadding(0,0, 0, 0);
@@ -266,6 +286,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         else
         {
             iv_Chat_Body_Profile.setVisibility(View.VISIBLE);
+            iv_Chat_Body_Profile_Border.setVisibility(View.VISIBLE);
             tv_Chat_Body_NickName.setVisibility(View.VISIBLE);
             tv_Chat_Body_NickName.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0,0);
             v_Chat_Body_Type_Msg.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0,0);

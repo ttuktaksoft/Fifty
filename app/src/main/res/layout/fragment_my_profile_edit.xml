@@ -24,6 +24,17 @@
                 android:background="@color/default_bg_color_1">
 
                 <ImageView
+                    android:id="@+id/iv_MyProfile_Edit_Profile_Border"
+                    android:layout_width="152dp"
+                    android:layout_height="152dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_MyProfile_Edit_Profile"
+                    app:layout_constraintRight_toRightOf="@+id/iv_MyProfile_Edit_Profile"
+                    app:layout_constraintTop_toTopOf="@+id/iv_MyProfile_Edit_Profile"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Edit_Profile"
+                    android:tint="@color/gray"
+                    android:src="@drawable/bg_empty_circle" />
+
+                <ImageView
                     android:id="@+id/iv_MyProfile_Edit_Profile"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
