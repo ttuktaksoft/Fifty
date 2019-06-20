@@ -220,6 +220,11 @@ public class SignUpActivity extends AppCompatActivity {
                                         @Override
                                         public void Listener()
                                         {
+
+                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
+                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
+                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
+
                                             SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
                                             SharedPreferences.Editor editor = sharedPreferences.edit();
                                             editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());

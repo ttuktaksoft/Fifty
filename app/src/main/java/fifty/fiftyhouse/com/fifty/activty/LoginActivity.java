@@ -56,7 +56,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
                 // TODO 로그인 처리
                 FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
-                GetUserList();
+               GetUserList();
+            //    MoveAuthActivity();
+
+                //MoveSignUpActivity();
 
                 /*Session session = Session.getCurrentSession();
                 session.addCallback(callback);
@@ -126,12 +129,18 @@ public class LoginActivity extends AppCompatActivity {
                     Logger.d("email: " + response.getKakaoAccount().getAgeRange());
                     Logger.d("email: " + response.getKakaoAccount().getGender());
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
-                    GetUserList();
-                 //   MoveSignUpActivity();
+                 //   GetUserList();
+                    MoveSignUpActivity();
                 }
             });
 
         }
+    }
+
+    protected void MoveAuthActivity() {
+        final Intent intent = new Intent(this, AuthActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     protected void MoveSignUpActivity() {
