@@ -21,6 +21,7 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.viewPager.MainDistanceViewPager;
 import fifty.fiftyhouse.com.fifty.viewPager.MainFriendViewPager;
 import fifty.fiftyhouse.com.fifty.viewPager.MainNewViewPager;
@@ -54,17 +55,18 @@ public class MainFragment extends Fragment {
             iv_Main_Alarm = v_FragmentView.findViewById(R.id.iv_Main_Alarm);
             iv_Main_Shop = v_FragmentView.findViewById(R.id.iv_Main_Shop);
 
-            iv_Main_Alarm.setOnClickListener(new View.OnClickListener() {
+            iv_Main_Alarm.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), UserNoticeActivity.class);
-                    startActivity(intent);
+                public void onSingleClick(View view) {
+                    DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+                    /*Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                    startActivity(intent);*/
                 }
             });
 
-            iv_Main_Shop.setOnClickListener(new View.OnClickListener() {
+            iv_Main_Shop.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
                 }
             });
@@ -103,6 +105,10 @@ public class MainFragment extends Fragment {
             tl_TopBarTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
+                    int i = tab.getPosition();
+                    if(i == 3)
+                        mMainFriendViewPager.RefreshUI();
+
                     vp_UserList.setCurrentItem(tab.getPosition());
                 }
 
@@ -117,7 +123,7 @@ public class MainFragment extends Fragment {
                 }
             });
 
-            vp_UserList.setOffscreenPageLimit(3);
+            vp_UserList.setOffscreenPageLimit(5);
             vp_UserList.setAdapter(new TabPagerAdapter(getFragmentManager(),tl_TopBarTab.getTabCount()));
             vp_UserList.setCurrentItem(0);
             vp_UserList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_TopBarTab));

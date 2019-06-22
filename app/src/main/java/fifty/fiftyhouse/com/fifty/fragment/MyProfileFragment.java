@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +28,7 @@ import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
  * Use the {@link MyProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBackPressedListener {
+public class MyProfileFragment extends Fragment{
 
     ImageView iv_MyProfile_Alarm, iv_MyProfile_Shop;
     TextView tv_MyProfile_Name;
@@ -71,11 +73,17 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
 
         tv_MyProfile_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
 
-        iv_MyProfile_Alarm.setOnClickListener(new View.OnClickListener() {
+        iv_MyProfile_Alarm.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, UserNoticeActivity.class);
-                startActivity(intent);
+            public void onSingleClick(View view) {
+                DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+            }
+        });
+
+        iv_MyProfile_Shop.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
             }
         });
 
@@ -86,15 +94,15 @@ public class MyProfileFragment extends Fragment  implements MainActivity.onKeyBa
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        ((MainActivity)context).setOnKeyBackPressedListener((MainActivity.onKeyBackPressedListener) this);
+       // ((MainActivity)context).setOnKeyBackPressedListener((MainActivity.onKeyBackPressedListener) this);
     }
 
-    @Override
+/*    @Override
     public void onBackKey() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.setOnKeyBackPressedListener(null);
+    //    activity.setOnKeyBackPressedListener(null);
         activity.onBackPressed();
-    }
+    }*/
 
 
     /**

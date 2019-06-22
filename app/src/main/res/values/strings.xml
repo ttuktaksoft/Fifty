@@ -1,4 +1,5 @@
 <resources>
+    <string name="kakao_app_key">1b60de11093611242971d0ca7d7b2198</string>
     <string name="app_name">Fifty</string>
     <string name="MSG_OK">확인</string>
     <string name="MSG_CANCEL">취소</string>
@@ -18,6 +19,12 @@
     <string name="MSG_FAVORITE_RECOMMEND">관심사 추천</string>
     <string name="MSG_FAVORITE_PLUS"> + </string>
     <string name="MSG_VIEW">보기</string>
+    <string name="MSG_LIKE">좋아요</string>
+    <string name="MSG_VISITER">방문자</string>
+    <string name="MSG_FRIEND">친구</string>
+    <string name="MSG_DISTANCE">거리</string>
+    <string name="MSG_AGE_END">세</string>
+    <string name="DEFAULT_DISTANCE">1km</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
@@ -60,7 +67,22 @@
     <string name="MSG_BLOCK_COMPLETE">차단이 완료 되었습니다</string>
     <string name="MSG_PROFILE_PHOTO_CAMERA_ADD">사진을 촬영하여 등록</string>
     <string name="MSG_PROFILE_PHOTO_GALLERY_ADD">사진을 앨범에서 등록</string>
+    <string name="MSG_PROFILE_PHOTO_ADD">사진 등록</string>
     <string name="MSG_PHOTO_SELECT">사진 선택</string>
+    <string name="MSG_DEFAULT_LOCATION">FIFTY에서 활동중 입니다.</string>
+    <string name="MSG_DEFAULT_LOCATION_MEMO_1">안녕하세요 </string>
+    <string name="MSG_DEFAULT_LOCATION_MEMO_2">입니다</string>
+    <string name="MSG_USER_LIKE">좋아요를 등록하였습니다</string>
+    <string name="MSG_USER_UNLIKE">좋아요를 해제했습니다</string>
+    <string name="MSG_ASK_FRIND_ADD">친구 추가를 하시겠습니까?</string>
+    <string name="MSG_ASK_FRIND_REMOVE">친구 삭제를 하시겠습니까?</string>
+    <string name="MSG_ASK_FRIND_REGIST">친구 목록에 추가되었습니다</string>
+    <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
+    <string name="MSG_APP_EXIT">피프티를 종료하시겠습니까?</string>
+    <string name="MSG_EXIT">종료</string>
 
     <string name="FRIEND_ADD">친구추가</string>
     <string name="FRIEND_REMOVE">친구삭제</string>
@@ -145,8 +167,6 @@
     <string name="FAVORITE_SELECT">관심사 선택</string>
     <string name="FAVORITE_SELECT_VIEW">선택한 관심사</string>
     <string name="FAVORITE_SELECT_RECOM">관심사 추천</string>
-
-    <string name="DEFAULT_USERPROFILE_MEMO">자기소개 입니다</string>
 
 
     <string name="bt_SignUp_Next">다음</string>

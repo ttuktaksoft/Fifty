@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -8,6 +9,7 @@ import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,8 +25,18 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleTouchListener;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
 
@@ -71,7 +83,7 @@ public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
 
 class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
-    public ImageView iv_Chat_Body_Profile;
+    public ImageView iv_Chat_Body_Profile, iv_Chat_Body_Profile_Border;
     public ConstraintLayout v_Chat_Body, v_Chat_Body_Type_Msg, v_Chat_Body_Type_Img, v_Chat_Body_Type_Video;
     public ImageView iv_Chat_Body_Msg_BG, iv_Chat_Body_Img, iv_Chat_Body_Video;
     public TextView tv_Chat_Body_NickName, tv_Chat_Body_Msg, tv_Chat_Body_Date, tv_Chat_Body_Check;
@@ -83,6 +95,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
 
         iv_Chat_Body_Profile = itemView.findViewById(R.id.iv_Chat_Body_Profile);
+        iv_Chat_Body_Profile_Border = itemView.findViewById(R.id.iv_Chat_Body_Profile_Border);
         v_Chat_Body = itemView.findViewById(R.id.v_Chat_Body);
         v_Chat_Body_Type_Msg = itemView.findViewById(R.id.v_Chat_Body_Type_Msg);
         v_Chat_Body_Type_Img = itemView.findViewById(R.id.v_Chat_Body_Type_Img);
@@ -101,7 +114,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         Set tempKey = TKManager.getInstance().MyData.GetUserChatDataKeySet();
         List array = new ArrayList(tempKey);
 
-        ChatData tempData = TKManager.getInstance().MyData.GetUserChatData(array.get(pos).toString());
+        final ChatData tempData = TKManager.getInstance().MyData.GetUserChatData(array.get(pos).toString());
 
         Boolean mSend = tempData.GetMsgSender().equals(TKManager.getInstance().MyData.GetUserIndex());
 
@@ -109,6 +122,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         int ChatType = pos % 3;*/
 
         ConstraintLayout.LayoutParams lp_Chat_Body_Profile = null;
+        ConstraintLayout.LayoutParams lp_Chat_Body_Profile_Border = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_NickName = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Type_Msg = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Type_Img = null;
@@ -124,6 +138,13 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Profile.rightToRight = v_Chat_Body.getId();
             lp_Chat_Body_Profile.topToTop = v_Chat_Body.getId();
 
+            int ProfileSizeBoder = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 40);
+            lp_Chat_Body_Profile_Border = new ConstraintLayout.LayoutParams(ProfileSizeBoder, ProfileSizeBoder);
+            lp_Chat_Body_Profile_Border.rightToRight = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.leftToLeft = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.topToTop = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.bottomToBottom = iv_Chat_Body_Profile.getId();
+
             lp_Chat_Body_NickName = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_NickName.rightToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_NickName.topToTop = iv_Chat_Body_Profile.getId();
@@ -132,7 +153,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Msg.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
-            tv_Chat_Body_Msg.setGravity(Gravity.RIGHT);
+            tv_Chat_Body_Msg.setGravity(Gravity.LEFT);
+            int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
+            tv_Chat_Body_Msg.setPadding(padding, padding, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding);
 
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.rightToLeft = iv_Chat_Body_Profile.getId();
@@ -162,6 +185,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
             iv_Chat_Body_Msg_BG.setScaleX(1.0f);
             ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.chat_my_bg)));
+
+
         }
         else
         {
@@ -170,6 +195,13 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Profile = new ConstraintLayout.LayoutParams(ProfileSize, ProfileSize);
             lp_Chat_Body_Profile.leftToLeft = v_Chat_Body.getId();
             lp_Chat_Body_Profile.topToTop = v_Chat_Body.getId();
+
+            int ProfileSizeBoder = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 40);
+            lp_Chat_Body_Profile_Border = new ConstraintLayout.LayoutParams(ProfileSizeBoder, ProfileSizeBoder);
+            lp_Chat_Body_Profile_Border.rightToRight = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.leftToLeft = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.topToTop = iv_Chat_Body_Profile.getId();
+            lp_Chat_Body_Profile_Border.bottomToBottom = iv_Chat_Body_Profile.getId();
 
             lp_Chat_Body_NickName = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_NickName.leftToRight = iv_Chat_Body_Profile.getId();
@@ -180,6 +212,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
             tv_Chat_Body_Msg.setGravity(Gravity.LEFT);
+            int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
+            tv_Chat_Body_Msg.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding, padding, padding);
 
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.leftToRight = iv_Chat_Body_Profile.getId();
@@ -209,9 +243,14 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
             iv_Chat_Body_Msg_BG.setScaleX(-1.0f);
             ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.white)));
+
+
         }
 
         iv_Chat_Body_Profile.setLayoutParams(lp_Chat_Body_Profile);
+        int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 1);
+        iv_Chat_Body_Profile.setPadding(padding, padding, padding, padding);
+        iv_Chat_Body_Profile_Border.setLayoutParams(lp_Chat_Body_Profile_Border);
         tv_Chat_Body_NickName.setLayoutParams(lp_Chat_Body_NickName);
         v_Chat_Body_Type_Msg.setLayoutParams(lp_Chat_Body_Type_Msg);
         v_Chat_Body_Type_Img.setLayoutParams(lp_Chat_Body_Type_Img);
@@ -234,6 +273,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         if(mSend)
         {
             iv_Chat_Body_Profile.setVisibility(View.GONE);
+            iv_Chat_Body_Profile_Border.setVisibility(View.GONE);
             tv_Chat_Body_NickName.setVisibility(View.GONE);
             tv_Chat_Body_NickName.setPadding(0,0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0);
             v_Chat_Body_Type_Msg.setPadding(0,0, 0, 0);
@@ -246,6 +286,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         else
         {
             iv_Chat_Body_Profile.setVisibility(View.VISIBLE);
+            iv_Chat_Body_Profile_Border.setVisibility(View.VISIBLE);
             tv_Chat_Body_NickName.setVisibility(View.VISIBLE);
             tv_Chat_Body_NickName.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0,0);
             v_Chat_Body_Type_Msg.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0,0);
@@ -259,8 +300,79 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         }
 
         tv_Chat_Body_Msg.setText(tempData.GetMsg());
+
+
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
 
+        iv_Chat_Body_Profile.setOnTouchListener(new OnSingleTouchListener() {
+            @Override
+            public void onSingleTouch(View v) {
+                String UserIndex = tempData.GetFromIndex();
+                DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.mChatBodyActivity);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        Intent intent = new Intent(mContext, UserProfileActivity.class);
+                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+            }
+
+        });
+
+        iv_Chat_Body_Img.setOnTouchListener(new OnSingleTouchListener(){
+            @Override
+            public void onSingleTouch(View v) {
+                DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.mChatBodyActivity);
+
+                Intent intent = new Intent(mContext, CustomPhotoView.class);
+                intent.putExtra("ImgSrc",tempData.GetMsg());
+                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_CHAT_BODY);
+                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+                DialogFunc.getInstance().DismissLoadingPage();
+            }
+        });
+
+        String tempMsgDate = Long.toString(tempData.GetMsgDate());
+
+        String tempDate = tempMsgDate.substring(0, 7);
+        String tempTime = tempMsgDate.substring(8, 12);
+
+        String tempHour = tempTime.substring(0, 2);
+        int tempHourInteger = Integer.parseInt(tempHour);
+
+        String tempMinute = tempTime.substring(2, 4);
+        if(Integer.parseInt(tempHour) > 12) {
+
+            tempHour = Integer.toString(tempHourInteger - 12);
+
+            tv_Chat_Body_Date.setText("오후 "+ tempHour + ":" + tempMinute);
+        }
+        else
+        {
+            tv_Chat_Body_Date.setText("오전 "+ tempHour + ":" + tempMinute);
+        }
+
+        if(tempData.GetMsgReadCheck())
+            tv_Chat_Body_Check.setVisibility(View.INVISIBLE);
+        else
+            tv_Chat_Body_Check.setVisibility(View.VISIBLE);
     }
 }

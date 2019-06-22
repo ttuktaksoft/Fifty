@@ -1,14 +1,18 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
+import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -18,13 +22,18 @@ import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.viewPager.PhotoViewPager;
 
 public class MyProfileEditMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static int MY_PROFILE_EDIT_MENU_TYPE_DEFAULT = 0;
     public static int MY_PROFILE_EDIT_MENU_TYPE_AGE = 1;
+    public static int MY_PROFILE_EDIT_MENU_TYPE_FAVORITE = 2;
 
     public static int MY_PROFILE_EDIT_MENU_NICKNAME_INDEX = 0;
     public static int MY_PROFILE_EDIT_MENU_FAVORITE_INDEX = 1;
@@ -48,6 +57,12 @@ public class MyProfileEditMenuAdapter extends RecyclerView.Adapter<RecyclerView.
 
             return new MyProfileEditMenuAgeListHolder(view);
         }
+        else if(viewType == MY_PROFILE_EDIT_MENU_TYPE_FAVORITE)
+        {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_my_profile_edit_favorite, parent, false);
+
+            return new MyProfileEditMenuFavoriteListHolder(view);
+        }
         else
         {
             View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_my_profile_edit_default, parent, false);
@@ -65,6 +80,11 @@ public class MyProfileEditMenuAdapter extends RecyclerView.Adapter<RecyclerView.
             MyProfileEditMenuAgeListHolder AgeHolder = (MyProfileEditMenuAgeListHolder)holder;
             AgeHolder.setData();
         }
+        else if(holder instanceof MyProfileEditMenuFavoriteListHolder)
+        {
+            MyProfileEditMenuFavoriteListHolder FavoriteHolder = (MyProfileEditMenuFavoriteListHolder)holder;
+            FavoriteHolder.setData();
+        }
         else
         {
             MyProfileEditMenuListHolder DefaultHolder = (MyProfileEditMenuListHolder)holder;
@@ -78,6 +98,8 @@ public class MyProfileEditMenuAdapter extends RecyclerView.Adapter<RecyclerView.
         // Note that unlike in ListView adapters, types don't have to be contiguous
         if(position == MY_PROFILE_EDIT_MENU_AGE_INDEX)
             return MY_PROFILE_EDIT_MENU_TYPE_AGE;
+        else if(position == MY_PROFILE_EDIT_MENU_FAVORITE_INDEX)
+            return MY_PROFILE_EDIT_MENU_TYPE_FAVORITE;
 
         return MY_PROFILE_EDIT_MENU_TYPE_DEFAULT;
     }
@@ -119,6 +141,72 @@ class MyProfileEditMenuAgeListHolder extends RecyclerView.ViewHolder {
     }
 }
 
+class MyProfileEditMenuFavoriteListHolder extends RecyclerView.ViewHolder {
+    RecyclerView rv_MyProfile_Edit_Favorite_Menu;
+    Context mContext;
+    FavoriteViewAdapter mFavoriteAdapter;
+
+    public MyProfileEditMenuFavoriteListHolder(View itemView) {
+        super(itemView);
+        mContext = itemView.getContext();
+    }
+
+    public void setData()
+    {
+        rv_MyProfile_Edit_Favorite_Menu = itemView.findViewById(R.id.rv_MyProfile_Edit_Favorite_Menu);
+
+        initFavoriteList();
+    }
+
+    public void initFavoriteList()
+    {
+        if(mFavoriteAdapter == null)
+        {
+            mFavoriteAdapter = new FavoriteViewAdapter(mContext);
+            RefreshFavoriteViewListSlot();
+            mFavoriteAdapter.setHasStableIds(true);
+
+            rv_MyProfile_Edit_Favorite_Menu.setAdapter(mFavoriteAdapter);
+            ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
+                    .setChildGravity(Gravity.CENTER)
+                    .setMaxViewsInRow(3)
+                    .setGravityResolver(new IChildGravityResolver() {
+                        @Override
+                        public int getItemGravity(int i) {
+                            return Gravity.CENTER;
+                        }
+                    })
+                    .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                    .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER_DENSE)
+                    .withLastRow(true)
+                    .build();
+            rv_MyProfile_Edit_Favorite_Menu.setLayoutManager(chipsLayoutManager);
+        }
+        else
+            RefreshFavoriteViewListSlot();
+    }
+
+    private void RefreshFavoriteViewListSlot()
+    {
+        ArrayList<String> list = new ArrayList<>();
+
+        Map<String, String> tempMapFavorite = TKManager.getInstance().MyData.GetUserFavoriteList();
+        Set EntrySet = tempMapFavorite.entrySet();
+        Iterator iterator = EntrySet.iterator();
+
+        while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String key = (String)entry.getKey();
+            String value = (String)entry.getValue();
+            list.add(value);
+        }
+
+        mFavoriteAdapter.setItemCount(list.size());
+        mFavoriteAdapter.setItemData(list);
+        mFavoriteAdapter.notifyDataSetChanged();
+    }
+}
+
 class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
 
     TextView tv_MyProfile_Edit_Menu_Title;
@@ -148,16 +236,14 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
             if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()) == false)
             {
                 // 있음
-                tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_STORY));
-                tv_MyProfile_Edit_Menu_Desc.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+                tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_MEMO));
                 tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserMemo());
             }
             else
             {
                 //없음
-                tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_STORY));
-                tv_MyProfile_Edit_Menu_Desc.setTextColor(ContextCompat.getColor(mContext, R.color.gray_light));
-                tv_MyProfile_Edit_Menu_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_STORY_HINT));
+                tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_MEMO));
+                tv_MyProfile_Edit_Menu_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION_MEMO_1) + " " +TKManager.getInstance().MyData.GetUserNickName() + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION_MEMO_2));
             }
         }
         else if(i == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_LOC_INDEX)
@@ -167,15 +253,15 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
             {
                 // 있음
                 tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_LOCATION));
-                tv_MyProfile_Edit_Menu_Desc.setTextColor(ContextCompat.getColor(mContext, R.color.black));
                 tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserLocation());
             }
             else
             {
                 //없음
                 tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_LOCATION));
-                tv_MyProfile_Edit_Menu_Desc.setTextColor(ContextCompat.getColor(mContext, R.color.gray_light));
-                tv_MyProfile_Edit_Menu_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_LOCATION_HINT));
+//                tv_MyProfile_Edit_Menu_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
+                tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserDist_Area() + "에서 활동 중입니다");
+
             }
         }
         else if(i == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX)

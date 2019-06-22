@@ -2,15 +2,20 @@ package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +27,7 @@ import java.util.Map;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.viewPager.PhotoViewPager;
 
 public class CustomPhotoView extends AppCompatActivity {
@@ -37,6 +43,7 @@ public class CustomPhotoView extends AppCompatActivity {
     public static int PHOTO_VIEW_TYPE_MY_PROFILE_LIST = 2;
     public static int PHOTO_VIEW_TYPE_USER_PROFILE = 3;
     public static int PHOTO_VIEW_TYPE_USER_PROFILE_LIST = 4;
+    public static int PHOTO_VIEW_TYPE_CHAT_BODY = 5;
 
     ArrayList<String> mPhotoSrcList = new ArrayList<>();
 
@@ -85,39 +92,56 @@ public class CustomPhotoView extends AppCompatActivity {
 
             tv_TopBar_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         }
+        else if(type == PHOTO_VIEW_TYPE_CHAT_BODY)
+        {
+            mPhotoSrcList.add(ImgSrc);
+            tv_TopBar_Title.setText("");
+        }
 
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
                 finish();
             }
         });
 
-        vp_Custom_Photo_View.setAdapter(new PhotoPagerAdapter(getSupportFragmentManager(), mPhotoSrcList.size()));
+        vp_Custom_Photo_View.setAdapter(new PhotoPagerAdapter());
         vp_Custom_Photo_View.setCurrentItem(0);
 
     }
 
     //     photoView.setImageResource(R.drawable.image4);
-    private class PhotoPagerAdapter extends FragmentStatePagerAdapter {
-        private  int tabCount;
-        public PhotoPagerAdapter(FragmentManager fm, int tabCount) {
-            super(fm);
-            this.tabCount = tabCount;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            PhotoViewPager PhotoPage = new PhotoViewPager();
-            PhotoPage.setMyProfilePhoto(true);
-            PhotoPage.setImgSrc(mPhotoSrcList.get(position));
-            return PhotoPage;
+    private class PhotoPagerAdapter extends PagerAdapter {
+        PhotoView pv_Photo_View;
+        LayoutInflater mLayoutInflater;
+        public PhotoPagerAdapter() {
+            mLayoutInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
         public int getCount() {
-            return tabCount;
+            return mPhotoSrcList.size();
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            View itemView = mLayoutInflater.inflate(R.layout.viewpager_photo_view, container,false);
+            pv_Photo_View = itemView.findViewById(R.id.pv_Photo_View);
+            CommonFunc.getInstance().DrawImageByGlide(mContext, pv_Photo_View, mPhotoSrcList.get(position), false);
+            container.addView(itemView);
+            return itemView;
+
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((ConstraintLayout)object);
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((ConstraintLayout)object);
         }
     }
 }

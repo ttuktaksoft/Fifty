@@ -1,5 +1,7 @@
 package fifty.fiftyhouse.com.fifty.Manager;
 
+import android.app.Activity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -12,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 
 public class TKManager {
     private static TKManager _Instance;
@@ -40,6 +43,5 @@ public class TKManager {
     public ArrayList<String> FavoriteLIst_Pop = new ArrayList<>();
 
     public boolean isWorkFireBase = true;
-
 
 }

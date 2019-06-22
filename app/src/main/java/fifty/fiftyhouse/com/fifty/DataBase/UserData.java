@@ -40,7 +40,7 @@ public class UserData {
         @Override
         protected boolean removeEldestEntry(Entry<String, String> arg0)
         {
-            return size() == 6? true : false;
+            return size() == CommonData.FavoriteSelectMaxCountCheck? true : false;
         }
     };
 
@@ -68,13 +68,12 @@ public class UserData {
     private Map<String, String> LikeList = new LinkedHashMap<>();
     private Map<String, String> VisitList = new LinkedHashMap<>();
 
-    private Map<String, String> ChatRoomList = new LinkedHashMap<>();
     private Map<String, ChatData> ChatRoomDataList = new LinkedHashMap<>();
 
     private Map<String, ChatData> ChatRoomData = new LinkedHashMap<>();
 
     private Map<String, Long> ChatReadIndex = new LinkedHashMap<>();
-
+    public ArrayList<String> UserList_Chat = new ArrayList<>();
 
   /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
     {
@@ -207,6 +206,10 @@ public class UserData {
     {
         FavoriteList.remove(key);
     }
+    public void ClearUserFavorite()
+    {
+        FavoriteList.clear();
+    }
 
     public void SetUserImg(String Index, String Img)
     {
@@ -224,7 +227,11 @@ public class UserData {
     {
         return ImgList.size();
     }
-
+    public void ClearUserImg()
+    {
+        ImgList.clear();
+    }
+/*
     public void SetUserChatList(String chatRoomIdx, String index)
     {
         ChatRoomList.put(chatRoomIdx, index);
@@ -244,8 +251,12 @@ public class UserData {
     public void  DelUserChatList(String chatRoomIdx)
     {
         ChatRoomList.remove(chatRoomIdx);
-    }
+    }*/
 
+    public void SetUserChatDataList(Map<String, ChatData> map)
+    {
+        ChatRoomDataList = map;
+    }
     public void SetUserChatDataList(String chatRoomIdx, ChatData data)
     {
         ChatRoomDataList.put(chatRoomIdx, data);
@@ -253,6 +264,10 @@ public class UserData {
     public ChatData  GetUserChatDataList(String chatRoomIdx)
     {
         return ChatRoomDataList.get(chatRoomIdx);
+    }
+    public Map<String, ChatData>  GetUserChatDataList()
+    {
+        return ChatRoomDataList;
     }
     public int  GetUserChatDataListCount()
     {
@@ -266,6 +281,10 @@ public class UserData {
     {
         ChatRoomDataList.remove(chatRoomIdx);
     }
+    public void  ClearUserChatDataList()
+    {
+        ChatRoomDataList.clear();
+    }
 
     public void SetUserChatReadIndexList(String chatRoomIdx, Long index)
     {
@@ -273,7 +292,7 @@ public class UserData {
     }
     public Long  GetUserChatReadIndexList(String chatRoomIdx)
     {
-        return ChatReadIndex.get(chatRoomIdx);
+      return ChatReadIndex.get(chatRoomIdx);
     }
     public int  GetUserChatReadIndexListCount()
     {
@@ -445,7 +464,7 @@ public class UserData {
         return Dist_Lon;
     }
 
-    public void  SetUserDist_Region(long dist)
+    public void  SetUserDist_Region(double dist)
     {
         Dist_Region = dist;
     }

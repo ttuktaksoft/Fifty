@@ -17,6 +17,8 @@ import fifty.fiftyhouse.com.fifty.R;
 public class FavoriteSelectViewAdapter extends RecyclerView.Adapter<FavoriteSelectViewHolder> {
 
     Context mContext;
+    int mItemCount = 0;
+    ArrayList<String> mItemList = new ArrayList<>();
     public FavoriteSelectViewAdapter(Context context) {
         mContext = context;
     }
@@ -31,12 +33,23 @@ public class FavoriteSelectViewAdapter extends RecyclerView.Adapter<FavoriteSele
     @Override
     public void onBindViewHolder(FavoriteSelectViewHolder holder, final int position) {
         int i = position;
-        holder.setData(i);
+        holder.setData(mItemList.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return TKManager.getInstance().MyData.GetUserFavoriteListCount();
+        return mItemCount;
+    }
+
+    public void setItemCount(int count)
+    {
+        mItemCount = count;
+    }
+
+    public void setItemData(ArrayList<String> list)
+    {
+        mItemList.clear();
+        mItemList.addAll(list);
     }
 
 }
@@ -53,11 +66,8 @@ class FavoriteSelectViewHolder extends RecyclerView.ViewHolder {
         tv_Favorite_Select_View_Name = itemView.findViewById(R.id.tv_Favorite_Select_View_Name);
     }
 
-    public void setData(int i)
+    public void setData(String str)
     {
-        Set tempKey = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
-        List array = new ArrayList(tempKey);
-
-        tv_Favorite_Select_View_Name.setText(TKManager.getInstance().MyData.GetUserFavoriteList(array.get(i).toString()));
+        tv_Favorite_Select_View_Name.setText(str);
     }
 }

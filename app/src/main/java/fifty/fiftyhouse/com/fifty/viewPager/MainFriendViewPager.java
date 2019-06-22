@@ -1,6 +1,8 @@
 package fifty.fiftyhouse.com.fifty.viewPager;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,7 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.UserData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
@@ -24,7 +41,7 @@ public class MainFriendViewPager extends Fragment {
     RecyclerView rv_Main_Friend_UserList;
     View v_FragmentView = null;
     public MainAdapter mAdapter;
-
+    private String UserIndex;
     public MainFriendViewPager() {
         super();
     }
@@ -45,6 +62,7 @@ public class MainFriendViewPager extends Fragment {
         }
         else
         {
+            mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
             mAdapter.notifyDataSetChanged();
         }
 
@@ -54,21 +72,46 @@ public class MainFriendViewPager extends Fragment {
 
     private void initSubInfo()
     {
-        tv_Main_Friend_Count.setText("현재 친구 : 10명");
+        tv_Main_Friend_Count.setText("친구 " + TKManager.getInstance().MyData.GetUserFriendListCount() + "명");
     }
 
     private void initRecyclerView()
     {
         mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().UserList_Friend.size());
+        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
 
         rv_Main_Friend_UserList.setAdapter(mAdapter);
         rv_Main_Friend_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
         rv_Main_Friend_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Friend_UserList, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(getContext(), UserProfileActivity.class));
+
+                Set tempKey = TKManager.getInstance().MyData.GetUserFriendListKeySet();
+                List array = new ArrayList(tempKey);
+
+                UserIndex = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserIndex();
+                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        startActivityForResult(new Intent(MainActivity.mActivity, UserProfileActivity.class), 1000);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {
                     stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
@@ -99,6 +142,22 @@ public class MainFriendViewPager extends Fragment {
                 }*/
             }
         });
+    }
+
+    public void RefreshUI()
+    {
+        initSubInfo();
+        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1000)
+        {
+            RefreshUI();
+        }
+
     }
 
 }

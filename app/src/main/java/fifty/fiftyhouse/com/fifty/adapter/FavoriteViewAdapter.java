@@ -14,9 +14,12 @@ import android.widget.TextView;
 import com.google.android.gms.common.internal.service.Common;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
@@ -28,6 +31,7 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
     boolean mSelectView = false;
     int mItemCount = 0;
     ArrayList<String> mItemList = new ArrayList<>();
+    ArrayList<String> mSelectItemList = new ArrayList<>();
 
     public FavoriteViewAdapter(Context context) {
         mContext = context;
@@ -46,15 +50,18 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
         if(mAdd)
         {
             if(mItemCount - 1 <= position)
-                holder.setData(mAddString, true, mSelectView);
+                holder.setData(mAddString, true, mSelectView, false);
             else
-                holder.setData(mItemList.get(i), false, mSelectView);
+                holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
         }
         else
-            holder.setData(mItemList.get(i), false, mSelectView);
+            holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
 
     }
-
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
     @Override
     public int getItemCount() {
         return mItemCount;
@@ -84,6 +91,12 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
         mItemList.addAll(list);
     }
 
+    public void setSelectItemData(ArrayList<String> list)
+    {
+        mSelectItemList.clear();
+        mSelectItemList.addAll(list);
+    }
+
 }
 
 class FavoriteViewHolder extends RecyclerView.ViewHolder {
@@ -100,13 +113,13 @@ class FavoriteViewHolder extends RecyclerView.ViewHolder {
         tv_Favorite_View_Name = itemView.findViewById(R.id.tv_Favorite_View_Name);
     }
 
-    public void setData(String favorite, boolean add, boolean selectView)
+    public void setData(String favorite, boolean add, boolean selectView, boolean selectBG)
     {
         if(add == false)
         {
             if(selectView)
             {
-                if(TKManager.getInstance().MyData.GetUserFavoriteList().containsKey(favorite))
+                if(selectBG)
                     ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_3)));
                 else
                     ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_1)));

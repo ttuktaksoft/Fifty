@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class UserReportActivity extends AppCompatActivity {
 
@@ -40,9 +42,9 @@ public class UserReportActivity extends AppCompatActivity {
         tv_UserReport_Report = findViewById(R.id.tv_UserReport_Report);
         et_UserReport_Memo = findViewById(R.id.et_UserReport_Memo);
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });
@@ -68,10 +70,11 @@ public class UserReportActivity extends AppCompatActivity {
             }
         });
 
-        tv_UserReport_Report.setOnClickListener(new View.OnClickListener() {
+        tv_UserReport_Report.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onSingleClick(View view) {
+                DialogFunc.getInstance().ShowToast(UserReportActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_REPORT_RESULT), true);
+                finish();
             }
         });
 

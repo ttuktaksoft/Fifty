@@ -35,13 +35,6 @@ public class CommonData {
         FRIEND
     }
 
-    public static enum MyProfileViewType
-    {
-        VISIT,
-        LIKE,
-        FRIEND
-    }
-
     public static enum MyProfileMenuType
     {
         EVENT,
@@ -56,35 +49,47 @@ public class CommonData {
         IMG,
         VIDEO
     }
-    public static enum FavoriteSelectType
-    {
-        SIGNUP,
-        EDIT
-    }
-
     public static enum ACTIVITY_INTENT_FLAG
     {
         CHATFRAGMENT
     }
+    public static enum USER_LIST_TYPE
+    {
+        MY_LIKE_LIST,
+        MY_VISIT_LIST,
+        MY_FRIEND_LIST
+    }
 
 
     // 처음에 보여줄 인기 관심사 갯수
-    public static int Favorite_Pop_Count = 2;
+    public static int Favorite_Pop_Count = 10;
     // 처음에 검색할 인기 관심사 갯수
-    public static int Favorite_Search_Pop_Count = 30;
+    public static int Favorite_Search_Pop_Count = 300;
 
     // 메인 화면 기준별 보여지는 유져 인원 수
     public static int UserList_Loding_Count = 10;
-
 
     public static int UserData_Loding_Count = 5;
 
     public static int FavoriteSelectMinCount = 2;
     public static int FavoriteSelectMaxCount = 5;
+    public static int FavoriteSelectMaxCountCheck = 6;
     public static int NickNameMinSize = 2;
     public static int NickNameMaxSize = 10;
     public static int MemoMaxSize = 4000;
     public static int LocationMaxSize = 30;
     public static int UserReportMaxSize = 4000;
+
+    public static final int GET_PHOTO_FROM_GALLERY = 1;
+    public static final int GET_PHOTO_FROM_CAMERA = 2;
+    public static final int GET_PHOTO_FROM_CROP = 3;
+
+    public static final int MAX_PROFILE_IMG_COUNT = 8;
+
+    public static final String[] REFERENCE_DAY = {"낚시", "요리", "골프", "Cook", "Golf", "여행", "수영"};
+
+    public static final int USER_LIST_MY_LIKE = 1;
+    public static final int USER_LIST_MY_VISIT = 2;
+    public static final int USER_LIST_MY_FRIEND = 3;
 
 }

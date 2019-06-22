@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+
 public class StrContentActivity extends AppCompatActivity {
 
     View ui_StrContent_TopBar;
@@ -29,9 +31,9 @@ public class StrContentActivity extends AppCompatActivity {
         tv_StrContent_Desc = findViewById(R.id.tv_StrContent_Desc);
 
         tv_TopBar_Title.setText("입력해주세요.");
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });

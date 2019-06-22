@@ -1,7 +1,9 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +47,7 @@ import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileMenuAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class UserProfileFragment extends Fragment {
@@ -65,6 +69,7 @@ public class UserProfileFragment extends Fragment {
     boolean mMyProfile = true;
 
     int MY_PROFILE_EDIT = 1;
+    int mSelectPhotoIndex = 0;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -130,25 +135,24 @@ public class UserProfileFragment extends Fragment {
 
     public void setMyProfileData()
     {
-        v_UserProfile_Info_Detail.setOnClickListener(new View.OnClickListener() {
+        v_UserProfile_Info_Detail.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 // TODO 메인화면 갱신이 필요함
                 startActivityForResult(new Intent(mContext, MyProfileEditActivity.class), MY_PROFILE_EDIT);
             }
         });
 
-        tv_UserProfile_Info_Count_1.setOnClickListener(new View.OnClickListener() {
+        tv_UserProfile_Info_Count_1.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-                // 방문자
-
-                if(TKManager.getInstance().MyData.GetUserVisitListCount() < 1)
+            public void onSingleClick(View view) {
+                if(TKManager.getInstance().MyData.GetUserVisitListCount() == 0)
                 {
-                    DialogFunc.getInstance().ShowToast(mContext, "방문자 없는 내용", true);
+                    Intent intent = new Intent(mContext, UserListActivity.class);
+                    intent.putExtra("Type",CommonData.USER_LIST_MY_VISIT);
+                    startActivityForResult(intent, 1000);
                 }
-                else
-                {
+                else{
                     DialogFunc.getInstance().ShowLoadingPage(mContext);
 
                     Set KeySet = TKManager.getInstance().MyData.GetUserVisitKeySet();
@@ -161,9 +165,8 @@ public class UserProfileFragment extends Fragment {
                         public void CompleteListener() {
                             DialogFunc.getInstance().DismissLoadingPage();
                             Intent intent = new Intent(mContext, UserListActivity.class);
-                            intent.putExtra("Type",0);
-                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserVisitListCount());
-                            startActivity(intent);
+                            intent.putExtra("Type",CommonData.USER_LIST_MY_VISIT);
+                            startActivityForResult(intent,1000);
                         }
 
                         @Override
@@ -185,21 +188,20 @@ public class UserProfileFragment extends Fragment {
                             FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                     }
                 }
-
             }
         });
 
-        tv_UserProfile_Info_Count_2.setOnClickListener(new View.OnClickListener() {
+        tv_UserProfile_Info_Count_2.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 // 좋아요
-
-                if(TKManager.getInstance().MyData.GetUserLikeListCount() < 1)
+                if(TKManager.getInstance().MyData.GetUserLikeListCount() == 0)
                 {
-                    DialogFunc.getInstance().ShowToast(mContext, "좋아요 없는 내용", true);
+                    Intent intent = new Intent(mContext, UserListActivity.class);
+                    intent.putExtra("Type",CommonData.USER_LIST_MY_LIKE);
+                    startActivityForResult(intent, 1000);
                 }
-                else
-                {
+                else {
                     DialogFunc.getInstance().ShowLoadingPage(mContext);
 
 
@@ -213,9 +215,8 @@ public class UserProfileFragment extends Fragment {
                         public void CompleteListener() {
                             DialogFunc.getInstance().DismissLoadingPage();
                             Intent intent = new Intent(mContext, UserListActivity.class);
-                            intent.putExtra("Type",1);
-                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserLikeListCount());
-                            startActivity(intent);
+                            intent.putExtra("Type", CommonData.USER_LIST_MY_LIKE);
+                            startActivityForResult(intent, 1000);
                         }
 
                         @Override
@@ -227,28 +228,25 @@ public class UserProfileFragment extends Fragment {
                         }
                     };
 
-                    while(iterator.hasNext()){
-                        String key = (String)iterator.next();
-                        if(TKManager.getInstance().UserData_Simple.get(key) != null)
-                        {
+                    while (iterator.hasNext()) {
+                        String key = (String) iterator.next();
+                        if (TKManager.getInstance().UserData_Simple.get(key) != null) {
                             FirebaseManager.getInstance().Complete(listener);
-                        }
-                        else
+                        } else
                             FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                     }
                 }
-
             }
         });
 
-        tv_UserProfile_Info_Count_3.setOnClickListener(new View.OnClickListener() {
+        tv_UserProfile_Info_Count_3.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-                // 친구
-
-                if(TKManager.getInstance().MyData.GetUserFriendListCount() < 1)
+            public void onSingleClick(View v) {
+                if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
                 {
-                    DialogFunc.getInstance().ShowToast(mContext, "친없찐쓰애끼", true);
+                    Intent intent = new Intent(mContext, UserListActivity.class);
+                    intent.putExtra("Type",CommonData.USER_LIST_MY_FRIEND);
+                    startActivityForResult(intent, 1000);
                 }
                 else
                 {
@@ -265,9 +263,8 @@ public class UserProfileFragment extends Fragment {
                             DialogFunc.getInstance().DismissLoadingPage();
 
                             Intent intent = new Intent(mContext, UserListActivity.class);
-                            intent.putExtra("Type",2);
-                            intent.putExtra("Count",TKManager.getInstance().MyData.GetUserFriendListCount());
-                            startActivity(intent);
+                            intent.putExtra("Type",CommonData.USER_LIST_MY_FRIEND);
+                            startActivityForResult(intent, 1000);
                         }
 
                         @Override
@@ -289,7 +286,6 @@ public class UserProfileFragment extends Fragment {
                             FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                     }
                 }
-
             }
         });
 
@@ -312,16 +308,11 @@ public class UserProfileFragment extends Fragment {
         }
 
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().MyData.GetUserAge() + "세");
-        tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
 
-        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()))
-            tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
-        else
-            tv_UserProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
+        RefreshLocationText();
+        RefreshMemoText();
+        RefreshCountText();
 
-        tv_UserProfile_Info_Count_1.setText("방문자 " + TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
-        tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
-        tv_UserProfile_Info_Count_3.setText("친구 " + TKManager.getInstance().MyData.GetUserFriendListCount());
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, true);
@@ -334,18 +325,18 @@ public class UserProfileFragment extends Fragment {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(iv_UserProfile_Profile);
 
-        iv_UserProfile_Profile.setOnClickListener(new ImageView.OnClickListener() {
+        iv_UserProfile_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent intent = new Intent(mContext, CustomPhotoView.class);
-                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_MY_PROFILE);
-                startActivity(intent);
+                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_USER_PROFILE);
+                startActivityForResult(intent, 1000);
             }
         });
 
-        iv_UserProfile_Info_Memo_BG.setOnClickListener(new ImageView.OnClickListener() {
+        iv_UserProfile_Info_Memo_BG.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 startActivity(new Intent(mContext, UserProfileMemoActivity.class));
             }
         });
@@ -362,19 +353,10 @@ public class UserProfileFragment extends Fragment {
 
         tv_UserProfile_Info_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().TargetUserData.GetUserAge() + "세");
-        tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserLocation());
+        RefreshLocationText();
+        RefreshMemoText();
+        RefreshCountText();
 
-        tv_UserProfile_Info_Count_1.setText("방문자 " + TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
-        tv_UserProfile_Info_Count_2.setText("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
-
-        Double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), TKManager.getInstance().TargetUserData.GetUserDist_Lat(), TKManager.getInstance().TargetUserData.GetUserDist_Lon());
-        tv_UserProfile_Info_Count_3.setText("거리 " + Distance + " m");
-
-
-        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserMemo()))
-            tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
-        else
-            tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
 
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
@@ -519,22 +501,23 @@ public class UserProfileFragment extends Fragment {
                 {
                     if(position < TKManager.getInstance().MyData.GetUserImgCount())
                     {
+                        mSelectPhotoIndex = position;
                         // TODO 사진은 바로 리스트로 본다고 했었나??
                         ArrayList<String> menuList = new ArrayList<>();
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_CAMERA_ADD));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_GALLERY_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_ADD));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoViewFunc();
 
                         DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
                     }
-                    else if(position == TKManager.getInstance().MyData.GetUserImgCount())
+                    else if(position >= TKManager.getInstance().MyData.GetUserImgCount())
                     {
+                        mSelectPhotoIndex = TKManager.getInstance().MyData.GetUserImgCount();
+
                         ArrayList<String> menuList = new ArrayList<>();
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_CAMERA_ADD));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_GALLERY_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_ADD));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoAddFunc();
@@ -542,11 +525,13 @@ public class UserProfileFragment extends Fragment {
                         DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
                     }
                 }
-                else
-                {
-                    Intent intent = new Intent(mContext, CustomPhotoView.class);
-                    intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_USER_PROFILE_LIST);
-                    startActivity(intent);
+                else {
+                    if (position < TKManager.getInstance().TargetUserData.GetUserImgCount())
+                    {
+                        Intent intent = new Intent(mContext, CustomPhotoView.class);
+                        intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_USER_PROFILE_LIST);
+                        startActivityForResult(intent, 1000);
+                    }
                 }
 
             }
@@ -568,7 +553,7 @@ public class UserProfileFragment extends Fragment {
         rv_UserProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Club, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                startActivity(new Intent(mContext, StrContentListActivity.class));
+                //startActivity(new Intent(mContext, StrContentListActivity.class));
             }
 
             @Override
@@ -590,14 +575,14 @@ public class UserProfileFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 if(position == 3)
                 {
-                    Intent intent = new Intent(mContext, SettingActivity.class);
-                    startActivity(intent);
+                    /*Intent intent = new Intent(mContext, SettingActivity.class);
+                    startActivity(intent);*/
                 }
                 else
                 {
-                    Intent intent = new Intent(mContext, StrContentListActivity.class);
+                    /*Intent intent = new Intent(mContext, StrContentListActivity.class);
                     intent.putExtra("Type",position);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             }
 
@@ -633,15 +618,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void Listener()
             {
-                DialogFunc.getInstance().ShowToast(mContext, "사진을 촬영해서 등록", true);
-            }
-        });
-        list.add(new DialogFunc.MsgPopupListener()
-        {
-            @Override
-            public void Listener()
-            {
-                DialogFunc.getInstance().ShowToast(mContext, "사진을 앨범에서 등록", true);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(mContext, UserProfileFragment.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
@@ -666,15 +643,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void Listener()
             {
-                DialogFunc.getInstance().ShowToast(mContext, "사진을 촬영해서 등록", true);
-            }
-        });
-        list.add(new DialogFunc.MsgPopupListener()
-        {
-            @Override
-            public void Listener()
-            {
-                DialogFunc.getInstance().ShowToast(mContext, "사진을 앨범에서 등록", true);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(mContext, UserProfileFragment.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
@@ -689,12 +658,8 @@ public class UserProfileFragment extends Fragment {
             if(mMyProfile)
             {
                 tv_UserProfile_Info_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
-                tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
-
-                if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()))
-                    tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.DEFAULT_USERPROFILE_MEMO));
-                else
-                    tv_UserProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
+                RefreshLocationText();
+                RefreshMemoText();
 
                 ArrayList<String> list = new ArrayList<>();
                 Map<String, String> mapList = new HashMap<>();
@@ -717,8 +682,135 @@ public class UserProfileFragment extends Fragment {
                         .circleCrop()
                         .into(iv_UserProfile_Profile);
 
-                mPhotoAdapter.notifyDataSetChanged();
+                RefreshMyPhotoList();
             }
         }
+        else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == Activity.RESULT_OK) {
+                DialogFunc.getInstance().ShowLoadingPage(mContext);
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        if(mMyProfile)
+                        {
+                            Glide.with(mContext).load(TKManager.getInstance().MyData.GetUserImgThumb())
+                                    .centerCrop()
+                                    .circleCrop()
+                                    .into(iv_UserProfile_Profile);
+
+                            RefreshMyPhotoList();
+                        }
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+                Uri resultUri = result.getUri();
+                CommonFunc.getInstance().SetCropImage(mContext, resultUri, mSelectPhotoIndex, null, listener);
+            }
+        }
+
+        // TODO 무조건 갱신
+        RefreshCountText();
+    }
+
+    private void RefreshMyPhotoList()
+    {
+        ArrayList<String> list = new ArrayList<>();
+        Map<String, String> mapList = TKManager.getInstance().MyData.GetUserImg();
+        Set EntrySet = mapList.entrySet();
+
+        Iterator iterator = EntrySet.iterator();
+        while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String key = (String)entry.getKey();
+            String value = (String)entry.getValue();
+            list.add(value);
+        }
+
+        mPhotoAdapter.setProfilePhotoType(UserProfilePhotoAdapter.PROFILE_PHOTO_TYPE.MY_PROFILE);
+        mPhotoAdapter.setItemCount(list.size());
+        mPhotoAdapter.setItemData(list);
+
+        mPhotoAdapter.notifyDataSetChanged();
+    }
+
+    private void RefreshMemoText()
+    {
+        if(mMyProfile)
+        {
+            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserMemo()))
+                tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION_MEMO_1) + " " + TKManager.getInstance().MyData.GetUserNickName() + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION_MEMO_2));
+            else
+                tv_UserProfile_Info_Memo.setText(TKManager.getInstance().MyData.GetUserMemo());
+        }
+        else
+        {
+            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserMemo()))
+                tv_UserProfile_Info_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION_MEMO_1) + " " + TKManager.getInstance().TargetUserData.GetUserNickName() + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION_MEMO_2));
+            else
+                tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
+        }
+
+    }
+
+    private void RefreshLocationText()
+    {
+        if(mMyProfile)
+        {
+            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserLocation()))
+                //tv_UserProfile_Info_Location.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserDist_Area() + "에서 활동 중입니다");
+            else
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
+        }
+        else
+        {
+            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserLocation()))
+                //tv_UserProfile_Info_Location.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserDist_Area() + "에서 활동 중입니다");
+            else
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserLocation());
+        }
+
+    }
+
+    public void RefreshCountText()
+    {
+        String MSG_VISITER = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VISITER);
+        String MSG_FRIEND = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FRIEND);
+        String MSG_DISTANCE = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DISTANCE);
+        String MSG_LIKE = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_LIKE);
+        if(mMyProfile)
+        {
+            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + " " +TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
+            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + " " +TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
+            tv_UserProfile_Info_Count_3.setText(MSG_FRIEND + " " +TKManager.getInstance().MyData.GetUserFriendListCount());
+        }
+        else
+        {
+            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + " " +TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
+            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + " " +TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+
+
+            String mUserDist = null;
+            if(TKManager.getInstance().TargetUserData.GetUserDist()  < 1000)
+            {
+                mUserDist = "1km 이내";
+            }
+            else
+            {
+                mUserDist = (int)(TKManager.getInstance().TargetUserData.GetUserDist()  / 1000) + "km";
+            }
+            tv_UserProfile_Info_Count_3.setText(MSG_DISTANCE + " " +mUserDist);
+        }
+
     }
 }

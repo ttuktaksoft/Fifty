@@ -11,9 +11,21 @@
         android:padding="10dp">
 
         <ImageView
+            android:id="@+id/iv_Chat_Body_Profile_Border"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_Chat_Body_Profile"
+            app:layout_constraintRight_toRightOf="@+id/iv_Chat_Body_Profile"
+            app:layout_constraintTop_toTopOf="@+id/iv_Chat_Body_Profile"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Body_Profile"
+            android:tint="@color/topbar_bg"
+            android:src="@drawable/bg_empty_circle" />
+
+        <ImageView
             android:id="@+id/iv_Chat_Body_Profile"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:padding="1dp"
             app:layout_constraintRight_toRightOf="@id/v_Chat_Body"
             app:layout_constraintTop_toTopOf="@id/v_Chat_Body"/>
 

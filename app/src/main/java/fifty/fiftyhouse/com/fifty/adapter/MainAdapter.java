@@ -12,8 +12,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -115,7 +120,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
                 rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserIndex());
                 break;
             case FRIEND:
-                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserIndex());
+                Set tempKey = TKManager.getInstance().MyData.GetUserFriendListKeySet();
+                List array = new ArrayList(tempKey);
+                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserIndex());
                 break;
         }
         //rtValue = Long.valueOf(mMyData.arrUserAll_Hot_Age.get(position).Idx);
@@ -144,69 +151,62 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
     public void SetItemByType(CommonData.MainViewType type, int position)
     {
         UserData tempData = new UserData();
+        double Distance = 0;
         switch (type)
         {
             case DIST:
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)));
-                mUserName = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserNickName();
-
-                double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
-                mUserDist = Distance + "m";
-
-                for(int i = 0 ; i< 8 ; i++)
-                    mUserImg[i] = null;
-
-                for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserImgCount(); i++)
-                {
-                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserImg(Integer.toString(i));
-                }
                 break;
 
             case NEW:
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)));
-                mUserName = tempData.GetUserNickName();
-                Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
-                mUserDist = Distance + "m";
-
-                for(int i = 0 ; i< 8 ; i++)
-                    mUserImg[i] = null;
-
-                for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserImgCount(); i++)
-                {
-                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserImg(Integer.toString(i));
-                }
                 break;
 
             case HOT:
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)));
-                mUserName = tempData.GetUserNickName();
-                Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
-                mUserDist = Distance + "m";
-
-                for(int i = 0 ; i< 8 ; i++)
-                    mUserImg[i] = null;
-
-                for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserImgCount(); i++)
-                {
-                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserImg(Integer.toString(i));
-                }
                 break;
 
             case FRIEND:
-                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)));
-                mUserName = tempData.GetUserNickName();
-                Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
-                mUserDist = Distance + "m";
 
-                for(int i = 0 ; i< 8 ; i++)
-                    mUserImg[i] = null;
+                Set tempKey = TKManager.getInstance().MyData.GetUserFriendListKeySet();
+                List array = new ArrayList(tempKey);
 
-                for(int i = 0; i < TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserImgCount(); i++)
-                {
-                    mUserImg[i] = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Friend.get(position)).GetUserImg(Integer.toString(i));
-                }
+                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(array.get(position).toString()));
                 break;
 
+        }
+
+        mUserName = tempData.GetUserNickName();
+
+        /*if(tempData.GetUserDist_Lat() == 0)
+        {
+            tempData.SetUserDist_Lat(37.566659);
+        }
+        if(tempData.GetUserDist_Lon() == 0)
+        {
+            tempData.SetUserDist_Lon(126.978425);
+        }
+*/
+  //      Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempData.GetUserDist_Lat(), tempData.GetUserDist_Lon());
+
+
+        if(tempData.GetUserDist() < 1000)
+        {
+            mUserDist = "1km 이내";
+        }
+        else
+        {
+            mUserDist = (int)(tempData.GetUserDist()  / 1000) + "km";
+        }
+
+       // mUserDist = Long.toString(tempData.GetUserDist());
+
+        for(int i = 0 ; i< 8 ; i++)
+            mUserImg[i] = null;
+
+        for(int i = 0; i < tempData.GetUserImgCount(); i++)
+        {
+            mUserImg[i] = tempData.GetUserImg(Integer.toString(i));
         }
 
     }

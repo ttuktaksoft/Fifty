@@ -10,15 +10,20 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,20 +33,29 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.firestore.auth.User;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -134,7 +148,7 @@ public class CommonFunc {
     {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String getTime = sdf.format(date);
         return getTime;
     }
@@ -226,13 +240,37 @@ public class CommonFunc {
             return false;
     }
 
-    public void GetPhotoInGallery(Activity activity, int ActivityFlag) {
-        if(ActivityFlag == 0)
+    private void GetPhotoInGallery(Activity activity, int ActivityFlag) {
+        if(ActivityFlag == CommonData.GET_PHOTO_FROM_CROP)
         {
-            CropImage.activity(null)
+            CropImage.activity()
                     .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .start(activity);
+        }
+        else if(ActivityFlag == CommonData.GET_PHOTO_FROM_CAMERA)
+        {
+            //https://developer.android.com/training/camera/photobasics.html
+            /*// 이미지 파일 이름 ( blackJin_{시간}_ )
+            String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
+            String imageFileName = "fifty_" + timeStamp + "_";
+            File storageDir = new File(Environment.getExternalStorageDirectory() + "/fifty/");
+            if (!storageDir.exists()) storageDir.mkdirs();
+            File image = null;
+            try{
+                // 빈 파일 생성
+                image =  File.createTempFile(imageFileName, ".jpg", storageDir);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+
+            if (image != null) {
+
+                Uri photoUri = FileProvider.getUriForFile(activity, "fifty.fiftyhouse.com.fifty.fileprovider", image);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                activity.startActivityForResult(intent, ActivityFlag);
+            }*/
         }
         else
         {
@@ -242,14 +280,61 @@ public class CommonFunc {
         }
     }
 
-    public void SetImage(Context context, File file, boolean camera, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
+    private void GetPhotoInGallery(Context context, Fragment fragment, int ActivityFlag) {
+        if(ActivityFlag == CommonData.GET_PHOTO_FROM_CROP)
+        {
+            CropImage.activity()
+                    .setActivityTitle(getStr(context.getResources(), R.string.MSG_PHOTO_SELECT))
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(context, fragment);
+        }
+        else if(ActivityFlag == CommonData.GET_PHOTO_FROM_CAMERA)
+        {
+            //https://developer.android.com/training/camera/photobasics.html
+            /*// 이미지 파일 이름 ( blackJin_{시간}_ )
+            String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
+            String imageFileName = "fifty_" + timeStamp + "_";
+            File storageDir = new File(Environment.getExternalStorageDirectory() + "/fifty/");
+            if (!storageDir.exists()) storageDir.mkdirs();
+            File image = null;
+            try{
+                // 빈 파일 생성
+                image =  File.createTempFile(imageFileName, ".jpg", storageDir);
+            } catch (IOException e) {
+                System.out.println(e);
+            }
 
-        ImageResize.resizeFile(file, file, 1280, camera);
+            if (image != null) {
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-        //iv_SignUp_Profile.setImageBitmap(originalBm);
-        DrawImageByGlide(context, imageView, originalBm, true);
+                Uri photoUri = FileProvider.getUriForFile(activity, "fifty.fiftyhouse.com.fifty.fileprovider", image);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                activity.startActivityForResult(intent, ActivityFlag);
+            }*/
+        }
+        else
+        {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
+            fragment.startActivityForResult(intent, ActivityFlag);
+        }
+    }
+
+    public void SetCropImage(Context context, Uri uri, int addImgIndex, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
+
+        Bitmap originalBm = null;
+        try {
+            originalBm = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if(imageView != null)
+            DrawImageByGlide(context, imageView, originalBm, true);
 
         final FirebaseManager.CheckFirebaseComplete uploadlistener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
@@ -267,17 +352,29 @@ public class CommonFunc {
             }
         };
 
-        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, 0, uploadlistener);
-        FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, uploadlistener);
+        FirebaseManager.getInstance().UploadImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, addImgIndex, uploadlistener);
+        if(addImgIndex == 0)
+            FirebaseManager.getInstance().UploadThumbImg(TKManager.getInstance().MyData.GetUserIndex(), originalBm, uploadlistener);
     }
 
-    public void SetImageInChatRoom(Context context, File file, boolean camera,  String roomIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+    public void SetImageInChatRoom(Context context, Uri uri,  String roomIndex, final FirebaseManager.CheckFirebaseComplete listener) {
 
-        ImageResize.resizeFile(file, file, 1280, camera);
+        //ImageResize.resizeFile(file, file, 1280, camera);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+/*        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap originalBm = BitmapFactory.decodeFile(file.getAbsolutePath(), options);*/
         //iv_SignUp_Profile.setImageBitmap(originalBm);
+
+        Bitmap originalBm = null;
+        try {
+            originalBm = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         final FirebaseManager.CheckFirebaseComplete uploadlistener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
@@ -299,7 +396,7 @@ public class CommonFunc {
     }
 
 
-    public void GetPermissionForGallery(final Activity activity, final int intentFlag) {
+    public void GetPermissionForGalleryCamera(final Activity activity, final int intentFlag) {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
@@ -320,14 +417,45 @@ public class CommonFunc {
 
     }
 
+    public void GetPermissionForGalleryCamera(final Context context, final Fragment fragment, final int intentFlag) {
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CommonFunc.getInstance().GetPhotoInGallery(context, fragment, intentFlag);
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+            }
+        };
+
+        TedPermission.with(context)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(context.getResources().getString(R.string.permission_cammera))
+                .setDeniedMessage(context.getResources().getString(R.string.permission_request))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+
+    }
 
 
+
+
+
+    public interface CheckLocationComplete {
+        void CompleteListener();
+
+        void CompleteListener_Yes();
+
+        void CompleteListener_No();
+    }
 
     @SuppressLint("MissingPermission")
-    public void GetUserLocation(Activity activity)
+    public void GetUserLocation(final Activity activity, final CommonFunc.CheckLocationComplete listener)
     {
         final Geocoder geocoder = new Geocoder(activity);
-
+        final LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+/*
         final LocationListener gpsLocationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
 
@@ -336,7 +464,6 @@ public class CommonFunc {
                 double latitude = location.getLatitude();
                 double altitude = location.getAltitude();
 
-
                 List<Address> list = null;
                 try {
                     list = geocoder.getFromLocation(
@@ -344,46 +471,158 @@ public class CommonFunc {
                             longitude, // 경도
                             10); // 얻어올 값의 개수
 
-
                     TKManager.getInstance().MyData.SetUserDist_Lon(longitude);
                     TKManager.getInstance().MyData.SetUserDist_Lat(latitude);
 
                 } catch (IOException e) {
                     e.printStackTrace();
+
+
+                    TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+                    TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+                    TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                    TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                    if(listener != null)
+                        listener.CompleteListener_No();
                 }
 
                 if (list != null) {
                     if (list.size() == 0) {
                         TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
-                    } else {
+                        TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+                        if(listener != null)
+                            listener.CompleteListener();
 
+                    } else {
                         TKManager.getInstance().MyData.SetUserDist_Area(list.get(0).getAdminArea() + " " + list.get(0).getSubLocality() + " " + list.get(0).getThoroughfare());
 
-                        Log.d("asdsad", list.get(0).toString());
+                        TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                        if(listener != null)
+                            listener.CompleteListener();
                     }
+                }
+                else
+                {
+
+                    Log.d("@@@@ Location  ", "list null");
+                    TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+                    TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+                    TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                    TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                    if(listener != null)
+                        listener.CompleteListener_No();
                 }
 
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
+                Log.d("@@@@ Location  ", "onStatusChanged" + provider + "___" + status);
             }
 
             public void onProviderEnabled(String provider) {
+                Log.d("@@@@ Location  ", "onProviderEnabled" + provider);
             }
 
             public void onProviderDisabled(String provider) {
+                Log.d("@@@@ Location  ", "onProviderDisabled" + provider);
+                if(listener != null)
+                    listener.CompleteListener_No();
             }
-        };
+        };*/
 
-        final LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-            1000 * 60 * 60,
-            1 * 100,
-            gpsLocationListener);
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_LOW);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+
+        lm.requestSingleUpdate(criteria, new LocationListener(){
+        @Override
+        public void onLocationChanged(Location location) {
+
+            DialogFunc.getInstance().ShowToast(activity, " 위치정보 받아 오는 중", true);
+            Log.d("@@@@ Location  ", "onLocationChanged" + location);
+
+            //위치 받아왔을 때 실행시킬 명령어 입력
+            String provider = location.getProvider();
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            double altitude = location.getAltitude();
+
+            List<Address> list = null;
+            try {
+                list = geocoder.getFromLocation(
+                        latitude, // 위도
+                        longitude, // 경도
+                        1); // 얻어올 값의 개수
+
+                TKManager.getInstance().MyData.SetUserDist_Lon(longitude);
+                TKManager.getInstance().MyData.SetUserDist_Lat(latitude);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+                TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+                TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                if(listener != null)
+                    listener.CompleteListener_No();
+            }
+
+            if (list != null) {
+                if (list.size() == 0) {
+                    TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                    TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+                } else {
+                    TKManager.getInstance().MyData.SetUserDist_Area(list.get(0).getAdminArea() + " " + list.get(0).getSubLocality() + " " + list.get(0).getThoroughfare());
+                    TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                }
+
+                DialogFunc.getInstance().ShowToast(activity, TKManager.getInstance().MyData.GetUserDist_Area(), true);
+                if(listener != null)
+                    listener.CompleteListener();
+            }
+            else
+            {
+
+                Log.d("@@@@ Location  ", "list null");
+                TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+                TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+                TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                if(listener != null)
+                    listener.CompleteListener_No();
+            }
+
+        }
+        @Override
+        public void onProviderDisabled(String provider) {
+            // TODO Auto-generated method stub
+            Log.d("@@@@ Location  ", "onProviderDisabled" + provider);
+        }
+        @Override
+        public void onProviderEnabled(String provider) {
+            // TODO Auto-generated method stub
+            Log.d("@@@@ Location  ", "onProviderEnabled" + provider);
+        }
+        @Override
+        public void onStatusChanged(String provider, int status,
+                                    Bundle extras) {
+            // TODO Auto-generated method stub
+            Log.d("@@@@ Location  ", "onStatusChanged" + provider);
+        }
+    }, null);
+/*
+
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                1000 * 60 * 60,
-                1 * 100,
-                gpsLocationListener);
+                1000,
+                1,
+                gpsLocationListener);*/
 
     }
 
@@ -401,6 +640,73 @@ public class CommonFunc {
         return distance;
     }
 
+    public void SortByDistance(ArrayList<String> UserList, boolean descending)
+    {
+        ArrayList<String> tempDataList = new ArrayList<String>();
+        tempDataList = UserList;
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
+
+        for(int i=0; i<UserList.size(); i++)
+        {
+            tempDataMap.put(tempDataList.get(i), TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist());
+        }
+
+        Iterator it = sortByValue(tempDataMap, descending).iterator();
+
+        UserList.clear();
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            System.out.println(temp + " = " + tempDataMap.get(temp));
+            UserList.add(temp);
+        }
+    }
+
+    public void SortByChatDate(ArrayList<String> chatRoomIndex, boolean descending)
+    {
+        ArrayList<String> tempDataList = new ArrayList<String>();
+        tempDataList = chatRoomIndex;
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
+        Map<String, ChatData> tempChatDataMap = new LinkedHashMap<String, ChatData>();
+
+        for(int i=0; i<tempDataList.size(); i++)
+        {
+            tempDataMap.put(tempDataList.get(i), TKManager.getInstance().MyData.GetUserChatDataList(tempDataList.get(i)).GetMsgDate());
+        }
+
+        Iterator it = sortByValue(tempDataMap, descending).iterator();
+
+        chatRoomIndex.clear();
+
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            System.out.println(temp + " = " + tempDataMap.get(temp));
+            chatRoomIndex.add(temp);
+            tempChatDataMap.put(temp, TKManager.getInstance().MyData.GetUserChatDataList(temp));
+        }
+        TKManager.getInstance().MyData.ClearUserChatDataList();
+        TKManager.getInstance().MyData.SetUserChatDataList(tempChatDataMap);
+
+
+
+    }
+
+    public static List sortByValue(final Map map, boolean descending) {
+        List<String> list = new ArrayList();
+        list.addAll(map.keySet());
+
+        Collections.sort(list,new Comparator() {
+            public int compare(Object o1,Object o2) {
+                Object v1 = map.get(o1);
+                Object v2 = map.get(o2);
+                return ((Comparable) v2).compareTo(v1);
+            }
+        });
+
+        if(descending)
+            Collections.reverse(list); // 주석시 오름차순
+
+        return list;
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /// 테스트 함수 //
@@ -448,8 +754,6 @@ public class CommonFunc {
 
                // tempData.SetUserData(Integer.toString(i), Integer.toString(i), randomHangulName(), fav, tempThumb[rnd.nextInt(15)], tempThumb[rnd.nextInt(15)], rnd.nextInt(20) + 50, rnd.nextInt(2));
                 //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, Integer.toString(i), tempData);
-                for(int j = 0; j<fav.length; j++)
-                    FirebaseManager.getInstance().SetUserFavoriteOnFireBase(fav[j], Integer.toString(i), Integer.toString(i));
 
 
                 FirebaseManager.getInstance().randomList(Integer.toString(i));

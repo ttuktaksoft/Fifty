@@ -7,6 +7,12 @@
     tools:context=".activty.LoginActivity"
     android:background="@color/loading_bg">
 
+    <com.kakao.usermgmt.LoginButton
+        android:id="@+id/btn_kakao_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/iv_login"
         android:layout_width="wrap_content"

@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
@@ -13,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SettingAccountActivity;
 import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SettingAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class DialogFunc {
@@ -90,17 +93,17 @@ public class DialogFunc {
         else
             NoButtonDesc.setText(noDesc);
 
-        YesButtonDesc.setOnClickListener(new View.OnClickListener() {
+        YesButtonDesc.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if (listenerYes != null)
                     listenerYes.Listener();
                 dialog.dismiss();
             }
         });
-        NoButtonDesc.setOnClickListener(new View.OnClickListener() {
+        NoButtonDesc.setOnClickListener(new OnSingleClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if (listenerNo != null)
                     listenerNo.Listener();
                 dialog.dismiss();
@@ -119,9 +122,9 @@ public class DialogFunc {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
 
-        YesButton.setOnClickListener(new View.OnClickListener() {
+        YesButton.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 if (listenerYes != null)
                     listenerYes.Listener();
                 dialog.dismiss();
@@ -142,13 +145,17 @@ public class DialogFunc {
             mProgressDialog.show();
 
         }
-
+        ProgressBar pgsBar = mProgressDialog.findViewById(R.id.pBar);
+        pgsBar.setIndeterminate(true);
+        pgsBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, R.color.topbar_bg), PorterDuff.Mode.MULTIPLY);
+/*
         ImageView iv_progress_loading = (ImageView) mProgressDialog.findViewById(R.id.iv_Loading_Icon);
         Glide.with(context)
                 .asGif()
                 .load(R.raw.progressbar)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(iv_progress_loading);
+*/
 
 
         //tv_progress_message.setText(message);

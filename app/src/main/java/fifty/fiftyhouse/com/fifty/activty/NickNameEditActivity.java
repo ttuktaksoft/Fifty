@@ -20,6 +20,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class NickNameEditActivity extends AppCompatActivity {
 
@@ -50,9 +51,9 @@ public class NickNameEditActivity extends AppCompatActivity {
         et_NickName_Edit_NickName = findViewById(R.id.et_NickName_Edit_NickName);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_NICKNAME_EDIT));
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });
@@ -69,9 +70,9 @@ public class NickNameEditActivity extends AppCompatActivity {
         tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
         tv_NickName_Edit_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
 
-        et_NickName_Edit_NickName.setOnClickListener(new View.OnClickListener() {
+        et_NickName_Edit_NickName.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 // 입력을 시도 했을경우 중복체크 안함으로 수정
                 mIsNickNameCheck = false;
                 tv_NickName_Edit_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
@@ -96,9 +97,9 @@ public class NickNameEditActivity extends AppCompatActivity {
             }
         });
 
-        tv_NickName_Edit_Check.setOnClickListener(new View.OnClickListener() {
+        tv_NickName_Edit_Check.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_NickName_Edit_NickName.getWindowToken(), 0);
                 final String strNickName = et_NickName_Edit_NickName.getText().toString();
 
@@ -140,12 +141,12 @@ public class NickNameEditActivity extends AppCompatActivity {
             }
         });
 
-        tv_NickName_Edit_Save.setOnClickListener(new View.OnClickListener() {
+        tv_NickName_Edit_Save.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_NickName_Edit_NickName.getWindowToken(), 0);
 
-                String tempNickName = et_NickName_Edit_NickName.getText().toString();
+                final String tempNickName = et_NickName_Edit_NickName.getText().toString();
 
                 if(CommonFunc.getInstance().CheckStringNull(tempNickName))
                 {
@@ -164,9 +165,28 @@ public class NickNameEditActivity extends AppCompatActivity {
                 }
                 else
                 {
+
+                  //  DialogFunc.getInstance().ShowLoadingPage(NickNameEditActivity.this);
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                   //         DialogFunc.getInstance().DismissLoadingPage();
+                            TKManager.getInstance().MyData.SetUserNickName(tempNickName);
+                            FirebaseManager.getInstance().UpdateUserName();
+                            finish();
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    FirebaseManager.getInstance().RemoveUserNickName(listener);
                     // TODO 닉네임 변경
-                    TKManager.getInstance().MyData.SetUserNickName(tempNickName);
-                    finish();
                 }
             }
         });

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -29,9 +34,8 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ChatBodyAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
-
-import static fifty.fiftyhouse.com.fifty.activty.SignUpActivity.GET_FROM_GALLERY;
 
 public class ChatBodyActivity extends AppCompatActivity {
 
@@ -43,7 +47,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     EditText et_Chat_Body_Msg;
 
     Context mContext;
-    Activity mActivity;
+    public static Activity mChatBodyActivity;
     String strRoomIndex;
     String strTargetIndex;
 
@@ -59,7 +63,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_body);
         mContext = getApplicationContext();
-        mActivity = this;
+        mChatBodyActivity = this;
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         strRoomIndex = getIntent().getStringExtra("RoomIndex");
@@ -88,24 +92,28 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_Chat_Body_Send = findViewById(R.id.iv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
                 finish();
             }
         });
 
-        iv_Chat_Body_Plus.setOnClickListener(new View.OnClickListener() {
+        iv_Chat_Body_Plus.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGallery(ChatBodyActivity.this, GET_FROM_GALLERY);
+            public void onSingleClick(View view) {
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });
 
-        iv_Chat_Body_Send.setOnClickListener(new View.OnClickListener() {
+        iv_Chat_Body_Send.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
-                SendChatData(CommonData.MSGType.MSG);
+            public void onSingleClick(View view) {
+                if(!CommonFunc.getInstance().CheckStringNull(et_Chat_Body_Msg.getText().toString()))
+                {
+                    SendChatData(CommonData.MSGType.MSG);
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
 /*
@@ -120,9 +128,9 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         });*/
 
-        iv_ChatBody_Alert.setOnClickListener(new View.OnClickListener() {
+        iv_ChatBody_Alert.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 ArrayList<String> menuList = new ArrayList<>();
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
@@ -176,7 +184,27 @@ public class ChatBodyActivity extends AppCompatActivity {
             @Override
             public void CompleteListener() {
                 mAdapter.notifyDataSetChanged();
-                rv_Chat_Body_List.scrollToPosition(mAdapter.getItemCount() - 1);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        rv_Chat_Body_List.scrollToPosition(mAdapter.getItemCount() - 1);
+                    }
+                }, 500);
+
+                /*rv_Chat_Body_List.postDelayed(new Runnable() {
+
+                    @Override
+
+                    public void run() {
+
+                        // Select the last row so it will scroll into view...
+
+                        rv_Chat_Body_List.scrollToPosition(mAdapter.getItemCount() - 1);
+
+                    }
+
+                },100);*/
             }
 
             @Override
@@ -188,7 +216,8 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         };
 
-        FirebaseManager.getInstance().MonitorChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
+        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
+
 
         rv_Chat_Body_List.setAdapter(mAdapter);
 
@@ -235,7 +264,31 @@ public class ChatBodyActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == GET_FROM_GALLERY) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                isProfileUpload = true;
+                DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.this);
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        SendChatData(CommonData.MSGType.IMG);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+                Uri resultUri = result.getUri();
+                CommonFunc.getInstance().SetImageInChatRoom(ChatBodyActivity.this, resultUri, strRoomIndex,  listener);
+            }
+        }
+        /*if (requestCode == GET_FROM_GALLERY) {
             if(data != null && data.getData() != null)
             {
                 Uri photoUri = data.getData();
@@ -282,7 +335,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
             }
 
-        }
+        }*/
     }
 
 
@@ -315,4 +368,11 @@ public class ChatBodyActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
         et_Chat_Body_Msg.setText(null);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FirebaseManager.getInstance().RemoveMonitorUserChatData();
+    }
+
 }

@@ -1,11 +1,14 @@
 package fifty.fiftyhouse.com.fifty.viewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,37 +38,37 @@ protected void onCreate(Bundle savedInstanceState) {
 
         }*/
 
-public class PhotoViewPager extends Fragment {
+public class PhotoViewPager extends android.support.v4.view.ViewPager {
 
-    PhotoView pv_Photo_View;
+    String TAG = "PhotoViewPager";
+    public PhotoViewPager(Context context, AttributeSet attrs) {
 
-    View v_FragmentView = null;
-    String mImgSrc = "";
-    boolean mMyProfilePhoto = false;
+        super(context, attrs);
 
-    public PhotoViewPager() {
-        super();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        v_FragmentView = inflater.inflate(R.layout.viewpager_photo_view, container, false);
+    public boolean onTouchEvent(MotionEvent event) {
 
-        pv_Photo_View = v_FragmentView.findViewById(R.id.pv_Photo_View);
-        CommonFunc.getInstance().DrawImageByGlide(getContext(), pv_Photo_View, mImgSrc, false);
-
-
-        return v_FragmentView;
+        try {
+            return super.onTouchEvent(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
-    public void setMyProfilePhoto(boolean enable)
-    {
-        mMyProfilePhoto = enable;
-    }
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        try{
+            return super.onInterceptTouchEvent(event);
 
-    public void setImgSrc(String src)
-    {
-        mImgSrc = src;
+        }catch(Exception e){
+
+            e.printStackTrace();
+
+        }
+
+        return false;
     }
 }

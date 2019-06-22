@@ -10,6 +10,8 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+
 public class UserProfileMemoActivity extends AppCompatActivity {
 
     View ui_UserProfile_Memo_TopBar;
@@ -28,13 +30,16 @@ public class UserProfileMemoActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_UserProfile_Memo_TopBar.findViewById(R.id.iv_TopBar_Back);
         tv_UserProfile_Memo = findViewById(R.id.tv_UserProfile_Memo);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_MEMO));
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });
 
-        tv_UserProfile_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
+        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserMemo()))
+            tv_UserProfile_Memo.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION_MEMO_1) + " " + TKManager.getInstance().TargetUserData.GetUserNickName() + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION_MEMO_2));
+        else
+            tv_UserProfile_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
     }
 }

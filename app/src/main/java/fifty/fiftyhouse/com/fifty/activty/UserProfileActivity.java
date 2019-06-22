@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty.activty;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.fragment.UserProfileFragment;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -70,9 +72,9 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Friend = findViewById(R.id.v_UserProfile_BottomBar_Friend);
         tv_UserProfile_BottomBar_Friend = findViewById(R.id.tv_UserProfile_BottomBar_Friend);
 
-        iv_TopBar_Back.setOnClickListener(new View.OnClickListener() {
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 finish();
             }
         });
@@ -80,10 +82,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
         RefreshFriendIcon();
+        RefreshLikeIcon();
 
-        iv_UserProfile_Alert.setOnClickListener(new View.OnClickListener() {
+
+        iv_UserProfile_Alert.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 ArrayList<String> menuList = new ArrayList<>();
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
@@ -112,90 +116,268 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        v_UserProfile_BottomBar_Like.setOnClickListener(new ImageView.OnClickListener() {
+        v_UserProfile_BottomBar_Like.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Like) {
 
                     DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
 
-                    if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) == null){
+                    if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) != null)
+                    {
+                        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like_empty, false);
 
-                        Glide.with(mContext).load(R.drawable.ic_like)
-                                .into(iv_UserProfile_BottomBar_Like);
-                        RefreshLikeCount(true);
-                    } else {
-                        Glide.with(mContext).load(R.drawable.ic_like_empty)
-                                .into(iv_UserProfile_BottomBar_Like);
-                        RefreshLikeCount(false);
+                        TKManager.getInstance().TargetUserData.AddUserTotalLike(-1);
+                        TKManager.getInstance().TargetUserData.AddUserTodayLike(-1);
+                        TKManager.getInstance().TargetUserData.DelUserLikeList(TKManager.getInstance().MyData.GetUserIndex());
+
+                        FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_UNLIKE), true);
+                    }
+                    else
+                    {
+                        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like, false);
+
+                        TKManager.getInstance().TargetUserData.AddUserTotalLike(1);
+                        TKManager.getInstance().TargetUserData.AddUserTodayLike(1);
+
+                        TKManager.getInstance().TargetUserData.SetUserLikeList(TKManager.getInstance().MyData.GetUserIndex(), CommonFunc.getInstance().GetCurrentDate());
+                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIKE), true);
+                        FirebaseManager.getInstance().RegistLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
                     }
 
                     DialogFunc.getInstance().DismissLoadingPage();
 
-                    mUserProfileFragment.setCountInfoStr_2("좋아요 " + TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+                    mUserProfileFragment.RefreshCountText();
+
                 }
             }
         });
 
 
-
-        v_UserProfile_BottomBar_Friend.setOnClickListener(new ImageView.OnClickListener() {
+        v_UserProfile_BottomBar_Friend.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 if (v.getId() == R.id.v_UserProfile_BottomBar_Friend) {
+
+                    if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null)
+                    {
+                        DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                        {
+
+                            @Override
+                            public void Listener()
+                            {
+                                FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ASK_FRIND_REGIST), true);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                    }
+                                };
+
+                                DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
+                                FirebaseManager.getInstance().RegistFriendInUserData(TKManager.getInstance().TargetUserData.GetUserIndex(), firebaseListener);
+                                TKManager.getInstance().MyData.SetUserFriend(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
+                                RefreshFriendIcon();
+                            }
+                        };
+                        DialogFunc.getInstance().ShowMsgPopup(UserProfileActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ASK_FRIND_ADD), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_OK), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+                    }
+                    else
+                    {
+                        DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                        {
+                            @Override
+                            public void Listener()
+                            {
+                                FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                    }
+                                };
+                                DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
+                                FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex(), firebaseListener);
+                                TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
+                                RefreshFriendIcon();
+                            }
+                        };
+                        DialogFunc.getInstance().ShowMsgPopup(UserProfileActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ASK_FRIND_REMOVE), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_OK), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+                    }
+
+                }
+            }
+
+        });
+
+        v_UserProfile_BottomBar_Chat.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                if (v.getId() == R.id.v_UserProfile_BottomBar_Chat) {
+
+                    final String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+                    final String targetIndex =  TKManager.getInstance().TargetUserData.GetUserIndex();
+                    final String ChatRoomIndex = userIndex + "_" +targetIndex;
+                    final String AnotherChatRoomIndex = targetIndex+ "_" + userIndex ;
 
                     DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
 
-                    if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null){
-                        FirebaseManager.getInstance().RegistFriendInUserData(TKManager.getInstance().TargetUserData.GetUserIndex());
-                        TKManager.getInstance().MyData.SetUserFriend(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
-                    }
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
 
-                    else
-                    {
-                        FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex());
-                        TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
-                    }
-                    DialogFunc.getInstance().DismissLoadingPage();
+                              FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
 
-                    RefreshFriendIcon();
-                }
-            }
-        });
+                                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                        @Override
+                                        public void CompleteListener() {
+                                            DialogFunc.getInstance().DismissLoadingPage();
+                                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                            intent.putExtra("RoomIndex",ChatRoomIndex);
+                                            startActivity(intent);
+                                        }
 
-        v_UserProfile_BottomBar_Chat.setOnClickListener(new ImageView.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == R.id.v_UserProfile_BottomBar_Chat) {
+                                        @Override
+                                        public void CompleteListener_Yes() {
+                                        }
 
-                    String userIndex = TKManager.getInstance().MyData.GetUserIndex();
-                    String targetIndex =  TKManager.getInstance().TargetUserData.GetUserIndex();
-                    String ChatRoomIndex = userIndex + "_" +targetIndex;
+                                        @Override
+                                        public void CompleteListener_No() {
+                                        }
+                                    };
 
-                    ChatData tempChatData = new ChatData();
-                    tempChatData.SetRoomIndex(ChatRoomIndex);
+                                    if(TKManager.getInstance().UserData_Simple.get(targetIndex) != null)
+                                    {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                        intent.putExtra("RoomIndex",ChatRoomIndex);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                                        FirebaseManager.getInstance().GetUserData_Simple(targetIndex, TKManager.getInstance().UserData_Simple, listener);
+                                    }
 
-                    tempChatData.SetFromIndex(userIndex);
-                    tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
-                    tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+                                }
 
-                    tempChatData.SetToIndex(targetIndex);
-                    tempChatData.SetToNickName(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName());
-                    tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
+                                @Override
+                                public void CompleteListener_Yes() {
+                                }
 
-                    tempChatData.SetMsgIndex(0);
-                    tempChatData.SetMsgReadCheck(false);
-                    tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
-                    tempChatData.SetMsgType(CommonData.MSGType.MSG);
-                    tempChatData.SetMsgSender(userIndex);
-                    tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
+                                @Override
+                                public void CompleteListener_No() {
+                                }
+                            };
 
+                            FirebaseManager.getInstance().GetUserChatData(ChatRoomIndex, TKManager.getInstance().MyData, listener);
+                        }
 
-                    FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
-                    FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+                        @Override
+                        public void CompleteListener_Yes() {
+                            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
 
-                    Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                    intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                        @Override
+                                        public void CompleteListener() {
+                                            DialogFunc.getInstance().DismissLoadingPage();
+                                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                            intent.putExtra("RoomIndex",AnotherChatRoomIndex);
+                                            startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_Yes() {
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_No() {
+                                        }
+                                    };
+
+                                    if(TKManager.getInstance().UserData_Simple.get(targetIndex) != null)
+                                    {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                        intent.putExtra("RoomIndex",AnotherChatRoomIndex);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                    {
+                                        FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                                        FirebaseManager.getInstance().GetUserData_Simple(targetIndex, TKManager.getInstance().UserData_Simple, listener);
+                                    }
+
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                }
+                            };
+
+                            FirebaseManager.getInstance().GetUserChatData(ChatRoomIndex, TKManager.getInstance().MyData, listener);
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                            TKManager.getInstance().MyData.ClearUserChatData();
+                            DialogFunc.getInstance().DismissLoadingPage();
+
+                            ChatData tempChatData = new ChatData();
+                            tempChatData.SetRoomIndex(ChatRoomIndex);
+
+                            tempChatData.SetFromIndex(userIndex);
+                            tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+                            tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+
+                            tempChatData.SetToIndex(targetIndex);
+                            tempChatData.SetToNickName(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName());
+                            tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
+
+                            tempChatData.SetMsgIndex(0);
+                            tempChatData.SetMsgReadCheck(false);
+                            tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+                            tempChatData.SetMsgType(CommonData.MSGType.MSG);
+                            tempChatData.SetMsgSender(userIndex);
+                            tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
+
+                            FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+                            FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+
+                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                            intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                            startActivity(intent);
+
+                        }
+                    };
+
+                    FirebaseManager.getInstance().ExistChatRoom(targetIndex, listener);
+
 
                 }
 
@@ -203,24 +385,17 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void RefreshLikeCount(boolean like)
+    private void RefreshLikeIcon()
     {
-        if(like)
+        if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) != null)
         {
-            TKManager.getInstance().TargetUserData.AddUserTotalLike(1);
-            TKManager.getInstance().TargetUserData.AddUserTodayLike(1);
-            TKManager.getInstance().TargetUserData.SetUserLikeList(TKManager.getInstance().MyData.GetUserIndex(), CommonFunc.getInstance().GetCurrentDate());
-
-            FirebaseManager.getInstance().RegistLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like, false);
         }
         else
         {
-            TKManager.getInstance().TargetUserData.AddUserTotalLike(-1);
-            TKManager.getInstance().TargetUserData.AddUserTodayLike(-1);
-            TKManager.getInstance().TargetUserData.DelUserLikeList(TKManager.getInstance().MyData.GetUserIndex());
-
-            FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like_empty, false);
         }
+
     }
 
     private void RefreshFriendIcon()

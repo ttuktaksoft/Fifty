@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:background="@color/activity_bg"
-        app:layout_constraintBottom_toTopOf="@+id/v_UserProfile_BottomBar">
+        android:background="@color/activity_bg">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/v_UserProfile_Info"
@@ -25,6 +24,17 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/iv_UserProfile_Profile_Border"
+                    android:layout_width="202dp"
+                    android:layout_height="202dp"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_Profile"
+                    app:layout_constraintRight_toRightOf="@+id/iv_UserProfile_Profile"
+                    app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Profile"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Profile"
+                    android:tint="@color/topbar_bg"
+                    android:src="@drawable/bg_empty_circle" />
+
+                <ImageView
                     android:id="@+id/iv_UserProfile_Profile"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
@@ -33,6 +43,8 @@
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Detail"
                     app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Detail"
                     android:src="@drawable/bg_empty_circle" />
+
+
 
                 <TextView
                     android:id="@+id/tv_UserProfile_Info_Name"
