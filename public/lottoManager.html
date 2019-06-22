@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+
+  <title>복권 관리자 페이지</title>
+  <!-- materialize.css 포함 -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="materialize.min.css"  media="screen,projection"/>
+  <!-- SyntaxHighlighter 포함 -->
+  <link href="shCore.css" rel="stylesheet" type="text/css" />
+  <!-- <link href="css/shThemeDefault.css" rel="stylesheet" type="text/css" /> -->
+  <link href="shThemeMidnight.css" rel="stylesheet" type="text/css" />
+  <style>
+    #Summary {font-size: 1.2em; }
+    #Summary ul{ margin-left: 32px; }
+    #Summary ul li{ list-style: disc; }
+    .hint{ border-left: 0.3em #ddd solid; padding-left: 1em; color: #777;}
+    .code_block{ background-color: #eee; padding: 5px; }
+    table, th, td {
+           border: 1px solid #bcbcbc;
+         }
+         table {
+   width: 1000dp;
+ }
+  </style>
+
+</head>
+
+<body>
+  <!-- 상단 네비게이션 -->
+  <nav class="indigo">
+    <div class="nav-wrapper">
+      <div class="container">
+        <a href="/" class="breadcrumb">메인 페이지</a>
+        <a href="/lottoManager.html" class="breadcrumb">복권 관리자</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container center"><br><br>
+
+  </div>
+
+  <!-- 내용영역 -->
+  <div class="container" id="CONTENTS">
+    <!-- 핵심 -->
+    <h3 class="indigo-text center">:+: 복권 당첨자 내역 :+:</h3>
+
+    <div class="row center">
+      <button id="BTN_SELECT_LUCKY" type="button" class="btn white indigo-text">당첨 번호 추첨</button>
+      <button id="BTN_TEST_CREATE" type="button" class="btn white indigo-text">수동 당첨 모드</button>
+    </div>
+
+    <div class="row z-depth-1">
+      <div class="col l12 m12 s12">
+        <p>
+        이번 회차 복권 구매 인원 :
+          <!-- TODO 4. 상태 보기용 span 확인-->
+           <span id="LOTTO_GROUP" class="blue-text">로또 구매 인원</span>
+         </p>
+      </div>
+    </div>
+
+    <br>
+    <br>
+
+
+
+    <table>
+      <h5 class="indigo-text">:+: 최근 당첨자 현황 :+:</h5>
+      <thead>
+        <th>회차</th>
+        <th>당첨자</th>
+      </thead>
+      <tbody id="my-tbody"></tbody>
+    </table>
+
+
+    <br>
+    <br>
+    
+    <table>
+      <h5 class="indigo-text">:+: 복권 구매 인원 현황 :+:
+      <span id="LOTTO_AVE_PURCHASE" class="blue-text">평균 구매 인원</span></h5>
+
+      <thead>
+        <th>회차</th>
+        <th>인원</th>
+      </thead>
+      <tbody id="lottoBuyUserConut"></tbody>
+    </table>
+
+    <br>
+    <br>
+    <table>
+      <h5 class="indigo-text">:+: 당첨금 신청 내역  :+:</h5>
+      <thead>
+        <th>회차</th>
+        <th>계좌정보</th>
+        <th>지급 확인</th>
+
+      </thead>
+      <tbody id="LottoAccountInfo"></tbody>
+    </table>
+
+        <br>
+        <br>
+
+            <table>
+              <h5 class="indigo-text">:+: 당첨금 수령 내역  :+:</h5>
+              <thead>
+                <th>성명</th>
+                <th>계좌정보</th>
+                <th>수령 금액</th>
+                <th>수령 횟수</th>
+
+              </thead>
+              <tbody id="LottoHistory"></tbody>
+            </table>
+
+                <br>
+                <br>
+
+
+
+  </div>
+
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js">
+  </script>
+  <script type="text/javascript" src="./js/materialize.min.js"></script>
+  <script type="text/javascript" src="./js/shCore.js"></script>
+  <script type="text/javascript" src="./js/shAutoloader.js"></script>
+  <script type="text/javascript">
+  // SyntaxHighlighter 설정 (http://alexgorbatchev.com/SyntaxHighlighter)
+    SyntaxHighlighter.autoloader(
+      'bash shell             ./js/shBrushBash.js',
+      'js jscript javascript  ./js/shBrushJScript.js'
+    );
+    SyntaxHighlighter.defaults['toolbar'] = false;
+    SyntaxHighlighter.all()
+  </script>
+
+  <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+  <script src="./fireinit.js"></script>
+  <script type="text/javascript">
+
+
+  var provider = new firebase.auth.GoogleAuthProvider();
+
+  //SignStatus();
+  function SignStatus()
+  {
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      var email = user.email;
+      if(email != "jt.famm@gmail.com"){
+        location.href="./notAuth.html";
+      }
+      // User is signed in.
+    } else {
+        location.href="./notAuth.html";
+  }
+  });
+}
+
+
+/*
+  messaging.requestPermission().then(function() {
+    console.log('Notification permission granted.');
+    return messaging.getToken();
+    // TODO(developer): Retrieve an Instance ID token for use with FCM.
+    // ...
+  }).catch(function(err) {
+    console.log('Unable to get permission to notify.', err);
+  });
+*/
+  var LottoSeriesRef = 1000000;
+  var LottoRefNumber;
+  var Lottocount;
+  var arrLottoUser = {}//new Array();
+  var arrLottoUserKey = new Array();
+  var LottoCurSeries;
+  var LottoTodaySeries;
+
+  var tempWinIndex = 0;
+
+  var arrLottoWinUserName = new Array();
+  var arrLottoWinUserBank = new Array();
+  var arrLottoWinUserAccount = new Array();
+
+
+  var arrLottoWinLuckyGroupSeries = new Array();
+  arrLottoWinLuckyGroupSeries = [];
+  var arrLottoWinLuckyGroup = new Array();
+  arrLottoWinLuckyGroup = [];
+  var LottoSelectMode;
+
+  var timer;
+  var arrLottoSelectTime = ['09:00:00', '12:00:00', '15:00:00', '18:00:00'];
+
+
+      Number.prototype.to2 = function(){return this<10?'0'+this:this;};
+       Date.prototype.getHMS = function(){
+             return this.getHours().to2() + ':' + this.getMinutes().to2() + ':'
+                  + this.getSeconds().to2();
+       }
+
+
+      function showClock(){
+              //console.log((new Date()).getHMS());
+              for(var i=0; i<4; i++) {              //console.log(arrLottoSelectTime[i]);
+               if((new Date()).getHMS() === arrLottoSelectTime[i])
+               {
+                    console.log(arrLottoSelectTime[i]);
+                    //SetLottoUserData();
+               }
+            }
+
+              timer = setTimeout(showClock,1000);
+          }
+
+  function SetLottoCount()
+  {
+    firebase.database().ref('/LottoCount').once('value', function(snapshot) {
+      var message = snapshot.val();
+      Lottocount = message;
+      $("#LOTTO_GROUP").text(Lottocount - 1 + '명');
+  });
+  }
+
+
+  function SetLottoUserData()
+  {
+
+    firebase.database().ref('/LottoCount').once('value', function(snapshot) {
+      var message = snapshot.val();
+      Lottocount = message;
+      $("#LOTTO_GROUP").text(Lottocount);
+
+      firebase.database().ref('/LottoCurSeries').once('value', function(snapshot) {
+        var message = snapshot.val();
+        LottoCurSeries = message;
+
+        firebase.database().ref('/LottoUsersBySeries/'+LottoCurSeries).set(Lottocount);
+
+        LottoCurSeries += LottoSeriesRef;
+      //  LottoCurSeries = 7;
+        //console.log('/Lotto/'+LottoCurSeries+'_L');
+
+        var tempIdx = 0;
+          var dbTestRef = firebase.database().ref('/Lotto/'+LottoCurSeries+'_L')
+          dbTestRef.on('child_added', function(data){
+
+          //  console.log(data.val(), 'key: ', data.key)
+            arrLottoUser[data.key] = data.val();
+            arrLottoUserKey[tempIdx] = data.key;
+            tempIdx++;
+          //  console.log(arrLottoUserKey);
+        //    console.log(Lottocount + '___' + arrLottoUserKey.length);
+            if( Lottocount == arrLottoUserKey.length +1)
+            {
+              var result = Math.floor(Math.random() * arrLottoUserKey.length);
+
+              result = arrLottoUserKey[result];
+
+              var LuckyUserExist = false;
+              for(var i = 0; i < 20; i++)
+              {
+                if(result === arrLottoWinLuckyGroup[i])
+                {
+                  LuckyUserExist = true;
+                  break;
+                }
+              }
+
+              if( LuckyUserExist === false)
+              {
+                firebase.database().ref('/LottoLuckyNumber/'+LottoCurSeries+'_L').set(arrLottoUser[result])
+                firebase.database().ref('/LottoLuckyGroup/'+LottoCurSeries+'_L').set(result)
+
+                var LottoRandNumber = Math.floor(Math.random() * 100) + 1;
+                firebase.database().ref('/LottoRefNumber').set(LottoRandNumber)
+
+                firebase.database().ref('/Lotto/'+LottoCurSeries+'_L').remove();
+                LottoCurSeries = LottoCurSeries - LottoSeriesRef;
+                LottoCurSeries += 1;
+                firebase.database().ref('/LottoCurSeries').set(LottoCurSeries)
+                firebase.database().ref('/LottoCount').set(1)
+
+              }
+              else {
+                  SetLottoUserData();
+              }
+            //  console.log(result);
+            }
+          })
+        //console.log(LottoCurSeries);
+      });
+  });
+
+  }
+
+  function addItem() {
+        var lo_table = document.getElementById("TblAttach");
+        var row_index = lo_table.rows.length;      // 테이블(TR) row 개수
+        newTr = lo_table.insertRow(row_index);
+        newTr.idName = "newTr" + row_index;
+
+        newTd=newTr.insertCell(0);
+        newTd.innerHTML= "첨부파일#"+row_index;
+
+        newTd=newTr.insertCell(1);
+        newTd.align = "center";
+        newTd.innerHTML= "<input type=text name=subject align=absmiddle >";
+  }
+  function delItem(){
+        var lo_table = document.getElementById("TblAttach");
+        var row_index = lo_table.rows.length-1;      // 테이블(TR) row 개수
+
+        if(row_index > 0) lo_table.deleteRow(row_index);
+  }
+
+
+
+  //console.log(arrLottoWinLuckyGroup);
+
+  function SetLottoUserCount(Series, UserCount)
+  {
+  //  for(var i = 0; i < arrLottoWinLuckyGroup.length; i++)
+    {
+
+
+      var my_tbody = document.getElementById('lottoBuyUserConut');
+      // var row = my_tbody.insertRow(0); // 상단에 추가
+      var row = my_tbody.insertRow( my_tbody.rows.length ); // 하단에 추가
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+
+      var tempSeries = Series * 1;
+      tempSeries += 1;
+      cell1.innerHTML = tempSeries;
+      cell2.innerHTML = UserCount;
+
+    }
+
+  }
+
+var totalUserCount = 0;
+
+  var dbTestRef = firebase.database().ref('/LottoUsersBySeries')//.orderByKey().limitToLast(5)
+  dbTestRef.on('child_added', function(data){
+    //console.log( data.val());
+    var Series = data.key.toString();
+    var UserCount = data.val();
+
+    totalUserCount += UserCount;
+    $("#LOTTO_AVE_PURCHASE").text('평균 ' + Math.ceil(totalUserCount / Series) + '명');
+
+  });
+
+  var dbTestRef = firebase.database().ref('/LottoUsersBySeries').orderByKey().limitToLast(5)
+  dbTestRef.on('child_added', function(data){
+    //console.log( data.val());
+    var Series = data.key.toString();
+    var UserCount = data.val();
+
+    SetLottoUserCount(Series, UserCount);
+
+  });
+
+
+
+    function SetData(Series, UserCount)
+    {
+    //  for(var i = 0; i < arrLottoWinLuckyGroup.length; i++)
+      {
+
+
+        var my_tbody = document.getElementById('my-tbody');
+        // var row = my_tbody.insertRow(0); // 상단에 추가
+        var row = my_tbody.insertRow( my_tbody.rows.length ); // 하단에 추가
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+
+        var tempSeries = Series * 1;
+        tempSeries += 1;
+        cell1.innerHTML = tempSeries;
+        cell2.innerHTML = UserCount;
+
+        //cell1.innerHTML = arrLottoWinLuckyGroupSeries[0] + 1;
+        //cell2.innerHTML = arrLottoWinLuckyGroup[arrLottoWinLuckyGroupSeries[0]];
+
+      }
+
+    }
+
+
+    function SetLottoHistoryList(Name, Bank, Account, Count)
+    {
+
+      //console.log(arrLottoWinUserName);
+
+      var my_tbody = document.getElementById('LottoHistory');
+      // var row = my_tbody.insertRow(0); // 상단에 추가
+      var row = my_tbody.insertRow( my_tbody.rows.length ); // 하단에 추가
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+
+      cell1.innerHTML = Name;
+      cell2.innerHTML = Bank + '   ' + Account;
+      cell3.innerHTML = Count * 20000 + '원';
+      cell4.innerHTML = Count;
+
+    }
+
+
+
+    function SetLottoHistory(Name, Bank, Account)
+    {
+      var Count = 0;
+      var cash = 0;
+
+      firebase.database().ref('/LottoHistory/'+Account).once('value', function(snapshot) {
+        var message = snapshot.val();
+        console.log(message);
+        if(message === null)
+        {
+          console.log("@@@");
+          firebase.database().ref('/LottoHistory/'+ Account + '/Name').set(Name);
+          firebase.database().ref('/LottoHistory/'+ Account + '/Bank').set(Bank);
+          firebase.database().ref('/LottoHistory/'+ Account + '/Account').set(Account);
+          firebase.database().ref('/LottoHistory/'+ Account + '/Count').set(1);
+        }
+        else {
+          Count = snapshot.val().Count;
+          Count++;
+          console.log(Count);
+          firebase.database().ref('/LottoHistory/'+ Account + '/Name').set(Name);
+          firebase.database().ref('/LottoHistory/'+ Account + '/Bank').set(Bank);
+          firebase.database().ref('/LottoHistory/'+ Account + '/Account').set(Account);
+          firebase.database().ref('/LottoHistory/'+ Account + '/Count').set(Count);
+
+        }
+      });
+    }
+
+
+
+    function deleteLine(obj) {
+        var tr = $(obj).parent().parent();
+       var td = tr.children();
+       var no = td.eq(0).text();
+
+       //firebase.database().ref('CashBack/' + no).remove();
+
+      no -= 1;
+      //console.log("클릭한 Row의 모든 데이터 : "+no);
+
+      no = LottoSeriesRef + no;
+      no = no + '_L';
+       //console.log("클릭한 Row의 모든 데이터 : "+no);
+       firebase.database().ref('LottoWinUsers/' + no).remove();
+
+        tr.remove();
+    }
+
+
+    function SetLottoAccountData(Index, Name, Bank, Account)
+    {
+
+      //console.log(arrLottoWinUserName);
+
+      var my_tbody = document.getElementById('LottoAccountInfo');
+      // var row = my_tbody.insertRow(0); // 상단에 추가
+      var row = my_tbody.insertRow( my_tbody.rows.length ); // 하단에 추가
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+      cell1.innerHTML = Index;
+      cell2.innerHTML = Bank + '   ' + Account + '   (' + Name + ')';
+
+      var element3 = document.createElement("input");
+      element3.type = "button";
+      element3.value = "지급완료";
+      element3.addEventListener('click', function(event) {
+      SetLottoHistory(Name, Bank, Account);
+      deleteLine(this);
+
+      })
+
+      cell3.appendChild(element3);
+    }
+
+
+  function SetLottoRefData()
+  {
+    firebase.database().ref('/LottoRefNumber').once('value', function(snapshot) {
+        var message = snapshot.val();
+        LottoRefNumber = message;
+        //console.log(LottoRefNumber);
+      });
+  }
+
+  function SetLottoLuckyGroup()
+  {
+    firebase.database().ref('/LottoRefNumber').once('value', function(snapshot) {
+        var message = snapshot.val();
+        LottoRefNumber = message;
+        //console.log(LottoRefNumber);
+      });
+  }
+
+      firebase.database().ref('/Lotto/2_L').once('value', function(snapshot) {
+        var message = snapshot.val();
+        //console.log(snapshot);
+      });
+
+      $("#PROGRESS").show();
+
+
+      firebase.database().ref('/LottoTodaySeries').once('value', function(snapshot) {
+        var message = snapshot.val();
+        LottoTodaySeries = message;
+        //console.log(LottoTodaySeries);
+      });
+
+      //SetLottoUserData();
+
+
+      var dbTestRef = firebase.database().ref('/LottoWinUsers')
+      dbTestRef.on('child_added', function(data){
+        //console.log(data.key);
+        var index = data.key.toString().split('_');
+        //console.log(index[0]);
+        var Series = Number(index[0]) - LottoSeriesRef;
+        Series +=1;
+
+
+        var Name = data.val().Name;
+        //console.log(Name);
+        arrLottoWinUserName[Series] = data.val().Name;
+        arrLottoWinUserAccount[Series] = data.val().Account;
+        arrLottoWinUserBank[Series] = data.val().Bank;
+
+        SetLottoAccountData(Series, data.val().Name, data.val().Bank, data.val().Account);
+
+
+      });
+
+
+                  var tempCount = 0;
+                  var dbTestRef = firebase.database().ref('/LottoLuckyGroup').orderByKey().limitToLast(20)
+                  dbTestRef.on('child_added', function(data){
+
+                    var index = data.key.toString().split('_');
+                    var Series = Number(index[0]) - LottoSeriesRef;
+                    arrLottoWinLuckyGroup[Series] = data.val();
+                    arrLottoWinLuckyGroupSeries[tempCount] = Series;
+
+                    if(tempCount == 19)
+                       SetData(Series, data.val());
+                    //Refresh();
+
+//                    console.log(arrLottoWinLuckyGroup[Series]);
+
+                    tempCount ++;
+
+                  });
+
+
+    function Refresh()
+    {
+      SetData();
+    }
+
+    $("#BTN_SELECT_LUCKY").click(function() {
+       SetLottoUserData();
+    });
+
+
+
+    function SetLottoRefData()
+    {
+      firebase.database().ref('/AutoLottoSelect').once('value', function(snapshot) {
+          var message = snapshot.val();
+          LottoSelectMode = message;
+
+          if(LottoSelectMode == 0)
+          {
+            $("#BTN_TEST_CREATE").text('현재 모드 : 수동 당첨');
+            console.log("수동");
+            //clearTimeout(timer);
+          }
+          else
+          {
+            $("#BTN_TEST_CREATE").text('현재 모드 : 자동 당첨');
+            console.log("자동");
+            //showClock();
+          }
+          //console.log(LottoRefNumber);
+        });
+    }
+
+
+    $("#BTN_TEST_CREATE").click(function() {
+
+      if(LottoSelectMode == 0)
+      {
+        LottoSelectMode = 1;
+        firebase.database().ref('/AutoLottoSelect').set(LottoSelectMode);
+        $("#BTN_TEST_CREATE").text('현재 모드 : 자동 당첨');
+        //showClock();
+      }
+      else
+      {
+        LottoSelectMode = 0;
+        firebase.database().ref('/AutoLottoSelect').set(LottoSelectMode);
+        $("#BTN_TEST_CREATE").text('현재 모드 : 수동 당첨');
+        //clearTimeout(timer);
+      }
+    });
+
+
+    function refresh() {
+      var dbTestRef = firebase.database().ref('/LottoHistory')
+      dbTestRef.on('child_added', function(data){
+        //console.log(data.key);
+        var index = data.key.toString();
+
+        console.log(data.val().CachBack);
+
+        SetLottoHistoryList(data.val().Name, data.val().Bank, data.val().Account, data.val().Count);
+
+
+      });
+
+    }
+
+    refresh();
+
+    SetLottoCount();
+    SetLottoRefData();
+
+
+
+</script>
+
+</body>
+
+</html>

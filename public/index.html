@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+
+  <title>트레저원 현황</title>
+  <!-- materialize.css 포함 -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="materialize.min.css"  media="screen,projection"/>
+  <style media="screen">
+    body{ background: #eee; }
+    #MY_NAME{ font-size: 1.5em; font-weight: bold; }
+    #CONTENTS{ min-height: 700px; margin-top: 20px; }
+    .input-field input[type=text]:focus {
+       border-bottom: 1px solid #3f51b5 !important;
+       box-shadow: 0 1px 0 0 #3f51b5 !important;
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- 네비게이션 영역 -->
+  <nav class="indigo">
+    <div class="nav-wrapper container">
+      <a href="/" class="brand-logo">트레저원 관리자</a>
+      <!-- 데스크톱 모드에서 보이는 메인메뉴 -->
+    </div>
+  </nav>
+  <!-- 내용영역 -->
+  <div class="container" id="CONTENTS">
+    <!-- 파이어베이스 -->
+    <ul class="collection white z-depth-1">
+      <li class="collection-item avatar">
+        <i class="material-icons circle indigo">whatshot</i>
+        <span class="title"><b>트레저원 관리자 </b></span>
+        <p>
+          복권 및 상품권 관리 페이지 입니다.
+        </p>
+      </li>
+    </ul>
+
+    <ul class="collapsible collection white" data-collapsible="expandable">
+      <li>
+        <div class="collapsible-header active">
+          <i class="material-icons">info</i><b>푸시알림 관리 </b>
+        </div>
+        <div class="collapsible-body">
+          <p>
+            <a href="AlarmManager.html" class="right btn indigo"><i class="material-icons">send</i></a>
+            푸시알림 등록 및 관리
+          </p>
+        </div>
+      </li>
+
+    <ul class="collapsible collection white" data-collapsible="expandable">
+      <li>
+        <div class="collapsible-header active">
+          <i class="material-icons">insert_emoticon</i><b>복권 관리 </b>
+        </div>
+        <div class="collapsible-body">
+          <p>
+            <a href="lottoManager.html" class="right btn indigo"><i class="material-icons">send</i></a>
+            복권 번호 리스트 및 당첨 번호 추첨
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="collapsible-header active">
+          <i class="material-icons">pan_tool</i><b>가위바위보 관리 </b>
+        </div>
+        <div class="collapsible-body">
+          <p>
+            <a href="RPSGame.html" class="right btn indigo"><i class="material-icons">send</i></a>
+            가위바위보 당첨자 및 참가 인원 현황
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="collapsible-header active">
+          <i class="material-icons">attach_money</i><b>캐시백 관리</b>
+        </div>
+        <div class="collapsible-body">
+          <p>
+            <a href="cashBack.html" class="right btn indigo"><i class="material-icons">send</i></a>
+            캐시백 신청 현황 관리
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="collapsible-header active">
+          <i class="material-icons">supervisor_account</i><b>상품권 관리</b>
+        </div>
+        <div class="collapsible-body">
+          <p>
+            <a href="giftManager.html" class="right btn indigo"><i class="material-icons">send</i></a>
+            상품권 등록 및 현황 관리
+          </p>
+        </div>
+      </li>
+
+
+
+    </ul>
+  </div>
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js">
+    </script>
+    <script type="text/javascript" src="./js/materialize.min.js"></script>
+    <script type="text/javascript" src="./js/shCore.js"></script>
+    <script type="text/javascript" src="./js/shAutoloader.js"></script>
+    <script type="text/javascript">
+    // SyntaxHighlighter 설정 (http://alexgorbatchev.com/SyntaxHighlighter)
+      SyntaxHighlighter.autoloader(
+        'bash shell             ./js/shBrushBash.js',
+        'js jscript javascript  ./js/shBrushJScript.js'
+      );
+      SyntaxHighlighter.defaults['toolbar'] = false;
+      SyntaxHighlighter.all()
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js"></script>
+    <script src="./fireinit.js"></script>
+    <script type="text/javascript">
+
+var provider = new firebase.auth.GoogleAuthProvider();
+
+SignStatus();
+function SignStatus()
+{
+  firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    var email = user.email;
+    if(email != "jt.famm@gmail.com"){
+      location.href="./notAuth.html";
+    }
+    // User is signed in.
+  } else {
+
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      var email = user.email;
+
+      if(email != "jt.famm@gmail.com"){
+        location.href="./notAuth.html";
+
+      }
+
+      // ...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
+});
+
+}
+
+
+
+</script>
+</body>
+</html>
