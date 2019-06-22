@@ -59,6 +59,9 @@ import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
+import fifty.fiftyhouse.com.fifty.activty.AuthActivity;
+import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
+import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
 
@@ -707,6 +710,79 @@ public class CommonFunc {
 
         return list;
     }
+
+    public void MoveAuthActivity(Activity activity) {
+        final Intent intent = new Intent(activity, AuthActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public void MoveLoginActivity(Activity activity) {
+        final Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public void MoveSignUpActivity(Activity activity) {
+        final Intent intent = new Intent(activity, SignUpActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public void MoveMainActivity(Activity activity) {
+        final Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public void GetUserList(final Activity activity)
+    {
+
+        DialogFunc.getInstance().ShowLoadingPage(activity);
+
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
+
+
+                        MoveMainActivity(activity);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserList(Innerlistener);
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+                DialogFunc.getInstance().DismissLoadingPage();
+                MoveSignUpActivity(activity);
+            }
+        };
+
+        FirebaseManager.getInstance().GetUserData(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData, listener );
+    }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /// 테스트 함수 //

@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
                 // TODO 로그인 처리
                 FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
-               GetUserList();
+                CommonFunc.getInstance().GetUserList(LoginActivity.this);
             //    MoveAuthActivity();
 
                 //MoveSignUpActivity();
@@ -130,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                     Logger.d("email: " + response.getKakaoAccount().getGender());
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                  //   GetUserList();
-                    MoveSignUpActivity();
+                     CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
                     //MoveAuthActivity();
                 }
             });
@@ -138,70 +139,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    protected void MoveAuthActivity() {
-        final Intent intent = new Intent(this, AuthActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
-    protected void MoveSignUpActivity() {
-        final Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    protected void MoveMainActivity() {
-        final Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void GetUserList()
-    {
-
-        DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
-
-        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-            @Override
-            public void CompleteListener() {
-                FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
-
-
-                        MoveMainActivity();
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                    }
-                };
-
-                FirebaseManager.getInstance().GetUserList(Innerlistener);
-            }
-
-            @Override
-            public void CompleteListener_Yes() {
-            }
-
-            @Override
-            public void CompleteListener_No() {
-                DialogFunc.getInstance().DismissLoadingPage();
-                MoveSignUpActivity();
-            }
-        };
-
-        FirebaseManager.getInstance().GetUserData(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData, listener );
-    }
 
 }

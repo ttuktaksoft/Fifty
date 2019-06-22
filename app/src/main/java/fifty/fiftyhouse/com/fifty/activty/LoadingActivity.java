@@ -16,6 +16,7 @@ import android.view.Display;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -76,7 +77,7 @@ public class LoadingActivity extends AppCompatActivity {
                         CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                             @Override
                             public void CompleteListener() {
-                                MoveLoginActivity();
+                                CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
                             }
 
                             @Override
@@ -86,7 +87,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                             @Override
                             public void CompleteListener_No() {
-                                MoveLoginActivity();
+                                CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
                             }
                         };
 
@@ -119,7 +120,7 @@ public class LoadingActivity extends AppCompatActivity {
                 CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                     @Override
                     public void CompleteListener() {
-                        MoveLoginActivity();
+                        CommonFunc.getInstance().GetUserList(LoadingActivity.this);
                     }
 
                     @Override
@@ -129,26 +130,13 @@ public class LoadingActivity extends AppCompatActivity {
 
                     @Override
                     public void CompleteListener_No() {
-                        MoveLoginActivity();
+                        CommonFunc.getInstance().GetUserList(LoadingActivity.this);
                     }
                 };
 
                 CommonFunc.getInstance().GetUserLocation(this, listener);
-
-               // GetUserList();
             }
         }
-
-        //FirebaseManager.getInstance().GetMyData("1");
-
-        //CommonFunc.getInstance().AddDummy(100);
-
-
-
-
-        //  lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-
-
 
         CommonFunc.getInstance().mCurActivity = this;
     }
@@ -168,7 +156,7 @@ public class LoadingActivity extends AppCompatActivity {
                             CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                                 @Override
                                 public void CompleteListener() {
-                                    MoveLoginActivity();
+                                    CommonFunc.getInstance().GetUserList(LoadingActivity.this);
                                 }
 
                                 @Override
@@ -178,7 +166,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                                 @Override
                                 public void CompleteListener_No() {
-                                    MoveLoginActivity();
+                                    CommonFunc.getInstance().GetUserList(LoadingActivity.this);
                                 }
                             };
 
@@ -193,14 +181,8 @@ public class LoadingActivity extends AppCompatActivity {
         }
     }
 
-    protected void MoveLoginActivity() {
-        final Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        //intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
-        //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        finish();
-    }
+
 
 
 }
