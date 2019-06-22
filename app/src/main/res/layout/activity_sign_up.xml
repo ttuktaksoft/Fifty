@@ -52,7 +52,7 @@
             <ImageView
                 android:id="@+id/iv_SignUp_Profile_Border"
                 android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 app:layout_constraintLeft_toLeftOf="@+id/iv_SignUp_Profile"
                 app:layout_constraintRight_toRightOf="@+id/iv_SignUp_Profile"
                 app:layout_constraintTop_toTopOf="@+id/iv_SignUp_Profile"
@@ -63,7 +63,7 @@
             <ImageView
                 android:id="@+id/iv_SignUp_Profile"
                 android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 android:padding="1dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -117,6 +117,19 @@
                 android:textColor="@color/red"
                 android:textStyle="bold" />
 
+            <EditText
+                android:id="@+id/et_SignUp_PassWord"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                style="@style/BaseEditTextView"
+                app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_NickName_Check_Result"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="90dp"
+                android:hint="@string/PASSWORD_HINT"
+                android:inputType="textNoSuggestions|textPassword"
+                android:cursorVisible="true"/>
+
             <TextView
                 android:id="@+id/tv_SignUp_Gender_Title"
                 android:layout_width="100dp"
@@ -124,7 +137,7 @@
                 style="@style/BaseTextView_AutoSize"
                 android:layout_marginTop="15dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_NickName_Check_Result"
+                app:layout_constraintTop_toBottomOf="@+id/et_SignUp_PassWord"
                 android:layout_marginLeft="15dp"
                 android:gravity="center|left"
                 android:text="@string/MSG_GENDER"/>

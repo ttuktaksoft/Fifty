@@ -131,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                  //   GetUserList();
                     MoveSignUpActivity();
+                    //MoveAuthActivity();
                 }
             });
 

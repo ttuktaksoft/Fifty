@@ -1,10 +1,17 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.support.annotation.RequiresPermission;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -18,6 +25,10 @@ import com.kakao.auth.authorization.accesstoken.AccessToken;
 
 import java.io.InputStream;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +53,7 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
-        activity_auth = (WebView)findViewById(R.id.activity_auth_webview);
+        activity_auth = (WebView) findViewById(R.id.activity_auth_webview);
         mContext = getApplicationContext();
 
         WebSettings settings = activity_auth.getSettings();
@@ -59,34 +70,63 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
-    private class JsHandler{
-        String API_URL =  "https://api.iamport.kr";
-        Retrofit retrofit =  new Retrofit.Builder().baseUrl(API_URL).addConverterFactory(GsonConverterFactory.create()).build();
+    private class JsHandler {
+        String API_URL = "https://api.iamport.kr";
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(API_URL).addConverterFactory(GsonConverterFactory.create()).build();
         IamportClient iamportClient = retrofit.create(IamportClient.class);
 
         @JavascriptInterface
-        public void getData(final String impUid)
-        {
-            String apiKey ="asd";
-            String apiSecretKey ="asdasd";
+        public void getData(final String impUid) {
+            String apiKey = "asd";
+            String apiSecretKey = "asdasd";
 
             Object getData = iamportClient.token(new AuthData(apiKey, apiSecretKey));
-            ((Call) getData).enqueue(new Callback<AccessToken>(){
+            ((Call) getData).enqueue(new Callback<AccessToken>() {
                 @Override
-                public void onResponse(Call<AccessToken> call, Response<AccessToken> response)
-                {
-                    if(response.isSuccessful())
-                    {
-                       String token = response.body().response.accessToken;
-                        Log.d("#### IAM " , token);
+                public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
+                    if (response.isSuccessful()) {
+                        String token = response.body().response.accessToken;
+                        Log.d("#### IAM ", token);
 
-                       Object getAuth = iamportClient.certification_by_imp_uid(token, impUid);
-                       ((Call) getAuth).enqueue(new Callback<Certification>() {
-                           @Override
-                           public void onResponse(Call<Certification> call, Response<Certification> response) {
-                               if(response.isSuccessful())
-                               {
-                                   Log.d("#### IAM " , String.valueOf(response.body().response));
+                        Object getAuth = iamportClient.certification_by_imp_uid(token, impUid);
+                        ((Call) getAuth).enqueue(new Callback<Certification>() {
+                            @Override
+                            public void onResponse(Call<Certification> call, Response<Certification> response) {
+                                if (response.isSuccessful()) {
+                                    Log.d("#### IAM ", String.valueOf(response.body().response));
+
+                                    int i = Integer.parseInt(String.valueOf(response.body().response.birth));
+                                    if (i >= 50) {
+                                        String tempGender = String.valueOf(response.body().response.gender);
+                                        TKManager.getInstance().MyData.SetUserName(response.body().response.name);
+
+                                        TKManager.getInstance().MyData.SetUserGender(Integer.parseInt(tempGender));
+                                        TKManager.getInstance().MyData.SetUserAge(i);
+
+                                        String strPhoneNumber;
+                                        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                                        try {
+                                            if (ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                                                // TODO: Consider calling
+                                                return;
+                                            }
+
+                                            String tmpPhoneNumber = mgr.getLine1Number();
+                                            strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
+
+                                        } catch (Exception e) {
+                                            strPhoneNumber = "";
+                                        }
+
+                                        TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
+
+
+                                        MoveSignUpActivity();
+                                    }
+                                    else
+                                    {
+                                        DialogFunc.getInstance().ShowMsgPopup(AuthActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.tv_Auth_Age));
+                                    }
                                }
                            }
 
@@ -107,6 +147,11 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
+    protected void MoveSignUpActivity() {
+        final Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     class AuthData{
         @SerializedName("imp_key") String api_key;

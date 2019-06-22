@@ -39,6 +39,10 @@
     <string name="TITLE_FAVORITE_SELECT">관심사 선택</string>
     <string name="TITLE_FAVORITE_EDIT">관심사 수정</string>
     <string name="TITLE_USER_REPORT">신고하기</string>
+    <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
+    <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>
+    <string name="PASSWORD_LEAK">비밀번호는 8~10자로 입력해주세요</string>
+
     <string name="NICKNAME_HINT">닉네임을 입력하세요 (2~10자)</string>
     <string name="NICKNAME_CHECK">중복체크</string>
     <string name="NICKNAME_CHECK_YES">사용가능한 닉네임 입니다</string>
@@ -86,6 +90,11 @@
 
     <string name="FRIEND_ADD">친구추가</string>
     <string name="FRIEND_REMOVE">친구삭제</string>
+
+    <string name="tv_Login_kakao">아직 피프티 회원이 아니신가요</string>
+    <string name="tv_Login_nickname">기존 회원이시면 아래 버튼을 눌러주세요</string>
+
+    <string name="tv_Auth_Age">50세 미만은 가입이 불가능 합니다</string>
 
     <!-- android-image-cropper 용-->
     <string name="crop_image_menu_rotate_left">반시계 회전</string>

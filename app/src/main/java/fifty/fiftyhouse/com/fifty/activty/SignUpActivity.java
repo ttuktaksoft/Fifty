@@ -54,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
     ImageView iv_SignUp_Profile, iv_SignUp_Gender;
-    EditText et_SignUp_NickName;
+    EditText et_SignUp_NickName, et_SignUp_PassWord;
     TextView tv_SignUp_Save, tv_SignUp_NickName_Check, tv_SignUp_NickName_Check_Result, tv_SignUp_Gender, tv_SignUp_Age;
     RecyclerView rv_SignUp_Favorite;
 
@@ -88,6 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
         iv_SignUp_Gender = findViewById(R.id.iv_SignUp_Gender);
         tv_SignUp_NickName_Check = findViewById(R.id.tv_SignUp_NickName_Check);
         et_SignUp_NickName = findViewById(R.id.et_SignUp_NickName);
+        et_SignUp_PassWord = findViewById(R.id.et_SignUp_PassWord);
         tv_SignUp_NickName_Check_Result = findViewById(R.id.tv_SignUp_NickName_Check_Result);
         tv_SignUp_Gender = findViewById(R.id.tv_SignUp_Gender);
         tv_SignUp_Age = findViewById(R.id.tv_SignUp_Age);
@@ -104,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        if (true) {
+        if (TKManager.getInstance().MyData.GetUserAge() == 0) {
             Glide.with(mContext).load(R.drawable.ic_man_simple)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(iv_SignUp_Gender);
@@ -132,6 +133,15 @@ public class SignUpActivity extends AppCompatActivity {
                 mIsCheckNickName = false;
                 tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
                 tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
+            }
+        });
+
+        et_SignUp_PassWord.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                // 입력을 시도 했을경우 중복체크 안함으로 수정
+                final String strPassword = et_SignUp_PassWord.getText().toString();
+                TKManager.getInstance().MyData.SetUserPassWord(strPassword);
             }
         });
 
@@ -195,6 +205,19 @@ public class SignUpActivity extends AppCompatActivity {
                 {
                     DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
                 }
+                else if(CommonFunc.getInstance().CheckStringNull(et_SignUp_PassWord.getText().toString()))
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
+                }
+                else if(et_SignUp_PassWord.getText().toString().length() < CommonData.PassWordMinSize)
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.PASSWORD_LEAK));
+                }
+                else if(et_SignUp_PassWord.getText().toString().length() > CommonData.PassWordMaxSize)
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.PASSWORD_LEAK));
+                }
+
                 else if(isProfileUpload == false)
                 {
                     DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.PROFILE_EMPTY));
@@ -205,37 +228,55 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
+
+                    FirebaseManager.CheckFirebaseComplete firebaseAuthListener = new FirebaseManager.CheckFirebaseComplete() {
+
                         @Override
                         public void CompleteListener() {
-
-                            DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);
-                            FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
+                            FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
                                 public void CompleteListener() {
-                                    DialogFunc.getInstance().DismissLoadingPage();
 
-                                    DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
-                                    {
+                                    DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);
+                                    FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                                         @Override
-                                        public void Listener()
-                                        {
+                                        public void CompleteListener() {
+                                            DialogFunc.getInstance().DismissLoadingPage();
 
-                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
-                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
-                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
+                                            DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                                            {
+                                                @Override
+                                                public void Listener()
+                                                {
 
-                                            SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
-                                            editor.commit();
-                                            
-                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                            finish();
+                                                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
+                                                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
+                                                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
+
+                                                    SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                    editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
+                                                    editor.commit();
+
+                                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                                    finish();
+                                                }
+                                            };
+                                            DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
+
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_Yes() {
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_No() {
+                                            DialogFunc.getInstance().DismissLoadingPage();
                                         }
                                     };
-                                    DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
 
+                                    FirebaseManager.getInstance().GetUserList(Innerlistener);
                                 }
 
                                 @Override
@@ -244,23 +285,25 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 @Override
                                 public void CompleteListener_No() {
-                                    DialogFunc.getInstance().DismissLoadingPage();
                                 }
                             };
 
-                            FirebaseManager.getInstance().GetUserList(Innerlistener);
+                            FirebaseManager.getInstance().SetMyDataOnFireBase(firebaseListener);
                         }
 
                         @Override
                         public void CompleteListener_Yes() {
+
                         }
 
                         @Override
                         public void CompleteListener_No() {
+
                         }
                     };
 
-                    FirebaseManager.getInstance().SetMyDataOnFireBase(firebaseListener);
+                    FirebaseManager.getInstance().SetMyAuthData(firebaseAuthListener);
+
                 }
             }
         });

@@ -17,14 +17,28 @@
         android:id="@+id/iv_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_Login_kakao"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:scaleX="0.5"
         android:scaleY="0.5"
         android:tint="@color/white"
         app:srcCompat="@drawable/ic_logo" />
+
+
+    <TextView
+        android:id="@+id/tv_Login_kakao"
+        style="@style/BaseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/iv_kakao_login"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="23dp"
+        android:textColor="@color/str_white"
+        android:text="@string/tv_Login_kakao"/>
+
 
     <ImageView
         android:id="@+id/iv_kakao_login"
@@ -32,10 +46,34 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_Login_nickname"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
+        android:src="@drawable/bt_kakao_login"/>
+
+
+    <TextView
+        android:id="@+id/tv_Login_nickname"
+        style="@style/BaseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/iv_nickname_login"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="23dp"
+        android:textColor="@color/str_white"
+        android:text="@string/tv_Login_nickname"/>
+
+    <ImageView
+        android:id="@+id/iv_nickname_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="20dp"
-        android:scaleX="0.8"
-        android:scaleY="0.8"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
         android:src="@drawable/bt_kakao_login"/>
 
 </android.support.constraint.ConstraintLayout>

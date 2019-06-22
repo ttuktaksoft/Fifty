@@ -76,6 +76,8 @@ public class CommonData {
     public static int FavoriteSelectMaxCountCheck = 6;
     public static int NickNameMinSize = 2;
     public static int NickNameMaxSize = 10;
+    public static int PassWordMinSize = 8;
+    public static int PassWordMaxSize = 10;
     public static int MemoMaxSize = 4000;
     public static int LocationMaxSize = 30;
     public static int UserReportMaxSize = 4000;

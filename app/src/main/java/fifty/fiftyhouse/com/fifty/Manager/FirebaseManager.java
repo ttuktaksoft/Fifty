@@ -189,6 +189,39 @@ public class FirebaseManager {
                 });
     }
 
+    public void SetMyAuthData(final FirebaseManager.CheckFirebaseComplete listener) {
+        if (mDataBase == null)
+            GetFireStore();
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("PhoneNumber", TKManager.getInstance().MyData.GetUserPhone());
+        user.put("Name", TKManager.getInstance().MyData.GetUserName());
+        user.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
+        user.put("PassWord", TKManager.getInstance().MyData.GetUserPassWord());
+
+        Map<String, Object> userAuth = new HashMap<>();
+        userAuth.put(TKManager.getInstance().MyData.GetUserIndex(), user);
+
+        mDataBase.collection("UserAuth").document(TKManager.getInstance().MyData.GetUserIndex())
+                .set(userAuth, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        if (listener != null)
+                            listener.CompleteListener();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                        if (listener != null)
+                            listener.CompleteListener_No();
+                    }
+                });
+
+    }
 
     public void SetMyDataOnFireBase(final FirebaseManager.CheckFirebaseComplete listener) {
         if (mDataBase == null)

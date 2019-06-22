@@ -76,8 +76,7 @@ public class LoadingActivity extends AppCompatActivity {
                         CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                             @Override
                             public void CompleteListener() {
-                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                finish();
+                                MoveLoginActivity();
                             }
 
                             @Override
@@ -87,8 +86,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                             @Override
                             public void CompleteListener_No() {
-                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                finish();
+                                MoveLoginActivity();
                             }
                         };
 
@@ -121,8 +119,7 @@ public class LoadingActivity extends AppCompatActivity {
                 CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                     @Override
                     public void CompleteListener() {
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                        finish();
+                        MoveLoginActivity();
                     }
 
                     @Override
@@ -132,8 +129,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                     @Override
                     public void CompleteListener_No() {
-                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                        finish();
+                        MoveLoginActivity();
                     }
                 };
 
@@ -172,8 +168,7 @@ public class LoadingActivity extends AppCompatActivity {
                             CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                                 @Override
                                 public void CompleteListener() {
-                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                    finish();
+                                    MoveLoginActivity();
                                 }
 
                                 @Override
@@ -183,8 +178,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                                 @Override
                                 public void CompleteListener_No() {
-                                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                                    finish();
+                                    MoveLoginActivity();
                                 }
                             };
 
@@ -199,7 +193,14 @@ public class LoadingActivity extends AppCompatActivity {
         }
     }
 
+    protected void MoveLoginActivity() {
+        final Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        //intent.addFlags (Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
+        //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        finish();
+    }
 
 
 }

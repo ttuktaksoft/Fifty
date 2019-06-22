@@ -74,6 +74,9 @@ public class UserData {
 
     private Map<String, Long> ChatReadIndex = new LinkedHashMap<>();
     public ArrayList<String> UserList_Chat = new ArrayList<>();
+    private String PassWord;
+    private String PhoneNumber;
+    private String Name;
 
   /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
     {
@@ -480,5 +483,28 @@ public class UserData {
     public String  GetUserDist_Area()
     {
         return Dist_Area;
+    }
+
+    public void SetUserPassWord(String strPassword) {
+        PassWord = strPassword;
+    }
+    public String GetUserPassWord() {
+        return  PassWord;
+    }
+
+    public void SetUserPhone(String strPhoneNumber) {
+        PhoneNumber = strPhoneNumber;
+    }
+    public String GetUserPhone()
+    {
+        return  PhoneNumber;
+    }
+
+    public void SetUserName(String name) {
+        Name = name;
+    }
+    public String GetUserName()
+    {
+        return  Name;
     }
 }
