@@ -64,6 +64,9 @@ public class UserData {
     private  String Dist_Area = null;
 
     private Map<String, String> FriendList = new LinkedHashMap<>();
+    private Map<String, String> RequestFriendList = new LinkedHashMap<>();
+
+    private Map<String, String> AlarmList = new LinkedHashMap<>();
 
     private Map<String, String> LikeList = new LinkedHashMap<>();
     private Map<String, String> VisitList = new LinkedHashMap<>();
@@ -354,6 +357,49 @@ public class UserData {
     public void  DelUserFriendList(String key)
     {
         FriendList.remove(key);
+    }
+
+
+    public void SetRequestFriend(String index, String friendIdx)
+    {
+        RequestFriendList.put(index, friendIdx);
+    }
+    public String  GetRequestFriendList(String index)
+    {
+        return RequestFriendList.get(index);
+    }
+    public int  GetRequestFriendListCount()
+    {
+        return RequestFriendList.size();
+    }
+    public Set  GetRequestFriendListKeySet()
+    {
+        return RequestFriendList.keySet();
+    }
+    public void  DelRequestFriendList(String key)
+    {
+        RequestFriendList.remove(key);
+    }
+
+    public void SetAlarm(String index, String friendIdx)
+    {
+        AlarmList.put(index, friendIdx);
+    }
+    public String  GetAlarmList(String index)
+    {
+        return AlarmList.get(index);
+    }
+    public int  GetAlarmListCount()
+    {
+        return AlarmList.size();
+    }
+    public Set  GetAlarmListKeySet()
+    {
+        return AlarmList.keySet();
+    }
+    public void  DelAlarmList(String key)
+    {
+        AlarmList.remove(key);
     }
 
 

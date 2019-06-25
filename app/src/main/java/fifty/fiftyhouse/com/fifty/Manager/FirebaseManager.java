@@ -843,6 +843,49 @@ public class FirebaseManager {
         });
     }
 
+
+    public void GetRequestFriendList(final CheckFirebaseComplete listener) {
+        CollectionReference colRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("RequestFriendList");
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+
+        colRef.orderBy("Date", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
+                    switch (document.getType()) {
+                        case ADDED:
+                        case MODIFIED:
+                            String tempRoomName = document.getDocument().getId().toString();
+                            if(!document.getDocument().getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                TKManager.getInstance().MyData.SetRequestFriend(document.getDocument().getId().toString(), document.getDocument().getData().get("Date").toString());
+                                if(TKManager.getInstance().UserData_Simple.get(document.getDocument().getId().toString()) == null)
+                                {
+                                    AddFireBaseLoadingCount();
+                                    Log.d(TAG, document.getDocument().getId() + " => " + document.getDocument().getData());
+                                    GetUserData_Simple(document.getDocument().getId(), TKManager.getInstance().UserData_Simple, listener);
+                                }
+                            }
+                            break;
+                        case REMOVED:
+                            TKManager.getInstance().MyData.DelRequestFriendList(document.getDocument().getId().toString());
+                            break;
+                    }
+                }
+
+
+                if (listener != null)
+                    listener.CompleteListener();
+
+            }
+        });
+    }
+
     public void GetUserFriendList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("FriendUsers");
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
@@ -1165,6 +1208,7 @@ public class FirebaseManager {
         GetUserListHot(listener);
         GetUserListNew(listener);
         GetUserListFriend(listener);
+        GetRequestFriendList(listener);
     }
 
     public void GetUserListDist(final CheckFirebaseComplete listener) {
@@ -2142,6 +2186,29 @@ public class FirebaseManager {
 
         mDataBase.collection("UserData").document(userIndex).collection("FriendUsers").document(targetIndex)
                 .set(FriendUserData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        if(listener != null)
+                        {
+                            listener.CompleteListener();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        Map<String, Object> RequestFriendUserData = new HashMap<>();
+        RequestFriendUserData.put("Index", userIndex);
+        RequestFriendUserData.put("Date", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+
+        mDataBase.collection("UserData").document(targetIndex).collection("RequestFriendList").document(userIndex)
+                .set(RequestFriendUserData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
