@@ -189,6 +189,11 @@ public class FirebaseManager {
                 });
     }
 
+    public void SignInNickName(final FirebaseManager.CheckFirebaseComplete listener)
+    {
+
+    }
+
     public void SetMyAuthData(final FirebaseManager.CheckFirebaseComplete listener) {
         if (mDataBase == null)
             GetFireStore();
@@ -202,7 +207,7 @@ public class FirebaseManager {
         Map<String, Object> userAuth = new HashMap<>();
         userAuth.put(TKManager.getInstance().MyData.GetUserIndex(), user);
 
-        mDataBase.collection("UserAuth").document(TKManager.getInstance().MyData.GetUserIndex())
+        mDataBase.collection("UserAuth").document(TKManager.getInstance().MyData.GetUserNickName())
                 .set(userAuth, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -877,11 +882,6 @@ public class FirebaseManager {
                             break;
                     }
                 }
-
-
-                if (listener != null)
-                    listener.CompleteListener();
-
             }
         });
     }
