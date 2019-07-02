@@ -57,7 +57,27 @@ public class LoginActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
                 // TODO 로그인 처리
                 FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
-                CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                //CommonFunc.getInstance().GetUserList(LoginActivity.this);
+
+                FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                    }
+                };
+
+                FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
+
             //    MoveAuthActivity();
 
                 //MoveSignUpActivity();

@@ -61,6 +61,7 @@ public class LoadingActivity extends AppCompatActivity {
         //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
         String userIndex = sf.getString("Index","");
 
+       // userIndex = "39";
         if(CommonFunc.getInstance().CheckStringNull(userIndex))
         {
             // 회ㅏ우너가입
@@ -120,7 +121,26 @@ public class LoadingActivity extends AppCompatActivity {
                 CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                     @Override
                     public void CompleteListener() {
-                        CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+
+
+                        FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                                CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                            }
+                        };
+
+                        FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
                     }
 
                     @Override

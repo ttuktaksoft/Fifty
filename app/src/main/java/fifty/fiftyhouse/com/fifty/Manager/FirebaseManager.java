@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -41,10 +38,9 @@ import org.imperiumlabs.geofirestore.GeoQuery;
 import org.imperiumlabs.geofirestore.GeoQueryDataEventListener;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -55,13 +51,8 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
-import fifty.fiftyhouse.com.fifty.MainActivity;
 
-import static com.google.firebase.firestore.DocumentChange.Type.ADDED;
-import static com.google.firebase.firestore.DocumentChange.Type.MODIFIED;
-import static com.google.firebase.firestore.DocumentChange.Type.REMOVED;
-import static fifty.fiftyhouse.com.fifty.CommonData.REFERENCE_DAY;
-import static fifty.fiftyhouse.com.fifty.MainActivity.mFragmentMng;
+import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
 
 public class FirebaseManager {
 
@@ -1245,6 +1236,66 @@ public class FirebaseManager {
         });
     }
 
+    public void GetDailyFavorite(final  FirebaseManager.CheckFirebaseComplete listener)
+    {
+        CollectionReference colRef = mDataBase.collection("DailyFavorite");
+        colRef.orderBy("Index", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                          TKManager.getInstance().DailyFavorite.add(document.getId().toString());
+                   }
+
+                   if(listener != null)
+                       listener.CompleteListener();
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void UpdateUserArea()
+    {
+        Map<String, Object> tempData = new HashMap<>();
+        tempData.put("Dist_Area", TKManager.getInstance().MyData.GetUserDist_Area());
+        tempData.put("Dist_Lon", TKManager.getInstance().MyData.GetUserDist_Lon());
+        tempData.put("Dist_Lat", TKManager.getInstance().MyData.GetUserDist_Lat());
+
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .set(tempData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+        mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
+                .set(tempData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
 
     public void GetUserList(final CheckFirebaseComplete listener) {
         SetFireBaseLoadingCount(0);
@@ -1261,7 +1312,7 @@ public class FirebaseManager {
         Query limitQuery = collectionRef.limit(1);
 
         GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
-        GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()), 3);
+        GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()), 100);
 
         geoQuery.addGeoQueryDataEventListener(new GeoQueryDataEventListener() {
             @Override
@@ -1338,7 +1389,12 @@ public class FirebaseManager {
 
     public void GetUserListHot(final CheckFirebaseComplete listener) {
         //CollectionReference colRef = mDataBase.collection("UserList_Hot");
-        CollectionReference colRef = mDataBase.collection("FavoriteList").document(REFERENCE_DAY[4]).collection("UserIndex");
+
+        Calendar cal = Calendar.getInstance();
+        int nWeek = cal.get(Calendar.DAY_OF_WEEK);
+        DAILY_FAVORITE = TKManager.getInstance().DailyFavorite.get(nWeek -1);
+
+        CollectionReference colRef = mDataBase.collection("FavoriteList").document(TKManager.getInstance().DailyFavorite.get(nWeek -1)).collection("UserIndex");
         colRef.orderBy("Index", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

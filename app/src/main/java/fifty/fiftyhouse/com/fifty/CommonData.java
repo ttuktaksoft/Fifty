@@ -88,7 +88,7 @@ public class CommonData {
 
     public static final int MAX_PROFILE_IMG_COUNT = 8;
 
-    public static final String[] REFERENCE_DAY = {"낚시", "요리", "골프", "Cook", "Golf", "여행", "수영"};
+    public static String DAILY_FAVORITE = null;
 
     public static final int USER_LIST_MY_LIKE = 1;
     public static final int USER_LIST_MY_VISIT = 2;

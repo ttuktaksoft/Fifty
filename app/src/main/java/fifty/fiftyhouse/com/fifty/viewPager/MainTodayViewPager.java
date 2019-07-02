@@ -20,8 +20,7 @@ import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
-import static fifty.fiftyhouse.com.fifty.CommonData.REFERENCE_DAY;
-
+import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
 public class MainTodayViewPager extends Fragment {
 
     TextView tv_Main_Today_Desc;
@@ -58,7 +57,7 @@ public class MainTodayViewPager extends Fragment {
 
     private void initSubInfo()
     {
-        tv_Main_Today_Desc.setText(REFERENCE_DAY[4] + "를 좋아하는 유져");
+        tv_Main_Today_Desc.setText(DAILY_FAVORITE + "를 좋아하는 유져");
     }
     private void initRecyclerView()
     {

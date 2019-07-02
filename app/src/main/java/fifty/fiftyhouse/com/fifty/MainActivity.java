@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                                 return true;
                             case R.id.i_main_bottom_club:
                                 //mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mClubFragment, "ClubFragment").commit();
+                                DialogFunc.getInstance().ShowToast(mContext, "클럽서비스 준비 중입니다", true);
                                 return true;
                             case R.id.i_main_bottom_chat:
                                 mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mChatFragment, "ChatFragment").commit();

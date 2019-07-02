@@ -571,6 +571,8 @@ public class CommonFunc {
                 TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
                 TKManager.getInstance().MyData.SetUserDist_Region(1.0);
 
+                FirebaseManager.getInstance().UpdateUserArea();
+
                 if(listener != null)
                     listener.CompleteListener_No();
             }
@@ -586,6 +588,7 @@ public class CommonFunc {
                 }
 
                 DialogFunc.getInstance().ShowToast(activity, TKManager.getInstance().MyData.GetUserDist_Area(), true);
+                FirebaseManager.getInstance().UpdateUserArea();
                 if(listener != null)
                     listener.CompleteListener();
             }
@@ -597,6 +600,8 @@ public class CommonFunc {
                 TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
                 TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
                 TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                FirebaseManager.getInstance().UpdateUserArea();
 
                 if(listener != null)
                     listener.CompleteListener_No();
