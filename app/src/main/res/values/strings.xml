@@ -58,12 +58,12 @@
     <string name="SETTING_ACCOUNT_PASSWORD_HINT">비밀번호를 입력해주세요</string>
     <string name="FAVORITE_SELECT_LACK">두 가지 이상 관심사를 선택해주세요</string>
     <string name="FAVORITE_SELECT_SEARCH_EMPTY">검색할 관심사를 적어주세요</string>
-    <string name="FAVORITE_SELECT_EMPTY">관심사를 선택해주세요</string>
+    <string name="FAVORITE_SELECT_EMPTY">나의 관심사를 입력해서 더 많은 친구를 만나보세요</string>
     <string name="USER_REPORT_DESC">신고사유</string>
     <string name="USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
-    <string name="MSG_SORT_DISTANCE">거리순</string>
-    <string name="MSG_SORT_NEW_MEMBER">신입멤버</string>
-    <string name="MSG_SORT_TODAY_MEMBER">오늘의멤버</string>
+    <string name="MSG_SORT_DISTANCE">우리동네</string>
+    <string name="MSG_SORT_NEW_MEMBER">신입</string>
+    <string name="MSG_SORT_TODAY_MEMBER">관심사</string>
     <string name="MSG_SORT_MY_FRIEND">내친구</string>
     <string name="MSG_SORT_FAVORITE">관심사정렬</string>
     <string name="MSG_REPORT_MENU_REPORT">신고하기</string>
@@ -76,11 +76,12 @@
     <string name="MSG_DEFAULT_LOCATION">FIFTY에서 활동중 입니다.</string>
     <string name="MSG_DEFAULT_LOCATION_MEMO_1">안녕하세요 </string>
     <string name="MSG_DEFAULT_LOCATION_MEMO_2">입니다</string>
-    <string name="MSG_USER_LIKE">좋아요를 등록하였습니다</string>
+    <string name="MSG_USER_LIKE">님을 좋아합니다</string>
     <string name="MSG_USER_UNLIKE">좋아요를 해제했습니다</string>
     <string name="MSG_ASK_FRIND_ADD">친구 추가를 하시겠습니까?</string>
     <string name="MSG_ASK_FRIND_REMOVE">친구 삭제를 하시겠습니까?</string>
-    <string name="MSG_ASK_FRIND_REGIST">친구 목록에 추가되었습니다</string>
+    <string name="MSG_ASK_FRIND_REGIST">님을 친구로 등록하였습니다</string>
+    <string name="MSG_ASK_FRIND_REMOVE_SUCCESS">님을 친구 목록에서 삭제하였습니다</string>
     <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
     <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
@@ -95,8 +96,8 @@
     <string name="FRIEND_ADD">친구추가</string>
     <string name="FRIEND_REMOVE">친구삭제</string>
 
-    <string name="tv_Login_kakao">아직 피프티 회원이 아니신가요</string>
-    <string name="tv_Login_nickname">기존 회원이시면 아래 버튼을 눌러주세요</string>
+    <string name="tv_Login_kakao">FIFTY의 멤버가 되어보세요</string>
+    <string name="tv_Login_nickname">기존 멤버는 아래 버튼을 눌러주세요</string>
 
     <string name="tv_Auth_Age">50세 미만은 가입이 불가능 합니다</string>
 
@@ -139,7 +140,7 @@
     <string name="tv_SignUp_Profile_Comment_Desc">자신을 표현 할 수 있는 사진을 선택해주세요</string>
     <string name="tv_SignUp_Profile_Upload_Fail">사진을 등록해주세요</string>
     <string name="tv_SignUp_Profile_Next">다음</string>
-    <string name="tv_SignUp_Com_Popup_Desc">축하합니다!!\n당신은 FIFTY의 정회원이\n되었습니다!!\n관심사가 비슷한 친구들과\n마음껏 소통해보세요~</string>
+    <string name="tv_SignUp_Com_Popup_Desc">FIFTY의 멤버가 되신 것을 환영합니다\nFIFTY에서 새로운 친구를 사귀고\n다양한 커뮤니티 활동을 해보세요</string>
     <string name="tv_UserProfile_Info_Photo">사진</string>
     <string name="tv_UserProfile_Info_Club">클럽</string>
     <string name="tv_UserProfile_Info_Menu">기타</string>
@@ -154,10 +155,10 @@
     <string name="et_NickName_Edit_NickName">닉네임을 입력하세요 (2~10자)</string>
     <string name="tv_NickName_Edit_Save">저장</string>
     <string name="tv_NickName_Edit_Check">중복체크</string>
-    <string name="et_Store_Edit_NickName">자기소개를 입력하세요</string>
+    <string name="et_Store_Edit_NickName">나의 소개를 입력해서\n더 많은 친구를 만나보세요</string>
     <string name="tv_Store_Edit_Save">저장</string>
     <string name="tv_Location_Edit_Save">저장</string>
-    <string name="et_Location_Edit_Location">주로 활동하는 곳을 입력하세요</string>
+    <string name="et_Location_Edit_Location">나의 주 활동지를 입력해서\n더 많은 친구를 만나보세요</string>
 
 
     <string name="SIGN_UP_NICKNAME_EMPTY">닉네임을 입력해주세요</string>
@@ -172,11 +173,11 @@
     <string name="MY_PROFILE_LOCATION">지역</string>
     <string name="MY_PROFILE_LOCATION_HINT">자주가는 지역을 입력해보세요</string>
     <string name="MY_PROFILE_FAVORITE">관심사</string>
-    <string name="NICKNAME_EDIT">닉네임 수정</string>
+    <string name="NICKNAME_EDIT">닉네임 변경</string>
 
-    <string name="STORE_EDIT">자기소개 수정</string>
-    <string name="LOCATION_EDIT">지역 수정</string>
-    <string name="FAVORITE_EDIT">관심사 수정</string>
+    <string name="STORE_EDIT">자기소개 변경</string>
+    <string name="LOCATION_EDIT">지역 변경</string>
+    <string name="FAVORITE_EDIT">관심사 변경</string>
     <string name="FAVORITE_SELECT">관심사 선택</string>
     <string name="FAVORITE_SELECT_VIEW">선택한 관심사</string>
     <string name="FAVORITE_SELECT_RECOM">관심사 추천</string>
@@ -187,9 +188,9 @@
     <string name="bt_Main_Alarm">알림</string>
     <string name="bt_Main_Refresh">새로고침</string>
     <string name="bt_Main_Shop">아이템구매</string>
-    <string name="bt_Main_Distance">거리순</string>
-    <string name="bt_Main_New">신입멤버</string>
-    <string name="bt_Main_Today">오늘의멤버</string>
+    <string name="bt_Main_Distance">우리동네</string>
+    <string name="bt_Main_New">신입</string>
+    <string name="bt_Main_Today">관심사</string>
     <string name="bt_Main_Friend">내친구</string>
     <string name="permission_request">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
     <string name="permission_cammera">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
@@ -201,7 +202,7 @@
     <string name="i_main_bottom_club">모임</string>
     <string name="i_main_bottom_chat">채팅</string>
     <string name="i_main_bottom_profile">내프로필</string>
-    <string name="tv_Main_New_Desc">신입멤버를 소개합니다</string>
+    <string name="tv_Main_New_Desc">방금 가입한 친구를 만나보세요</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -48,8 +49,12 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+
         mActivity = this;
         mContext = getApplicationContext();
+
+        DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserIndex(), false);
+
         mFragmentMgr = getSupportFragmentManager();
         // mFragmentMgr.beginTransaction().addToBackStack(null);
 
@@ -142,7 +147,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         TKManager.getInstance().TargetUserData.AddUserTodayLike(1);
 
                         TKManager.getInstance().TargetUserData.SetUserLikeList(TKManager.getInstance().MyData.GetUserIndex(), CommonFunc.getInstance().GetCurrentDate());
-                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIKE), true);
+                        DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserNickName()  + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIKE), true);
                         FirebaseManager.getInstance().RegistLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
                     }
 
@@ -172,7 +177,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void CompleteListener() {
                                         DialogFunc.getInstance().DismissLoadingPage();
-                                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ASK_FRIND_REGIST), true);
+                                        DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserNickName()  + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ASK_FRIND_REGIST), true);
                                     }
 
                                     @Override
@@ -203,6 +208,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void CompleteListener() {
                                         DialogFunc.getInstance().DismissLoadingPage();
+                                        DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserNickName() + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ASK_FRIND_REMOVE_SUCCESS), true);
                                     }
 
                                     @Override
