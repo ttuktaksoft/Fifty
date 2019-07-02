@@ -49,24 +49,25 @@
 
     <TextView
         android:id="@+id/tv_Main_Thumbnail_Info_NickName"
-        android:layout_width="wrap_content"
+        style="@style/BaseTextView_AutoSize"
+        android:layout_width="0dp"
         android:layout_height="30dp"
-        android:textSize="15dp"
         android:gravity="left|center_vertical"
         app:layout_constraintTop_toBottomOf="@+id/iv_Main_Thumbnail_1"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_Main_Thumbnail_Info_State"
         android:layout_marginLeft="10dp"
         android:text="누구누구"/>
 
     <TextView
         android:id="@+id/tv_Main_Thumbnail_Info_State"
+        style="@style/BaseTextView"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:textSize="15dp"
         android:gravity="right|center_vertical"
         app:layout_constraintTop_toBottomOf="@+id/iv_Main_Thumbnail_1"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="10dp"
-        android:text="접속중"/>
+        android:text="2000km"/>
 
 </android.support.constraint.ConstraintLayout>

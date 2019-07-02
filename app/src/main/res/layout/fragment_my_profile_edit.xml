@@ -58,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/tv_MyProfile_Edit_Profile_Desc"
-                    style="@style/BaseTextView"
+                    style="@style/BaseTextView_AutoSize"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Edit_Profile"
@@ -68,7 +68,6 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:text="@string/tv_MyProfile_Edit_Profile_Desc"
-                    android:textSize="15dp"
                     android:paddingBottom="10dp"
                     />
 

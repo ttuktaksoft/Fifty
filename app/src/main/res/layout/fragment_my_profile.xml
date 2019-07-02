@@ -15,24 +15,24 @@
 
         <ImageView
             android:id="@+id/iv_MyProfile_Alarm"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
             app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
-            android:layout_marginLeft="10dp"
             android:tint="@color/black_icon_tint"
             android:src="@drawable/ic_alarm"
             />
 
         <ImageView
             android:id="@+id/iv_MyProfile_Shop"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
             app:layout_constraintRight_toRightOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_TopBar"
-            android:layout_marginRight="10dp"
             android:tint="@color/black_icon_tint"
             android:src="@drawable/ic_shop"
             />
@@ -50,7 +50,6 @@
             android:textColor="@color/black_icon_tint"
             android:textStyle="bold"
             android:text="닉네임"
-            android:textSize="25dp"
             />
 
     </android.support.constraint.ConstraintLayout>

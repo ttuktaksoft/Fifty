@@ -70,7 +70,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Name"
                     android:gravity="center"
                     android:text="20세"
-                    android:textSize="15dp"
                     />
 
                 <ImageView
@@ -95,7 +94,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Age"
                     android:gravity="center"
                     android:text="사무실, 우리집, 당구장"
-                    android:textSize="15dp"
                     />
 
                 <ImageView
@@ -136,8 +134,7 @@
                     android:paddingBottom="5dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:text="자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개"
-                    android:textSize="18dp"/>
+                    android:text="자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개" />
 
 
 
@@ -179,16 +176,15 @@
 
             <TextView
                 android:id="@+id/tv_UserProfile_Info_Count_1"
-                style="@style/BaseTextView"
+                style="@style/BaseTextView_AutoSize"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_Info_Count_BG"
                 app:layout_constraintRight_toLeftOf="@+id/tv_UserProfile_Info_Count_2"
                 app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Info_Count_BG"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
                 android:gravity="center"
                 android:text="방문자 10 / 10k"
-                android:textSize="15dp"
                 />
 
             <ImageView
@@ -206,7 +202,7 @@
 
             <TextView
                 android:id="@+id/tv_UserProfile_Info_Count_2"
-                style="@style/BaseTextView"
+                style="@style/BaseTextView_AutoSize"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Count_1"
@@ -215,12 +211,11 @@
                 app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
                 android:gravity="center"
                 android:text="좋아요 10 / 1k"
-                android:textSize="15dp"
                 />
 
             <TextView
                 android:id="@+id/tv_UserProfile_Info_Count_3"
-                style="@style/BaseTextView"
+                style="@style/BaseTextView_AutoSize"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Count_2"
@@ -229,7 +224,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
                 android:gravity="center"
                 android:text="거리 10km"
-                android:textSize="15dp"
                 />
 
             <ImageView
@@ -255,7 +249,7 @@
                 <TextView
                     android:id="@+id/tv_UserProfile_Info_Favorite"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     style="@style/BaseTextView_AutoSize"
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Favorite"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Favorite"
@@ -287,7 +281,7 @@
                 <TextView
                     android:id="@+id/tv_UserProfile_Info_Photo"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     style="@style/BaseTextView_AutoSize"
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Photo"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Photo"
@@ -323,7 +317,7 @@
                 <TextView
                     android:id="@+id/tv_UserProfile_Info_Club"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     style="@style/BaseTextView_AutoSize"
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Club"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Club"
@@ -355,7 +349,7 @@
                 <TextView
                     android:id="@+id/tv_UserProfile_Info_Menu"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     style="@style/BaseTextView_AutoSize"
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Menu"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Menu"
@@ -377,7 +371,75 @@
                     android:nestedScrollingEnabled="false"/>
             </android.support.constraint.ConstraintLayout>
 
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/v_UserProfile_Info_Etc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/v_UserProfile_Info_Menu"
+                android:background="@color/str_title_bg_gray">
 
+                <TextView
+                    android:id="@+id/tv_UserProfile_Info_Terms_1"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    style="@style/BaseTextView"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Etc"
+                    app:layout_constraintRight_toLeftOf="@+id/tv_UserProfile_Info_Terms_2"
+                    app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Etc"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/MSG_TERMS_1"
+                    android:textColor="@color/gray"
+                    android:gravity="center"
+                    android:textSize="@dimen/default_font_size_small_1"/>
+
+                <TextView
+                    android:id="@+id/tv_UserProfile_Info_Terms_2"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    style="@style/BaseTextView"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Terms_1"
+                    app:layout_constraintRight_toLeftOf="@+id/tv_UserProfile_Info_Terms_3"
+                    app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Etc"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/MSG_TERMS_2"
+                    android:textColor="@color/gray"
+                    android:gravity="center"
+                    android:textSize="@dimen/default_font_size_small_1"/>
+
+                <TextView
+                    android:id="@+id/tv_UserProfile_Info_Terms_3"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    style="@style/BaseTextView"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Terms_2"
+                    app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Etc"
+                    app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Etc"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="@string/MSG_TERMS_3"
+                    android:textColor="@color/gray"
+                    android:gravity="center"
+                    android:textSize="@dimen/default_font_size_small_1"/>
+
+                <TextView
+                    android:id="@+id/tv_UserProfile_Info_Etc"
+                    android:layout_width="0dp"
+                    android:layout_height="90dp"
+                    style="@style/BaseTextView"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Etc"
+                    app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Etc"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Terms_1"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:text="@string/MSG_PROFILE_ETC"
+                    android:textColor="@color/gray"
+                    android:gravity="center|left"
+                    android:textSize="@dimen/default_font_size_small_1"/>
+
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.constraint.ConstraintLayout>
 

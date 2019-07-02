@@ -38,23 +38,22 @@
         android:layout_marginLeft="10dp"
         android:maxLength="15"
         android:text="피프티하우스"
-        android:textSize="14dp"
         app:layout_constraintLeft_toRightOf="@+id/iv_Chat_Profile"
         app:layout_constraintTop_toTopOf="@+id/iv_Chat_Profile" />
 
     <TextView
         android:id="@+id/tv_Chat_Msg"
         style="@style/BaseTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingBottom="4dp"
         android:gravity="left"
-        android:maxWidth="230dp"
         android:text="안녕하세요안녕하세요안녕하세요"
         android:textColor="@color/gray"
         android:maxLines="2"
         app:layout_constrainedHeight="true"
-        app:layout_constraintHeight_min="45dp"
+        app:layout_constraintHeight_min="60dp"
+        app:layout_constraintRight_toLeftOf="@+id/iv_Chat_Check"
         app:layout_constraintLeft_toLeftOf="@id/tv_Chat_Nickname"
         app:layout_constraintTop_toBottomOf="@+id/tv_Chat_Nickname" />
 
@@ -68,7 +67,6 @@
         android:gravity="center"
         android:text="17/8/19"
         android:textColor="@android:color/darker_gray"
-        android:textSize="12dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_Chat_Nickname"
         app:layout_constraintBottom_toBottomOf="@+id/tv_Chat_Nickname"/>
@@ -76,21 +74,21 @@
 
     <ImageView
         android:id="@+id/iv_Chat_Check"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/ic_red_dot"
+        app:layout_constraintLeft_toRightOf="@+id/tv_Chat_Msg"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_Chat_Date" />
 
     <TextView
         android:id="@+id/tv_Chat_Check"
-        style="@style/BaseTextView"
+        style="@style/BaseTextView_AutoSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
         android:text="99+"
-        android:textSize="14dp"
         android:textColor="@color/white"
         app:layout_constraintRight_toRightOf="@+id/iv_Chat_Check"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Chat_Check"

@@ -20,14 +20,13 @@
 
         <TextView
             android:id="@+id/tv_Main_Dis_Curr_Pos"
-            style="@style/BaseTextView"
+            style="@style/BaseTextView_AutoSize"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:text="서울특별시 영등포구 여의도동"
             android:gravity="center_vertical|left"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textSize="15dp"
             app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_Dis_SubInfo"
@@ -40,6 +39,7 @@
             android:layout_height="35dp"
             android:text="@string/MSG_SORT_FAVORITE"
             android:textSize="15dp"
+            android:visibility="gone"
             android:gravity="center_vertical|left"
             android:layout_marginRight="5dp"
             app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"

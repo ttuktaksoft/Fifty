@@ -22,12 +22,12 @@
 
         <ImageView
             android:id="@+id/iv_Main_Alarm"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_TopBar"
             app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopBar"
-            android:layout_marginLeft="10dp"
             android:src="@drawable/ic_alarm"
             android:tint="@color/black_icon_tint"/>
 
@@ -44,24 +44,24 @@
 
         <ImageView
             android:id="@+id/iv_Main_Shop"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
             app:layout_constraintRight_toRightOf="@+id/v_Main_TopBar"
             app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopBar"
-            android:layout_marginRight="10dp"
             android:src="@drawable/ic_shop"
             android:tint="@color/black_icon_tint" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tl_Main_TopTab"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/v_Main_TopBar"
             android:background="@color/main_sub_tab_bg"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            app:tabTextAppearance="@style/BaseTabTextWidget"
             android:elevation="0dp"
             android:translationZ="5dp"
             app:tabIndicatorColor="@color/str_base"
@@ -73,22 +73,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/activity_bg"
-            app:layout_constraintBottom_toTopOf="@+id/tv_Main_BottomAds"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_Main_TopTab" />
-
-        <ImageView
-            android:id="@+id/tv_Main_BottomAds"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vp_Main_UserList"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:gravity="center"
-            android:src="@drawable/banner_ad"/>
     </android.support.constraint.ConstraintLayout>
 
 

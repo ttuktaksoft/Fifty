@@ -21,16 +21,16 @@
 
     <TextView
         android:id="@+id/tv_Main_Friend_Count"
-        style="@style/BaseTextView"
-        android:layout_width="wrap_content"
+        style="@style/BaseTextView_AutoSize"
+        android:layout_width="0dp"
         android:layout_height="35dp"
         android:text="현재 친구수 : 30명"
         android:gravity="center_vertical|left"
-        android:textSize="15dp"
         android:layout_marginLeft="10dp"
         app:layout_constraintTop_toTopOf="@+id/v_Main_Friend_SubInfo"
         app:layout_constraintBottom_toBottomOf="@+id/v_Main_Friend_SubInfo"
-        app:layout_constraintLeft_toLeftOf="@+id/v_Main_Friend_SubInfo" />
+        app:layout_constraintLeft_toLeftOf="@+id/v_Main_Friend_SubInfo"
+        app:layout_constraintRight_toRightOf="@+id/v_Main_Friend_SubInfo"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_Main_Friend_UserList"

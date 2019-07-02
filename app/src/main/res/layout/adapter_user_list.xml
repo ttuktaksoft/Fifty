@@ -27,8 +27,7 @@
         app:layout_constraintRight_toLeftOf="@+id/tv_User_List_Dis"
         android:text="닉네임입니다만?"
         android:gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:textSize="18dp"/>
+        android:layout_marginLeft="20dp"/>
 
     <ImageView
         android:id="@+id/iv_User_List_Gender"
@@ -44,27 +43,27 @@
         android:id="@+id/tv_User_List_Age"
         style="@style/BaseTextView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/iv_User_List_Gender"
         app:layout_constraintBottom_toBottomOf="@+id/iv_User_List_Profile"
         app:layout_constraintLeft_toRightOf="@+id/iv_User_List_Gender"
         app:layout_constraintRight_toLeftOf="@+id/tv_User_List_Dis"
         android:text="20세"
         android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:textSize="15dp"/>
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/tv_User_List_Dis"
-        style="@style/BaseTextView"
+        style="@style/BaseTextView_AutoSize"
         android:layout_width="50dp"
         android:layout_height="0dp"
+        android:paddingRight="2dp"
         app:layout_constraintTop_toTopOf="@+id/iv_User_List_Profile"
         app:layout_constraintBottom_toBottomOf="@+id/iv_User_List_Profile"
         app:layout_constraintRight_toRightOf="parent"
         android:text="130km"
         android:gravity="center"
-        android:textSize="10dp"/>
+        android:maxLines="1"/>
 
     <ImageView
         android:id="@+id/iv_User_List_Line"

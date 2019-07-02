@@ -84,7 +84,7 @@ public class ChatBodyAdapter extends RecyclerView.Adapter<ChatBodyListHolder> {
 class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
     public ImageView iv_Chat_Body_Profile, iv_Chat_Body_Profile_Border;
-    public ConstraintLayout v_Chat_Body, v_Chat_Body_Type_Msg, v_Chat_Body_Type_Img, v_Chat_Body_Type_Video;
+    public ConstraintLayout v_Chat_Body, v_Chat_Body_Type_Msg, v_Chat_Body_Type_Img, v_Chat_Body_Type_Video, v_Chat_Body_Type_Etc;
     public ImageView iv_Chat_Body_Msg_BG, iv_Chat_Body_Img, iv_Chat_Body_Video;
     public TextView tv_Chat_Body_NickName, tv_Chat_Body_Msg, tv_Chat_Body_Date, tv_Chat_Body_Check;
 
@@ -100,6 +100,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         v_Chat_Body_Type_Msg = itemView.findViewById(R.id.v_Chat_Body_Type_Msg);
         v_Chat_Body_Type_Img = itemView.findViewById(R.id.v_Chat_Body_Type_Img);
         v_Chat_Body_Type_Video = itemView.findViewById(R.id.v_Chat_Body_Type_Video);
+        v_Chat_Body_Type_Etc = itemView.findViewById(R.id.v_Chat_Body_Type_Etc);
         iv_Chat_Body_Msg_BG = itemView.findViewById(R.id.iv_Chat_Body_Msg_BG);
         iv_Chat_Body_Img = itemView.findViewById(R.id.iv_Chat_Body_Img);
         iv_Chat_Body_Video = itemView.findViewById(R.id.iv_Chat_Body_Video);
@@ -127,6 +128,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         ConstraintLayout.LayoutParams lp_Chat_Body_Type_Msg = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Type_Img = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Type_Video = null;
+        ConstraintLayout.LayoutParams lp_Chat_Body_Type_Etc = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Date = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Check = null;
 
@@ -150,6 +152,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_NickName.topToTop = iv_Chat_Body_Profile.getId();
 
             lp_Chat_Body_Type_Msg = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp_Chat_Body_Type_Msg.leftToRight = v_Chat_Body_Type_Etc.getId();
             lp_Chat_Body_Type_Msg.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
@@ -158,10 +161,12 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             tv_Chat_Body_Msg.setPadding(padding, padding, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding);
 
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp_Chat_Body_Type_Img.leftToRight = v_Chat_Body_Type_Etc.getId();
             lp_Chat_Body_Type_Img.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Img.topToBottom = tv_Chat_Body_NickName.getId();
 
             lp_Chat_Body_Type_Video = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp_Chat_Body_Type_Video.leftToRight = v_Chat_Body_Type_Etc.getId();
             lp_Chat_Body_Type_Video.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Video.topToBottom = tv_Chat_Body_NickName.getId();
 
@@ -174,10 +179,15 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             else
                 AttachID = v_Chat_Body_Type_Video.getId();
 
+            lp_Chat_Body_Type_Etc = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp_Chat_Body_Type_Etc.leftToLeft = v_Chat_Body.getId();
+            lp_Chat_Body_Type_Etc.rightToLeft = AttachID;
+            lp_Chat_Body_Type_Etc.bottomToBottom = AttachID;
+
             // 문자
             lp_Chat_Body_Date = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Date.rightToLeft = AttachID;
-            lp_Chat_Body_Date.bottomToBottom = AttachID;
+            lp_Chat_Body_Date.rightToRight = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Date.bottomToBottom = v_Chat_Body_Type_Etc.getId();
 
             lp_Chat_Body_Check = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Check.rightToLeft = tv_Chat_Body_Date.getId();
@@ -185,8 +195,6 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
             iv_Chat_Body_Msg_BG.setScaleX(1.0f);
             ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.chat_my_bg)));
-
-
         }
         else
         {
@@ -208,6 +216,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_NickName.topToTop = iv_Chat_Body_Profile.getId();
 
             lp_Chat_Body_Type_Msg = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp_Chat_Body_Type_Msg.rightToLeft = v_Chat_Body_Type_Etc.getId();
             lp_Chat_Body_Type_Msg.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
@@ -216,10 +225,12 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             tv_Chat_Body_Msg.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding, padding, padding);
 
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp_Chat_Body_Type_Img.rightToLeft = v_Chat_Body_Type_Etc.getId();
             lp_Chat_Body_Type_Img.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Img.topToBottom = tv_Chat_Body_NickName.getId();
 
             lp_Chat_Body_Type_Video = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp_Chat_Body_Type_Video.rightToLeft = v_Chat_Body_Type_Etc.getId();
             lp_Chat_Body_Type_Video.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Video.topToBottom = tv_Chat_Body_NickName.getId();
 
@@ -232,10 +243,15 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             else
                 AttachID = v_Chat_Body_Type_Video.getId();
 
+            lp_Chat_Body_Type_Etc = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp_Chat_Body_Type_Etc.rightToRight = v_Chat_Body.getId();
+            lp_Chat_Body_Type_Etc.leftToRight = AttachID;
+            lp_Chat_Body_Type_Etc.bottomToBottom = AttachID;
+
             // 문자
             lp_Chat_Body_Date = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Date.leftToRight = AttachID;
-            lp_Chat_Body_Date.bottomToBottom = AttachID;
+            lp_Chat_Body_Date.leftToRight = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Date.bottomToBottom = v_Chat_Body_Type_Etc.getId();
 
             lp_Chat_Body_Check = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Check.leftToRight = tv_Chat_Body_Date.getId();
@@ -255,6 +271,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         v_Chat_Body_Type_Msg.setLayoutParams(lp_Chat_Body_Type_Msg);
         v_Chat_Body_Type_Img.setLayoutParams(lp_Chat_Body_Type_Img);
         v_Chat_Body_Type_Video.setLayoutParams(lp_Chat_Body_Type_Video);
+        v_Chat_Body_Type_Etc.setLayoutParams(lp_Chat_Body_Type_Etc);
         tv_Chat_Body_Date.setLayoutParams(lp_Chat_Body_Date);
         tv_Chat_Body_Check.setLayoutParams(lp_Chat_Body_Check);
 

@@ -87,6 +87,10 @@
     <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
     <string name="MSG_APP_EXIT">피프티를 종료하시겠습니까?</string>
     <string name="MSG_EXIT">종료</string>
+    <string name="MSG_TERMS_1">서비스 이용약관</string>
+    <string name="MSG_TERMS_2">개인정보 취급방침</string>
+    <string name="MSG_TERMS_3">환불 약관</string>
+    <string name="MSG_PROFILE_ETC">피프티하우스 주식회사 | 대표 : 김규영 | 사업자등록번호 : 573-87-01420\n통신판매업 2019-부산수영-0362\n부산광역시 수영구 수영로 679번길 15, 2층\n고객센터 : 051-781-9985, fiftyhouse2019@gmail.com</string>
 
     <string name="FRIEND_ADD">친구추가</string>
     <string name="FRIEND_REMOVE">친구삭제</string>

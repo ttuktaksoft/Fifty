@@ -28,7 +28,6 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="asdfasdf"
         android:gravity="center_vertical"
-        android:layout_marginLeft="20dp"
-        android:textSize="20dp"/>
+        android:layout_marginLeft="20dp" />
 
 </android.support.constraint.ConstraintLayout>

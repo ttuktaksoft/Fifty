@@ -17,9 +17,9 @@
 
     <TextView
         android:id="@+id/tv_Notice_Desc"
-        style="@style/BaseTextView"
+        style="@style/BaseTextView_AutoSize"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         app:layout_constraintTop_toTopOf="@+id/iv_Notice_Profile"
@@ -27,7 +27,6 @@
         app:layout_constraintLeft_toRightOf="@+id/iv_Notice_Profile"
         app:layout_constraintRight_toRightOf="parent"
         android:text="안녕하세요 피프티 하우스 입니다우스 입니다우스 입니다우스 입니다우스 입니다우스 입니다우스 입니다우스 입니다."
-        android:textSize="13dp"
         android:maxLines="2"
         android:gravity="left|center_vertical"/>
 

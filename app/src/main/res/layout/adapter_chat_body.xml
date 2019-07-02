@@ -31,6 +31,7 @@
 
         <TextView
             android:id="@+id/tv_Chat_Body_NickName"
+            style="@style/BaseTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
@@ -42,8 +43,9 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/v_Chat_Body_Type_Msg"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/v_Chat_Body_Type_Etc"
             app:layout_constraintRight_toLeftOf="@id/iv_Chat_Body_Profile"
             app:layout_constraintTop_toBottomOf="@id/tv_Chat_Body_NickName">
 
@@ -60,11 +62,11 @@
 
             <TextView
                 android:id="@+id/tv_Chat_Body_Msg"
-                android:layout_width="wrap_content"
+                style="@style/BaseTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="안녕하세요 채팅방 내용입니다"
-                android:maxWidth="250dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:paddingRight="20dp"
@@ -80,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@+id/v_Chat_Body_Type_Etc"
             app:layout_constraintRight_toLeftOf="@id/iv_Chat_Body_Profile"
             app:layout_constraintTop_toBottomOf="@id/tv_Chat_Body_NickName">
 
@@ -98,6 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@+id/v_Chat_Body_Type_Etc"
             app:layout_constraintRight_toLeftOf="@id/iv_Chat_Body_Profile"
             app:layout_constraintTop_toBottomOf="@id/tv_Chat_Body_NickName">
 
@@ -112,27 +116,40 @@
         </android.support.constraint.ConstraintLayout>
 
 
-        <TextView
-            android:id="@+id/tv_Chat_Body_Date"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/v_Chat_Body_Type_Etc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray"
-            android:text="오전 10 : 20"
-            android:layout_marginRight="3dp"
-            android:textSize="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/v_Chat_Body"
             app:layout_constraintRight_toLeftOf="@id/v_Chat_Body_Type_Msg"
-            app:layout_constraintBottom_toBottomOf="@id/v_Chat_Body_Type_Msg"/>
+            app:layout_constraintBottom_toBottomOf="@id/v_Chat_Body_Type_Msg">
 
-        <TextView
-            android:id="@+id/tv_Chat_Body_Check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray"
-            android:text="1"
-            android:layout_marginRight="3dp"
-            android:textSize="10dp"
-            app:layout_constraintRight_toLeftOf="@id/tv_Chat_Body_Date"
-            app:layout_constraintBottom_toBottomOf="@id/tv_Chat_Body_Date"/>
+            <TextView
+                android:id="@+id/tv_Chat_Body_Date"
+                style="@style/BaseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:text="오전 10 : 20"
+                android:layout_marginRight="3dp"
+                android:textSize="@dimen/default_font_size_small_1"
+                app:layout_constraintRight_toRightOf="@id/v_Chat_Body_Type_Etc"
+                app:layout_constraintBottom_toBottomOf="@id/v_Chat_Body_Type_Etc"/>
+
+            <TextView
+                android:id="@+id/tv_Chat_Body_Check"
+                style="@style/BaseTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:text="1"
+                android:layout_marginRight="3dp"
+                android:textSize="@dimen/default_font_size_small_1"
+                app:layout_constraintRight_toLeftOf="@id/tv_Chat_Body_Date"
+                app:layout_constraintBottom_toBottomOf="@id/tv_Chat_Body_Date"/>
+
+        </android.support.constraint.ConstraintLayout>
+
 
     </android.support.constraint.ConstraintLayout>
 

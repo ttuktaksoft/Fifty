@@ -22,7 +22,6 @@
             android:layout_marginLeft="10dp"
             android:gravity="left|center_vertical"
             android:text="@string/MY_PROFILE_AGE"
-            android:textSize="20dp"
             />
 
         <ImageView
@@ -47,7 +46,6 @@
             android:layout_marginLeft="5dp"
             android:gravity="left|center_vertical"
             android:text="닉네임"
-            android:textSize="15dp"
             />
 
         <ImageView

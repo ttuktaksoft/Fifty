@@ -22,7 +22,6 @@
             android:layout_marginLeft="10dp"
             android:gravity="left|center_vertical"
             android:text="닉네임"
-            android:textSize="20dp"
             />
 
         <TextView
@@ -37,7 +36,6 @@
             android:gravity="left|center_vertical"
             android:maxLines="2"
             android:text="닉네임"
-            android:textSize="15dp"
             />
 
         <ImageView

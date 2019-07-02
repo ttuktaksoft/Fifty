@@ -16,22 +16,27 @@
         <!--<item name="android:buttonStyle">@style/button</item>-->
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="BaseTabTextWidget" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/my_font2</item>
+        <item name="android:textSize">@dimen/default_font_size</item>
+    </style>
 
     <style name="BaseTextView" parent="@android:style/Widget.TextView">
         <item name="android:fontFamily">@font/my_font2</item>
         <item name="android:textColor">@color/str_base</item>
+        <item name="android:textSize">@dimen/default_font_size</item>
     </style>
 
     <style name="BaseTextView_AutoSize" parent="BaseTextView">
         <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">10dp</item>
-        <item name="autoSizeMaxTextSize">23dp</item>
+        <item name="autoSizeMinTextSize">@dimen/default_font_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
     </style>
 
     <style name="TobBarTextView" parent="BaseTextView">
         <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">10dp</item>
-        <item name="autoSizeMaxTextSize">23dp</item>
+        <item name="autoSizeMinTextSize">@dimen/default_font_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
     </style>
 
     <style name="BaseEditTextView" parent="@android:style/Widget.EditText">
@@ -45,6 +50,10 @@
         <item name="autoSizeTextType">uniform</item>
         <item name="autoSizeMinTextSize">10dp</item>
         <item name="autoSizeMaxTextSize">23dp</item>
+    </style>
+
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">@dimen/default_font_size_small</item>
     </style>
 
 </resources>
