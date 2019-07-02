@@ -61,7 +61,7 @@ public class LoadingActivity extends AppCompatActivity {
         //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
         userIndex = sf.getString("Index","");
 
-        userIndex = null;
+        //userIndex = null;
 
        // userIndex = "39";
         if(CommonFunc.getInstance().CheckStringNull(userIndex))
