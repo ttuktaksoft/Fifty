@@ -25,7 +25,7 @@ public class LoadingActivity extends AppCompatActivity {
 
     private Activity mActivity;
     private static final int REQUEST_LOCATION = 1;
-
+    String userIndex;
 
 
     @Override
@@ -59,14 +59,43 @@ public class LoadingActivity extends AppCompatActivity {
 
         SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
         //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
-        String userIndex = sf.getString("Index","");
+        userIndex = sf.getString("Index","");
+
+        userIndex = null;
 
        // userIndex = "39";
         if(CommonFunc.getInstance().CheckStringNull(userIndex))
         {
+
+            int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+            if(permissionCamera == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
+            } else {
+                CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
+                    }
+                };
+
+                CommonFunc.getInstance().GetUserLocation(LoadingActivity.this, listener);
+                // GetUserList();
+            }
+
             // 회ㅏ우너가입
 
-            FirebaseManager.CheckFirebaseComplete listen = new FirebaseManager.CheckFirebaseComplete() {
+          /*  FirebaseManager.CheckFirebaseComplete listen = new FirebaseManager.CheckFirebaseComplete() {
                 @Override
                 public void CompleteListener() {
 
@@ -107,7 +136,7 @@ public class LoadingActivity extends AppCompatActivity {
                 }
             };
 
-            FirebaseManager.getInstance().GetUserIndex(listen);
+            FirebaseManager.getInstance().GetUserIndex(listen);*/
         }
         else
         {
@@ -173,10 +202,21 @@ public class LoadingActivity extends AppCompatActivity {
                     if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         if(grantResult == PackageManager.PERMISSION_GRANTED) {
 
+
+
                             CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                                 @Override
                                 public void CompleteListener() {
-                                    CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                    if(CommonFunc.getInstance().CheckStringNull(userIndex))
+                                    {
+                                        CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
+                                    }
+                                    else
+                                    {
+                                        CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                    }
+
+
                                 }
 
                                 @Override
@@ -186,11 +226,20 @@ public class LoadingActivity extends AppCompatActivity {
 
                                 @Override
                                 public void CompleteListener_No() {
-                                    CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                    if(CommonFunc.getInstance().CheckStringNull(userIndex))
+                                    {
+                                        CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
+                                    }
+                                    else
+                                    {
+                                        CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                    }
+
                                 }
                             };
 
                             CommonFunc.getInstance().GetUserLocation(this, listener);
+
                         //    GetUserList();
                         } else {
                             android.os.Process.killProcess(android.os.Process.myPid());

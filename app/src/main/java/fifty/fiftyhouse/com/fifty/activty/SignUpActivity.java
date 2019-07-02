@@ -140,8 +140,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 // 입력을 시도 했을경우 중복체크 안함으로 수정
-                final String strPassword = et_SignUp_PassWord.getText().toString();
-                TKManager.getInstance().MyData.SetUserPassWord(strPassword);
+
             }
         });
 
@@ -228,6 +227,9 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else
                 {
+
+                    final String strPassword = et_SignUp_PassWord.getText().toString();
+                    TKManager.getInstance().MyData.SetUserPassWord(strPassword);
 
                     FirebaseManager.CheckFirebaseComplete firebaseAuthListener = new FirebaseManager.CheckFirebaseComplete() {
 

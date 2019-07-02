@@ -199,7 +199,7 @@ public class FirebaseManager {
                         {
                             TKManager.getInstance().MyData.SetUserIndex(document.getData().get("Index").toString());
                             if(listener != null)
-                                listener.CompleteListener_Yes();
+                                listener.CompleteListener();
                         }
                         else
                         {
@@ -209,7 +209,7 @@ public class FirebaseManager {
 
                     } else {
                         if(listener != null)
-                            listener.CompleteListener();
+                            listener.CompleteListener_Yes();
 
                         Log.d(TAG, "No such document");
                     }
@@ -238,7 +238,7 @@ public class FirebaseManager {
         userAuth.put(TKManager.getInstance().MyData.GetUserIndex(), user);
 
         mDataBase.collection("UserAuth").document(TKManager.getInstance().MyData.GetUserNickName())
-                .set(userAuth, SetOptions.merge())
+                .set(user, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -264,6 +264,7 @@ public class FirebaseManager {
 
 
         FirebaseManager.getInstance().RegistUserDistInfo();
+        FirebaseManager.getInstance().RegistUserGeoInfo();
 
         Map<String, String> tempFavoriteData = TKManager.getInstance().MyData.GetUserFavoriteList();
         Set set = tempFavoriteData.entrySet();
@@ -1198,6 +1199,7 @@ public class FirebaseManager {
                             userData.SetUserDist_Lat(37.566659);
 
 
+                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
                             RegistUserGeoInfo();
 
 
@@ -1413,6 +1415,8 @@ public class FirebaseManager {
                             }
                         }
                     }
+
+
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
@@ -1422,6 +1426,7 @@ public class FirebaseManager {
 
     public void GetUserListNew(final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserList_New");
+
 
         colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -1441,6 +1446,7 @@ public class FirebaseManager {
                             }
                         }
                     }
+
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
@@ -1450,6 +1456,7 @@ public class FirebaseManager {
 
     public void GetUserListFriend(final CheckFirebaseComplete listener) {
         //CollectionReference colRef = mDataBase.collection("UserList_Friend");
+
         CollectionReference colRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FriendUsers");
         colRef.orderBy("Date", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -1467,9 +1474,8 @@ public class FirebaseManager {
                                 GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                             }
                         }
-
-
                     }
+
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }

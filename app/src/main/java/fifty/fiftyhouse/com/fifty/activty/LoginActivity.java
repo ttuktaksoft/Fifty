@@ -48,41 +48,53 @@ public class LoginActivity extends AppCompatActivity {
         iv_Login = findViewById(R.id.iv_Login);
 
         callback= new SessionCallback();
+        FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
+
 
         iv_kakao_login.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 // TODO 로그인 처리
-                FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
+
+                DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
                 //CommonFunc.getInstance().GetUserList(LoginActivity.this);
 
-                FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                FirebaseManager.CheckFirebaseComplete listen = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
+
+                        FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+//                        CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
+                                CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                                CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                            }
+                        };
+
+                        FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
                     }
 
                     @Override
                     public void CompleteListener_Yes() {
-
                     }
 
                     @Override
                     public void CompleteListener_No() {
-                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                        DialogFunc.getInstance().DismissLoadingPage();
                     }
                 };
 
-                FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
-
-            //    MoveAuthActivity();
-
-                //MoveSignUpActivity();
-
-                /*Session session = Session.getCurrentSession();
-                session.addCallback(callback);
-                session.open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);*/
-
+                FirebaseManager.getInstance().GetUserIndex(listen);
             }
         });
 
@@ -93,11 +105,56 @@ public class LoginActivity extends AppCompatActivity {
                 DialogFunc.LoginPopupListener listener =  new DialogFunc.LoginPopupListener()
                 {
                     @Override
-                    public void Listener(String nickname, String pw, AlertDialog dialog)
+                    public void Listener(String nickname, String pw, final AlertDialog dialog)
                     {
                         if(CommonFunc.getInstance().CheckStringNull(nickname))
                         {
                             DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
+                        }
+                        if(CommonFunc.getInstance().CheckStringNull(pw))
+                        {
+                            DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.PASSWORD_EMPTY));
+                        }
+
+                        else
+                        {
+                            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    dialog.dismiss();
+
+                                    FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                                        @Override
+                                        public void CompleteListener() {
+                                            CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_Yes() {
+
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_No() {
+                                            CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                        }
+                                    };
+
+                                    FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+                                    DialogFunc.getInstance().ShowToast(LoginActivity.this, "닉네임이 잘못되었습니다", true);
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                    DialogFunc.getInstance().ShowToast(LoginActivity.this, "비밀번호가 잘못되었습니다", true);
+                                }
+                            };
+
+                            FirebaseManager.getInstance().SignInNickName(nickname, pw, listener);
                         }
                         // 로그인 완료 되면
                         //dialog.dismiss();
