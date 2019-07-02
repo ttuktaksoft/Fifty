@@ -790,14 +790,14 @@ public class UserProfileFragment extends Fragment {
         String MSG_LIKE = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_LIKE);
         if(mMyProfile)
         {
-            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + " " +TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
-            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + " " +TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
-            tv_UserProfile_Info_Count_3.setText(MSG_FRIEND + " " +TKManager.getInstance().MyData.GetUserFriendListCount());
+            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + "\n" +TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
+            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + "\n" +TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
+            tv_UserProfile_Info_Count_3.setText(MSG_FRIEND + "\n" +TKManager.getInstance().MyData.GetUserFriendListCount());
         }
         else
         {
-            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + " " +TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
-            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + " " +TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + "\n" +TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
+            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + "\n" +TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
 
 
             String mUserDist = null;
@@ -809,7 +809,7 @@ public class UserProfileFragment extends Fragment {
             {
                 mUserDist = (int)(TKManager.getInstance().TargetUserData.GetUserDist()  / 1000) + "km";
             }
-            tv_UserProfile_Info_Count_3.setText(MSG_DISTANCE + " " +mUserDist);
+            tv_UserProfile_Info_Count_3.setText(MSG_DISTANCE + "\n" +mUserDist);
         }
 
     }

@@ -29,7 +29,7 @@
 
     <style name="BaseTextView_AutoSize" parent="BaseTextView">
         <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">@dimen/default_font_size</item>
+        <item name="autoSizeMinTextSize">@dimen/default_font_size_small_1</item>
         <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
     </style>
 
@@ -48,8 +48,8 @@
         <item name="android:textColor">@color/str_base</item>
         <item name="android:background">@drawable/bg_white_square</item>
         <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">10dp</item>
-        <item name="autoSizeMaxTextSize">23dp</item>
+        <item name="autoSizeMinTextSize">@dimen/default_font_size_small_1</item>
+        <item name="autoSizeMaxTextSize">@dimen/default_font_size</item>
     </style>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">

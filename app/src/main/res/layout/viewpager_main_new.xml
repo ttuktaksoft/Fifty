@@ -13,7 +13,7 @@
         <View
             android:id="@+id/v_Main_New_SubInfo"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:background="@color/main_sub_info_bg"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

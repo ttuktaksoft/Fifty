@@ -14,12 +14,12 @@
 
     <ImageView
         android:id="@+id/iv_ChatBody_Alert"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
         app:layout_constraintRight_toRightOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintTop_toTopOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_ChatBody_TopBar"
-        android:layout_marginRight="10dp"
         android:tint="@color/black_icon_tint"
         android:src="@drawable/ic_alert"
         />
@@ -68,7 +68,6 @@
         android:layout_height="0dp"
         android:text="전송"
         android:gravity="center"
-        android:textSize="20dp"
         app:layout_constraintRight_toRightOf="@+id/iv_Chat_Body_Send"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Chat_Body_Send"
         app:layout_constraintTop_toTopOf="@+id/iv_Chat_Body_Send"

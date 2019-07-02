@@ -21,7 +21,6 @@
         app:layout_constraintTop_toTopOf="@+id/ui_Setting_Account_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_Setting_Account_TopBar"
         app:layout_constraintRight_toRightOf="@+id/ui_Setting_Account_TopBar"
-        android:textSize="20dp"
         android:text="@string/MSG_SAVE"
         android:gravity="center"
         android:textColor="@color/white"
@@ -29,9 +28,9 @@
 
     <TextView
         android:id="@+id/tv_Setting_Account_Desc"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ui_Setting_Account_TopBar"
@@ -40,7 +39,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:text="@string/SETTING_ACCOUNT_DESC"
-        android:gravity="center"
+        android:gravity="center|left"
         android:background="@color/str_title_bg_gray"
         />
 
