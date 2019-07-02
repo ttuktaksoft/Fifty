@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -34,6 +35,10 @@ import com.google.firebase.firestore.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import org.imperiumlabs.geofirestore.GeoFirestore;
+import org.imperiumlabs.geofirestore.GeoQuery;
+import org.imperiumlabs.geofirestore.GeoQueryDataEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -189,9 +194,42 @@ public class FirebaseManager {
                 });
     }
 
-    public void SignInNickName(final FirebaseManager.CheckFirebaseComplete listener)
+    public void SignInNickName(String nickName, final String passWord, final FirebaseManager.CheckFirebaseComplete listener)
     {
+        final DocumentReference docRef = mDataBase.collection("UserAuth").document(nickName);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        if(document.getData().get("PassWord").toString().equals(passWord))
+                        {
+                            TKManager.getInstance().MyData.SetUserIndex(document.getData().get("Index").toString());
+                            if(listener != null)
+                                listener.CompleteListener_Yes();
+                        }
+                        else
+                        {
+                            if(listener != null)
+                                listener.CompleteListener_No();
+                        }
 
+                    } else {
+                        if(listener != null)
+                            listener.CompleteListener();
+
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    if(listener != null)
+                        listener.CompleteListener();
+
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 
     public void SetMyAuthData(final FirebaseManager.CheckFirebaseComplete listener) {
@@ -199,6 +237,7 @@ public class FirebaseManager {
             GetFireStore();
 
         Map<String, Object> user = new HashMap<>();
+        user.put("Index", TKManager.getInstance().MyData.GetUserIndex());
         user.put("PhoneNumber", TKManager.getInstance().MyData.GetUserPhone());
         user.put("Name", TKManager.getInstance().MyData.GetUserName());
         user.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
@@ -1167,6 +1206,11 @@ public class FirebaseManager {
                         } else
                             userData.SetUserDist_Lat(37.566659);
 
+
+                            RegistUserGeoInfo();
+
+
+
                         if (document.getData().containsKey("Dist_Region")) {
                             userData.SetUserDist_Region(Double.parseDouble(document.getData().get("Dist_Region").toString()));
                         } else
@@ -1212,7 +1256,58 @@ public class FirebaseManager {
     }
 
     public void GetUserListDist(final CheckFirebaseComplete listener) {
-        CollectionReference colRef = mDataBase.collection("UserList_Dist");
+
+        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection("UserData_Geo");
+        Query limitQuery = collectionRef.limit(1);
+
+        GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
+        GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()), 3);
+
+        geoQuery.addGeoQueryDataEventListener(new GeoQueryDataEventListener() {
+            @Override
+            public void onDocumentEntered(DocumentSnapshot documentSnapshot, GeoPoint location) {
+                Log.d("##%%%%", documentSnapshot.getId());
+
+
+                if(!documentSnapshot.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                {
+                    TKManager.getInstance().UserList_Dist.add(documentSnapshot.getId().toString());
+
+                    if(TKManager.getInstance().UserData_Simple.get(documentSnapshot.getId().toString()) == null)
+                    {
+                        AddFireBaseLoadingCount();
+                        Log.d(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
+                        GetUserData_Simple(documentSnapshot.getId(), TKManager.getInstance().UserData_Simple, listener);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onDocumentExited(DocumentSnapshot documentSnapshot) {
+                Log.d("##%%%%", documentSnapshot.getId());
+            }
+
+            @Override
+            public void onDocumentMoved(DocumentSnapshot documentSnapshot, GeoPoint location) {
+                Log.d("##%%%%", documentSnapshot.getId());
+            }
+
+            @Override
+            public void onDocumentChanged(DocumentSnapshot documentSnapshot, GeoPoint location) {
+                Log.d("##%%%%", documentSnapshot.getId());
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+            }
+
+            @Override
+            public void onGeoQueryError(Exception exception) {
+            }
+        });
+
+       /* CollectionReference colRef = mDataBase.collection("UserList_Dist");
 
         colRef.whereEqualTo("value", TKManager.getInstance().MyData.GetUserDist_Region()).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -1238,7 +1333,7 @@ public class FirebaseManager {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
-        });
+        });*/
     }
 
     public void GetUserListHot(final CheckFirebaseComplete listener) {
@@ -2432,6 +2527,21 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+    }
+
+    public void RegistUserGeoInfo()
+    {
+        CollectionReference collectionRef = FirebaseFirestore.getInstance().collection("UserData_Geo");
+        GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
+
+      //  String[] aasd ={"18", "25", "27", "31", "39"};
+
+
+      //  for(int i =0; i< 5; i++)
+      //      geoFirestore.setLocation(aasd[i], new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()));
+
+           geoFirestore.setLocation(TKManager.getInstance().MyData.GetUserIndex().toString(), new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()));
+
     }
 
 }
