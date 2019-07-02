@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
@@ -126,11 +127,23 @@ public class DialogFunc {
         YesButton.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                if (listenerYes != null)
-                    listenerYes.Listener();
+
                 dialog.dismiss();
             }
         });
+
+        dialog.setOnDismissListener(
+
+                new DialogInterface.OnDismissListener() {
+
+                    @Override
+
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        if (listenerYes != null)
+                            listenerYes.Listener();
+                    }
+
+                });
     }
 
     public void ShowLoadingPage(Context context) {

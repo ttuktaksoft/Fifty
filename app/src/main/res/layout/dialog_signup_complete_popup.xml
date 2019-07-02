@@ -31,10 +31,12 @@
 
     <TextView
         android:id="@+id/tv_SignUp_Com_Popup_Desc"
-        style="@style/BaseTextView"
+        style="@style/BaseTextView_AutoSize"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
         android:text="@string/tv_SignUp_Com_Popup_Desc"
         app:layout_constraintTop_toBottomOf="@+id/iv_SignUp_Com_Popup_Icon"
         app:layout_constraintRight_toRightOf="parent"

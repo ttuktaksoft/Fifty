@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                        CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
                     }
 
                     @Override
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 };
 
-               DialogFunc.getInstance().ShowLoginPopup(getApplicationContext(), listener);
+               DialogFunc.getInstance().ShowLoginPopup(LoginActivity.this, listener);
 
             }
         });
