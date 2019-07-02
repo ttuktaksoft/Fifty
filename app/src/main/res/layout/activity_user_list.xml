@@ -29,6 +29,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/MSG_USER_LIST_EMPTY_LIKE"
         android:gravity="center"
-        android:textColor="@color/black" />
+        android:textColor="@color/str_color_1" />
 
 </android.support.constraint.ConstraintLayout>

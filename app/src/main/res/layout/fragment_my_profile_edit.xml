@@ -21,7 +21,7 @@
                 android:id="@+id/v_MyProfile_Edit_Profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/default_bg_color_1">
+                android:background="@color/activity_bg">
 
                 <ImageView
                     android:id="@+id/iv_MyProfile_Edit_Profile_Border"
@@ -31,7 +31,7 @@
                     app:layout_constraintRight_toRightOf="@+id/iv_MyProfile_Edit_Profile"
                     app:layout_constraintTop_toTopOf="@+id/iv_MyProfile_Edit_Profile"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Edit_Profile"
-                    android:tint="@color/gray"
+                    android:tint="@color/icon_tint_brown"
                     android:src="@drawable/bg_empty_circle" />
 
                 <ImageView
@@ -66,7 +66,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/iv_MyProfile_Edit_Profile"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/str_color_1"
                     android:text="@string/tv_MyProfile_Edit_Profile_Desc"
                     android:paddingBottom="10dp"
                     />

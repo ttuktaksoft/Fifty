@@ -1,63 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    // 통합
+    <color name="topbar_bg">#111111</color>
+    <color name="activity_bg">#eae6e3</color>
+    <color name="str_color_1">#676767</color>
+    <color name="str_color_2">#fffdfe</color>
+    <color name="str_color_3">#9d8755</color>
+    <color name="button_enable">#7b6d64</color>
+    <color name="button_enable_str">#fefffb</color>
+    <color name="button_disable">#d7d2cc</color>
+    <color name="button_disable_str">#7b7168</color>
+    <color name="button_gray">#d9d9d9</color>
+    <color name="button_gray_str">#000000</color>
+    <color name="icon_tint_white">#ffffff</color>
+    <color name="icon_tint_brown">#FF7B6D64</color>
+    <color name="line_color">#e0e0e0</color>
+    <color name="info_slot_bg">#ffffff</color>
+    <color name="info_sub_slot_title_bg">#f4f4f2</color>
+
+    // 특수
+    <color name="main_bottom_tab_bg">#ffffff</color>
+    <color name="main_bottom_tab_select">#111111</color>
+    <color name="main_bottom_tab_delect">#e0e0e0</color>
+    <color name="main_sub_tab_bg">#ffffff</color>
+    <color name="main_sub_info_bg">#f4f4f2</color>
+    <color name="loading_bg">#111111</color>
+    <color name="chat_my_bg">#7b7168</color>
+    <color name="chat_my_str">#fefffb</color>
+    <color name="chat_you_bg">#d7d2cc</color>
+    <color name="chat_you_str">#7b7168</color>
+    <color name="favorite_view_bg_tint_1">#6c8fcf</color>
+    <color name="favorite_view_bg_tint_2">#a9c4f7</color>
+    <color name="favorite_view_bg_tint_3">#fd9c5c</color>
+    <color name="my_profile_info_bg">#dfdfdf</color>
+    <color name="chat_plus_bg">#ffffff</color>
+    <color name="chat_send_bg">#7b6d64</color>
+    <color name="switch_gray">#7d7d7d</color>
+    <color name="switch_white">#ffffff</color>
+
+
+
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574b</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="baseColor">#faed00</color>
-    <color name="baseColor_1">#fff64e</color>
-    <color name="baseColor_2">#fdf89b</color>
-    <color name="baseColor_3">#fffcc8</color>
-    <color name="baseColor_4">#fffee9</color>
     <color name="white">#ffffff</color>
     <color name="black">#ff000000</color>
     <color name="red">#f71616</color>
     <color name="blue">#1170ff</color>
-    <color name="gray">#7d7d7d</color>
+<!--    <color name="gray">#7d7d7d</color>
     <color name="chatcontent">#9e9e9e</color>
     <color name="gray_light">#e0e0e0</color>
     <color name="alpha">#00000000</color>
-    <color name="gray_light_2">#e7ede6</color>
+    <color name="gray_light_2">#e7ede6</color>-->
 
-    <color name="topbar_bg">#6AB95F</color>
-    <color name="bottombar_bg">#f2fcf1</color>
-    <color name="loading_bg">#6AB95F</color>
-    <color name="activity_bg">#f6fcf5</color>
-    <color name="str_color_1">#3b4c3a</color>
-    <color name="str_color_2">#f0fdef</color>
-    <color name="button_enable">#76cc6a</color>
-    <color name="button_disable">#3a6434</color>
-    <color name="button_ok">#6AB95F</color>
-    <color name="button_cancel">#d8fdd2</color>
-    <color name="str_white">#ffffff</color>
-    <color name="str_base">#3b4c3a</color>
-    <color name="chat_my_bg">#a3ea99</color>
-    <color name="chat_you_bg">#f9fff8</color>
-    <color name="str_title_bg_gray">#eef2ee</color>
-    <color name="userprofile_bottombar_bg">#d8fdd2</color>
-    <color name="chat_body_bg">#f5f5f5</color>
-    <color name="default_bg_color_1">#6AB95F</color>
 
     // 특수한 색상
 
-    <color name="main_button_icon_tint">#6AB95F</color>
-    <color name="main_sub_tab_bg">#84df77</color>
-    <color name="main_sub_info_bg">#c9f9c3</color>
-    <color name="main_sub_tab_str">#f7fcf6</color>
-    <color name="sign_bg_tint">#84000000</color>
-    <color name="popup_title_bg">#6AB95F</color>
-    <color name="popup_descc_bg">#f2fcf1</color>
-    <color name="iv_SignUp_Birth_Man_Dis">#84000000</color>
-    <color name="iv_SignUp_Birth_Man_Ena">#00ffffff</color>
-    <color name="iv_SignUp_Birth_Woman_Dis">#84000000</color>
-    <color name="iv_SignUp_Birth_Woman_Ena">#00ffffff</color>
-    <color name="iv_UserProfile_Info_Memo_BG">#f2fcf1</color>
-    <color name="iv_UserProfile_Info_Count_BG">#f2fcf1</color>
-    <color name="iv_MyProfile_Info_Memo_BG">#f2fcf1</color>
-    <color name="iv_MyProfile_Info_Count_BG">#f2fcf1</color>
-    <color name="black_icon_tint">#f7fcf6</color>
-    <color name="favorite_view_bg_tint_1">#6c8fcf</color>
-    <color name="favorite_view_bg_tint_2">#a9c4f7</color>
-    <color name="favorite_view_bg_tint_3">#fd9c5c</color>
 
     <!--
         <color name="v_Main_TopBar">#fff64e</color>

@@ -6,7 +6,8 @@
     android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activty.ChatBodyActivity">
+    tools:context=".activty.ChatBodyActivity"
+    android:background="@color/activity_bg">
 
     <include
         android:id="@+id/ui_ChatBody_TopBar"
@@ -20,7 +21,7 @@
         app:layout_constraintRight_toRightOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintTop_toTopOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_ChatBody_TopBar"
-        android:tint="@color/black_icon_tint"
+        android:tint="@color/icon_tint_white"
         android:src="@drawable/ic_alert"
         />
 
@@ -29,8 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/ui_ChatBody_TopBar"
-        app:layout_constraintBottom_toTopOf="@+id/v_Chat_Body_Bottom"
-        android:background="@color/chat_body_bg"/>
+        app:layout_constraintBottom_toTopOf="@+id/v_Chat_Body_Bottom"/>
 
     <View
         android:id="@+id/v_Chat_Body_Bottom"
@@ -45,12 +45,12 @@
         android:id="@+id/iv_Chat_Body_Plus"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:padding="7dp"
+        android:padding="10dp"
         app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Body_Bottom"
         app:layout_constraintTop_toTopOf="@+id/v_Chat_Body_Bottom"
         app:layout_constraintBottom_toBottomOf="@+id/v_Chat_Body_Bottom"
-        android:layout_marginLeft="5dp"
         android:src="@drawable/ic_plus"
+        android:background="@color/chat_plus_bg"
         />
 
     <ImageView
@@ -72,16 +72,15 @@
         app:layout_constraintLeft_toLeftOf="@+id/iv_Chat_Body_Send"
         app:layout_constraintTop_toTopOf="@+id/iv_Chat_Body_Send"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Body_Send"
-        android:textColor="@color/white"
+        android:textColor="@color/str_color_2"
         android:textStyle="bold"
-        android:background="@color/button_enable"/>
+        android:background="@color/chat_send_bg"/>
 
     <EditText
         android:id="@+id/et_Chat_Body_Msg"
         style="@style/BaseEditTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="5dp"
         android:ems="10"
         android:hint="채팅내용을 입력해주세요"
         android:inputType="textCapSentences|textMultiLine"

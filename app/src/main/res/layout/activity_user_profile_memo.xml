@@ -18,6 +18,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ui_UserProfile_Memo_TopBar"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="alskdjfalsdkjflasdkjflaskdjflaksdjf"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:textColor="@color/str_color_1"/>
 
 </android.support.constraint.ConstraintLayout>

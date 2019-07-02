@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/info_slot_bg">
 
     <TextView
         android:id="@+id/tv_Setting_Desc"
@@ -17,7 +18,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:text="계정"
-        android:gravity="left|center_vertical"/>
+        android:gravity="left|center_vertical"
+        android:textColor="@color/str_color_1"/>
 
     <ImageView
         android:id="@+id/iv_Setting_Line"
@@ -27,7 +29,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_Setting_Desc"
         android:layout_marginTop="3dp"
-        android:background="@color/gray_light"
+        android:background="@color/line_color"
         android:alpha="0.5"/>
 
 </android.support.constraint.ConstraintLayout>

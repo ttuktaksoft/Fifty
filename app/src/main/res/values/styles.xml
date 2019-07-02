@@ -23,7 +23,7 @@
 
     <style name="BaseTextView" parent="@android:style/Widget.TextView">
         <item name="android:fontFamily">@font/my_font2</item>
-        <item name="android:textColor">@color/str_base</item>
+        <item name="android:textColor">@color/red</item>
         <item name="android:textSize">@dimen/default_font_size</item>
     </style>
 
@@ -45,7 +45,7 @@
         <item name="android:paddingBottom">0dp</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:fontFamily">@font/my_font2</item>
-        <item name="android:textColor">@color/str_base</item>
+        <item name="android:textColor">@color/str_color_1</item>
         <item name="android:background">@drawable/bg_white_square</item>
         <item name="autoSizeTextType">uniform</item>
         <item name="autoSizeMinTextSize">@dimen/default_font_size_small_1</item>

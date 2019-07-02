@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopBar"
             android:src="@drawable/ic_alarm"
-            android:tint="@color/black_icon_tint"/>
+            android:tint="@color/icon_tint_white"/>
 
         <ImageView
             android:id="@+id/iv_Main_Logo"
@@ -40,7 +40,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopBar"
             android:src="@drawable/ic_logo"
-            android:tint="@color/black_icon_tint"/>
+            android:tint="@color/icon_tint_white"/>
 
         <ImageView
             android:id="@+id/iv_Main_Shop"
@@ -51,7 +51,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopBar"
             android:src="@drawable/ic_shop"
-            android:tint="@color/black_icon_tint" />
+            android:tint="@color/icon_tint_white" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tl_Main_TopTab"
@@ -64,9 +64,9 @@
             app:tabTextAppearance="@style/BaseTabTextWidget"
             android:elevation="0dp"
             android:translationZ="5dp"
-            app:tabIndicatorColor="@color/str_base"
-            app:tabSelectedTextColor="@color/str_base"
-            app:tabTextColor="@color/main_sub_tab_str"/>
+            app:tabIndicatorColor="@color/str_color_1"
+            app:tabSelectedTextColor="@color/str_color_3"
+            app:tabTextColor="@color/str_color_3"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_Main_UserList"

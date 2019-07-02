@@ -24,7 +24,7 @@
         app:layout_constraintRight_toRightOf="@+id/ui_SignUp_TopBar"
         android:text="@string/MSG_SAVE"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/str_color_2"
         android:textStyle="bold"/>
 
     <android.support.v4.widget.NestedScrollView
@@ -56,7 +56,7 @@
                 app:layout_constraintRight_toRightOf="@+id/iv_SignUp_Profile"
                 app:layout_constraintTop_toTopOf="@+id/iv_SignUp_Profile"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_SignUp_Profile"
-                android:tint="@color/gray"
+                android:tint="@color/icon_tint_brown"
                 android:src="@drawable/bg_empty_circle" />
 
             <ImageView
@@ -96,7 +96,7 @@
                 android:padding="10dp"
                 android:text="@string/NICKNAME_CHECK"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/str_color_2"
                 android:textStyle="bold"
                 android:background="@color/topbar_bg"/>
 
@@ -139,7 +139,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/et_SignUp_PassWord"
                 android:layout_marginLeft="15dp"
                 android:gravity="center|left"
-                android:text="@string/MSG_GENDER"/>
+                android:text="@string/MSG_GENDER"
+                android:textColor="@color/str_color_1"/>
 
             <ImageView
                 android:id="@+id/iv_SignUp_Gender"
@@ -160,7 +161,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tv_SignUp_Gender_Title"
                 android:layout_marginLeft="10dp"
                 android:gravity="center|left"
-                android:text="@string/MSG_MAN"/>
+                android:text="@string/MSG_MAN"
+                android:textColor="@color/str_color_1"/>
 
             <TextView
                 android:id="@+id/tv_SignUp_Age_Title"
@@ -172,7 +174,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Gender_Title"
                 android:layout_marginLeft="15dp"
                 android:gravity="center|left"
-                android:text="@string/MSG_AGE"/>
+                android:text="@string/MSG_AGE"
+                android:textColor="@color/str_color_1"/>
             <TextView
                 android:id="@+id/tv_SignUp_Age"
                 android:layout_width="100dp"
@@ -181,7 +184,8 @@
                 app:layout_constraintLeft_toRightOf="@+id/tv_SignUp_Age_Title"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_SignUp_Age_Title"
                 android:gravity="center|left"
-                android:text="67세 개띠"/>
+                android:text="67세 개띠"
+                android:textColor="@color/str_color_1"/>
 
             <TextView
                 android:id="@+id/tv_SignUp_Favorite_Title"
@@ -197,7 +201,8 @@
                 android:paddingLeft="15dp"
                 android:text="@string/MSG_FAVORITE"
                 android:gravity="center|left"
-                android:background="@color/str_title_bg_gray"
+                android:textColor="@color/str_color_1"
+                android:background="@color/info_sub_slot_title_bg"
                 />
 
             <android.support.v7.widget.RecyclerView

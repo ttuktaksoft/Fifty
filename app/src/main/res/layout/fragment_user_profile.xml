@@ -21,7 +21,8 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/v_UserProfile_Info_Detail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/info_slot_bg">
 
                 <ImageView
                     android:id="@+id/iv_UserProfile_Profile_Border"
@@ -31,7 +32,7 @@
                     app:layout_constraintRight_toRightOf="@+id/iv_UserProfile_Profile"
                     app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Profile"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Profile"
-                    android:tint="@color/topbar_bg"
+                    android:tint="@color/icon_tint_brown"
                     android:src="@drawable/bg_empty_circle" />
 
                 <ImageView
@@ -57,6 +58,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/iv_UserProfile_Profile"
                     android:gravity="center"
                     android:text="닉네임"
+                    android:textColor="@color/str_color_1"
                     />
 
                 <TextView
@@ -70,6 +72,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Name"
                     android:gravity="center"
                     android:text="20세"
+                    android:textColor="@color/str_color_1"
                     />
 
                 <ImageView
@@ -94,6 +97,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Age"
                     android:gravity="center"
                     android:text="사무실, 우리집, 당구장"
+                    android:textColor="@color/str_color_1"
                     />
 
                 <ImageView
@@ -104,7 +108,7 @@
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Detail"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_UserProfile_Info_Memo"
                     app:layout_constraintTop_toTopOf="@+id/tv_UserProfile_Info_Memo"
-                    android:background="@color/iv_UserProfile_Info_Memo_BG"
+                    android:background="@color/info_slot_bg"
                     />
 
                 <ImageView
@@ -115,7 +119,7 @@
                     app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_Info_Memo_BG"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Memo_BG"
                     android:alpha="0.5"
-                    android:background="@color/gray_light"
+                    android:background="@color/line_color"
                     />
 
                 <TextView
@@ -134,7 +138,9 @@
                     android:paddingBottom="5dp"
                     android:gravity="center"
                     android:maxLines="2"
-                    android:text="자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개" />
+                    android:text="자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개"
+                    android:textColor="@color/str_color_1"
+                    />
 
 
 
@@ -147,6 +153,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Memo_BG"
                     android:layout_marginRight="10dp"
                     android:scaleX="-1"
+                    android:tint="@color/icon_tint_brown"
                     android:src="@drawable/ic_back"
                     />
 
@@ -160,7 +167,7 @@
                 app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info"
                 app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info"
                 app:layout_constraintTop_toBottomOf="@+id/v_UserProfile_Info_Detail"
-                android:background="@color/iv_UserProfile_Info_Count_BG"
+                android:background="@color/info_slot_bg"
                 />
 
             <ImageView
@@ -171,7 +178,7 @@
                 app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_Info_Count_BG"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
                 android:alpha="0.5"
-                android:background="@color/gray_light"
+                android:background="@color/line_color"
                 />
 
             <TextView
@@ -185,6 +192,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
                 android:gravity="center"
                 android:text="방문자 10 / 10k"
+                android:textColor="@color/str_color_1"
                 />
 
             <ImageView
@@ -197,7 +205,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 android:alpha="0.5"
-                android:background="@color/gray_light"
+                android:background="@color/line_color"
                 />
 
             <TextView
@@ -211,19 +219,21 @@
                 app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
                 android:gravity="center"
                 android:text="좋아요 10 / 1k"
+                android:textColor="@color/str_color_1"
                 />
 
             <TextView
                 android:id="@+id/tv_UserProfile_Info_Count_3"
                 style="@style/BaseTextView_AutoSize"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Count_2"
                 app:layout_constraintRight_toRightOf="@+id/iv_UserProfile_Info_Count_BG"
                 app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Info_Count_BG"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Info_Count_BG"
                 android:gravity="center"
                 android:text="거리 10km"
+                android:textColor="@color/str_color_1"
                 />
 
             <ImageView
@@ -236,7 +246,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
                 android:alpha="0.5"
-                android:background="@color/gray_light"
+                android:background="@color/line_color"
                 />
 
             <android.support.constraint.ConstraintLayout
@@ -259,7 +269,8 @@
                     android:paddingLeft="10dp"
                     android:text="@string/tv_UserProfile_Info_Favorite"
                     android:gravity="center|left"
-                    android:background="@color/str_title_bg_gray"/>
+                    android:textColor="@color/str_color_1"
+                    android:background="@color/info_sub_slot_title_bg"/>
 
 
                 <android.support.v7.widget.RecyclerView
@@ -291,7 +302,8 @@
                     android:paddingLeft="10dp"
                     android:text="@string/tv_UserProfile_Info_Photo"
                     android:gravity="center|left"
-                    android:background="@color/str_title_bg_gray"/>
+                    android:textColor="@color/str_color_1"
+                    android:background="@color/info_sub_slot_title_bg"/>
 
 
                 <android.support.v7.widget.RecyclerView
@@ -327,7 +339,8 @@
                     android:paddingLeft="10dp"
                     android:text="@string/tv_UserProfile_Info_Club"
                     android:gravity="center|left"
-                    android:background="@color/str_title_bg_gray"/>
+                    android:textColor="@color/str_color_1"
+                    android:background="@color/info_sub_slot_title_bg"/>
 
 
                 <android.support.v7.widget.RecyclerView
@@ -359,7 +372,8 @@
                     android:paddingLeft="10dp"
                     android:text="@string/tv_UserProfile_Info_Menu"
                     android:gravity="center|left"
-                    android:background="@color/str_title_bg_gray"/>
+                    android:textColor="@color/str_color_1"
+                    android:background="@color/info_sub_slot_title_bg"/>
 
 
                 <android.support.v7.widget.RecyclerView
@@ -376,7 +390,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/v_UserProfile_Info_Menu"
-                android:background="@color/str_title_bg_gray">
+                android:background="@color/my_profile_info_bg">
 
                 <TextView
                     android:id="@+id/tv_UserProfile_Info_Terms_1"
@@ -389,7 +403,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:text="@string/MSG_TERMS_1"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/str_color_1"
                     android:gravity="center"
                     android:textSize="@dimen/default_font_size_small_1"/>
 
@@ -404,7 +418,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:text="@string/MSG_TERMS_2"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/str_color_1"
                     android:gravity="center"
                     android:textSize="@dimen/default_font_size_small_1"/>
 
@@ -419,7 +433,7 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:text="@string/MSG_TERMS_3"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/str_color_1"
                     android:gravity="center"
                     android:textSize="@dimen/default_font_size_small_1"/>
 
@@ -435,7 +449,7 @@
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:text="@string/MSG_PROFILE_ETC"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/str_color_1"
                     android:gravity="center|left"
                     android:textSize="@dimen/default_font_size_small_1"/>
 

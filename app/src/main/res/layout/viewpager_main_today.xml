@@ -30,7 +30,8 @@
         app:layout_constraintTop_toTopOf="@+id/v_Main_Today_SubInfo"
         app:layout_constraintBottom_toBottomOf="@+id/v_Main_Today_SubInfo"
         app:layout_constraintLeft_toLeftOf="@+id/v_Main_Today_SubInfo"
-        app:layout_constraintRight_toRightOf="@+id/v_Main_Today_SubInfo"/>
+        app:layout_constraintRight_toRightOf="@+id/v_Main_Today_SubInfo"
+        android:textColor="@color/str_color_1"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_Main_Today_UserList"

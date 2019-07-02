@@ -23,7 +23,7 @@
         app:layout_constraintRight_toRightOf="@+id/ui_Memo_Edit_TopBar"
         android:text="@string/tv_Store_Edit_Save"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/str_color_2"
         android:textStyle="bold"/>
 
     <TextView
@@ -39,7 +39,8 @@
         android:paddingLeft="10dp"
         android:gravity="center|left"
         android:text="@string/STORE_EDIT"
-        android:background="@color/str_title_bg_gray"
+        android:textColor="@color/str_color_1"
+        android:background="@color/info_sub_slot_title_bg"
         />
 
     <TextView
@@ -54,6 +55,7 @@
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:text="4000"
+        android:textColor="@color/str_color_1"
         />
 
     <EditText

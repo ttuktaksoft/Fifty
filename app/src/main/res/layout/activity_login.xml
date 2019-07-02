@@ -36,7 +36,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textSize="23dp"
-        android:textColor="@color/str_white"
+        android:textColor="@color/str_color_2"
         android:text="@string/tv_Login_kakao"/>
 
 
@@ -61,7 +61,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textSize="23dp"
-        android:textColor="@color/str_white"
+        android:textColor="@color/str_color_2"
         android:text="@string/tv_Login_nickname"/>
 
     <ImageView

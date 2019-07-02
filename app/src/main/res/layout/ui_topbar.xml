@@ -16,7 +16,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="10dp"
             android:src="@drawable/ic_back"
-            android:tint="@color/black_icon_tint"
+            android:tint="@color/icon_tint_white"
             />
 
         <TextView
@@ -33,7 +33,7 @@
             android:gravity="center_vertical"
             android:text="프로필 작성"
             android:maxLines="1"
-            android:textColor="@color/black_icon_tint"
+            android:textColor="@color/str_color_2"
             android:textStyle="bold"/>
 
 </android.support.constraint.ConstraintLayout>

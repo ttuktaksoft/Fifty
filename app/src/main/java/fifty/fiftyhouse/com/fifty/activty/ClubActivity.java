@@ -51,26 +51,26 @@ public class ClubActivity extends AppCompatActivity {
         v_Club_ToolBar.setTitle("냥냥 클럽");
         setSupportActionBar(v_Club_ToolBar);
 
-        v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-        v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-
-        ns_Club_Scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener(){
-            @Override
-            public void onScrollChange(NestedScrollView var1, int x, int y, int oldx, int oldy)
-            {
-                Log.d("test", "test : " + CommonFunc.getInstance().convertPXtoDP(getResources(), y));
-                if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 240)
-                {
-                    v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-                    v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-                }
-                else
-                {
-                    v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.topbar_bg));
-                    v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                }
-            }
-        });
+//        v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
+//        v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
+//
+//        ns_Club_Scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener(){
+//            @Override
+//            public void onScrollChange(NestedScrollView var1, int x, int y, int oldx, int oldy)
+//            {
+//                Log.d("test", "test : " + CommonFunc.getInstance().convertPXtoDP(getResources(), y));
+//                if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 240)
+//                {
+//                    v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
+//                    v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
+//                }
+//                else
+//                {
+//                    v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.topbar_bg));
+//                    v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+//                }
+//            }
+//        });
 
         initRecyclerView();
     }

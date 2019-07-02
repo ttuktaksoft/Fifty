@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/info_slot_bg">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/v_MyProfile_Edit_Age_Menu"
@@ -22,6 +23,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="left|center_vertical"
             android:text="@string/MY_PROFILE_AGE"
+            android:textColor="@color/str_color_1"
             />
 
         <ImageView
@@ -46,6 +48,7 @@
             android:layout_marginLeft="5dp"
             android:gravity="left|center_vertical"
             android:text="닉네임"
+            android:textColor="@color/str_color_1"
             />
 
         <ImageView
@@ -70,7 +73,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Edit_Age_Menu"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Age_Menu"
             android:alpha="0.5"
-            android:background="@color/gray_light"
+            android:background="@color/line_color"
             />
 
     </android.support.constraint.ConstraintLayout>

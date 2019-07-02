@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="@id/et_FavoriteSelect_Search"
         app:layout_constraintBottom_toBottomOf="@id/et_FavoriteSelect_Search"
         app:layout_constraintRight_toRightOf="@id/et_FavoriteSelect_Search"
-        android:tint="@color/gray"
+        android:tint="@color/icon_tint_brown"
         android:src="@drawable/ic_search"/>
 
     <TextView
@@ -55,7 +55,8 @@
         android:layout_marginTop="5dp"
         android:text="@string/FAVORITE_SELECT_VIEW"
         android:gravity="center|left"
-        android:background="@color/str_title_bg_gray"/>
+        android:textColor="@color/str_color_1"
+        android:background="@color/info_sub_slot_title_bg"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_FavoriteSelect_Select"
@@ -77,7 +78,8 @@
         app:layout_constraintRight_toRightOf="parent"
         android:gravity="center"
         android:textStyle="bold"
-        android:text="@string/FAVORITE_SELECT_EMPTY"/>
+        android:text="@string/FAVORITE_SELECT_EMPTY"
+        android:textColor="@color/str_color_1"/>
 
     <TextView
         android:id="@+id/tv_FavoriteSelect_Recom_Title"
@@ -93,7 +95,8 @@
         android:layout_marginTop="5dp"
         android:text="@string/FAVORITE_SELECT_RECOM"
         android:gravity="center|left"
-        android:background="@color/str_title_bg_gray"/>
+        android:textColor="@color/str_color_1"
+        android:background="@color/info_sub_slot_title_bg"/>
 
 
 
@@ -117,7 +120,7 @@
         app:layout_constraintTop_toTopOf="@+id/ui_FavoriteSelect_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_FavoriteSelect_TopBar"
         app:layout_constraintRight_toRightOf="@+id/ui_FavoriteSelect_TopBar"
-        android:textColor="@color/white"
+        android:textColor="@color/str_color_2"
         android:text="@string/MSG_SAVE"
         android:gravity="center"
         android:textStyle="bold"/>

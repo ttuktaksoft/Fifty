@@ -23,7 +23,7 @@
         app:layout_constraintRight_toRightOf="@+id/ui_Setting_Account_TopBar"
         android:text="@string/MSG_SAVE"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/str_color_2"
         android:textStyle="bold"/>
 
     <TextView
@@ -40,7 +40,8 @@
         android:paddingRight="15dp"
         android:text="@string/SETTING_ACCOUNT_DESC"
         android:gravity="center|left"
-        android:background="@color/str_title_bg_gray"
+        android:textColor="@color/str_color_1"
+        android:background="@color/info_sub_slot_title_bg"
         />
 
     <EditText

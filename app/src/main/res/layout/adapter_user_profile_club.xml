@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/info_slot_bg">
 
     <ImageView
         android:id="@+id/iv_UserProfile_Club"
@@ -28,6 +29,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="asdfasdf"
         android:gravity="center_vertical"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/str_color_1"/>
 
 </android.support.constraint.ConstraintLayout>
