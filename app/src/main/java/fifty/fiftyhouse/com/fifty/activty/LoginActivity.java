@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -123,6 +124,11 @@ public class LoginActivity extends AppCompatActivity {
                                 public void CompleteListener() {
                                     dialog.dismiss();
 
+                                    SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
+                                    editor.commit();
+                                    
                                     FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
                                         @Override
                                         public void CompleteListener() {
