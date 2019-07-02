@@ -27,7 +27,8 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:paddingRight="40dp"
-        android:text="asdfasdfgsdfgsdf"/>
+        android:text="asdfasdfgsdfgsdf"
+        android:textColor="@color/favorite_view_bg_tint_1_str"/>
 
     <ImageView
         android:id="@+id/iv_Favorite_Select_View_x"
@@ -37,6 +38,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_Favorite_Select_View_Name"
         app:layout_constraintBottom_toBottomOf="@+id/tv_Favorite_Select_View_Name"
         app:layout_constraintRight_toRightOf="@+id/tv_Favorite_Select_View_Name"
-        android:background="@drawable/ic_x"/>
+        android:tint="@color/icon_tint_white"
+        android:src="@drawable/ic_x"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -19,6 +19,7 @@
     <style name="BaseTabTextWidget" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/my_font2</item>
         <item name="android:textSize">@dimen/default_font_size</item>
+        <item name="android:textColor">@color/str_color_1</item>
     </style>
 
     <style name="BaseTextView" parent="@android:style/Widget.TextView">

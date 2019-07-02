@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty.activty;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,10 +33,7 @@ import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    ImageView iv_Icon;
-    ImageView iv_kakao_login;
-    private LoginButton btn_kakao_login;
-
+    ImageView iv_kakao_login, iv_Login;
 
     private SessionCallback callback;
 
@@ -46,9 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         CommonFunc.getInstance().mCurActivity = this;
 
-        iv_Icon = findViewById(R.id.iv_login);
         iv_kakao_login = findViewById(R.id.iv_kakao_login);
-        btn_kakao_login = (LoginButton) findViewById(R.id.btn_kakao_login);
+        iv_Login = findViewById(R.id.iv_Login);
 
         callback= new SessionCallback();
 
@@ -85,6 +82,29 @@ public class LoginActivity extends AppCompatActivity {
                 /*Session session = Session.getCurrentSession();
                 session.addCallback(callback);
                 session.open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);*/
+
+            }
+        });
+
+        iv_Login.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+                DialogFunc.LoginPopupListener listener =  new DialogFunc.LoginPopupListener()
+                {
+                    @Override
+                    public void Listener(String nickname, String pw, AlertDialog dialog)
+                    {
+                        if(CommonFunc.getInstance().CheckStringNull(nickname))
+                        {
+                            DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
+                        }
+                        // 로그인 완료 되면
+                        //dialog.dismiss();
+                    }
+                };
+
+               DialogFunc.getInstance().ShowLoginPopup(getApplicationContext(), listener);
 
             }
         });

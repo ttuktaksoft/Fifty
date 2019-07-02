@@ -98,6 +98,9 @@
 
     <string name="tv_Login_kakao">FIFTY의 멤버가 되어보세요</string>
     <string name="tv_Login_nickname">기존 멤버는 아래 버튼을 눌러주세요</string>
+    <string name="tv_Login">로그인</string>
+    <string name="tv_Login_Popup_Desc">로그인</string>
+
 
     <string name="tv_Auth_Age">50세 미만은 가입이 불가능 합니다</string>
 

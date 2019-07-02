@@ -64,9 +64,9 @@
             app:tabTextAppearance="@style/BaseTabTextWidget"
             android:elevation="0dp"
             android:translationZ="5dp"
-            app:tabIndicatorColor="@color/str_color_1"
+            app:tabIndicatorColor="@color/str_color_3"
             app:tabSelectedTextColor="@color/str_color_3"
-            app:tabTextColor="@color/str_color_3"/>
+            app:tabTextColor="@color/str_color_4"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_Main_UserList"

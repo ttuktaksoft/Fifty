@@ -2,10 +2,11 @@
 <resources>
     // 통합
     <color name="topbar_bg">#111111</color>
-    <color name="activity_bg">#eae6e3</color>
+    <color name="activity_bg">#f1edeb</color>
     <color name="str_color_1">#676767</color>
     <color name="str_color_2">#fffdfe</color>
     <color name="str_color_3">#9d8755</color>
+    <color name="str_color_4">#d9d9d9</color>
     <color name="button_enable">#7b6d64</color>
     <color name="button_enable_str">#fefffb</color>
     <color name="button_disable">#d7d2cc</color>
@@ -29,9 +30,21 @@
     <color name="chat_my_str">#fefffb</color>
     <color name="chat_you_bg">#d7d2cc</color>
     <color name="chat_you_str">#7b7168</color>
-    <color name="favorite_view_bg_tint_1">#6c8fcf</color>
-    <color name="favorite_view_bg_tint_2">#a9c4f7</color>
-    <color name="favorite_view_bg_tint_3">#fd9c5c</color>
+    <color name="favorite_view_bg_tint_1">#7b6d64</color>
+    <color name="favorite_view_bg_tint_1_str">#fefffb</color>
+    <color name="favorite_view_bg_tint_2">#ffffff</color>
+    <color name="favorite_view_bg_tint_2_str">#d7d2cc</color>
+    <color name="favorite_view_bg_tint_3">#ffffff</color>
+    <color name="favorite_view_bg_tint_3_str">#7b6d64</color>
+
+    <!--<color name="favorite_view_bg_tint_1">#ffffff</color>-->
+    <!--<color name="favorite_view_bg_tint_1_str">#676767</color>-->
+    <!--<color name="favorite_view_bg_tint_2">#ffffff</color>-->
+    <!--<color name="favorite_view_bg_tint_2_str">#d7d2cc</color>-->
+    <!--<color name="favorite_view_bg_tint_3">#7b6d64</color>-->
+    <!--<color name="favorite_view_bg_tint_3_str">#fefffb</color>-->
+
+
     <color name="my_profile_info_bg">#dfdfdf</color>
     <color name="chat_plus_bg">#ffffff</color>
     <color name="chat_send_bg">#7b6d64</color>

@@ -162,6 +162,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
             tv_Chat_Body_Msg.setPadding(padding, padding, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding);
             tv_Chat_Body_Msg.setMaxWidth(contentMaxSize);
+            tv_Chat_Body_Msg.setTextColor(ContextCompat.getColor(mContext, R.color.chat_my_str));
 
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.rightToLeft = iv_Chat_Body_Profile.getId();
@@ -223,6 +224,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
             tv_Chat_Body_Msg.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding, padding, padding);
             tv_Chat_Body_Msg.setMaxWidth(contentMaxSize);
+            tv_Chat_Body_Msg.setTextColor(ContextCompat.getColor(mContext, R.color.chat_you_str));
 
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.leftToRight = iv_Chat_Body_Profile.getId();
@@ -255,7 +257,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Check.bottomToBottom = tv_Chat_Body_Date.getId();
 
             iv_Chat_Body_Msg_BG.setScaleX(-1.0f);
-            ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.white)));
+            ImageViewCompat.setImageTintList(iv_Chat_Body_Msg_BG, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.chat_you_bg)));
 
 
         }

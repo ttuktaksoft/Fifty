@@ -13,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -202,5 +203,42 @@ public class DialogFunc {
 
             }
         }));
+    }
+
+    public interface LoginPopupListener {
+        void Listener(String nickname, String pw, AlertDialog dialog);
+    }
+
+    public void ShowLoginPopup(Context context, final LoginPopupListener listenerYes) {
+        TextView tv_Login_Popup_Buttons_OK, tv_Login_Popup_Buttons_Cancel;
+        final EditText et_Login_Nickname,et_Login_Password;
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_login_popup, null, false);
+
+        tv_Login_Popup_Buttons_OK = v.findViewById(R.id.tv_Login_Popup_Buttons_OK);
+        tv_Login_Popup_Buttons_Cancel = v.findViewById(R.id.tv_Login_Popup_Buttons_Cancel);
+        et_Login_Nickname = v.findViewById(R.id.et_Login_Nickname);
+        et_Login_Password = v.findViewById(R.id.et_Login_Password);
+
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        tv_Login_Popup_Buttons_OK.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                if (listenerYes != null)
+                    listenerYes.Listener(et_Login_Nickname.getText().toString(), et_Login_Password.getText().toString(), dialog);
+                else
+                    dialog.dismiss();
+            }
+        });
+
+        tv_Login_Popup_Buttons_Cancel.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 }

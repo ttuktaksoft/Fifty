@@ -4,76 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activty.LoginActivity"
-    android:background="@color/loading_bg">
-
-    <com.kakao.usermgmt.LoginButton
-        android:id="@+id/btn_kakao_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+    android:background="@color/loading_bg"
+    tools:context=".activty.LoginActivity">
 
     <ImageView
-        android:id="@+id/iv_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/tv_Login_kakao"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scaleX="0.5"
-        android:scaleY="0.5"
+        android:id="@+id/iv_Login_Logo"
+        android:layout_width="76dp"
+        android:layout_height="93dp"
         android:tint="@color/white"
+        android:layout_marginTop="70dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logo" />
 
-
-    <TextView
-        android:id="@+id/tv_Login_kakao"
-        style="@style/BaseTextView"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Login"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/iv_kakao_login"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:textSize="23dp"
-        android:textColor="@color/str_color_2"
-        android:text="@string/tv_Login_kakao"/>
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_Login_Desc_1"
+            style="@style/BaseTextView_AutoSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/tv_Login_kakao"
+            android:textColor="@color/str_color_2"
+            android:textSize="20dp"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Login"
+            app:layout_constraintRight_toRightOf="@+id/v_Login"
+            app:layout_constraintTop_toTopOf="@+id/v_Login" />
+
+        <ImageView
+            android:id="@+id/iv_kakao_login"
+            android:layout_width="300dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Login_Desc_1"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Login"
+            app:layout_constraintRight_toRightOf="@+id/v_Login"
+            android:background="@drawable/bt_kakao_login" />
+
+        <TextView
+            android:id="@+id/tv_Login_Desc_2"
+            style="@style/BaseTextView_AutoSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_Login_nickname"
+            android:textColor="@color/str_color_2"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Login"
+            app:layout_constraintRight_toRightOf="@+id/v_Login"
+            app:layout_constraintTop_toBottomOf="@+id/iv_kakao_login" />
+
+        <ImageView
+            android:id="@+id/iv_Login"
+            android:layout_width="300dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Login_Desc_2"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Login"
+            app:layout_constraintRight_toRightOf="@+id/v_Login"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_white"
+            android:tint="@color/button_enable"/>
+
+        <TextView
+            android:id="@+id/tv_Login"
+            style="@style/BaseTextView_AutoSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_Login"
+            android:textColor="@color/str_color_2"
+            android:textSize="20dp"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_Login"
+            app:layout_constraintRight_toRightOf="@+id/iv_Login"
+            app:layout_constraintTop_toTopOf="@+id/iv_Login"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_Login"/>
 
 
-    <ImageView
-        android:id="@+id/iv_kakao_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tv_Login_nickname"
-        android:scaleX="0.9"
-        android:scaleY="0.9"
-        android:src="@drawable/bt_kakao_login"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 
-    <TextView
-        android:id="@+id/tv_Login_nickname"
-        style="@style/BaseTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/iv_nickname_login"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:textSize="23dp"
-        android:textColor="@color/str_color_2"
-        android:text="@string/tv_Login_nickname"/>
 
-    <ImageView
-        android:id="@+id/iv_nickname_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
-        android:scaleX="0.9"
-        android:scaleY="0.9"
-        android:src="@drawable/bt_kakao_login"/>
+
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_kakao_login"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/tv_Login_Desc_1"-->
+
+    <!--android:src="@drawable/bt_kakao_login"/>-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_Login_nickname"-->
+    <!--style="@style/BaseTextView"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintBottom_toTopOf="@+id/iv_nickname_login"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--android:textSize="23dp"-->
+    <!--android:textColor="@color/str_color_2"-->
+    <!--android:text="@string/tv_Login_nickname"/>-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_nickname_login"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:scaleX="0.9"-->
+    <!--android:scaleY="0.9"-->
+    <!--android:src="@drawable/bt_kakao_login"/>-->
 
 </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_Login_Popup_BG"
+        android:layout_width="0dp"
+        android:layout_height="240dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@drawable/bg_white"
+        android:tint="@color/activity_bg"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/tv_Login_Popup_Desc"
+        style="@style/BaseTextView_AutoSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_Login_Popup_Desc"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintRight_toRightOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Login_Popup_BG"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textColor="@color/str_color_1"/>
+
+    <EditText
+        android:id="@+id/et_Login_Nickname"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        style="@style/BaseEditTextView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintRight_toRightOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Login_Popup_Desc"
+        android:hint="@string/NICKNAME_HINT"
+        android:inputType="textNoSuggestions|text"
+        android:cursorVisible="true"/>
+
+    <EditText
+        android:id="@+id/et_Login_Password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        style="@style/BaseEditTextView"
+        app:layout_constraintRight_toRightOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintTop_toBottomOf="@+id/et_Login_Nickname"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="@string/PASSWORD_HINT"
+        android:inputType="textNoSuggestions|textPassword"
+        android:cursorVisible="true"/>
+
+    <TextView
+        android:id="@+id/tv_Login_Popup_Buttons_OK"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        style="@style/BaseTextView_AutoSize"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintRight_toLeftOf="@+id/tv_Login_Popup_Buttons_Cancel"
+        android:text="@string/MSG_OK"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/button_enable_str"
+        android:background="@color/button_enable"/>
+
+    <TextView
+        android:id="@+id/tv_Login_Popup_Buttons_Cancel"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        style="@style/BaseTextView_AutoSize"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Login_Popup_BG"
+        app:layout_constraintLeft_toRightOf="@+id/tv_Login_Popup_Buttons_OK"
+        app:layout_constraintRight_toRightOf="@+id/iv_Login_Popup_BG"
+        android:text="@string/MSG_CANCEL"
+        android:textColor="@color/button_disable_str"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@color/button_disable"/>
+
+</android.support.constraint.ConstraintLayout>

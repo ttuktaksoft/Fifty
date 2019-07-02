@@ -120,21 +120,30 @@ class FavoriteViewHolder extends RecyclerView.ViewHolder {
             if(selectView)
             {
                 if(selectBG)
-                    ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_3)));
-                else
+                {
                     ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_1)));
+                    tv_Favorite_View_Name.setTextColor(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_1_str));
+                }
+                else
+                {
+                    ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_2)));
+                    tv_Favorite_View_Name.setTextColor(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_2_str));
+                }
 
                 tv_Favorite_View_Name.setText(favorite);
+
             }
             else
             {
                 ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_1)));
+                tv_Favorite_View_Name.setTextColor(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_1_str));
                 tv_Favorite_View_Name.setText(favorite);
             }
         }
         else
         {
-            ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_2)));
+            ImageViewCompat.setImageTintList(iv_Favorite_View_Bg, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_3)));
+            tv_Favorite_View_Name.setTextColor(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_3_str));
             tv_Favorite_View_Name.setText(favorite);
         }
 
