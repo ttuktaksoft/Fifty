@@ -44,7 +44,7 @@
     <TextView
         android:id="@+id/tv_FavoriteSelect_Select_Title"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         style="@style/BaseTextView_AutoSize"
         app:layout_constraintTop_toBottomOf="@+id/et_FavoriteSelect_Search"
         app:layout_constraintRight_toRightOf="parent"
@@ -82,7 +82,7 @@
     <TextView
         android:id="@+id/tv_FavoriteSelect_Recom_Title"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         style="@style/BaseTextView_AutoSize"
         app:layout_constraintTop_toBottomOf="@+id/rv_FavoriteSelect_Select"
         app:layout_constraintRight_toRightOf="parent"
@@ -117,7 +117,6 @@
         app:layout_constraintTop_toTopOf="@+id/ui_FavoriteSelect_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_FavoriteSelect_TopBar"
         app:layout_constraintRight_toRightOf="@+id/ui_FavoriteSelect_TopBar"
-        android:textSize="20dp"
         android:textColor="@color/white"
         android:text="@string/MSG_SAVE"
         android:gravity="center"

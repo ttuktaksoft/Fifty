@@ -12,12 +12,12 @@
 
     <ImageView
         android:id="@+id/iv_UserProfile_Alert"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
         app:layout_constraintRight_toRightOf="@+id/ui_UserProfile_TopBar"
         app:layout_constraintTop_toTopOf="@+id/ui_UserProfile_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_UserProfile_TopBar"
-        android:layout_marginRight="10dp"
         android:tint="@color/black_icon_tint"
         android:src="@drawable/ic_alert"
         />
@@ -75,7 +75,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar_Like"
                 android:gravity="center"
                 android:text="@string/tv_UserProfile_BottomBar_Like"
-                android:textSize="15dp"
                 />
 
         </android.support.constraint.ConstraintLayout>
@@ -114,7 +113,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar_Chat"
                 android:gravity="center"
                 android:text="@string/tv_UserProfile_BottomBar_Chat"
-                android:textSize="15dp"
                 />
 
         </android.support.constraint.ConstraintLayout>
@@ -153,7 +151,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar_Friend"
                 android:gravity="center"
                 android:text="@string/tv_UserProfile_BottomBar_Friend"
-                android:textSize="15dp"
                 />
 
         </android.support.constraint.ConstraintLayout>

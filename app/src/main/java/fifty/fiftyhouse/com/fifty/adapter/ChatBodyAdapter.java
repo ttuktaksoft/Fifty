@@ -3,10 +3,12 @@ package fifty.fiftyhouse.com.fifty.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Rect;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -132,6 +134,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         ConstraintLayout.LayoutParams lp_Chat_Body_Date = null;
         ConstraintLayout.LayoutParams lp_Chat_Body_Check = null;
 
+        int contentMaxSize = (CommonFunc.getInstance().getWidthByDevice() / 5) * 3;
         if(mSend)
         {
             // 내가 메세지를 보냄
@@ -151,22 +154,20 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_NickName.rightToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_NickName.topToTop = iv_Chat_Body_Profile.getId();
 
-            lp_Chat_Body_Type_Msg = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Type_Msg.leftToRight = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Type_Msg = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Msg.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
             tv_Chat_Body_Msg.setGravity(Gravity.LEFT);
             int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
             tv_Chat_Body_Msg.setPadding(padding, padding, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding);
+            tv_Chat_Body_Msg.setMaxWidth(contentMaxSize);
 
-            lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Type_Img.leftToRight = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Img.topToBottom = tv_Chat_Body_NickName.getId();
 
-            lp_Chat_Body_Type_Video = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Type_Video.leftToRight = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Type_Video = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Video.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Video.topToBottom = tv_Chat_Body_NickName.getId();
 
@@ -180,7 +181,6 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
                 AttachID = v_Chat_Body_Type_Video.getId();
 
             lp_Chat_Body_Type_Etc = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Type_Etc.leftToLeft = v_Chat_Body.getId();
             lp_Chat_Body_Type_Etc.rightToLeft = AttachID;
             lp_Chat_Body_Type_Etc.bottomToBottom = AttachID;
 
@@ -215,22 +215,20 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_NickName.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_NickName.topToTop = iv_Chat_Body_Profile.getId();
 
-            lp_Chat_Body_Type_Msg = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Type_Msg.rightToLeft = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Type_Msg = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Msg.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
 
             tv_Chat_Body_Msg.setGravity(Gravity.LEFT);
             int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
             tv_Chat_Body_Msg.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 20), padding, padding, padding);
+            tv_Chat_Body_Msg.setMaxWidth(contentMaxSize);
 
-            lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Type_Img.rightToLeft = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Img.topToBottom = tv_Chat_Body_NickName.getId();
 
-            lp_Chat_Body_Type_Video = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Type_Video.rightToLeft = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Type_Video = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Video.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Video.topToBottom = tv_Chat_Body_NickName.getId();
 
@@ -244,7 +242,6 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
                 AttachID = v_Chat_Body_Type_Video.getId();
 
             lp_Chat_Body_Type_Etc = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Type_Etc.rightToRight = v_Chat_Body.getId();
             lp_Chat_Body_Type_Etc.leftToRight = AttachID;
             lp_Chat_Body_Type_Etc.bottomToBottom = AttachID;
 
@@ -274,7 +271,6 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         v_Chat_Body_Type_Etc.setLayoutParams(lp_Chat_Body_Type_Etc);
         tv_Chat_Body_Date.setLayoutParams(lp_Chat_Body_Date);
         tv_Chat_Body_Check.setLayoutParams(lp_Chat_Body_Check);
-
 
         v_Chat_Body_Type_Msg.setVisibility(View.GONE);
         v_Chat_Body_Type_Img.setVisibility(View.GONE);
@@ -318,8 +314,12 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
         tv_Chat_Body_Msg.setText(tempData.GetMsg());
 
-
+        iv_Chat_Body_Img.setMaxHeight(contentMaxSize);
+        iv_Chat_Body_Img.setMaxWidth(contentMaxSize);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
+
+        iv_Chat_Body_Video.setMaxHeight(contentMaxSize);
+        iv_Chat_Body_Video.setMaxWidth(contentMaxSize);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
 
         iv_Chat_Body_Profile.setOnTouchListener(new OnSingleTouchListener() {
