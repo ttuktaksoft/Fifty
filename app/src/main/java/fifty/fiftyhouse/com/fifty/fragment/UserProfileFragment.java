@@ -53,7 +53,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 public class UserProfileFragment extends Fragment {
 
     ConstraintLayout v_UserProfile_Info_Detail, v_UserProfile_Info_Favorite, v_UserProfile_Info_Photo, v_UserProfile_Info_Club,
-            v_UserProfile_Info_Menu;
+            v_UserProfile_Info_Menu, v_UserProfile_Info_Etc;
     ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender, iv_UserProfile_Info_Memo_BG;
     TextView tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Location,
             tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3;
@@ -99,6 +99,7 @@ public class UserProfileFragment extends Fragment {
         v_UserProfile_Info_Photo = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Photo);
         v_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Club);
         v_UserProfile_Info_Menu = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Menu);
+        v_UserProfile_Info_Etc = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Etc);
         iv_UserProfile_Profile = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Profile);
         iv_UserProfile_Info_Gender = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Gender);
         iv_UserProfile_Info_Memo_BG  = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Memo_BG);
@@ -143,7 +144,7 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        tv_UserProfile_Info_Count_1.setOnClickListener(new OnSingleClickListener() {
+        OnSingleClickListener Listener_1 = new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 if(TKManager.getInstance().MyData.GetUserVisitListCount() == 0)
@@ -189,9 +190,11 @@ public class UserProfileFragment extends Fragment {
                     }
                 }
             }
-        });
+        };
 
-        tv_UserProfile_Info_Count_2.setOnClickListener(new OnSingleClickListener() {
+        setCountInfoListener_1(Listener_1);
+
+        OnSingleClickListener Listener_2 = new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 // 좋아요
@@ -237,9 +240,11 @@ public class UserProfileFragment extends Fragment {
                     }
                 }
             }
-        });
+        };
 
-        tv_UserProfile_Info_Count_3.setOnClickListener(new OnSingleClickListener() {
+        setCountInfoListener_2(Listener_2);
+
+        OnSingleClickListener Listener_3 = new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
@@ -287,7 +292,9 @@ public class UserProfileFragment extends Fragment {
                     }
                 }
             }
-        });
+        };
+
+        setCountInfoListener_3(Listener_3);
 
         tv_UserProfile_Info_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
 
@@ -313,6 +320,7 @@ public class UserProfileFragment extends Fragment {
         RefreshMemoText();
         RefreshCountText();
 
+        v_UserProfile_Info_Etc.setVisibility(View.VISIBLE);
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, true);
@@ -351,13 +359,17 @@ public class UserProfileFragment extends Fragment {
                     .into(iv_UserProfile_Info_Gender);
         }
 
+        setCountInfoListener_1(null);
+        setCountInfoListener_2(null);
+        setCountInfoListener_3(null);
+
         tv_UserProfile_Info_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().TargetUserData.GetUserAge() + "세");
         RefreshLocationText();
         RefreshMemoText();
         RefreshCountText();
 
-
+        v_UserProfile_Info_Etc.setVisibility(View.GONE);
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, false);
@@ -593,20 +605,7 @@ public class UserProfileFragment extends Fragment {
         }));
     }
 
-    public void setCountInfoStr_1(String str)
-    {
-        tv_UserProfile_Info_Count_1.setText(str);
-    }
 
-    public void setCountInfoStr_2(String str)
-    {
-        tv_UserProfile_Info_Count_2.setText(str);
-    }
-
-    public void setCountInfoStr_3(String str)
-    {
-        tv_UserProfile_Info_Count_3.setText(str);
-    }
 
 
     private ArrayList<DialogFunc.MsgPopupListener> getPhotoAddFunc()
@@ -812,5 +811,20 @@ public class UserProfileFragment extends Fragment {
             tv_UserProfile_Info_Count_3.setText(MSG_DISTANCE + "\n" +mUserDist);
         }
 
+    }
+
+    public void setCountInfoListener_1(OnSingleClickListener listener)
+    {
+        tv_UserProfile_Info_Count_1.setOnClickListener(listener);
+    }
+
+    public void setCountInfoListener_2(OnSingleClickListener listener)
+    {
+        tv_UserProfile_Info_Count_2.setOnClickListener(listener);
+    }
+
+    public void setCountInfoListener_3(OnSingleClickListener listener)
+    {
+        tv_UserProfile_Info_Count_3.setOnClickListener(listener);
     }
 }

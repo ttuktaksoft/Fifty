@@ -1,73 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    // 통합
-    <color name="topbar_bg">#6AB95F</color>
-    <color name="activity_bg">#f6fcf5</color>
-    <color name="str_color_1">#3b4c3a</color>
-    <color name="str_color_2">#ffffff</color>
-    <color name="str_color_3">#3b4c3a</color>
-    <color name="str_color_4">#3b4c3a</color>
-    <color name="button_enable">#6AB95F</color>
-    <color name="button_enable_str">#3b4c3a</color>
-    <color name="button_disable">#d8fdd2</color>
-    <color name="button_disable_str">#3b4c3a</color>
-    <color name="button_gray">#d9d9d9</color>
-    <color name="button_gray_str">#000000</color>
-    <color name="icon_tint_white">#ffffff</color>
-    <color name="icon_tint_brown">#6AB95F</color>
-    <color name="line_color">#e0e0e0</color>
-    <color name="info_slot_bg">#00ffffff</color>
-    <color name="info_sub_slot_title_bg">#dfdfdf</color>
 
-    // 특수
-    <color name="main_bottom_tab_bg">#ffffff</color>
-    <color name="main_bottom_tab_select">#84df77</color>
-    <color name="main_bottom_tab_delect">#e0e0e0</color>
-    <color name="main_sub_tab_bg">#84df77</color>
-    <color name="main_sub_info_bg">#c9f9c3</color>
-    <color name="loading_bg">#6AB95F</color>
-    <color name="chat_my_bg">#a3ea99</color>
-    <color name="chat_my_str">#3b4c3a</color>
-    <color name="chat_you_bg">#f9fff8</color>
-    <color name="chat_you_str">#3b4c3a</color>
-    <color name="favorite_view_bg_tint_1">#6c8fcf</color>
-    <color name="favorite_view_bg_tint_1_str">#ffffff</color>
-    <color name="favorite_view_bg_tint_2">#a9c4f7</color>
-    <color name="favorite_view_bg_tint_2_str">#ffffff</color>
-    <color name="favorite_view_bg_tint_3">#fd9c5c</color>
-    <color name="favorite_view_bg_tint_3_str">#ffffff</color>
-    <color name="my_profile_info_bg">#dfdfdf</color>
-    <color name="chat_plus_bg">#ffffff</color>
-    <color name="chat_send_bg">#6AB95F</color>
-    <color name="switch_gray">#7d7d7d</color>
-    <color name="switch_white">#ffffff</color>
-
-
-
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574b</color>
-    <color name="colorAccent">#D81B60</color>
-    <color name="white">#ffffff</color>
-    <color name="black">#ff000000</color>
-    <color name="red">#f71616</color>
-    <color name="blue">#1170ff</color>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   <!-- // 통합
+     // 통합
     <color name="topbar_bg">#111111</color>
     <color name="activity_bg">#f1edeb</color>
     <color name="str_color_1">#676767</color>
@@ -117,5 +51,78 @@
     <color name="white">#ffffff</color>
     <color name="black">#ff000000</color>
     <color name="red">#f71616</color>
+    <color name="blue">#1170ff</color>
+
+
+
+
+
+   <!-- // 통합
+    <color name="topbar_bg">#6AB95F</color>
+    <color name="activity_bg">#f6fcf5</color>
+    <color name="str_color_1">#3b4c3a</color>
+    <color name="str_color_2">#ffffff</color>
+    <color name="str_color_3">#3b4c3a</color>
+    <color name="str_color_4">#3b4c3a</color>
+    <color name="button_enable">#6AB95F</color>
+    <color name="button_enable_str">#3b4c3a</color>
+    <color name="button_disable">#d8fdd2</color>
+    <color name="button_disable_str">#3b4c3a</color>
+    <color name="button_gray">#d9d9d9</color>
+    <color name="button_gray_str">#000000</color>
+    <color name="icon_tint_white">#ffffff</color>
+    <color name="icon_tint_brown">#6AB95F</color>
+    <color name="line_color">#e0e0e0</color>
+    <color name="info_slot_bg">#00ffffff</color>
+    <color name="info_sub_slot_title_bg">#dfdfdf</color>
+
+    // 특수
+    <color name="main_bottom_tab_bg">#ffffff</color>
+    <color name="main_bottom_tab_select">#84df77</color>
+    <color name="main_bottom_tab_delect">#e0e0e0</color>
+    <color name="main_sub_tab_bg">#84df77</color>
+    <color name="main_sub_info_bg">#c9f9c3</color>
+    <color name="loading_bg">#6AB95F</color>
+    <color name="chat_my_bg">#a3ea99</color>
+    <color name="chat_my_str">#3b4c3a</color>
+    <color name="chat_you_bg">#f9fff8</color>
+    <color name="chat_you_str">#3b4c3a</color>
+    <color name="favorite_view_bg_tint_1">#6c8fcf</color>
+    <color name="favorite_view_bg_tint_1_str">#ffffff</color>
+    <color name="favorite_view_bg_tint_2">#a9c4f7</color>
+    <color name="favorite_view_bg_tint_2_str">#ffffff</color>
+    <color name="favorite_view_bg_tint_3">#fd9c5c</color>
+    <color name="favorite_view_bg_tint_3_str">#ffffff</color>
+    <color name="my_profile_info_bg">#dfdfdf</color>
+    <color name="chat_plus_bg">#ffffff</color>
+    <color name="chat_send_bg">#6AB95F</color>
+    <color name="switch_gray">#7d7d7d</color>
+    <color name="switch_white">#ffffff</color>
+
+
+
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574b</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="red">#f71616</color>
     <color name="blue">#1170ff</color>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </resources>
