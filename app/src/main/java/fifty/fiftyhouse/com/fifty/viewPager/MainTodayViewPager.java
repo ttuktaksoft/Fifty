@@ -18,6 +18,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
@@ -67,9 +68,9 @@ public class MainTodayViewPager extends Fragment {
 
         rv_Main_Today_UserList.setAdapter(mAdapter);
         rv_Main_Today_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        rv_Main_Today_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Today_UserList, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Main_Today_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Today_UserList, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
 
                 UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserIndex();
                 DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);

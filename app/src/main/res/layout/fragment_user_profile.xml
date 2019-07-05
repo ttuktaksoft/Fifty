@@ -446,8 +446,8 @@
                 <TextView
                     android:id="@+id/tv_UserProfile_Info_Etc"
                     android:layout_width="0dp"
-                    android:layout_height="90dp"
-                    style="@style/BaseTextView"
+                    android:layout_height="wrap_content"
+                    style="@style/BaseTextView_AutoSize"
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Etc"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Etc"
                     app:layout_constraintTop_toBottomOf="@+id/tv_UserProfile_Info_Terms_1"

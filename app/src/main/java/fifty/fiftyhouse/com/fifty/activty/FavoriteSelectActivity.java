@@ -31,6 +31,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteSelectViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -183,9 +184,9 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 .build();
         rv_FavoriteSelect_Select.setLayoutManager(chipsLayoutManager);
 
-        rv_FavoriteSelect_Select.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_Select, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_FavoriteSelect_Select.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_Select, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 Set tempKey = mFavoriteSelectList.keySet();
                 List array = new ArrayList(tempKey);
 
@@ -227,9 +228,9 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 .build();
         rv_FavoriteSelect_View.setLayoutManager(chipsLayoutManager);
 
-        rv_FavoriteSelect_View.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_View, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_FavoriteSelect_View.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_View, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 int itemCount = mViewAdapter.getItemCount();
 
                 if(itemCount - 1 > position)

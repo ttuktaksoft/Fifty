@@ -24,13 +24,18 @@ public class StrContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_str_content);
         mContext = getApplicationContext();
+
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        String title = getIntent().getStringExtra("title");
+        String content = getIntent().getStringExtra("content");
+
         ui_StrContent_TopBar = findViewById(R.id.ui_StrContent_TopBar);
         tv_TopBar_Title = ui_StrContent_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_StrContent_TopBar.findViewById(R.id.iv_TopBar_Back);
 
         tv_StrContent_Desc = findViewById(R.id.tv_StrContent_Desc);
 
-        tv_TopBar_Title.setText("입력해주세요.");
+        tv_TopBar_Title.setText(title);
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -39,5 +44,6 @@ public class StrContentActivity extends AppCompatActivity {
         });
 
         tv_StrContent_Desc.setMovementMethod(new ScrollingMovementMethod());
+        tv_StrContent_Desc.setText(content);
     }
 }

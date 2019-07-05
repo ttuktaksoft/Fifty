@@ -18,6 +18,7 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ClubActivity extends AppCompatActivity {
@@ -99,9 +100,9 @@ public class ClubActivity extends AppCompatActivity {
 
         rv_Club_Content.setAdapter(mAdapter);
         rv_Club_Content.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_Club_Content.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Content, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Club_Content.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Content, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
                 //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);

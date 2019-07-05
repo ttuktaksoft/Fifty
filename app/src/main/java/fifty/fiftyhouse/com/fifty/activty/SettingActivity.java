@@ -14,6 +14,7 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.SettingAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserNoticeAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -56,9 +57,9 @@ public class SettingActivity extends AppCompatActivity {
 
         rv_Setting_List.setAdapter(mAdapter);
         rv_Setting_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_Setting_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Setting_List, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Setting_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Setting_List, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 // 현재 계정 밖에 없음
                 startActivity(new Intent(getApplicationContext(), SettingAccountActivity.class));
             }

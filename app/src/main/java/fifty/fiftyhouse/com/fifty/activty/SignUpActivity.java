@@ -44,6 +44,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -196,6 +197,8 @@ public class SignUpActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
 
+
+
                 if(mIsCheckNickName == false)
                 {
                     DialogFunc.getInstance().ShowMsgPopup(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_ASK));
@@ -227,7 +230,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else
                 {
-
+                    DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);
                     final String strPassword = et_SignUp_PassWord.getText().toString();
                     TKManager.getInstance().MyData.SetUserPassWord(strPassword);
 
@@ -239,7 +242,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 @Override
                                 public void CompleteListener() {
 
-                                    DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);
                                     FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                                         @Override
                                         public void CompleteListener() {
@@ -265,7 +267,6 @@ public class SignUpActivity extends AppCompatActivity {
                                                 }
                                             };
                                             DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
-
                                         }
 
                                         @Override
@@ -275,6 +276,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         @Override
                                         public void CompleteListener_No() {
                                             DialogFunc.getInstance().DismissLoadingPage();
+                                            DialogFunc.getInstance().ShowToast(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_RETRY), true);
                                         }
                                     };
 
@@ -287,6 +289,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 @Override
                                 public void CompleteListener_No() {
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    DialogFunc.getInstance().ShowToast(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_RETRY), true);
                                 }
                             };
 
@@ -300,7 +304,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void CompleteListener_No() {
-
+                            DialogFunc.getInstance().DismissLoadingPage();
+                            DialogFunc.getInstance().ShowToast(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_RETRY), true);
                         }
                     };
 
@@ -334,9 +339,9 @@ public class SignUpActivity extends AppCompatActivity {
                 .withLastRow(true)
                 .build();
         rv_SignUp_Favorite.setLayoutManager(chipsLayoutManager);
-        rv_SignUp_Favorite.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_SignUp_Favorite, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_SignUp_Favorite.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_SignUp_Favorite, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override

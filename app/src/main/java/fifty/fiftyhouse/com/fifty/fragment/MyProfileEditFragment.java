@@ -29,6 +29,7 @@ import fifty.fiftyhouse.com.fifty.activty.MemoEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.NickNameEditActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MyProfileEditMenuAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -88,9 +89,9 @@ public class MyProfileEditFragment extends Fragment {
 
         rv_MyProfile_Edit_Menu.setAdapter(mAdapter);
         rv_MyProfile_Edit_Menu.setLayoutManager(new GridLayoutManager(mContext, 1));
-        rv_MyProfile_Edit_Menu.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Edit_Menu, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_MyProfile_Edit_Menu.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_MyProfile_Edit_Menu, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 if(position == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX)
                 {
                     startActivityForResult(new Intent(mContext, NickNameEditActivity.class), MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX);

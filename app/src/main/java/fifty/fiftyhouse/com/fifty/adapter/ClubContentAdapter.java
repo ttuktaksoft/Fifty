@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHolder> {
@@ -224,9 +225,9 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
         rv_Club_Reply_List.setAdapter(mAdapter);
         rv_Club_Reply_List.setLayoutManager(new GridLayoutManager(mContext, 1));
-        rv_Club_Reply_List.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_Club_Reply_List, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Club_Reply_List.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_Club_Reply_List, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 //startActivity(new Intent(getContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {

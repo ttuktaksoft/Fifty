@@ -14,6 +14,7 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.StrContentListAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserNoticeAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -54,9 +55,9 @@ public class UserNoticeActivity extends AppCompatActivity {
 
         rv_User_Notice_List.setAdapter(mAdapter);
         rv_User_Notice_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_User_Notice_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_User_Notice_List, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_User_Notice_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_User_Notice_List, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
 
             }
 
