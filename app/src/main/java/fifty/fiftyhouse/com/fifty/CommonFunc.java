@@ -15,6 +15,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -64,6 +66,10 @@ import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
+
+import static fifty.fiftyhouse.com.fifty.CommonData.MOBILE_STATE;
+import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
+import static fifty.fiftyhouse.com.fifty.CommonData.WIFI_STATE;
 
 public class CommonFunc {
 
@@ -456,12 +462,172 @@ public class CommonFunc {
     @SuppressLint("MissingPermission")
     public void GetUserLocation(final Activity activity, final CommonFunc.CheckLocationComplete listener)
     {
+        DialogFunc.getInstance().ShowToast(activity, " 위치정보 받아 오는 중", true);
+
         final Geocoder geocoder = new Geocoder(activity);
         final LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-/*
-        final LocationListener gpsLocationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
 
+        List<String> temp = lm.getAllProviders();
+
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_LOW);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+
+        // getting GPS status
+        boolean isGPSEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // getting network status
+        boolean isNetworkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if(isNetworkEnabled == false)
+        {
+            DialogFunc.getInstance().ShowToast(activity, "위치 정보 옵션을 켜주세요 \n 정확한 위치 정보를 사용할 수 없습니다", true);
+
+            TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+            TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+            TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+            TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+            if(listener != null)
+                listener.CompleteListener();
+        }
+
+        else
+        {
+            String temp1 = lm.getBestProvider(criteria, true);
+
+            final Location lastLocation = lm
+                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            double lastLat = 0;
+            double lastLon= 0;
+
+            if(lastLocation != null)
+            {
+                lastLat = lastLocation.getLatitude();
+                lastLon = lastLocation.getLongitude();
+            }
+            else
+            {
+                lastLat = 37.564214;
+                lastLon = 127.001699;
+            }
+
+            final double finalLastLon = lastLon;
+            final double finalLastLat = lastLat;
+            lm.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, new LocationListener(){
+                @Override
+                public void onLocationChanged(Location location) {
+
+
+                    Log.d("@@@@ Location  ", "onLocationChanged" + location);
+
+                    //위치 받아왔을 때 실행시킬 명령어 입력
+                    String provider = location.getProvider();
+                    double longitude = location.getLongitude();
+                    double latitude = location.getLatitude();
+                    double altitude = location.getAltitude();
+
+                    List<Address> list = null;
+                    try {
+                        list = geocoder.getFromLocation(
+                                latitude, // 위도
+                                longitude, // 경도
+                                1); // 얻어올 값의 개수
+
+                        TKManager.getInstance().MyData.SetUserDist_Lon(longitude);
+                        TKManager.getInstance().MyData.SetUserDist_Lat(latitude);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+
+                        if(lastLocation != null)
+                        {
+                            TKManager.getInstance().MyData.SetUserDist_Lon(finalLastLon);
+                            TKManager.getInstance().MyData.SetUserDist_Lat(finalLastLat);
+                            TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                            TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+                        }
+                        else
+                        {
+                            TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+                            TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+                            TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                            TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+                        }
+
+
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+
+                    if (list != null) {
+                        if (list.size() == 0) {
+                            if(lastLocation != null)
+                            {
+                                TKManager.getInstance().MyData.SetUserDist_Lon(finalLastLon);
+                                TKManager.getInstance().MyData.SetUserDist_Lat(finalLastLat);
+                                TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                                TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+                            }
+                            else
+                            {
+                                TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+                                TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+                                TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                                TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+                            }
+                        } else {
+                            TKManager.getInstance().MyData.SetUserDist_Area(list.get(0).getAdminArea() + " " + list.get(0).getSubLocality() + " " + list.get(0).getThoroughfare());
+                            TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                        }
+
+                        DialogFunc.getInstance().ShowToast(activity, TKManager.getInstance().MyData.GetUserDist_Area(), true);
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+                    else
+                    {
+
+                        Log.d("@@@@ Location  ", "list null");
+                        TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
+                        TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
+                        TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
+                        TKManager.getInstance().MyData.SetUserDist_Region(1.0);
+
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+
+                }
+                @Override
+                public void onProviderDisabled(String provider) {
+                    // TODO Auto-generated method stub
+                    Log.d("@@@@ Location  ", "onProviderDisabled" + provider);
+                }
+                @Override
+                public void onProviderEnabled(String provider) {
+                    // TODO Auto-generated method stub
+                    Log.d("@@@@ Location  ", "onProviderEnabled" + provider);
+                }
+                @Override
+                public void onStatusChanged(String provider, int status,
+                                            Bundle extras) {
+                    // TODO Auto-generated method stub
+                    Log.d("@@@@ Location  ", "onStatusChanged" + provider);
+                }
+            }, null);
+        }
+
+
+
+/*
+
+        LocationListener gpsLocationListener = null;
+        gpsLocationListener = new LocationListener() {
+
+            public void onLocationChanged(Location location) {
                 String provider = location.getProvider();
                 double longitude = location.getLongitude();
                 double latitude = location.getLatitude();
@@ -499,9 +665,7 @@ public class CommonFunc {
 
                     } else {
                         TKManager.getInstance().MyData.SetUserDist_Area(list.get(0).getAdminArea() + " " + list.get(0).getSubLocality() + " " + list.get(0).getThoroughfare());
-
                         TKManager.getInstance().MyData.SetUserDist_Region(1.0);
-
                         if(listener != null)
                             listener.CompleteListener();
                     }
@@ -531,101 +695,25 @@ public class CommonFunc {
 
             public void onProviderDisabled(String provider) {
                 Log.d("@@@@ Location  ", "onProviderDisabled" + provider);
-                if(listener != null)
-                    listener.CompleteListener_No();
+  */
+/*              if(listener != null)
+                    listener.CompleteListener_No();*//*
+
             }
-        };*/
+        };
 
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_LOW);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
 
-        lm.requestSingleUpdate(criteria, new LocationListener(){
-        @Override
-        public void onLocationChanged(Location location) {
 
-            DialogFunc.getInstance().ShowToast(activity, " 위치정보 받아 오는 중", true);
-            Log.d("@@@@ Location  ", "onLocationChanged" + location);
-
-            //위치 받아왔을 때 실행시킬 명령어 입력
-            String provider = location.getProvider();
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
-            double altitude = location.getAltitude();
-
-            List<Address> list = null;
-            try {
-                list = geocoder.getFromLocation(
-                        latitude, // 위도
-                        longitude, // 경도
-                        1); // 얻어올 값의 개수
-
-                TKManager.getInstance().MyData.SetUserDist_Lon(longitude);
-                TKManager.getInstance().MyData.SetUserDist_Lat(latitude);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-                TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
-                TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
-                TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
-                TKManager.getInstance().MyData.SetUserDist_Region(1.0);
-
-                if(listener != null)
-                    listener.CompleteListener_No();
-            }
-
-            if (list != null) {
-                if (list.size() == 0) {
-                    TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
-                    TKManager.getInstance().MyData.SetUserDist_Region(1.0);
-                } else {
-                    TKManager.getInstance().MyData.SetUserDist_Area(list.get(0).getAdminArea() + " " + list.get(0).getSubLocality() + " " + list.get(0).getThoroughfare());
-                    TKManager.getInstance().MyData.SetUserDist_Region(1.0);
-
-                }
-
-                DialogFunc.getInstance().ShowToast(activity, TKManager.getInstance().MyData.GetUserDist_Area(), true);
-                if(listener != null)
-                    listener.CompleteListener();
-            }
-            else
-            {
-
-                Log.d("@@@@ Location  ", "list null");
-                TKManager.getInstance().MyData.SetUserDist_Lon(127.001699);
-                TKManager.getInstance().MyData.SetUserDist_Lat(37.564214);
-                TKManager.getInstance().MyData.SetUserDist_Area("대한민국");
-                TKManager.getInstance().MyData.SetUserDist_Region(1.0);
-
-                if(listener != null)
-                    listener.CompleteListener_No();
-            }
-
-        }
-        @Override
-        public void onProviderDisabled(String provider) {
-            // TODO Auto-generated method stub
-            Log.d("@@@@ Location  ", "onProviderDisabled" + provider);
-        }
-        @Override
-        public void onProviderEnabled(String provider) {
-            // TODO Auto-generated method stub
-            Log.d("@@@@ Location  ", "onProviderEnabled" + provider);
-        }
-        @Override
-        public void onStatusChanged(String provider, int status,
-                                    Bundle extras) {
-            // TODO Auto-generated method stub
-            Log.d("@@@@ Location  ", "onStatusChanged" + provider);
-        }
-    }, null);
-/*
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                1000,
+                1,
+                gpsLocationListener);
 
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                 1000,
                 1,
-                gpsLocationListener);*/
+                gpsLocationListener);
+*/
 
     }
 
@@ -785,6 +873,20 @@ public class CommonFunc {
 
         FirebaseManager.getInstance().GetUserData(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData, listener );
     }
+
+    public static String getWhatKindOfNetwork(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null) {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                return WIFI_STATE;
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                return MOBILE_STATE;
+            }
+        }
+        return NONE_STATE;
+    }
+
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////

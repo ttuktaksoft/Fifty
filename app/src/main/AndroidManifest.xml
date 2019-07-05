@@ -22,7 +22,8 @@
         android:theme="@style/NoTitleBar"
         android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory"
-        android:appComponentFactory="whateverString">
+        android:appComponentFactory="whateverString"
+        android:screenOrientation="portrait">
 
         <activity
             android:name=".activty.LoadingActivity"

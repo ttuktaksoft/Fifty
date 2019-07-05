@@ -21,6 +21,8 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
+import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
+
 public class LoadingActivity extends AppCompatActivity {
 
     private Activity mActivity;
@@ -55,45 +57,62 @@ public class LoadingActivity extends AppCompatActivity {
         CommonFunc.getInstance().setWidthByDevice(size.x);
         CommonFunc.getInstance().setHeightByDevice(size.y);
 
-        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
-        //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
-        userIndex = sf.getString("Index","");
-
-        //userIndex = null;
-
-       // userIndex = "39";
-        if(CommonFunc.getInstance().CheckStringNull(userIndex))
+        if(CommonFunc.getInstance().getWhatKindOfNetwork(mActivity).equals(NONE_STATE))
         {
+            final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                @Override
+                public void Listener() {
+                    mActivity.finish();
+                    System.exit(0);
+                    int pid = android.os.Process.myPid();
+                    android.os.Process.killProcess(pid);
+                }
+            };
 
-            int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-            if(permissionCamera == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            DialogFunc.getInstance().ShowMsgPopup(mActivity, listenerYes, listenerYes, "인터넷 연결을 확인 해 주세요", "확인", null);
 
-            } else {
-                CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
-                    }
+        }
+        else
+        {
+            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-                    @Override
-                    public void CompleteListener_Yes() {
+            SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
+            //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
+            userIndex = sf.getString("Index","");
 
-                    }
+            //userIndex = null;
 
-                    @Override
-                    public void CompleteListener_No() {
-                        CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
-                    }
-                };
+            // userIndex = "39";
+            if(CommonFunc.getInstance().CheckStringNull(userIndex))
+            {
 
-                CommonFunc.getInstance().GetUserLocation(LoadingActivity.this, listener);
-                // GetUserList();
-            }
+                int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+                if(permissionCamera == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
-            // 회ㅏ우너가입
+                } else {
+                    CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                            CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
+                        }
+                    };
+
+                    CommonFunc.getInstance().GetUserLocation(LoadingActivity.this, listener);
+                    // GetUserList();
+                }
+
+                // 회ㅏ우너가입
 
           /*  FirebaseManager.CheckFirebaseComplete listen = new FirebaseManager.CheckFirebaseComplete() {
                 @Override
@@ -137,55 +156,57 @@ public class LoadingActivity extends AppCompatActivity {
             };
 
             FirebaseManager.getInstance().GetUserIndex(listen);*/
-        }
-        else
-        {
-            TKManager.getInstance().MyData.SetUserIndex(userIndex);
+            }
+            else
+            {
+                TKManager.getInstance().MyData.SetUserIndex(userIndex);
 
-            int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-            if(permissionCamera == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+                if(permissionCamera == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
-            } else {
-                CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
-                    @Override
-                    public void CompleteListener() {
+                } else {
+                    CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+                        @Override
+                        public void CompleteListener() {
 
 
-                        FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
-                                CommonFunc.getInstance().GetUserList(LoadingActivity.this);
-                            }
+                            FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                }
 
-                            @Override
-                            public void CompleteListener_Yes() {
+                                @Override
+                                public void CompleteListener_Yes() {
 
-                            }
+                                }
 
-                            @Override
-                            public void CompleteListener_No() {
-                                CommonFunc.getInstance().GetUserList(LoadingActivity.this);
-                            }
-                        };
+                                @Override
+                                public void CompleteListener_No() {
+                                    CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                }
+                            };
 
-                        FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
-                    }
+                            FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
+                        }
 
-                    @Override
-                    public void CompleteListener_Yes() {
+                        @Override
+                        public void CompleteListener_Yes() {
 
-                    }
+                        }
 
-                    @Override
-                    public void CompleteListener_No() {
-                        CommonFunc.getInstance().GetUserList(LoadingActivity.this);
-                    }
-                };
+                        @Override
+                        public void CompleteListener_No() {
+                            CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                        }
+                    };
 
-                CommonFunc.getInstance().GetUserLocation(this, listener);
+                    CommonFunc.getInstance().GetUserLocation(this, listener);
+                }
             }
         }
+
 
         CommonFunc.getInstance().mCurActivity = this;
     }

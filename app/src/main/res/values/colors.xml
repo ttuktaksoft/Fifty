@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    // 통합
+   <!-- // 통합
     <color name="topbar_bg">#6AB95F</color>
     <color name="activity_bg">#f6fcf5</color>
     <color name="str_color_1">#3b4c3a</color>
@@ -50,7 +50,7 @@
     <color name="white">#ffffff</color>
     <color name="black">#ff000000</color>
     <color name="red">#f71616</color>
-    <color name="blue">#1170ff</color>
+    <color name="blue">#1170ff</color>-->
 
 
 
@@ -67,7 +67,7 @@
 
 
 
-   <!-- // 통합
+  // 통합
     <color name="topbar_bg">#111111</color>
     <color name="activity_bg">#f1edeb</color>
     <color name="str_color_1">#676767</color>
@@ -117,5 +117,5 @@
     <color name="white">#ffffff</color>
     <color name="black">#ff000000</color>
     <color name="red">#f71616</color>
-    <color name="blue">#1170ff</color>-->
+    <color name="blue">#1170ff</color>
 </resources>
