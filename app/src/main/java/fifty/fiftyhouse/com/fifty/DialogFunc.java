@@ -29,6 +29,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SettingAccountActivity;
 import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.SettingAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -201,9 +202,9 @@ public class DialogFunc {
 
         rv_Menu_List.setAdapter(mAdapter);
         rv_Menu_List.setLayoutManager(new GridLayoutManager(context, 1));
-        rv_Menu_List.addOnItemTouchListener(new RecyclerItemClickListener(context, rv_Menu_List, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Menu_List.addOnItemTouchListener(new RecyclerItemClickListener(context, rv_Menu_List, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
 
                 if(menuListener.size() > position && menuListener.get(position) != null)
                     menuListener.get(position).Listener();

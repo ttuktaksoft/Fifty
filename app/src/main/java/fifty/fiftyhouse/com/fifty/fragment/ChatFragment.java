@@ -33,6 +33,7 @@ import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 /**
@@ -125,9 +126,9 @@ public class ChatFragment extends Fragment {
         ChatRecyclerView.setAdapter(mAdapter);
         ChatRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
 
-        ChatRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mContext, ChatRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        ChatRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mContext, ChatRecyclerView, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
 
                 Set tempKey = TKManager.getInstance().MyData.GetUserChatDataListKeySet();
                 List array = new ArrayList(tempKey);

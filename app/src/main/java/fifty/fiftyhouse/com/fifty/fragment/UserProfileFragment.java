@@ -35,9 +35,12 @@ import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.SettingActivity;
+import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
+import fifty.fiftyhouse.com.fifty.activty.StrContentActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
@@ -47,16 +50,18 @@ import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileMenuAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class UserProfileFragment extends Fragment {
 
     ConstraintLayout v_UserProfile_Info_Detail, v_UserProfile_Info_Favorite, v_UserProfile_Info_Photo, v_UserProfile_Info_Club,
-            v_UserProfile_Info_Menu;
+            v_UserProfile_Info_Menu, v_UserProfile_Info_Etc;
     ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender, iv_UserProfile_Info_Memo_BG;
     TextView tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Location,
-            tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3;
+            tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3,
+            tv_UserProfile_Info_Terms_1, tv_UserProfile_Info_Terms_2, tv_UserProfile_Info_Terms_3;
     RecyclerView rv_UserProfile_Info_Favorite, rv_UserProfile_Info_Club, rv_UserProfile_Info_Photo, rv_UserProfile_Info_Menu;
     Context mContext;
     View mUserProfileFragView;
@@ -99,6 +104,7 @@ public class UserProfileFragment extends Fragment {
         v_UserProfile_Info_Photo = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Photo);
         v_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Club);
         v_UserProfile_Info_Menu = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Menu);
+        v_UserProfile_Info_Etc = mUserProfileFragView.findViewById(R.id.v_UserProfile_Info_Etc);
         iv_UserProfile_Profile = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Profile);
         iv_UserProfile_Info_Gender = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Gender);
         iv_UserProfile_Info_Memo_BG  = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Memo_BG);
@@ -109,6 +115,9 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Count_1 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Count_1);
         tv_UserProfile_Info_Count_2 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Count_2);
         tv_UserProfile_Info_Count_3 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Count_3);
+        tv_UserProfile_Info_Terms_1 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_1);
+        tv_UserProfile_Info_Terms_2 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_2);
+        tv_UserProfile_Info_Terms_3 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_3);
         rv_UserProfile_Info_Favorite = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Favorite);
         rv_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Club);
         rv_UserProfile_Info_Photo = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Photo);
@@ -143,7 +152,7 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        tv_UserProfile_Info_Count_1.setOnClickListener(new OnSingleClickListener() {
+        OnSingleClickListener Listener_1 = new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 if(TKManager.getInstance().MyData.GetUserVisitListCount() == 0)
@@ -189,9 +198,11 @@ public class UserProfileFragment extends Fragment {
                     }
                 }
             }
-        });
+        };
 
-        tv_UserProfile_Info_Count_2.setOnClickListener(new OnSingleClickListener() {
+        setCountInfoListener_1(Listener_1);
+
+        OnSingleClickListener Listener_2 = new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 // 좋아요
@@ -237,9 +248,11 @@ public class UserProfileFragment extends Fragment {
                     }
                 }
             }
-        });
+        };
 
-        tv_UserProfile_Info_Count_3.setOnClickListener(new OnSingleClickListener() {
+        setCountInfoListener_2(Listener_2);
+
+        OnSingleClickListener Listener_3 = new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
@@ -287,7 +300,9 @@ public class UserProfileFragment extends Fragment {
                     }
                 }
             }
-        });
+        };
+
+        setCountInfoListener_3(Listener_3);
 
         tv_UserProfile_Info_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
 
@@ -313,6 +328,36 @@ public class UserProfileFragment extends Fragment {
         RefreshMemoText();
         RefreshCountText();
 
+        v_UserProfile_Info_Etc.setVisibility(View.VISIBLE);
+        tv_UserProfile_Info_Terms_1.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, StrContentActivity.class);
+                intent.putExtra("title", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_1));
+                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_1));
+                startActivity(intent);
+            }
+        });
+
+        tv_UserProfile_Info_Terms_2.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, StrContentActivity.class);
+                intent.putExtra("title", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_2));
+                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_2));
+                startActivity(intent);
+            }
+        });
+
+        tv_UserProfile_Info_Terms_3.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, StrContentActivity.class);
+                intent.putExtra("title", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_3));
+                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_3));
+                startActivity(intent);
+            }
+        });
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, true);
@@ -351,13 +396,21 @@ public class UserProfileFragment extends Fragment {
                     .into(iv_UserProfile_Info_Gender);
         }
 
+        setCountInfoListener_1(null);
+        setCountInfoListener_2(null);
+        setCountInfoListener_3(null);
+
+        tv_UserProfile_Info_Terms_1.setOnClickListener(null);
+        tv_UserProfile_Info_Terms_2.setOnClickListener(null);
+        tv_UserProfile_Info_Terms_3.setOnClickListener(null);
+
         tv_UserProfile_Info_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().TargetUserData.GetUserAge() + "세");
         RefreshLocationText();
         RefreshMemoText();
         RefreshCountText();
 
-
+        v_UserProfile_Info_Etc.setVisibility(View.GONE);
 
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, false);
@@ -494,9 +547,9 @@ public class UserProfileFragment extends Fragment {
 
         rv_UserProfile_Info_Photo.setAdapter(mPhotoAdapter);
         rv_UserProfile_Info_Photo.setLayoutManager(new GridLayoutManager(mContext, 4));
-        rv_UserProfile_Info_Photo.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Photo, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_UserProfile_Info_Photo.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Photo, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 if(mMyProfile)
                 {
                     if(position < TKManager.getInstance().MyData.GetUserImgCount())
@@ -550,9 +603,9 @@ public class UserProfileFragment extends Fragment {
 
         rv_UserProfile_Info_Club.setAdapter(mClubAdapter);
         rv_UserProfile_Info_Club.setLayoutManager(new GridLayoutManager(mContext, 1));
-        rv_UserProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Club, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_UserProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Club, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 //startActivity(new Intent(mContext, StrContentListActivity.class));
             }
 
@@ -570,9 +623,9 @@ public class UserProfileFragment extends Fragment {
 
         rv_UserProfile_Info_Menu.setAdapter(mMenuAdapter);
         rv_UserProfile_Info_Menu.setLayoutManager(new GridLayoutManager(mContext, 1));
-        rv_UserProfile_Info_Menu.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Menu, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_UserProfile_Info_Menu.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Menu, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 if(position == 3)
                 {
                     /*Intent intent = new Intent(mContext, SettingActivity.class);
@@ -593,20 +646,7 @@ public class UserProfileFragment extends Fragment {
         }));
     }
 
-    public void setCountInfoStr_1(String str)
-    {
-        tv_UserProfile_Info_Count_1.setText(str);
-    }
 
-    public void setCountInfoStr_2(String str)
-    {
-        tv_UserProfile_Info_Count_2.setText(str);
-    }
-
-    public void setCountInfoStr_3(String str)
-    {
-        tv_UserProfile_Info_Count_3.setText(str);
-    }
 
 
     private ArrayList<DialogFunc.MsgPopupListener> getPhotoAddFunc()
@@ -812,5 +852,20 @@ public class UserProfileFragment extends Fragment {
             tv_UserProfile_Info_Count_3.setText(MSG_DISTANCE + "\n" +mUserDist);
         }
 
+    }
+
+    public void setCountInfoListener_1(OnSingleClickListener listener)
+    {
+        tv_UserProfile_Info_Count_1.setOnClickListener(listener);
+    }
+
+    public void setCountInfoListener_2(OnSingleClickListener listener)
+    {
+        tv_UserProfile_Info_Count_2.setOnClickListener(listener);
+    }
+
+    public void setCountInfoListener_3(OnSingleClickListener listener)
+    {
+        tv_UserProfile_Info_Count_3.setOnClickListener(listener);
     }
 }

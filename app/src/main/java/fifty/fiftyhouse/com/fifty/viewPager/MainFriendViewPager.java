@@ -32,6 +32,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class MainFriendViewPager extends Fragment {
@@ -83,9 +84,9 @@ public class MainFriendViewPager extends Fragment {
 
         rv_Main_Friend_UserList.setAdapter(mAdapter);
         rv_Main_Friend_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
-        rv_Main_Friend_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Friend_UserList, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Main_Friend_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Friend_UserList, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
 
                 Set tempKey = TKManager.getInstance().MyData.GetUserFriendListKeySet();
                 List array = new ArrayList(tempKey);

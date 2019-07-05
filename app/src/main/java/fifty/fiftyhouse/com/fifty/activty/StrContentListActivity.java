@@ -14,6 +14,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.StrContentListAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -79,10 +80,13 @@ public class StrContentListActivity extends AppCompatActivity {
 
         rv_StrContent_List.setAdapter(mAdapter);
         rv_StrContent_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_StrContent_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_StrContent_List, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_StrContent_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_StrContent_List, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                startActivity(new Intent(getApplicationContext(), StrContentActivity.class));
+            public void onSingleClick(View view, int position) {
+                Intent intent = new Intent(getApplicationContext(), StrContentActivity.class);
+                intent.putExtra("title", "타이틀 입력해주세요");
+                intent.putExtra("content", "입력해주세요.");
+                startActivity(intent);
             }
 
             @Override

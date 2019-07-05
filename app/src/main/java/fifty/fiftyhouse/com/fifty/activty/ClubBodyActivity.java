@@ -19,6 +19,7 @@ import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubBodyImgAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubBodyReplyAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
+import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ClubBodyActivity extends AppCompatActivity {
@@ -81,9 +82,9 @@ public class ClubBodyActivity extends AppCompatActivity {
 
         rv_Club_Body_Img_List.setAdapter(mImgAdapter);
         rv_Club_Body_Img_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_Club_Body_Img_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Body_Img_List, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Club_Body_Img_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Body_Img_List, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {
@@ -125,9 +126,9 @@ public class ClubBodyActivity extends AppCompatActivity {
 
         rv_Club_Body_Reply_List.setAdapter(mReplyAdapter);
         rv_Club_Body_Reply_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_Club_Body_Reply_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Body_Reply_List, new RecyclerItemClickListener.OnItemClickListener() {
+        rv_Club_Body_Reply_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Body_Reply_List, new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onSingleClick(View view, int position) {
                 //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {
