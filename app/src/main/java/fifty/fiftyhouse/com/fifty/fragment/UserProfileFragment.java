@@ -46,6 +46,7 @@ import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileMemoActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserReportActivity;
+import fifty.fiftyhouse.com.fifty.activty.WebContentActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileMenuAdapter;
@@ -332,9 +333,9 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Terms_1.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(mContext, StrContentActivity.class);
+                Intent intent = new Intent(mContext, WebContentActivity.class);
                 intent.putExtra("title", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_1));
-                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_1));
+                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_SERVICE));
                 startActivity(intent);
             }
         });
@@ -342,9 +343,9 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Terms_2.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(mContext, StrContentActivity.class);
+                Intent intent = new Intent(mContext, WebContentActivity.class);
                 intent.putExtra("title", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_2));
-                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_2));
+                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_PRIVACY));
                 startActivity(intent);
             }
         });
@@ -352,9 +353,9 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Terms_3.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(mContext, StrContentActivity.class);
+                Intent intent = new Intent(mContext, WebContentActivity.class);
                 intent.putExtra("title", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_3));
-                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_3));
+                intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_REFUND));
                 startActivity(intent);
             }
         });
