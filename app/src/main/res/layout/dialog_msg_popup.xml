@@ -24,7 +24,7 @@
         style="@style/BaseTextView_AutoSize"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="메세지"
+        android:text="@string/MSG_ME_CONFIRM_DESC"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:paddingTop="20dp"

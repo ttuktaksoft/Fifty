@@ -91,6 +91,8 @@
     <string name="MSG_TERMS_1">서비스 이용약관</string>
     <string name="MSG_TERMS_2">개인정보 취급방침</string>
     <string name="MSG_TERMS_3">환불 약관</string>
+    <string name="MSG_ME_CONFIRM">본인인증</string>
+    <string name="MSG_ME_CONFIRM_DESC">개인 정보 확인을 위해\n본인인증을 진행해주세요</string>
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
     <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>

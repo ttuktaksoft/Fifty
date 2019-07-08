@@ -57,45 +57,55 @@ public class LoginActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
                 // TODO 로그인 처리
 
-                DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
-                //CommonFunc.getInstance().GetUserList(LoginActivity.this);
 
-                FirebaseManager.CheckFirebaseComplete listen = new FirebaseManager.CheckFirebaseComplete() {
+
+                DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                {
                     @Override
-                    public void CompleteListener() {
+                    public void Listener()
+                    {
+                        DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
+                        //CommonFunc.getInstance().GetUserList(LoginActivity.this);
 
-                        FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                        FirebaseManager.CheckFirebaseComplete listen = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+
+                                FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
 //                        CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
-                                CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                    }
+                                };
+
+                                FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
                             }
 
                             @Override
                             public void CompleteListener_Yes() {
-
                             }
 
                             @Override
                             public void CompleteListener_No() {
-                                CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                DialogFunc.getInstance().DismissLoadingPage();
                             }
                         };
 
-                        FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                        DialogFunc.getInstance().DismissLoadingPage();
+                        FirebaseManager.getInstance().GetUserIndex(listen);
                     }
                 };
-
-                FirebaseManager.getInstance().GetUserIndex(listen);
+                DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM_DESC), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
             }
         });
 
@@ -233,9 +243,19 @@ public class LoginActivity extends AppCompatActivity {
                     Logger.d("email: " + response.getKakaoAccount().getAgeRange());
                     Logger.d("email: " + response.getKakaoAccount().getGender());
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
-                 //   GetUserList();
-                     CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
-                    //MoveAuthActivity();
+
+                    DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // TODO 본인인증
+                            CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
+                            //MoveAuthActivity();
+                        }
+                    };
+                    DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+
                 }
             });
 
