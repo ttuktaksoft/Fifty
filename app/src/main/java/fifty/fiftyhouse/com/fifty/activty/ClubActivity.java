@@ -12,14 +12,25 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Random;
+
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ClubActivity extends AppCompatActivity {
 
@@ -27,7 +38,8 @@ public class ClubActivity extends AppCompatActivity {
     NestedScrollView ns_Club_Scroll;
 
     ImageView iv_Club_Thumbnail;
-    TextView tv_Club_Name;
+    TextView tv_Club_Name, tv_Club_UserCount;
+    Button bt_Club_Write;
     RecyclerView rv_Club_Content;
     ClubContentAdapter mAdapter;
 
@@ -40,7 +52,9 @@ public class ClubActivity extends AppCompatActivity {
         ns_Club_Scroll = findViewById(R.id.ns_Club_Scroll);
         iv_Club_Thumbnail = findViewById(R.id.iv_Club_Thumbnail);
         tv_Club_Name = findViewById(R.id.tv_Club_Name);
+        tv_Club_UserCount = findViewById(R.id.tv_Club_UserCount);
         rv_Club_Content = findViewById(R.id.rv_Club_Content);
+        bt_Club_Write = findViewById(R.id.bt_Club_Write);
 
         v_Club_ToolBar.setNavigationIcon(R.drawable.icon_backarrow);
         v_Club_ToolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -49,8 +63,71 @@ public class ClubActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        v_Club_ToolBar.setTitle("냥냥 클럽");
+        v_Club_ToolBar.setTitle(TKManager.getInstance().TargetClubData.GetClubName());
         setSupportActionBar(v_Club_ToolBar);
+
+        tv_Club_Name.setText(TKManager.getInstance().TargetClubData.GetClubName());
+
+        if(TKManager.getInstance().TargetClubData.GetClubType())
+        {
+            tv_Club_UserCount.setText("공개 "+TKManager.getInstance().TargetClubData.GetClubMemberCount() + "명" );
+        }
+        else
+        {
+            tv_Club_UserCount.setText("비공개 "+TKManager.getInstance().TargetClubData.GetClubMemberCount() + "명" );
+        }
+
+        CommonFunc.getInstance().DrawImageByGlide(ClubActivity.this, iv_Club_Thumbnail, TKManager.getInstance().TargetClubData.GetClubThumb(), false);
+
+        bt_Club_Write.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+                Random random = new Random();
+                int tempRange = random.nextInt(3);
+
+
+
+                ClubContextData tempData = new ClubContextData();
+                tempData.Context = "asdasd";
+                tempData.ContextType = tempRange;
+                if(tempRange == 1)
+                {
+                    tempData.Img.put("0", TKManager.getInstance().MyData.GetUserImgThumb());
+                }
+                if( tempRange == 2)
+                {
+                    tempData.Img.put("0", TKManager.getInstance().MyData.GetUserImgThumb());
+                    tempData.Img.put("1", TKManager.getInstance().MyData.GetUserImgThumb());
+
+                }
+
+                tempData.Date = CommonFunc.getInstance().GetCurrentTime();
+                tempData.writerIndex = TKManager.getInstance().MyData.GetUserIndex();
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        mAdapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), tempData,  listener);
+
+
+            }
+        });
+
 
 //        v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
 //        v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));

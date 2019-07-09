@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 
@@ -29,11 +30,13 @@ public class TKManager {
     private static final String TAG = "!!!TKManager";
     public static UserData MyData = new UserData();
 
-    public static UserData TargetUserData = new UserData();
+    public UserData TargetUserData = new UserData();
+    public ClubData TargetClubData = new ClubData();
 
     public Map<String, Object> UserData = new HashMap<>();
 
     public Map<String, UserData> UserData_Simple = new HashMap<>();
+    public Map<String, ClubData> ClubData_Simple = new HashMap<>();
 
     public ArrayList<String> UserList_Dist = new ArrayList<>();
     public ArrayList<String> UserList_New= new ArrayList<>();

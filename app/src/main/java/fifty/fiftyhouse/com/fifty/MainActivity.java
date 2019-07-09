@@ -21,13 +21,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.fragment.ChatFragment;
 import fifty.fiftyhouse.com.fifty.fragment.ClubFragment;
 import fifty.fiftyhouse.com.fifty.fragment.MainFragment;
@@ -74,8 +77,51 @@ public class MainActivity extends AppCompatActivity {
                                 mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
                                 return true;
                             case R.id.i_main_bottom_club:
-                                //mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mClubFragment, "ClubFragment").commit();
-                                DialogFunc.getInstance().ShowToast(mContext, "클럽서비스 준비 중입니다", true);
+
+                                DialogFunc.getInstance().ShowLoadingPage(MainActivity.this);
+                                Set KeySet = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+
+                                if(KeySet.size() > 0)
+                                {
+                                    Iterator iterator = KeySet.iterator();
+
+                                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserClubDataCount());
+
+                                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                        @Override
+                                        public void CompleteListener() {
+                                            DialogFunc.getInstance().DismissLoadingPage();
+                                            mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mClubFragment, "ClubFragment").commit();
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_Yes() {
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_No() {
+                                        }
+                                    };
+
+                                    while(iterator.hasNext()){
+                                        String key = (String)iterator.next();
+                                        if(TKManager.getInstance().ClubData_Simple.get(key) != null)
+                                        {
+                                            FirebaseManager.getInstance().Complete(listener);
+                                        }
+                                        else
+                                            FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
+                                    }
+                                }
+                                else
+                                {
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mClubFragment, "ClubFragment").commit();
+                                }
+
+
+                                //
+                                //DialogFunc.getInstance().ShowToast(mContext, "클럽서비스 준비 중입니다", true);
                                 return true;
                             case R.id.i_main_bottom_chat:
                                 mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mChatFragment, "ChatFragment").commit();

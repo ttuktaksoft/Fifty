@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class ClubContentReplyAdapter extends RecyclerView.Adapter<ClubContentReplyListHolder> {
@@ -67,16 +70,17 @@ class ClubContentReplyListHolder extends RecyclerView.ViewHolder {
 
     public void setClubContentReply(int pos)
     {
-        // TODO 클럽 내용 추가
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(R.drawable.dummy_13)
-                .circleCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .thumbnail(0.1f)
-                .into(iv_Club_Con_Reply_Profile);
-        tv_Club_Con_Reply_Nickname.setText("피프티하우스");
+
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Reply_Profile, R.drawable.dummy_0, true);
+
+        ClubContextData tempData = new ClubContextData();
+        tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
+        tv_Club_Con_Reply_Nickname.setText(tempData.Reply.get("0").writerIndex.toString());
+        tv_Club_Con_Reply_Date.setText(tempData.Reply.get("0").Date.toString());
+        tv_Club_Con_Reply_Desc.setText(tempData.Reply.get("0").Context.toString());
+
+        /*tv_Club_Con_Reply_Nickname.setText("피프티하우스");
         tv_Club_Con_Reply_Date.setText("19-04-15");
-        tv_Club_Con_Reply_Desc.setText("댓글 내용");
+        tv_Club_Con_Reply_Desc.setText("댓글 내용");*/
     }
 }

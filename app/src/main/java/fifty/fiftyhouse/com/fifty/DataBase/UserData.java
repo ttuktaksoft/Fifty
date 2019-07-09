@@ -81,6 +81,8 @@ public class UserData {
     private String PhoneNumber;
     private String Name;
 
+    public Map<String, ClubData> ClubData = new LinkedHashMap<>();
+
   /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
     {
         Index = index;
@@ -553,4 +555,16 @@ public class UserData {
     {
         return  Name;
     }
+
+    public void SetUserClubData(String Idx, ClubData data){ ClubData.put(Idx, data); }
+    public ClubData  GetUserClubData(String index){ return ClubData.get(index); }
+    public int  GetUserClubDataCount()
+    {
+        return ClubData.size();
+    }
+    public Map<String, ClubData>  GetUserClubData()
+    {
+        return ClubData;
+    }
+    public Set GetUserClubDataKeySet() { return  ClubData.keySet(); }
 }

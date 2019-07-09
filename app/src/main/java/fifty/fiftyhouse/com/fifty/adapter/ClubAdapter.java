@@ -12,7 +12,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
@@ -36,81 +43,23 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
     public void onBindViewHolder(ClubListHolder holder, final int position) {
         int i = position;
 
-        if(position == 0)
-        {
-            holder.tv_Club_Name.setText("축구밴드");
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_10)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(holder.iv_Club_Profile);
-        }
-        else if(position == 1)
-        {
-            holder.tv_Club_Name.setText("야구밴드");
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_10)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(holder.iv_Club_Profile);
-        }
-        else if(position == 2)
-        {
-            holder.tv_Club_Name.setText("줌마들의 나들이");
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_12)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(holder.iv_Club_Profile);
-        }
-        else if(position == 3)
-        {
-            holder.tv_Club_Name.setText("먹거리 수비대");
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_2)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(holder.iv_Club_Profile);
-        }
-        else if(position == 4)
-        {
-            holder.tv_Club_Name.setText("여행을 떠나요");
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_6)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(holder.iv_Club_Profile);
-        }
-        else if(position == 5)
-        {
-            holder.tv_Club_Name.setText("골프 칠사람");
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_8)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(holder.iv_Club_Profile);
-        }
-        else
-        {
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_13)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(holder.iv_Club_Profile);
-        }
+        ClubData tempClub = new ClubData();
+        Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+        List array = new ArrayList(tempKey);
+        tempClub = TKManager.getInstance().ClubData_Simple.get(array.get(position).toString());
+
+        holder.tv_Club_Name.setText(tempClub.ClubName);
+        Glide.with(mContext)
+                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
+                .load(tempClub.ClubThumbNail)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .thumbnail(0.1f)
+                .into(holder.iv_Club_Profile);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
-        //return mMyData.arrChatTargetData.size();
+        return TKManager.getInstance().MyData.GetUserClubDataCount();
     }
 
 }

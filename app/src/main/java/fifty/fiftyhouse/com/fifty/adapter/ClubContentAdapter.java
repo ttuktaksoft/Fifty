@@ -14,9 +14,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+
+import static fifty.fiftyhouse.com.fifty.adapter.ClubContentListHolder.CLUB_CONTENT_TYPE.BIG_IMG;
+import static fifty.fiftyhouse.com.fifty.adapter.ClubContentListHolder.CLUB_CONTENT_TYPE.DESC;
+import static fifty.fiftyhouse.com.fifty.adapter.ClubContentListHolder.CLUB_CONTENT_TYPE.IMG;
 
 public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHolder> {
 
@@ -42,8 +48,7 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
 
     @Override
     public int getItemCount() {
-        return 3;
-        //return mMyData.arrChatTargetData.size();
+        return TKManager.getInstance().TargetClubData.GetClubContextCount();
     }
 
 }
@@ -111,8 +116,56 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
     public void setClubContent(int pos)
     {
+
+        ClubContextData tempData = new ClubContextData();
+        tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
+
+       switch (tempData.ContextType)
+       {
+           case 0:
+               setClubType(DESC);
+               break;
+           case 1:
+               setClubType(BIG_IMG);
+               if(!CommonFunc.getInstance().CheckStringNull(tempData.Img.get("0")))
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_BigImg, tempData.Img.get("0"), false);
+               else
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_BigImg, R.drawable.bg_empty_square, false);
+
+               break;
+           case 2:
+               setClubType(IMG);
+
+               if(!CommonFunc.getInstance().CheckStringNull(tempData.Img.get("0")))
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_1, tempData.Img.get("0"), false);
+               else
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_1, R.drawable.bg_empty_square, false);
+
+               if(!CommonFunc.getInstance().CheckStringNull(tempData.Img.get("1")))
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_2, tempData.Img.get("1"), false);
+               else
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_2, R.drawable.bg_empty_square, false);
+
+               if(!CommonFunc.getInstance().CheckStringNull(tempData.Img.get("2")))
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_3, tempData.Img.get("2"), false);
+               else
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_3, R.drawable.bg_empty_square, false);
+
+               break;
+       }
+
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Profile, TKManager.getInstance().UserData_Simple.get(tempData.writerIndex).GetUserImgThumb(), true);
+
+        tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.writerIndex).GetUserNickName());
+        tv_Club_Con_Date.setText(tempData.Date);
+        tv_Club_Con_Desc.setText(tempData.Context);
+
+        mAdapter.setReplyCount(tempData.Reply.size());
+
+        //mAdapter.setReplyCount(2);
+
         // TODO 클럽 내용 추가
-        if(pos == 0)
+       /* if(pos == 0)
         {
             setClubType(CLUB_CONTENT_TYPE.DESC);
             Glide.with(mContext)
@@ -184,7 +237,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                     .into(tv_Club_Con_Img_3);
 
             mAdapter.setReplyCount(1);
-        }
+        }*/
 
     }
 
