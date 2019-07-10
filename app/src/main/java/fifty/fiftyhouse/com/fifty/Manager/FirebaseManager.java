@@ -393,9 +393,9 @@ public class FirebaseManager {
                 });
 
         Map<String, Object> New = new HashMap<>();
-        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentTime());
         New.put("value", TodayDate);
-        mDataBase.collection("UserList_New").document(TKManager.getInstance().MyData.GetUserIndex()).set(Dist, SetOptions.merge())
+        mDataBase.collection("UserList_New").document(TKManager.getInstance().MyData.GetUserIndex()).set(New, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -516,6 +516,54 @@ public class FirebaseManager {
                 }
             }
         });
+    }
+
+
+    public void MonitorAlarm(final String index,  final CheckFirebaseComplete listener) {
+
+        CollectionReference colRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("AlarmList");
+        //CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+        {
+            colRef.orderBy("Date", Query.Direction.DESCENDING).limit(5).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
+
+                    for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
+                        switch (document.getType()) {
+                            case ADDED:
+                            case MODIFIED:
+                                int tempType = Integer.parseInt(document.getDocument().getData().get("Type").toString());
+
+
+
+
+                                switch (tempType)
+                                {
+                                    case 0:
+                                        break;
+
+                                    case 1:
+                                        break;
+
+                                    case 2:
+                                        break;
+
+                                    case 3:
+                                        break;
+                                }
+                                break;
+                            case REMOVED:
+                                break;
+                        }
+                    }
+                }
+            });
+        }
     }
 
     public void RemoveMonitorUserChatData()
@@ -1046,6 +1094,12 @@ public class FirebaseManager {
                             userData.SetUserToken(Token);
                         } else
                             userData.SetUserToken(null);
+
+                        if (document.getData().containsKey("Vip")) {
+                            Boolean vip = (Boolean)document.getData().get("Vip");
+                            userData.SetUserVip(vip);
+                        } else
+                            userData.SetUserVip(false);
 
                         if (document.getData().containsKey("Age")) {
                             userData.SetUserAge(Integer.parseInt(document.getData().get("Age").toString()));
@@ -2336,15 +2390,30 @@ public class FirebaseManager {
                     Map<String, Object> Context = new HashMap<>();
                     Context.put(Integer.toString((int)newPopulation[0]), data);
 
-                    Map<String, Object> ContextData = new HashMap<>();
-                    ContextData.put("ClubContext", Context);
-
                     mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(Integer.toString((int)newPopulation[0]))
                             .set(data, SetOptions.merge())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     listener.CompleteListener();
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+                    Map<String, Object> ContextData = new HashMap<>();
+                    ContextData.put("ContextCount", (int)newPopulation[0]);
+
+                    mDataBase.collection("ClubData_Simple").document(clubIndex)
+                            .set(ContextData, SetOptions.merge())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully written!");
                                 }
                             })
@@ -2397,6 +2466,19 @@ public class FirebaseManager {
                                 tempData.Context = document.getData().get("Context").toString();
                                 tempData.Date = document.getData().get("Date").toString();
                                 tempData.writerIndex = document.getData().get("writerIndex").toString();
+
+                                if (document.getData().containsKey("ImgList")) {
+                                    tempData.ClearImg();
+                                    HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ImgList");
+                                    Set set = tempImg.entrySet();
+                                    Iterator iterator = set.iterator();
+                                    while (iterator.hasNext()) {
+                                        Map.Entry entry = (Map.Entry) iterator.next();
+                                        String key = (String) entry.getKey();
+                                        String value = (String) entry.getValue();
+                                        tempData.SetImg(key, value);
+                                    }
+                                }
 
                                 TKManager.getInstance().TargetClubData.AddClubContext(Integer.toString(TKManager.getInstance().TargetClubData.GetClubContextCount()), tempData);
 

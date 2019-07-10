@@ -89,21 +89,21 @@ public class ClubActivity extends AppCompatActivity {
 
 
                 ClubContextData tempData = new ClubContextData();
-                tempData.Context = "asdasd";
-                tempData.ContextType = tempRange;
+                tempData.SetContext("asdasd");
+                tempData.SetContextType(tempRange);
                 if(tempRange == 1)
                 {
-                    tempData.Img.put("0", TKManager.getInstance().MyData.GetUserImgThumb());
+                    tempData.SetImg("0", TKManager.getInstance().MyData.GetUserImgThumb());
                 }
                 if( tempRange == 2)
                 {
-                    tempData.Img.put("0", TKManager.getInstance().MyData.GetUserImgThumb());
-                    tempData.Img.put("1", TKManager.getInstance().MyData.GetUserImgThumb());
+                    tempData.SetImg("0", TKManager.getInstance().MyData.GetUserImgThumb());
+                    tempData.SetImg("1", TKManager.getInstance().MyData.GetUserImgThumb());
 
                 }
 
-                tempData.Date = CommonFunc.getInstance().GetCurrentTime();
-                tempData.writerIndex = TKManager.getInstance().MyData.GetUserIndex();
+                tempData.SetDate(CommonFunc.getInstance().GetCurrentTime());
+                tempData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
@@ -180,7 +180,13 @@ public class ClubActivity extends AppCompatActivity {
         rv_Club_Content.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Content, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
-                startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
+                ClubContextData tempData = new ClubContextData();
+                tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(position));
+                Intent intent = new Intent(getApplicationContext(), ClubBodyActivity.class);
+                intent.putExtra("position",position);
+                startActivityForResult(intent, 1000);
+
+               // startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
                 //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
                 if (mAppStatus.bCheckMultiSend == false) {

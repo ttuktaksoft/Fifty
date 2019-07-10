@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubBodyImgAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubBodyReplyAdapter;
@@ -32,11 +36,19 @@ public class ClubBodyActivity extends AppCompatActivity {
     ClubBodyImgAdapter mImgAdapter;
     ClubBodyReplyAdapter mReplyAdapter;
     Context mContext;
+    ClubContextData tempData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_body);
         mContext = getApplicationContext();
+
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        int nPosition = getIntent().getIntExtra("position", 0);
+
+        tempData = new ClubContextData();
+        tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(nPosition));
 
         tb_Club_Body_Toolbar = findViewById(R.id.tb_Club_Body_Toolbar);
         iv_Club_Body_Profile = findViewById(R.id.iv_Club_Body_Profile);
@@ -47,18 +59,20 @@ public class ClubBodyActivity extends AppCompatActivity {
         rv_Club_Body_Reply_List = findViewById(R.id.rv_Club_Body_Reply_List);
 
         tb_Club_Body_Toolbar.setNavigationIcon(R.drawable.icon_backarrow);
-        tb_Club_Body_Toolbar.setTitle("냥냥 클럽");
+        tb_Club_Body_Toolbar.setTitle(TKManager.getInstance().TargetClubData.GetClubName());
         setSupportActionBar(tb_Club_Body_Toolbar);
 
-        Glide.with(mContext)
+        /*Glide.with(mContext)
                 //.load(mMyData.arrSendDataList.get(position).strTargetImg)
                 .load(R.drawable.login_icon)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .thumbnail(0.1f)
                 .into(iv_Club_Body_Profile);
-        tv_Club_Body_Nickname.setText("피프티하우스");
-        tv_Club_Body_Date.setText("13:05");
-        tv_Club_Body_Desc.setText("본문 내용");
+*/
+        CommonFunc.getInstance().DrawImageByGlide(ClubBodyActivity.this, iv_Club_Body_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
+        tv_Club_Body_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
+        tv_Club_Body_Date.setText(tempData.GetDate());
+        tv_Club_Body_Desc.setText(tempData.GetContext());
 
         initRecyclerImgView();
         initRecyclerReplyView();
@@ -76,8 +90,8 @@ public class ClubBodyActivity extends AppCompatActivity {
 
     private void initRecyclerImgView()
     {
-        mImgAdapter = new ClubBodyImgAdapter(getApplicationContext());
-        mImgAdapter.setImgCount(3);
+        mImgAdapter = new ClubBodyImgAdapter(getApplicationContext(), tempData);
+        mImgAdapter.setImgCount(tempData.GetImgCount());
         mImgAdapter.setHasStableIds(true);
 
         rv_Club_Body_Img_List.setAdapter(mImgAdapter);
@@ -121,7 +135,7 @@ public class ClubBodyActivity extends AppCompatActivity {
     private void initRecyclerReplyView()
     {
         mReplyAdapter = new ClubBodyReplyAdapter(getApplicationContext());
-        mReplyAdapter.setReplyCount(3);
+        mReplyAdapter.setReplyCount(tempData.GetReplyCount());
         mReplyAdapter.setHasStableIds(true);
 
         rv_Club_Body_Reply_List.setAdapter(mReplyAdapter);

@@ -71,13 +71,12 @@ class ClubContentReplyListHolder extends RecyclerView.ViewHolder {
     public void setClubContentReply(int pos)
     {
 
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Reply_Profile, R.drawable.dummy_0, true);
-
         ClubContextData tempData = new ClubContextData();
         tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
-        tv_Club_Con_Reply_Nickname.setText(tempData.Reply.get("0").writerIndex.toString());
-        tv_Club_Con_Reply_Date.setText(tempData.Reply.get("0").Date.toString());
-        tv_Club_Con_Reply_Desc.setText(tempData.Reply.get("0").Context.toString());
+        tv_Club_Con_Reply_Nickname.setText(tempData.GetReply(Integer.toString(pos)).GetWriterIndex());
+        tv_Club_Con_Reply_Date.setText(tempData.GetReply(Integer.toString(pos)).GetDate());
+        tv_Club_Con_Reply_Desc.setText(tempData.GetReply(Integer.toString(pos)).GetContext());
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Reply_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetReply(Integer.toString(pos)).GetWriterIndex()).GetUserImgThumb(), true);
 
         /*tv_Club_Con_Reply_Nickname.setText("피프티하우스");
         tv_Club_Con_Reply_Date.setText("19-04-15");

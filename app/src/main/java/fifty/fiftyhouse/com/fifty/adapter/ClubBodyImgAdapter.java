@@ -10,14 +10,19 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class ClubBodyImgAdapter extends RecyclerView.Adapter<ClubBodyImgListHolder> {
 
     Context mContext;
     int mImgCount = 0;
+    ClubContextData tempData;
 
-    public ClubBodyImgAdapter(Context context) {
+    public ClubBodyImgAdapter(Context context, ClubContextData data) {
+        tempData = new ClubContextData();
+        tempData = data;
         mContext = context;
     }
 
@@ -25,7 +30,7 @@ public class ClubBodyImgAdapter extends RecyclerView.Adapter<ClubBodyImgListHold
     public ClubBodyImgListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_club_body_img, parent, false);
 
-        return new ClubBodyImgListHolder(view);
+        return new ClubBodyImgListHolder(view, tempData);
     }
 
     @Override
@@ -50,16 +55,21 @@ class ClubBodyImgListHolder extends RecyclerView.ViewHolder {
 
     public ImageView iv_Club_Body_Img;
     Context mContext;
+    ClubContextData tempData;
 
-    public ClubBodyImgListHolder(View itemView) {
+    public ClubBodyImgListHolder(View itemView,  ClubContextData data) {
         super(itemView);
         mContext = itemView.getContext();
+        tempData = data;
 
         iv_Club_Body_Img = itemView.findViewById(R.id.iv_Club_Body_Img);
     }
 
     public void setClubBodyImg(int pos)
     {
+
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Body_Img, tempData.GetImg(Integer.toString(pos)), false);
+        /*
         // TODO 클럽 내용 추가
         if(pos == 0)
         {
@@ -87,6 +97,6 @@ class ClubBodyImgListHolder extends RecyclerView.ViewHolder {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.1f)
                     .into(iv_Club_Body_Img);
-        }
+        }*/
     }
 }

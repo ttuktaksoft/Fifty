@@ -35,6 +35,7 @@ public class UserData {
     private String Memo;
     private  String Location;
 
+    private boolean Vip;
 
     private Map<String, String> FavoriteList = new LinkedHashMap<String, String>(){
         @Override
@@ -134,6 +135,15 @@ public class UserData {
     public String GetUserIndex()
     {
         return Index;
+    }
+
+    public void SetUserVip(Boolean vip)
+    {
+        Vip = vip;
+    }
+    public Boolean GetUserVip()
+    {
+        return Vip;
     }
 
     public void SetUserMemo(String memo)

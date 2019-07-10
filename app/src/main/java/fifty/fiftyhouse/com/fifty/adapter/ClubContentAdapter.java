@@ -127,8 +127,8 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                break;
            case 1:
                setClubType(BIG_IMG);
-               if(!CommonFunc.getInstance().CheckStringNull(tempData.Img.get("0")))
-                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_BigImg, tempData.Img.get("0"), false);
+               if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("0")))
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_BigImg, tempData.GetImg("0"), false);
                else
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_BigImg, R.drawable.bg_empty_square, false);
 
@@ -136,31 +136,31 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
            case 2:
                setClubType(IMG);
 
-               if(!CommonFunc.getInstance().CheckStringNull(tempData.Img.get("0")))
-                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_1, tempData.Img.get("0"), false);
+               if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("0")))
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_1, tempData.GetImg("0"), false);
                else
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_1, R.drawable.bg_empty_square, false);
 
-               if(!CommonFunc.getInstance().CheckStringNull(tempData.Img.get("1")))
-                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_2, tempData.Img.get("1"), false);
+               if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("1")))
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_2, tempData.GetImg("1"), false);
                else
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_2, R.drawable.bg_empty_square, false);
 
-               if(!CommonFunc.getInstance().CheckStringNull(tempData.Img.get("2")))
-                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_3, tempData.Img.get("2"), false);
+               if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("2")))
+                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_3, tempData.GetImg("2"), false);
                else
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_3, R.drawable.bg_empty_square, false);
 
                break;
        }
 
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Profile, TKManager.getInstance().UserData_Simple.get(tempData.writerIndex).GetUserImgThumb(), true);
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
 
-        tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.writerIndex).GetUserNickName());
+        tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
         tv_Club_Con_Date.setText(tempData.Date);
         tv_Club_Con_Desc.setText(tempData.Context);
 
-        mAdapter.setReplyCount(tempData.Reply.size());
+        mAdapter.setReplyCount(tempData.GetReplyCount());
 
         //mAdapter.setReplyCount(2);
 
