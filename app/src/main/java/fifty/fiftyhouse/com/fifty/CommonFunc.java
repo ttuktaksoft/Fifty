@@ -739,7 +739,18 @@ public class CommonFunc {
 
         for(int i=0; i<UserList.size(); i++)
         {
-            tempDataMap.put(tempDataList.get(i), TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist());
+
+            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)) == null)
+            {
+                Log.d("#^&#^#^", "index : " + tempDataList.get(i));
+
+            }
+            else
+            {
+                tempDataMap.put(tempDataList.get(i), TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist());
+            }
+
+           // tempDataMap.put(tempDataList.get(i), (long) 0);
         }
 
         Iterator it = sortByValue(tempDataMap, descending).iterator();

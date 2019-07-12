@@ -1,15 +1,20 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -18,11 +23,14 @@ import com.kakao.usermgmt.LoginButton;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -35,7 +43,7 @@ import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 public class LoginActivity extends AppCompatActivity {
 
     ImageView iv_kakao_login, iv_Login;
-
+    private static final int REQUEST_LOCATION = 1;
     private SessionCallback callback;
 
 
@@ -55,57 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         iv_kakao_login.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
+
                 // TODO 로그인 처리
-
-
-
-                DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
-                {
-                    @Override
-                    public void Listener()
-                    {
-                        DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
-                        //CommonFunc.getInstance().GetUserList(LoginActivity.this);
-
-                        FirebaseManager.CheckFirebaseComplete listen = new FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
-
-                                FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
-                                    @Override
-                                    public void CompleteListener() {
-//                        CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
-                                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
-                                    }
-
-                                    @Override
-                                    public void CompleteListener_Yes() {
-
-                                    }
-
-                                    @Override
-                                    public void CompleteListener_No() {
-                                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
-                                    }
-                                };
-
-                                FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
-                            }
-
-                            @Override
-                            public void CompleteListener_Yes() {
-                            }
-
-                            @Override
-                            public void CompleteListener_No() {
-                                DialogFunc.getInstance().DismissLoadingPage();
-                            }
-                        };
-
-                        FirebaseManager.getInstance().GetUserIndex(listen);
-                    }
-                };
-                DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM_DESC), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+                Session.getCurrentSession().addCallback(callback);
+             //   Session.getCurrentSession().checkAndImplicitOpen();
+                Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);
             }
         });
 
@@ -217,14 +180,40 @@ public class LoginActivity extends AppCompatActivity {
 
         public void requestMe() {
 
-            List<String> keys = new ArrayList<>();
+         /*   final Map<String, String> properties = new HashMap<String, String>();
+            properties.put("Index", "67");
+
+            UserManagement.getInstance().requestUpdateProfile(new ApiResponseCallback<Long>() {
+                @Override
+                public void onSuccess(Long result) {
+                    Log.i("Test", "MainActivity onSuccess");
+                }
+
+                @Override
+                public void onSessionClosed(final ErrorResult errorResult) {
+                    Log.i("Test", "MainActivity onSessionClosed");
+                }
+
+                @Override
+                public void onFailure(final ErrorResult errorResult) {
+                    Log.i("Test", "MainActivity onFailure ErrorResult = " + errorResult);
+                }
+
+                @Override
+                public void onNotSignedUp() {
+                    Log.i("Test", "MainActivity onNotSignedUp");
+                }
+            }, properties);*/
+
+        List<String> keys = new ArrayList<>();
             keys.add("properties.nickname");
+            keys.add("properties.Index");
             keys.add("properties.profile_image");
             keys.add("kakao_account.email");
             keys.add("kakao_account.gender");
             keys.add("kakao_account.age_range");
 
-            UserManagement.getInstance().me(keys, new MeV2ResponseCallback() {
+           UserManagement.getInstance().me(keys, new MeV2ResponseCallback() {
                 @Override
                 public void onFailure(ErrorResult errorResult) {
                     String message = "failed to get user info. msg=" + errorResult;
@@ -242,9 +231,92 @@ public class LoginActivity extends AppCompatActivity {
                     Logger.d("email: " + response.getKakaoAccount().getEmail());
                     Logger.d("email: " + response.getKakaoAccount().getAgeRange());
                     Logger.d("email: " + response.getKakaoAccount().getGender());
+                    Map<String, String> properties = new HashMap<String, String>();
+                    properties = response.getProperties();
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
+                    String tempUid = properties.get("Index");
 
-                    DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                    if(CommonFunc.getInstance().CheckStringNull(tempUid))
+                    {
+                        DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
+                        {
+                            @Override
+                            public void Listener()
+                            {
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                CommonFunc.getInstance().MoveAuthActivity(LoginActivity.this);
+                            }
+                        };
+                        DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, AuthListener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM_DESC), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+
+                    }
+                    else
+                    {
+                        TKManager.getInstance().MyData.SetUserIndex(tempUid);
+
+                        CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+                            @Override
+                            public void CompleteListener() {
+
+
+                                FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                    }
+                                };
+
+                                FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                                FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        CommonFunc.getInstance().GetUserList(LoginActivity.this);
+                                    }
+                                };
+
+                                FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
+                            }
+                        };
+
+                        CommonFunc.getInstance().GetUserLocation(LoginActivity.this, listener);
+
+                    }
+
+
+                 /*DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
                     {
                         @Override
                         public void Listener()
@@ -254,14 +326,12 @@ public class LoginActivity extends AppCompatActivity {
                             //MoveAuthActivity();
                         }
                     };
-                    DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+                    DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));*/
 
                 }
             });
 
         }
     }
-
-
 
 }

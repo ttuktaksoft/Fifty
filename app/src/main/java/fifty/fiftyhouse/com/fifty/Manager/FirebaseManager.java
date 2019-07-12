@@ -119,6 +119,7 @@ public class FirebaseManager {
         UserLoading++;
         if (UserLoading == GetFireBaseLoadingCount()) {
             UserLoading = 0;
+            SetFireBaseLoadingCount(0);
             if (listener != null)
                 listener.CompleteListener();
         }
@@ -128,6 +129,7 @@ public class FirebaseManager {
         UserLoading++;
         if (UserLoading == GetFireBaseLoadingCount()) {
             UserLoading = 0;
+            SetFireBaseLoadingCount(0);
             if (listener != null)
                 listener.CompleteListener();
         }
@@ -393,7 +395,7 @@ public class FirebaseManager {
                 });
 
         Map<String, Object> New = new HashMap<>();
-        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentTime());
+        final long TodayDate = Long.parseLong(CommonFunc.getInstance().GetCurrentTime());
         New.put("value", TodayDate);
         mDataBase.collection("UserList_New").document(TKManager.getInstance().MyData.GetUserIndex()).set(New, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -1275,8 +1277,6 @@ public class FirebaseManager {
                         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
                             RegistUserGeoInfo();
 
-
-
                         if (document.getData().containsKey("Dist_Region")) {
                             userData.SetUserDist_Region(Double.parseDouble(document.getData().get("Dist_Region").toString()));
                         } else
@@ -1402,7 +1402,7 @@ public class FirebaseManager {
                     if(TKManager.getInstance().UserData_Simple.get(documentSnapshot.getId().toString()) == null)
                     {
                         AddFireBaseLoadingCount();
-                        Log.d(TAG, documentSnapshot.getId() + " => " + documentSnapshot.getData());
+                        Log.d(TAG, "GEO : " +documentSnapshot.getId() + " => " + documentSnapshot.getData());
                         GetUserData_Simple(documentSnapshot.getId(), TKManager.getInstance().UserData_Simple, listener);
                     }
                 }
@@ -1515,7 +1515,7 @@ public class FirebaseManager {
                             if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                             {
                                 AddFireBaseLoadingCount();
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Log.d(TAG, "HOT : " +document.getId() + " => " + document.getData());
                                 GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                             }
                         }
@@ -1546,7 +1546,7 @@ public class FirebaseManager {
                             if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                             {
                                 AddFireBaseLoadingCount();
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Log.d(TAG, "NEW : " +document.getId() + " => " + document.getData());
                                 GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                             }
                         }
@@ -1575,7 +1575,7 @@ public class FirebaseManager {
                             if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                             {
                                 AddFireBaseLoadingCount();
-                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Log.d(TAG, "FR : " +document.getId() + " => " + document.getData());
                                 GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                             }
                         }
@@ -1596,7 +1596,7 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        Log.d(TAG, "GetUserData_Simple DocumentSnapshot data: " + document.getData());
 
                         UserData tempUser = new UserData();
 

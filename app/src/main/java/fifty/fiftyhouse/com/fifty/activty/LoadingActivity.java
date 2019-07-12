@@ -5,14 +5,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Point;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Display;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -38,7 +45,7 @@ public class LoadingActivity extends AppCompatActivity {
         mActivity = this;
 
 
-      /*  try {
+        try {
             PackageInfo info = getPackageManager().getPackageInfo("fifty.fiftyhouse.com.fifty", PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
@@ -49,7 +56,7 @@ public class LoadingActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        }*/
+        }
 
         final Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -162,10 +169,10 @@ public class LoadingActivity extends AppCompatActivity {
                 TKManager.getInstance().MyData.SetUserIndex(userIndex);
 
                 int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-                if(permissionCamera == PackageManager.PERMISSION_DENIED) {
-                    ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                    if(permissionCamera == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
-                } else {
+                    } else {
                     CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                         @Override
                         public void CompleteListener() {
@@ -198,7 +205,24 @@ public class LoadingActivity extends AppCompatActivity {
 
                         @Override
                         public void CompleteListener_No() {
-                            CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                            FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                    CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                }
+                            };
+
+                            FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
                         }
                     };
 
@@ -253,7 +277,24 @@ public class LoadingActivity extends AppCompatActivity {
                                     }
                                     else
                                     {
-                                        CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                        FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                                            @Override
+                                            public void CompleteListener() {
+                                                CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_Yes() {
+
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_No() {
+                                                CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+                                            }
+                                        };
+
+                                        FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
                                     }
 
                                 }

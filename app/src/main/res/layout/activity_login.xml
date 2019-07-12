@@ -47,7 +47,8 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_Login_Desc_1"
             app:layout_constraintLeft_toLeftOf="@+id/v_Login"
             app:layout_constraintRight_toRightOf="@+id/v_Login"
-            android:background="@drawable/bt_kakao_login" />
+            android:src="@drawable/bt_kakao_login"
+            />
 
         <TextView
             android:id="@+id/tv_Login_Desc_2"

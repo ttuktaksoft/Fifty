@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -15,6 +15,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:buttonStyle">@style/button</item>-->
         <item name="windowNoTitle">true</item>
+
     </style>
     <style name="BaseTabTextWidget" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/my_font2</item>

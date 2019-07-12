@@ -21,13 +21,19 @@ import android.webkit.WebViewClient;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.protobuf.Any;
+import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.authorization.accesstoken.AccessToken;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import retrofit2.Call;
@@ -91,37 +97,79 @@ public class AuthActivity extends AppCompatActivity {
                         Object getAuth = iamportClient.certification_by_imp_uid(token, impUid);
                         ((Call) getAuth).enqueue(new Callback<Certification>() {
                             @Override
-                            public void onResponse(Call<Certification> call, Response<Certification> response) {
+                            public void onResponse(Call<Certification> call, final Response<Certification> response) {
                                 if (response.isSuccessful()) {
                                     Log.d("#### IAM ", String.valueOf(response.body().response));
 
-                                    int i = Integer.parseInt(String.valueOf(response.body().response.birth));
+                                    final int i = Integer.parseInt(String.valueOf(response.body().response.birth));
                                     if (i >= 50) {
-                                        String tempGender = String.valueOf(response.body().response.gender);
-                                        TKManager.getInstance().MyData.SetUserName(response.body().response.name);
 
-                                        TKManager.getInstance().MyData.SetUserGender(Integer.parseInt(tempGender));
-                                        TKManager.getInstance().MyData.SetUserAge(i);
+                                        FirebaseManager.CheckFirebaseComplete IndexListen = new FirebaseManager.CheckFirebaseComplete() {
+                                            @Override
+                                            public void CompleteListener() {
 
-                                        String strPhoneNumber;
-                                        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                                        try {
-                                            if (ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                                                // TODO: Consider calling
-                                                return;
+                                                final Map<String, String> properties = new HashMap<String, String>();
+                                                properties.put("Index", TKManager.getInstance().MyData.GetUserIndex());
+
+                                                UserManagement.getInstance().requestUpdateProfile(new ApiResponseCallback<Long>() {
+                                                    @Override
+                                                    public void onSuccess(Long result) {
+
+                                                        String tempGender = String.valueOf(response.body().response.gender);
+                                                        TKManager.getInstance().MyData.SetUserName(response.body().response.name);
+
+                                                        TKManager.getInstance().MyData.SetUserGender(Integer.parseInt(tempGender));
+                                                        TKManager.getInstance().MyData.SetUserAge(i);
+
+                                                        String strPhoneNumber;
+                                                        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                                                        try {
+                                                            if (ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                                                                // TODO: Consider calling
+                                                                return;
+                                                            }
+
+                                                            String tmpPhoneNumber = mgr.getLine1Number();
+                                                            strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
+
+                                                        } catch (Exception e) {
+                                                            strPhoneNumber = "";
+                                                        }
+
+                                                        TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
+                                                        MoveSignUpActivity();
+
+                                                        Log.i("Test", "MainActivity onSuccess");
+                                                    }
+
+                                                    @Override
+                                                    public void onSessionClosed(final ErrorResult errorResult) {
+                                                        Log.i("Test", "MainActivity onSessionClosed");
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(final ErrorResult errorResult) {
+                                                        Log.i("Test", "MainActivity onFailure ErrorResult = " + errorResult);
+                                                    }
+
+                                                    @Override
+                                                    public void onNotSignedUp() {
+                                                        Log.i("Test", "MainActivity onNotSignedUp");
+                                                    }
+                                                }, properties);
                                             }
 
-                                            String tmpPhoneNumber = mgr.getLine1Number();
-                                            strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
+                                            @Override
+                                            public void CompleteListener_Yes() {
+                                            }
 
-                                        } catch (Exception e) {
-                                            strPhoneNumber = "";
-                                        }
+                                            @Override
+                                            public void CompleteListener_No() {
+                                                DialogFunc.getInstance().DismissLoadingPage();
+                                            }
+                                        };
 
-                                        TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
-
-
-                                        MoveSignUpActivity();
+                                        FirebaseManager.getInstance().GetUserIndex(IndexListen);
                                     }
                                     else
                                     {
