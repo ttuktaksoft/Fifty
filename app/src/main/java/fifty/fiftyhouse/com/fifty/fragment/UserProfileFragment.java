@@ -37,6 +37,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
+import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.SettingActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
@@ -279,10 +280,10 @@ public class UserProfileFragment extends Fragment {
         OnSingleClickListener Listener_3 = new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
+                if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0 &&
+                        TKManager.getInstance().MyData.GetRequestFriendListCount() == 0)
                 {
-                    Intent intent = new Intent(mContext, UserListActivity.class);
-                    intent.putExtra("Type",CommonData.USER_LIST_MY_FRIEND);
+                    Intent intent = new Intent(mContext, FriendListActivity.class);
                     startActivityForResult(intent, 1000);
                 }
                 else
@@ -290,17 +291,17 @@ public class UserProfileFragment extends Fragment {
                     DialogFunc.getInstance().ShowLoadingPage(mContext);
 
                     Set KeySet = TKManager.getInstance().MyData.GetUserFriendListKeySet();
+                    KeySet.addAll(TKManager.getInstance().MyData.GetRequestFriendListKeySet());
                     Iterator iterator = KeySet.iterator();
 
-                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount());
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount() + TKManager.getInstance().MyData.GetRequestFriendListCount());
 
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
                             DialogFunc.getInstance().DismissLoadingPage();
 
-                            Intent intent = new Intent(mContext, UserListActivity.class);
-                            intent.putExtra("Type",CommonData.USER_LIST_MY_FRIEND);
+                            Intent intent = new Intent(mContext, FriendListActivity.class);
                             startActivityForResult(intent, 1000);
                         }
 

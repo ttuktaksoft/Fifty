@@ -85,6 +85,7 @@
     <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
     <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_FRIEND_REQUEST">나를 추가한 친구가 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
     <string name="MSG_APP_EXIT">피프티를 종료하시겠습니까?</string>
     <string name="MSG_EXIT">종료</string>
@@ -93,6 +94,8 @@
     <string name="MSG_TERMS_3">환불 약관</string>
     <string name="MSG_ME_CONFIRM">본인인증</string>
     <string name="MSG_ME_CONFIRM_DESC">개인 정보 확인을 위해\n본인인증을 진행해주세요</string>
+    <string name="MSG_FRIEND_MY">내가 추가한 친구</string>
+    <string name="MSG_FRIEND_REQUEST">나를 추가한 친구</string>
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
     <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>

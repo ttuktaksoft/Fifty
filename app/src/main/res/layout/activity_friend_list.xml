@@ -13,7 +13,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tl_FriendList_TopTab"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/mid_bar_height"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ui_FriendList_TopBar"
