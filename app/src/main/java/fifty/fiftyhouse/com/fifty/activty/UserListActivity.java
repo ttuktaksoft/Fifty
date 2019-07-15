@@ -26,6 +26,7 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -60,6 +61,8 @@ public class UserListActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_UserList_TopBar.findViewById(R.id.iv_TopBar_Back);
         rv_UserList_List = findViewById(R.id.rv_UserList_List);
         tv_UserList_List_Empty = findViewById(R.id.tv_UserList_List_Empty);
+
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title, tv_UserList_List_Empty);
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override

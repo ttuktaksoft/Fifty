@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -44,6 +45,8 @@ public class MainTodayViewPager extends Fragment {
 
             rv_Main_Today_UserList = v_FragmentView.findViewById(R.id.rv_Main_Today_UserList);
             tv_Main_Today_Desc = v_FragmentView.findViewById(R.id.tv_Main_Today_Desc);
+
+            GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_Main_Today_Desc);
 
             initSubInfo();
             initRecyclerView();

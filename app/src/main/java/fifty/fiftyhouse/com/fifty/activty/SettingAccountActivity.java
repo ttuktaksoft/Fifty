@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
@@ -36,6 +37,9 @@ public class SettingAccountActivity extends AppCompatActivity {
         et_Setting_Account_Password = findViewById(R.id.et_Setting_Account_Password);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ACCOUNT));
+
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title, tv_Setting_Account_Save);
+
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

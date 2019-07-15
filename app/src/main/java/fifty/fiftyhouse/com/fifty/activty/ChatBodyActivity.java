@@ -30,6 +30,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -92,6 +93,8 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_Chat_Body_Plus = findViewById(R.id.iv_Chat_Body_Plus);
         iv_Chat_Body_Send = findViewById(R.id.iv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
+
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override

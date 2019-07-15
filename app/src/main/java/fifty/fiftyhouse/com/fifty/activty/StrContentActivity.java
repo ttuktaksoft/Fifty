@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
@@ -36,6 +37,8 @@ public class StrContentActivity extends AppCompatActivity {
         tv_StrContent_Desc = findViewById(R.id.tv_StrContent_Desc);
 
         tv_TopBar_Title.setText(title);
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
+        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_StrContent_Desc);
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

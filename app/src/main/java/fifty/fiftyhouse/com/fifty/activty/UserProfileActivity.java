@@ -21,6 +21,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -76,6 +77,9 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Chat = findViewById(R.id.v_UserProfile_BottomBar_Chat);
         v_UserProfile_BottomBar_Friend = findViewById(R.id.v_UserProfile_BottomBar_Friend);
         tv_UserProfile_BottomBar_Friend = findViewById(R.id.tv_UserProfile_BottomBar_Friend);
+
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_UserProfile_BottomBar_Friend);
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override

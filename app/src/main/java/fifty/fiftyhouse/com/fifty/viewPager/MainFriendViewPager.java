@@ -26,6 +26,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -58,6 +59,7 @@ public class MainFriendViewPager extends Fragment {
             rv_Main_Friend_UserList = v_FragmentView.findViewById(R.id.rv_Main_Friend_UserList);
             tv_Main_Friend_Count = v_FragmentView.findViewById(R.id.tv_Main_Friend_Count);
 
+            GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_Main_Friend_Count);
             initSubInfo();
             initRecyclerView();
         }

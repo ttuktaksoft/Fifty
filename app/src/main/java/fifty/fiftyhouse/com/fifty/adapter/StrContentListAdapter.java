@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class StrContentListAdapter extends RecyclerView.Adapter<StrContentListListHolder> {
@@ -51,6 +52,7 @@ class StrContentListListHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
 
         tv_StrContent_Desc = itemView.findViewById(R.id.tv_StrContent_Desc);
+        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_StrContent_Desc);
     }
 
     public void setData(int i)

@@ -32,6 +32,7 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -125,6 +126,9 @@ public class UserProfileFragment extends Fragment {
         rv_UserProfile_Info_Photo = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Photo);
         rv_UserProfile_Info_Menu = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Menu);
 
+        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Location,
+                tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3,
+                tv_UserProfile_Info_Terms_1, tv_UserProfile_Info_Terms_2, tv_UserProfile_Info_Terms_3);
 
         if(mMyProfile)
         {
@@ -291,7 +295,8 @@ public class UserProfileFragment extends Fragment {
                     DialogFunc.getInstance().ShowLoadingPage(mContext);
 
                     Set KeySet = TKManager.getInstance().MyData.GetUserFriendListKeySet();
-                    KeySet.addAll(TKManager.getInstance().MyData.GetRequestFriendListKeySet());
+
+                   // KeySet.addAll(TKManager.getInstance().MyData.GetRequestFriendListKeySet());
                     Iterator iterator = KeySet.iterator();
 
                     FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount() + TKManager.getInstance().MyData.GetRequestFriendListCount());

@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -123,6 +124,7 @@ class MyProfileEditMenuAgeListHolder extends RecyclerView.ViewHolder {
         tv_MyProfile_Edit_Age_Menu_Gender = itemView.findViewById(R.id.tv_MyProfile_Edit_Age_Menu_Gender);
         tv_MyProfile_Edit_Age_Menu_Age = itemView.findViewById(R.id.tv_MyProfile_Edit_Age_Menu_Age);
 
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_MyProfile_Edit_Age_Menu_Age);
 
     }
 

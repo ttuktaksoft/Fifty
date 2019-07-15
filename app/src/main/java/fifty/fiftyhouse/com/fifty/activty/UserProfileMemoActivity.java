@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -30,6 +31,10 @@ public class UserProfileMemoActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_UserProfile_Memo_TopBar.findViewById(R.id.iv_TopBar_Back);
         tv_UserProfile_Memo = findViewById(R.id.tv_UserProfile_Memo);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_MEMO));
+
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
+        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_UserProfile_Memo);
+
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

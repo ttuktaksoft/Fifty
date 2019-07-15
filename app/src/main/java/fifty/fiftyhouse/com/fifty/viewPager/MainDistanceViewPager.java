@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -65,6 +66,7 @@ public class MainDistanceViewPager extends Fragment {
                 }
             });
 
+           GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_Main_Dis_Curr_Pos, tv_Main_Dis_Sort_Type);
             initRecyclerView();
         }
         else

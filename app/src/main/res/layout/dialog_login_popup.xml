@@ -28,6 +28,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/iv_Login_Popup_BG"
         android:gravity="center"
         android:textSize="20dp"
+        android:fontFamily="Menu"
         android:textColor="@color/str_color_1"/>
 
     <EditText

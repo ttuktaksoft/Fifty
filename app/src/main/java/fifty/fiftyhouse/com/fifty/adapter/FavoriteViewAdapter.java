@@ -20,6 +20,7 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
@@ -111,6 +112,7 @@ class FavoriteViewHolder extends RecyclerView.ViewHolder {
 
         iv_Favorite_View_Bg  = itemView.findViewById(R.id.iv_Favorite_View_Bg);
         tv_Favorite_View_Name = itemView.findViewById(R.id.tv_Favorite_View_Name);
+        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_Favorite_View_Name);
     }
 
     public void setData(String favorite, boolean add, boolean selectView, boolean selectBG)

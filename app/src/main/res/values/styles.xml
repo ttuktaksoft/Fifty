@@ -18,13 +18,13 @@
 
     </style>
     <style name="BaseTabTextWidget" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="android:fontFamily">@font/my_font2</item>
+        <item name="android:fontFamily">@font/menu</item>
         <item name="android:textSize">@dimen/default_font_size</item>
         <item name="android:textColor">@color/str_color_1</item>
     </style>
 
     <style name="BaseTextView" parent="@android:style/Widget.TextView">
-        <item name="android:fontFamily">@font/my_font2</item>
+        <item name="android:fontFamily">@font/menu</item>
         <item name="android:textColor">@color/red</item>
         <item name="android:textSize">@dimen/default_font_size</item>
     </style>
@@ -36,6 +36,24 @@
     </style>
 
     <style name="TobBarTextView" parent="BaseTextView">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">@dimen/default_font_size</item>
+        <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
+    </style>
+
+    <style name="BaseContentTextView" parent="@android:style/Widget.TextView">
+        <item name="android:fontFamily">@font/content</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textSize">@dimen/default_font_size</item>
+    </style>
+
+    <style name="BaseContentTextView_AutoSize" parent="BaseContentTextView">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">@dimen/default_font_size_small_1</item>
+        <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
+    </style>
+
+    <style name="TobBarContentTextView" parent="BaseContentTextView">
         <item name="autoSizeTextType">uniform</item>
         <item name="autoSizeMinTextSize">@dimen/default_font_size</item>
         <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
@@ -56,6 +74,7 @@
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">@dimen/default_font_size_small</item>
+        <item name="android:fontFamily">@font/menu</item>
     </style>
 
 </resources>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -42,6 +43,8 @@ public class MainNewViewPager extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_new, container, false);
             rv_Main_New_UserList = v_FragmentView.findViewById(R.id.rv_Main_New_UserList);
             tv_Main_New_Desc = v_FragmentView.findViewById(R.id.tv_Main_New_Desc);
+
+            GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_Main_New_Desc);
 
             initRecyclerView();
 

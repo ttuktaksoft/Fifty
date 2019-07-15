@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class UserProfileClubAdapter extends RecyclerView.Adapter<UserProfileClubListHolder> {
@@ -70,6 +71,7 @@ class UserProfileClubListHolder extends RecyclerView.ViewHolder{
 
         iv_UserProfile_Club = itemView.findViewById(R.id.iv_UserProfile_Club);
         tv_UserProfile_Club = itemView.findViewById(R.id.tv_UserProfile_Club);
+        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_UserProfile_Club);
     }
 
     public void setData(int i)

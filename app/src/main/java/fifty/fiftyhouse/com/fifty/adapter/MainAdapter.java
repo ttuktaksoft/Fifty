@@ -20,6 +20,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
@@ -225,6 +226,8 @@ class MainUserListHolder extends RecyclerView.ViewHolder{
         iv_Main_Thumbnail_3 = itemView.findViewById(R.id.iv_Main_Thumbnail_3);
         tv_Main_Thumbnail_Info_NickName = itemView.findViewById(R.id.tv_Main_Thumbnail_Info_NickName);
         tv_Main_Thumbnail_Info_State = itemView.findViewById(R.id.tv_Main_Thumbnail_Info_State);
+
+        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_Main_Thumbnail_Info_NickName, tv_Main_Thumbnail_Info_State);
     }
 }
 

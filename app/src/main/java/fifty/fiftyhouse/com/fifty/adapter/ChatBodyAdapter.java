@@ -28,6 +28,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -110,6 +111,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         tv_Chat_Body_Msg = itemView.findViewById(R.id.tv_Chat_Body_Msg);
         tv_Chat_Body_Date = itemView.findViewById(R.id.tv_Chat_Body_Date);
         tv_Chat_Body_Check = itemView.findViewById(R.id.tv_Chat_Body_Check);
+
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_Chat_Body_NickName);
+        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_Chat_Body_Msg, tv_Chat_Body_Date, tv_Chat_Body_Check);
     }
 
     public void setChatData(int pos)

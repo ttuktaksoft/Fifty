@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.fragment.MainFragment;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -54,6 +55,8 @@ public class FriendListActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_FriendList_TopBar.findViewById(R.id.iv_TopBar_Back);
         vp_FriendList = findViewById(R.id.vp_FriendList);
         tl_FriendList_TopTab = findViewById(R.id.tl_FriendList_TopTab);
+
+        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_FRIEND));
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
