@@ -79,6 +79,8 @@ public class SignUpActivity extends AppCompatActivity {
         ui_SignUp_TopBar = findViewById(R.id.ui_SignUp_TopBar);
         tv_TopBar_Title = ui_SignUp_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_SignUp_TopBar.findViewById(R.id.iv_TopBar_Back);
+        iv_TopBar_Back.setVisibility(View.GONE);
+        tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_SIGNUP));
         tv_SignUp_Save = findViewById(R.id.tv_SignUp_Save);
 
         iv_SignUp_Save_Check_List.add((ImageView)findViewById(R.id.iv_SignUp_Save_Check_1));

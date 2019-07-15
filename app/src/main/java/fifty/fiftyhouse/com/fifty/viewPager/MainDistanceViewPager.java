@@ -23,6 +23,7 @@ import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
+import fifty.fiftyhouse.com.fifty.activty.SortSettingActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
@@ -62,7 +63,8 @@ public class MainDistanceViewPager extends Fragment {
             tv_Main_Dis_Sort_Type.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+                    Intent intent = new Intent(MainActivity.mActivity, SortSettingActivity.class);
+                    startActivity(intent);
                 }
             });
 

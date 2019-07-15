@@ -60,6 +60,19 @@ public class CommonData {
         MY_FRIEND_LIST
     }
 
+    public static enum SORT_SETTING_GENDER
+    {
+        ALL,
+        WOMAN,
+        MAN,
+    }
+    public static enum SORT_SETTING_ONLINE
+    {
+        ONLINE,
+        SHORT,
+        LONG,
+    }
+
 
     // 처음에 보여줄 인기 관심사 갯수
     public static int Favorite_Pop_Count = 10;
