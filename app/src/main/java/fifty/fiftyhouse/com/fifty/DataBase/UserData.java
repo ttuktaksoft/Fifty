@@ -67,7 +67,7 @@ public class UserData {
     private Map<String, String> FriendList = new LinkedHashMap<>();
     private Map<String, String> RequestFriendList = new LinkedHashMap<>();
 
-    private Map<String, String> AlarmList = new LinkedHashMap<>();
+    private Map<String, AlarmData> AlarmList = new LinkedHashMap<>();
 
     private Map<String, String> LikeList = new LinkedHashMap<>();
     private Map<String, String> VisitList = new LinkedHashMap<>();
@@ -393,11 +393,11 @@ public class UserData {
         RequestFriendList.remove(key);
     }
 
-    public void SetAlarm(String index, String friendIdx)
+    public void SetAlarmList(String index, AlarmData data)
     {
-        AlarmList.put(index, friendIdx);
+        AlarmList.put(index, data);
     }
-    public String  GetAlarmList(String index)
+    public AlarmData  GetAlarmList(String index)
     {
         return AlarmList.get(index);
     }

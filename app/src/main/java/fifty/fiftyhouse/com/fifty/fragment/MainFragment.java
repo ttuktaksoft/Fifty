@@ -16,9 +16,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -58,9 +64,54 @@ public class MainFragment extends Fragment {
             iv_Main_Alarm.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
-                    /*Intent intent = new Intent(getContext(), UserNoticeActivity.class);
-                    startActivity(intent);*/
+                    //DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+
+                    DialogFunc.getInstance().ShowLoadingPage(getContext());
+                    Set KeySet = TKManager.getInstance().MyData.GetAlarmListKeySet();
+
+                    if(KeySet.size() > 0)
+                    {
+                        Iterator iterator = KeySet.iterator();
+
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetAlarmListCount());
+
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                DialogFunc.getInstance().DismissLoadingPage();
+
+                                Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        while(iterator.hasNext()){
+                            String key = (String)iterator.next();
+                            if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                            {
+                                FirebaseManager.getInstance().Complete(listener);
+                            }
+                            else
+                                FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                        }
+                    }
+                    else
+                    {
+                        DialogFunc.getInstance().DismissLoadingPage();
+
+                        Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                        startActivity(intent);
+                    }
+
+
                 }
             });
 

@@ -10,7 +10,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.StrContentListAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserNoticeAdapter;
@@ -59,6 +67,30 @@ public class UserNoticeActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view, int position) {
 
+                Set tempKey = TKManager.getInstance().MyData.GetAlarmListKeySet();
+                final List array = new ArrayList(tempKey);
+
+                String tempIndex = array.get(position).toString();
+                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        startActivity(new Intent(MainActivity.mActivity, UserProfileActivity.class));
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserData(tempIndex, TKManager.getInstance().TargetUserData, listener);
             }
 
             @Override
