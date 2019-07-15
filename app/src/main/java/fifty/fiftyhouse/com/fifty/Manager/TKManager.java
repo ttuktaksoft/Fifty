@@ -11,6 +11,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
@@ -47,5 +48,7 @@ public class TKManager {
     public ArrayList<String> DailyFavorite = new ArrayList<>();
 
     public boolean isLoadDataByBoot = true;
+
+    public Map<String, ClubData> SearchClubList = new LinkedHashMap<>();
 
 }

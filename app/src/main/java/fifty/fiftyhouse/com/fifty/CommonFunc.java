@@ -852,7 +852,7 @@ public class CommonFunc {
                         DialogFunc.getInstance().DismissLoadingPage();
 
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
+                        //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
 
 
