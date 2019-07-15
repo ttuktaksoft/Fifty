@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="top_bar_height">56dp</dimen>
+    <dimen name="mid_bar_height">40dp</dimen>
     <dimen name="bottom_bar_height">56dp</dimen>
     <dimen name="default_font_size_big">21dp</dimen>
     <dimen name="default_font_size">18dp</dimen>
