@@ -26,6 +26,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -297,9 +298,17 @@ public class UserProfileFragment extends Fragment {
                     Set KeySet = TKManager.getInstance().MyData.GetUserFriendListKeySet();
 
                    // KeySet.addAll(TKManager.getInstance().MyData.GetRequestFriendListKeySet());
-                    Iterator iterator = KeySet.iterator();
+                    
+                    Map<String, String> tempFriend = new LinkedHashMap<>();
+                    tempFriend.putAll(TKManager.getInstance().MyData.GetUserFirendList());
+                    tempFriend.putAll(TKManager.getInstance().MyData.GetUserRequestFirendList());
 
-                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount() + TKManager.getInstance().MyData.GetRequestFriendListCount());
+                    Set tempKeySet = tempFriend.keySet();
+
+                    Iterator iterator = tempKeySet.iterator();
+
+                    //FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount() + TKManager.getInstance().MyData.GetRequestFriendListCount());
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount(tempFriend.size());
 
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override

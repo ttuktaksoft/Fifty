@@ -354,6 +354,7 @@ public class UserData {
     {
         FriendList.put(index, friendIdx);
     }
+    public Map<String, String> GetUserFirendList() {return  FriendList;}
     public String  GetUserFriendList(String index)
     {
         return FriendList.get(index);
@@ -376,6 +377,7 @@ public class UserData {
     {
         RequestFriendList.put(index, friendIdx);
     }
+    public Map<String, String> GetUserRequestFirendList() {return  RequestFriendList;}
     public String  GetRequestFriendList(String index)
     {
         return RequestFriendList.get(index);
