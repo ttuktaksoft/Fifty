@@ -38,6 +38,7 @@ import org.imperiumlabs.geofirestore.GeoQuery;
 import org.imperiumlabs.geofirestore.GeoQueryDataEventListener;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -1756,6 +1757,32 @@ public class FirebaseManager {
         RegistFavoriteList(favoriteName);
     }
 
+
+    public void SearchClubList(String name, final FirebaseManager.CheckFirebaseComplete listener) {
+        SetFireBaseLoadingCount(0);
+        CollectionReference colRef = mDataBase.collection("ClubData_Favorite").document(name).collection("ClubIndex");
+        colRef.orderBy("Count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
+
+                        AddFireBaseLoadingCount();
+                        GetClubData_Simple(document.getId(), TKManager.getInstance().SearchClubList, listener);
+                    }
+
+                    /*if (listener != null)
+                        listener.CompleteListener();*/
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
     public void GetPopFavoriteData(final FirebaseManager.CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("PopFavorite");
         colRef.orderBy("count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -2726,7 +2753,6 @@ public class FirebaseManager {
         clubSimpleData.put("Name", club.ClubName);
         clubSimpleData.put("MemberCount", club.ClubMemberCount);
 
-
         final Map<String, Object> clubData = new HashMap<>();
         clubData.put("index", club.ClubIndex);
 
@@ -2779,6 +2805,28 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
+        final Map<String, Object> clubFavoriteData = new HashMap<>();
+
+        for(int i=0; i<club.ClubFavorite.size(); i++)
+        {
+            clubFavoriteData.put("ClubIndex", club.ClubIndex);
+
+            mDataBase.collection("ClubData_Favorite").document(club.ClubFavorite.get(Integer.toString(i))).collection("ClubIndex").document(club.ClubIndex)
+                    .set(clubFavoriteData, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
 
 
 

@@ -10,12 +10,15 @@ public class ClubData {
 
     public boolean ClubType;
 
+
+
     public String ClubName;
     public String ClubThumbNail;
 
     public String ClubMasterIndex;
     public Map<String, String> ClubMemberList = new LinkedHashMap<String, String>();
     public Map<String, ClubContextData> ClubContext = new LinkedHashMap<String, ClubContextData>();
+    public Map<String, String> ClubFavorite = new LinkedHashMap<String, String>();
 
     public int ClubContextCount;
     public int ClubMemberCount;
@@ -93,5 +96,21 @@ public class ClubData {
         return ClubContext.keySet();
     }
 
+    public void AddClubFavorite(String index, String name)
+    {
+        ClubFavorite.put(index, name);
+    }
+    public String GetClubFavorite(String index)
+    {
+        return ClubFavorite.get(index);
+    }
+    public int GetClubFavoriteCount()
+    {
+        return ClubFavorite.size();
+    }
+    public Set GetClubFavoriteKeySet()
+    {
+        return ClubFavorite.keySet();
+    }
 
 }

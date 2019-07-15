@@ -144,11 +144,32 @@ public class ClubFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
 
-                final ClubData tempClub = new ClubData();
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+
+                        Log.d("asdasdasd","1123");
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+
+                FirebaseManager.getInstance().SearchClubList("클럽", listener);
+
+              /*  final ClubData tempClub = new ClubData();
                 tempClub.SetClubMasterIndex(TKManager.getInstance().MyData.GetUserIndex());
                 tempClub.SetClubName("테스트");
                 tempClub.SetClubThumb(TKManager.getInstance().MyData.GetUserImgThumb());
                 tempClub.SetClubType(true);
+                tempClub.AddClubFavorite(Integer.toString(0), "클럽");
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
@@ -187,7 +208,7 @@ public class ClubFragment extends Fragment {
                     }
                 };
 
-                FirebaseManager.getInstance().RegistClubIndex(tempClub, listener);
+                FirebaseManager.getInstance().RegistClubIndex(tempClub, listener);*/
 
             }
         });

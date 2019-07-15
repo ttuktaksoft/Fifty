@@ -123,10 +123,10 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
        switch (tempData.ContextType)
        {
            case 0:
-               setClubType(DESC);
+               setClubContentType(DESC);
                break;
            case 1:
-               setClubType(BIG_IMG);
+               setClubContentType(BIG_IMG);
                if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("0")))
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_BigImg, tempData.GetImg("0"), false);
                else
@@ -134,7 +134,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
                break;
            case 2:
-               setClubType(IMG);
+               setClubContentType(IMG);
 
                if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("0")))
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_1, tempData.GetImg("0"), false);
@@ -241,7 +241,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
     }
 
-    private void setClubType(CLUB_CONTENT_TYPE type)
+    private void setClubContentType(CLUB_CONTENT_TYPE type)
     {
         mContentType = type;
         tv_Club_Con_BigImg.setVisibility(View.GONE);
