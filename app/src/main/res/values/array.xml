@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="user_sort">
+        <item >나와의 거리</item>
+        <item >나이</item>
+        <item >성별</item>
+        <item >접속시간</item>
+    </string-array>
+</resources>

@@ -61,6 +61,7 @@
     <string name="FAVORITE_SELECT_EMPTY">나의 관심사를 입력해서\n더 많은 친구를 만나보세요</string>
     <string name="USER_REPORT_DESC">신고사유</string>
     <string name="USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
+    <string name="MSG_SORT_MAIN">내근처:</string>
     <string name="MSG_SORT_DISTANCE">우리동네</string>
     <string name="MSG_SORT_NEW_MEMBER">신입</string>
     <string name="MSG_SORT_TODAY_MEMBER">관심사</string>
@@ -96,6 +97,11 @@
     <string name="MSG_ME_CONFIRM_DESC">개인 정보 확인을 위해\n본인인증을 진행해주세요</string>
     <string name="MSG_FRIEND_MY">내가 추가한 친구</string>
     <string name="MSG_FRIEND_REQUEST">나를 추가한 친구</string>
+
+    <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
+    <string name="MSG_SORT_TYPE_AGE">나이</string>
+    <string name="MSG_SORT_TYPE_GENDER">성별</string>
+    <string name="MSG_SORT_TYPE_ONLINE">접속 시간</string>
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
     <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>

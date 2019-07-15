@@ -50,6 +50,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.github.imperiumlabs:GeoFirestore-Android:v1.2.0'
+
+    implementation 'com.edmodo:rangebar:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

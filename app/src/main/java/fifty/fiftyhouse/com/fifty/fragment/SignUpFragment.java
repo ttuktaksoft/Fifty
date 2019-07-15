@@ -11,6 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,12 +59,19 @@ public class SignUpFragment extends Fragment {
     View v_FragmentView = null;
 
     static final int GET_FROM_FAVORITE_SELECT = 2;
-    boolean isCamera = false;
     boolean isProfileUpload = false;
     boolean mIsCheckNickName = false;
     InputMethodManager imm;
 
     FavoriteViewAdapter mFavoriteAdapter;
+
+    SignUpActivity.SignUpCheckListener mCheckListener = null;
+
+    public void SetCheckListener(SignUpActivity.SignUpCheckListener listener)
+    {
+        mCheckListener = listener;
+        mCheckListener.UpdateSignCheck(0);
+    }
 
     public SignUpFragment() {
     }
@@ -104,7 +114,6 @@ public class SignUpFragment extends Fragment {
         iv_SignUp_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                isCamera = true;
                 CommonFunc.getInstance().GetPermissionForGalleryCamera(mContext, SignUpFragment.this, CommonData.GET_PHOTO_FROM_CROP);
             }
         });
@@ -137,6 +146,7 @@ public class SignUpFragment extends Fragment {
                 mIsCheckNickName = false;
                 tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
                 tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
+                UpdateSignCheck();
             }
         });
 
@@ -144,6 +154,23 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
                 // 입력을 시도 했을경우 중복체크 안함으로 수정
+                UpdateSignCheck();
+            }
+        });
+
+        et_SignUp_PassWord.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                UpdateSignCheck();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -179,6 +206,7 @@ public class SignUpFragment extends Fragment {
                             tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
 
                             TKManager.getInstance().MyData.SetUserNickName(strNickName);
+                            UpdateSignCheck();
                         }
 
                         @Override
@@ -187,6 +215,7 @@ public class SignUpFragment extends Fragment {
                             mIsCheckNickName = false;
                             tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
                             tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
+                            UpdateSignCheck();
                         }
                     };
 
@@ -242,6 +271,7 @@ public class SignUpFragment extends Fragment {
                         Intent intent = new Intent(mContext, FavoriteSelectActivity.class);
                         intent.putExtra("Type",0);
                         startActivityForResult(intent, GET_FROM_FAVORITE_SELECT);
+                        UpdateSignCheck();
                     }
 
                     @Override
@@ -295,7 +325,7 @@ public class SignUpFragment extends Fragment {
         }
         else if(CommonFunc.getInstance().CheckStringNull(et_SignUp_PassWord.getText().toString()))
         {
-            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
+            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.PASSWORD_EMPTY));
         }
         else if(et_SignUp_PassWord.getText().toString().length() < CommonData.PassWordMinSize)
         {
@@ -336,6 +366,8 @@ public class SignUpFragment extends Fragment {
                     @Override
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
+
+                        UpdateSignCheck();
                     }
 
                     @Override
@@ -354,6 +386,42 @@ public class SignUpFragment extends Fragment {
         {
             RefreshFavoriteViewListSlot();
             mFavoriteAdapter.notifyDataSetChanged();
+
+            UpdateSignCheck();
         }
+    }
+
+    private void UpdateSignCheck()
+    {
+        if(mCheckListener == null)
+            return;
+
+
+
+        int returnCount = 0;
+        Log.d("signup", "count = " + returnCount);
+        if(isProfileUpload)
+            returnCount++;
+
+        Log.d("signup", "isProfileUpload count = " + returnCount);
+
+        if(TKManager.getInstance().MyData.GetUserFavoriteListCount() >= CommonData.FavoriteSelectMinCount)
+            returnCount++;
+
+        Log.d("signup", "GetUserFavoriteListCount count = " + returnCount);
+
+        if(mIsCheckNickName)
+            returnCount++;
+
+        Log.d("signup", "mIsCheckNickName count = " + returnCount);
+
+        if(CommonFunc.getInstance().CheckStringNull(et_SignUp_PassWord.getText().toString()) == false &&
+                et_SignUp_PassWord.getText().toString().length() >= CommonData.PassWordMinSize &&
+                et_SignUp_PassWord.getText().toString().length() <= CommonData.PassWordMaxSize)
+            returnCount++;
+
+        Log.d("signup", "et_SignUp_PassWord count = " + returnCount);
+
+        mCheckListener.UpdateSignCheck(returnCount);
     }
 }

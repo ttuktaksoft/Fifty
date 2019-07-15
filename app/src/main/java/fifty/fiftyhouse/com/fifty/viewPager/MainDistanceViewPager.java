@@ -9,8 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -28,7 +33,7 @@ import fifty.fiftyhouse.com.fifty.R;
 public class MainDistanceViewPager extends Fragment {
 
     TextView tv_Main_Dis_Curr_Pos;
-    Switch sw_Main_Dis_Sort_Type;
+    TextView tv_Main_Dis_Sort_Type;
 
     RecyclerView rv_Main_Dis_UserList;
     View v_FragmentView = null;
@@ -49,21 +54,15 @@ public class MainDistanceViewPager extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_distance, container, false);
             rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
-            sw_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.sw_Main_Dis_Sort_Type);
+            tv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.tv_Main_Dis_Sort_Type);
 
             tv_Main_Dis_Curr_Pos.setText(TKManager.getInstance().MyData.GetUserDist_Area());
 
-            sw_Main_Dis_Sort_Type.setOnClickListener(new OnSingleClickListener() {
+            tv_Main_Dis_Sort_Type.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onSingleClick(View v) {
-                    if(sw_Main_Dis_Sort_Type.isChecked()) {
-                        DialogFunc.getInstance().ShowToast(getContext(), "관심사정렬 ON", true);
-                    }
-                    else{
-                        DialogFunc.getInstance().ShowToast(getContext(), "관심사정렬 OFF", true);;
-                    }
+                public void onSingleClick(View view) {
+                    DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
                 }
-
             });
 
             initRecyclerView();

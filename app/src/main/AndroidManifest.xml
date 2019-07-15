@@ -79,7 +79,8 @@
         </provider>
 
         <activity android:name=".activty.FriendListActivity" />
-        <activity android:name=".activty.WebContentActivity"></activity>
+        <activity android:name=".activty.WebContentActivity" />
+        <activity android:name=".activty.SortSettingActivity"></activity>
     </application>
 
 </manifest>

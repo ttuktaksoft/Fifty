@@ -24,6 +24,54 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_SignUp_Save"
         android:background="@color/activity_bg"/>
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_SignUp_Save_Check"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_SignUp_Save">
+
+        <ImageView
+            android:id="@+id/iv_SignUp_Save_Check_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintTop_toTopOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintBottom_toBottomOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintRight_toLeftOf="@+id/iv_SignUp_Save_Check_2"
+            android:background="@color/signup_check_2"/>
+
+        <ImageView
+            android:id="@+id/iv_SignUp_Save_Check_2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toRightOf="@+id/iv_SignUp_Save_Check_1"
+            app:layout_constraintTop_toTopOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintBottom_toBottomOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintRight_toLeftOf="@+id/iv_SignUp_Save_Check_3"
+            android:background="@color/signup_check_2"/>
+
+        <ImageView
+            android:id="@+id/iv_SignUp_Save_Check_3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toRightOf="@+id/iv_SignUp_Save_Check_2"
+            app:layout_constraintTop_toTopOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintBottom_toBottomOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintRight_toLeftOf="@+id/iv_SignUp_Save_Check_4"
+            android:background="@color/signup_check_1"/>
+
+        <ImageView
+            android:id="@+id/iv_SignUp_Save_Check_4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toRightOf="@+id/iv_SignUp_Save_Check_3"
+            app:layout_constraintTop_toTopOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintBottom_toBottomOf="@+id/v_SignUp_Save_Check"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/signup_check_1"/>
+
+    </android.support.constraint.ConstraintLayout>
+
     <TextView
         android:id="@+id/tv_SignUp_Save"
         android:layout_width="0dp"

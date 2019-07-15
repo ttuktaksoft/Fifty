@@ -42,16 +42,26 @@
             style="@style/BaseTextView"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:text="@string/MSG_SORT_FAVORITE"
+            android:text="@string/MSG_SORT_MAIN"
             android:textSize="15dp"
-            android:visibility="gone"
             android:gravity="center_vertical|left"
             android:layout_marginRight="5dp"
+            android:textColor="@color/str_color_1"
             app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_Dis_SubInfo"
-            app:layout_constraintRight_toLeftOf="@+id/sw_Main_Dis_Sort_Type" />
+            app:layout_constraintRight_toRightOf="@+id/v_Main_Dis_SubInfo" />
 
-        <Switch
+
+        <!--<Spinner
+            android:id="@+id/sp_Main_Dis_Sort_Type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/user_sort"
+            app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Main_Dis_SubInfo"
+            app:layout_constraintRight_toRightOf="@+id/v_Main_Dis_SubInfo"/>-->
+
+<!--        <Switch
             android:id="@+id/sw_Main_Dis_Sort_Type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +70,7 @@
             android:thumb="@drawable/switch_thumb_select"
             app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_Dis_SubInfo"
-            app:layout_constraintRight_toRightOf="@+id/v_Main_Dis_SubInfo"/>
+            app:layout_constraintRight_toRightOf="@+id/v_Main_Dis_SubInfo"/>-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_Main_Dis_UserList"

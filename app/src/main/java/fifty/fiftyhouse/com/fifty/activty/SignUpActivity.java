@@ -60,6 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
     TextView tv_SignUp_Save;
+    ArrayList<ImageView> iv_SignUp_Save_Check_List = new ArrayList<>();
 
     Context mContext;
     Activity mActivity;
@@ -80,9 +81,29 @@ public class SignUpActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_SignUp_TopBar.findViewById(R.id.iv_TopBar_Back);
         tv_SignUp_Save = findViewById(R.id.tv_SignUp_Save);
 
+        iv_SignUp_Save_Check_List.add((ImageView)findViewById(R.id.iv_SignUp_Save_Check_1));
+        iv_SignUp_Save_Check_List.add((ImageView)findViewById(R.id.iv_SignUp_Save_Check_2));
+        iv_SignUp_Save_Check_List.add((ImageView)findViewById(R.id.iv_SignUp_Save_Check_3));
+        iv_SignUp_Save_Check_List.add((ImageView)findViewById(R.id.iv_SignUp_Save_Check_4));
+
         mSignUpFragment = new SignUpFragment();
 
         mFragmentMgr.beginTransaction().replace(R.id.fl_SignUp_FrameLayout, mSignUpFragment, "SignUpFragment").commit();
+        SignUpCheckListener listener = new SignUpCheckListener()
+        {
+            @Override
+            public void UpdateSignCheck(int count) {
+                for(int i = 0 ; i < iv_SignUp_Save_Check_List.size() ; ++i)
+                {
+                    if(i + 1 > count)
+                        iv_SignUp_Save_Check_List.get(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.signup_check_1));
+                    else
+                        iv_SignUp_Save_Check_List.get(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.signup_check_2));
+                }
+            }
+        };
+
+        mSignUpFragment.SetCheckListener(listener);
 
         tv_SignUp_Save.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -229,6 +250,10 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public interface SignUpCheckListener {
+        void UpdateSignCheck(int count);
     }
 
 }

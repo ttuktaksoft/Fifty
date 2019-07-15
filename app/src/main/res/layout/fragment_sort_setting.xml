@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_SortSetting_Scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/v_SortSetting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Distance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toTopOf="@+id/v_SortSetting"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:text="@string/MSG_SORT_TYPE_DISTANCE"
+                android:gravity="center|left"
+                android:textColor="@color/str_color_1"
+                android:background="@color/info_sub_slot_title_bg"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Distance_Count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toTopOf="@+id/tv_SortSetting_Distance"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_SortSetting_Distance"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingRight="10dp"
+                android:textSize="@dimen/default_font_size_small"
+                android:text="@string/MSG_SORT_TYPE_DISTANCE"
+                android:gravity="center|right"
+                android:textColor="@color/str_color_3" />
+
+            <ImageView
+                android:id="@+id/iv_SortSetting_Distance"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toBottomOf="@+id/tv_SortSetting_Distance"
+                android:background="@color/white"/>
+
+            <SeekBar
+                android:id="@+id/sb_SortSetting_Distance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_SortSetting_Distance"
+                app:layout_constraintRight_toRightOf="@+id/iv_SortSetting_Distance"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Distance"
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Distance" />
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toBottomOf="@+id/iv_SortSetting_Distance"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:text="@string/MSG_SORT_TYPE_AGE"
+                android:gravity="center|left"
+                android:textColor="@color/str_color_1"
+                android:background="@color/info_sub_slot_title_bg"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Age_Count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toTopOf="@+id/tv_SortSetting_Age"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_SortSetting_Age"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingRight="10dp"
+                android:textSize="@dimen/default_font_size_small"
+                android:text="@string/MSG_SORT_TYPE_AGE"
+                android:gravity="center|right"
+                android:textColor="@color/str_color_3" />
+
+            <ImageView
+                android:id="@+id/iv_SortSetting_Age"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toBottomOf="@+id/tv_SortSetting_Age"
+                android:background="@color/white"/>
+
+            <com.edmodo.rangebar.RangeBar
+                android:id="@+id/sb_SortSetting_Age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_SortSetting_Age"
+                app:layout_constraintRight_toRightOf="@+id/iv_SortSetting_Age"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Age"
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Age"
+                app:tickHeight="0dp"/>
+
+
+
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>
