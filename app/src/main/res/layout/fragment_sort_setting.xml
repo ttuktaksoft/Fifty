@@ -63,6 +63,8 @@
                 android:id="@+id/sb_SortSetting_Distance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 app:layout_constraintLeft_toLeftOf="@+id/iv_SortSetting_Distance"
                 app:layout_constraintRight_toRightOf="@+id/iv_SortSetting_Distance"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Distance"
@@ -114,11 +116,158 @@
                 android:id="@+id/sb_SortSetting_Age"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 app:layout_constraintLeft_toLeftOf="@+id/iv_SortSetting_Age"
                 app:layout_constraintRight_toRightOf="@+id/iv_SortSetting_Age"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Age"
-                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Age"
-                app:tickHeight="0dp"/>
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Age"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toBottomOf="@+id/iv_SortSetting_Age"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:text="@string/MSG_SORT_TYPE_GENDER"
+                android:gravity="center|left"
+                android:textColor="@color/str_color_1"
+                android:background="@color/info_sub_slot_title_bg"/>
+
+            <ImageView
+                android:id="@+id/iv_SortSetting_Gender"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toBottomOf="@+id/tv_SortSetting_Gender"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Gender_All"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Gender"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Gender"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_SortSetting_Gender"
+                app:layout_constraintRight_toLeftOf="@+id/tv_SortSetting_Gender_Woman"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/MSG_SORT_TYPE_GENDER_ALL"
+                android:gravity="center"
+                android:textColor="@color/str_color_1"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Gender_Woman"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Gender"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Gender"
+                app:layout_constraintLeft_toRightOf="@+id/tv_SortSetting_Gender_All"
+                app:layout_constraintRight_toRightOf="@+id/tv_SortSetting_Gender_Man"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/MSG_SORT_TYPE_GENDER_WOMAN"
+                android:gravity="center"
+                android:textColor="@color/str_color_1"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Gender_Man"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Gender"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Gender"
+                app:layout_constraintLeft_toRightOf="@+id/tv_SortSetting_Gender_Woman"
+                app:layout_constraintRight_toRightOf="@+id/iv_SortSetting_Gender"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/MSG_SORT_TYPE_GENDER_MAN"
+                android:gravity="center"
+                android:textColor="@color/str_color_1"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toBottomOf="@+id/iv_SortSetting_Gender"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:text="@string/MSG_SORT_TYPE_ONLINE"
+                android:gravity="center|left"
+                android:textColor="@color/str_color_1"
+                android:background="@color/info_sub_slot_title_bg"/>
+
+            <ImageView
+                android:id="@+id/iv_SortSetting_Time"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintLeft_toLeftOf="@+id/v_SortSetting"
+                app:layout_constraintRight_toRightOf="@+id/v_SortSetting"
+                app:layout_constraintTop_toBottomOf="@+id/tv_SortSetting_Time"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Time_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Time"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Time"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_SortSetting_Time"
+                app:layout_constraintRight_toLeftOf="@+id/tv_SortSetting_Time_2"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/MSG_SORT_TYPE_ONLINE_1"
+                android:gravity="center"
+                android:textColor="@color/str_color_1"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Time_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Time"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Time"
+                app:layout_constraintLeft_toRightOf="@+id/tv_SortSetting_Time_1"
+                app:layout_constraintRight_toLeftOf="@+id/tv_SortSetting_Time_3"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/MSG_SORT_TYPE_ONLINE_2"
+                android:gravity="center"
+                android:textColor="@color/str_color_1"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_SortSetting_Time_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseTextView_AutoSize"
+                app:layout_constraintTop_toTopOf="@+id/iv_SortSetting_Time"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_SortSetting_Time"
+                app:layout_constraintRight_toRightOf="@+id/iv_SortSetting_Time"
+                app:layout_constraintLeft_toRightOf="@+id/tv_SortSetting_Time_2"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:text="@string/MSG_SORT_TYPE_ONLINE_3"
+                android:gravity="center"
+                android:textColor="@color/str_color_1"
+                android:background="@color/white"/>
 
 
 

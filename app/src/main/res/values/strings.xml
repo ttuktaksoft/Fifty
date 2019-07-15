@@ -39,6 +39,7 @@
     <string name="TITLE_FAVORITE_SELECT">관심사 선택</string>
     <string name="TITLE_FAVORITE_EDIT">관심사 수정</string>
     <string name="TITLE_USER_REPORT">신고하기</string>
+    <string name="TITLE_SORT_SETTING">정렬필터</string>
     <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
     <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>
     <string name="PASSWORD_LEAK">비밀번호는 8~10자로 입력해주세요</string>
@@ -99,9 +100,17 @@
     <string name="MSG_FRIEND_REQUEST">나를 추가한 친구</string>
 
     <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
+    <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>
     <string name="MSG_SORT_TYPE_AGE">나이</string>
+    <string name="MSG_SORT_TYPE_AGE_ALL">전체</string>
     <string name="MSG_SORT_TYPE_GENDER">성별</string>
+    <string name="MSG_SORT_TYPE_GENDER_ALL">모두</string>
+    <string name="MSG_SORT_TYPE_GENDER_WOMAN">여자</string>
+    <string name="MSG_SORT_TYPE_GENDER_MAN">남자</string>
     <string name="MSG_SORT_TYPE_ONLINE">접속 시간</string>
+    <string name="MSG_SORT_TYPE_ONLINE_1">접속중</string>
+    <string name="MSG_SORT_TYPE_ONLINE_2">1일 이내</string>
+    <string name="MSG_SORT_TYPE_ONLINE_3">3일 이내</string>
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
     <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>
