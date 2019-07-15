@@ -146,9 +146,8 @@ public class SignUpActivity extends AppCompatActivity {
                                                             SharedPreferences.Editor editor = sharedPreferences.edit();
                                                             editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
                                                             editor.commit();
+                                                            CommonFunc.getInstance().MoveMainActivity(SignUpActivity.this);
 
-                                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                                            finish();
                                                         }
                                                     };
                                                     DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
@@ -195,8 +194,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                             editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
                                                             editor.commit();
 
-                                                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                                            finish();
+                                                            CommonFunc.getInstance().MoveMainActivity(SignUpActivity.this);
                                                         }
                                                     };
                                                     DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);

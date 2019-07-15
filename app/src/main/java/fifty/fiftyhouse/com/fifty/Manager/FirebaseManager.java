@@ -38,11 +38,9 @@ import org.imperiumlabs.geofirestore.GeoQuery;
 import org.imperiumlabs.geofirestore.GeoQueryDataEventListener;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -51,11 +49,11 @@ import javax.annotation.Nullable;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.AlarmData;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
-import fifty.fiftyhouse.com.fifty.activty.StrContentActivity;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
 
@@ -525,8 +523,6 @@ public class FirebaseManager {
 
         CollectionReference colRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("AlarmList");
         //CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
-        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
-        {
             colRef.orderBy("Date", Query.Direction.DESCENDING).limit(5).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -539,33 +535,28 @@ public class FirebaseManager {
                         switch (document.getType()) {
                             case ADDED:
                             case MODIFIED:
-                                int tempType = Integer.parseInt(document.getDocument().getData().get("Type").toString());
 
+                                AlarmData tempData = new AlarmData();
 
+                                tempData.SetType(document.getDocument().getData().get("Type").toString());
+                                tempData.SetIndex(document.getDocument().getData().get("Index").toString());
+                                tempData.SetDate(Long.parseLong(document.getDocument().getData().get("Date").toString()));
+                                if(tempData.GetType().equals("CHAT"))
+                                    tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
 
+                                TKManager.getInstance().MyData.SetAlarmList(document.getDocument().getId(), tempData);
 
-                                switch (tempType)
-                                {
-                                    case 0:
-                                        break;
-
-                                    case 1:
-                                        break;
-
-                                    case 2:
-                                        break;
-
-                                    case 3:
-                                        break;
-                                }
                                 break;
                             case REMOVED:
                                 break;
                         }
                     }
+
+                    if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
+                        listener.CompleteListener();
+
                 }
             });
-        }
     }
 
     public void RemoveMonitorUserChatData()
@@ -857,10 +848,7 @@ public class FirebaseManager {
                         listener.CompleteListener();
                 }
             });
-
-
         }
-
     }
 
     public void GetUserChatList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
@@ -927,7 +915,7 @@ public class FirebaseManager {
                 }
 
 
-                if (listener != null)
+                if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
                     listener.CompleteListener();
 
             }
@@ -1063,7 +1051,7 @@ public class FirebaseManager {
     public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
-            SetFireBaseLoadingCount(6);
+            SetFireBaseLoadingCount(7);
         else
             SetFireBaseLoadingCount(5);
 
@@ -1177,6 +1165,24 @@ public class FirebaseManager {
                         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
                             GetUserChatList(userIndex, userData, ChatRoomListener);
 
+
+                        FirebaseManager.CheckFirebaseComplete AlarmListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Complete(listener);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            MonitorAlarm(userIndex, AlarmListener);
 
                      /*   FirebaseManager.CheckFirebaseComplete FriendUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -2930,6 +2936,27 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
+        Map<String, Object> AlarmData = new HashMap<>();
+        AlarmData.put("Index", userIndex);
+        AlarmData.put("Date", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+        AlarmData.put("Type", "FRIEND");
+
+        mDataBase.collection("UserData").document(targetIndex).collection("AlarmList").document(userIndex)
+                .set(AlarmData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
     }
 
 
@@ -2945,7 +2972,27 @@ public class FirebaseManager {
         VisitUser.put(userIndex, VisitUserData);
 
         mDataBase.collection("UserData").document(targetIndex).collection("VisitUsers").document(userIndex)
-                .set(VisitUserData, SetOptions.merge())
+            .set(VisitUserData, SetOptions.merge())
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(TAG, "Error writing document", e);
+                }
+            });
+
+        Map<String, Object> AlarmData = new HashMap<>();
+        AlarmData.put("Index", userIndex);
+        AlarmData.put("Date", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+        AlarmData.put("Type", "VISIT");
+
+        mDataBase.collection("UserData").document(targetIndex).collection("AlarmList").document(userIndex)
+                .set(AlarmData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -2989,6 +3036,28 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
+
+        Map<String, Object> AlarmData = new HashMap<>();
+        AlarmData.put("Index", userIndex);
+        AlarmData.put("Date", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+        AlarmData.put("Type", "LIKE");
+
+        mDataBase.collection("UserData").document(targetIndex).collection("AlarmList").document(userIndex)
+                .set(AlarmData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
     }
 
     public void RemoveFavoriteUser(final String favorite)

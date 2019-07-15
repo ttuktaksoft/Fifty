@@ -46,6 +46,6 @@ public class TKManager {
     public ArrayList<String> FavoriteLIst_Pop = new ArrayList<>();
     public ArrayList<String> DailyFavorite = new ArrayList<>();
 
-    public boolean isWorkFireBase = true;
+    public boolean isLoadDataByBoot = true;
 
 }

@@ -832,6 +832,7 @@ public class CommonFunc {
 
     public void MoveMainActivity(Activity activity) {
         DialogFunc.getInstance().DismissLoadingPage();
+        TKManager.getInstance().isLoadDataByBoot = false;
         final Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
         activity.finish();

@@ -5,12 +5,53 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
+
 public class AlarmData {
+
+    public long Date;
+    public String Index;
+    public String Type;
+    public String Msg;
 
     public Map<String, String> VisitMember = new LinkedHashMap<>();
     public Map<String, String> LikeMember = new LinkedHashMap<>();
     public Map<String, String> FriendMember = new LinkedHashMap<>();
     public Map<String, String> ChatMember = new LinkedHashMap<>();
+
+    public void SetDate(long date)
+    {
+        Date = date;
+    }
+    public long GetDate()
+    {
+        return Date;
+    }
+    public void SetIndex(String index)
+    {
+        Index = index;
+    }
+    public String GetIndex()
+    {
+        return Index;
+    }
+    public void SetType(String type)
+    {
+        Type = type;
+    }
+    public String GetType()
+    {
+        return Type;
+    }
+
+    public void SetMsg(String msg)
+    {
+        Msg = msg;
+    }
+    public String GetMsg()
+    {
+        return Msg;
+    }
 
     public  Map<String, String> GetVisitMemberList()
     {
