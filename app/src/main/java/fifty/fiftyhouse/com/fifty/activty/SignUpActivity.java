@@ -67,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
     FragmentManager mFragmentMgr;
     SignUpFragment mSignUpFragment;
 
+    boolean mIsSignUpEnable = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         mSignUpFragment = new SignUpFragment();
 
+        mIsSignUpEnable = false;
         mFragmentMgr.beginTransaction().replace(R.id.fl_SignUp_FrameLayout, mSignUpFragment, "SignUpFragment").commit();
         SignUpCheckListener listener = new SignUpCheckListener()
         {
@@ -102,6 +104,19 @@ public class SignUpActivity extends AppCompatActivity {
                     else
                         iv_SignUp_Save_Check_List.get(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.signup_check_2));
                 }
+
+                if(count == iv_SignUp_Save_Check_List.size())
+                    mIsSignUpEnable = true;
+                else
+                    mIsSignUpEnable = false;
+
+                int selectBGColor = ContextCompat.getColor(mContext, R.color.button_enable);
+                int selectSrtColor = ContextCompat.getColor(mContext, R.color.button_enable_str);
+                int disableBGColor = ContextCompat.getColor(mContext, R.color.button_disable);
+                int disableSrtColor = ContextCompat.getColor(mContext, R.color.button_disable_str);
+
+                tv_SignUp_Save.setBackgroundColor(mIsSignUpEnable ? selectBGColor : disableBGColor);
+                tv_SignUp_Save.setTextColor(mIsSignUpEnable ? selectSrtColor : disableSrtColor);
             }
         };
 
@@ -110,6 +125,9 @@ public class SignUpActivity extends AppCompatActivity {
         tv_SignUp_Save.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+
+                if(mIsSignUpEnable == false)
+                    return;
 
                 if(mSignUpFragment.isSignUp())
                 {

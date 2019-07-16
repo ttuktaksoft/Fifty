@@ -82,8 +82,6 @@ class UserListListHolder extends RecyclerView.ViewHolder {
         tv_User_List_Age = itemView.findViewById(R.id.tv_User_List_Age);
         tv_User_List_Dis = itemView.findViewById(R.id.tv_User_List_Dis);
 
-        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_User_List_Name, tv_User_List_Age, tv_User_List_Dis);
-
     }
 
     public void setData(String key)

@@ -56,8 +56,6 @@ public class FriendListActivity extends AppCompatActivity {
         vp_FriendList = findViewById(R.id.vp_FriendList);
         tl_FriendList_TopTab = findViewById(R.id.tl_FriendList_TopTab);
 
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
-
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_FRIEND));
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override

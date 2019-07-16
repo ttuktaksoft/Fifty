@@ -14,19 +14,6 @@
         layout="@layout/ui_topbar"/>
 
     <TextView
-        android:id="@+id/tv_Setting_Account_Save"
-        android:layout_width="80dp"
-        android:layout_height="0dp"
-        style="@style/BaseTextView"
-        app:layout_constraintTop_toTopOf="@+id/ui_Setting_Account_TopBar"
-        app:layout_constraintBottom_toBottomOf="@+id/ui_Setting_Account_TopBar"
-        app:layout_constraintRight_toRightOf="@+id/ui_Setting_Account_TopBar"
-        android:text="@string/MSG_SAVE"
-        android:gravity="center"
-        android:textColor="@color/str_color_2"
-        android:textStyle="bold"/>
-
-    <TextView
         android:id="@+id/tv_Setting_Account_Desc"
         style="@style/BaseTextView"
         android:layout_width="0dp"
@@ -69,6 +56,20 @@
         android:hint="@string/SETTING_ACCOUNT_PASSWORD_HINT"
         android:inputType="textNoSuggestions"
         android:cursorVisible="true"/>
+
+    <TextView
+        android:id="@+id/tv_Setting_Account_Save"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/top_bar_height"
+        style="@style/BaseTextView_AutoSize"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/MSG_SAVE"
+        android:gravity="center"
+        android:textColor="@color/button_enable_str"
+        android:textStyle="bold"
+        android:background="@color/button_enable"/>
 
 
     <!--

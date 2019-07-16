@@ -52,7 +52,7 @@
 
     <TextView
         android:id="@+id/tv_Main_Thumbnail_Info_NickName"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseContentTextView_AutoSize"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:gravity="left|center_vertical"
@@ -65,7 +65,7 @@
 
     <TextView
         android:id="@+id/tv_Main_Thumbnail_Info_State"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:gravity="right|center_vertical"

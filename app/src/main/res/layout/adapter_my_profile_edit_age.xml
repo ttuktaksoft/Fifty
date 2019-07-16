@@ -16,7 +16,7 @@
 
         <TextView
             android:id="@+id/tv_MyProfile_Edit_Age_Menu_Title"
-            style="@style/BaseTextView"
+            style="@style/BaseContentTextView"
             android:layout_width="100dp"
             android:layout_height="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/v_MyProfile_Edit_Age_Menu"
@@ -41,7 +41,7 @@
 
         <TextView
             android:id="@+id/tv_MyProfile_Edit_Age_Menu_Age"
-            style="@style/BaseTextView"
+            style="@style/BaseContentTextView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintLeft_toRightOf="@+id/tv_MyProfile_Edit_Age_Menu_Gender"

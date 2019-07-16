@@ -59,7 +59,6 @@ public class MainFriendViewPager extends Fragment {
             rv_Main_Friend_UserList = v_FragmentView.findViewById(R.id.rv_Main_Friend_UserList);
             tv_Main_Friend_Count = v_FragmentView.findViewById(R.id.tv_Main_Friend_Count);
 
-            GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_Main_Friend_Count);
             initSubInfo();
             initRecyclerView();
         }

@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/tv_Favorite_View_Name"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"

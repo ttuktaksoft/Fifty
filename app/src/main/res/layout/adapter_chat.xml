@@ -32,7 +32,7 @@
 
     <TextView
         android:id="@+id/tv_Chat_Nickname"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/tv_Chat_Msg"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingBottom="4dp"
@@ -62,7 +62,7 @@
 
     <TextView
         android:id="@+id/tv_Chat_Date"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginRight="16dp"
@@ -86,7 +86,7 @@
 
     <TextView
         android:id="@+id/tv_Chat_Check"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseContentTextView_AutoSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"

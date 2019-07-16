@@ -13,7 +13,7 @@
 
     <TextView
         android:id="@+id/tv_StrContent_Desc"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"

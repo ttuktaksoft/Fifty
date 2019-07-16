@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/tv_Msg_Popup_Desc"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseContentTextView_AutoSize"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/MSG_ME_CONFIRM_DESC"

@@ -38,7 +38,6 @@ public class SettingAccountActivity extends AppCompatActivity {
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ACCOUNT));
 
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title, tv_Setting_Account_Save);
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override

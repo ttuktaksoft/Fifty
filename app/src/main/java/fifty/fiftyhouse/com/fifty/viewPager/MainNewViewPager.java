@@ -44,8 +44,6 @@ public class MainNewViewPager extends Fragment {
             rv_Main_New_UserList = v_FragmentView.findViewById(R.id.rv_Main_New_UserList);
             tv_Main_New_Desc = v_FragmentView.findViewById(R.id.tv_Main_New_Desc);
 
-            GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_Main_New_Desc);
-
             initRecyclerView();
 
         } else {
