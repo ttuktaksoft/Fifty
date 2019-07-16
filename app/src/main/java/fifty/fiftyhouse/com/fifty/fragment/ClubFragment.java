@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -93,6 +95,45 @@ public class ClubFragment extends Fragment {
         et_Club_TopBar_Search = v_FragmentView.findViewById(R.id.et_Club_TopBar_Search);
         tv_Club_Recom = v_FragmentView.findViewById(R.id.tv_Club_Recom);
         tv_Club_Create = v_FragmentView.findViewById(R.id.tv_Club_Create);
+        //et_Club_TopBar_Search.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+
+        et_Club_TopBar_Search
+                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        switch (actionId) {
+                            case EditorInfo.IME_ACTION_SEARCH:
+                                // 검색 동작
+                                imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
+                                SearchClub(et_Club_TopBar_Search.getText().toString());
+
+                                break;
+                            default:
+                                // 기본 엔터키 동작
+                                imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
+                                SearchClub(et_Club_TopBar_Search.getText().toString());
+                                return false;
+                        }
+                        return true;
+                    }
+                });
+
+        /*
+                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        switch (actionId) {
+                            case EditorInfo.IME_ACTION_SEARCH:
+                                imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
+                                SearchClub(et_Club_TopBar_Search.getText().toString());
+                                break;
+                            default:
+                                // 기본 엔터키 동작
+                                return false;
+                        }
+                        return true;
+                    }
+                });*/
 
         iv_Club_TopBar_Search.setOnClickListener(new OnSingleClickListener() {
             @Override

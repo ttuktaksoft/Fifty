@@ -59,6 +59,7 @@
                 android:layout_marginLeft="15dp"
                 android:hint="@string/NICKNAME_HINT"
                 android:inputType="textNoSuggestions|text"
+                android:imeOptions="actionDone"
                 android:cursorVisible="true"/>
 
             <TextView
@@ -104,6 +105,7 @@
                 android:layout_marginRight="15dp"
                 android:hint="@string/PASSWORD_HINT"
                 android:inputType="textNoSuggestions|textPassword"
+                android:imeOptions="actionDone"
                 android:cursorVisible="true"/>
 
             <TextView

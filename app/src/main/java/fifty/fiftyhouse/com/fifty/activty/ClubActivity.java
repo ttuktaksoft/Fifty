@@ -161,7 +161,7 @@ public class ClubActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
-                if(false)
+                if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetClubData.GetClubMember(TKManager.getInstance().MyData.GetUserIndex())))
                 {
                     // 가입 대기가 아닌경우
                     final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
@@ -218,7 +218,7 @@ public class ClubActivity extends AppCompatActivity {
 
     public void RefreshJoinStr()
     {
-        if(false)
+        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetClubData.GetClubMember(TKManager.getInstance().MyData.GetUserIndex())))
         {
             // 가입 대기가 아닌경우
             tv_Club_Join.setText(CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST));
