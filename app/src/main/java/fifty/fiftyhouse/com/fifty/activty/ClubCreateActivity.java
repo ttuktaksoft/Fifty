@@ -118,16 +118,17 @@ public class ClubCreateActivity extends AppCompatActivity {
         sw_ClubCreate_VIP.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
+
+                if(TKManager.getInstance().MyData.GetUserVip())
                 {
-                    // VIP 상태 확인하고 유료 상점으로 이동 시켜야함
+                    isVIPType = isChecked;
                 }
                 else
                 {
-
+                    // VIP 상태 확인하고 유료 상점으로 이동 시켜야함
+                    isVIPType = false;
                 }
 
-                isVIPType = isChecked;
             }
         });
     }
@@ -155,7 +156,7 @@ public class ClubCreateActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, true);
+                CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, false);
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
