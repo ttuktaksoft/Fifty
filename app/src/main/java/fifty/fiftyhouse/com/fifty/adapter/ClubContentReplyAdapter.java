@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -70,11 +74,18 @@ class ClubContentReplyListHolder extends RecyclerView.ViewHolder {
 
     public void setClubContentReply(int pos)
     {
-        ClubContextData tempData = new ClubContextData();
-        tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
-        tv_Club_Con_Reply_Nickname.setText(tempData.GetReply(Integer.toString(pos)).GetWriterIndex());
-        tv_Club_Con_Reply_Date.setText(tempData.GetReply(Integer.toString(pos)).GetDate());
-        tv_Club_Con_Reply_Desc.setText(tempData.GetReply(Integer.toString(pos)).GetContext());
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Reply_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetReply(Integer.toString(pos)).GetWriterIndex()).GetUserImgThumb(), true);
+        ClubContextData tempData = TKManager.getInstance().TargetContextData;
+
+        Set tempKey = tempData.GetReplyDataKeySet();
+        List array = new ArrayList();
+        array = new ArrayList(tempKey);
+
+        //tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
+        tv_Club_Con_Reply_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetReplyData(array.get(pos).toString()).GetWriterIndex()).GetUserNickName());
+        tv_Club_Con_Reply_Date.setText(tempData.GetReplyData(array.get(pos).toString()).GetDate());
+        tv_Club_Con_Reply_Desc.setText(tempData.GetReplyData(array.get(pos).toString()).GetContext());
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Reply_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetReplyData(array.get(pos).toString()).GetWriterIndex()).GetUserImgThumb(), true);
+
+
     }
 }

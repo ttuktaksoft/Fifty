@@ -2499,6 +2499,36 @@ public class FirebaseManager {
         }
     }
 
+    public void RegistClubReply(final ClubData clubData, final ClubContextData data, final int Index, final FirebaseManager.CheckFirebaseComplete listener) {
+        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubData.GetClubIndex()).collection("ClubContext")
+                .document(data.GetContextIndex());
+
+        Map<String, Object> Reply = new HashMap<>();
+        Reply.put(Integer.toString(Index), data.GetReply(Integer.toString(Index)));
+
+        Map<String, Object> ReplyData = new HashMap<>();
+        ReplyData.put("ReplyList", Reply);
+
+        sfDocRef.set(ReplyData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        listener.CompleteListener();
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+
+    }
+
+
     public void RegistClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
         final double[] newPopulation = new double[1];
@@ -2522,6 +2552,7 @@ public class FirebaseManager {
 
                     Map<String, Object> Context = new HashMap<>();
                     Context.put(Integer.toString((int)newPopulation[0]), data);
+                    data.SetContextIndex(Integer.toString((int)newPopulation[0]));
 
                     mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(Integer.toString((int)newPopulation[0]))
                             .set(data, SetOptions.merge())
@@ -2606,6 +2637,16 @@ public class FirebaseManager {
                                 } else
                                     tempData.Context = "";
 
+                                if (document.getData().containsKey("ContextIndex")) {
+                                    if(CommonFunc.getInstance().isEmpty(document.getData().get("ContextIndex")))
+                                    {
+                                        tempData.SetContextIndex(document.getId());
+                                    }
+                                    else
+                                        tempData.SetContextIndex(document.getData().get("ContextIndex").toString());
+                                } else
+                                    tempData.SetContextIndex(document.getId());
+
 
                                 tempData.Date = document.getData().get("Date").toString();
                                 tempData.writerIndex = document.getData().get("writerIndex").toString();
@@ -2622,6 +2663,76 @@ public class FirebaseManager {
                                         tempData.SetImg(key, value);
                                     }
                                 }
+
+                                if (document.getData().containsKey("ReplyList")) {
+                                    tempData.ClearReplyData();
+                                    HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ReplyList");
+                                    Set set = tempImg.entrySet();
+                                    Iterator iterator = set.iterator();
+                                    while (iterator.hasNext()) {
+                                        Map.Entry entry = (Map.Entry) iterator.next();
+                                        String key = (String) entry.getKey();
+                                        String value = (String) entry.getValue();
+                                        tempData.SetReply(key, value);
+                                        String[] array = value.split("_");
+                                        ClubContextData tempReplyData= new ClubContextData();
+                                        tempReplyData.SetWriterIndex(array[0]);
+                                        tempReplyData.SetDate(array[1]);
+                                        tempReplyData.SetContext(array[2]);
+                                        tempData.SetReplyData(key, tempReplyData);
+                                    }
+                                }
+
+
+                               /* if (document.getData().containsKey("ReplyList")) {
+                                    tempData.ClearReply();
+
+                                    if(CommonFunc.getInstance().isEmpty(document.getData().containsKey("ReplyList")))
+                                    {
+
+                                        int aaa = 0;
+                                    }
+                                    else {
+                                        HashMap<String, ClubContextData> tempReply = (HashMap<String, ClubContextData>) document.getData().get("ReplyList");
+                                        Set set = tempReply.entrySet();
+                                        Iterator iterator = set.iterator();
+                                        while (iterator.hasNext()) {
+                                            Map.Entry entry = (Map.Entry) iterator.next();
+                                            String key = (String) entry.getKey();
+
+                                            HashMap<String, ClubContextData> tempReplyValue= (HashMap<String, ClubContextData>)  entry.getValue();
+                                            Set ReplySet = tempReplyValue.entrySet();
+                                            Iterator ReplyIterator = ReplySet.iterator();
+
+                                            ClubContextData tempReplyData = new ClubContextData();
+                                            while (ReplyIterator.hasNext()) {
+
+
+                                                Map.Entry ReplyEntry = (Map.Entry) ReplyIterator.next();
+                                                String ReplyKey = (String) ReplyEntry.getKey();
+
+                                                if(ReplyKey.equals("Context"))
+                                                    tempReplyData.SetContext((String)ReplyEntry.getValue());
+                                                if(ReplyKey.equals("Date"))
+                                                    tempReplyData.SetDate((String)ReplyEntry.getValue());
+                                                if(ReplyKey.equals("writerIndex"))
+                                                    tempReplyData.SetWriterIndex((String)ReplyEntry.getValue());
+
+                                                // HashMap<String, ClubContextData> tempReplyValue= (HashMap<String, ClubContextData>)  entry.getValue();
+                                                // Set set = tempReply.entrySet();
+                                                // Iterator iterator = set.iterator();
+
+                                                // tempData.SetImg(key, value);
+                                            }
+
+                                            tempData.SetReply(key, tempReplyData);
+                                    }
+
+
+                                       // tempData.SetImg(key, value);
+                                    }
+                                }*/
+
 
                                 TKManager.getInstance().TargetClubData.AddClubContext(Integer.toString(TKManager.getInstance().TargetClubData.GetClubContextCount()), tempData);
 

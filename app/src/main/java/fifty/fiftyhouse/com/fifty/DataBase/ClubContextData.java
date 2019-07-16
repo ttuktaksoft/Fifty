@@ -7,13 +7,22 @@ import java.util.Set;
 
 public class ClubContextData {
     public String writerIndex;
+    public String ContextIndex;
     public String Context;
     public String Date;
     public int ContextType;
 
     public Map<String, String> ImgList = new LinkedHashMap<String, String>();
-    public Map<String, ClubContextData> ReplyList = new LinkedHashMap<String, ClubContextData>();
+    public Map<String, String> ReplyList = new LinkedHashMap<String, String>();
 
+    public Map<String, ClubContextData> ReplyDataList = new LinkedHashMap<String, ClubContextData>();
+
+    public void SetContextIndex(String index){
+        ContextIndex = index;
+    }
+    public String GetContextIndex(){
+        return ContextIndex;
+    }
 
     public void SetWriterIndex(String index){
         writerIndex = index;
@@ -61,12 +70,12 @@ public class ClubContextData {
         ImgList.clear();
     }
 
-    public void SetReply(String Index, ClubContextData context)
+    public void SetReply(String Index, String context)
     {
         ReplyList.put(Index, context);
     }
-    public Map<String, ClubContextData>  GetReply() { return ReplyList; }
-    public ClubContextData  GetReply(String Index)
+    public Map<String, String>  GetReply() { return ReplyList; }
+    public String  GetReply(String Index)
     {
         return ReplyList.get(Index);
     }
@@ -82,4 +91,27 @@ public class ClubContextData {
     {
         ReplyList.clear();
     }
+
+    public void SetReplyData(String Index, ClubContextData context)
+    {
+        ReplyDataList.put(Index, context);
+    }
+    public Map<String, ClubContextData>  GetReplyData() { return ReplyDataList; }
+    public ClubContextData  GetReplyData(String Index)
+    {
+        return ReplyDataList.get(Index);
+    }
+    public Set GetReplyDataKeySet()
+    {
+        return ReplyDataList.keySet();
+    }
+    public int  GetReplyDataCount()
+    {
+        return ReplyDataList.size();
+    }
+    public void ClearReplyData()
+    {
+        ReplyDataList.clear();
+    }
+
 }

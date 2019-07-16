@@ -62,6 +62,7 @@ public class TKManager {
     public ClubData CreateTempClubData = new ClubData();
     public ClubContextData CreateTempClubContextData = new ClubContextData();
     public Map<String, Bitmap> TempClubContextImg = new HashMap<>();
+    public ClubContextData TargetContextData = new ClubContextData();
 
 
 }

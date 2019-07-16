@@ -112,7 +112,7 @@ public class ClubBodyFragment extends Fragment {
     {
         mReplyAdapter = new ClubBodyReplyAdapter(mContext);
         mReplyList.clear();
-        mReplyList.addAll(tempData.GetReplyKeySet());
+        mReplyList.addAll(tempData.GetReplyDataKeySet());
         mReplyAdapter.setItemCount(mReplyList.size());
         mReplyAdapter.setItemData(mReplyList);
         mReplyAdapter.setHasStableIds(true);
@@ -124,7 +124,7 @@ public class ClubBodyFragment extends Fragment {
     public void RefreshReply()
     {
         mReplyList.clear();
-        mReplyList.addAll(tempData.GetReplyKeySet());
+        mReplyList.addAll(tempData.GetReplyDataKeySet());
         mReplyAdapter.setItemCount(mReplyList.size());
         mReplyAdapter.setItemData(mReplyList);
         mReplyAdapter.notifyDataSetChanged();
