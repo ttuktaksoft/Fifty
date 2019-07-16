@@ -4,6 +4,7 @@ import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.kakao.usermgmt.response.model.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,6 +85,10 @@ public class UserData {
 
     public Map<String, ClubData> ClubData = new LinkedHashMap<>();
     public long ConnectDate;
+
+    public Map<String, ClubData> RequestJoinClubList = new LinkedHashMap<>();
+    public Map<String, ClubContextData> ReportContextList = new LinkedHashMap<>();
+    public Map<String, UserData> ReportUserList = new LinkedHashMap<>();
 
   /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
     {
@@ -589,4 +594,41 @@ public class UserData {
         return ClubData;
     }
     public Set GetUserClubDataKeySet() { return  ClubData.keySet(); }
+
+
+    public void SetRequestJoinClubList(String Idx, ClubData data){ RequestJoinClubList.put(Idx, data); }
+    public ClubData  GetRequestJoinClubList(String index){ return RequestJoinClubList.get(index); }
+    public int  GetRequestJoinClubListCount()
+    {
+        return RequestJoinClubList.size();
+    }
+    public Map<String, ClubData>  GetRequestJoinClubList()
+    {
+        return RequestJoinClubList;
+    }
+    public Set GetRequestJoinClubListKeySet() { return  RequestJoinClubList.keySet(); }
+
+    public void SetReportContextList(String Idx, ClubContextData data){ ReportContextList.put(Idx, data); }
+    public ClubContextData  GetReportContextList(String index){ return ReportContextList.get(index); }
+    public int  GetReportContextListCount()
+    {
+        return ReportContextList.size();
+    }
+    public Map<String, ClubContextData>  GetReportContextList()
+    {
+        return ReportContextList;
+    }
+    public Set GetReportContextListKeySet() { return  ReportContextList.keySet(); }
+
+    public void SetReportUserList(String Idx, UserData data){ ReportUserList.put(Idx, data); }
+    public UserData  GetReportUserList(String index){ return ReportUserList.get(index); }
+    public int  GetReportUserListtCount()
+    {
+        return ReportUserList.size();
+    }
+    public Map<String, UserData>  GetReportUserList()
+    {
+        return ReportUserList;
+    }
+    public Set GetReportUserListKeySet() { return  ReportUserList.keySet(); }
 }

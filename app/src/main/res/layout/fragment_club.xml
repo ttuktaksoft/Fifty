@@ -40,6 +40,8 @@
                 app:layout_constraintLeft_toRightOf="@+id/iv_Club_TopBar_Search"
                 app:layout_constraintTop_toTopOf="@+id/v_Club_TopBar"
                 app:layout_constraintBottom_toBottomOf="@+id/v_Club_TopBar"
+                android:inputType="textCapSentences"
+                android:imeOptions="actionSearch"
                 />
 
             <ImageView

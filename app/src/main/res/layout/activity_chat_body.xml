@@ -74,7 +74,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Body_Send"
         android:textColor="@color/str_color_2"
         android:textStyle="bold"
-        android:background="@color/chat_send_bg"/>
+        android:background="@color/chat_send_bg"
+        android:imeOptions="actionDone"/>
 
     <EditText
         android:id="@+id/et_Chat_Body_Msg"

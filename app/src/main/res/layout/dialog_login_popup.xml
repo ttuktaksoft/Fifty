@@ -44,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_Login_Popup_Desc"
         android:hint="@string/NICKNAME_HINT"
         android:inputType="textNoSuggestions|text"
+        android:imeOptions="actionDone"
         android:cursorVisible="true"/>
 
     <EditText
@@ -59,6 +60,7 @@
         android:layout_marginRight="20dp"
         android:hint="@string/PASSWORD_HINT"
         android:inputType="textNoSuggestions|textPassword"
+        android:imeOptions="actionDone"
         android:cursorVisible="true"/>
 
     <TextView
