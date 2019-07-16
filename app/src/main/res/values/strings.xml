@@ -4,6 +4,7 @@
     <string name="MSG_OK">확인</string>
     <string name="MSG_CANCEL">취소</string>
     <string name="MSG_NOTICE">알림</string>
+    <string name="MSG_BUY">구매</string>
     <string name="MSG_SAVE">저장</string>
     <string name="MSG_EVENT">이벤트</string>
     <string name="MSG_NOTICE_LONG">공지사항</string>
@@ -31,6 +32,8 @@
     <string name="MSG_MY_CLUB">내 클럽</string>
     <string name="MSG_RECOM_CLUB">추천</string>
     <string name="MSG_CLUB_WRITE">등록하기</string>
+    <string name="MSG_MOVE_SHOP">샵으로 이동</string>
+    <string name="MSG_SHOP">샵</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
@@ -134,6 +137,9 @@
 
     <string name="CLUB_WRITE_HINT">내용을 입력해주세요</string>
     <string name="CLUB_BODY_REPLY_HINT">내용을 입력해주세요</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_LIKE">좋아요를 한 친구를 볼려면\n아이템을 구매해주세요</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_VISIT">나를 방문한 친구를 볼려면\n아이템을 구매해주세요</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST">나를 친구로 추가한 친구를 볼려면\n아이템을 구매해주세요</string>
 
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>

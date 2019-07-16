@@ -84,6 +84,7 @@
         <activity android:name=".activty.SortSettingActivity" />
         <activity android:name=".activty.ClubCreateActivity" />
         <activity android:name=".activty.ClubWriteActivity" />
+        <activity android:name=".activty.ShopActivity"></activity>
     </application>
 
 </manifest>

@@ -15,17 +15,24 @@ import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ShopActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.UserListAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class FriendRequestListViewPager extends Fragment {
+
+    View ui_vip_shop_info;
+    TextView tv_VIP_Info_Desc;
+    TextView tv_VIP_Info_Shop;
 
     RecyclerView rv_Friend_Request_UserList;
     TextView tv_Friend_Request_UserList_Empty;
@@ -46,12 +53,36 @@ public class FriendRequestListViewPager extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.viewpager_friend_request_list, container, false);
             rv_Friend_Request_UserList = v_FragmentView.findViewById(R.id.rv_Friend_Request_UserList);
             tv_Friend_Request_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Friend_Request_UserList_Empty);
+            ui_vip_shop_info = v_FragmentView.findViewById(R.id.ui_vip_shop_info);
+            tv_VIP_Info_Desc = v_FragmentView.findViewById(R.id.tv_VIP_Info_Desc);
+            tv_VIP_Info_Shop = v_FragmentView.findViewById(R.id.tv_VIP_Info_Shop);
 
+            ui_vip_shop_info.setVisibility(View.GONE);
+            ui_vip_shop_info.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                }
+            });
+
+            tv_VIP_Info_Shop.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    startActivity(new Intent(getContext(), ShopActivity.class));
+                }
+            });
             initRecyclerView();
         }
         else
         {
             mAdapter.notifyDataSetChanged();
+        }
+
+        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        {
+            ui_vip_shop_info.setVisibility(View.VISIBLE);
+            tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(getContext().getResources(), R.string.USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST));
+            rv_Friend_Request_UserList.setVisibility(View.GONE);
+            tv_Friend_Request_UserList_Empty.setVisibility(View.GONE);
         }
 
         return v_FragmentView;

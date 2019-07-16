@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.ShopActivity"
+    android:background="@color/activity_bg">
+
+    <include
+        android:id="@+id/ui_Shop_TopBar"
+        layout="@layout/ui_topbar"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Shop_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/ui_Shop_TopBar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_Shop_Info_Icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Shop_Info"
+            app:layout_constraintRight_toRightOf="@+id/v_Shop_Info"
+            android:src="@drawable/ic_shop"/>
+
+        <TextView
+            android:id="@+id/tv_Shop_Info_Desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/BaseContentTextView"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Shop_Info"
+            app:layout_constraintRight_toRightOf="@+id/v_Shop_Info"
+            app:layout_constraintTop_toBottomOf="@+id/iv_Shop_Info_Icon"
+            android:textColor="@color/str_color_1"
+            android:gravity="center"
+            android:text="아이템을 구매하시면 혜택이 있습니다.\n- 나를 좋아요 한 유저 목록 확인\n- 방문자 유저 목록 확인\n- 나를 친구로 추가한 유저 목록 확인"/>
+
+        <TextView
+            android:id="@+id/tv_Shop_Info_Buy"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/top_bar_height"
+            style="@style/BaseTextView_AutoSize"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Shop_Info_Desc"
+            android:text="@string/MSG_BUY"
+            android:gravity="center"
+            android:textColor="@color/button_enable_str"
+            android:textStyle="bold"
+            android:background="@color/button_enable"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>
