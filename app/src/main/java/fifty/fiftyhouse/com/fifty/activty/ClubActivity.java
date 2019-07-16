@@ -39,13 +39,14 @@ public class ClubActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
 
-    ImageView iv_Club_Thumbnail, iv_Club_Write, iv_Club_UserCount;
-    TextView tv_Club_Name, tv_Club_UserCount;
+    ImageView iv_Club_Thumbnail, iv_Club_Write, iv_Club_UserCount, iv_Club_Setting;
+    TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join;
     RecyclerView rv_Club_Content;
     ClubContentAdapter mAdapter;
 
     Context mContext;
-
+    boolean mIsJoinClub = false;
+    boolean mIsMasterClub = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +63,11 @@ public class ClubActivity extends AppCompatActivity {
         tv_Club_UserCount = findViewById(R.id.tv_Club_UserCount);
         rv_Club_Content = findViewById(R.id.rv_Club_Content);
         iv_Club_UserCount = findViewById(R.id.iv_Club_UserCount);
+        tv_Club_Join = findViewById(R.id.tv_Club_Join);
+        iv_Club_Setting = findViewById(R.id.iv_Club_Setting);
+
+        mIsJoinClub = TKManager.getInstance().TargetClubData.GetClubMember(TKManager.getInstance().MyData.GetUserIndex()) != null;
+        mIsMasterClub = TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex());
 
         tv_Club_Name.setText(TKManager.getInstance().TargetClubData.GetClubName());
         tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
@@ -149,7 +155,78 @@ public class ClubActivity extends AppCompatActivity {
             }
         });
 
+        RefreshJoinStr();
+
+        tv_Club_Join.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+                if(false)
+                {
+                    // 가입 대기가 아닌경우
+                    final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                        @Override
+                        public void Listener() {
+                            // 가입 신청
+                            RefreshJoinStr();
+                        }
+                    };
+
+                    DialogFunc.getInstance().ShowMsgPopup(ClubActivity.this, listenerYes, null, CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST_DESC),
+                            CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST), CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CANCEL));
+                }
+                else
+                {
+                    final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                        @Override
+                        public void Listener() {
+                            // 가입 신청 취소
+                            RefreshJoinStr();
+                        }
+                    };
+
+                    DialogFunc.getInstance().ShowMsgPopup(ClubActivity.this, listenerYes, null, CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST_CANCEL_DESC),
+                            CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST), CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CANCEL));
+                }
+            }
+        });
+
+        iv_Club_Setting.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, ClubSettingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        if(mIsJoinClub)
+        {
+            // 가입한 클럽
+            tv_Club_Join.setVisibility(View.GONE);
+            iv_Club_Write.setVisibility(View.VISIBLE);
+            iv_Club_Setting.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            tv_Club_Join.setVisibility(View.VISIBLE);
+            iv_Club_Write.setVisibility(View.GONE);
+            iv_Club_Setting.setVisibility(View.GONE);
+        }
+
         initRecyclerView();
+    }
+
+    public void RefreshJoinStr()
+    {
+        if(false)
+        {
+            // 가입 대기가 아닌경우
+            tv_Club_Join.setText(CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST));
+        }
+        else
+        {
+            tv_Club_Join.setText(CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST_CANCEL));
+        }
     }
 
 
@@ -182,6 +259,7 @@ public class ClubActivity extends AppCompatActivity {
                 ClubContextData tempData = new ClubContextData();
                 tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(position));
                 Intent intent = new Intent(getApplicationContext(), ClubBodyActivity.class);
+                intent.putExtra("Type",0);
                 intent.putExtra("position",position);
                 startActivityForResult(intent, 1000);
             }
