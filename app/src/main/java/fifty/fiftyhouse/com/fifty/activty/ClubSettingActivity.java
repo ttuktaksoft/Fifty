@@ -51,7 +51,11 @@ public class ClubSettingActivity extends AppCompatActivity {
 
         if(mIsMasterClub)
         {
-            tv_ClubSetting_Join_Wait.setVisibility(View.VISIBLE);
+            if(TKManager.getInstance().TargetClubData.GetClubType() == false)
+                tv_ClubSetting_Join_Wait.setVisibility(View.VISIBLE);
+            else
+                tv_ClubSetting_Join_Wait.setVisibility(View.GONE);
+
             tv_ClubSetting_Report.setVisibility(View.VISIBLE);
             tv_ClubSetting_Withdrawal.setVisibility(View.GONE);
         }

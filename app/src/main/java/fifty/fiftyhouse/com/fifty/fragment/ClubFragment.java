@@ -23,7 +23,9 @@ import com.kakao.auth.AuthType;
 import com.kakao.auth.Session;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -59,6 +61,8 @@ public class ClubFragment extends Fragment {
 
     MainActivity.MoveFragmentListener mMoveListener = null;
     ArrayList<String> mClubList = new ArrayList<>();
+
+    boolean bSearchClub = false;
 
     public void SetMoveListener(MainActivity.MoveFragmentListener listener)
     {
@@ -180,7 +184,11 @@ public class ClubFragment extends Fragment {
             @Override
             public void onSingleClick(View view, final int position) {
 
-                Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+                Map<String, ClubData> tempClubKey = new LinkedHashMap<>();
+                tempClubKey.putAll(TKManager.getInstance().MyData.GetUserClubData());
+                tempClubKey.putAll(TKManager.getInstance().SearchClubList);
+
+                Set tempKey = tempClubKey.keySet(); //TKManager.getInstance().MyData.GetUserClubDataKeySet();
                 final List array = new ArrayList(tempKey);
 
                 //DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
@@ -226,7 +234,11 @@ public class ClubFragment extends Fragment {
     public void RefreshUserList()
     {
         mClubList.clear();
-        mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+
+        if(!bSearchClub)
+            mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+        else
+            mClubList.addAll(TKManager.getInstance().SearchClubList.keySet());
     }
 
     private void SearchClub(String name)
@@ -254,6 +266,7 @@ public class ClubFragment extends Fragment {
             DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EMPTY));
         }
         else {
+            bSearchClub = true;
             FirebaseManager.getInstance().SearchClubList(name, listener);
         }
     }
