@@ -121,6 +121,7 @@
     <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_CLUB">클럽 유저 목록이 없습니다</string>
+    <string name="MSG_NOTICE_EMPTY">알람이 없습니다.</string>
     <string name="MSG_USER_LIST_EMPTY_CLUB_JOIN_WAIT">클럽 가입 대기 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND_REQUEST">나를 추가한 친구가 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
@@ -162,6 +163,7 @@
     <string name="USER_LIST_VIP_SHOP_DESC_LIKE">좋아요를 한 친구를 볼려면\n아이템을 구매해주세요</string>
     <string name="USER_LIST_VIP_SHOP_DESC_VISIT">나를 방문한 친구를 볼려면\n아이템을 구매해주세요</string>
     <string name="USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST">나를 친구로 추가한 친구를 볼려면\n아이템을 구매해주세요</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_NOTICE">알람내용을 볼려면\n아이템을 구매해주세요</string>
 
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>

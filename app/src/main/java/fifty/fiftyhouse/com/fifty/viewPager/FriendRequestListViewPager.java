@@ -67,7 +67,7 @@ public class FriendRequestListViewPager extends Fragment {
             tv_VIP_Info_Shop.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    startActivity(new Intent(getContext(), ShopActivity.class));
+                    startActivityForResult(new Intent(getContext(), ShopActivity.class), 1000);
                 }
             });
             initRecyclerView();
@@ -77,13 +77,7 @@ public class FriendRequestListViewPager extends Fragment {
             mAdapter.notifyDataSetChanged();
         }
 
-        if(TKManager.getInstance().MyData.GetUserVip() == false)
-        {
-            ui_vip_shop_info.setVisibility(View.VISIBLE);
-            tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(getContext().getResources(), R.string.USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST));
-            rv_Friend_Request_UserList.setVisibility(View.GONE);
-            tv_Friend_Request_UserList_Empty.setVisibility(View.GONE);
-        }
+        RefreshVIP();
 
         return v_FragmentView;
     }
@@ -140,6 +134,11 @@ public class FriendRequestListViewPager extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         RefreshAdapter();
         mAdapter.notifyDataSetChanged();
+
+        if(requestCode == 1000)
+        {
+            RefreshVIP();
+        }
     }
     public void RefreshUserList() {
         mUserList.clear();
@@ -161,5 +160,23 @@ public class FriendRequestListViewPager extends Fragment {
         RefreshUserList();
         mAdapter.setItemData(mUserList);
         mAdapter.setItemCount(mUserList.size());
+    }
+
+    public void RefreshVIP()
+    {
+        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        {
+            ui_vip_shop_info.setVisibility(View.VISIBLE);
+            tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(getContext().getResources(), R.string.USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST));
+            rv_Friend_Request_UserList.setVisibility(View.GONE);
+            tv_Friend_Request_UserList_Empty.setVisibility(View.GONE);
+        }
+        else
+        {
+            ui_vip_shop_info.setVisibility(View.GONE);
+            RefreshUserList();
+            RefreshAdapter();
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }
