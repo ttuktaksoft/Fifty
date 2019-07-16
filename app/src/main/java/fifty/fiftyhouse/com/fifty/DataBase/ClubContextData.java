@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty.DataBase;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class ClubContextData {
     public String writerIndex;
@@ -68,6 +69,10 @@ public class ClubContextData {
     public ClubContextData  GetReply(String Index)
     {
         return ReplyList.get(Index);
+    }
+    public Set GetReplyKeySet()
+    {
+        return ReplyList.keySet();
     }
     public int  GetReplyCount()
     {
