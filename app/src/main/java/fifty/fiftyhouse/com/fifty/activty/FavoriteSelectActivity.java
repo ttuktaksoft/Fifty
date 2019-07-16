@@ -119,26 +119,50 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 {
                     if(nType == 2)
                     {
-                        Set EntrySet = TKManager.getInstance().CreateTempClubData.ClubFavorite.keySet();
-                        Iterator iterator = EntrySet.iterator();
 
-                        EntrySet = mFavoriteSelectList.entrySet();
-                        iterator = EntrySet.iterator();
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
 
-                        ArrayList<String> tempFavorite = new ArrayList<>();
+                                Set EntrySet = TKManager.getInstance().CreateTempClubData.ClubFavorite.keySet();
+                                Iterator iterator = EntrySet.iterator();
 
-                        while(iterator.hasNext()){
-                            Map.Entry entry = (Map.Entry)iterator.next();
-                            String key = (String)entry.getKey();
-                            String value = (String)entry.getValue();
-                            TKManager.getInstance().CreateTempClubData.AddClubFavorite(key, value);
-                        }
+                                EntrySet = mFavoriteSelectList.entrySet();
+                                iterator = EntrySet.iterator();
 
-                        // 다음
-                        finish();
+                                ArrayList<String> tempFavorite = new ArrayList<>();
 
-                        Intent intent = new Intent(mContext, ClubCreateActivity.class);
-                        startActivity(intent);
+                                int FavoriteIndex = 0;
+                                while(iterator.hasNext()){
+
+                                    Map.Entry entry = (Map.Entry)iterator.next();
+                                    String key = (String)entry.getKey();
+                                    String value = (String)entry.getValue();
+                                    TKManager.getInstance().CreateTempClubData.AddClubFavorite(Integer.toString(FavoriteIndex), value);
+                                    FavoriteIndex++;
+                                }
+
+                                // 다음
+                                Intent intent = new Intent(mContext, ClubCreateActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+
+                            }
+                        };
+
+                        FirebaseManager.getInstance().RegistClubIndex(TKManager.getInstance().CreateTempClubData, listener);
+
+
+
                     }
                     else
                     {

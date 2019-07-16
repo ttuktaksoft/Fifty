@@ -82,47 +82,28 @@ public class ClubCreateActivity extends AppCompatActivity {
                     DialogFunc.getInstance().ShowLoadingPage(ClubCreateActivity.this);
                     TKManager.getInstance().CreateTempClubData.SetClubMasterIndex(TKManager.getInstance().MyData.GetUserIndex());
                     TKManager.getInstance().CreateTempClubData.SetClubName(et_ClubCreate_Name.getText().toString());
-                    TKManager.getInstance().CreateTempClubData.SetClubThumb(TKManager.getInstance().MyData.GetUserImgThumb());
+                    TKManager.getInstance().CreateTempClubData.SetClubThumb(TKManager.getInstance().CreateTempClubData.GetClubThumb());
                     TKManager.getInstance().CreateTempClubData.SetClubType(isVIPType);
-                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    TKManager.getInstance().CreateTempClubData.AddClubMember(TKManager.getInstance().MyData.GetUserIndex());
+
+                    FirebaseManager.CheckFirebaseComplete registClubListener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
-
-                            FirebaseManager.CheckFirebaseComplete registClubListener = new FirebaseManager.CheckFirebaseComplete() {
-                                @Override
-                                public void CompleteListener() {
-                                    DialogFunc.getInstance().DismissLoadingPage();
-                                    finish();
-                                }
-
-                                @Override
-                                public void CompleteListener_Yes() {
-
-                                }
-
-                                @Override
-                                public void CompleteListener_No() {
-
-                                }
-                            };
-
-                            FirebaseManager.getInstance().RegistClubList(TKManager.getInstance().CreateTempClubData, registClubListener);
-
+                            TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().CreateTempClubData.ClubIndex, TKManager.getInstance().CreateTempClubData);
+                            DialogFunc.getInstance().DismissLoadingPage();
+                            finish();
                         }
 
                         @Override
                         public void CompleteListener_Yes() {
-
                         }
 
                         @Override
                         public void CompleteListener_No() {
-
                         }
                     };
 
-                    FirebaseManager.getInstance().RegistClubIndex(TKManager.getInstance().CreateTempClubData, listener);
-
+                    FirebaseManager.getInstance().RegistClubList(TKManager.getInstance().CreateTempClubData, registClubListener);
                 }
             }
         });
@@ -137,16 +118,17 @@ public class ClubCreateActivity extends AppCompatActivity {
         sw_ClubCreate_VIP.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
+
+                if(TKManager.getInstance().MyData.GetUserVip())
                 {
-                    // VIP 상태 확인하고 유료 상점으로 이동 시켜야함
+                    isVIPType = isChecked;
                 }
                 else
                 {
-
+                    // VIP 상태 확인하고 유료 상점으로 이동 시켜야함
+                    isVIPType = false;
                 }
 
-                isVIPType = isChecked;
             }
         });
     }
@@ -158,7 +140,24 @@ public class ClubCreateActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
                 isProfileUpload = true;
-                DialogFunc.getInstance().ShowLoadingPage(mContext);
+                DialogFunc.getInstance().ShowLoadingPage(ClubCreateActivity.this);
+
+                // TODO 클럽 이미지 올려야함
+                Uri resultUri = result.getUri();
+
+                Bitmap originalBm = null;
+                try {
+                    originalBm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), resultUri);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, false);
+
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
@@ -174,21 +173,7 @@ public class ClubCreateActivity extends AppCompatActivity {
                     public void CompleteListener_No() {
                     }
                 };
-                // TODO 클럽 이미지 올려야함
-                Uri resultUri = result.getUri();
-
-                Bitmap originalBm = null;
-                try {
-                    originalBm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), resultUri);
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, true);
+                FirebaseManager.getInstance().UploadClubThumbImg(TKManager.getInstance().CreateTempClubData.GetClubIndex(), originalBm, TKManager.getInstance().CreateTempClubData, listener);
             }
         }
     }
