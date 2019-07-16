@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.Manager;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.FilterData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
@@ -58,6 +60,8 @@ public class TKManager {
 
     public FilterData FilterData = new FilterData();
     public ClubData CreateTempClubData = new ClubData();
+    public ClubContextData CreateTempClubContextData = new ClubContextData();
+    public Map<String, Bitmap> TempClubContextImg = new HashMap<>();
 
 
 }

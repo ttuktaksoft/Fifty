@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubWriteImgAdapter;
@@ -65,6 +68,23 @@ public class ClubWriteFragment extends Fragment {
         rv_ClubWrite_Pic = v_FragmentView.findViewById(R.id.rv_ClubWrite_Pic);
 
         et_ClubWrite_Desc.setText("");
+
+        et_ClubWrite_Desc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                TKManager.getInstance().CreateTempClubContextData.SetContext(et_ClubWrite_Desc.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         TempClubWriteImgLIst.clear();
 
         initRecyclerView();

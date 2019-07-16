@@ -21,8 +21,10 @@ import java.io.IOException;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.fragment.ClubWriteFragment;
 import fifty.fiftyhouse.com.fifty.fragment.SignUpFragment;
@@ -40,6 +42,8 @@ public class ClubWriteActivity extends AppCompatActivity {
     Activity mActivity;
     FragmentManager mFragmentMgr;
     ClubWriteFragment mClubWriteFragment;
+
+    ClubContextData tempData = new ClubContextData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,128 @@ public class ClubWriteActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
+                DialogFunc.getInstance().ShowLoadingPage(ClubWriteActivity.this);
+                TKManager.getInstance().CreateTempClubContextData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
+                TKManager.getInstance().CreateTempClubContextData.SetDate(CommonFunc.getInstance().GetCurrentTime());
+
+                if(TKManager.getInstance().TempClubContextImg.size()  == 0)
+                {
+                    TKManager.getInstance().CreateTempClubContextData.SetContextType(0);
+                    FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+                            finish();
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+
+                        }
+                    };
+                    FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubContextData, ContextListener);
+                }
+
+                else if(TKManager.getInstance().TempClubContextImg.size() == 1)
+                {
+                    TKManager.getInstance().CreateTempClubContextData.SetContextType(1);
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempClubContextImg.size());
+                    FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+
+                            FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    TKManager.getInstance().TempClubContextImg.clear();
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    finish();
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+                            FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubContextData, ContextListener);
+
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+
+                        }
+                    };
+
+                    FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempClubContextImg.get("0"),
+                            "0", TKManager.getInstance().CreateTempClubContextData, uploadListener);
+                }
+                else
+                {
+                    TKManager.getInstance().CreateTempClubContextData.SetContextType(2);
+
+                    for(int i=0 ;i< TKManager.getInstance().TempClubContextImg.size(); i++)
+                    {
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempClubContextImg.size());
+                        FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+
+                                FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        TKManager.getInstance().TempClubContextImg.clear();
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+
+                                    }
+                                };
+                                FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubContextData, ContextListener);
+
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+
+                            }
+                        };
+
+                        FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempClubContextImg.get(Integer.toString(i)),
+                                Integer.toString(i), TKManager.getInstance().CreateTempClubContextData, uploadListener);
+                    }
+
+
+
+                }
             }
         });
     }
@@ -88,7 +214,27 @@ public class ClubWriteActivity extends AppCompatActivity {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
-                DialogFunc.getInstance().ShowLoadingPage(mContext);
+                DialogFunc.getInstance().ShowLoadingPage(ClubWriteActivity.this);
+
+                // TODO 클럽 이미지 올려야함
+                Uri resultUri = result.getUri();
+
+                Bitmap originalBm = null;
+                try {
+                    originalBm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), resultUri);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                TKManager.getInstance().TempClubContextImg.put(Integer.toString(TKManager.getInstance().TempClubContextImg.size()), originalBm);
+                mClubWriteFragment.AddImg(resultUri.toString());
+                //CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, false);
+                DialogFunc.getInstance().DismissLoadingPage();
+
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
@@ -105,8 +251,8 @@ public class ClubWriteActivity extends AppCompatActivity {
                     }
                 };
                 // TODO 클럽 이미지 올려야함
-                Uri resultUri = result.getUri();
-                //mClubWriteFragment.AddImg(resultUri.toString());
+              //  Uri resultUri = result.getUri();
+
             }
         }
     }

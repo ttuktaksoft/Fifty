@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
@@ -158,7 +159,12 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
         tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
         tv_Club_Con_Date.setText(tempData.Date);
-        tv_Club_Con_Desc.setText(tempData.Context);
+        if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
+        {
+            tv_Club_Con_Desc.setVisibility(View.INVISIBLE);
+        }
+        else
+            tv_Club_Con_Desc.setText(tempData.Context);
 
         mAdapter.setReplyCount(tempData.GetReplyCount());
     }

@@ -2036,8 +2036,8 @@ public class FirebaseManager {
         });
     }
 
-    public void UploadClubContextImg(String clubIndex, Bitmap bitmap, final String ImgIndex, final ClubContextData clubContextData, final FirebaseManager.CheckFirebaseComplete listener) {
-        final StorageReference tempThumbnailRef = mStorageRef.child("ClubImage/" + ImgIndex + "/Img.jpg");
+    public void UploadClubContextImg(ClubData clubIndex, Bitmap bitmap, final String ImgIndex, final ClubContextData clubContextData, final FirebaseManager.CheckFirebaseComplete listener) {
+        final StorageReference tempThumbnailRef = mStorageRef.child("ClubImage/" + clubIndex.GetClubIndex() + "/" + clubIndex.GetClubContextCount() + "/" + ImgIndex + "/Img.jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
@@ -2059,8 +2059,9 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
                     clubContextData.SetImg(ImgIndex, downloadUri.toString());
-                    if (listener != null)
-                        listener.CompleteListener();
+
+                    Complete(listener);
+
                 } else {
                     // Handle failures
                     // ...
@@ -2592,10 +2593,20 @@ public class FirebaseManager {
                             {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
-
                                 ClubContextData tempData = new ClubContextData();
                                 tempData.ContextType = Integer.parseInt(document.getData().get("ContextType").toString());
-                                tempData.Context = document.getData().get("Context").toString();
+
+                                if (document.getData().containsKey("Context")) {
+                                    if(CommonFunc.getInstance().isEmpty(document.getData().get("Context")))
+                                    {
+                                        tempData.Context = "";
+                                    }
+                                    else
+                                        tempData.Context = document.getData().get("Context").toString();
+                                } else
+                                    tempData.Context = "";
+
+
                                 tempData.Date = document.getData().get("Date").toString();
                                 tempData.writerIndex = document.getData().get("writerIndex").toString();
 
