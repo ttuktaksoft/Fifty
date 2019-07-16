@@ -84,6 +84,10 @@ public class UserListActivity extends AppCompatActivity {
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_FRIEND));
         }
+        else if(mUserListType == CommonData.USER_LIST_CLUB)
+        {
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_CLUB));
+        }
 
         RefreshUserList(mUserListType);
         if (mUserListType == CommonData.USER_LIST_MY_LIKE)
@@ -97,6 +101,10 @@ public class UserListActivity extends AppCompatActivity {
         else if (mUserListType == CommonData.USER_LIST_MY_FRIEND)
         {
             tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_LIST_EMPTY_FRIEND));
+        }
+        else if(mUserListType == CommonData.USER_LIST_CLUB)
+        {
+            tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_CLUB));
         }
 
         initRecyclerView();
@@ -132,7 +140,9 @@ public class UserListActivity extends AppCompatActivity {
                     case CommonData.USER_LIST_MY_FRIEND:
                         tempKey =  TKManager.getInstance().MyData.GetUserFriendListKeySet();
                         break;
-
+                    case CommonData.USER_LIST_CLUB:
+                        tempKey =  TKManager.getInstance().TargetClubData.GetClubMemberKeySet();
+                        break;
                 }
 
                 array = new ArrayList(tempKey);
@@ -187,6 +197,11 @@ public class UserListActivity extends AppCompatActivity {
             RefreshAdapter(CommonData.USER_LIST_MY_FRIEND);
             mAdapter.notifyDataSetChanged();
         }
+        else if (requestCode == CommonData.USER_LIST_CLUB)
+        {
+            RefreshAdapter(CommonData.USER_LIST_CLUB);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     public void RefreshAdapter(int type)
@@ -210,6 +225,10 @@ public class UserListActivity extends AppCompatActivity {
         else if (type == CommonData.USER_LIST_MY_FRIEND)
         {
             mUserList.addAll(TKManager.getInstance().MyData.GetUserFriendListKeySet());
+        }
+        else if (type == CommonData.USER_LIST_CLUB)
+        {
+            mUserList.addAll(TKManager.getInstance().TargetClubData.GetClubMemberKeySet());
         }
 
         if(mUserList.size() == 0)

@@ -39,19 +39,19 @@ public class ClubActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
 
-    ImageView iv_Club_Thumbnail, iv_Club_Write;
+    ImageView iv_Club_Thumbnail, iv_Club_Write, iv_Club_UserCount;
     TextView tv_Club_Name, tv_Club_UserCount;
     RecyclerView rv_Club_Content;
     ClubContentAdapter mAdapter;
 
-    Context mContent;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club);
 
-        mContent = getApplicationContext();
+        mContext = getApplicationContext();
 
         ui_Club_TopBar = findViewById(R.id.ui_Club_TopBar);
         tv_TopBar_Title = ui_Club_TopBar.findViewById(R.id.tv_TopBar_Title);
@@ -61,6 +61,7 @@ public class ClubActivity extends AppCompatActivity {
         tv_Club_Name = findViewById(R.id.tv_Club_Name);
         tv_Club_UserCount = findViewById(R.id.tv_Club_UserCount);
         rv_Club_Content = findViewById(R.id.rv_Club_Content);
+        iv_Club_UserCount = findViewById(R.id.iv_Club_UserCount);
 
         tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
@@ -86,7 +87,7 @@ public class ClubActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
 
                 // 글쓰는 엑티비티로 이동
-                Intent intent = new Intent(mContent, ClubWriteActivity.class);
+                Intent intent = new Intent(mContext, ClubWriteActivity.class);
                 startActivity(intent);
 /*
 
@@ -133,6 +134,15 @@ public class ClubActivity extends AppCompatActivity {
 */
 
 
+            }
+        });
+
+        iv_Club_UserCount.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, UserListActivity.class);
+                intent.putExtra("Type",CommonData.USER_LIST_CLUB);
+                startActivity(intent);
             }
         });
 

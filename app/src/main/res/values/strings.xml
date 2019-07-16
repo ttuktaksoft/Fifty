@@ -41,6 +41,7 @@
     <string name="TITLE_USER_LIST_VISIT">방문자 목록</string>
     <string name="TITLE_USER_LIST_LIKE">좋아요 목록</string>
     <string name="TITLE_USER_LIST_FRIEND">친구 목록</string>
+    <string name="TITLE_USER_LIST_CLUB">클럽 유저 목록</string>
     <string name="TITLE_USER_NOTICE">알림</string>
     <string name="TITLE_FAVORITE_SELECT">관심사 선택</string>
     <string name="TITLE_FAVORITE_EDIT">관심사 수정</string>
@@ -97,6 +98,7 @@
     <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
     <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_CLUB">클럽 유저 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND_REQUEST">나를 추가한 친구가 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
     <string name="MSG_APP_EXIT">피프티를 종료하시겠습니까?</string>
