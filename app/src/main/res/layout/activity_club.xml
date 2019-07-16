@@ -96,6 +96,23 @@
                 app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
                 android:src="@drawable/icon_write"/>
 
+            <TextView
+                android:id="@+id/tv_Club_Join"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                style="@style/BaseContentTextView_AutoSize"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
+                app:layout_constraintTop_toTopOf="@+id/v_Club_Info"
+                app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
+                android:text="@string/MSG_CLUB_JOIN_REQUEST"
+                android:gravity="center"
+                android:textColor="@color/button_enable_str"
+                android:textStyle="bold"
+                android:background="@color/button_enable"/>
+
         </android.support.constraint.ConstraintLayout>
 
 

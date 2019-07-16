@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.ClubBodyReportListActivity">
+
+    <include
+        android:id="@+id/ui_ClubBodyReportList_TopBar"
+        layout="@layout/ui_topbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_ClubBodyReportList_List"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/ui_ClubBodyReportList_TopBar"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_ClubBodyReportList_Empty"
+        android:layout_width="00dp"
+        android:layout_height="0dp"
+        style="@style/BaseContentTextView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ui_ClubBodyReportList_TopBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/MSG_CLUB_BODY_REPORT_LIST_EMPTY"
+        android:gravity="center"
+        android:textColor="@color/str_color_1" />
+
+</android.support.constraint.ConstraintLayout>

@@ -20,6 +20,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -212,7 +213,7 @@ public class UserListActivity extends AppCompatActivity {
                         break;
                     case CommonData.USER_LIST_CLUB_JOIN_WAIT:
                         // 가입 대기 목록
-                        tempKey =  TKManager.getInstance().TargetClubData.GetClubMemberKeySet();
+                        tempKey = new HashSet();
                         break;
                     default:
                         tempKey = null;
@@ -336,7 +337,6 @@ public class UserListActivity extends AppCompatActivity {
         else if (type == CommonData.USER_LIST_CLUB_JOIN_WAIT)
         {
             // 가입 대기 목록
-            mUserList.addAll(TKManager.getInstance().TargetClubData.GetClubMemberKeySet());
         }
 
         if(mUserList.size() == 0)

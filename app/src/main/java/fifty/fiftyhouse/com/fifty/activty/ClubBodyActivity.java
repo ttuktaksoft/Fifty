@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class ClubBodyActivity extends AppCompatActivity {
 
     EditText et_ClubBody_Reply;
     TextView tv_ClubBody_Send;
+    TextView tv_ClubBody_Del;
 
     Context mContext;
     Activity mActivity;
@@ -62,19 +64,30 @@ public class ClubBodyActivity extends AppCompatActivity {
         mFragmentMgr = getSupportFragmentManager();
 
         Intent intent = getIntent(); //getIntent()로 받을준비
+        int nType = getIntent().getIntExtra("Type", 0);
         int nPosition = getIntent().getIntExtra("position", 0);
 
-        tempData = new ClubContextData();
-        tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(nPosition));
 
-        TKManager.getInstance().TargetContextData = tempData;
+        tempData = new ClubContextData();
+        if(nType == 1)
+        {
+            // TODO 신고 당한 게시물 선택
+
+        }
+        else
+        {
+            tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(nPosition));
+
+            TKManager.getInstance().TargetContextData = tempData;
+        }
+
 
         ui_ClubBody_TopBar = findViewById(R.id.ui_ClubBody_TopBar);
         tv_TopBar_Title = ui_ClubBody_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_ClubBody_TopBar.findViewById(R.id.iv_TopBar_Back);
         et_ClubBody_Reply = findViewById(R.id.et_ClubBody_Reply);
         tv_ClubBody_Send = findViewById(R.id.tv_ClubBody_Send);
-
+        tv_ClubBody_Del = findViewById(R.id.tv_ClubBody_Del);
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -84,9 +97,39 @@ public class ClubBodyActivity extends AppCompatActivity {
         });
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_BODY));
 
+
+        if(nType == 1)
+        {
+            et_ClubBody_Reply.setVisibility(View.GONE);
+            tv_ClubBody_Send.setVisibility(View.GONE);
+            tv_ClubBody_Del.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            et_ClubBody_Reply.setVisibility(View.VISIBLE);
+            tv_ClubBody_Send.setVisibility(View.VISIBLE);
+            tv_ClubBody_Del.setVisibility(View.GONE);
+        }
+
         mClubBodyFragment = new ClubBodyFragment();
         mClubBodyFragment.tempData = tempData;
+
         mFragmentMgr.beginTransaction().replace(R.id.fl_ClubBody_FrameLayout, mClubBodyFragment, "ClubBodyFragment").commit();
+
+        tv_ClubBody_Del.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                    @Override
+                    public void Listener() {
+                        // 게시글 삭제
+                    }
+                };
+
+                DialogFunc.getInstance().ShowMsgPopup(ClubBodyActivity.this, listenerYes, null, CommonFunc.getInstance().getStr(ClubBodyActivity.this.getResources(), R.string.MSG_CLUB_BODY_REPORT_DEL_DESC),
+                        CommonFunc.getInstance().getStr(ClubBodyActivity.this.getResources(), R.string.MSG_CLUB_BODY_REPORT_DEL), CommonFunc.getInstance().getStr(ClubBodyActivity.this.getResources(), R.string.MSG_CANCEL));
+            }
+        });
 
         tv_ClubBody_Send.setOnClickListener(new OnSingleClickListener() {
             @Override

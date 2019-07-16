@@ -17,8 +17,22 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ui_ClubBody_TopBar"
-        app:layout_constraintBottom_toTopOf="@+id/et_ClubBody_Reply"
+        app:layout_constraintBottom_toTopOf="@+id/tv_ClubBody_Del"
         android:background="@color/activity_bg"/>
+
+    <TextView
+        android:id="@+id/tv_ClubBody_Del"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        style="@style/BaseTextView_AutoSize"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/et_ClubBody_Reply"
+        android:text="@string/MSG_CLUB_MSG_DEL"
+        android:gravity="center"
+        android:textColor="@color/button_enable_str"
+        android:textStyle="bold"
+        android:background="@color/button_enable"/>
 
 
     <EditText
