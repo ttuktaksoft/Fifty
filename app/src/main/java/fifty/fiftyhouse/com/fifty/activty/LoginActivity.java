@@ -236,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
                     properties = response.getProperties();
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                     String tempUid = properties.get("Index");
-                    tempUid = null;
+                  //  tempUid = null;
                     if(CommonFunc.getInstance().CheckStringNull(tempUid))
                     {
                         DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
@@ -263,6 +263,12 @@ public class LoginActivity extends AppCompatActivity {
 
                                                 TKManager.getInstance().MyData.SetUserGender(1);
                                                 TKManager.getInstance().MyData.SetUserAge(50);
+
+                                                SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
+                                                editor.commit();
+
 
                                                 String strPhoneNumber;
                                                 TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);

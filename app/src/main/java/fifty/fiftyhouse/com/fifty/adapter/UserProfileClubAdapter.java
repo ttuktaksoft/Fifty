@@ -46,7 +46,12 @@ public class UserProfileClubAdapter extends RecyclerView.Adapter<UserProfileClub
 
     @Override
     public int getItemCount() {
-        return 3;
+        int temp = TKManager.getInstance().MyData.GetUserClubDataCount();
+
+        if(temp > 3)
+            return 3;
+        else
+            return TKManager.getInstance().MyData.GetUserClubDataCount();
         //return
     }
 

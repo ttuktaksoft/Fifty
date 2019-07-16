@@ -172,7 +172,7 @@ public class FirebaseManager {
         return currentUser;
     }
 
-    public void SignInAnonymously(final Activity activity) {
+    public void SignInAnonymously(final Activity activity, final FirebaseManager.CheckFirebaseComplete listener) {
         if (mAuth == null)
             GetFireBaseAuth();
 
@@ -186,6 +186,8 @@ public class FirebaseManager {
                  /*           Toast.makeText(activity, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();*/
                             FirebaseUser user = mAuth.getCurrentUser();
+                            if(listener != null)
+                                listener.CompleteListener();
 
                         } else {
                             // If sign in fails, display a message to the user.

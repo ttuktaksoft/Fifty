@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -69,6 +70,7 @@ import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
 
+import static android.content.Context.MODE_PRIVATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.MOBILE_STATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.WIFI_STATE;
@@ -980,12 +982,19 @@ public class CommonFunc {
     }
 
     public void MoveMainActivity(final Activity activity , boolean boot) {
-        DialogFunc.getInstance().DismissLoadingPage();
+
+
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("userFile",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
+        editor.commit();
+
         if(boot)
         {
             FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                 @Override
                 public void CompleteListener() {
+                    DialogFunc.getInstance().DismissLoadingPage();
                     TKManager.getInstance().isLoadDataByBoot = false;
                     final Intent intent = new Intent(activity, MainActivity.class);
                     activity.startActivity(intent);
@@ -1007,6 +1016,7 @@ public class CommonFunc {
 
         else
         {
+            DialogFunc.getInstance().DismissLoadingPage();
             final Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
             activity.finish();
