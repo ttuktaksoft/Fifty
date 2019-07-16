@@ -57,6 +57,7 @@ public class ClubActivity extends AppCompatActivity {
         tv_Club_UserCount = findViewById(R.id.tv_Club_UserCount);
         rv_Club_Content = findViewById(R.id.rv_Club_Content);
 
+        tv_Club_Name.setText(TKManager.getInstance().TargetClubData.GetClubName());
         tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override

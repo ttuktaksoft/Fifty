@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,7 +45,7 @@ public class MainFragment extends Fragment {
     MainTodayViewPager mMainTodayViewPager = null;
     MainFriendViewPager mMainFriendViewPager = null;
 
-    ImageView iv_Main_Alarm, iv_Main_Shop;
+    ImageView iv_Main_Alarm, iv_Main_Shop, iv_Main_Logo;
 
     public MainFragment() {
         // Required empty public constructor
@@ -60,7 +61,7 @@ public class MainFragment extends Fragment {
             vp_UserList = v_FragmentView.findViewById(R.id.vp_Main_UserList);
             iv_Main_Alarm = v_FragmentView.findViewById(R.id.iv_Main_Alarm);
             iv_Main_Shop = v_FragmentView.findViewById(R.id.iv_Main_Shop);
-
+            iv_Main_Logo = v_FragmentView.findViewById(R.id.iv_Main_Logo);
             iv_Main_Alarm.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
@@ -110,8 +111,6 @@ public class MainFragment extends Fragment {
                         Intent intent = new Intent(getContext(), UserNoticeActivity.class);
                         startActivity(intent);
                     }
-
-
                 }
             });
 
@@ -121,6 +120,22 @@ public class MainFragment extends Fragment {
                     DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
                 }
             });
+
+            iv_Main_Logo.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    vp_UserList.setCurrentItem(0);
+
+/*
+                    DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
+                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+
+                    CommonFunc.getInstance().MoveMainActivity((MainActivity) getContext(), true);*/
+                }
+            });
+
 
 /*
             bt_Main_Sort_Type.setOnClickListener(new View.OnClickListener() {

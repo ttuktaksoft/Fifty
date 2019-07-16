@@ -2660,8 +2660,8 @@ public class FirebaseManager {
                         } else
                             tempUser.ClubContextCount = 0;
 
-                        if (document.getData().containsKey("ClubMemberCount")) {
-                            int MemberCount =Integer.parseInt(document.getData().get("ClubMemberCount").toString());
+                        if (document.getData().containsKey("MemberCount")) {
+                            int MemberCount =Integer.parseInt(document.getData().get("MemberCount").toString());
                             tempUser.ClubMemberCount = MemberCount;
                         } else
                             tempUser.ClubMemberCount = 0;
@@ -2696,6 +2696,33 @@ public class FirebaseManager {
                             tempUser.SetClubType(tempData);
                         } else
                             tempUser.SetClubType(false);
+
+
+                        if (document.getData().containsKey("ClubFavorite")) {
+                            tempUser.ClubFavorite.clear();
+                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ClubFavorite");
+                            Set set = tempImg.entrySet();
+                            Iterator iterator = set.iterator();
+                            while (iterator.hasNext()) {
+                                Map.Entry entry = (Map.Entry) iterator.next();
+                                String key = (String) entry.getKey();
+                                String value = (String) entry.getValue();
+                                tempUser.AddClubFavorite(key, value);
+                            }
+                        }
+
+                        if (document.getData().containsKey("ClubMemberList")) {
+                            tempUser.ClubMemberList.clear();
+                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ClubMemberList");
+                            Set set = tempImg.entrySet();
+                            Iterator iterator = set.iterator();
+                            while (iterator.hasNext()) {
+                                Map.Entry entry = (Map.Entry) iterator.next();
+                                String key = (String) entry.getKey();
+                                String value = (String) entry.getValue();
+                                tempUser.AddClubMember(key);
+                            }
+                        }
 
                       /*  if (document.getData().containsKey("ClubContext")) {
                             HashMap<String, String> tempContext = (HashMap<String, String>) document.getData().get("ClubContext");
@@ -2775,7 +2802,7 @@ public class FirebaseManager {
                             tempUser.ClubContextCount = 0;
 
                         if (document.getData().containsKey("MemberCount")) {
-                            int MemberCount =Integer.parseInt(document.getData().get("ContextCount").toString());
+                            int MemberCount =Integer.parseInt(document.getData().get("MemberCount").toString());
                             tempUser.ClubMemberCount = MemberCount;
                         } else
                             tempUser.ClubMemberCount = 0;
@@ -2848,9 +2875,9 @@ public class FirebaseManager {
         final Map<String, Object> clubSimpleData = new HashMap<>();
         clubSimpleData.put("index", club.ClubIndex);
         clubSimpleData.put("Thumb", club.ClubThumbNail);
-        clubSimpleData.put("ContextCount", club.ClubContextCount);
+        clubSimpleData.put("ContextCount", club.GetClubContextCount());
         clubSimpleData.put("Name", club.ClubName);
-        clubSimpleData.put("MemberCount", club.ClubMemberCount);
+        clubSimpleData.put("MemberCount", club.GetClubMemberCount());
 
         final Map<String, Object> clubData = new HashMap<>();
         clubData.put("index", club.ClubIndex);
