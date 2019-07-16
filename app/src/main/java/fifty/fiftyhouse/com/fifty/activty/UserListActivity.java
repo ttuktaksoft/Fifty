@@ -229,6 +229,7 @@ public class UserListActivity extends AppCompatActivity {
                     menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW_PROFILE));
                     menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_JOIN_OK));
                     menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_JOIN_CENCEL));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                     ArrayList<DialogFunc.MsgPopupListener> list = new ArrayList<>();
                     list.add(new DialogFunc.MsgPopupListener()

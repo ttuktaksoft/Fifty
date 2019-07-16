@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,12 +14,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ClubWriteActivity;
+import fifty.fiftyhouse.com.fifty.activty.ShopActivity;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import static fifty.fiftyhouse.com.fifty.adapter.ClubContentListHolder.CLUB_CONTENT_TYPE.BIG_IMG;
@@ -61,7 +68,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         BIG_IMG,
         IMG,
     }
-    public ImageView iv_Club_Con_Profile;
+    public ImageView iv_Club_Con_Profile, iv_Club_Con_Menu;
     public TextView tv_Club_Con_Nickname, tv_Club_Con_Date, tv_Club_Con_Desc;
     public ImageView tv_Club_Con_BigImg, tv_Club_Con_Img_1, tv_Club_Con_Img_2, tv_Club_Con_Img_3;
     public RecyclerView rv_Club_Reply_List;
@@ -82,6 +89,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         tv_Club_Con_Img_2 = itemView.findViewById(R.id.tv_Club_Con_Img_2);
         tv_Club_Con_Img_3 = itemView.findViewById(R.id.tv_Club_Con_Img_3);
         rv_Club_Reply_List = itemView.findViewById(R.id.rv_Club_Reply_List);
+        iv_Club_Con_Menu = itemView.findViewById(R.id.iv_Club_Con_Menu);
 
         int viewCount = 3;
         int thumbnailMargin = CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 2);
@@ -115,9 +123,8 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         initReplyList();
     }
 
-    public void setClubContent(int pos)
+    public void setClubContent(final int pos)
     {
-
         ClubContextData tempData = new ClubContextData();
         tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
 
@@ -167,6 +174,62 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
             tv_Club_Con_Desc.setText(tempData.Context);
 
         mAdapter.setReplyCount(tempData.GetReplyCount());
+
+        iv_Club_Con_Menu.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                // 내가 쓴거
+                if(true)
+                {
+                    ArrayList<String> menuList = new ArrayList<>();
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_DEL));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_CHANGE));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                    ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
+                    menuListenerList.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // 삭제
+                        }
+                    });
+                    menuListenerList.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // 수정
+                            Intent intent = new Intent(mContext, ClubWriteActivity.class);
+                            intent.putExtra("Type", 1);
+                            intent.putExtra("position", Integer.toString(pos));
+                            mContext.startActivity(intent);
+                        }
+                    });
+
+                    DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                }
+                else
+                {
+                    ArrayList<String> menuList = new ArrayList<>();
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_REPORT));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                    ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
+                    menuListenerList.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // 신고
+                        }
+                    });
+
+                    DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                }
+            }
+        });
     }
 
     private void setClubContentType(CLUB_CONTENT_TYPE type)
