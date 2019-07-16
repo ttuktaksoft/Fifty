@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
 
+      //  String[] temp = FirebaseManager.getInstance().AddFavorite(mContext);
+
+
         backPressCloseHandler = new BackPressCloseHandler(mActivity);
 
         CommonFunc.getInstance().mCurActivity = this;

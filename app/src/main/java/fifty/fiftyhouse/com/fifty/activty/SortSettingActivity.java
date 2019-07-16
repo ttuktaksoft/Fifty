@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.activty;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.fragment.SignUpFragment;
 import fifty.fiftyhouse.com.fifty.fragment.SortSettingFragment;
@@ -45,14 +50,67 @@ public class SortSettingActivity extends AppCompatActivity {
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                finish();
+
+                DialogFunc.getInstance().ShowLoadingPage(mContext);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+
+                        Intent intent = new Intent(MainActivity.mActivity, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+                FirebaseManager.getInstance().RegistSortData(listener);
             }
         });
 
         tv_SortSetting_Save.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                finish();
+                DialogFunc.getInstance().ShowLoadingPage(SortSettingActivity.this);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+
+                        Intent intent = new Intent(MainActivity.mActivity, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+                FirebaseManager.getInstance().RegistSortData(listener);
             }
         });
 
@@ -60,4 +118,32 @@ public class SortSettingActivity extends AppCompatActivity {
 
         mFragmentMgr.beginTransaction().replace(R.id.fl_SortSetting_FrameLayout, mSortSettingFragment, "SortSettingFragment").commit();
     }
+
+    @Override public void onBackPressed() {
+        //super.onBackPressed();
+        DialogFunc.getInstance().ShowLoadingPage(SortSettingActivity.this);
+
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                DialogFunc.getInstance().DismissLoadingPage();
+
+                Intent intent = new Intent(MainActivity.mActivity, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+
+            }
+
+            @Override
+            public void CompleteListener_No() {
+
+            }
+        };
+        FirebaseManager.getInstance().RegistSortData(listener);
+    }
+
 }

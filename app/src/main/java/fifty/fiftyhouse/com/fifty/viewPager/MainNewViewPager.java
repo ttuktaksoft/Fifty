@@ -57,7 +57,7 @@ public class MainNewViewPager extends Fragment {
     {
         mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.NEW, TKManager.getInstance().UserList_New.size());
+        mAdapter.SetItemCountByType(CommonData.MainViewType.NEW, TKManager.getInstance().View_UserList_New.size());
 
         rv_Main_New_UserList.setAdapter(mAdapter);
         rv_Main_New_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -65,7 +65,7 @@ public class MainNewViewPager extends Fragment {
             @Override
             public void onSingleClick(View view, int position) {
 
-                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserIndex();
+                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_New.get(position)).GetUserIndex();
                 DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
