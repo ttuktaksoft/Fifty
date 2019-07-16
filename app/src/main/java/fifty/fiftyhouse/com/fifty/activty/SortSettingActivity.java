@@ -51,7 +51,7 @@ public class SortSettingActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
-                DialogFunc.getInstance().ShowLoadingPage(mContext);
+                DialogFunc.getInstance().ShowLoadingPage(SortSettingActivity.this);
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override

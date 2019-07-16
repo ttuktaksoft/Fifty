@@ -1792,7 +1792,7 @@ public class FirebaseManager {
     public void SearchClubList(String name, final FirebaseManager.CheckFirebaseComplete listener) {
         SetFireBaseLoadingCount(0);
         CollectionReference colRef = mDataBase.collection("ClubData_Favorite").document(name).collection("ClubIndex");
-        colRef.orderBy("Count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef./*orderBy("Count", Query.Direction.DESCENDING).*/limit(CommonData.Favorite_Search_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -2523,11 +2523,23 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
-
-
-
     }
 
+    public void RemoveClubContext(final String clubIndex, final String dataIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+         mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(dataIndex).delete()
+                 .addOnSuccessListener(new OnSuccessListener<Void>() {
+                     @Override
+                     public void onSuccess(Void aVoid) {
+                         Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                     }
+                 })
+                 .addOnFailureListener(new OnFailureListener() {
+                     @Override
+                     public void onFailure(@NonNull Exception e) {
+                         Log.w(TAG, "Error deleting document", e);
+                     }
+                 });
+    }
 
     public void RegistClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
@@ -2674,12 +2686,19 @@ public class FirebaseManager {
                                         String key = (String) entry.getKey();
                                         String value = (String) entry.getValue();
                                         tempData.SetReply(key, value);
-                                        String[] array = value.split("_");
+
+
+
+                                      String[] array = value.split("_");
                                         ClubContextData tempReplyData= new ClubContextData();
                                         tempReplyData.SetWriterIndex(array[0]);
                                         tempReplyData.SetDate(array[1]);
                                         tempReplyData.SetContext(array[2]);
                                         tempData.SetReplyData(key, tempReplyData);
+
+                                        AddFireBaseLoadingCount();
+                                        GetUserData_Simple(tempReplyData.GetWriterIndex(), TKManager.getInstance().UserData_Simple, listener);
+
                                     }
                                 }
 
@@ -3058,7 +3077,7 @@ public class FirebaseManager {
 
         for(int i=0; i<club.ClubFavorite.size(); i++)
         {
-            clubFavoriteData.put("ClubIndex", club.ClubIndex);
+            clubFavoriteData.put("count", club.GetClubMemberCount());
 
             mDataBase.collection("ClubData_Favorite").document(club.ClubFavorite.get(Integer.toString(i))).collection("ClubIndex").document(club.ClubIndex)
                     .set(clubFavoriteData, SetOptions.merge())

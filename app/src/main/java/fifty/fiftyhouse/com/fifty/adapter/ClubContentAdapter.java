@@ -131,7 +131,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
     public void setClubContent(final int pos)
     {
         Set tempKey = TKManager.getInstance().TargetClubData.GetClubContextKeySet();
-        List array = new ArrayList(tempKey);
+        final List array = new ArrayList(tempKey);
         tempData = TKManager.getInstance().TargetClubData.GetClubContext(array.get(pos).toString());
 
         TKManager.getInstance().TargetContextData = tempData;
@@ -205,7 +205,26 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         @Override
                         public void Listener()
                         {
+                            DialogFunc.getInstance().ShowLoadingPage(mContext);
                             // 삭제
+                            FirebaseManager.CheckFirebaseComplete removeListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    TKManager.getInstance().TargetClubData.DelClubContext(array.get(pos).toString());
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+                            FirebaseManager.getInstance().RemoveClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), array.get(pos).toString(), removeListener);
                         }
                     });
                     menuListenerList.add(new DialogFunc.MsgPopupListener()
@@ -236,6 +255,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         public void Listener()
                         {
                             // 신고
+
                         }
                     });
 

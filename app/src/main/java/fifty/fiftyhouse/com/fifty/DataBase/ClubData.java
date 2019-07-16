@@ -87,6 +87,10 @@ public class ClubData {
     {
         return ClubContext.get(index);
     }
+    public void DelClubContext(String index)
+    {
+        ClubContext.remove(index);
+    }
     public int GetClubContextCount()
     {
         return ClubContext.size();
