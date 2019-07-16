@@ -95,34 +95,17 @@ public class UserListActivity extends AppCompatActivity {
         tv_VIP_Info_Shop.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ShopActivity.class));
+                startActivityForResult(new Intent(getApplicationContext(), ShopActivity.class), 1000);
             }
         });
 
         if(mUserListType == CommonData.USER_LIST_MY_VISIT)
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_VISIT));
-
-            if(TKManager.getInstance().MyData.GetUserVip() == false)
-            {
-                ui_vip_shop_info.setVisibility(View.VISIBLE);
-                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_VISIT));
-                tv_UserList_List_Empty.setVisibility(View.GONE);
-                rv_UserList_List.setVisibility(View.GONE);
-                return;
-            }
         }
         else if(mUserListType == CommonData.USER_LIST_MY_LIKE)
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_LIKE));
-
-            if(TKManager.getInstance().MyData.GetUserVip() == false)
-            {
-                ui_vip_shop_info.setVisibility(View.VISIBLE);
-                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_LIKE));
-                tv_UserList_List_Empty.setVisibility(View.GONE);
-                rv_UserList_List.setVisibility(View.GONE);
-            }
         }
         else if(mUserListType == CommonData.USER_LIST_MY_FRIEND)
         {
@@ -162,23 +145,7 @@ public class UserListActivity extends AppCompatActivity {
 
         initRecyclerView();
 
-        if(TKManager.getInstance().MyData.GetUserVip() == false)
-        {
-            if(mUserListType == CommonData.USER_LIST_MY_VISIT)
-            {
-                ui_vip_shop_info.setVisibility(View.VISIBLE);
-                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_VISIT));
-                tv_UserList_List_Empty.setVisibility(View.GONE);
-                rv_UserList_List.setVisibility(View.GONE);
-            }
-            else if(mUserListType == CommonData.USER_LIST_MY_LIKE)
-            {
-                ui_vip_shop_info.setVisibility(View.VISIBLE);
-                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_LIKE));
-                tv_UserList_List_Empty.setVisibility(View.GONE);
-                rv_UserList_List.setVisibility(View.GONE);
-            }
-        }
+        RefreshVIP();
     }
 
     private void initRecyclerView()
@@ -306,6 +273,11 @@ public class UserListActivity extends AppCompatActivity {
             RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
             mAdapter.notifyDataSetChanged();
         }
+
+        if (requestCode == 1000)
+        {
+            RefreshVIP();
+        }
     }
 
     public void RefreshAdapter(int type)
@@ -373,5 +345,31 @@ public class UserListActivity extends AppCompatActivity {
         };
 
         FirebaseManager.getInstance().GetUserData(id, TKManager.getInstance().TargetUserData, listener);
+    }
+
+    public void RefreshVIP()
+    {
+        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        {
+            if(mUserListType == CommonData.USER_LIST_MY_VISIT)
+            {
+                ui_vip_shop_info.setVisibility(View.VISIBLE);
+                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_VISIT));
+                tv_UserList_List_Empty.setVisibility(View.GONE);
+                rv_UserList_List.setVisibility(View.GONE);
+            }
+            else if(mUserListType == CommonData.USER_LIST_MY_LIKE)
+            {
+                ui_vip_shop_info.setVisibility(View.VISIBLE);
+                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_LIKE));
+                tv_UserList_List_Empty.setVisibility(View.GONE);
+                rv_UserList_List.setVisibility(View.GONE);
+            }
+        }
+        else
+        {
+            ui_vip_shop_info.setVisibility(View.GONE);
+            RefreshUserList(mUserListType);
+        }
     }
 }

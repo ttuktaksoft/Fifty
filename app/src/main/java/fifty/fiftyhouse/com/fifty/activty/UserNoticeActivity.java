@@ -33,6 +33,12 @@ public class UserNoticeActivity extends AppCompatActivity {
     ImageView iv_TopBar_Back;
     RecyclerView rv_User_Notice_List;
 
+    View ui_vip_shop_info;
+    TextView tv_VIP_Info_Desc;
+    TextView tv_VIP_Info_Shop;
+
+    TextView tv_User_Notice_List_Empty;
+
     Context mContext;
     UserNoticeAdapter mAdapter;
     @Override
@@ -43,7 +49,11 @@ public class UserNoticeActivity extends AppCompatActivity {
         ui_User_Notice_TopBar = findViewById(R.id.ui_User_Notice_TopBar);
         tv_TopBar_Title = ui_User_Notice_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_User_Notice_TopBar.findViewById(R.id.iv_TopBar_Back);
+        ui_vip_shop_info = findViewById(R.id.ui_vip_shop_info);
+        tv_VIP_Info_Desc = findViewById(R.id.tv_VIP_Info_Desc);
+        tv_VIP_Info_Shop = findViewById(R.id.tv_VIP_Info_Shop);
         rv_User_Notice_List = findViewById(R.id.rv_User_Notice_List);
+        tv_User_Notice_List_Empty = findViewById(R.id.tv_User_Notice_List_Empty);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_NOTICE));
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
@@ -53,7 +63,29 @@ public class UserNoticeActivity extends AppCompatActivity {
             }
         });
 
+        ui_vip_shop_info.setVisibility(View.GONE);
+        ui_vip_shop_info.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+            }
+        });
+
+        tv_VIP_Info_Shop.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                startActivityForResult(new Intent(getApplicationContext(), ShopActivity.class), 1000);
+            }
+        });
+
         initRecyclerView();
+
+        if(TKManager.getInstance().MyData.GetAlarmListCount() == 0)
+            tv_User_Notice_List_Empty.setVisibility(View.VISIBLE);
+        else
+            tv_User_Notice_List_Empty.setVisibility(View.GONE);
+
+        RefreshVIP();
     }
 
     private void initRecyclerView()
@@ -98,5 +130,39 @@ public class UserNoticeActivity extends AppCompatActivity {
                 //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
             }
         }));
+    }
+
+    public void RefreshVIP()
+    {
+        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        {
+            ui_vip_shop_info.setVisibility(View.VISIBLE);
+            tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_NOTICE));
+            tv_User_Notice_List_Empty.setVisibility(View.GONE);
+            rv_User_Notice_List.setVisibility(View.GONE);
+        }
+        else
+        {
+            ui_vip_shop_info.setVisibility(View.GONE);
+            if(TKManager.getInstance().MyData.GetAlarmListCount() == 0)
+            {
+                tv_User_Notice_List_Empty.setVisibility(View.VISIBLE);
+                rv_User_Notice_List.setVisibility(View.GONE);
+            }
+            else
+            {
+                tv_User_Notice_List_Empty.setVisibility(View.GONE);
+                rv_User_Notice_List.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1000)
+        {
+            RefreshVIP();
+        }
+
     }
 }
