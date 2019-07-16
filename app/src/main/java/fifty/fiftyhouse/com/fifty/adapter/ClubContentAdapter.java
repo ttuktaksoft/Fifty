@@ -16,7 +16,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -38,6 +42,7 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
     public ClubContentAdapter(Context context) {
         mContext = context;
     }
+
 
     @Override
     public ClubContentListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,6 +67,8 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
 }
 
 class ClubContentListHolder extends RecyclerView.ViewHolder {
+
+    ClubContextData tempData = new ClubContextData();
 
     public enum CLUB_CONTENT_TYPE {
         DESC,
@@ -125,7 +132,11 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
     public void setClubContent(final int pos)
     {
-        final ClubContextData tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
+        Set tempKey = TKManager.getInstance().TargetClubData.GetClubContextKeySet();
+        List array = new ArrayList(tempKey);
+        tempData = TKManager.getInstance().TargetClubData.GetClubContext(array.get(pos).toString());
+
+        TKManager.getInstance().TargetContextData = tempData;
 
        switch (tempData.ContextType)
        {
@@ -172,7 +183,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         else
             tv_Club_Con_Desc.setText(tempData.Context);
 
-        mAdapter.setReplyCount(tempData.GetReplyCount());
+        mAdapter.setReplyCount(tempData.GetReplyDataCount());
 
         iv_Club_Con_Menu.setOnClickListener(new OnSingleClickListener() {
             @Override

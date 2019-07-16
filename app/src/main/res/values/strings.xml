@@ -26,7 +26,7 @@
     <string name="MSG_FRIEND">친구</string>
     <string name="MSG_DISTANCE">거리</string>
     <string name="MSG_AGE_END">세</string>
-    <string name="DEFAULT_DISTANCE">1km</string>
+    <string name="DEFAULT_DISTANCE">km</string>
     <string name="MSG_CLUB_CREATE">클럽 만들기</string>
     <string name="MSG_CLUB_RECOM">클럽 추천</string>
     <string name="MSG_MY_CLUB">내 클럽</string>

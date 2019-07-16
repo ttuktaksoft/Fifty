@@ -12,7 +12,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class ClubBodyReplyAdapter extends RecyclerView.Adapter<ClubBodyReplyListHolder> {
@@ -75,32 +80,18 @@ class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
 
     public void setClubBodyReply(int pos)
     {
-        // TODO 클럽 내용 추가
-        if(pos == 0)
-        {
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.dummy_4)
-                    .circleCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(iv_Club_Body_Reply_Profile);
-            tv_Club_Body_Reply_Nickname.setText("피프티하우스");
-            tv_Club_Body_Reply_Date.setText("19-04-21");
-            tv_Club_Body_Reply_Desc.setText("좋아요");
-        }
-        else
-        {
-            Glide.with(mContext)
-                    //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                    .load(R.drawable.man)
-                    .circleCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.1f)
-                    .into(iv_Club_Body_Reply_Profile);
-            tv_Club_Body_Reply_Nickname.setText("닉네임");
-            tv_Club_Body_Reply_Date.setText("19-04-20");
-            tv_Club_Body_Reply_Desc.setText("예뻐요");
-        }
+
+        ClubContextData tempData = TKManager.getInstance().TargetContextData;
+
+        Set tempKey = tempData.GetReplyDataKeySet();
+        List array = new ArrayList();
+        array = new ArrayList(tempKey);
+
+        //tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
+        tv_Club_Body_Reply_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetReplyData(array.get(pos).toString()).GetWriterIndex()).GetUserNickName());
+        tv_Club_Body_Reply_Date.setText(tempData.GetReplyData(array.get(pos).toString()).GetDate());
+        tv_Club_Body_Reply_Desc.setText(tempData.GetReplyData(array.get(pos).toString()).GetContext());
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Body_Reply_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetReplyData(array.get(pos).toString()).GetWriterIndex()).GetUserImgThumb(), true);
+
     }
 }

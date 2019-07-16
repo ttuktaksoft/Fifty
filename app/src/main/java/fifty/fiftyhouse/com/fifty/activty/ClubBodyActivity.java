@@ -67,7 +67,9 @@ public class ClubBodyActivity extends AppCompatActivity {
         tempData = new ClubContextData();
         tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(nPosition));
 
-        ui_ClubBody_TopBar = findViewById(R.id.ui_SignUp_TopBar);
+        TKManager.getInstance().TargetContextData = tempData;
+
+        ui_ClubBody_TopBar = findViewById(R.id.ui_ClubBody_TopBar);
         tv_TopBar_Title = ui_ClubBody_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_ClubBody_TopBar.findViewById(R.id.iv_TopBar_Back);
         et_ClubBody_Reply = findViewById(R.id.et_ClubBody_Reply);
@@ -91,8 +93,39 @@ public class ClubBodyActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_ClubBody_Reply.getWindowToken(), 0);
 
-                // 데이터 추가 하고 아래 함수 콜
-                mClubBodyFragment.RefreshReply();
+                int tempCount = tempData.GetReplyDataCount();
+
+                String tempReplyData = TKManager.getInstance().MyData.GetUserIndex() + "_" + CommonFunc.getInstance().GetCurrentTime() + "_"  + et_ClubBody_Reply.getText().toString();
+                tempData.SetReply(Integer.toString(tempData.GetReplyDataCount()), tempReplyData);
+
+                ClubContextData tempRepData =new ClubContextData();
+
+                tempRepData.SetContext(et_ClubBody_Reply.getText().toString());
+                tempRepData.SetDate(CommonFunc.getInstance().GetCurrentTime());
+                tempRepData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
+                tempData.SetReplyData(Integer.toString(tempData.GetReplyDataCount()), tempRepData);
+
+
+                FirebaseManager.CheckFirebaseComplete ReplyListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        // 데이터 추가 하고 아래 함수 콜
+                        mClubBodyFragment.RefreshReply();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+                FirebaseManager.getInstance().RegistClubReply(TKManager.getInstance().TargetClubData, tempData, tempCount, ReplyListener);
+
+
             }
         });
     }
