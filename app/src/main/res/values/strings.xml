@@ -1,6 +1,6 @@
 <resources>
     <string name="kakao_app_key">1b60de11093611242971d0ca7d7b2198</string>
-    <string name="app_name">Fifty</string>
+    <string name="app_name">FIFTY</string>
     <string name="MSG_OK">확인</string>
     <string name="MSG_CANCEL">취소</string>
     <string name="MSG_NOTICE">알림</string>
