@@ -94,7 +94,7 @@
         android:id="@+id/tv_NickName_Edit_Check_Result"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseContentTextView_AutoSize"
         app:layout_constraintTop_toBottomOf="@+id/et_NickName_Edit_NickName"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

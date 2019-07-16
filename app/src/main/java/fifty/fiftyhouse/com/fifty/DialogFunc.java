@@ -78,9 +78,6 @@ public class DialogFunc {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
 
-        GlobalApplication.getGlobalApplicationContext().SetContentFont(CenterDesc);
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(YesButtonDesc, NoButtonDesc);
-
         YesButtonDesc.setVisibility(View.VISIBLE);
         NoButtonDesc.setVisibility(View.VISIBLE);
 
@@ -127,8 +124,6 @@ public class DialogFunc {
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
-
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(YesButton);
 
         YesButton.setOnClickListener(new OnSingleClickListener() {
             @Override

@@ -20,7 +20,7 @@
         android:id="@+id/tv_Friend_UserList_Empty"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"

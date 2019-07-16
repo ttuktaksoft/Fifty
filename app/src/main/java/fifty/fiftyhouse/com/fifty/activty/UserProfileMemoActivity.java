@@ -32,9 +32,6 @@ public class UserProfileMemoActivity extends AppCompatActivity {
         tv_UserProfile_Memo = findViewById(R.id.tv_UserProfile_Memo);
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_MEMO));
 
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
-        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_UserProfile_Memo);
-
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

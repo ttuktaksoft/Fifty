@@ -53,7 +53,6 @@ class UserProfileMenuListHolder extends RecyclerView.ViewHolder {
 
         iv_UserProfile_Menu = itemView.findViewById(R.id.iv_UserProfile_Menu);
         tv_UserProfile_Menu = itemView.findViewById(R.id.tv_UserProfile_Menu);
-        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_UserProfile_Menu);
     }
 
     public void setData(int i)

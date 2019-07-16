@@ -63,7 +63,7 @@
 
     <TextView
         android:id="@+id/tv_Chat_Body_Send"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="전송"

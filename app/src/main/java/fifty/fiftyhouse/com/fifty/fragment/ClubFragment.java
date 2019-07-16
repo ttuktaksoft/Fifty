@@ -11,7 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.kakao.auth.AuthType;
+import com.kakao.auth.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,21 +31,26 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class ClubFragment extends Fragment {
 
     private Context mContext;
     private View v_FragmentView;
 
-    private Button  bt_Club_TopBar_User;
-
+    ImageView iv_Club_TopBar_Search, iv_Club_TopBar_User;
+    EditText et_Club_TopBar_Search;
 
     RecyclerView rv_Club_List;
     ClubAdapter mAdapter;
+
+    InputMethodManager imm;
 
     public ClubFragment() {
         // Required empty public constructor
@@ -56,8 +67,46 @@ public class ClubFragment extends Fragment {
         // Inflate the layout for this fragment
         mContext = getContext();
         v_FragmentView = inflater.inflate(R.layout.fragment_club, container, false);
+        imm = (InputMethodManager) mContext.getSystemService(INPUT_METHOD_SERVICE);
+
         rv_Club_List = v_FragmentView.findViewById(R.id.rv_Club_List);
-        bt_Club_TopBar_User = v_FragmentView.findViewById(R.id.bt_Club_TopBar_User);
+        iv_Club_TopBar_Search = v_FragmentView.findViewById(R.id.iv_Club_TopBar_Search);
+        iv_Club_TopBar_User = v_FragmentView.findViewById(R.id.iv_Club_TopBar_User);
+        et_Club_TopBar_Search = v_FragmentView.findViewById(R.id.et_Club_TopBar_Search);
+
+        iv_Club_TopBar_Search.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+                imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+
+                        Log.d("asdasdasd","1123");
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+
+                if(CommonFunc.getInstance().CheckStringNull(et_Club_TopBar_Search.getText().toString()))
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EMPTY));
+                }
+                else {
+                    FirebaseManager.getInstance().SearchClubList(et_Club_TopBar_Search.getText().toString(), listener);
+                }
+            }
+        });
 
         initRecyclerView();
 
@@ -137,79 +186,6 @@ public class ClubFragment extends Fragment {
                     //    CommonFunc.getInstance().ShowLoadingPage(getContext(), "로딩중");
                     //  FirebaseData.getInstance().GetHotData(RecvAdapter, false);
                 }*/
-            }
-        });
-
-        bt_Club_TopBar_User.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-
-                        Log.d("asdasdasd","1123");
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-
-                    }
-                };
-
-                FirebaseManager.getInstance().SearchClubList("클럽", listener);
-
-              /*  final ClubData tempClub = new ClubData();
-                tempClub.SetClubMasterIndex(TKManager.getInstance().MyData.GetUserIndex());
-                tempClub.SetClubName("테스트");
-                tempClub.SetClubThumb(TKManager.getInstance().MyData.GetUserImgThumb());
-                tempClub.SetClubType(true);
-                tempClub.AddClubFavorite(Integer.toString(0), "클럽");
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-
-                        FirebaseManager.CheckFirebaseComplete registClubListener = new FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
-
-                                Log.d("%%%%%%", "Club");
-                            }
-
-                            @Override
-                            public void CompleteListener_Yes() {
-
-                            }
-
-                            @Override
-                            public void CompleteListener_No() {
-
-                            }
-                        };
-
-                        FirebaseManager.getInstance().RegistClubList(tempClub, registClubListener);
-
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-
-                    }
-                };
-
-                FirebaseManager.getInstance().RegistClubIndex(tempClub, listener);*/
-
             }
         });
     }

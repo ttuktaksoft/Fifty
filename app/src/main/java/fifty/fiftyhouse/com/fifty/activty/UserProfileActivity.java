@@ -78,9 +78,6 @@ public class UserProfileActivity extends AppCompatActivity {
         v_UserProfile_BottomBar_Friend = findViewById(R.id.v_UserProfile_BottomBar_Friend);
         tv_UserProfile_BottomBar_Friend = findViewById(R.id.tv_UserProfile_BottomBar_Friend);
 
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_UserProfile_BottomBar_Friend);
-
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

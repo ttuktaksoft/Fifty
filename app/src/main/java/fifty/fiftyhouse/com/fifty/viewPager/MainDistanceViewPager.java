@@ -68,7 +68,6 @@ public class MainDistanceViewPager extends Fragment {
                 }
             });
 
-           GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_Main_Dis_Curr_Pos, tv_Main_Dis_Sort_Type);
             initRecyclerView();
         }
         else

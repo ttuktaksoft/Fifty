@@ -97,9 +97,6 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         tv_Chat_Date = itemView.findViewById(R.id.tv_Chat_Date);
         tv_Chat_Check = itemView.findViewById(R.id.tv_Chat_Check);
         iv_Chat_Check = itemView.findViewById(R.id.iv_Chat_Check);
-
-        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_Chat_Nickname,tv_Chat_Msg, tv_Chat_Date, tv_Chat_Check);
-
     }
 
     public void setData(int i)

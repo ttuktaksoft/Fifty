@@ -77,7 +77,6 @@ public class MyProfileFragment extends Fragment{
         tv_MyProfile_Name = v_FragmentView.findViewById(R.id.tv_MyProfile_Name);
 
         tv_MyProfile_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_MyProfile_Name);
 
         iv_MyProfile_Alarm.setOnClickListener(new OnSingleClickListener() {
             @Override

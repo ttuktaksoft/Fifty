@@ -62,8 +62,6 @@ public class UserListActivity extends AppCompatActivity {
         rv_UserList_List = findViewById(R.id.rv_UserList_List);
         tv_UserList_List_Empty = findViewById(R.id.tv_UserList_List_Empty);
 
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title, tv_UserList_List_Empty);
-
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

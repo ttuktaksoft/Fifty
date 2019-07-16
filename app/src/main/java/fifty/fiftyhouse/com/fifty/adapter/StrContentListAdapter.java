@@ -52,7 +52,6 @@ class StrContentListListHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
 
         tv_StrContent_Desc = itemView.findViewById(R.id.tv_StrContent_Desc);
-        GlobalApplication.getGlobalApplicationContext().SetContentFont(tv_StrContent_Desc);
     }
 
     public void setData(int i)

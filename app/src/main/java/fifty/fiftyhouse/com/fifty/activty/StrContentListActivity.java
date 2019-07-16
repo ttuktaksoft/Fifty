@@ -40,8 +40,6 @@ public class StrContentListActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_StrContentList_TopBar.findViewById(R.id.iv_TopBar_Back);
         rv_StrContent_List = findViewById(R.id.rv_StrContent_List);
 
-        GlobalApplication.getGlobalApplicationContext().SetMainMenuFont(tv_TopBar_Title);
-
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
