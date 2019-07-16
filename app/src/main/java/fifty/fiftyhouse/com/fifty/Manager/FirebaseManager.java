@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.Manager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -37,7 +38,11 @@ import org.imperiumlabs.geofirestore.GeoFirestore;
 import org.imperiumlabs.geofirestore.GeoQuery;
 import org.imperiumlabs.geofirestore.GeoQueryDataEventListener;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -55,6 +60,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
+import fifty.fiftyhouse.com.fifty.R;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
 
@@ -309,8 +315,9 @@ public class FirebaseManager {
 
         user.put("Dist_Region", TKManager.getInstance().MyData.GetUserDist_Region());
         user.put("Dist_Area", TKManager.getInstance().MyData.GetUserDist_Area());
+        user.put("ConnectDate", Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
 
-        user.put("Location", "");
+        //user.put("Location", "");
 
         mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(user, SetOptions.merge())
@@ -1052,7 +1059,7 @@ public class FirebaseManager {
     public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
-            SetFireBaseLoadingCount(7);
+            SetFireBaseLoadingCount(8);
         else
             SetFireBaseLoadingCount(5);
 
@@ -1184,6 +1191,24 @@ public class FirebaseManager {
 
                         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
                             MonitorAlarm(userIndex, AlarmListener);
+
+                        FirebaseManager.CheckFirebaseComplete FilterListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Complete(listener);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            GetSortData(FilterListener);
 
                      /*   FirebaseManager.CheckFirebaseComplete FriendUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -1650,6 +1675,11 @@ public class FirebaseManager {
                             }
                         }
 
+                        if (document.getData().containsKey("ConnectDate")) {
+                            tempUser.SetUserConnectDate(Long.parseLong(document.getData().get("ConnectDate").toString()));
+                        } else
+                            tempUser.SetUserConnectDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
+
                         if (document.getData().containsKey("Dist_Lon")) {
                             tempUser.SetUserDist_Lon(Double.parseDouble(document.getData().get("Dist_Lon").toString()));
                         } else
@@ -1683,6 +1713,7 @@ public class FirebaseManager {
 
                     } else {
                         Log.d(TAG, "No such document");
+                        Complete(listener);
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -1970,6 +2001,74 @@ public class FirebaseManager {
 
 
     }
+
+
+    public void UploadClubThumbImg(String clubIndex, Bitmap bitmap, final ClubData clubData, final FirebaseManager.CheckFirebaseComplete listener) {
+        final StorageReference tempThumbnailRef = mStorageRef.child("ClubImage/" + clubIndex + "/Thumb.jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = tempThumbnailRef.putBytes(data);
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return tempThumbnailRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    clubData.SetClubThumb(downloadUri.toString());
+                    if (listener != null)
+                        listener.CompleteListener();
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
+    }
+
+    public void UploadClubContextImg(String clubIndex, Bitmap bitmap, final String ImgIndex, final ClubContextData clubContextData, final FirebaseManager.CheckFirebaseComplete listener) {
+        final StorageReference tempThumbnailRef = mStorageRef.child("ClubImage/" + ImgIndex + "/Img.jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = tempThumbnailRef.putBytes(data);
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return tempThumbnailRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    clubContextData.SetImg(ImgIndex, downloadUri.toString());
+                    if (listener != null)
+                        listener.CompleteListener();
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
+    }
+
 
     public void UploadImg(String userIndex, Bitmap bitmap, final int imageIndex, final FirebaseManager.CheckFirebaseComplete listener) {
         final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().MyData.GetUserIndex() + "/" + imageIndex + "/Image.jpg");
@@ -3270,5 +3369,164 @@ public class FirebaseManager {
            geoFirestore.setLocation(TKManager.getInstance().MyData.GetUserIndex().toString(), new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()));
 
     }
+
+    public void GetSortData(final FirebaseManager.CheckFirebaseComplete listener) {
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FilterData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        if(CommonFunc.getInstance().CheckStringNull(document.getData().get("Distance").toString()))
+                        {
+                           TKManager.getInstance().FilterData.SetDistance(100);
+                        }
+                        else
+                            TKManager.getInstance().FilterData.SetDistance(Integer.parseInt(document.getData().get("Distance").toString()));
+
+                        if(CommonFunc.getInstance().CheckStringNull(document.getData().get("MinAge").toString()))
+                        {
+                            TKManager.getInstance().FilterData.SetMinAge(50);
+                        }
+                        else
+                            TKManager.getInstance().FilterData.SetMinAge(Integer.parseInt(document.getData().get("MinAge").toString()));
+
+                        if(CommonFunc.getInstance().CheckStringNull(document.getData().get("MaxAge").toString()))
+                        {
+                            TKManager.getInstance().FilterData.SetMaxAge(100);
+                        }
+                        else
+                            TKManager.getInstance().FilterData.SetMaxAge(Integer.parseInt(document.getData().get("MaxAge").toString()));
+
+                        if(CommonFunc.getInstance().CheckStringNull(document.getData().get("Gender").toString()))
+                        {
+                            TKManager.getInstance().FilterData.SetGender(0);
+                        }
+                        else
+                            TKManager.getInstance().FilterData.SetGender(Integer.parseInt(document.getData().get("Gender").toString()));
+
+
+                        if(CommonFunc.getInstance().CheckStringNull(document.getData().get("Connect").toString()))
+                        {
+                            TKManager.getInstance().FilterData.SetConnect(0);
+                        }
+                        else
+                            TKManager.getInstance().FilterData.SetConnect(Integer.parseInt(document.getData().get("Connect").toString()));
+
+                        if(listener != null)
+                            listener.CompleteListener();
+
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                        if(listener != null)
+                            listener.CompleteListener();
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void RegistSortData(final FirebaseManager.CheckFirebaseComplete listener)
+    {
+        Map<String, Object> UserSortData = new HashMap<>();
+        UserSortData.put("Distance", TKManager.getInstance().FilterData.GetDistance());
+        UserSortData.put("MinAge", TKManager.getInstance().FilterData.GetMinAge());
+        UserSortData.put("MaxAge", TKManager.getInstance().FilterData.GetMaxAge());
+        UserSortData.put("Gender", TKManager.getInstance().FilterData.GetGender());
+        UserSortData.put("Connect", TKManager.getInstance().FilterData.GetConnect());
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FilterData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .set(UserSortData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        if(listener != null)
+                            listener.CompleteListener();
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if(listener != null)
+                            listener.CompleteListener();
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public String[] AddFavorite(Context context) {
+
+        StringBuffer strBuffer = new StringBuffer();
+        try{
+            InputStream inputStream = context.getResources().openRawResource(R.raw.favorite);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line="";
+            while((line=reader.readLine())!=null){
+                strBuffer.append(line+"\n");
+            }
+
+            reader.close();
+            inputStream.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        String[] change_target = strBuffer.toString().split("\\n");
+
+        Map<String, Object> UserDistInfo = new HashMap<>();
+
+     //   for(int i= 0; i<change_target.length; i++)
+            UserDistInfo.put("count", 0);
+
+            for(int i=0; i<change_target.length; i++)
+            {
+                mDataBase.collection("PopFavorite").document(change_target[i])
+                        .set(UserDistInfo, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+            }
+
+
+
+        return change_target;
+
+   /*     Map<String, Object> UserDistInfo = new HashMap<>();
+        UserDistInfo.put("Dist_Lat", TKManager.getInstance().MyData.GetUserDist_Lat());
+
+        mDataBase.collection("UserData").document(userIndex)
+                .set(UserDistInfo, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });*/
+    }
+
 
 }

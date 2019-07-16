@@ -714,7 +714,107 @@ public class CommonFunc {
                 1,
                 gpsLocationListener);
 */
+    }
 
+    public void SortByFilter(ArrayList<String> UserList, ArrayList<String> ViewList, boolean descending)
+    {
+        ViewList.clear();
+
+        ArrayList<String> tempDataList = new ArrayList<String>();
+        tempDataList = UserList;
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
+
+        for(int i=0; i<tempDataList.size(); i++)
+        {
+            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)) == null)
+            {
+                Log.d("#^&#^#^", "index : " + tempDataList.get(i));
+            }
+            else
+            {
+                tempDataMap.put(tempDataList.get(i), TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist());
+
+                switch (TKManager.getInstance().FilterData.GetGender())
+                {
+                    case 0:
+                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() >= TKManager.getInstance().FilterData.GetMinAge() &&
+                                TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() <= TKManager.getInstance().FilterData.GetMaxAge())
+                        {
+                           if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                            {
+
+                                switch (TKManager.getInstance().FilterData.GetConnect())
+                                {
+                                    case 0:
+                                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                        {
+                                            ViewList.add(tempDataList.get(i));
+                                        }
+                                        break;
+
+                                    case 1:
+                                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                        {
+                                            ViewList.add(tempDataList.get(i));
+                                        }
+                                        break;
+
+                                    case 2:
+                                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 3 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                        {
+                                            ViewList.add(tempDataList.get(i));
+                                        }
+                                        break;
+
+                                }
+
+
+                            }
+                        }
+                        break;
+                    case 1:
+                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserGender() == 1)
+                        {
+                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() >= TKManager.getInstance().FilterData.GetMinAge() &&
+                                    TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() <= TKManager.getInstance().FilterData.GetMaxAge())
+                            {
+                                if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                                {
+                                    ViewList.add(tempDataList.get(i));
+                                }
+                            }
+                        }
+                        break;
+                    case 2:
+                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserGender() == 0)
+                        {
+                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() >= TKManager.getInstance().FilterData.GetMinAge() &&
+                                    TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() <= TKManager.getInstance().FilterData.GetMaxAge())
+                            {
+                                if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                                {
+                                    ViewList.add(tempDataList.get(i));
+                                }
+                            }
+                        }
+                        break;
+                }
+
+
+                //if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate())
+
+            }
+            // tempDataMap.put(tempDataList.get(i), (long) 0);
+        }
+
+  /*      Iterator it = sortByValue(tempDataMap, descending).iterator();
+
+        UserList.clear();
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            System.out.println(temp + " = " + tempDataMap.get(temp));
+            UserList.add(temp);
+        }*/
     }
 
     public double DistanceByDegree(double _latitude1, double _longitude1, double _latitude2, double _longitude2){
@@ -731,7 +831,7 @@ public class CommonFunc {
         return distance;
     }
 
-    public void SortByDistance(ArrayList<String> UserList, boolean descending)
+    public void SortByDistance(ArrayList<String> UserList, ArrayList<String> ViewList, boolean descending)
     {
         ArrayList<String> tempDataList = new ArrayList<String>();
         tempDataList = UserList;
@@ -761,6 +861,10 @@ public class CommonFunc {
             System.out.println(temp + " = " + tempDataMap.get(temp));
             UserList.add(temp);
         }
+
+
+        SortByFilter(UserList, ViewList, true);
+
     }
 
     public void SortByChatDate(ArrayList<String> chatRoomIndex, boolean descending)
@@ -787,8 +891,6 @@ public class CommonFunc {
         }
         TKManager.getInstance().MyData.ClearUserChatDataList();
         TKManager.getInstance().MyData.SetUserChatDataList(tempChatDataMap);
-
-
 
     }
 
@@ -830,12 +932,40 @@ public class CommonFunc {
         activity.finish();
     }
 
-    public void MoveMainActivity(Activity activity) {
+    public void MoveMainActivity(final Activity activity , boolean boot) {
         DialogFunc.getInstance().DismissLoadingPage();
-        TKManager.getInstance().isLoadDataByBoot = false;
-        final Intent intent = new Intent(activity, MainActivity.class);
-        activity.startActivity(intent);
-        activity.finish();
+        if(boot)
+        {
+            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                @Override
+                public void CompleteListener() {
+                    TKManager.getInstance().isLoadDataByBoot = false;
+                    final Intent intent = new Intent(activity, MainActivity.class);
+                    activity.startActivity(intent);
+                    activity.finish();
+                }
+
+                @Override
+                public void CompleteListener_Yes() {
+
+                }
+
+                @Override
+                public void CompleteListener_No() {
+
+                }
+            };
+            FirebaseManager.getInstance().SetMyDataOnFireBase(listener);
+        }
+
+        else
+        {
+            final Intent intent = new Intent(activity, MainActivity.class);
+            activity.startActivity(intent);
+            activity.finish();
+        }
+
+
     }
 
     public void GetUserList(final Activity activity)
@@ -851,12 +981,12 @@ public class CommonFunc {
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
 
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
-                        //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
 
 
-                        MoveMainActivity(activity);
+                        MoveMainActivity(activity, true);
                     }
 
                     @Override

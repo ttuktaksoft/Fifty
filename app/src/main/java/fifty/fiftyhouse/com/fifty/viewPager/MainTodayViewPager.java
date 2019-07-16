@@ -65,7 +65,7 @@ public class MainTodayViewPager extends Fragment {
     {
         mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.HOT, TKManager.getInstance().UserList_Hot.size());
+        mAdapter.SetItemCountByType(CommonData.MainViewType.HOT, TKManager.getInstance().View_UserList_Hot.size());
 
         rv_Main_Today_UserList.setAdapter(mAdapter);
         rv_Main_Today_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -73,7 +73,7 @@ public class MainTodayViewPager extends Fragment {
             @Override
             public void onSingleClick(View view, int position) {
 
-                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserIndex();
+                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Hot.get(position)).GetUserIndex();
                 DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {

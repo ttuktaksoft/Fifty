@@ -15,6 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.edmodo.rangebar.RangeBar;
+import com.kakao.usermgmt.response.model.Gender;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -56,6 +57,33 @@ public class SortSettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mContext = getActivity();
+
+        switch (TKManager.getInstance().FilterData.GetGender())
+        {
+            case 0:
+                mGender = CommonData.SORT_SETTING_GENDER.ALL;
+                break;
+            case 1:
+                mGender = CommonData.SORT_SETTING_GENDER.WOMAN;
+                break;
+            case 2:
+                mGender = CommonData.SORT_SETTING_GENDER.MAN;
+                break;
+        }
+
+        switch (TKManager.getInstance().FilterData.GetConnect())
+        {
+            case 0:
+                mOnLineTime = CommonData.SORT_SETTING_ONLINE.ONLINE;
+                break;
+            case 1:
+                mOnLineTime = CommonData.SORT_SETTING_ONLINE.SHORT;
+                break;
+            case 2:
+                mOnLineTime = CommonData.SORT_SETTING_ONLINE.LONG;
+                break;
+        }
+
         v_FragmentView = inflater.inflate(R.layout.fragment_sort_setting, container, false);
 
         tv_SortSetting_Distance_Count = v_FragmentView.findViewById(R.id.tv_SortSetting_Distance_Count);
@@ -70,6 +98,14 @@ public class SortSettingFragment extends Fragment {
         sb_SortSetting_Age = v_FragmentView.findViewById(R.id.sb_SortSetting_Age);
 
         sb_SortSetting_Distance.setMax(100);
+        sb_SortSetting_Distance.setProgress(TKManager.getInstance().FilterData.GetDistance());
+
+        if(TKManager.getInstance().FilterData.GetDistance() == 100)
+            tv_SortSetting_Distance_Count.setText("전체");
+        else
+            tv_SortSetting_Distance_Count.setText("0~"+TKManager.getInstance().FilterData.GetDistance() +"km");
+
+        sb_SortSetting_Distance.setRight(TKManager.getInstance().FilterData.GetDistance());
         sb_SortSetting_Distance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
@@ -82,22 +118,44 @@ public class SortSettingFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 if(progress == 100)
+                {
                     tv_SortSetting_Distance_Count.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SORT_TYPE_DISTANCE_ALL));
+                    TKManager.getInstance().FilterData.SetDistance(100);
+                }
+
                 else
+                {
                     tv_SortSetting_Distance_Count.setText("0~"+progress+"km");
+                    TKManager.getInstance().FilterData.SetDistance(progress);
+                }
+
             }
         });
 
         sb_SortSetting_Age.setTickCount(50);
         sb_SortSetting_Age.setTickHeight(0);
+
+        sb_SortSetting_Age.setLeft(TKManager.getInstance().FilterData.GetMinAge() - 50);
+        sb_SortSetting_Age.setRight(TKManager.getInstance().FilterData.GetMaxAge() - 50);
+
         sb_SortSetting_Age.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
             @Override
             public void onIndexChangeListener(RangeBar rangeBar, int leftThumbIndex, int rightThumbIndex) {
 
                 if(leftThumbIndex == 0 && rightThumbIndex == 49)
+                {
                     tv_SortSetting_Age_Count.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SORT_TYPE_AGE_ALL));
+                    TKManager.getInstance().FilterData.SetMinAge(50);
+                    TKManager.getInstance().FilterData.SetMaxAge(100);
+                }
+
                 else
+                {
                     tv_SortSetting_Age_Count.setText((leftThumbIndex + 50) + "~" + (rightThumbIndex + 50));
+                    TKManager.getInstance().FilterData.SetMinAge(leftThumbIndex + 50);
+                    TKManager.getInstance().FilterData.SetMaxAge(rightThumbIndex + 50);
+                }
+
             }
         });
 
@@ -106,6 +164,7 @@ public class SortSettingFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
                 mGender = CommonData.SORT_SETTING_GENDER.ALL;
+                TKManager.getInstance().FilterData.SetGender(0);
                 RefreshGender();
             }
         });
@@ -114,6 +173,7 @@ public class SortSettingFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
                 mGender = CommonData.SORT_SETTING_GENDER.WOMAN;
+                TKManager.getInstance().FilterData.SetGender(1);
                 RefreshGender();
             }
         });
@@ -122,6 +182,7 @@ public class SortSettingFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
                 mGender = CommonData.SORT_SETTING_GENDER.MAN;
+                TKManager.getInstance().FilterData.SetGender(2);
                 RefreshGender();
             }
         });
@@ -130,6 +191,7 @@ public class SortSettingFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
                 mOnLineTime = CommonData.SORT_SETTING_ONLINE.ONLINE;
+                TKManager.getInstance().FilterData.SetConnect(0);
                 RefreshOnlineTime();
             }
         });
@@ -138,6 +200,7 @@ public class SortSettingFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
                 mOnLineTime = CommonData.SORT_SETTING_ONLINE.SHORT;
+                TKManager.getInstance().FilterData.SetConnect(1);
                 RefreshOnlineTime();
             }
         });
@@ -146,6 +209,7 @@ public class SortSettingFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
                 mOnLineTime = CommonData.SORT_SETTING_ONLINE.LONG;
+                TKManager.getInstance().FilterData.SetConnect(2);
                 RefreshOnlineTime();
             }
         });

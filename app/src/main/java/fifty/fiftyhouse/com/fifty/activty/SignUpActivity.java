@@ -158,15 +158,15 @@ public class SignUpActivity extends AppCompatActivity {
                                                         public void Listener()
                                                         {
 
-                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
-                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
-                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
+                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
+                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
 
                                                             SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
                                                             SharedPreferences.Editor editor = sharedPreferences.edit();
                                                             editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
                                                             editor.commit();
-                                                            CommonFunc.getInstance().MoveMainActivity(SignUpActivity.this);
+                                                            CommonFunc.getInstance().MoveMainActivity(SignUpActivity.this, true);
 
                                                         }
                                                     };
@@ -205,16 +205,16 @@ public class SignUpActivity extends AppCompatActivity {
                                                         public void Listener()
                                                         {
 
-                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
-                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
-                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
+                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
+                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
 
                                                             SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
                                                             SharedPreferences.Editor editor = sharedPreferences.edit();
                                                             editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
                                                             editor.commit();
 
-                                                            CommonFunc.getInstance().MoveMainActivity(SignUpActivity.this);
+                                                            CommonFunc.getInstance().MoveMainActivity(SignUpActivity.this, true);
                                                         }
                                                     };
                                                     DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);

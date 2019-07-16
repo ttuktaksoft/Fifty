@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
+import fifty.fiftyhouse.com.fifty.DataBase.FilterData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 
@@ -44,6 +45,10 @@ public class TKManager {
     public ArrayList<String> UserList_Hot = new ArrayList<>();
     public ArrayList<String> UserList_Friend = new ArrayList<>();
 
+    public ArrayList<String> View_UserList_Dist = new ArrayList<>();
+    public ArrayList<String> View_UserList_New= new ArrayList<>();
+    public ArrayList<String> View_UserList_Hot = new ArrayList<>();
+
     public ArrayList<String> FavoriteLIst_Pop = new ArrayList<>();
     public ArrayList<String> DailyFavorite = new ArrayList<>();
 
@@ -51,5 +56,6 @@ public class TKManager {
 
     public Map<String, ClubData> SearchClubList = new LinkedHashMap<>();
 
-    public ClubData CreateTempClubData = new ClubData();
+    public FilterData FilterData = new FilterData();
+
 }

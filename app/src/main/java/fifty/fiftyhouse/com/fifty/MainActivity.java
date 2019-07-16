@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         mFragmentMng = getSupportFragmentManager();
         bnv_Main_BottomMenu = (BottomNavigationView) findViewById(R.id.bnv_Main_BottomMenu);
 
+      //  String[] temp = FirebaseManager.getInstance().AddFavorite(mContext);
+
+
         backPressCloseHandler = new BackPressCloseHandler(mActivity);
 
         CommonFunc.getInstance().mCurActivity = this;

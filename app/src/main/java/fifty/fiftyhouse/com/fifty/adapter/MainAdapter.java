@@ -112,13 +112,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
         switch (UserType)
         {
             case DIST:
-                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserIndex());
+                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)).GetUserIndex());
                 break;
             case NEW:
-                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)).GetUserIndex());
+                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_New.get(position)).GetUserIndex());
                 break;
             case HOT:
-                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)).GetUserIndex());
+                rtValue = Long.valueOf(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Hot.get(position)).GetUserIndex());
                 break;
             case FRIEND:
                 Set tempKey = TKManager.getInstance().MyData.GetUserFriendListKeySet();
@@ -156,15 +156,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
         switch (type)
         {
             case DIST:
-                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)));
+                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)));
                 break;
 
             case NEW:
-                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_New.get(position)));
+                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_New.get(position)));
                 break;
 
             case HOT:
-                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Hot.get(position)));
+                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Hot.get(position)));
                 break;
 
             case FRIEND:

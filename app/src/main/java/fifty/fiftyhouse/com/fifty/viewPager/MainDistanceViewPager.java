@@ -58,6 +58,10 @@ public class MainDistanceViewPager extends Fragment {
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
             tv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.tv_Main_Dis_Sort_Type);
 
+            if(TKManager.getInstance().FilterData.GetDistance() == 100)
+                tv_Main_Dis_Sort_Type.setText("내 근처 : 전체");
+            else
+                tv_Main_Dis_Sort_Type.setText("내 근처 : "+ TKManager.getInstance().FilterData.GetDistance() + "KM");
             tv_Main_Dis_Curr_Pos.setText(TKManager.getInstance().MyData.GetUserDist_Area());
 
             tv_Main_Dis_Sort_Type.setOnClickListener(new OnSingleClickListener() {
@@ -65,6 +69,7 @@ public class MainDistanceViewPager extends Fragment {
                 public void onSingleClick(View view) {
                     Intent intent = new Intent(MainActivity.mActivity, SortSettingActivity.class);
                     startActivity(intent);
+                    MainActivity.mActivity.finish();
                 }
             });
 
@@ -82,7 +87,7 @@ public class MainDistanceViewPager extends Fragment {
     {
         mAdapter = new MainAdapter(getContext());
         mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().UserList_Dist.size());
+        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());
         rv_Main_Dis_UserList.setAdapter(mAdapter);
 
         rv_Main_Dis_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -90,7 +95,7 @@ public class MainDistanceViewPager extends Fragment {
             @Override
             public void onSingleClick(View view, int position) {
 
-                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().UserList_Dist.get(position)).GetUserIndex();
+                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)).GetUserIndex();
                 DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
