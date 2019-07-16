@@ -11,12 +11,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+
 import fifty.fiftyhouse.com.fifty.R;
 
 public class ClubBodyReplyAdapter extends RecyclerView.Adapter<ClubBodyReplyListHolder> {
 
     Context mContext;
-    int mReplyCount = 0;
+    int mItemCount = 0;
+    ArrayList<String> mItemList = new ArrayList<>();
 
     public ClubBodyReplyAdapter(Context context) {
         mContext = context;
@@ -37,12 +40,17 @@ public class ClubBodyReplyAdapter extends RecyclerView.Adapter<ClubBodyReplyList
 
     @Override
     public int getItemCount() {
-        return mReplyCount;
+        return mItemCount;
     }
 
-    public void setReplyCount(int count)
+    public void setItemCount(int count)
     {
-        mReplyCount = count;
+        mItemCount = count;
+    }
+    public void setItemData(ArrayList<String> list)
+    {
+        mItemList.clear();
+        mItemList.addAll(list);
     }
 
 }

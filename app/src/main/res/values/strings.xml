@@ -50,6 +50,7 @@
     <string name="TITLE_SORT_SETTING">정렬필터</string>
     <string name="TITLE_CREAT_CLUB">클럽 생성</string>
     <string name="TITLE_WRITE_CLUB">글쓰기</string>
+    <string name="TITLE_CLUB_BODY">내용</string>
     <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
     <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>
     <string name="PASSWORD_LEAK">비밀번호는 8~10자로 입력해주세요</string>
@@ -132,6 +133,7 @@
     <string name="CREATE_CLUB_NAME_PROFILE">클럽 사진을 등록해주세요</string>
 
     <string name="CLUB_WRITE_HINT">내용을 입력해주세요</string>
+    <string name="CLUB_BODY_REPLY_HINT">내용을 입력해주세요</string>
 
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
