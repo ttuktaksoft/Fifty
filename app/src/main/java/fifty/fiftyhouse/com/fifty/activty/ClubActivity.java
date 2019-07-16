@@ -89,6 +89,8 @@ public class ClubActivity extends AppCompatActivity {
 
                 // 글쓰는 엑티비티로 이동
                 Intent intent = new Intent(mContext, ClubWriteActivity.class);
+                intent.putExtra("Type", 0);
+                intent.putExtra("position", 0);
                 startActivity(intent);
 /*
 

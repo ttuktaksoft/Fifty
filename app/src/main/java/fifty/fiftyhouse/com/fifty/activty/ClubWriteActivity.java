@@ -44,7 +44,7 @@ public class ClubWriteActivity extends AppCompatActivity {
     ClubWriteFragment mClubWriteFragment;
 
     ClubContextData tempData = new ClubContextData();
-
+    int mClubWriteType = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +59,23 @@ public class ClubWriteActivity extends AppCompatActivity {
         tv_ClubWrite_OK = findViewById(R.id.tv_ClubWrite_OK);
         iv_ClubWrite_Img = findViewById(R.id.iv_ClubWrite_Img);
 
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        mClubWriteType = getIntent().getIntExtra("Type", 0);
+        int nPosition = getIntent().getIntExtra("position", 0);
+
+        if(mClubWriteType == 1)
+            tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(nPosition));
+
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 finish();
             }
         });
-        tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_WRITE_CLUB));
+        if(mClubWriteType == 0)
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_WRITE_CLUB));
+        else
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_WRITE_CLUB_CHANGE));
 
         mClubWriteFragment = new ClubWriteFragment();
 

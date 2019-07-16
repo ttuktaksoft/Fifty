@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.common.internal.service.Common;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +33,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.UserListAdapter;
+import fifty.fiftyhouse.com.fifty.fragment.UserProfileFragment;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
@@ -40,6 +43,10 @@ public class UserListActivity extends AppCompatActivity {
     View ui_UserList_TopBar;
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
+
+    View ui_vip_shop_info;
+    TextView tv_VIP_Info_Desc;
+    TextView tv_VIP_Info_Shop;
 
     RecyclerView rv_UserList_List;
     TextView tv_UserList_List_Empty;
@@ -59,6 +66,10 @@ public class UserListActivity extends AppCompatActivity {
         ui_UserList_TopBar = findViewById(R.id.ui_UserList_TopBar);
         tv_TopBar_Title = ui_UserList_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_UserList_TopBar.findViewById(R.id.iv_TopBar_Back);
+        ui_vip_shop_info = findViewById(R.id.ui_vip_shop_info);
+        tv_VIP_Info_Desc = findViewById(R.id.tv_VIP_Info_Desc);
+        tv_VIP_Info_Shop = findViewById(R.id.tv_VIP_Info_Shop);
+
         rv_UserList_List = findViewById(R.id.rv_UserList_List);
         tv_UserList_List_Empty = findViewById(R.id.tv_UserList_List_Empty);
 
@@ -72,13 +83,45 @@ public class UserListActivity extends AppCompatActivity {
         Intent intent = getIntent(); //getIntent()로 받을준비
         mUserListType = getIntent().getIntExtra("Type", 0);
 
+        ui_vip_shop_info.setVisibility(View.GONE);
+        ui_vip_shop_info.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+            }
+        });
+
+        tv_VIP_Info_Shop.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ShopActivity.class));
+            }
+        });
+
         if(mUserListType == CommonData.USER_LIST_MY_VISIT)
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_VISIT));
+
+            if(TKManager.getInstance().MyData.GetUserVip() == false)
+            {
+                ui_vip_shop_info.setVisibility(View.VISIBLE);
+                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_VISIT));
+                tv_UserList_List_Empty.setVisibility(View.GONE);
+                rv_UserList_List.setVisibility(View.GONE);
+                return;
+            }
         }
         else if(mUserListType == CommonData.USER_LIST_MY_LIKE)
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_LIKE));
+
+            if(TKManager.getInstance().MyData.GetUserVip() == false)
+            {
+                ui_vip_shop_info.setVisibility(View.VISIBLE);
+                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_LIKE));
+                tv_UserList_List_Empty.setVisibility(View.GONE);
+                rv_UserList_List.setVisibility(View.GONE);
+            }
         }
         else if(mUserListType == CommonData.USER_LIST_MY_FRIEND)
         {
@@ -88,6 +131,11 @@ public class UserListActivity extends AppCompatActivity {
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_CLUB));
         }
+        else if(mUserListType == CommonData.USER_LIST_CLUB_JOIN_WAIT)
+        {
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_CLUB_JOIN_WAIT));
+        }
+
 
         RefreshUserList(mUserListType);
         if (mUserListType == CommonData.USER_LIST_MY_LIKE)
@@ -106,11 +154,30 @@ public class UserListActivity extends AppCompatActivity {
         {
             tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_CLUB));
         }
+        else if(mUserListType == CommonData.USER_LIST_CLUB_JOIN_WAIT)
+        {
+            tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_CLUB_JOIN_WAIT));
+        }
 
         initRecyclerView();
 
-
-
+        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        {
+            if(mUserListType == CommonData.USER_LIST_MY_VISIT)
+            {
+                ui_vip_shop_info.setVisibility(View.VISIBLE);
+                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_VISIT));
+                tv_UserList_List_Empty.setVisibility(View.GONE);
+                rv_UserList_List.setVisibility(View.GONE);
+            }
+            else if(mUserListType == CommonData.USER_LIST_MY_LIKE)
+            {
+                ui_vip_shop_info.setVisibility(View.VISIBLE);
+                tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_LIKE));
+                tv_UserList_List_Empty.setVisibility(View.GONE);
+                rv_UserList_List.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void initRecyclerView()
@@ -125,8 +192,8 @@ public class UserListActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view, int position) {
 
-                String tempUserIndex = null;
-                Set tempKey = null;
+                final String tempUserIndex;
+                Set tempKey;
                 List array = new ArrayList();
 
                 switch (mUserListType)
@@ -143,33 +210,64 @@ public class UserListActivity extends AppCompatActivity {
                     case CommonData.USER_LIST_CLUB:
                         tempKey =  TKManager.getInstance().TargetClubData.GetClubMemberKeySet();
                         break;
+                    case CommonData.USER_LIST_CLUB_JOIN_WAIT:
+                        // 가입 대기 목록
+                        tempKey =  TKManager.getInstance().TargetClubData.GetClubMemberKeySet();
+                        break;
+                    default:
+                        tempKey = null;
+                        break;
                 }
+
 
                 array = new ArrayList(tempKey);
                 tempUserIndex = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserIndex();
 
-                DialogFunc.getInstance().ShowLoadingPage(UserListActivity.this);
+                if(mUserListType == CommonData.USER_LIST_CLUB_JOIN_WAIT)
+                {
+                    ArrayList<String> menuList = new ArrayList<>();
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW_PROFILE));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_JOIN_OK));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_JOIN_CENCEL));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                        startActivityForResult(new Intent(getApplicationContext(), UserProfileActivity.class), mUserListType);
-                    }
+                    ArrayList<DialogFunc.MsgPopupListener> list = new ArrayList<>();
+                    list.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            ShowUserProfile(tempUserIndex);
+                        }
+                    });
+                    list.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // 가입 승인
+                            DialogFunc.getInstance().ShowToast(mContext, "가입승인", true);
+                        }
+                    });
+                    list.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // 가입 거절
+                            DialogFunc.getInstance().ShowToast(mContext, "가입거절", true);
+                        }
+                    });
 
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
+                    ArrayList<DialogFunc.MsgPopupListener> menuListenerList = list;
 
-                    @Override
-                    public void CompleteListener_No() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                    }
-                };
+                    DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                }
+                else
+                {
+                    ShowUserProfile(tempUserIndex);
 
-                FirebaseManager.getInstance().GetUserData(tempUserIndex, TKManager.getInstance().TargetUserData, listener);
-
-
+                }
             }
 
             @Override
@@ -202,6 +300,11 @@ public class UserListActivity extends AppCompatActivity {
             RefreshAdapter(CommonData.USER_LIST_CLUB);
             mAdapter.notifyDataSetChanged();
         }
+        else if (requestCode == CommonData.USER_LIST_CLUB_JOIN_WAIT)
+        {
+            RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     public void RefreshAdapter(int type)
@@ -230,6 +333,11 @@ public class UserListActivity extends AppCompatActivity {
         {
             mUserList.addAll(TKManager.getInstance().TargetClubData.GetClubMemberKeySet());
         }
+        else if (type == CommonData.USER_LIST_CLUB_JOIN_WAIT)
+        {
+            // 가입 대기 목록
+            mUserList.addAll(TKManager.getInstance().TargetClubData.GetClubMemberKeySet());
+        }
 
         if(mUserList.size() == 0)
         {
@@ -241,5 +349,29 @@ public class UserListActivity extends AppCompatActivity {
             tv_UserList_List_Empty.setVisibility(View.GONE);
             rv_UserList_List.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void ShowUserProfile(String id)
+    {
+        DialogFunc.getInstance().ShowLoadingPage(UserListActivity.this);
+
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                DialogFunc.getInstance().DismissLoadingPage();
+                startActivityForResult(new Intent(getApplicationContext(), UserProfileActivity.class), mUserListType);
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+                DialogFunc.getInstance().DismissLoadingPage();
+            }
+        };
+
+        FirebaseManager.getInstance().GetUserData(id, TKManager.getInstance().TargetUserData, listener);
     }
 }

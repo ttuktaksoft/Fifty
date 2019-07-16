@@ -16,6 +16,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/ui_vip_shop_info"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/vip_disable_bg">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/v_VIP_Info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/tv_VIP_Info_Desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/BaseContentTextView"
+                app:layout_constraintRight_toRightOf="@+id/v_VIP_Info"
+                app:layout_constraintLeft_toLeftOf="@+id/v_VIP_Info"
+                android:text="나를 좋아요한 친구를 볼려면\n아이템을 구매해주세요"
+                android:gravity="center"
+                android:textSize="@dimen/default_font_size_big_1"
+                android:textStyle="bold"
+                android:textColor="@color/str_color_2" />
+
+            <TextView
+                android:id="@+id/tv_VIP_Info_Shop"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/top_bar_height"
+                style="@style/BaseTextView_AutoSize"
+                android:layout_margin="20dp"
+                app:layout_constraintRight_toRightOf="@+id/v_VIP_Info"
+                app:layout_constraintLeft_toLeftOf="@+id/v_VIP_Info"
+                app:layout_constraintTop_toBottomOf="@+id/tv_VIP_Info_Desc"
+                android:text="@string/MSG_MOVE_SHOP"
+                android:gravity="center"
+                android:textColor="@color/button_enable_str"
+                android:textStyle="bold"
+                android:background="@color/button_enable"/>
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
     <TextView
         android:id="@+id/tv_Friend_Request_UserList_Empty"
         android:layout_width="0dp"
