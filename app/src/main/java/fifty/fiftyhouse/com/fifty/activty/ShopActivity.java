@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
@@ -40,7 +41,8 @@ public class ShopActivity extends AppCompatActivity {
         tv_Shop_Info_Buy.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                DialogFunc.getInstance().ShowToast(getApplicationContext(), "준비중 입니다.", true);
+                TKManager.getInstance().MyData.SetUserVip(!TKManager.getInstance().MyData.GetUserVip());
+                DialogFunc.getInstance().ShowToast(getApplicationContext(), "변경 되었습니다.", true);
             }
         });
     }

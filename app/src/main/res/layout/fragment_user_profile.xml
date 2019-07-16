@@ -45,12 +45,10 @@
                     app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Detail"
                     android:src="@drawable/bg_empty_circle" />
 
-
-
                 <TextView
                     android:id="@+id/tv_UserProfile_Info_Name"
                     style="@style/BaseContentTextView_AutoSize"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Detail"
@@ -59,6 +57,18 @@
                     android:gravity="center"
                     android:text="닉네임"
                     android:textColor="@color/str_color_1"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_UserProfile_Info_Name"
+                    style="@style/BaseContentTextView_AutoSize"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Name"
+                    app:layout_constraintTop_toTopOf="@+id/tv_UserProfile_Info_Name"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_UserProfile_Info_Name"
+                    android:src="@drawable/icon_write"
                     />
 
                 <TextView
