@@ -107,6 +107,7 @@ public class CommonData {
     public static final int USER_LIST_MY_VISIT = 2;
     public static final int USER_LIST_MY_FRIEND = 3;
     public static final int USER_LIST_CLUB = 4;
+    public static final int USER_LIST_CLUB_JOIN_WAIT = 5;
 
     public static final String WIFI_STATE = "WIFE";
     public static final String MOBILE_STATE = "MOBILE";

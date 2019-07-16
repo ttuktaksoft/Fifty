@@ -867,7 +867,7 @@ public class UserProfileFragment extends Fragment {
         {
             tv_UserProfile_Info_Count_1.setText(MSG_VISITER + "\n" +TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
             tv_UserProfile_Info_Count_2.setText(MSG_LIKE + "\n" +TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
-            tv_UserProfile_Info_Count_3.setText(MSG_FRIEND + "\n" +TKManager.getInstance().MyData.GetUserFriendListCount());
+            tv_UserProfile_Info_Count_3.setText(MSG_FRIEND + "\n" +TKManager.getInstance().MyData.GetUserFriendListCount()+ " / " + TKManager.getInstance().MyData.GetUserFriendListCount());
         }
         else
         {
