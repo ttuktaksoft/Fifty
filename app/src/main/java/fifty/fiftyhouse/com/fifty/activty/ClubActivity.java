@@ -1,5 +1,6 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -43,10 +44,14 @@ public class ClubActivity extends AppCompatActivity {
     RecyclerView rv_Club_Content;
     ClubContentAdapter mAdapter;
 
+    Context mContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club);
+
+        mContent = getApplicationContext();
 
         ui_Club_TopBar = findViewById(R.id.ui_Club_TopBar);
         tv_TopBar_Title = ui_Club_TopBar.findViewById(R.id.tv_TopBar_Title);
@@ -82,6 +87,9 @@ public class ClubActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
 
                 // 글쓰는 엑티비티로 이동
+                Intent intent = new Intent(mContent, ClubWriteActivity.class);
+                startActivity(intent);
+/*
 
                 Random random = new Random();
                 int tempRange = random.nextInt(3);
@@ -123,6 +131,7 @@ public class ClubActivity extends AppCompatActivity {
                 };
 
                 FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), tempData,  listener);
+*/
 
 
             }
