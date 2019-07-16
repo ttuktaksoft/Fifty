@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         iv_Login = findViewById(R.id.iv_Login);
 
         callback= new SessionCallback();
-        FirebaseManager.getInstance().SignInAnonymously(LoginActivity.this);
+
 
 
         iv_kakao_login.setOnClickListener(new OnSingleClickListener() {
@@ -235,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
                     properties = response.getProperties();
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                     String tempUid = properties.get("Index");
-
+                    tempUid = null;
                     if(CommonFunc.getInstance().CheckStringNull(tempUid))
                     {
                         DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
@@ -244,7 +245,96 @@ public class LoginActivity extends AppCompatActivity {
                             public void Listener()
                             {
                                 DialogFunc.getInstance().DismissLoadingPage();
-                                CommonFunc.getInstance().MoveAuthActivity(LoginActivity.this);
+                              //  CommonFunc.getInstance().MoveAuthActivity(LoginActivity.this);
+
+                                FirebaseManager.CheckFirebaseComplete IndexListen = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+
+                                        final Map<String, String> properties = new HashMap<String, String>();
+                                        properties.put("Index", TKManager.getInstance().MyData.GetUserIndex());
+
+                                        UserManagement.getInstance().requestUpdateProfile(new ApiResponseCallback<Long>() {
+                                            @Override
+                                            public void onSuccess(Long result) {
+
+                                                //String tempGender = String.valueOf(response.body().response.gender);
+                                                TKManager.getInstance().MyData.SetUserName("테스트");
+
+                                                TKManager.getInstance().MyData.SetUserGender(1);
+                                                TKManager.getInstance().MyData.SetUserAge(50);
+
+                                                String strPhoneNumber;
+                                                TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                                                try {
+                                                    if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                                                        // TODO: Consider calling
+                                                        ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE}, REQUEST_LOCATION);
+                                                        return;
+                                                    }
+
+                                                    String tmpPhoneNumber = mgr.getLine1Number();
+                                                    strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
+
+                                                } catch (Exception e) {
+                                                    strPhoneNumber = "";
+                                                }
+
+                                                TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
+
+
+                                                CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+
+                                                    @Override
+                                                    public void CompleteListener() {
+                                                        CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
+                                                    }
+
+                                                    @Override
+                                                    public void CompleteListener_Yes() {
+
+                                                    }
+
+                                                    @Override
+                                                    public void CompleteListener_No() {
+
+                                                    }
+                                                };
+
+                                                CommonFunc.getInstance().GetUserLocation(LoginActivity.this, listener);
+
+                                                Log.i("Test", "MainActivity onSuccess");
+                                            }
+
+                                            @Override
+                                            public void onSessionClosed(final ErrorResult errorResult) {
+                                                Log.i("Test", "MainActivity onSessionClosed");
+                                            }
+
+                                            @Override
+                                            public void onFailure(final ErrorResult errorResult) {
+                                                Log.i("Test", "MainActivity onFailure ErrorResult = " + errorResult);
+                                            }
+
+                                            @Override
+                                            public void onNotSignedUp() {
+                                                Log.i("Test", "MainActivity onNotSignedUp");
+                                            }
+                                        }, properties);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                    }
+                                };
+
+                                FirebaseManager.getInstance().GetUserIndex(IndexListen);
+
                             }
                         };
                         DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, AuthListener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM_DESC), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
@@ -331,6 +421,46 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_LOCATION:
+                for (int i = 0; i < permissions.length; i++) {
+                    String permission = permissions[i];
+                    int grantResult = grantResults[i];
+                    if (permission.equals(Manifest.permission.READ_PHONE_STATE)) {
+                        if(grantResult == PackageManager.PERMISSION_GRANTED) {
+
+                            String strPhoneNumber;
+                            TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                            try {
+                                if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                                    // TODO: Consider calling
+                                    ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE}, REQUEST_LOCATION);
+                                    return;
+                                }
+
+                                String tmpPhoneNumber = mgr.getLine1Number();
+                                strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
+
+                            } catch (Exception e) {
+                                strPhoneNumber = "";
+                            }
+
+                            TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
+                            CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
+
+
+                            //    GetUserList();
+                        }
+                    }
+                }
+                break;
         }
     }
 

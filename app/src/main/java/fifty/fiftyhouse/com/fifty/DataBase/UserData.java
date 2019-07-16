@@ -83,6 +83,7 @@ public class UserData {
     private String Name;
 
     public Map<String, ClubData> ClubData = new LinkedHashMap<>();
+    public long ConnectDate;
 
   /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
     {
@@ -188,6 +189,15 @@ public class UserData {
     public int GetUserAge()
     {
         return Age;
+    }
+
+    public void SetUserConnectDate(long date)
+    {
+        ConnectDate = date;
+    }
+    public long GetUserConnectDate()
+    {
+        return ConnectDate;
     }
 
     public void SetUserGender(int gender)

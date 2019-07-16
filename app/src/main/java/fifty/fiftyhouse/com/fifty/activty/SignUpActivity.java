@@ -141,7 +141,6 @@ public class SignUpActivity extends AppCompatActivity {
                                                         {
 
                                                             CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
-                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
                                                             CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
 
                                                             SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
@@ -188,7 +187,6 @@ public class SignUpActivity extends AppCompatActivity {
                                                         {
 
                                                             CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, true);
-                                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, true);
                                                             CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, true);
 
                                                             SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
