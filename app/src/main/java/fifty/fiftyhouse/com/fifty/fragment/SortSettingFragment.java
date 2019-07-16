@@ -132,28 +132,30 @@ public class SortSettingFragment extends Fragment {
             }
         });
 
-        sb_SortSetting_Age.setTickCount(50);
+        sb_SortSetting_Age.setTickCount(51);
         sb_SortSetting_Age.setTickHeight(0);
 
         sb_SortSetting_Age.setLeft(TKManager.getInstance().FilterData.GetMinAge() - 50);
         sb_SortSetting_Age.setRight(TKManager.getInstance().FilterData.GetMaxAge() - 50);
+        sb_SortSetting_Age.setThumbIndices(TKManager.getInstance().FilterData.GetMinAge() - 50, TKManager.getInstance().FilterData.GetMaxAge() - 50);
+        RefreshAge(TKManager.getInstance().FilterData.GetMinAge(), TKManager.getInstance().FilterData.GetMaxAge());
 
         sb_SortSetting_Age.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
             @Override
             public void onIndexChangeListener(RangeBar rangeBar, int leftThumbIndex, int rightThumbIndex) {
 
-                if(leftThumbIndex == 0 && rightThumbIndex == 49)
+                if(leftThumbIndex == 0 && rightThumbIndex == 50)
                 {
-                    tv_SortSetting_Age_Count.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SORT_TYPE_AGE_ALL));
                     TKManager.getInstance().FilterData.SetMinAge(50);
                     TKManager.getInstance().FilterData.SetMaxAge(100);
+                    RefreshAge(TKManager.getInstance().FilterData.GetMinAge(), TKManager.getInstance().FilterData.GetMaxAge());
                 }
 
                 else
                 {
-                    tv_SortSetting_Age_Count.setText((leftThumbIndex + 50) + "~" + (rightThumbIndex + 50));
                     TKManager.getInstance().FilterData.SetMinAge(leftThumbIndex + 50);
                     TKManager.getInstance().FilterData.SetMaxAge(rightThumbIndex + 50);
+                    RefreshAge(TKManager.getInstance().FilterData.GetMinAge(), TKManager.getInstance().FilterData.GetMaxAge());
                 }
 
             }
@@ -248,6 +250,19 @@ public class SortSettingFragment extends Fragment {
         tv_SortSetting_Time_2.setTextColor(mOnLineTime == CommonData.SORT_SETTING_ONLINE.SHORT ? selectSrtColor : disableSrtColor);
         tv_SortSetting_Time_3.setBackgroundColor(mOnLineTime == CommonData.SORT_SETTING_ONLINE.LONG ? selectBGColor : disableBGColor);
         tv_SortSetting_Time_3.setTextColor(mOnLineTime == CommonData.SORT_SETTING_ONLINE.LONG ? selectSrtColor : disableSrtColor);
+    }
+
+    public void RefreshAge(int min, int max)
+    {
+        if(min == 50 && max == 100)
+        {
+            tv_SortSetting_Age_Count.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SORT_TYPE_AGE_ALL));
+        }
+
+        else
+        {
+            tv_SortSetting_Age_Count.setText(min + "~" + max);
+        }
     }
 
     @Override

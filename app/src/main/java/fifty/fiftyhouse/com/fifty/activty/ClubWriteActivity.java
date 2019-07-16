@@ -102,6 +102,8 @@ public class ClubWriteActivity extends AppCompatActivity {
                     FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
+                            TKManager.getInstance().TargetClubData.AddClubContext(TKManager.getInstance().CreateTempClubContextData.GetContextIndex(), TKManager.getInstance().CreateTempClubContextData);
+                            CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
                             DialogFunc.getInstance().DismissLoadingPage();
                             finish();
                         }
@@ -130,6 +132,8 @@ public class ClubWriteActivity extends AppCompatActivity {
                             FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
                                 public void CompleteListener() {
+                                    TKManager.getInstance().TargetClubData.AddClubContext(TKManager.getInstance().CreateTempClubContextData.GetContextIndex(), TKManager.getInstance().CreateTempClubContextData);
+                                    CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
                                     TKManager.getInstance().TempClubContextImg.clear();
                                     DialogFunc.getInstance().DismissLoadingPage();
                                     finish();
@@ -177,6 +181,8 @@ public class ClubWriteActivity extends AppCompatActivity {
                                 FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
                                     @Override
                                     public void CompleteListener() {
+                                        TKManager.getInstance().TargetClubData.AddClubContext(TKManager.getInstance().CreateTempClubContextData.GetContextIndex(), TKManager.getInstance().CreateTempClubContextData);
+                                        CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
                                         TKManager.getInstance().TempClubContextImg.clear();
                                         DialogFunc.getInstance().DismissLoadingPage();
                                         finish();

@@ -56,8 +56,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -1147,6 +1149,35 @@ public class CommonFunc {
         Collections.shuffle(성);
         Collections.shuffle(이름);
         return 성.get(0) + 이름.get(0) + 이름.get(1);
+    }
+
+    //별도의 스태틱 함수로 구현
+
+    public void SortByClubContentDate(Map<String, ClubContextData> list, boolean descending)
+    {
+        ArrayList<String> tempDataList = new ArrayList<>();
+        tempDataList.addAll(list.keySet());
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
+        Map<String, ClubContextData> tempClubContentDateDataMap = new LinkedHashMap<String, ClubContextData>();
+
+        for(int i=0; i<tempDataList.size(); i++)
+        {
+            Log.d("test", "@@@@@@@@@@@@@@11" + tempDataList.get(i) + " = " + Long.parseLong(list.get(tempDataList.get(i)).GetDate()));
+            tempDataMap.put(tempDataList.get(i), Long.parseLong(list.get(tempDataList.get(i)).GetDate()));
+        }
+
+        Iterator it = sortByValue(tempDataMap, descending).iterator();
+
+        tempClubContentDateDataMap.clear();
+
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            Log.d("test", "@@@@@@@@@@@@@@22" + temp + " = " + tempDataMap.get(temp));
+            tempClubContentDateDataMap.put(temp, list.get(temp));
+        }
+
+        list.clear();
+        list.putAll(tempClubContentDateDataMap);
     }
 
 }

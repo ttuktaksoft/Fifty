@@ -51,8 +51,6 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
         return new ClubContentListHolder(view);
     }
 
-
-
     @Override
     public void onBindViewHolder(ClubContentListHolder holder, final int position) {
         int i = position;

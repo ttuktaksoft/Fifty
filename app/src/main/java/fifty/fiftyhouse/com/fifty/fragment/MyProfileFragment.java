@@ -22,6 +22,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ShopActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
@@ -131,7 +132,7 @@ public class MyProfileFragment extends Fragment{
         iv_MyProfile_Shop.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+                startActivity(new Intent(getContext(), ShopActivity.class));
             }
         });
 

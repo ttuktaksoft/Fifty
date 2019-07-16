@@ -97,7 +97,7 @@ public class ClubActivity extends AppCompatActivity {
                 Intent intent = new Intent(mContext, ClubWriteActivity.class);
                 intent.putExtra("Type", 0);
                 intent.putExtra("position", 0);
-                startActivity(intent);
+                startActivityForResult(intent, 1000);
 /*
 
                 Random random = new Random();
@@ -195,7 +195,7 @@ public class ClubActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 Intent intent = new Intent(mContext, ClubSettingActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1000);
             }
         });
 
@@ -256,8 +256,6 @@ public class ClubActivity extends AppCompatActivity {
         rv_Club_Content.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Content, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
-                ClubContextData tempData = new ClubContextData();
-                tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(position));
                 Intent intent = new Intent(getApplicationContext(), ClubBodyActivity.class);
                 intent.putExtra("Type",0);
                 intent.putExtra("position",position);
@@ -269,5 +267,14 @@ public class ClubActivity extends AppCompatActivity {
                 //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
             }
         }));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1000)
+        {
+            mAdapter.notifyDataSetChanged();
+        }
+
     }
 }

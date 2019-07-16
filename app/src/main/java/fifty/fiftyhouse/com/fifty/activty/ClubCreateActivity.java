@@ -90,6 +90,8 @@ public class ClubCreateActivity extends AppCompatActivity {
                         @Override
                         public void CompleteListener() {
                             TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().CreateTempClubData.ClubIndex, TKManager.getInstance().CreateTempClubData);
+                            TKManager.getInstance().ClubData_Simple.put(TKManager.getInstance().CreateTempClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubData);
+                            TKManager.getInstance().mUpdateClubFragmentFunc.UpdateUI();
                             DialogFunc.getInstance().DismissLoadingPage();
                             finish();
                         }
