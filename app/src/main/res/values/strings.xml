@@ -30,6 +30,7 @@
     <string name="MSG_CLUB_RECOM">클럽 추천</string>
     <string name="MSG_MY_CLUB">내 클럽</string>
     <string name="MSG_RECOM_CLUB">추천</string>
+    <string name="MSG_CLUB_WRITE">등록하기</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
@@ -47,6 +48,7 @@
     <string name="TITLE_USER_REPORT">신고하기</string>
     <string name="TITLE_SORT_SETTING">정렬필터</string>
     <string name="TITLE_CREAT_CLUB">클럽 생성</string>
+    <string name="TITLE_WRITE_CLUB">글쓰기</string>
     <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
     <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>
     <string name="PASSWORD_LEAK">비밀번호는 8~10자로 입력해주세요</string>
@@ -127,6 +129,7 @@
     <string name="CREATE_CLUB_NAME_EMPTY">클럽 이름을 입력해주세요</string>
     <string name="CREATE_CLUB_NAME_PROFILE">클럽 사진을 등록해주세요</string>
 
+    <string name="CLUB_WRITE_HINT">내용을 입력해주세요</string>
 
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
