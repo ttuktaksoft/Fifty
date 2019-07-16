@@ -125,8 +125,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
     public void setClubContent(final int pos)
     {
-        ClubContextData tempData = new ClubContextData();
-        tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
+        final ClubContextData tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
 
        switch (tempData.ContextType)
        {
@@ -179,7 +178,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
             @Override
             public void onSingleClick(View view) {
                 // 내가 쓴거
-                if(true)
+                if(tempData.writerIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
                 {
                     ArrayList<String> menuList = new ArrayList<>();
                     menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_DEL));
