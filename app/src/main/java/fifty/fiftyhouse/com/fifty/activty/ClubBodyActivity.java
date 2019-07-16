@@ -71,10 +71,8 @@ public class ClubBodyActivity extends AppCompatActivity {
         tempData = new ClubContextData();
         if(nType == 1)
         {
-            // TODO 신고 당한 게시물
-            tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(nPosition));
+            // TODO 신고 당한 게시물 선택
 
-            TKManager.getInstance().TargetContextData = tempData;
         }
         else
         {

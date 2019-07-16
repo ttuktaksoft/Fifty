@@ -91,6 +91,6 @@ public class ClubBodyReportListActivity extends AppCompatActivity {
     {
         // 신고 당한 게시물
         mReportContentList.clear();
-        mReportContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
+        //mReportContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
     }
 }
