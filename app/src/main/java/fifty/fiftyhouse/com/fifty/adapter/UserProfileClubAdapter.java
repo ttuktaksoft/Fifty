@@ -11,8 +11,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.GlobalApplication;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class UserProfileClubAdapter extends RecyclerView.Adapter<UserProfileClubListHolder> {
@@ -43,7 +47,7 @@ public class UserProfileClubAdapter extends RecyclerView.Adapter<UserProfileClub
     @Override
     public int getItemCount() {
         return 3;
-        //return mMyData.arrChatTargetData.size();
+        //return
     }
 
     public void setItemCount(int count)
@@ -75,26 +79,10 @@ class UserProfileClubListHolder extends RecyclerView.ViewHolder{
 
     public void setData(int i)
     {
-        if(i == 0)
-        {
-            tv_UserProfile_Club.setText("등산");
-            Glide.with(mContext).load(R.drawable.dummy_1)
-                    .centerCrop()
-                    .into(iv_UserProfile_Club);
-        }
-        else if(i == 1)
-        {
-            tv_UserProfile_Club.setText("야구");
-            Glide.with(mContext).load(R.drawable.dummy_2)
-                    .centerCrop()
-                    .into(iv_UserProfile_Club);
-        }
-        else
-        {
-            tv_UserProfile_Club.setText("축구");
-            Glide.with(mContext).load(R.drawable.dummy_3)
-                    .centerCrop()
-                    .into(iv_UserProfile_Club);
-        }
+        Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+        final List array = new ArrayList(tempKey);
+        tv_UserProfile_Club.setText(TKManager.getInstance().ClubData_Simple.get(array.get(i).toString()).GetClubName());
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_Club, TKManager.getInstance().ClubData_Simple.get(array.get(i).toString()).GetClubThumb(), false);
+
     }
 }

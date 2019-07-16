@@ -144,7 +144,48 @@ public class MainActivity extends AppCompatActivity {
                                 mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mChatFragment, "ChatFragment").commit();
                                 return true;
                             case R.id.i_main_bottom_profile:
-                                mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMyProfileFragment, "MyProfileFragment").commit();
+
+                                DialogFunc.getInstance().ShowLoadingPage(MainActivity.this);
+                                KeySet = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+
+                                if(KeySet.size() > 0)
+                                {
+                                    Iterator iterator = KeySet.iterator();
+
+                                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserClubDataCount());
+
+                                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                        @Override
+                                        public void CompleteListener() {
+                                            DialogFunc.getInstance().DismissLoadingPage();
+                                            mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMyProfileFragment, "MyProfileFragment").commit();
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_Yes() {
+                                        }
+
+                                        @Override
+                                        public void CompleteListener_No() {
+                                        }
+                                    };
+
+                                    while(iterator.hasNext()){
+                                        String key = (String)iterator.next();
+                                        if(TKManager.getInstance().ClubData_Simple.get(key) != null)
+                                        {
+                                            FirebaseManager.getInstance().Complete(listener);
+                                        }
+                                        else
+                                            FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
+                                    }
+                                }
+                                else
+                                {
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMyProfileFragment, "MyProfileFragment").commit();
+                                }
+
                                 return true;
                         }
                         return false;
