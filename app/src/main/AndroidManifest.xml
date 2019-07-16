@@ -82,7 +82,8 @@
         <activity android:name=".activty.FriendListActivity" />
         <activity android:name=".activty.WebContentActivity" />
         <activity android:name=".activty.SortSettingActivity" />
-        <activity android:name=".activty.ClubCreateActivity"></activity>
+        <activity android:name=".activty.ClubCreateActivity" />
+        <activity android:name=".activty.ClubWriteActivity"></activity>
     </application>
 
 </manifest>
