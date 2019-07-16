@@ -37,6 +37,16 @@
     <string name="MSG_VIEW_PROFILE">프로필 확인</string>
     <string name="MSG_CLUB_JOIN_OK">가입 승인</string>
     <string name="MSG_CLUB_JOIN_CENCEL">가입 거절</string>
+    <string name="MSG_CLUB_JOIN_REQUEST">가입 신청</string>
+    <string name="MSG_CLUB_JOIN_REQUEST_CANCEL">가입 신청 취소</string>
+    <string name="MSG_CLUB_JOIN_REQUEST_DESC">클럽 가입 신청을 하시겠습니까?</string>
+    <string name="MSG_CLUB_JOIN_REQUEST_CANCEL_DESC">클럽 가입 신청을 취소하시겠습니까?</string>
+    <string name="MSG_CLUB_JOIN_WAIT">가입 대기 유저</string>
+    <string name="MSG_CLUB_REPORT_CONTENT">신고당한 게시글</string>
+    <string name="MSG_CLUB_WITHDRAWAL">클럽 탈퇴</string>
+    <string name="MSG_CLUB_SETTING">클럽 설정</string>
+    <string name="MSG_CLUB_WITHDRAWAL_DESC">클럽을 탈퇴 하시겠습니까?</string>
+    <string name="MSG_CLUB_BODY_REPORT_LIST_EMPTY">신고당한 내용이 없습니다</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
