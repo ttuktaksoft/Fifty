@@ -34,12 +34,12 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ClubActivity extends AppCompatActivity {
 
-    Toolbar v_Club_ToolBar;
-    NestedScrollView ns_Club_Scroll;
+    View ui_Club_TopBar;
+    TextView tv_TopBar_Title;
+    ImageView iv_TopBar_Back;
 
-    ImageView iv_Club_Thumbnail;
+    ImageView iv_Club_Thumbnail, iv_Club_Write;
     TextView tv_Club_Name, tv_Club_UserCount;
-    Button bt_Club_Write;
     RecyclerView rv_Club_Content;
     ClubContentAdapter mAdapter;
 
@@ -48,25 +48,22 @@ public class ClubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club);
 
-        v_Club_ToolBar = findViewById(R.id.v_Club_ToolBar);
-        ns_Club_Scroll = findViewById(R.id.ns_Club_Scroll);
+        ui_Club_TopBar = findViewById(R.id.ui_Club_TopBar);
+        tv_TopBar_Title = ui_Club_TopBar.findViewById(R.id.tv_TopBar_Title);
+        iv_TopBar_Back = ui_Club_TopBar.findViewById(R.id.iv_TopBar_Back);
         iv_Club_Thumbnail = findViewById(R.id.iv_Club_Thumbnail);
+        iv_Club_Write = findViewById(R.id.iv_Club_Write);
         tv_Club_Name = findViewById(R.id.tv_Club_Name);
         tv_Club_UserCount = findViewById(R.id.tv_Club_UserCount);
         rv_Club_Content = findViewById(R.id.rv_Club_Content);
-        bt_Club_Write = findViewById(R.id.bt_Club_Write);
 
-        v_Club_ToolBar.setNavigationIcon(R.drawable.icon_backarrow);
-        v_Club_ToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+        tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
+        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
-                onBackPressed();
+            public void onSingleClick(View v) {
+                finish();
             }
         });
-        v_Club_ToolBar.setTitle(TKManager.getInstance().TargetClubData.GetClubName());
-        setSupportActionBar(v_Club_ToolBar);
-
-        tv_Club_Name.setText(TKManager.getInstance().TargetClubData.GetClubName());
 
         if(TKManager.getInstance().TargetClubData.GetClubType())
         {
@@ -79,9 +76,11 @@ public class ClubActivity extends AppCompatActivity {
 
         CommonFunc.getInstance().DrawImageByGlide(ClubActivity.this, iv_Club_Thumbnail, TKManager.getInstance().TargetClubData.GetClubThumb(), false);
 
-        bt_Club_Write.setOnClickListener(new OnSingleClickListener() {
+        iv_Club_Write.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+
+                // 글쓰는 엑티비티로 이동
 
                 Random random = new Random();
                 int tempRange = random.nextInt(3);
@@ -128,28 +127,6 @@ public class ClubActivity extends AppCompatActivity {
             }
         });
 
-
-//        v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-//        v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-//
-//        ns_Club_Scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener(){
-//            @Override
-//            public void onScrollChange(NestedScrollView var1, int x, int y, int oldx, int oldy)
-//            {
-//                Log.d("test", "test : " + CommonFunc.getInstance().convertPXtoDP(getResources(), y));
-//                if(CommonFunc.getInstance().convertPXtoDP(getResources(), y) < 240)
-//                {
-//                    v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-//                    v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.alpha));
-//                }
-//                else
-//                {
-//                    v_Club_ToolBar.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.topbar_bg));
-//                    v_Club_ToolBar.setTitleTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-//                }
-//            }
-//        });
-
         initRecyclerView();
     }
 
@@ -185,16 +162,6 @@ public class ClubActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ClubBodyActivity.class);
                 intent.putExtra("position",position);
                 startActivityForResult(intent, 1000);
-
-               // startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
-                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
-                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
-                if (mAppStatus.bCheckMultiSend == false) {
-                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
-
-                    if (mCommon.getClickStatus() == false)
-                        mCommon.MoveUserPage(getActivity(), stTargetData);
-                }*/
             }
 
             @Override
@@ -202,21 +169,5 @@ public class ClubActivity extends AppCompatActivity {
                 //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
             }
         }));
-
-        rv_Club_Content.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                /*int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                int nSize = 0;
-                nSize = recyclerView.getAdapter().getItemCount() - 1;
-
-                if (lastVisibleItemPosition == nSize) {
-                    // Toast.makeText(getContext(), "Last Position", Toast.LENGTH_SHORT).show();
-                    //    CommonFunc.getInstance().ShowLoadingPage(getContext(), "로딩중");
-                    //  FirebaseData.getInstance().GetHotData(RecvAdapter, false);
-                }*/
-            }
-        });
     }
 }

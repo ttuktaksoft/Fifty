@@ -14,19 +14,46 @@
         android:scaleType="centerCrop"
         android:src="@drawable/dummy_7"/>
 
+    <ImageView
+        android:id="@+id/iv_Club_Tag"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="@+id/tv_Club_Tag"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_Club_Tag"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_Club_Tag"
+        app:layout_constraintRight_toRightOf="@+id/tv_Club_Tag"
+        android:src="@drawable/ic_tag"
+        android:tint="@color/recom_club_tag"/>
+
+    <TextView
+        android:id="@+id/tv_Club_Tag"
+        style="@style/BaseContentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="추천"
+        android:textColor="@color/str_color_2"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        app:layout_constraintTop_toTopOf="@+id/iv_Club_Profile"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Profile"
+        />
 
     <TextView
         android:id="@+id/tv_Club_Name"
-        style="@style/BaseTextView"
+        style="@style/BaseContentTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLength="15"
-        android:text="asd"
+        android:text="등산 카페"
         android:textColor="@android:color/black"
-        android:textSize="20dp"
         android:textStyle="bold"
         android:gravity="center"
-        android:background="@color/topbar_bg"
+        android:background="@color/info_sub_slot_title_bg"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Profile"
         app:layout_constraintRight_toRightOf="@+id/iv_Club_Profile"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Profile"

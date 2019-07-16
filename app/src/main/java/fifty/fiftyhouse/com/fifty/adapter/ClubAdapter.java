@@ -25,6 +25,9 @@ import fifty.fiftyhouse.com.fifty.R;
 public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
 
     Context mContext;
+    int mItemCount = 0;
+    ArrayList<String> mItemList = new ArrayList<>();
+
     public ClubAdapter(Context context) {
         mContext = context;
     }
@@ -43,35 +46,67 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
     public void onBindViewHolder(ClubListHolder holder, final int position) {
         int i = position;
 
-        ClubData tempClub = new ClubData();
-        Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
-        List array = new ArrayList(tempKey);
-        tempClub = TKManager.getInstance().ClubData_Simple.get(array.get(position).toString());
-
-        holder.tv_Club_Name.setText(tempClub.ClubName);
-        Glide.with(mContext)
-                //.load(mMyData.arrSendDataList.get(position).strTargetImg)
-                .load(tempClub.ClubThumbNail)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .thumbnail(0.1f)
-                .into(holder.iv_Club_Profile);
+        holder.setData(mItemList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return TKManager.getInstance().MyData.GetUserClubDataCount();
+        return mItemCount;
+    }
+
+    public void ResetItem()
+    {
+        mItemList.clear();
+        mItemCount = 0;
+    }
+
+    public void setItemData(ArrayList<String> list)
+    {
+        mItemList.clear();
+        mItemList.addAll(list);
+    }
+    public void setItemCount(int count)
+    {
+        mItemCount = count;
     }
 
 }
 
 class ClubListHolder extends RecyclerView.ViewHolder {
 
-    public ImageView iv_Club_Profile;
+    public ImageView iv_Club_Profile, iv_Club_Tag;
     public TextView tv_Club_Name;
+    public TextView tv_Club_Tag;
+    Context mContext;
 
     public ClubListHolder(View itemView) {
         super(itemView);
+        mContext = itemView.getContext();
+
         iv_Club_Profile = itemView.findViewById(R.id.iv_Club_Profile);
         tv_Club_Name = itemView.findViewById(R.id.tv_Club_Name);
+        iv_Club_Tag = itemView.findViewById(R.id.iv_Club_Tag);
+        tv_Club_Tag = itemView.findViewById(R.id.tv_Club_Tag);
+    }
+
+    public void setData(String clubKey)
+    {
+        ClubData tempClub = TKManager.getInstance().ClubData_Simple.get(clubKey);
+
+        if(TKManager.getInstance().MyData.GetUserClubData(clubKey) != null)
+        {
+            // 내 클럽
+            tv_Club_Tag.setText("");
+            iv_Club_Tag.setVisibility(View.GONE);
+        }
+        else
+        {
+            // 추천 클럽
+            tv_Club_Tag.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_RECOM_CLUB));
+            iv_Club_Tag.setVisibility(View.VISIBLE);
+        }
+
+        tv_Club_Name.setText(tempClub.ClubName);
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Profile, tempClub.ClubThumbNail, false);
     }
 }

@@ -49,6 +49,8 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     Context mContext;
     InputMethodManager imm;
 
+    int nType = 0;
+
     int mFavoriteRecommend = 0;
     ArrayList<String> mFavoriteViewList = new ArrayList<>();
     Map<String, String> mFavoriteSelectList = new LinkedHashMap<String, String>(){
@@ -77,17 +79,24 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         tv_FavoriteSelect_Empty = findViewById(R.id.tv_FavoriteSelect_Empty);
 
         Intent intent = getIntent(); //getIntent()로 받을준비
-        int ntype = getIntent().getIntExtra("Type", 0);
+        nType = getIntent().getIntExtra("Type", 0);
 
-        mFavoriteSelectList.putAll(TKManager.getInstance().MyData.GetUserFavoriteList());
-
-        switch (ntype)
+        switch (nType)
         {
             case 0:
                 tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_FAVORITE_SELECT));
+                tv_FavoriteSelect_Ok.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SAVE));
+                mFavoriteSelectList.putAll(TKManager.getInstance().MyData.GetUserFavoriteList());
                 break;
             case 1:
                 tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_FAVORITE_EDIT));
+                tv_FavoriteSelect_Ok.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SAVE));
+                mFavoriteSelectList.putAll(TKManager.getInstance().MyData.GetUserFavoriteList());
+                break;
+            case 2:
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_FAVORITE_EDIT));
+                tv_FavoriteSelect_Ok.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_NEXT));
+                mFavoriteSelectList.putAll(TKManager.getInstance().CreateTempClubData.ClubFavorite);
                 break;
         }
 
@@ -108,32 +117,60 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    if(nType == 2)
+                    {
+                        Set EntrySet = TKManager.getInstance().CreateTempClubData.ClubFavorite.keySet();
+                        Iterator iterator = EntrySet.iterator();
 
-                    Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
-                    Iterator iterator = EntrySet.iterator();
+                        EntrySet = mFavoriteSelectList.entrySet();
+                        iterator = EntrySet.iterator();
 
-                    while(iterator.hasNext()){
-                        String key = (String)iterator.next();
-                        FirebaseManager.getInstance().RemoveFavoriteUser(key);
+                        ArrayList<String> tempFavorite = new ArrayList<>();
+
+                        while(iterator.hasNext()){
+                            Map.Entry entry = (Map.Entry)iterator.next();
+                            String key = (String)entry.getKey();
+                            String value = (String)entry.getValue();
+                            TKManager.getInstance().CreateTempClubData.AddClubFavorite(key, value);
+                        }
+
+                        // 다음
+                        finish();
+
+                        Intent intent = new Intent(mContext, ClubCreateActivity.class);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+                        Iterator iterator = EntrySet.iterator();
+
+                        while(iterator.hasNext()){
+                            String key = (String)iterator.next();
+                            FirebaseManager.getInstance().RemoveFavoriteUser(key);
+                        }
+
+                        TKManager.getInstance().MyData.ClearUserFavorite();
+
+                        EntrySet = mFavoriteSelectList.entrySet();
+                        iterator = EntrySet.iterator();
+
+                        ArrayList<String> tempFavorite = new ArrayList<>();
+
+                        while(iterator.hasNext()){
+                            Map.Entry entry = (Map.Entry)iterator.next();
+                            String key = (String)entry.getKey();
+                            String value = (String)entry.getValue();
+                            TKManager.getInstance().MyData.SetUserFavorite(key, value);
+                            FirebaseManager.getInstance().SetUserFavoriteOnFireBase(TKManager.getInstance().MyData.GetUserFavoriteList(key), true);
+                        }
+
+                        finish();
                     }
 
-                    TKManager.getInstance().MyData.ClearUserFavorite();
-
-                    EntrySet = mFavoriteSelectList.entrySet();
-                    iterator = EntrySet.iterator();
-
-                    ArrayList<String> tempFavorite = new ArrayList<>();
-
-                    while(iterator.hasNext()){
-                        Map.Entry entry = (Map.Entry)iterator.next();
-                        String key = (String)entry.getKey();
-                        String value = (String)entry.getValue();
-                        TKManager.getInstance().MyData.SetUserFavorite(key, value);
-                        FirebaseManager.getInstance().SetUserFavoriteOnFireBase(TKManager.getInstance().MyData.GetUserFavoriteList(key), true);
-                    }
 
                     //FirebaseManager.getInstance().UpdateFavoriteListInUserData();
-                    finish();
+
                 }
             }
         });

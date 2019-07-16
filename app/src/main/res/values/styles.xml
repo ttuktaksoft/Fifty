@@ -44,7 +44,7 @@
     <style name="BaseContentTextView" parent="@android:style/Widget.TextView">
         <item name="android:fontFamily">@font/content</item>
         <item name="android:textColor">@color/red</item>
-        <item name="android:textSize">@dimen/default_font_size</item>
+        <item name="android:textSize">@dimen/default_font_size_big</item>
     </style>
 
     <style name="BaseContentTextView_AutoSize" parent="BaseContentTextView">

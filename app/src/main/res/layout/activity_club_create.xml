@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.ClubCreateActivity">
+
+    <include
+        android:id="@+id/ui_ClubCreate_TopBar"
+        layout="@layout/ui_topbar"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_ClubCreate_Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ui_ClubCreate_TopBar"
+        app:layout_constraintBottom_toTopOf="@+id/v_ClubCreate_Type">
+
+        <EditText
+            android:id="@+id/et_ClubCreate_Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/BaseEditTextView"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:hint="@string/CREATE_CLUB_NAME_HINT"
+            android:gravity="center"
+            android:inputType="textNoSuggestions"
+            android:cursorVisible="true"
+            android:background="@color/alpha" />
+
+        <ImageView
+            android:id="@+id/iv_ClubCreate_Profile_Border"
+            android:layout_width="202dp"
+            android:layout_height="202dp"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_ClubCreate_Profile"
+            app:layout_constraintRight_toRightOf="@+id/iv_ClubCreate_Profile"
+            app:layout_constraintTop_toTopOf="@+id/iv_ClubCreate_Profile"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_ClubCreate_Profile"
+
+            android:tint="@color/icon_tint_brown"
+            android:src="@drawable/bg_empty_square_plus" />
+
+        <ImageView
+            android:id="@+id/iv_ClubCreate_Profile"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Info"
+            app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Info"
+            app:layout_constraintTop_toBottomOf="@+id/et_ClubCreate_Name"
+            android:src="@drawable/bg_empty_square_plus" />
+
+        <TextView
+            android:id="@+id/iv_ClubCreate_Desc"
+            style="@style/BaseContentTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Info"
+            app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Info"
+            app:layout_constraintTop_toBottomOf="@+id/iv_ClubCreate_Profile"
+            android:textSize="@dimen/default_font_size_small"
+            android:gravity="center"
+            android:text="@string/CREATE_CLUB_DESC"
+            android:textColor="@color/str_color_1"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_ClubCreate_Type"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_ClubCreate_OK">
+
+
+        <TextView
+            android:id="@+id/tv_ClubCreate_VIP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/BaseContentTextView"
+            android:layout_marginLeft="5dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Type"
+            app:layout_constraintTop_toTopOf="@+id/v_ClubCreate_Type"
+            app:layout_constraintBottom_toBottomOf="@+id/v_ClubCreate_Type"
+            android:text="@string/CREATE_CLUB_VIP"
+            android:gravity="center"
+            android:textColor="@color/str_color_1" />
+
+        <Switch
+            android:id="@+id/sw_ClubCreate_VIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Type"
+            app:layout_constraintTop_toTopOf="@+id/v_ClubCreate_Type"
+            app:layout_constraintBottom_toBottomOf="@+id/v_ClubCreate_Type"
+            />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_ClubCreate_OK"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/top_bar_height"
+        style="@style/BaseTextView_AutoSize"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/CREATE_CLUB_OK"
+        android:gravity="center"
+        android:textColor="@color/button_enable_str"
+        android:textStyle="bold"
+        android:background="@color/button_enable"/>
+
+</android.support.constraint.ConstraintLayout>

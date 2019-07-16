@@ -8,6 +8,7 @@
     <string name="MSG_EVENT">이벤트</string>
     <string name="MSG_NOTICE_LONG">공지사항</string>
     <string name="MSG_FAQ">FAQ</string>
+    <string name="MSG_NEXT">다음</string>
     <string name="MSG_SETTING">설정</string>
     <string name="MSG_GENDER">성별</string>
     <string name="MSG_AGE">나이</string>
@@ -25,6 +26,10 @@
     <string name="MSG_DISTANCE">거리</string>
     <string name="MSG_AGE_END">세</string>
     <string name="DEFAULT_DISTANCE">1km</string>
+    <string name="MSG_CLUB_CREATE">클럽 만들기</string>
+    <string name="MSG_CLUB_RECOM">클럽 추천</string>
+    <string name="MSG_MY_CLUB">내 클럽</string>
+    <string name="MSG_RECOM_CLUB">추천</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
@@ -38,8 +43,10 @@
     <string name="TITLE_USER_NOTICE">알림</string>
     <string name="TITLE_FAVORITE_SELECT">관심사 선택</string>
     <string name="TITLE_FAVORITE_EDIT">관심사 수정</string>
+    <string name="TITLE_CLUB_FAVORITE_EDIT">클럽 관심사 선택</string>
     <string name="TITLE_USER_REPORT">신고하기</string>
     <string name="TITLE_SORT_SETTING">정렬필터</string>
+    <string name="TITLE_CREAT_CLUB">클럽 생성</string>
     <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
     <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>
     <string name="PASSWORD_LEAK">비밀번호는 8~10자로 입력해주세요</string>
@@ -112,6 +119,15 @@
     <string name="MSG_SORT_TYPE_ONLINE_1">접속중</string>
     <string name="MSG_SORT_TYPE_ONLINE_2">1일 이내</string>
     <string name="MSG_SORT_TYPE_ONLINE_3">3일 이내</string>
+
+    <string name="CREATE_CLUB_NAME_HINT">클럽 이름을 입력해주세요</string>
+    <string name="CREATE_CLUB_DESC">클럽이름과 사진은 개설 후에도 변경할 수 있어요</string>
+    <string name="CREATE_CLUB_OK">만들기</string>
+    <string name="CREATE_CLUB_VIP">VIP 타입</string>
+    <string name="CREATE_CLUB_NAME_EMPTY">클럽 이름을 입력해주세요</string>
+    <string name="CREATE_CLUB_NAME_PROFILE">클럽 사진을 등록해주세요</string>
+
+
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
     <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>

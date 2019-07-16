@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
     private MyProfileFragment mMyProfileFragment;
     private BackPressCloseHandler backPressCloseHandler;
 
+    BottomNavigationView bnv_Main_BottomMenu;
+
+    public interface MoveFragmentListener {
+        void MoveFragment();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mActivity = this;
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
+        bnv_Main_BottomMenu = (BottomNavigationView) findViewById(R.id.bnv_Main_BottomMenu);
 
         backPressCloseHandler = new BackPressCloseHandler(mActivity);
 
@@ -64,10 +71,17 @@ public class MainActivity extends AppCompatActivity {
         mMainFragment = new MainFragment();
         mChatFragment = new ChatFragment();
         mClubFragment = new ClubFragment();
+        mClubFragment.SetMoveListener(new MoveFragmentListener(){
+            @Override
+            public void MoveFragment()
+            {
+                bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_profile);
+            }
+        });
         mMyProfileFragment = new MyProfileFragment();
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnv_Main_BottomMenu);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
+
+        bnv_Main_BottomMenu.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
