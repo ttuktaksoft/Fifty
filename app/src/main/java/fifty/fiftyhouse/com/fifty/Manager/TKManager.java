@@ -57,5 +57,7 @@ public class TKManager {
     public Map<String, ClubData> SearchClubList = new LinkedHashMap<>();
 
     public FilterData FilterData = new FilterData();
+    public ClubData CreateTempClubData = new ClubData();
+
 
 }
