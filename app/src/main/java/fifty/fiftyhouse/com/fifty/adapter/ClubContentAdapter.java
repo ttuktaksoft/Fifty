@@ -174,8 +174,13 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
 
-        tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
+//        tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
+
+  //      String[] tempValue = CommonFunc.getInstance().ConvertTimeToHM(tempData.Date);
+        //tv_Club_Con_Date.setText(tempValue[0] + "시 " + tempValue[1] + "분");
+
         tv_Club_Con_Date.setText(tempData.Date);
+
         if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
         {
             tv_Club_Con_Desc.setVisibility(View.INVISIBLE);

@@ -144,6 +144,33 @@ public class CommonFunc {
         return res.getString(id);
     }
 
+    public String[] ConvertTimeToHM(String time)
+    {
+        String[] rtValue = new String[2];
+
+        String tempMsgDate = time;
+
+        String tempDate = tempMsgDate.substring(0, 7);
+        String tempTime = tempMsgDate.substring(8, 12);
+
+        String tempHour = tempTime.substring(0, 2);
+        int tempHourInteger = Integer.parseInt(tempHour);
+
+        String tempMinute = tempTime.substring(2, 4);
+        if(Integer.parseInt(tempHour) > 12) {
+            tempHour = Integer.toString(tempHourInteger - 12);
+            rtValue[0] = tempHour;
+            rtValue[0] = tempMinute;
+        }
+        else
+        {
+            rtValue[0] = tempHour;
+            rtValue[0] = tempMinute;
+        }
+
+        return  rtValue;
+    }
+
     public String GetCurrentDate()
     {
         long now = System.currentTimeMillis();
@@ -230,8 +257,6 @@ public class CommonFunc {
             Glide.with(context).load(bmp)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(view);
-
-
     }
     public void setEditTextMaxSize(EditText et, int size)
     {
