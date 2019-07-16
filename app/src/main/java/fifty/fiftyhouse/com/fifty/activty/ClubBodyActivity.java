@@ -21,6 +21,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -76,7 +80,10 @@ public class ClubBodyActivity extends AppCompatActivity {
         }
         else
         {
-            tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(nPosition));
+            //GetClubMemberKeySet1
+            Set tempKey = TKManager.getInstance().TargetClubData.GetClubContextKeySet();
+            List array = new ArrayList(tempKey);
+            tempData = TKManager.getInstance().TargetClubData.GetClubContext(array.get(nPosition).toString());
 
             TKManager.getInstance().TargetContextData = tempData;
         }

@@ -64,5 +64,9 @@ public class TKManager {
     public Map<String, Bitmap> TempClubContextImg = new HashMap<>();
     public ClubContextData TargetContextData = new ClubContextData();
 
+    public interface UpdateUIFunc {
+        void UpdateUI();
+    }
 
+    public UpdateUIFunc mUpdateClubFragmentFunc = null;
 }

@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.Session;
 
+import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -162,6 +163,14 @@ public class ClubFragment extends Fragment {
                 imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
             }
         });
+
+        TKManager.getInstance().mUpdateClubFragmentFunc = new TKManager.UpdateUIFunc(){
+            @Override
+            public void UpdateUI() {
+                RefreshAdapter();
+                mAdapter.notifyDataSetChanged();
+            }
+        };
 
         initRecyclerView();
 
