@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +39,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
@@ -640,8 +642,42 @@ public class UserProfileFragment extends Fragment {
         rv_UserProfile_Info_Club.setLayoutManager(new GridLayoutManager(mContext, 1));
         rv_UserProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Club, new OnRecyclerItemClickListener() {
             @Override
-            public void onSingleClick(View view, int position) {
+            public void onSingleClick(View view, final int position) {
                 //startActivity(new Intent(mContext, StrContentListActivity.class));
+
+                Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+                final List array = new ArrayList(tempKey);
+
+                //DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+                FirebaseManager.CheckFirebaseComplete GetClubDataListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+
+                        FirebaseManager.CheckFirebaseComplete GetClubContextListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                startActivity(new Intent(getContext(), ClubActivity.class));
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {}
+                            @Override
+                            public void CompleteListener_No() {}
+                        };
+
+                        FirebaseManager.getInstance().GetClubContextData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(), GetClubContextListener);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {}
+                    @Override
+                    public void CompleteListener_No() {}
+                };
+
+                FirebaseManager.getInstance().GetClubData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(),
+                        TKManager.getInstance().TargetClubData, GetClubDataListener);
+
             }
 
             @Override

@@ -2523,11 +2523,23 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
-
-
-
     }
 
+    public void RemoveClubContext(final String clubIndex, final String dataIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+         mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(dataIndex).delete()
+                 .addOnSuccessListener(new OnSuccessListener<Void>() {
+                     @Override
+                     public void onSuccess(Void aVoid) {
+                         Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                     }
+                 })
+                 .addOnFailureListener(new OnFailureListener() {
+                     @Override
+                     public void onFailure(@NonNull Exception e) {
+                         Log.w(TAG, "Error deleting document", e);
+                     }
+                 });
+    }
 
     public void RegistClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
