@@ -10,19 +10,18 @@ import java.util.Set;
 public class ClubContextData implements Cloneable{
 
     public Object clone() throws CloneNotSupportedException {
-
         return super.clone();
-
     }
-
     public String writerIndex;
     public String ContextIndex;
     public String Context;
     public String Date;
     public int ContextType;
+    public int ReportCount;
 
     public Map<String, String> ImgList = new LinkedHashMap<String, String>();
     public Map<String, String> ReplyList = new LinkedHashMap<String, String>();
+    public Map<String, String> ReportList = new LinkedHashMap<String, String>();
 
     public Map<String, ClubContextData> ReplyDataList = new LinkedHashMap<String, ClubContextData>();
 
@@ -59,6 +58,13 @@ public class ClubContextData implements Cloneable{
     }
     public int GetContextType(){
         return ContextType;
+    }
+
+    public void SetReportCount(int type){
+        ReportCount = type;
+    }
+    public int GetReportCount(){
+        return ReportCount;
     }
 
     public void SetImg(String Index, String Img)
@@ -100,6 +106,30 @@ public class ClubContextData implements Cloneable{
     {
         ReplyList.clear();
     }
+
+
+    public void SetReportList(String Index, String context)
+    {
+        ReportList.put(Index, context);
+    }
+    public Map<String, String>  GetReportList() { return ReportList; }
+    public String  GetReportList(String Index)
+    {
+        return ReportList.get(Index);
+    }
+    public Set GetReportListKeySet()
+    {
+        return ReportList.keySet();
+    }
+    public int  GetReportListCount()
+    {
+        return ReportList.size();
+    }
+    public void ClearReportList()
+    {
+        ReportList.clear();
+    }
+
 
     public void SetReplyData(String Index, ClubContextData context)
     {

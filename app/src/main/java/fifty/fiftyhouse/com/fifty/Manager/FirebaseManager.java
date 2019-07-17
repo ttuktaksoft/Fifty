@@ -2551,6 +2551,59 @@ public class FirebaseManager {
                  });
     }
 
+    public void RegistClubReport(final String clubIndex, final String dataIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex).collection("ReportContextList").document(dataIndex);
+
+        Map<String, Object> ReportContext = new HashMap<>();
+        ReportContext.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
+
+        sfDocRef.set(ReportContext, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        final DocumentReference sfDocReportRef = mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(dataIndex);
+
+                        Map<String, Object> ReportInfo = new HashMap<>();
+                        ReportInfo.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
+
+                        Map<String, Object> ReportInfoList = new HashMap<>();
+                        ReportInfoList.put("ReportList", ReportInfo);
+
+                        sfDocReportRef.set(ReportInfoList, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        if(listener != null)
+                                            listener.CompleteListener();
+
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+
+
+    }
+
+
+
     public void RegistClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
         final double[] newPopulation = new double[1];
@@ -2684,6 +2737,19 @@ public class FirebaseManager {
                                         String key = (String) entry.getKey();
                                         String value = (String) entry.getValue();
                                         tempData.SetImg(key, value);
+                                    }
+                                }
+
+                                if (document.getData().containsKey("ReportList")) {
+                                    tempData.ClearImg();
+                                    HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ReportList");
+                                    Set set = tempImg.entrySet();
+                                    Iterator iterator = set.iterator();
+                                    while (iterator.hasNext()) {
+                                        Map.Entry entry = (Map.Entry) iterator.next();
+                                        String key = (String) entry.getKey();
+                                        String value = (String) entry.getValue();
+                                        tempData.SetReportList(key, value);
                                     }
                                 }
 
