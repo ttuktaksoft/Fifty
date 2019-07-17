@@ -45,6 +45,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1234,22 +1235,17 @@ public class CommonFunc {
 
     public String ConvertTimeSrt(String time2)
     {
-        return "";
-        /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String returnString = "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
         try {
             Date date = dateFormat.parse(time2);
 
-            String out = dateFormat2.format(date);
+            SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH시mm분");
+            returnString = sdfNow.format(date);
         } catch (ParseException e) {
         }
 
-
-
-
-*//*        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH시mm분");
-        String formatDate = sdfNow.format(date);*//*
-
-        return formatDate;*/
+        return returnString;
     }
 }

@@ -82,7 +82,7 @@ class ClubContentReplyListHolder extends RecyclerView.ViewHolder {
 
         //tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
         tv_Club_Con_Reply_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetReplyData(array.get(pos).toString()).GetWriterIndex()).GetUserNickName());
-        tv_Club_Con_Reply_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.parseLong(tempData.GetReplyData(array.get(pos).toString()).GetDate())));
+        tv_Club_Con_Reply_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.GetReplyData(array.get(pos).toString()).GetDate()));
         tv_Club_Con_Reply_Desc.setText(tempData.GetReplyData(array.get(pos).toString()).GetContext());
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Reply_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetReplyData(array.get(pos).toString()).GetWriterIndex()).GetUserImgThumb(), true);
 
