@@ -1,11 +1,13 @@
 package fifty.fiftyhouse.com.fifty.activty;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -48,12 +50,13 @@ public class ClubActivity extends AppCompatActivity {
     Context mContext;
     boolean mIsJoinClub = false;
     boolean mIsMasterClub = false;
-
+    public static Activity mClubActivity;
     ArrayList<String> mContentList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club);
+        mClubActivity = this;
 
         mContext = getApplicationContext();
 
@@ -216,6 +219,14 @@ public class ClubActivity extends AppCompatActivity {
             iv_Club_Setting.setVisibility(View.GONE);
         }
 
+        TKManager.getInstance().mUpdateClubActivityFunc = new TKManager.UpdateUIFunc(){
+            @Override
+            public void UpdateUI() {
+                RefreshAdapter();
+                mAdapter.notifyDataSetChanged();
+            }
+        };
+
         initRecyclerView();
     }
 
@@ -256,21 +267,18 @@ public class ClubActivity extends AppCompatActivity {
         mAdapter.setHasStableIds(true);
 
         rv_Club_Content.setAdapter(mAdapter);
-        rv_Club_Content.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_Club_Content.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Content, new OnRecyclerItemClickListener() {
+        rv_Club_Content.setLayoutManager(new LinearLayoutManager(this));
+        /*rv_Club_Content.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_Content, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), ClubBodyActivity.class);
-                intent.putExtra("Type",0);
-                intent.putExtra("position",position);
-                startActivityForResult(intent, 1000);
+
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
                 //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
             }
-        }));
+        }));*/
     }
 
     @Override
