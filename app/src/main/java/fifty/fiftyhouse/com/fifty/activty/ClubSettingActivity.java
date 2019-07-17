@@ -11,6 +11,7 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -81,8 +82,27 @@ public class ClubSettingActivity extends AppCompatActivity {
         tv_ClubSetting_Report.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(mContext, ClubBodyReportListActivity.class);
-                startActivity(intent);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(mContext, ClubBodyReportListActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+
+                FirebaseManager.getInstance().GetClubReportData(TKManager.getInstance().TargetClubData.GetClubIndex(), listener );
+
             }
         });
 

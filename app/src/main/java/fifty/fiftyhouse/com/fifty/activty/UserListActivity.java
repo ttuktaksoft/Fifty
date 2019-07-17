@@ -39,6 +39,8 @@ import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class UserListActivity extends AppCompatActivity {
 
     View ui_UserList_TopBar;
@@ -363,13 +365,51 @@ public class UserListActivity extends AppCompatActivity {
     private void ShowUserProfile(String id)
     {
         if(id.equals(TKManager.getInstance().MyData.GetUserIndex()) == false) {
+
             DialogFunc.getInstance().ShowLoadingPage(UserListActivity.this);
 
             FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                 @Override
                 public void CompleteListener() {
-                    DialogFunc.getInstance().DismissLoadingPage();
-                    startActivityForResult(new Intent(getApplicationContext(), UserProfileActivity.class), mUserListType);
+
+                    Set KeySet = TKManager.getInstance().TargetUserData.GetUserClubDataKeySet();
+
+                    if(KeySet.size() > 0)
+                    {
+                        Iterator iterator = KeySet.iterator();
+
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TargetUserData.GetUserClubDataCount());
+
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                startActivityForResult(new Intent(getApplicationContext(), UserProfileActivity.class), mUserListType);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        while(iterator.hasNext()){
+                            String key = (String)iterator.next();
+                            if(TKManager.getInstance().ClubData_Simple.get(key) != null)
+                            {
+                                FirebaseManager.getInstance().Complete(listener);
+                            }
+                            else
+                                FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
+                        }
+                    }
+                    else
+                    {
+                        startActivityForResult(new Intent(getApplicationContext(), UserProfileActivity.class), mUserListType);
+                    }
+
                 }
 
                 @Override
@@ -383,6 +423,8 @@ public class UserListActivity extends AppCompatActivity {
             };
 
             FirebaseManager.getInstance().GetUserData(id, TKManager.getInstance().TargetUserData, listener);
+
+
         }
     }
 
