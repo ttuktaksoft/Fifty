@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:padding="3dp"
     >
 
     <ImageView
@@ -47,13 +47,14 @@
         android:id="@+id/tv_Club_Name"
         style="@style/BaseContentTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:maxLength="15"
         android:text="등산 카페"
-        android:textColor="@android:color/black"
+        android:textColor="@color/str_color_2"
         android:textStyle="bold"
-        android:gravity="center"
-        android:background="@color/info_sub_slot_title_bg"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:background="@color/club_main_slot_bg"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Profile"
         app:layout_constraintRight_toRightOf="@+id/iv_Club_Profile"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Profile"

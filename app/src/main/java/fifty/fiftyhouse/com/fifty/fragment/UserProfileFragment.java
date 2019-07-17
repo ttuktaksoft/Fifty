@@ -659,41 +659,7 @@ public class UserProfileFragment extends Fragment {
         rv_UserProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Club, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, final int position) {
-                //startActivity(new Intent(mContext, StrContentListActivity.class));
-
-            /*    Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
-                final List array = new ArrayList(tempKey);
-
-                //DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
-
-                FirebaseManager.CheckFirebaseComplete GetClubDataListener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-
-                        FirebaseManager.CheckFirebaseComplete GetClubContextListener = new FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
-                                startActivity(new Intent(getContext(), ClubActivity.class));
-                            }
-
-                            @Override
-                            public void CompleteListener_Yes() {}
-                            @Override
-                            public void CompleteListener_No() {}
-                        };
-
-                        FirebaseManager.getInstance().GetClubContextData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(), GetClubContextListener);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {}
-                    @Override
-                    public void CompleteListener_No() {}
-                };
-
-                FirebaseManager.getInstance().GetClubData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(),
-                        TKManager.getInstance().TargetClubData, GetClubDataListener);
-*/
+             
             }
 
             @Override

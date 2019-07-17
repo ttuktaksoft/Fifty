@@ -363,7 +363,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
                 Intent intent = new Intent(mContext, CustomPhotoView.class);
                 intent.putExtra("ImgSrc",tempData.GetMsg());
-                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_CHAT_BODY);
+                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_ONE);
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
                 DialogFunc.getInstance().DismissLoadingPage();

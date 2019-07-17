@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,15 +22,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubWriteImgAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleTouchListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ClubWriteFragment extends Fragment {
 
+    ConstraintLayout v_ClubWrite_Touch;
     EditText et_ClubWrite_Desc;
     RecyclerView rv_ClubWrite_Pic;
 
@@ -70,8 +75,23 @@ public class ClubWriteFragment extends Fragment {
 
         et_ClubWrite_Desc = v_FragmentView.findViewById(R.id.et_ClubWrite_Desc);
         rv_ClubWrite_Pic = v_FragmentView.findViewById(R.id.rv_ClubWrite_Pic);
-
+        v_ClubWrite_Touch = v_FragmentView.findViewById(R.id.v_ClubWrite_Touch);
         et_ClubWrite_Desc.setText("");
+
+        v_ClubWrite_Touch.setOnTouchListener(new OnSingleTouchListener() {
+            @Override
+            public void onSingleTouch(View view) {
+                et_ClubWrite_Desc.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        et_ClubWrite_Desc.setFocusableInTouchMode(true);
+                        et_ClubWrite_Desc.requestFocus();
+                        imm.showSoftInput(et_ClubWrite_Desc,0);
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    }
+                });
+            }
+        });
 
         et_ClubWrite_Desc.addTextChangedListener(new TextWatcher() {
             @Override

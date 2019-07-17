@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,12 +29,14 @@ public class UserReportActivity extends AppCompatActivity {
 
     TextView tv_UserReport_Count, tv_UserReport_Report;
     EditText et_UserReport_Memo;
+    InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_report);
         mContext = getApplicationContext();
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         ui_UserReport_TopBar = findViewById(R.id.ui_UserReport_TopBar);
         tv_TopBar_Title = ui_UserReport_TopBar.findViewById(R.id.tv_TopBar_Title);
@@ -45,6 +48,7 @@ public class UserReportActivity extends AppCompatActivity {
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                imm.hideSoftInputFromWindow(et_UserReport_Memo.getWindowToken(), 0);
                 finish();
             }
         });
@@ -73,6 +77,7 @@ public class UserReportActivity extends AppCompatActivity {
         tv_UserReport_Report.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                imm.hideSoftInputFromWindow(et_UserReport_Memo.getWindowToken(), 0);
                 DialogFunc.getInstance().ShowToast(UserReportActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_REPORT_RESULT), true);
                 finish();
             }

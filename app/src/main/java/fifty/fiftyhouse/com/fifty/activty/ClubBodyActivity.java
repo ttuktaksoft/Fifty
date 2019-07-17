@@ -59,7 +59,7 @@ public class ClubBodyActivity extends AppCompatActivity {
     ClubContextData tempData;
 
     InputMethodManager imm;
-
+    public static Activity mClubBodyActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +68,7 @@ public class ClubBodyActivity extends AppCompatActivity {
         mContext = getApplicationContext();
         mActivity = this;
         mFragmentMgr = getSupportFragmentManager();
+        mClubBodyActivity = this;
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         int nType = getIntent().getIntExtra("Type", 0);
@@ -151,6 +152,7 @@ public class ClubBodyActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_ClubBody_Reply.getWindowToken(), 0);
+                et_ClubBody_Reply.setText(null);
 
                 int tempCount = tempData.GetReplyDataCount();
 
@@ -170,6 +172,7 @@ public class ClubBodyActivity extends AppCompatActivity {
                     public void CompleteListener() {
                         // 데이터 추가 하고 아래 함수 콜
                         mClubBodyFragment.RefreshReply();
+
                     }
 
                     @Override

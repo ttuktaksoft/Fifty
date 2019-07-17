@@ -52,6 +52,7 @@ public class LocationEditActivity extends AppCompatActivity {
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                imm.hideSoftInputFromWindow(et_Location_Edit_Location.getWindowToken(), 0);
                 finish();
             }
         });
