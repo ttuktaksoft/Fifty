@@ -77,6 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
         mFragmentMgr = getSupportFragmentManager();
         CommonFunc.getInstance().mCurActivity = this;
 
+        DialogFunc.getInstance().DismissLoadingPage();
+
         ui_SignUp_TopBar = findViewById(R.id.ui_SignUp_TopBar);
         tv_TopBar_Title = ui_SignUp_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_SignUp_TopBar.findViewById(R.id.iv_TopBar_Back);
@@ -139,16 +141,12 @@ public class SignUpActivity extends AppCompatActivity {
                             FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
                                 public void CompleteListener() {
-
-
                                     FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
                                         @Override
                                         public void CompleteListener() {
                                             FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                                                 @Override
                                                 public void CompleteListener() {
-                                                    DialogFunc.getInstance().DismissLoadingPage();
-
                                                     DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
                                                     {
                                                         @Override
@@ -194,8 +192,6 @@ public class SignUpActivity extends AppCompatActivity {
                                             FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                                                 @Override
                                                 public void CompleteListener() {
-                                                    DialogFunc.getInstance().DismissLoadingPage();
-
                                                     DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
                                                     {
                                                         @Override

@@ -56,7 +56,7 @@ public class SortSettingActivity extends AppCompatActivity {
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
+
 
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
@@ -89,15 +89,12 @@ public class SortSettingActivity extends AppCompatActivity {
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
 
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
 
-                        Intent intent = new Intent(MainActivity.mActivity, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        CommonFunc.getInstance().MoveMainActivity(SortSettingActivity.this, false);
                     }
 
                     @Override
@@ -126,11 +123,7 @@ public class SortSettingActivity extends AppCompatActivity {
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
-                DialogFunc.getInstance().DismissLoadingPage();
-
-                Intent intent = new Intent(MainActivity.mActivity, MainActivity.class);
-                startActivity(intent);
-                finish();
+                CommonFunc.getInstance().MoveMainActivity(SortSettingActivity.this, false);
             }
 
             @Override

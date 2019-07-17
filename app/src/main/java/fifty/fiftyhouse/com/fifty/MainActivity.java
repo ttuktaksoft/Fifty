@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
       //  String[] temp = FirebaseManager.getInstance().AddFavorite(mContext);
 
+        DialogFunc.getInstance().DismissLoadingPage();
 
         backPressCloseHandler = new BackPressCloseHandler(mActivity);
 
