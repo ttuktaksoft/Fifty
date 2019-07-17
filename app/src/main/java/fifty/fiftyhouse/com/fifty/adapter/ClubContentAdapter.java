@@ -153,6 +153,8 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         tempData = TKManager.getInstance().TargetClubData.GetClubContext(key);
         TKManager.getInstance().TargetContextData = tempData;
 
+
+
        switch (tempData.ContextType)
        {
            case 0:
@@ -187,23 +189,44 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                break;
        }
 
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
 
-        tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
-
-  //      String[] tempValue = CommonFunc.getInstance().ConvertTimeToHM(tempData.Date);
-        //tv_Club_Con_Date.setText(tempValue[0] + "시 " + tempValue[1] + "분");
-
-        tv_Club_Con_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.Date, "yyyy/MM/dd HH시mm분"));
-
-        if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
+       // 내일 신고글 대응
+    /*    if(!CommonFunc.getInstance().CheckStringNull(tempData.GetReportList(TKManager.getInstance().MyData.GetUserIndex())))
         {
-            tv_Club_Con_Desc.setVisibility(View.INVISIBLE);
-        }
-        else
-            tv_Club_Con_Desc.setText(tempData.Context);
+            if(tempData.GetReportList(TKManager.getInstance().MyData.GetUserIndex()).equals(TKManager.getInstance().MyData.GetUserIndex()))
+            {
+                // 신고한글 안보이게
 
-        mAdapter.setReplyCount(tempData.GetReplyDataCount());
+            }
+        }
+
+        else*/
+
+
+        {
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
+
+
+            tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
+
+            //      String[] tempValue = CommonFunc.getInstance().ConvertTimeToHM(tempData.Date);
+            //tv_Club_Con_Date.setText(tempValue[0] + "시 " + tempValue[1] + "분");
+
+            tv_Club_Con_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.Date, "yyyy/MM/dd HH시mm분"));
+
+            if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
+            {
+                tv_Club_Con_Desc.setVisibility(View.INVISIBLE);
+            }
+            else
+                tv_Club_Con_Desc.setText(tempData.Context);
+
+            mAdapter.setReplyCount(tempData.GetReplyDataCount());
+        }
+
+
+
+
 
         iv_Club_Con_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -345,7 +368,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                                 }
                             };
 
-                            FirebaseManager.getInstance().RegistClubReport(TKManager.getInstance().TargetClubData.GetClubIndex(), tempData.GetContextIndex(), listener );
+                            FirebaseManager.getInstance().RegistClubReport(TKManager.getInstance().TargetClubData.GetClubIndex(), tempData, listener );
 
                         }
                     });

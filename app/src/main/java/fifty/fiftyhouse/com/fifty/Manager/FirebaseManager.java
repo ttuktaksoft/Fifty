@@ -2555,18 +2555,19 @@ public class FirebaseManager {
                  });
     }
 
-    public void RegistClubReport(final String clubIndex, final String dataIndex, final FirebaseManager.CheckFirebaseComplete listener) {
-        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex).collection("ReportContextList").document(dataIndex);
+    public void RegistClubReport(final String clubIndex, final ClubContextData dataIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex).collection("ReportContextList").document(dataIndex.GetContextIndex());
 
         Map<String, Object> ReportContext = new HashMap<>();
         ReportContext.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
+        ReportContext.put("Date", dataIndex.GetDate());
 
         sfDocRef.set(ReportContext, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        final DocumentReference sfDocReportRef = mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(dataIndex);
+                        final DocumentReference sfDocReportRef = mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(dataIndex.GetContextIndex());
 
                         Map<String, Object> ReportInfo = new HashMap<>();
                         ReportInfo.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
@@ -2602,6 +2603,27 @@ public class FirebaseManager {
                 });
     }
 
+    public void EditClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
+        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
+
+        mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(data.GetContextIndex())
+                .set(data, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        listener.CompleteListener();
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
+    }
     public void RegistClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
         final double[] newPopulation = new double[1];
@@ -2672,6 +2694,116 @@ public class FirebaseManager {
                 });
     }
 
+
+
+    public void GetClubContextData(String clubIndex, final String contextIndex, final CheckFirebaseComplete listener) {
+        final DocumentReference docRef = mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(contextIndex);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        ClubContextData tempData = new ClubContextData();
+                        tempData.ContextType = Integer.parseInt(document.getData().get("ContextType").toString());
+
+                        if (document.getData().containsKey("Context")) {
+                            if(CommonFunc.getInstance().isEmpty(document.getData().get("Context")))
+                            {
+                                tempData.Context = "";
+                            }
+                            else
+                                tempData.Context = document.getData().get("Context").toString();
+                        } else
+                            tempData.Context = "";
+
+                        if (document.getData().containsKey("ContextIndex")) {
+                            if(CommonFunc.getInstance().isEmpty(document.getData().get("ContextIndex")))
+                            {
+                                tempData.SetContextIndex(document.getId());
+                            }
+                            else
+                                tempData.SetContextIndex(document.getData().get("ContextIndex").toString());
+                        } else
+                            tempData.SetContextIndex(document.getId());
+
+
+                        tempData.Date = document.getData().get("Date").toString();
+                        tempData.writerIndex = document.getData().get("writerIndex").toString();
+
+                        if (document.getData().containsKey("ImgList")) {
+                            tempData.ClearImg();
+                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ImgList");
+                            Set set = tempImg.entrySet();
+                            Iterator iterator = set.iterator();
+                            while (iterator.hasNext()) {
+                                Map.Entry entry = (Map.Entry) iterator.next();
+                                String key = (String) entry.getKey();
+                                String value = (String) entry.getValue();
+                                tempData.SetImg(key, value);
+                            }
+                        }
+
+                        if (document.getData().containsKey("ReportList")) {
+                            tempData.ClearReportList();
+                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ReportList");
+                            Set set = tempImg.entrySet();
+                            Iterator iterator = set.iterator();
+                            while (iterator.hasNext()) {
+                                Map.Entry entry = (Map.Entry) iterator.next();
+                                String key = (String) entry.getKey();
+                                String value = (String) entry.getValue();
+                                tempData.SetReportList(key, value);
+                            }
+                        }
+
+                        if (document.getData().containsKey("ReplyList")) {
+                            tempData.ClearReplyData();
+                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ReplyList");
+                            Set set = tempImg.entrySet();
+                            Iterator iterator = set.iterator();
+                            while (iterator.hasNext()) {
+                                Map.Entry entry = (Map.Entry) iterator.next();
+                                String key = (String) entry.getKey();
+                                String value = (String) entry.getValue();
+                                tempData.SetReply(key, value);
+
+
+
+                                String[] array = value.split("_");
+                                ClubContextData tempReplyData= new ClubContextData();
+                                tempReplyData.SetWriterIndex(array[0]);
+                                tempReplyData.SetDate(array[1]);
+                                tempReplyData.SetContext(array[2]);
+                                tempData.SetReplyData(key, tempReplyData);
+
+                                AddFireBaseLoadingCount();
+                                GetUserData_Simple(tempReplyData.GetWriterIndex(), TKManager.getInstance().UserData_Simple, listener);
+
+                            }
+                        }
+
+                        TKManager.getInstance().TargetReportContextData.put(contextIndex, tempData);
+
+                        // if(TKManager.getInstance().UserData_Simple.get(tempData.writerIndex) == null)
+                        {
+                            AddFireBaseLoadingCount();
+                            // Log.d(TAG, tempData.writerIndex + " => " + document.getDocument().getData());
+                            GetUserData_Simple(tempData.writerIndex, TKManager.getInstance().UserData_Simple, listener);
+                        }
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
     public void GetClubContextData(final String clubIndex, final FirebaseManager.CheckFirebaseComplete listener) {
         final CollectionReference colRef = mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext");
 
@@ -2738,7 +2870,7 @@ public class FirebaseManager {
                                 }
 
                                 if (document.getData().containsKey("ReportList")) {
-                                    tempData.ClearImg();
+                                    tempData.ClearReportList();
                                     HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ReportList");
                                     Set set = tempImg.entrySet();
                                     Iterator iterator = set.iterator();
@@ -2855,6 +2987,37 @@ public class FirebaseManager {
         });
     }
 
+    public void GetClubReportData(final String clubIndex, final FirebaseManager.CheckFirebaseComplete listener)
+    {
+        TKManager.getInstance().TargetReportContextData.clear();
+
+        SetFireBaseLoadingCount(0);
+        final CollectionReference cocRef = mDataBase.collection("ClubData").document(clubIndex).collection("ReportContextList");
+        cocRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                        AddFireBaseLoadingCount();
+                        GetClubContextData(clubIndex, document.getId(), listener);
+
+                    }
+
+
+                    if (listener != null)
+                        listener.CompleteListener();
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+
+
+        });
+    }
 
     public void GetClubData(final UserData userData, final String clubIndex, final FirebaseManager.CheckFirebaseComplete listener) {
 

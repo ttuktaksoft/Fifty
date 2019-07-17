@@ -45,6 +45,7 @@ public class ClubWriteActivity extends AppCompatActivity {
 
     ClubContextData tempData = new ClubContextData();
     int mClubWriteType;
+    String key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class ClubWriteActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         mClubWriteType = getIntent().getIntExtra("Type", 0);
-        String key = getIntent().getStringExtra("key");
+        key = getIntent().getStringExtra("key");
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -174,11 +175,53 @@ public class ClubWriteActivity extends AppCompatActivity {
                 else
                 {
                     // 글 수정
+                    EditClubContext();
                 }
 
             }
         });
     }
+
+    public void EditClubContext()
+    {
+        TKManager.getInstance().TargetClubData.GetClubContext(key).SetContext(TKManager.getInstance().CreateTempClubContextData.Context);
+
+        FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+
+                ClubContextData tempData = new ClubContextData();
+
+                try {
+                    tempData =  (ClubContextData) TKManager.getInstance().TargetClubData.GetClubContext(key).clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+
+
+                TKManager.getInstance().TargetClubData.AddClubContext(tempData.GetContextIndex(), tempData);
+                CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
+
+                TKManager.getInstance().CreateTempClubContextData.Clear();
+
+                DialogFunc.getInstance().DismissLoadingPage();
+                finish();
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+
+            }
+
+            @Override
+            public void CompleteListener_No() {
+
+            }
+        };
+        FirebaseManager.getInstance().EditClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData.GetClubContext(key), ContextListener);
+    }
+
+
 
     public void SetClubContext()
     {

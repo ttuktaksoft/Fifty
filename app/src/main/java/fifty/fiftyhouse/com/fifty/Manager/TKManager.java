@@ -37,6 +37,9 @@ public class TKManager {
     public UserData TargetUserData = new UserData();
     public ClubData TargetClubData = new ClubData();
 
+    public Map<String, ClubContextData> TargetReportContextData =  new HashMap<>();
+
+
     public Map<String, Object> UserData = new HashMap<>();
 
     public Map<String, UserData> UserData_Simple = new HashMap<>();
