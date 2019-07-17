@@ -36,7 +36,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
     public ClubListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_club, parent, false);
 
-        view.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,CommonFunc.getInstance().getHeightByDevice()/4));
+        view.setLayoutParams(new RelativeLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice() / 2,CommonFunc.getInstance().getWidthByDevice()/2));
         return new ClubListHolder(view);
     }
 

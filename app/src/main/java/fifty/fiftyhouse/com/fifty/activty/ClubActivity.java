@@ -202,6 +202,16 @@ public class ClubActivity extends AppCompatActivity {
             }
         });
 
+        iv_Club_Thumbnail.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, CustomPhotoView.class);
+                intent.putExtra("ImgSrc",TKManager.getInstance().TargetClubData.GetClubThumb());
+                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_ONE);
+                startActivity(intent);
+            }
+        });
+
         TKManager.getInstance().mUpdateClubActivityFunc = new TKManager.UpdateUIFunc(){
             @Override
             public void UpdateUI() {

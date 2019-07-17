@@ -39,17 +39,7 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_Shop_Info_Icon"
             android:textColor="@color/str_color_1"
             android:gravity="center"
-            android:text="■FIFTY Important Person
-
-FIP를 구매하고, 나의 소중한 사람을 확인하세요.
-
-FIP를구매시 회원님의\nFIP가 누군지 확인할 수 있습니다.
-
-▶내 프로필을 방문한 회원은 누구?
-▶나를 좋아요한 회원은 누구?
-▶나를 친구로 추가한 회원은 누구?
-
-FIP 30일 이용권 4,900원"/>
+            android:text="■FIFTY Important Person\n\nFIP를 구매하고, 나의 소중한 사람을 확인하세요.\n\nFIP를구매시 회원님의\nFIP가 누군지 확인할 수 있습니다.\n\n▶내 프로필을 방문한 회원은 누구?\n▶나를 좋아요한 회원은 누구?\n▶나를 친구로 추가한 회원은 누구?\n\nFIP 30일 이용권 4,900원"/>
 
         <TextView
             android:id="@+id/tv_Shop_Info_Buy"

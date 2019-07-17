@@ -661,7 +661,15 @@ public class UserProfileFragment extends Fragment {
             public void onSingleClick(View view, final int position) {
                 //startActivity(new Intent(mContext, StrContentListActivity.class));
 
-                Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+                Set tempKey;
+                if(mMyProfile)
+                {
+                    tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+                }
+                else
+                {
+                    tempKey = TKManager.getInstance().TargetUserData.GetUserClubDataKeySet();
+                }
                 final List array = new ArrayList(tempKey);
 
                 //DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);

@@ -8,14 +8,7 @@
     android:background="@color/white"
     android:layout_marginTop="1dp">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/v_Club_Con_View"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Con_View_P"
-        app:layout_constraintRight_toRightOf="@+id/v_Club_Con_View_P"
-        app:layout_constraintTop_toTopOf="@+id/v_Club_Con_View_P"
-        app:layout_constraintBottom_toBottomOf="@+id/v_Club_Con_View_P"/>
+
 
     <ImageView
         android:id="@+id/iv_Club_Con_Profile_Border"
@@ -80,6 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_Club_Con_Date"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
         android:paddingBottom="5dp"
         android:textColor="@color/str_color_1"
         android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"/>
@@ -131,5 +125,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_Club_Con_Desc">
 
     </android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Club_Con_View"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Con_View_P"
+        app:layout_constraintRight_toRightOf="@+id/v_Club_Con_View_P"
+        app:layout_constraintTop_toTopOf="@+id/v_Club_Con_View_P"
+        app:layout_constraintBottom_toBottomOf="@+id/v_Club_Con_View_P"/>
 
 </android.support.constraint.ConstraintLayout>

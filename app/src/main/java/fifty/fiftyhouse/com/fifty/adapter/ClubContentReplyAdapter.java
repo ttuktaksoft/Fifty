@@ -44,6 +44,9 @@ public class ClubContentReplyAdapter extends RecyclerView.Adapter<ClubContentRep
 
     @Override
     public int getItemCount() {
+        if(mReplyCount >= 3)
+            return 3;
+        else
         return mReplyCount;
     }
 

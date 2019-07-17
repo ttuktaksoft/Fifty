@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,17 +17,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubBodyImgAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubBodyReplyAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubWriteImgAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ClubBodyFragment extends Fragment {
 
@@ -79,6 +90,84 @@ public class ClubBodyFragment extends Fragment {
         tv_Club_Body_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.GetDate(), "yyyy/MM/dd HH시mm분"));
         tv_Club_Body_Desc.setText(tempData.GetContext());
 
+        iv_Club_Body_Profile.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                String UserIndex = tempData.GetWriterIndex();
+
+                if(UserIndex.equals(TKManager.getInstance().MyData.GetUserIndex()) == false)
+                {
+                    DialogFunc.getInstance().ShowLoadingPage(ClubBodyActivity.mClubBodyActivity);
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+
+
+                            Set KeySet = TKManager.getInstance().TargetUserData.GetUserClubDataKeySet();
+
+                            if(KeySet.size() > 0)
+                            {
+                                Iterator iterator = KeySet.iterator();
+
+                                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TargetUserData.GetUserClubDataCount());
+
+                                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        Intent intent = new Intent(mContext, UserProfileActivity.class);
+                                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                                        mContext.startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                    }
+                                };
+
+                                while(iterator.hasNext()){
+                                    String key = (String)iterator.next();
+                                    if(TKManager.getInstance().ClubData_Simple.get(key) != null)
+                                    {
+                                        FirebaseManager.getInstance().Complete(listener);
+                                    }
+                                    else
+                                        FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
+                                }
+                            }
+                            else
+                            {
+                                DialogFunc.getInstance().DismissLoadingPage();
+
+                                Intent intent = new Intent(mContext, UserProfileActivity.class);
+                                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+                        }
+                    };
+
+                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+
+                }
+
+            }
+        });
+
+
         initRecyclerImgView();
         initRecyclerReplyView();
 
@@ -103,6 +192,17 @@ public class ClubBodyFragment extends Fragment {
         rv_Club_Body_Img_List.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_Club_Body_Img_List, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
+
+                ArrayList<String> list = new ArrayList<>();
+                Iterator<String> iterator = tempData.GetImg().keySet().iterator();
+                while(iterator.hasNext()){
+                    String key = iterator.next();
+                    list.add(tempData.GetImg(key));
+                }
+                Intent intent = new Intent(mContext, CustomPhotoView.class);
+                intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_DATAS);
+                intent.putExtra("datas", list);
+                startActivity(intent);
 
             }
         }));

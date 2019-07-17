@@ -2,9 +2,19 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/v_ClubWrite_Touch_1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_ClubWrite_Touch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="@+id/v_ClubWrite_Touch_1"
+        app:layout_constraintBottom_toBottomOf="@+id/v_ClubWrite_Touch_1"
+        app:layout_constraintRight_toRightOf="@+id/v_ClubWrite_Touch_1"
+        app:layout_constraintLeft_toLeftOf="@+id/v_ClubWrite_Touch_1"/>
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/ns_ClubWrite_Scroll"
@@ -12,10 +22,13 @@
         android:layout_height="wrap_content"
         android:scrollbars="none">
 
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/v_ClubWrite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+
 
             <EditText
                 android:id="@+id/et_ClubWrite_Desc"

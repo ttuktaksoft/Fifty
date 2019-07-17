@@ -43,7 +43,8 @@ public class CustomPhotoView extends AppCompatActivity {
     public static int PHOTO_VIEW_TYPE_MY_PROFILE_LIST = 2;
     public static int PHOTO_VIEW_TYPE_USER_PROFILE = 3;
     public static int PHOTO_VIEW_TYPE_USER_PROFILE_LIST = 4;
-    public static int PHOTO_VIEW_TYPE_CHAT_BODY = 5;
+    public static int PHOTO_VIEW_TYPE_ONE = 5;
+    public static int PHOTO_VIEW_TYPE_DATAS = 6;
 
     ArrayList<String> mPhotoSrcList = new ArrayList<>();
 
@@ -59,8 +60,14 @@ public class CustomPhotoView extends AppCompatActivity {
         vp_Custom_Photo_View = findViewById(R.id.vp_Custom_Photo_View);
 
         Intent intent = getIntent(); //getIntent()로 받을준비
-        ImgSrc  = intent.getStringExtra("ImgSrc");
         int type = intent.getIntExtra("Type", 1);
+
+        if(intent.hasExtra("ImgSrc"))
+            ImgSrc  = intent.getStringExtra("ImgSrc");
+
+        ArrayList<String> ImgList = new ArrayList<>();
+        if(intent.hasExtra("datas"))
+            ImgList = intent.getStringArrayListExtra("datas");
 
         if(type == PHOTO_VIEW_TYPE_MY_PROFILE)
         {
@@ -92,9 +99,14 @@ public class CustomPhotoView extends AppCompatActivity {
 
             tv_TopBar_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         }
-        else if(type == PHOTO_VIEW_TYPE_CHAT_BODY)
+        else if(type == PHOTO_VIEW_TYPE_ONE)
         {
             mPhotoSrcList.add(ImgSrc);
+            tv_TopBar_Title.setText("");
+        }
+        else
+        {
+            mPhotoSrcList.addAll(ImgList);
             tv_TopBar_Title.setText("");
         }
 

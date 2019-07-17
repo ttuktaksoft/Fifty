@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class MemoEditActivity extends AppCompatActivity {
 
     TextView tv_Story_Edit_Save, tv_Story_Edit_Count;
     EditText et_Story_Edit_Memo;
+    InputMethodManager imm;
 
     Context mContext;
     @Override
@@ -33,6 +35,7 @@ public class MemoEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_memo_edit);
         mContext = getApplicationContext();
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         ui_Memo_Edit_TopBar = findViewById(R.id.ui_Memo_Edit_TopBar);
         tv_TopBar_Title = ui_Memo_Edit_TopBar.findViewById(R.id.tv_TopBar_Title);
@@ -45,6 +48,7 @@ public class MemoEditActivity extends AppCompatActivity {
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                imm.hideSoftInputFromWindow(et_Story_Edit_Memo.getWindowToken(), 0);
                 finish();
             }
         });
@@ -76,6 +80,7 @@ public class MemoEditActivity extends AppCompatActivity {
         tv_Story_Edit_Save.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                imm.hideSoftInputFromWindow(et_Story_Edit_Memo.getWindowToken(), 0);
             String tempMemo = et_Story_Edit_Memo.getText().toString();
             TKManager.getInstance().MyData.SetUserMemo(tempMemo);
             FirebaseManager.getInstance().SetUserMemo();
