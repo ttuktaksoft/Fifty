@@ -39,6 +39,9 @@ import static fifty.fiftyhouse.com.fifty.adapter.ClubContentListHolder.CLUB_CONT
 public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHolder> {
 
     Context mContext;
+    int mItemCount = 0;
+    ArrayList<String> mItemData = new ArrayList<>();
+
     public ClubContentAdapter(Context context) {
         mContext = context;
     }
@@ -54,14 +57,20 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
     @Override
     public void onBindViewHolder(ClubContentListHolder holder, final int position) {
         int i = position;
-        holder.setClubContent(i);
+        holder.setClubContent(mItemData.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return TKManager.getInstance().TargetClubData.GetClubContextCount();
+        return mItemCount;
     }
 
+    public void setItemData(ArrayList<String> list) {
+        mItemData.clear();
+        mItemData.addAll(list);
+
+        mItemCount = mItemData.size();
+    }
 }
 
 class ClubContentListHolder extends RecyclerView.ViewHolder {
@@ -128,12 +137,9 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         initReplyList();
     }
 
-    public void setClubContent(final int pos)
+    public void setClubContent(final String key)
     {
-        Set tempKey = TKManager.getInstance().TargetClubData.GetClubContextKeySet();
-        final List array = new ArrayList(tempKey);
-        tempData = TKManager.getInstance().TargetClubData.GetClubContext(array.get(pos).toString());
-
+        tempData = TKManager.getInstance().TargetClubData.GetClubContext(key);
         TKManager.getInstance().TargetContextData = tempData;
 
        switch (tempData.ContextType)
@@ -210,7 +216,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                             FirebaseManager.CheckFirebaseComplete removeListener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
                                 public void CompleteListener() {
-                                    TKManager.getInstance().TargetClubData.DelClubContext(array.get(pos).toString());
+                                    TKManager.getInstance().TargetClubData.DelClubContext(key);
                                     DialogFunc.getInstance().DismissLoadingPage();
                                 }
 
@@ -224,7 +230,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
                                 }
                             };
-                            FirebaseManager.getInstance().RemoveClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), array.get(pos).toString(), removeListener);
+                            FirebaseManager.getInstance().RemoveClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), key, removeListener);
                         }
                     });
                     menuListenerList.add(new DialogFunc.MsgPopupListener()
@@ -233,10 +239,10 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         public void Listener()
                         {
                             // 수정
-                            Intent intent = new Intent(mContext, ClubWriteActivity.class);
+/*                            Intent intent = new Intent(mContext, ClubWriteActivity.class);
                             intent.putExtra("Type", 1);
-                            intent.putExtra("position", Integer.toString(pos));
-                            mContext.startActivity(intent);
+                            intent.putExtra("position", Integer.parseInt(key));
+                            mContext.startActivity(intent);*/
                         }
                     });
 

@@ -165,6 +165,7 @@
     <string name="USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST">나를 친구로 추가한 친구를 볼려면\n아이템을 구매해주세요</string>
     <string name="USER_LIST_VIP_SHOP_DESC_NOTICE">알람내용을 볼려면\n아이템을 구매해주세요</string>
 
+    <string name="MSG_MAIN_USER_TODAY_DESC">좋아하는 유저</string>
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
     <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>
