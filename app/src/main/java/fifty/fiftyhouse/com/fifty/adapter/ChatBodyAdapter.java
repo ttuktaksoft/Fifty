@@ -250,7 +250,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
             // 문자
             lp_Chat_Body_Date = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            lp_Chat_Body_Date.leftToRight = v_Chat_Body_Type_Etc.getId();
+            lp_Chat_Body_Date.leftToLeft = v_Chat_Body_Type_Etc.getId();
             lp_Chat_Body_Date.bottomToBottom = v_Chat_Body_Type_Etc.getId();
 
             lp_Chat_Body_Check = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -370,25 +370,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        String tempMsgDate = Long.toString(tempData.GetMsgDate());
-
-        String tempDate = tempMsgDate.substring(0, 7);
-        String tempTime = tempMsgDate.substring(8, 12);
-
-        String tempHour = tempTime.substring(0, 2);
-        int tempHourInteger = Integer.parseInt(tempHour);
-
-        String tempMinute = tempTime.substring(2, 4);
-        if(Integer.parseInt(tempHour) > 12) {
-
-            tempHour = Integer.toString(tempHourInteger - 12);
-
-            tv_Chat_Body_Date.setText("오후 "+ tempHour + ":" + tempMinute);
-        }
-        else
-        {
-            tv_Chat_Body_Date.setText("오전 "+ tempHour + ":" + tempMinute);
-        }
+        tv_Chat_Body_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.toString(tempData.GetMsgDate()), "a hh:mm"));
 
         if(tempData.GetMsgReadCheck())
             tv_Chat_Body_Check.setVisibility(View.INVISIBLE);
