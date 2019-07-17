@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -94,33 +96,16 @@ public class FriendRequestListViewPager extends Fragment {
             @Override
             public void onSingleClick(View view, int position) {
 
-                String tempUserIndex = null;
+                String UserIndex = null;
                 Set tempKey = TKManager.getInstance().MyData.GetRequestFriendListKeySet();;
                 List array = new ArrayList();
 
                 array = new ArrayList(tempKey);
-                tempUserIndex = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserIndex();
+                UserIndex = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserIndex();
 
-                DialogFunc.getInstance().ShowLoadingPage(getContext());
+                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                        startActivityForResult(new Intent(getContext(), UserProfileActivity.class), 0);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                    }
-                };
-
-                FirebaseManager.getInstance().GetUserData(tempUserIndex, TKManager.getInstance().TargetUserData, listener);
+                CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
             }
 
             @Override

@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.auth.User;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -97,6 +99,8 @@ public class ClubBodyFragment extends Fragment {
 
                 if(UserIndex.equals(TKManager.getInstance().MyData.GetUserIndex()) == false)
                 {
+                    CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, ClubBodyActivity.mClubBodyActivity, true);
+                    /*
                     DialogFunc.getInstance().ShowLoadingPage(ClubBodyActivity.mClubBodyActivity);
 
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
@@ -160,7 +164,7 @@ public class ClubBodyFragment extends Fragment {
                         }
                     };
 
-                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);*/
 
                 }
 

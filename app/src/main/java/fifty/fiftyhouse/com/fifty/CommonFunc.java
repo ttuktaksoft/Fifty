@@ -72,6 +72,7 @@ import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static fifty.fiftyhouse.com.fifty.CommonData.MOBILE_STATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.WIFI_STATE;
@@ -1179,6 +1180,74 @@ public class CommonFunc {
         return returnString;
     }
 
+    public void GetUserDataInFireBase(String userIndex, final Activity activity, final boolean intentNew)
+    {
+        DialogFunc.getInstance().ShowLoadingPage(activity);
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+
+                Set KeySet = TKManager.getInstance().TargetUserData.GetUserClubDataKeySet();
+
+                if(KeySet.size() > 0)
+                {
+                    Iterator iterator = KeySet.iterator();
+
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TargetUserData.GetUserClubDataCount());
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+
+                            Intent intent = new Intent(activity, UserProfileActivity.class);
+                            if(intentNew)
+                                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+
+                            activity.startActivity(intent);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    while(iterator.hasNext()){
+                        String key = (String)iterator.next();
+                        if(TKManager.getInstance().ClubData_Simple.get(key) != null)
+                        {
+                            FirebaseManager.getInstance().Complete(listener);
+                        }
+                        else
+                            FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
+                    }
+                }
+                else
+                {
+                    Intent intent = new Intent(activity, UserProfileActivity.class);
+                    if(intentNew)
+                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+
+                    activity.startActivity(intent);
+                }
+
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+                DialogFunc.getInstance().DismissLoadingPage();
+            }
+        };
+
+        FirebaseManager.getInstance().GetUserData(userIndex, TKManager.getInstance().TargetUserData, listener);
+    }
 
 
 

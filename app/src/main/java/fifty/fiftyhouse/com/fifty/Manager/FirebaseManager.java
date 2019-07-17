@@ -1799,7 +1799,7 @@ public class FirebaseManager {
     public void SearchClubList(String name, final FirebaseManager.CheckFirebaseComplete listener) {
         SetFireBaseLoadingCount(0);
         CollectionReference colRef = mDataBase.collection("ClubData_Favorite").document(name).collection("ClubIndex");
-        colRef./*orderBy("Count", Query.Direction.DESCENDING).*/limit(CommonData.Favorite_Search_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef./*orderBy("Count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).*/get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -2600,13 +2600,7 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
-
-
-
-
     }
-
-
 
     public void RegistClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
@@ -2618,7 +2612,6 @@ public class FirebaseManager {
                 newPopulation[0] = snapshot.getDouble("ClubContextCount") + 1;
                 int tempIndex = (int)newPopulation[0];
                 transaction.update(sfDocRef, "ClubContextCount", tempIndex);
-
 
                 // Success
                 return null;
@@ -2863,7 +2856,7 @@ public class FirebaseManager {
     }
 
 
-    public void GetClubData(final UserData userData, final String clubIndex, final ClubData getClubData, final FirebaseManager.CheckFirebaseComplete listener) {
+    public void GetClubData(final UserData userData, final String clubIndex, final FirebaseManager.CheckFirebaseComplete listener) {
 
         final DocumentReference docRef = mDataBase.collection("ClubData").document(clubIndex);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -2874,54 +2867,54 @@ public class FirebaseManager {
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
-                     //   ClubData tempUser = new ClubData();
+                        ClubData getClubData = new ClubData();
 
                         if (document.getData().containsKey("ClubContextCount")) {
                             int contextCount = Integer.parseInt(document.getData().get("ClubContextCount").toString());
-                            TKManager.getInstance().TargetClubData.ClubContextCount = contextCount;
+                            getClubData.ClubContextCount = contextCount;
                         } else
-                            TKManager.getInstance().TargetClubData.ClubContextCount = 0;
+                            getClubData.ClubContextCount = 0;
 
                         if (document.getData().containsKey("MemberCount")) {
                             int MemberCount =Integer.parseInt(document.getData().get("MemberCount").toString());
-                            TKManager.getInstance().TargetClubData.ClubMemberCount = MemberCount;
+                            getClubData.ClubMemberCount = MemberCount;
                         } else
-                            TKManager.getInstance().TargetClubData.ClubMemberCount = 0;
+                            getClubData.ClubMemberCount = 0;
 
                         if (document.getData().containsKey("ClubThumbNail")) {
                             String tempData = document.getData().get("ClubThumbNail").toString();
-                            TKManager.getInstance().TargetClubData.SetClubThumb(tempData);
+                            getClubData.SetClubThumb(tempData);
                         } else
-                            TKManager.getInstance().TargetClubData.SetClubThumb(null);
+                            getClubData.SetClubThumb(null);
 
                         if (document.getData().containsKey("ClubName")) {
                             String tempData = document.getData().get("ClubName").toString();
-                            TKManager.getInstance().TargetClubData.SetClubName(tempData);
+                            getClubData.SetClubName(tempData);
                         } else
-                            TKManager.getInstance().TargetClubData.SetClubName(null);
+                            getClubData.SetClubName(null);
 
                         if (document.getData().containsKey("ClubIndex")) {
                             String tempData = document.getData().get("ClubIndex").toString();
-                            TKManager.getInstance().TargetClubData.SetClubIndex(tempData);
+                            getClubData.SetClubIndex(tempData);
                         } else
-                            TKManager.getInstance().TargetClubData.SetClubIndex(null);
+                            getClubData.SetClubIndex(null);
 
 
                         if (document.getData().containsKey("ClubMasterIndex")) {
                             String tempData = document.getData().get("ClubMasterIndex").toString();
-                            TKManager.getInstance().TargetClubData.SetClubMasterIndex(tempData);
+                            getClubData.SetClubMasterIndex(tempData);
                         } else
-                            TKManager.getInstance().TargetClubData.SetClubMasterIndex(null);
+                            getClubData.SetClubMasterIndex(null);
 
                         if (document.getData().containsKey("ClubType")) {
                             boolean tempData = (boolean)document.getData().get("ClubType");
-                            TKManager.getInstance().TargetClubData.SetClubType(tempData);
+                            getClubData.SetClubType(tempData);
                         } else
-                            TKManager.getInstance().TargetClubData.SetClubType(false);
+                            getClubData.SetClubType(false);
 
 
                         if (document.getData().containsKey("ClubFavorite")) {
-                            TKManager.getInstance().TargetClubData.ClubFavorite.clear();
+                            getClubData.ClubFavorite.clear();
                             HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ClubFavorite");
                             Set set = tempImg.entrySet();
                             Iterator iterator = set.iterator();
@@ -2929,12 +2922,12 @@ public class FirebaseManager {
                                 Map.Entry entry = (Map.Entry) iterator.next();
                                 String key = (String) entry.getKey();
                                 String value = (String) entry.getValue();
-                                TKManager.getInstance().TargetClubData.AddClubFavorite(key, value);
+                                getClubData.AddClubFavorite(key, value);
                             }
                         }
 
                         if (document.getData().containsKey("ClubMemberList")) {
-                            TKManager.getInstance().TargetClubData.ClubMemberList.clear();
+                            getClubData.ClubMemberList.clear();
                             HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ClubMemberList");
                             Set set = tempImg.entrySet();
                             Iterator iterator = set.iterator();
@@ -2942,62 +2935,18 @@ public class FirebaseManager {
                                 Map.Entry entry = (Map.Entry) iterator.next();
                                 String key = (String) entry.getKey();
                                 String value = (String) entry.getValue();
-                                TKManager.getInstance().TargetClubData.AddClubMember(key);
+                                getClubData.AddClubMember(key);
                             }
                         }
 
-                      /*  if (document.getData().containsKey("ClubContext")) {
-                            HashMap<String, String> tempContext = (HashMap<String, String>) document.getData().get("ClubContext");
-                            Set set = tempContext.entrySet();
-                            Iterator iterator = set.iterator();
-                            while (iterator.hasNext()) {
-                                Map.Entry entry = (Map.Entry) iterator.next();
-
-                                String key = (String) entry.getKey();
-                                HashMap<String, String> tempData = (HashMap<String, String>)entry.getValue();
-                                //String value = (String) entry.getValue();
-                                Log.d("121230", key +"    " + entry.getValue());
-
-                                Set ValueSet = tempData.entrySet();
-                                Iterator ValueIterator = ValueSet.iterator();
-
-                                ClubContextData tempContextData = new ClubContextData();
-
-                                while (ValueIterator.hasNext()) {
-                                    Map.Entry ValueEntry = (Map.Entry) ValueIterator.next();
-
-                                    String ValueKey = (String) ValueEntry.getKey();
-                                    Log.d("121230", ValueKey +"    " + ValueEntry.getValue());
-                                    //userData.SetUserImg(key, value);
-
-                                    if(ValueKey.equals("Context"))
-                                        tempContextData.Context = ValueEntry.getValue().toString();
-
-                                    if(ValueKey.equals("ContextType"))
-                                        tempContextData.ContextType = Integer.parseInt(ValueEntry.getValue().toString());
-
-                                    if(ValueKey.equals("Date"))
-                                        tempContextData.Date = ValueEntry.getValue().toString();
-
-                                    if(ValueKey.equals("writerIndex"))
-                                        tempContextData.writerIndex = ValueEntry.getValue().toString();
-                                }
-
-                                tempUser.AddClubContext(key, tempContextData);
-                            }
-                        }*/
-
-                        ClubData tempClubData = new ClubData();
-                        try {
-                            tempClubData =  (ClubData) TKManager.getInstance().TargetClubData.clone();
+                    try {
+                            TKManager.getInstance().TargetClubData =  (ClubData) getClubData.clone();
                         } catch (CloneNotSupportedException e) {
                             e.printStackTrace();
                         }
 
-                        userData.SetUserClubData(tempClubData.GetClubIndex(), tempClubData);
-                        TKManager.getInstance().ClubData_Simple.put(tempClubData.GetClubIndex(), tempClubData);
 
-                        TKManager.getInstance().TargetClubData.Clear();
+                     //   getClubData.Clear();
                         //AddFireBaseLoadingCount();
                           if(listener != null);
                             listener.CompleteListener();
@@ -3082,11 +3031,10 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
+
                         tempData.SetClubIndex(document.getData().get("index").toString());
 
-                        AddFireBaseLoadingCount();
-
-                        GetClubData(userData, document.getData().get("index").toString(), tempData, listener);
+                        userData.SetUserClubData(document.getData().get("index").toString(), tempData);
 
 
                     }

@@ -329,7 +329,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             @Override
             public void onSingleTouch(View v) {
                 String UserIndex = tempData.GetFromIndex();
-                DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.mChatBodyActivity);
+
+                CommonFunc.getInstance().GetUserDataInFireBase(UserIndex,ChatBodyActivity.mChatBodyActivity, true);
+              /*  DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.mChatBodyActivity);
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
@@ -351,7 +353,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
                     }
                 };
 
-                FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+                FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);*/
             }
 
         });

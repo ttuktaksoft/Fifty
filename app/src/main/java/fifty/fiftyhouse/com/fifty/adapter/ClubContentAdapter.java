@@ -212,71 +212,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
                 if(UserIndex.equals(TKManager.getInstance().MyData.GetUserIndex()) == false)
                 {
-                    DialogFunc.getInstance().ShowLoadingPage(ClubActivity.mClubActivity);
-
-                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                        @Override
-                        public void CompleteListener() {
-
-
-                            Set KeySet = TKManager.getInstance().TargetUserData.GetUserClubDataKeySet();
-
-                            if(KeySet.size() > 0)
-                            {
-                                Iterator iterator = KeySet.iterator();
-
-                                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TargetUserData.GetUserClubDataCount());
-
-                                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                                    @Override
-                                    public void CompleteListener() {
-                                        DialogFunc.getInstance().DismissLoadingPage();
-                                        Intent intent = new Intent(mContext, UserProfileActivity.class);
-                                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                                        mContext.startActivity(intent);
-                                    }
-
-                                    @Override
-                                    public void CompleteListener_Yes() {
-                                    }
-
-                                    @Override
-                                    public void CompleteListener_No() {
-                                    }
-                                };
-
-                                while(iterator.hasNext()){
-                                    String key = (String)iterator.next();
-                                    if(TKManager.getInstance().ClubData_Simple.get(key) != null)
-                                    {
-                                        FirebaseManager.getInstance().Complete(listener);
-                                    }
-                                    else
-                                        FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
-                                }
-                            }
-                            else
-                            {
-                                DialogFunc.getInstance().DismissLoadingPage();
-
-                                Intent intent = new Intent(mContext, UserProfileActivity.class);
-                                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                                mContext.startActivity(intent);
-                            }
-                        }
-
-                        @Override
-                        public void CompleteListener_Yes() {
-                        }
-
-                        @Override
-                        public void CompleteListener_No() {
-                            DialogFunc.getInstance().DismissLoadingPage();
-                        }
-                    };
-
-                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
-
+                    CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, ClubActivity.mClubActivity, true);
                 }
 
             }
