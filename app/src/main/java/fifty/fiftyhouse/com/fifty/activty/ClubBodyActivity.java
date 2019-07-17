@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.common.internal.service.Common;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -152,7 +153,12 @@ public class ClubBodyActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_ClubBody_Reply.getWindowToken(), 0);
-                et_ClubBody_Reply.setText(null);
+
+                if(CommonFunc.getInstance().CheckStringNull(et_ClubBody_Reply.getText().toString()))
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(ClubBodyActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_DESC_EMPTY));
+                    return;
+                }
 
                 int tempCount = tempData.GetReplyDataCount();
 
@@ -166,6 +172,7 @@ public class ClubBodyActivity extends AppCompatActivity {
                 tempRepData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
                 tempData.SetReplyData(Integer.toString(tempData.GetReplyDataCount()), tempRepData);
 
+                et_ClubBody_Reply.setText(null);
 
                 FirebaseManager.CheckFirebaseComplete ReplyListener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override

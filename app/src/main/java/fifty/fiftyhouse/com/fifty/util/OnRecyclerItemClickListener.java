@@ -5,7 +5,7 @@ import android.view.View;
 
 public abstract class OnRecyclerItemClickListener implements RecyclerItemClickListener.OnItemClickListener{
     // 중복 클릭 방지 시간 설정
-    private static final long MIN_CLICK_INTERVAL=600;
+    private static final long MIN_CLICK_INTERVAL=1200;
 
     private long mLastClickTime;
 

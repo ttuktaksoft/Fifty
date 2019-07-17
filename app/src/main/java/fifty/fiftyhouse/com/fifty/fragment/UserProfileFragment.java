@@ -686,9 +686,9 @@ public class UserProfileFragment extends Fragment {
                 }
                 else
                 {
-                    /*Intent intent = new Intent(mContext, StrContentListActivity.class);
+                    Intent intent = new Intent(mContext, StrContentListActivity.class);
                     intent.putExtra("Type",position);
-                    startActivity(intent);*/
+                    startActivity(intent);
                 }
             }
 

@@ -16,7 +16,7 @@
     <color name="button_gray_str">#000000</color>
     <color name="icon_tint_white">#ffffff</color>
     <color name="icon_tint_brown">#FF7B6D64</color>
-    <color name="line_color">#e0e0e0</color>
+    <color name="line_color">#7de0e0e0</color>
     <color name="info_slot_bg">#ffffff</color>
     <color name="info_sub_slot_title_bg">#f4f4f2</color>
 
@@ -46,7 +46,7 @@
     <color name="signup_check_2">#9d8755</color>
     <color name="recom_club_tag">#6AB95F</color>
     <color name="vip_disable_bg">#48000000</color>
-    <color name="club_replay_bg">#f5f2f1</color>
+    <color name="club_replay_bg">#f9f7f6</color>
     <color name="club_main_slot_bg">#48000000</color>
 
 

@@ -52,7 +52,7 @@
     <string name="MSG_CLUB_BODY_REPORT_DEL_DESC">신고당한 게시물을 삭제 하시겠습니까?</string>
     <string name="MSG_CLUB_BODY_REPORT_DEL">삭제하기</string>
     <string name="MSG_CLUB_DEPORT">추방하기</string>
-
+    <string name="MSG_DESC_EMPTY">내용이 없습니다</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
