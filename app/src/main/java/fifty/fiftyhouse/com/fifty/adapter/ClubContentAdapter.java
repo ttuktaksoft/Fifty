@@ -212,7 +212,10 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
                 if(UserIndex.equals(TKManager.getInstance().MyData.GetUserIndex()) == false)
                 {
+                    CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, ClubActivity.mClubActivity, true);
+                    /*
                     DialogFunc.getInstance().ShowLoadingPage(ClubActivity.mClubActivity);
+
 
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
@@ -275,7 +278,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         }
                     };
 
-                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);*/
 
                 }
 

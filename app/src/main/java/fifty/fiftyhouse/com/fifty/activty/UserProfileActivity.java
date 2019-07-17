@@ -65,6 +65,8 @@ public class UserProfileActivity extends AppCompatActivity {
         CommonFunc.getInstance().mCurActivity = this;
         FirebaseManager.getInstance().RegistVisitUser(TKManager.getInstance().TargetUserData.GetUserIndex());
 
+        DialogFunc.getInstance().DismissLoadingPage();
+
         mFragmentMgr.beginTransaction().replace(R.id.fl_UserProfile_FrameLayout, mUserProfileFragment, "UserProfileInfoFragment").commit();
 
         ui_UserProfile_TopBar = findViewById(R.id.ui_UserProfile_TopBar);

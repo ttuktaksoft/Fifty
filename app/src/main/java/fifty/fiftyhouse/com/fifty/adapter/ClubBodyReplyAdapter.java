@@ -111,7 +111,10 @@ class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
 
                 if(UserIndex.equals(TKManager.getInstance().MyData.GetUserIndex()) == false)
                 {
-                    DialogFunc.getInstance().ShowLoadingPage(ClubBodyActivity.mClubBodyActivity);
+
+                    CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, ClubBodyActivity.mClubBodyActivity, true);
+
+                  /*  DialogFunc.getInstance().ShowLoadingPage(ClubBodyActivity.mClubBodyActivity);
 
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
@@ -174,7 +177,7 @@ class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
                         }
                     };
 
-                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);*/
 
                 }
 

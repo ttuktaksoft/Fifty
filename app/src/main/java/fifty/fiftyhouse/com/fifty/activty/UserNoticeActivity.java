@@ -103,7 +103,9 @@ public class UserNoticeActivity extends AppCompatActivity {
                 final List array = new ArrayList(tempKey);
 
                 String tempIndex = array.get(position).toString();
-                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+                CommonFunc.getInstance().GetUserDataInFireBase(tempIndex, MainActivity.mActivity, false);
+                /*DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
@@ -122,7 +124,7 @@ public class UserNoticeActivity extends AppCompatActivity {
                     }
                 };
 
-                FirebaseManager.getInstance().GetUserData(tempIndex, TKManager.getInstance().TargetUserData, listener);
+                FirebaseManager.getInstance().GetUserData(tempIndex, TKManager.getInstance().TargetUserData, listener);*/
             }
 
             @Override

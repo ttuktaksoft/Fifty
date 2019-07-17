@@ -708,24 +708,9 @@ public class UserProfileFragment extends Fragment {
                     };
 
                     FirebaseManager.getInstance().GetClubData(tempuser, TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(),
-                            TKManager.getInstance().TargetClubData, GetClubDataListener);
+                            GetClubDataListener);
                 }
-        /*        else
-                {
-                    FirebaseManager.CheckFirebaseComplete GetClubContextListener = new FirebaseManager.CheckFirebaseComplete() {
-                        @Override
-                        public void CompleteListener() {
-                            startActivity(new Intent(getContext(), ClubActivity.class));
-                        }
 
-                        @Override
-                        public void CompleteListener_Yes() {}
-                        @Override
-                        public void CompleteListener_No() {}
-                    };
-
-                    FirebaseManager.getInstance().GetClubContextData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(), GetClubContextListener);
-                }*/
 
 
             }
