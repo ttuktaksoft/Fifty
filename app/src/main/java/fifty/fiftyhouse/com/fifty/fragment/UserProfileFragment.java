@@ -661,7 +661,7 @@ public class UserProfileFragment extends Fragment {
             public void onSingleClick(View view, final int position) {
                 //startActivity(new Intent(mContext, StrContentListActivity.class));
 
-                Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+            /*    Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
                 final List array = new ArrayList(tempKey);
 
                 //DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
@@ -693,7 +693,7 @@ public class UserProfileFragment extends Fragment {
 
                 FirebaseManager.getInstance().GetClubData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(),
                         TKManager.getInstance().TargetClubData, GetClubDataListener);
-
+*/
             }
 
             @Override

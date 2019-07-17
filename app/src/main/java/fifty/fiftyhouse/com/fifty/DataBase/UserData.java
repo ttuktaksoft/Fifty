@@ -28,6 +28,68 @@ public class UserData {
         return _Instance;
     }*/
 
+    public void Clear()
+    {
+        UId = null;
+        Index = null;
+        Token = null;
+
+        NickName = null;
+         Memo= null;
+         Location= null;
+
+        Vip = false;
+
+        FavoriteList.clear();
+
+
+        Img_Chat = null;
+        Img_ThumbNail = null;
+        ImgList.clear();
+
+        Age = 50;
+        Gender = 0;
+
+        Visit_Today = 0;
+        Visit_Total = 0;
+
+        Like_Today = 0;
+        Like_Total = 0;
+
+        Dist = 0;
+        Dist_Lat = 0;
+        Dist_Lon = 0;
+        Dist_Region = 0;
+        Dist_Area = null;
+
+        FriendList.clear();
+        RequestFriendList.clear();
+
+        AlarmList.clear();
+
+        LikeList.clear();
+        VisitList.clear();
+
+        ChatRoomDataList.clear();
+
+        ChatRoomData.clear();
+
+        ChatReadIndex.clear();
+        UserList_Chat.clear();
+        PassWord = null;
+        PhoneNumber = null;
+        Name = null;
+
+        ClubData.clear();
+        ConnectDate = 0;
+
+        RequestJoinClubList.clear();
+        ReportContextList.clear();
+        ReportUserList.clear();
+
+    }
+
+
     private  String UId;
     private  String Index;
     private  String Token;

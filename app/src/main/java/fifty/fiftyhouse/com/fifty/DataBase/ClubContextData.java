@@ -12,6 +12,22 @@ public class ClubContextData implements Cloneable{
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public void Clear()
+    {
+        writerIndex = null;
+        ContextIndex = null;
+        Context = null;
+        Date = null;
+        ContextType = 0;
+        ReportCount = 0;
+
+        ClearImg();
+        ClearReply();
+        ClearReplyData();
+        ClearReportList();
+    }
+
     public String writerIndex;
     public String ContextIndex;
     public String Context;

@@ -239,7 +239,7 @@ public class ClubFragment extends Fragment {
 
                 //DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
-                FirebaseManager.CheckFirebaseComplete GetClubDataListener = new FirebaseManager.CheckFirebaseComplete() {
+            /*    FirebaseManager.CheckFirebaseComplete GetClubDataListener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
 
@@ -265,7 +265,7 @@ public class ClubFragment extends Fragment {
                 };
 
                 FirebaseManager.getInstance().GetClubData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(),
-                        TKManager.getInstance().TargetClubData, GetClubDataListener);
+                        TKManager.getInstance().TargetClubData, GetClubDataListener);*/
             }
         }));
     }

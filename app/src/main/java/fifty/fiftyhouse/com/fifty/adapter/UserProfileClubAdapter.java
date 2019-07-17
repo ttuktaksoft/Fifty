@@ -79,6 +79,7 @@ class UserProfileClubListHolder extends RecyclerView.ViewHolder{
 
     public void setData(String key)
     {
+
         ClubData data = TKManager.getInstance().ClubData_Simple.get(key);
         tv_UserProfile_Club.setText(data.GetClubName());
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_Club, data.GetClubThumb(), false);

@@ -7,7 +7,29 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ClubData {
+public class ClubData  implements Cloneable{
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public void Clear()
+    {
+        ClubContext.clear();
+        ClubMemberList.clear();
+        ClubFavorite.clear();
+
+        ClubMemberCount = 0;
+        ClubContextCount = 0;
+
+        ClubType = true;
+        ClubMasterIndex = null;
+        ClubThumbNail = null;
+
+        ClubIndex = null;
+        ClubName = null;
+    }
+
     public String ClubIndex;
 
     public boolean ClubType;

@@ -194,10 +194,12 @@ public class ClubWriteActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                TKManager.getInstance().CreateTempClubContextData = null;
-                TKManager.getInstance().CreateTempClubContextData = new ClubContextData();
+
                 TKManager.getInstance().TargetClubData.AddClubContext(tempData.GetContextIndex(), tempData);
                 CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
+
+                TKManager.getInstance().CreateTempClubContextData.Clear();
+
                 DialogFunc.getInstance().DismissLoadingPage();
                 finish();
             }
