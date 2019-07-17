@@ -73,9 +73,30 @@ public class ClubSettingActivity extends AppCompatActivity {
         tv_ClubSetting_Join_Wait.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(mContext, UserListActivity.class);
-                intent.putExtra("Type",CommonData.USER_LIST_CLUB_JOIN_WAIT);
-                startActivity(intent);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(mContext, UserListActivity.class);
+                        intent.putExtra("Type",CommonData.USER_LIST_CLUB_JOIN_WAIT);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+
+                FirebaseManager.getInstance().GetRequestJoinUserInMyClub(TKManager.getInstance().TargetClubData.GetClubIndex(), listener );
+
+
+
             }
         });
 

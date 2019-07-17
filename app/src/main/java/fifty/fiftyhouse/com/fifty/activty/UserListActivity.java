@@ -182,7 +182,7 @@ public class UserListActivity extends AppCompatActivity {
                         break;
                     case CommonData.USER_LIST_CLUB_JOIN_WAIT:
                         // 가입 대기 목록
-                        tempKey = new HashSet();
+                        tempKey = TKManager.getInstance().UserData_RequestJoin.keySet();
                         break;
                     default:
                         tempKey = null;
@@ -217,7 +217,7 @@ public class UserListActivity extends AppCompatActivity {
                         public void Listener()
                         {
                             // 가입 승인
-                            DialogFunc.getInstance().ShowToast(mContext, "가입승인", true);
+                            DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입승인", true);
                         }
                     });
                     list.add(new DialogFunc.MsgPopupListener()
@@ -226,13 +226,13 @@ public class UserListActivity extends AppCompatActivity {
                         public void Listener()
                         {
                             // 가입 거절
-                            DialogFunc.getInstance().ShowToast(mContext, "가입거절", true);
+                            DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입거절", true);
                         }
                     });
 
                     ArrayList<DialogFunc.MsgPopupListener> menuListenerList = list;
 
-                    DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                    DialogFunc.getInstance().ShowMenuListPopup(UserListActivity.this, menuList, menuListenerList);
                 }
                 else if(mUserListType == CommonData.USER_LIST_CLUB)
                 {
@@ -258,13 +258,13 @@ public class UserListActivity extends AppCompatActivity {
                             public void Listener()
                             {
                                 // 가입 승인
-                                DialogFunc.getInstance().ShowToast(mContext, "클럽 추방", true);
+                                DialogFunc.getInstance().ShowToast(UserListActivity.this, "클럽 추방", true);
                             }
                         });
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = list;
 
-                        DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                        DialogFunc.getInstance().ShowMenuListPopup(UserListActivity.this, menuList, menuListenerList);
                     }
                     else
                     {
@@ -347,7 +347,7 @@ public class UserListActivity extends AppCompatActivity {
         }
         else if (type == CommonData.USER_LIST_CLUB_JOIN_WAIT)
         {
-            // 가입 대기 목록
+            mUserList.addAll(TKManager.getInstance().UserData_RequestJoin.keySet());
         }
 
         if(mUserList.size() == 0)

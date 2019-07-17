@@ -171,7 +171,27 @@ public class ClubActivity extends AppCompatActivity {
                         @Override
                         public void Listener() {
                             // 가입 신청
-                            RefreshJoinStr();
+
+                            DialogFunc.getInstance().ShowLoadingPage(ClubActivity.this);
+                            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    RefreshJoinStr();
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+                            FirebaseManager.getInstance().RequestJoinClub(TKManager.getInstance().TargetClubData.GetClubIndex(), listener);
+
                         }
                     };
 
@@ -184,7 +204,26 @@ public class ClubActivity extends AppCompatActivity {
                         @Override
                         public void Listener() {
                             // 가입 신청 취소
-                            RefreshJoinStr();
+                            DialogFunc.getInstance().ShowLoadingPage(ClubActivity.this);
+                            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    RefreshJoinStr();
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+                            FirebaseManager.getInstance().CancelJoinClub(TKManager.getInstance().TargetClubData.GetClubIndex(), listener);
+
                         }
                     };
 

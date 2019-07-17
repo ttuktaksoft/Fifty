@@ -2535,6 +2535,26 @@ public class FirebaseManager {
                 });
     }
 
+    public void RemoveReportContext(final String clubIndex, final String dataIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+        mDataBase.collection("ClubData").document(clubIndex).collection("ReportContextList").document(dataIndex).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                        if(listener != null)
+                            listener.CompleteListener_No();
+                    }
+                });
+    }
+
     public void RemoveClubContext(final String clubIndex, final String dataIndex, final FirebaseManager.CheckFirebaseComplete listener) {
          mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(dataIndex).delete()
                  .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -3405,6 +3425,118 @@ public class FirebaseManager {
 
     }
 
+    public void GetRequestJoinUserInMyClub(final String clubIndex, final CheckFirebaseComplete listener)
+    {
+        TKManager.getInstance().UserData_RequestJoin.clear();
+        SetFireBaseLoadingCount(0);
+
+        final CollectionReference sfColRef = mDataBase.collection("ClubData").document(clubIndex).collection("RequestJoin");
+        sfColRef.whereLessThanOrEqualTo("Date", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                        AddFireBaseLoadingCount();
+                        GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_RequestJoin, listener);
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void RequestJoinClub(final String clubIndex, final CheckFirebaseComplete listener)
+    {
+        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex).collection("RequestJoin").document(TKManager.getInstance().MyData.GetUserIndex());
+
+        Map<String, Object> Request = new HashMap<>();
+        Request.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
+        Request.put("Date", CommonFunc.getInstance().GetCurrentTime());
+
+        sfDocRef.set(Request, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        final DocumentReference sfDocRef = mDataBase.collection("RequestClubList").document(clubIndex);
+
+                        Map<String, Object> Request = new HashMap<>();
+                        Request.put("index", TKManager.getInstance().MyData.GetUserIndex());
+                        Request.put("Date", CommonFunc.getInstance().GetCurrentTime());
+
+                        sfDocRef.set(Request, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                        if(listener != null)
+                                            listener.CompleteListener();
+
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public void CancelJoinClub(final String clubIndex, final CheckFirebaseComplete listener)
+    {
+        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex).collection("RequestJoin").document(TKManager.getInstance().MyData.GetUserIndex());
+
+        sfDocRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        final DocumentReference sfDocRef = mDataBase.collection("RequestClubList").document(clubIndex);
+
+                        sfDocRef.delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                        if(listener != null)
+                                            listener.CompleteListener();
+
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
 
     public void RegistFriendInUserData(final String targetIndex, final CheckFirebaseComplete listener)
     {
