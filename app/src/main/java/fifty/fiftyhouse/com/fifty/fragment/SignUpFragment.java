@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,9 +16,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,6 +49,7 @@ import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleTouchListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class SignUpFragment extends Fragment {
@@ -139,29 +143,58 @@ public class SignUpFragment extends Fragment {
         tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
         tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
 
-        et_SignUp_NickName.setOnClickListener(new OnSingleClickListener() {
+        et_SignUp_NickName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onSingleClick(View view) {
-                // 입력을 시도 했을경우 중복체크 안함으로 수정
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mIsCheckNickName = false;
                 tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
                 tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
                 UpdateSignCheck();
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
 
-        et_SignUp_PassWord.setOnClickListener(new OnSingleClickListener() {
+        et_SignUp_PassWord.setOnTouchListener(new OnSingleTouchListener() {
             @Override
-            public void onSingleClick(View view) {
+            public void onSingleTouch(View view) {
                 // 입력을 시도 했을경우 중복체크 안함으로 수정
                 UpdateSignCheck();
+                if(mIsCheckNickName == false)
+                {
+                    DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            imm.hideSoftInputFromWindow(et_SignUp_PassWord.getWindowToken(), 0);
+                            et_SignUp_NickName.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    et_SignUp_NickName.setFocusableInTouchMode(true);
+                                    et_SignUp_NickName.requestFocus();
+                                    imm.showSoftInput(et_SignUp_NickName,0);
+                                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                                }
+                            });
+                        }
+                    };
+
+                    DialogFunc.getInstance().ShowMsgPopup(mContext, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_ASK), "확인", null);
+
+                }
             }
         });
 
         et_SignUp_PassWord.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -171,62 +204,122 @@ public class SignUpFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
+
+
+        et_SignUp_NickName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        // 검색 동작
+                        imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
+                        NickNameCheck();
+                        break;
+                    default:
+                        // 기본 엔터키 동작
+                        imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
+                        NickNameCheck();
+                        return false;
+                }
+                return true;
+            }
+        });
+
+        et_SignUp_PassWord.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        // 검색 동작
+                        imm.hideSoftInputFromWindow(et_SignUp_PassWord.getWindowToken(), 0);
+                        if(et_SignUp_PassWord.getText().toString().length() < CommonData.PassWordMinSize)
+                        {
+                            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.PASSWORD_LEAK));
+                        }
+                        else if(et_SignUp_PassWord.getText().toString().length() > CommonData.PassWordMaxSize)
+                        {
+                            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.PASSWORD_LEAK));
+                        }
+                        break;
+                    default:
+                        // 기본 엔터키 동작
+                        imm.hideSoftInputFromWindow(et_SignUp_PassWord.getWindowToken(), 0);
+                        if(et_SignUp_PassWord.getText().toString().length() < CommonData.PassWordMinSize)
+                        {
+                            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.PASSWORD_LEAK));
+                        }
+                        else if(et_SignUp_PassWord.getText().toString().length() > CommonData.PassWordMaxSize)
+                        {
+                            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.PASSWORD_LEAK));
+                        }
+                        return false;
+                }
+                return true;
+            }
+        });
+
 
         tv_SignUp_NickName_Check.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_SignUp_NickName.getWindowToken(), 0);
-                final String strNickName = et_SignUp_NickName.getText().toString();
-
-                if(CommonFunc.getInstance().CheckStringNull(strNickName))
-                {
-                    DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
-                }
-                else if(strNickName.length() < CommonData.NickNameMinSize)
-                {
-                    DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_LEAK));
-                }
-                else
-                {
-
-                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                        @Override
-                        public void CompleteListener() {
-
-                        }
-
-                        @Override
-                        public void CompleteListener_Yes() {
-                            DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_SUCCESS), true);
-                            mIsCheckNickName = true;
-                            tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_YES));
-                            tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
-
-                            TKManager.getInstance().MyData.SetUserNickName(strNickName);
-                            UpdateSignCheck();
-                        }
-
-                        @Override
-                        public void CompleteListener_No() {
-                            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_FAIL));
-                            mIsCheckNickName = false;
-                            tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
-                            tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
-                            UpdateSignCheck();
-                        }
-                    };
-
-                    FirebaseManager.getInstance().CheckNickName(strNickName, listener);
-                }
+                NickNameCheck();
             }
         });
 
         initFavoriteList();
 
         return v_FragmentView;
+    }
+
+    public void NickNameCheck()
+    {
+        final String strNickName = et_SignUp_NickName.getText().toString();
+
+        if(CommonFunc.getInstance().CheckStringNull(strNickName))
+        {
+            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_EMPTY));
+        }
+        else if(strNickName.length() < CommonData.NickNameMinSize)
+        {
+            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_LEAK));
+        }
+        else
+        {
+            DialogFunc.getInstance().ShowLoadingPage(mContext);
+            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                @Override
+                public void CompleteListener() {
+
+                }
+
+                @Override
+                public void CompleteListener_Yes() {
+                    DialogFunc.getInstance().DismissLoadingPage();
+                    DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_SUCCESS), true);
+                    mIsCheckNickName = true;
+                    tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_YES));
+                    tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
+
+                    TKManager.getInstance().MyData.SetUserNickName(strNickName);
+                    UpdateSignCheck();
+                }
+
+                @Override
+                public void CompleteListener_No() {
+                    DialogFunc.getInstance().DismissLoadingPage();
+                    DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_FAIL));
+                    mIsCheckNickName = false;
+                    tv_SignUp_NickName_Check_Result.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.NICKNAME_CHECK_NO));
+                    tv_SignUp_NickName_Check_Result.setTextColor(ContextCompat.getColor(mContext, R.color.red));
+                    UpdateSignCheck();
+                }
+            };
+
+            FirebaseManager.getInstance().CheckNickName(strNickName, listener);
+        }
     }
 
     @Override
