@@ -34,6 +34,7 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
+import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -659,7 +660,74 @@ public class UserProfileFragment extends Fragment {
         rv_UserProfile_Info_Club.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Club, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, final int position) {
-             
+
+                UserData tempuser =new UserData();
+                Set tempKey;
+                if(mMyProfile)
+                {
+                    tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+                    tempuser = TKManager.getInstance().MyData;
+                }
+                else
+                {
+                    tempKey = TKManager.getInstance().TargetUserData.GetUserClubDataKeySet();
+                    tempuser = TKManager.getInstance().TargetUserData;
+                }
+
+
+
+                final List array = new ArrayList(tempKey);
+
+                //DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+               // if(CommonFunc.getInstance().CheckStringNull(tempuser.GetUserClubData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex()).GetClubMasterIndex()))
+                {
+                    FirebaseManager.CheckFirebaseComplete GetClubDataListener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+
+                            FirebaseManager.CheckFirebaseComplete GetClubContextListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    startActivity(new Intent(getContext(), ClubActivity.class));
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {}
+                                @Override
+                                public void CompleteListener_No() {}
+                            };
+
+                            FirebaseManager.getInstance().GetClubContextData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(), GetClubContextListener);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {}
+                        @Override
+                        public void CompleteListener_No() {}
+                    };
+
+                    FirebaseManager.getInstance().GetClubData(tempuser, TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(),
+                            TKManager.getInstance().TargetClubData, GetClubDataListener);
+                }
+        /*        else
+                {
+                    FirebaseManager.CheckFirebaseComplete GetClubContextListener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            startActivity(new Intent(getContext(), ClubActivity.class));
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {}
+                        @Override
+                        public void CompleteListener_No() {}
+                    };
+
+                    FirebaseManager.getInstance().GetClubContextData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(), GetClubContextListener);
+                }*/
+
+
             }
 
             @Override
