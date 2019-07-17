@@ -117,33 +117,37 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         iv_Club_Con_Menu = itemView.findViewById(R.id.iv_Club_Con_Menu);
 
         int viewCount = 3;
-        int thumbnailMargin = CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 2);
-        int thumbnailMargin_2 = CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 10);
+        int thumbnailMargin = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 2);
+        int thumbnailMargin_2 = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5);
         int thumbnailSize = CommonFunc.getInstance().getWidthByDevice() / viewCount;
 
         ConstraintLayout.LayoutParams lp_Club_Con_BigImg = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, thumbnailSize);
         lp_Club_Con_BigImg.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
         lp_Club_Con_BigImg.topToBottom = tv_Club_Con_Desc.getId();
-        lp_Club_Con_BigImg.setMargins(thumbnailMargin_2,thumbnailMargin,thumbnailMargin_2,thumbnailMargin);
+        //lp_Club_Con_BigImg.setMargins(thumbnailMargin_2,thumbnailMargin,thumbnailMargin_2,thumbnailMargin);
+        tv_Club_Con_BigImg.setPadding(thumbnailMargin_2,thumbnailMargin_2,thumbnailMargin_2,thumbnailMargin_2);
         tv_Club_Con_BigImg.setLayoutParams(lp_Club_Con_BigImg);
 
         ConstraintLayout.LayoutParams lp_Club_Con_Img_1 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Club_Con_Img_1.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
         lp_Club_Con_Img_1.topToBottom = tv_Club_Con_Desc.getId();
-        lp_Club_Con_Img_1.setMargins(thumbnailMargin_2,thumbnailMargin,thumbnailMargin,thumbnailMargin_2);
+        //lp_Club_Con_Img_1.setMargins(thumbnailMargin_2,thumbnailMargin,thumbnailMargin,thumbnailMargin_2);
         tv_Club_Con_Img_1.setLayoutParams(lp_Club_Con_Img_1);
+        tv_Club_Con_Img_1.setPadding(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
 
         ConstraintLayout.LayoutParams lp_Club_Con_Img_2 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Club_Con_Img_2.leftToRight = tv_Club_Con_Img_1.getId();
         lp_Club_Con_Img_2.topToTop = tv_Club_Con_Img_1.getId();
-        lp_Club_Con_Img_2.setMargins(thumbnailMargin,0,thumbnailMargin,0);
+        //lp_Club_Con_Img_2.setMargins(thumbnailMargin,0,thumbnailMargin,0);
         tv_Club_Con_Img_2.setLayoutParams(lp_Club_Con_Img_2);
+        tv_Club_Con_Img_2.setPadding(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
 
         ConstraintLayout.LayoutParams lp_Club_Con_Img_3 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Club_Con_Img_3.leftToRight = tv_Club_Con_Img_2.getId();
         lp_Club_Con_Img_3.topToTop = tv_Club_Con_Img_2.getId();
-        lp_Club_Con_Img_3.setMargins(thumbnailMargin,0,thumbnailMargin,0);
+        //lp_Club_Con_Img_3.setMargins(thumbnailMargin,0,thumbnailMargin,0);
         tv_Club_Con_Img_3.setLayoutParams(lp_Club_Con_Img_3);
+        tv_Club_Con_Img_3.setPadding(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
 
         initReplyList();
     }

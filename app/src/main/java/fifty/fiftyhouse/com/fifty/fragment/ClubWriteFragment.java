@@ -27,6 +27,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubWriteImgAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleTouchListener;
@@ -164,5 +165,18 @@ public class ClubWriteFragment extends Fragment {
     {
         TempClubWriteImgLIst.add(uri);
         RefreshAdapter();
+    }
+
+    public boolean IsWrite()
+    {
+        imm.hideSoftInputFromWindow(et_ClubWrite_Desc.getWindowToken(), 0);
+
+        if(CommonFunc.getInstance().CheckStringNull(et_ClubWrite_Desc.getText().toString()))
+        {
+            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DESC_EMPTY));
+            return false;
+        }
+
+        return true;
     }
 }

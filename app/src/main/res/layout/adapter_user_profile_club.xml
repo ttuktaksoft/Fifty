@@ -8,6 +8,16 @@
     android:background="@color/info_slot_bg">
 
     <ImageView
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_Club"
+        app:layout_constraintRight_toRightOf="@+id/iv_UserProfile_Club"
+        app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_Club"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_Club"
+        android:tint="@color/icon_tint_brown"
+        android:src="@drawable/bg_white_square" />
+
+    <ImageView
         android:id="@+id/iv_UserProfile_Club"
         android:layout_width="50dp"
         android:layout_height="50dp"

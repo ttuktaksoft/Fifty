@@ -42,10 +42,10 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 public class ChatBodyActivity extends AppCompatActivity {
 
     View ui_ChatBody_TopBar;
-    TextView tv_TopBar_Title;
+    TextView tv_TopBar_Title, tv_Chat_Body_Send;
     ImageView iv_TopBar_Back;
     RecyclerView rv_Chat_Body_List;
-    ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus, iv_Chat_Body_Send;
+    ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus;
     EditText et_Chat_Body_Msg;
 
     Context mContext;
@@ -91,7 +91,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         rv_Chat_Body_List = findViewById(R.id.rv_Chat_Body_List);
         iv_ChatBody_Alert = findViewById(R.id.iv_ChatBody_Alert);
         iv_Chat_Body_Plus = findViewById(R.id.iv_Chat_Body_Plus);
-        iv_Chat_Body_Send = findViewById(R.id.iv_Chat_Body_Send);
+        tv_Chat_Body_Send = findViewById(R.id.tv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
 
 
@@ -109,7 +109,7 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         });
 
-        iv_Chat_Body_Send.setOnClickListener(new OnSingleClickListener() {
+        tv_Chat_Body_Send.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 if(!CommonFunc.getInstance().CheckStringNull(et_Chat_Body_Msg.getText().toString()))

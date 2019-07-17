@@ -35,17 +35,24 @@
         android:background="@color/button_enable"/>
 
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/et_ClubBody_Reply"
+        android:background="@color/line_color" />
+
     <EditText
         android:id="@+id/et_ClubBody_Reply"
         style="@style/BaseEditTextView"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/CLUB_BODY_REPLY_HINT"
         android:inputType="textCapSentences|textMultiLine"
         android:maxLength="100"
         android:maxLines="5"
         android:minLines="1"
+        android:minHeight="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/tv_ClubBody_Send"
         app:layout_constraintBottom_toBottomOf="parent"

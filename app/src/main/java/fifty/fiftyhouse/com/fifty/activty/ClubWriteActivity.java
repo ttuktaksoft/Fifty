@@ -108,6 +108,9 @@ public class ClubWriteActivity extends AppCompatActivity {
 
                 if(mClubWriteType == 0)
                 {
+                    if(mClubWriteFragment.IsWrite() == false)
+                        return;
+
                     DialogFunc.getInstance().ShowLoadingPage(ClubWriteActivity.this);
                     TKManager.getInstance().CreateTempClubContextData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
                     TKManager.getInstance().CreateTempClubContextData.SetDate(CommonFunc.getInstance().GetCurrentTime());
