@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,9 +17,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubWriteImgAdapter;
@@ -38,6 +41,7 @@ public class ClubWriteFragment extends Fragment {
 
     ClubWriteImgAdapter mAdapter;
     ArrayList<String> TempClubWriteImgLIst = new ArrayList<>();
+    public ClubContextData tempData = null;
 
     public ClubWriteFragment() {
     }
@@ -89,6 +93,19 @@ public class ClubWriteFragment extends Fragment {
 
         initRecyclerView();
 
+        if(tempData != null)
+        {
+            et_ClubWrite_Desc.setText(tempData.Context);
+
+            TempClubWriteImgLIst.clear();;
+            Iterator<String> iterator = tempData.GetImg().keySet().iterator();
+            while(iterator.hasNext()){
+                String key = iterator.next();
+                TempClubWriteImgLIst.add(tempData.GetImg(key));
+            }
+            RefreshAdapter();
+        }
+
         return v_FragmentView;
     }
 
@@ -102,16 +119,17 @@ public class ClubWriteFragment extends Fragment {
     private void initRecyclerView()
     {
         mAdapter = new ClubWriteImgAdapter(getContext());
+        RefreshAdapter();
         mAdapter.setHasStableIds(true);
 
         rv_ClubWrite_Pic.setAdapter(mAdapter);
-        rv_ClubWrite_Pic.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_ClubWrite_Pic.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_ClubWrite_Pic.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_ClubWrite_Pic, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
-
+                TempClubWriteImgLIst.remove(position);
+                RefreshAdapter();
             }
-
         }));
     }
 

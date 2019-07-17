@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:layout_marginTop="5dp">
+    android:layout_marginTop="1dp">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/v_Club_Con_View"

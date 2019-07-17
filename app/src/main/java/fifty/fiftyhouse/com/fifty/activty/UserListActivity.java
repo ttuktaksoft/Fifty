@@ -191,6 +191,7 @@ public class UserListActivity extends AppCompatActivity {
                 array = new ArrayList(tempKey);
                 tempUserIndex = TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserIndex();
 
+
                 if(mUserListType == CommonData.USER_LIST_CLUB_JOIN_WAIT)
                 {
                     ArrayList<String> menuList = new ArrayList<>();
@@ -231,10 +232,46 @@ public class UserListActivity extends AppCompatActivity {
 
                     DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
                 }
+                else if(mUserListType == CommonData.USER_LIST_CLUB)
+                {
+                    if(TKManager.getInstance().TargetClubData.GetClubMasterIndex() == TKManager.getInstance().MyData.GetUserIndex())
+                    {
+                        ArrayList<String> menuList = new ArrayList<>();
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW_PROFILE));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_DEPORT));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                        ArrayList<DialogFunc.MsgPopupListener> list = new ArrayList<>();
+                        list.add(new DialogFunc.MsgPopupListener()
+                        {
+                            @Override
+                            public void Listener()
+                            {
+                                ShowUserProfile(tempUserIndex);
+                            }
+                        });
+                        list.add(new DialogFunc.MsgPopupListener()
+                        {
+                            @Override
+                            public void Listener()
+                            {
+                                // 가입 승인
+                                DialogFunc.getInstance().ShowToast(mContext, "클럽 추방", true);
+                            }
+                        });
+
+                        ArrayList<DialogFunc.MsgPopupListener> menuListenerList = list;
+
+                        DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                    }
+                    else
+                    {
+                        ShowUserProfile(tempUserIndex);
+                    }
+                }
                 else
                 {
                     ShowUserProfile(tempUserIndex);
-
                 }
             }
 
@@ -325,26 +362,28 @@ public class UserListActivity extends AppCompatActivity {
 
     private void ShowUserProfile(String id)
     {
-        DialogFunc.getInstance().ShowLoadingPage(UserListActivity.this);
+        if(id.equals(TKManager.getInstance().MyData.GetUserIndex()) == false) {
+            DialogFunc.getInstance().ShowLoadingPage(UserListActivity.this);
 
-        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-            @Override
-            public void CompleteListener() {
-                DialogFunc.getInstance().DismissLoadingPage();
-                startActivityForResult(new Intent(getApplicationContext(), UserProfileActivity.class), mUserListType);
-            }
+            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                @Override
+                public void CompleteListener() {
+                    DialogFunc.getInstance().DismissLoadingPage();
+                    startActivityForResult(new Intent(getApplicationContext(), UserProfileActivity.class), mUserListType);
+                }
 
-            @Override
-            public void CompleteListener_Yes() {
-            }
+                @Override
+                public void CompleteListener_Yes() {
+                }
 
-            @Override
-            public void CompleteListener_No() {
-                DialogFunc.getInstance().DismissLoadingPage();
-            }
-        };
+                @Override
+                public void CompleteListener_No() {
+                    DialogFunc.getInstance().DismissLoadingPage();
+                }
+            };
 
-        FirebaseManager.getInstance().GetUserData(id, TKManager.getInstance().TargetUserData, listener);
+            FirebaseManager.getInstance().GetUserData(id, TKManager.getInstance().TargetUserData, listener);
+        }
     }
 
     public void RefreshVIP()

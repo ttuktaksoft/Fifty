@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +20,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
+import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -30,6 +38,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
@@ -45,13 +54,16 @@ public class ClubActivity extends AppCompatActivity {
     ImageView iv_Club_Thumbnail, iv_Club_Write, iv_Club_UserCount, iv_Club_Setting;
     TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join;
     RecyclerView rv_Club_Content;
+    RecyclerView rv_Club_Favorite;
     ClubContentAdapter mAdapter;
+    FavoriteViewAdapter mFavoriteViewAdapter;
 
     Context mContext;
     boolean mIsJoinClub = false;
     boolean mIsMasterClub = false;
     public static Activity mClubActivity;
     ArrayList<String> mContentList = new ArrayList<>();
+    ArrayList<String> mFavoriteList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,32 +80,17 @@ public class ClubActivity extends AppCompatActivity {
         tv_Club_Name = findViewById(R.id.tv_Club_Name);
         tv_Club_UserCount = findViewById(R.id.tv_Club_UserCount);
         rv_Club_Content = findViewById(R.id.rv_Club_Content);
+        rv_Club_Favorite = findViewById(R.id.rv_Club_Favorite);
         iv_Club_UserCount = findViewById(R.id.iv_Club_UserCount);
         tv_Club_Join = findViewById(R.id.tv_Club_Join);
         iv_Club_Setting = findViewById(R.id.iv_Club_Setting);
 
-        mIsJoinClub = TKManager.getInstance().TargetClubData.GetClubMember(TKManager.getInstance().MyData.GetUserIndex()) != null;
-        mIsMasterClub = TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex());
-
-        tv_Club_Name.setText(TKManager.getInstance().TargetClubData.GetClubName());
-        tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 finish();
             }
         });
-
-        if(TKManager.getInstance().TargetClubData.GetClubType())
-        {
-            tv_Club_UserCount.setText("공개 "+TKManager.getInstance().TargetClubData.GetClubMemberCount() + "명" );
-        }
-        else
-        {
-            tv_Club_UserCount.setText("비공개 "+TKManager.getInstance().TargetClubData.GetClubMemberCount() + "명" );
-        }
-
-        CommonFunc.getInstance().DrawImageByGlide(ClubActivity.this, iv_Club_Thumbnail, TKManager.getInstance().TargetClubData.GetClubThumb(), false);
 
         iv_Club_Write.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -161,7 +158,7 @@ public class ClubActivity extends AppCompatActivity {
             }
         });
 
-        RefreshJoinStr();
+
 
         tv_Club_Join.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -201,9 +198,20 @@ public class ClubActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 Intent intent = new Intent(mContext, ClubSettingActivity.class);
-                startActivityForResult(intent, 1000);
+                startActivityForResult(intent, 1001);
             }
         });
+
+        TKManager.getInstance().mUpdateClubActivityFunc = new TKManager.UpdateUIFunc(){
+            @Override
+            public void UpdateUI() {
+                RefreshAdapter();
+                mAdapter.notifyDataSetChanged();
+            }
+        };
+
+        mIsJoinClub = TKManager.getInstance().TargetClubData.GetClubMember(TKManager.getInstance().MyData.GetUserIndex()) != null;
+        mIsMasterClub = TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex());
 
         if(mIsJoinClub)
         {
@@ -219,15 +227,10 @@ public class ClubActivity extends AppCompatActivity {
             iv_Club_Setting.setVisibility(View.GONE);
         }
 
-        TKManager.getInstance().mUpdateClubActivityFunc = new TKManager.UpdateUIFunc(){
-            @Override
-            public void UpdateUI() {
-                RefreshAdapter();
-                mAdapter.notifyDataSetChanged();
-            }
-        };
-
+        RefreshJoinStr();
+        RefreshClubInfo();
         initRecyclerView();
+        initFavoriteList();
     }
 
     public void RefreshJoinStr()
@@ -288,7 +291,34 @@ public class ClubActivity extends AppCompatActivity {
             RefreshAdapter();
             mAdapter.notifyDataSetChanged();
         }
+        else if (requestCode == 1001)
+        {
+            RefreshClubInfo();
+            mFavoriteViewAdapter.notifyDataSetChanged();
+        }
+    }
 
+    public void initFavoriteList()
+    {
+        mFavoriteViewAdapter = new FavoriteViewAdapter(mContext);
+        RefreshFavoriteAdapter();
+        mFavoriteViewAdapter.setHasStableIds(true);
+
+        rv_Club_Favorite.setAdapter(mFavoriteViewAdapter);
+        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
+                .setChildGravity(Gravity.CENTER)
+                .setMaxViewsInRow(3)
+                .setGravityResolver(new IChildGravityResolver() {
+                    @Override
+                    public int getItemGravity(int i) {
+                        return Gravity.CENTER;
+                    }
+                })
+                .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER_DENSE)
+                .withLastRow(true)
+                .build();
+        rv_Club_Favorite.setLayoutManager(chipsLayoutManager);
     }
 
     public void RefreshAdapter()
@@ -296,5 +326,35 @@ public class ClubActivity extends AppCompatActivity {
         mContentList.clear();
         mContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
         mAdapter.setItemData(mContentList);
+    }
+
+    public void RefreshFavoriteAdapter()
+    {
+        mFavoriteList.clear();
+        Iterator<String> iterator = TKManager.getInstance().TargetClubData.GetClubFavoriteKeySet().iterator();
+        while(iterator.hasNext()){
+            String key = iterator.next();
+            mFavoriteList.add(TKManager.getInstance().TargetClubData.GetClubFavorite(key));
+        }
+
+        mFavoriteViewAdapter.setItemCount(mFavoriteList.size());
+        mFavoriteViewAdapter.setItemData(mFavoriteList);
+    }
+
+    public void RefreshClubInfo()
+    {
+        if(TKManager.getInstance().TargetClubData.GetClubType())
+        {
+            tv_Club_UserCount.setText("공개 "+TKManager.getInstance().TargetClubData.GetClubMemberCount() + "명" );
+        }
+        else
+        {
+            tv_Club_UserCount.setText("비공개 "+TKManager.getInstance().TargetClubData.GetClubMemberCount() + "명" );
+        }
+
+        CommonFunc.getInstance().DrawImageByGlide(ClubActivity.this, iv_Club_Thumbnail, TKManager.getInstance().TargetClubData.GetClubThumb(), false);
+
+        tv_Club_Name.setText(TKManager.getInstance().TargetClubData.GetClubName());
+        tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
     }
 }

@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activty.ClubCreateActivity">
+    tools:context=".activty.ClubEditActivity">
 
     <include
-        android:id="@+id/ui_ClubCreate_TopBar"
+        android:id="@+id/ui_ClubEdit_TopBar"
         layout="@layout/ui_topbar"/>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/v_ClubCreate_Info"
+        android:id="@+id/v_ClubEdit_Info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ui_ClubCreate_TopBar"
-        app:layout_constraintBottom_toTopOf="@+id/v_ClubCreate_Type">
+        app:layout_constraintTop_toBottomOf="@+id/ui_ClubEdit_TopBar"
+        app:layout_constraintBottom_toTopOf="@+id/tv_ClubEdit_OK">
 
         <EditText
-            android:id="@+id/et_ClubCreate_Name"
+            android:id="@+id/et_ClubEdit_Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/BaseEditTextView"
@@ -32,29 +32,28 @@
             android:background="@color/alpha" />
 
         <ImageView
-            android:id="@+id/iv_ClubCreate_Profile_Border"
+            android:id="@+id/iv_ClubEdit_Profile_Border"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleX="1.02"
             android:scaleY="1.02"
-            app:layout_constraintLeft_toLeftOf="@+id/iv_ClubCreate_Profile"
-            app:layout_constraintRight_toRightOf="@+id/iv_ClubCreate_Profile"
-            app:layout_constraintTop_toTopOf="@+id/iv_ClubCreate_Profile"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_ClubCreate_Profile"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_ClubEdit_Profile"
+            app:layout_constraintRight_toRightOf="@+id/iv_ClubEdit_Profile"
+            app:layout_constraintTop_toTopOf="@+id/iv_ClubEdit_Profile"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_ClubEdit_Profile"
             android:tint="@color/icon_tint_brown"
-            android:scaleType="fitXY"
             android:src="@drawable/bg_empty_square_plus" />
 
         <ImageView
-            android:id="@+id/iv_ClubCreate_Profile"
+            android:id="@+id/iv_ClubEdit_Profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:maxHeight="200dp"
             android:maxWidth="200dp"
-            app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Info"
-            app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Info"
-            app:layout_constraintTop_toBottomOf="@+id/et_ClubCreate_Name"
+            app:layout_constraintLeft_toLeftOf="@+id/v_ClubEdit_Info"
+            app:layout_constraintRight_toRightOf="@+id/v_ClubEdit_Info"
+            app:layout_constraintTop_toBottomOf="@+id/et_ClubEdit_Name"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/bg_empty_square_plus" />
@@ -65,9 +64,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Info"
-            app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Info"
-            app:layout_constraintTop_toBottomOf="@+id/iv_ClubCreate_Profile"
+            app:layout_constraintLeft_toLeftOf="@+id/v_ClubEdit_Info"
+            app:layout_constraintRight_toRightOf="@+id/v_ClubEdit_Info"
+            app:layout_constraintTop_toBottomOf="@+id/iv_ClubEdit_Profile"
             android:textSize="@dimen/default_font_size_small"
             android:gravity="center"
             android:text="@string/CREATE_CLUB_DESC"
@@ -76,41 +75,8 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/v_ClubCreate_Type"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_ClubCreate_OK">
-
-
-        <TextView
-            android:id="@+id/tv_ClubCreate_VIP"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/BaseContentTextView"
-            android:layout_marginLeft="5dp"
-            app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Type"
-            app:layout_constraintTop_toTopOf="@+id/v_ClubCreate_Type"
-            app:layout_constraintBottom_toBottomOf="@+id/v_ClubCreate_Type"
-            android:text="@string/CREATE_CLUB_VIP"
-            android:gravity="center"
-            android:textColor="@color/str_color_1" />
-
-        <Switch
-            android:id="@+id/sw_ClubCreate_VIP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Type"
-            app:layout_constraintTop_toTopOf="@+id/v_ClubCreate_Type"
-            app:layout_constraintBottom_toBottomOf="@+id/v_ClubCreate_Type"
-            />
-
-
-    </android.support.constraint.ConstraintLayout>
-
     <TextView
-        android:id="@+id/tv_ClubCreate_OK"
+        android:id="@+id/tv_ClubEdit_OK"
         android:layout_width="0dp"
         android:layout_height="@dimen/top_bar_height"
         style="@style/BaseTextView_AutoSize"

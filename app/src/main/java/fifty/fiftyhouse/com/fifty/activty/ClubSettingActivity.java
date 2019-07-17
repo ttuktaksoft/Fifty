@@ -21,7 +21,7 @@ public class ClubSettingActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
 
-    TextView tv_ClubSetting_Join_Wait, tv_ClubSetting_Report, tv_ClubSetting_Withdrawal;
+    TextView tv_ClubSetting_Join_Wait, tv_ClubSetting_Report, tv_ClubSetting_Edit, tv_ClubSetting_Withdrawal;
     Context mContext;
 
     boolean mIsMasterClub = false;
@@ -37,6 +37,7 @@ public class ClubSettingActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_ClubSetting_TopBar.findViewById(R.id.iv_TopBar_Back);
         tv_ClubSetting_Join_Wait = findViewById(R.id.tv_ClubSetting_Join_Wait);
         tv_ClubSetting_Report = findViewById(R.id.tv_ClubSetting_Report);
+        tv_ClubSetting_Edit = findViewById(R.id.tv_ClubSetting_Edit);
         tv_ClubSetting_Withdrawal = findViewById(R.id.tv_ClubSetting_Withdrawal);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_SETTING));
@@ -57,12 +58,14 @@ public class ClubSettingActivity extends AppCompatActivity {
                 tv_ClubSetting_Join_Wait.setVisibility(View.GONE);
 
             tv_ClubSetting_Report.setVisibility(View.VISIBLE);
+            tv_ClubSetting_Edit.setVisibility(View.VISIBLE);
             tv_ClubSetting_Withdrawal.setVisibility(View.GONE);
         }
         else
         {
             tv_ClubSetting_Join_Wait.setVisibility(View.GONE);
             tv_ClubSetting_Report.setVisibility(View.GONE);
+            tv_ClubSetting_Edit.setVisibility(View.GONE);
             tv_ClubSetting_Withdrawal.setVisibility(View.VISIBLE);
         }
 
@@ -79,6 +82,14 @@ public class ClubSettingActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 Intent intent = new Intent(mContext, ClubBodyReportListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tv_ClubSetting_Edit.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, ClubEditActivity.class);
                 startActivity(intent);
             }
         });
