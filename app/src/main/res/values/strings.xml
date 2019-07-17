@@ -32,8 +32,8 @@
     <string name="MSG_MY_CLUB">내 클럽</string>
     <string name="MSG_RECOM_CLUB">추천</string>
     <string name="MSG_CLUB_WRITE">등록하기</string>
-    <string name="MSG_MOVE_SHOP">샵으로 이동</string>
-    <string name="MSG_SHOP">샵</string>
+    <string name="MSG_MOVE_SHOP">FIP구매하기</string>
+    <string name="MSG_SHOP">FIP구매하기</string>
     <string name="MSG_VIEW_PROFILE">프로필 확인</string>
     <string name="MSG_CLUB_JOIN_OK">가입 승인</string>
     <string name="MSG_CLUB_JOIN_CENCEL">가입 거절</string>
@@ -160,12 +160,13 @@
 
     <string name="CLUB_WRITE_HINT">내용을 입력해주세요</string>
     <string name="CLUB_BODY_REPLY_HINT">내용을 입력해주세요</string>
-    <string name="USER_LIST_VIP_SHOP_DESC_LIKE">좋아요를 한 친구를 볼려면\n아이템을 구매해주세요</string>
-    <string name="USER_LIST_VIP_SHOP_DESC_VISIT">나를 방문한 친구를 볼려면\n아이템을 구매해주세요</string>
-    <string name="USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST">나를 친구로 추가한 친구를 볼려면\n아이템을 구매해주세요</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_LIKE">FIP를 구매하고 나를 좋아요한 소중한 사람이 누군지 확인해보세요.</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_VISIT">FIP를 구매하고 내 프로필을 방문한 소중한 사람이 누군지 확인해보세요.</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST">FIP를 구매하고 나를 친구로 추가한 소중한 사람이 누군지 확인해보세요.</string>
     <string name="USER_LIST_VIP_SHOP_DESC_NOTICE">알람내용을 볼려면\n아이템을 구매해주세요</string>
 
     <string name="MSG_MAIN_USER_TODAY_DESC">좋아하는 유저</string>
+    <string name="MSG_CLUB_USER_LIST_TITLE">클럽 회원목록</string>
 
     <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
     <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>

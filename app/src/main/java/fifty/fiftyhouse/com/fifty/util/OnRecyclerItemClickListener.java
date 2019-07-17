@@ -11,6 +11,12 @@ public abstract class OnRecyclerItemClickListener implements RecyclerItemClickLi
 
     public abstract void onSingleClick(View v, int position);
 
+    long IntervalTime = 0;
+    public void setClickInterval(int interval)
+    {
+        IntervalTime = interval;
+    }
+
     @Override
     public void onItemClick(View view, int position) {
         long currentClickTime=SystemClock.uptimeMillis();
@@ -18,9 +24,19 @@ public abstract class OnRecyclerItemClickListener implements RecyclerItemClickLi
         mLastClickTime=currentClickTime;
 
         // 중복 클릭인 경우
-        if(elapsedTime<=MIN_CLICK_INTERVAL){
-            return;
+        if(IntervalTime != 0)
+        {
+            if(elapsedTime<=IntervalTime){
+                return;
+            }
         }
+        else
+        {
+            if(elapsedTime<=MIN_CLICK_INTERVAL){
+                return;
+            }
+        }
+
 
         // 중복 클릭아 아니라면 추상함수 호출
         onSingleClick(view, position);

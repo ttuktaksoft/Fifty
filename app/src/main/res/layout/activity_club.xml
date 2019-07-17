@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activty.ClubActivity">
+    tools:context=".activty.ClubActivity"
+    android:background="@color/activity_bg">
 
     <include
         android:id="@+id/ui_Club_TopBar"
@@ -23,110 +24,126 @@
         android:src="@drawable/ic_settings"
         android:tint="@color/white"/>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/ns_Club_Scroll"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ui_Club_TopBar"
-        android:scrollbars="none"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/top_bar_height"
         android:background="@color/activity_bg">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/v_Club_View"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_Club_Thumbnail"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@drawable/dummy_12"/>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/v_Club_Info"
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/ns_Club_Scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/iv_Club_Thumbnail"
-            android:background="@color/white">
+            android:scrollbars="none">
 
-            <TextView
-                android:id="@+id/tv_Club_Name"
-                style="@style/BaseContentTextView"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/v_Club_View"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="냥냥 클럽"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/black"
-                app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
-                app:layout_constraintTop_toTopOf="@+id/v_Club_Info" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_Club_UserCount"
-                style="@style/BaseContentTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="공개 3명"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/str_color_1"
-                android:textSize="@dimen/default_font_size_small"
-                app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
-                app:layout_constraintTop_toBottomOf="@+id/tv_Club_Name"/>
+                <ImageView
+                    android:id="@+id/iv_Club_Thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/dummy_12"/>
 
-            <ImageView
-                android:id="@+id/iv_Club_UserCount"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                app:layout_constraintLeft_toRightOf="@+id/tv_Club_UserCount"
-                app:layout_constraintTop_toTopOf="@+id/tv_Club_UserCount"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_Club_UserCount"
-                android:src="@drawable/ic_club"/>
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/v_Club_Info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_Club_Thumbnail"
+                    android:background="@color/white">
 
-            <ImageView
-                android:id="@+id/iv_Club_Write"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="20dp"
-                app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
-                app:layout_constraintTop_toTopOf="@+id/v_Club_Info"
-                app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
-                android:src="@drawable/icon_write"/>
+                    <TextView
+                        android:id="@+id/tv_Club_Name"
+                        style="@style/BaseContentTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="냥냥 클럽"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/black"
+                        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
+                        app:layout_constraintTop_toTopOf="@+id/v_Club_Info" />
 
-            <TextView
-                android:id="@+id/tv_Club_Join"
-                android:layout_width="100dp"
-                android:layout_height="0dp"
-                style="@style/BaseContentTextView_AutoSize"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
-                app:layout_constraintTop_toTopOf="@+id/v_Club_Info"
-                app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
-                android:text="@string/MSG_CLUB_JOIN_REQUEST"
-                android:gravity="center"
-                android:textColor="@color/button_enable_str"
-                android:textStyle="bold"
-                android:background="@color/button_enable"/>
+                    <TextView
+                        android:id="@+id/tv_Club_UserCount"
+                        style="@style/BaseContentTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="공개 3명"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/str_color_1"
+                        android:textSize="@dimen/default_font_size_small"
+                        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_Club_Name"/>
 
-        </android.support.constraint.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/iv_Club_UserCount"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="10dp"
+                        app:layout_constraintLeft_toRightOf="@+id/tv_Club_UserCount"
+                        app:layout_constraintTop_toTopOf="@+id/tv_Club_UserCount"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_Club_UserCount"
+                        android:src="@drawable/ic_club"/>
+
+                    <TextView
+                        android:id="@+id/tv_Club_UserCount_View"
+                        style="@style/BaseContentTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/MSG_CLUB_USER_LIST_TITLE"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/str_color_1"
+                        android:textSize="@dimen/default_font_size_small"
+                        app:layout_constraintLeft_toRightOf="@+id/iv_Club_UserCount"
+                        app:layout_constraintTop_toTopOf="@+id/tv_Club_UserCount"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_Club_UserCount"/>
+
+                    <ImageView
+                        android:id="@+id/iv_Club_Write"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="20dp"
+                        app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
+                        app:layout_constraintTop_toTopOf="@+id/v_Club_Info"
+                        app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
+                        android:src="@drawable/icon_write"/>
+
+                    <TextView
+                        android:id="@+id/tv_Club_Join"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        style="@style/BaseContentTextView_AutoSize"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
+                        app:layout_constraintTop_toTopOf="@+id/v_Club_Info"
+                        app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
+                        android:text="@string/MSG_CLUB_JOIN_REQUEST"
+                        android:gravity="center"
+                        android:textColor="@color/button_enable_str"
+                        android:textStyle="bold"
+                        android:background="@color/button_enable"/>
+
+                </android.support.constraint.ConstraintLayout>
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_Club_Content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/v_Club_Info"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_Club_Content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/v_Club_Info" />
 
-        </android.support.constraint.ConstraintLayout>
+            </android.support.constraint.ConstraintLayout>
 
-    </android.support.v4.widget.NestedScrollView>
-
-
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -1231,4 +1231,15 @@ public class CommonFunc {
 
         return name+seletedValue;
     }
+
+    /*public String ConvertTimeSrt(String time)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        Date date = dateFormat.parse(time);
+        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH시mm분");
+        String formatDate = sdfNow.format(date);
+
+        return formatDate;
+    }*/
 }

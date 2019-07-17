@@ -84,7 +84,7 @@ public class CommonData {
 
     public static int UserData_Loding_Count = 5;
 
-    public static int FavoriteSelectMinCount = 2;
+    public static int FavoriteSelectMinCount = 3;
     public static int FavoriteSelectMaxCount = 5;
     public static int FavoriteSelectMaxCountCheck = 6;
     public static int NickNameMinSize = 2;

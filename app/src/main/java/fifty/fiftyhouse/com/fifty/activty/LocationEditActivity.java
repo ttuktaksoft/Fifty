@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -89,6 +91,23 @@ public class LocationEditActivity extends AppCompatActivity {
                     FirebaseManager.getInstance().SetUserLocation();
                 }
                 finish();
+            }
+        });
+
+        et_Location_Edit_Location.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        // 검색 동작
+                        imm.hideSoftInputFromWindow(et_Location_Edit_Location.getWindowToken(), 0);
+                        break;
+                    default:
+                        // 기본 엔터키 동작
+                        imm.hideSoftInputFromWindow(et_Location_Edit_Location.getWindowToken(), 0);
+                        return false;
+                }
+                return true;
             }
         });
     }

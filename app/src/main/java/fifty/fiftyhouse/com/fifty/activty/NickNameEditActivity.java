@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -64,6 +66,23 @@ public class NickNameEditActivity extends AppCompatActivity {
             tv_NickName_Edit_Count.setText(Integer.toString(CommonData.LocationMaxSize));
         else
             tv_NickName_Edit_Count.setText(Integer.toString(CommonData.NickNameMaxSize - TKManager.getInstance().MyData.GetUserNickName().length()));
+
+        et_NickName_Edit_NickName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        // 검색 동작
+                        imm.hideSoftInputFromWindow(et_NickName_Edit_NickName.getWindowToken(), 0);
+                        break;
+                    default:
+                        // 기본 엔터키 동작
+                        imm.hideSoftInputFromWindow(et_NickName_Edit_NickName.getWindowToken(), 0);
+                        return false;
+                }
+                return true;
+            }
+        });
 
 
         mIsNickNameCheck = false;

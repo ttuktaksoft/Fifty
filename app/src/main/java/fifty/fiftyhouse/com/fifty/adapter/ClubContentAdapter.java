@@ -183,7 +183,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
   //      String[] tempValue = CommonFunc.getInstance().ConvertTimeToHM(tempData.Date);
         //tv_Club_Con_Date.setText(tempValue[0] + "시 " + tempValue[1] + "분");
 
-        tv_Club_Con_Date.setText(tempData.Date);
+        tv_Club_Con_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.parseLong(tempData.Date)));
 
         if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
         {

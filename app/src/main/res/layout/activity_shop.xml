@@ -15,7 +15,7 @@
         android:id="@+id/v_Shop_Info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/ui_Shop_TopBar"
+        app:layout_constraintTop_toBottomOf="@+id/ui_Shop_TopBar"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
@@ -39,7 +39,17 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_Shop_Info_Icon"
             android:textColor="@color/str_color_1"
             android:gravity="center"
-            android:text="아이템을 구매하시면 혜택이 있습니다.\n- 나를 좋아요 한 유저 목록 확인\n- 방문자 유저 목록 확인\n- 나를 친구로 추가한 유저 목록 확인"/>
+            android:text="■FIFTY Important Person
+
+FIP를 구매하고, 나의 소중한 사람을 확인하세요.
+
+FIP를구매시 회원님의\nFIP가 누군지 확인할 수 있습니다.
+
+▶내 프로필을 방문한 회원은 누구?
+▶나를 좋아요한 회원은 누구?
+▶나를 친구로 추가한 회원은 누구?
+
+FIP 30일 이용권 4,900원"/>
 
         <TextView
             android:id="@+id/tv_Shop_Info_Buy"

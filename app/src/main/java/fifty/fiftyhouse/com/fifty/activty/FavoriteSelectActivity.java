@@ -2,11 +2,14 @@ package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,11 +56,10 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
     int mFavoriteRecommend = 0;
     ArrayList<String> mFavoriteViewList = new ArrayList<>();
-    Map<String, String> mFavoriteSelectList = new LinkedHashMap<String, String>(){
+    Map<String, String> mFavoriteSelectList = new LinkedHashMap<String, String>() {
         @Override
-        protected boolean removeEldestEntry(Entry<String, String> arg0)
-        {
-            return size() == CommonData.FavoriteSelectMaxCountCheck? true : false;
+        protected boolean removeEldestEntry(Entry<String, String> arg0) {
+            return size() == CommonData.FavoriteSelectMaxCountCheck ? true : false;
         }
     };
 
@@ -71,7 +73,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         ui_FavoriteSelect_TopBar = findViewById(R.id.ui_FavoriteSelect_TopBar);
         tv_TopBar_Title = ui_FavoriteSelect_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_FavoriteSelect_TopBar.findViewById(R.id.iv_TopBar_Back);
-        iv_FavoriteSelect_Search  = findViewById(R.id.iv_FavoriteSelect_Search);
+        iv_FavoriteSelect_Search = findViewById(R.id.iv_FavoriteSelect_Search);
         rv_FavoriteSelect_Select = findViewById(R.id.rv_FavoriteSelect_Select);
         rv_FavoriteSelect_View = findViewById(R.id.rv_FavoriteSelect_View);
         et_FavoriteSelect_Search = findViewById(R.id.et_FavoriteSelect_Search);
@@ -81,8 +83,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         Intent intent = getIntent(); //getIntent()로 받을준비
         nType = getIntent().getIntExtra("Type", 0);
 
-        switch (nType)
-        {
+        switch (nType) {
             case 0:
                 tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_FAVORITE_SELECT));
                 tv_FavoriteSelect_Ok.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SAVE));
@@ -100,6 +101,8 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 break;
         }
 
+        RefreshOkButton();
+
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -111,14 +114,10 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         tv_FavoriteSelect_Ok.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                if(mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount)
-                {
+                if (mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount) {
                     DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
-                }
-                else
-                {
-                    if(nType == 2)
-                    {
+                } else {
+                    if (nType == 2) {
 
                         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -133,11 +132,11 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                                 ArrayList<String> tempFavorite = new ArrayList<>();
 
                                 int FavoriteIndex = 0;
-                                while(iterator.hasNext()){
+                                while (iterator.hasNext()) {
 
-                                    Map.Entry entry = (Map.Entry)iterator.next();
-                                    String key = (String)entry.getKey();
-                                    String value = (String)entry.getValue();
+                                    Map.Entry entry = (Map.Entry) iterator.next();
+                                    String key = (String) entry.getKey();
+                                    String value = (String) entry.getValue();
                                     TKManager.getInstance().CreateTempClubData.AddClubFavorite(Integer.toString(FavoriteIndex), value);
                                     FavoriteIndex++;
                                 }
@@ -162,15 +161,12 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                         FirebaseManager.getInstance().RegistClubIndex(TKManager.getInstance().CreateTempClubData, listener);
 
 
-
-                    }
-                    else
-                    {
+                    } else {
                         Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
                         Iterator iterator = EntrySet.iterator();
 
-                        while(iterator.hasNext()){
-                            String key = (String)iterator.next();
+                        while (iterator.hasNext()) {
+                            String key = (String) iterator.next();
                             FirebaseManager.getInstance().RemoveFavoriteUser(key);
                         }
 
@@ -181,10 +177,10 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
                         ArrayList<String> tempFavorite = new ArrayList<>();
 
-                        while(iterator.hasNext()){
-                            Map.Entry entry = (Map.Entry)iterator.next();
-                            String key = (String)entry.getKey();
-                            String value = (String)entry.getValue();
+                        while (iterator.hasNext()) {
+                            Map.Entry entry = (Map.Entry) iterator.next();
+                            String key = (String) entry.getKey();
+                            String value = (String) entry.getValue();
                             TKManager.getInstance().MyData.SetUserFavorite(key, value);
                             FirebaseManager.getInstance().SetUserFavoriteOnFireBase(TKManager.getInstance().MyData.GetUserFavoriteList(key), true);
                         }
@@ -203,18 +199,25 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
-                if(CommonFunc.getInstance().CheckStringNull(et_FavoriteSelect_Search.getText().toString()))
-                {
-                    DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_SEARCH_EMPTY));
+                FavoriteSearch();
+            }
+        });
+
+        et_FavoriteSelect_Search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        // 검색 동작
+                        imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
+                        FavoriteSearch();
+                        break;
+                    default:
+                        // 기본 엔터키 동작
+                        imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
+                        return false;
                 }
-                else
-                {
-                    String favorite = et_FavoriteSelect_Search.getText().toString();
-                    mFavoriteSelectList.put(favorite, favorite);
-                    RefreshFavoriteSelectViewListDesc();
-                    RefreshFavoriteSelectViewListSlot();
-                    mSelectViewAdapter.notifyDataSetChanged();
-                }
+                return true;
             }
         });
 
@@ -223,8 +226,21 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         RefreshFavoriteSelectViewListDesc();
     }
 
-    public void RefreshFavoriteSelectList()
+    public void FavoriteSearch()
     {
+        if (CommonFunc.getInstance().CheckStringNull(et_FavoriteSelect_Search.getText().toString())) {
+            DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_SEARCH_EMPTY));
+        } else {
+            String favorite = et_FavoriteSelect_Search.getText().toString();
+            mFavoriteSelectList.put(favorite, favorite);
+            RefreshFavoriteSelectViewListDesc();
+            RefreshFavoriteSelectViewListSlot();
+            RefreshOkButton();
+            mSelectViewAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void RefreshFavoriteSelectList() {
         mSelectViewAdapter = new FavoriteSelectViewAdapter(mContext);
         RefreshFavoriteSelectViewListSlot();
         mSelectViewAdapter.setHasStableIds(true);
@@ -245,7 +261,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 .build();
         rv_FavoriteSelect_Select.setLayoutManager(chipsLayoutManager);
 
-        rv_FavoriteSelect_Select.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_Select, new OnRecyclerItemClickListener() {
+        OnRecyclerItemClickListener clickListener = new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
                 Set tempKey = mFavoriteSelectList.keySet();
@@ -256,6 +272,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 RefreshFavoriteSelectViewListDesc();
                 RefreshFavoriteSelectViewListSlot();
                 RefreshFavoriteViewListSlot();
+                RefreshOkButton();
                 mSelectViewAdapter.notifyDataSetChanged();
                 mViewAdapter.notifyDataSetChanged();
             }
@@ -263,11 +280,13 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             @Override
             public void onLongItemClick(View view, int position) {
             }
-        }));
+        };
+        clickListener.setClickInterval(10);
+
+        rv_FavoriteSelect_Select.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_Select, clickListener));
     }
 
-    public void RefreshFavoriteViewList()
-    {
+    public void RefreshFavoriteViewList() {
         mViewAdapter = new FavoriteViewAdapter(mContext);
         mViewAdapter.setSelectView(true);
         RefreshFavoriteViewListSlot();
@@ -289,24 +308,21 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 .build();
         rv_FavoriteSelect_View.setLayoutManager(chipsLayoutManager);
 
-        rv_FavoriteSelect_View.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_View, new OnRecyclerItemClickListener() {
+        OnRecyclerItemClickListener clickListener = new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
                 int itemCount = mViewAdapter.getItemCount();
 
-                if(itemCount - 1 > position)
-                {
+                if (itemCount - 1 > position) {
                     String tempFavoriteSelect = mFavoriteViewList.get(position);
                     mFavoriteSelectList.put(tempFavoriteSelect, tempFavoriteSelect);
                     RefreshFavoriteSelectViewListDesc();
                     RefreshFavoriteSelectViewListSlot();
                     RefreshFavoriteViewListSlot();
-
+                    RefreshOkButton();
                     mSelectViewAdapter.notifyDataSetChanged();
                     mViewAdapter.notifyDataSetChanged();
-                }
-                else
-                {
+                } else {
                     // TODO 관심사 추천
                     mFavoriteRecommend++;
                     RefreshFavoriteViewListSlot();
@@ -317,37 +333,36 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             @Override
             public void onLongItemClick(View view, int position) {
             }
-        }));
+        };
+
+        clickListener.setClickInterval(10);
+
+        rv_FavoriteSelect_View.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_FavoriteSelect_View, clickListener));
     }
 
-    private void RefreshFavoriteSelectViewListDesc()
-    {
-        if(mFavoriteSelectList.size() <= 0)
+    private void RefreshFavoriteSelectViewListDesc() {
+        if (mFavoriteSelectList.size() <= 0)
             tv_FavoriteSelect_Empty.setVisibility(View.VISIBLE);
         else
             tv_FavoriteSelect_Empty.setVisibility(View.GONE);
     }
 
-    private void RefreshFavoriteViewListSlot()
-    {
+    private void RefreshFavoriteViewListSlot() {
         mFavoriteViewList.clear();
         int viewCount = CommonData.Favorite_Pop_Count;
-        while(viewCount > 0)
-        {
+        while (viewCount > 0) {
             int min = mFavoriteRecommend * CommonData.Favorite_Pop_Count;
-            int max = (mFavoriteRecommend + 1)* CommonData.Favorite_Pop_Count;
+            int max = (mFavoriteRecommend + 1) * CommonData.Favorite_Pop_Count;
             int index = min;
-            for(int i = min ; i < max ; i++)
-            {
-                if(i >= TKManager.getInstance().FavoriteLIst_Pop.size())
-                {
+            for (int i = min; i < max; i++) {
+                if (i >= TKManager.getInstance().FavoriteLIst_Pop.size()) {
                     mFavoriteRecommend = 0;
                     break;
                 }
                 mFavoriteViewList.add(TKManager.getInstance().FavoriteLIst_Pop.get(i));
                 viewCount--;
 
-                if(viewCount <= 0)
+                if (viewCount <= 0)
                     break;
             }
         }
@@ -363,10 +378,10 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
         ArrayList<String> tempFavorite = new ArrayList<>();
 
-        while(iterator.hasNext()){
-            Map.Entry entry = (Map.Entry)iterator.next();
-            String key = (String)entry.getKey();
-            String value = (String)entry.getValue();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
             list.add(value);
         }
 
@@ -374,22 +389,31 @@ public class FavoriteSelectActivity extends AppCompatActivity {
 
     }
 
-    private void RefreshFavoriteSelectViewListSlot()
-    {
+    private void RefreshFavoriteSelectViewListSlot() {
         ArrayList<String> list = new ArrayList<>();
         Set EntrySet = mFavoriteSelectList.entrySet();
         Iterator iterator = EntrySet.iterator();
 
         ArrayList<String> tempFavorite = new ArrayList<>();
 
-        while(iterator.hasNext()){
-            Map.Entry entry = (Map.Entry)iterator.next();
-            String key = (String)entry.getKey();
-            String value = (String)entry.getValue();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
             list.add(value);
         }
 
         mSelectViewAdapter.setItemCount(list.size());
         mSelectViewAdapter.setItemData(list);
+    }
+
+    public void RefreshOkButton() {
+        int selectBGColor = ContextCompat.getColor(mContext, R.color.button_enable);
+        int selectSrtColor = ContextCompat.getColor(mContext, R.color.button_enable_str);
+        int disableBGColor = ContextCompat.getColor(mContext, R.color.button_disable);
+        int disableSrtColor = ContextCompat.getColor(mContext, R.color.button_disable_str);
+
+        tv_FavoriteSelect_Ok.setBackgroundColor(mFavoriteSelectList.size() >= CommonData.FavoriteSelectMinCount ? selectBGColor : disableBGColor);
+        tv_FavoriteSelect_Ok.setTextColor(mFavoriteSelectList.size() >= CommonData.FavoriteSelectMinCount ? selectSrtColor : disableSrtColor);
     }
 }
