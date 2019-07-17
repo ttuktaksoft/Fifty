@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Iterator;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -83,9 +86,12 @@ public class ClubSettingActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
+                DialogFunc.getInstance().ShowLoadingPage(ClubSettingActivity.this);
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        Log.d("test","@@@@@@ 111 " + TKManager.getInstance().TargetReportContextData.size());
                         Intent intent = new Intent(mContext, ClubBodyReportListActivity.class);
                         startActivity(intent);
                     }

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingTop="10dp">
 
     <ImageView
@@ -45,14 +45,12 @@
         android:id="@+id/tv_Club_Body_Report_Msg"
         style="@style/BaseContentTextView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:paddingBottom="4dp"
         android:gravity="left"
         android:text="안녕하세요안녕하세요안녕하세요"
         android:textColor="@color/str_color_1"
         android:maxLines="2"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintHeight_min="60dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/tv_Club_Body_Report_Nickname"
         app:layout_constraintTop_toBottomOf="@+id/tv_Club_Body_Report_Nickname" />

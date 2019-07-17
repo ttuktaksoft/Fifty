@@ -187,6 +187,10 @@ public class ClubWriteActivity extends AppCompatActivity {
 
     public void EditClubContext()
     {
+        if(mClubWriteFragment.IsWrite() == false)
+            return;
+
+        DialogFunc.getInstance().ShowLoadingPage(ClubWriteActivity.this);
         TKManager.getInstance().TargetClubData.GetClubContext(key).SetContext(TKManager.getInstance().CreateTempClubContextData.Context);
 
         FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {

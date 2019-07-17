@@ -73,29 +73,18 @@ public class ClubBodyActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         int nType = getIntent().getIntExtra("Type", 0);
-        String nKey = getIntent().getStringExtra("key");
+        final String nKey = getIntent().getStringExtra("key");
 
 
         tempData = new ClubContextData();
         if(nType == 1)
         {
-            // TODO 신고 당한 게시물 선택
-
+            tempData = TKManager.getInstance().TargetReportContextData.get(nKey);
+            TKManager.getInstance().TargetContextData = tempData;
         }
         else
         {
-            //GetClubMemberKeySet1
-            Log.d("test", "@@@@@@ " + nKey);
             tempData = TKManager.getInstance().TargetClubData.GetClubContext(nKey);
-
-            Iterator<String> keys = TKManager.getInstance().TargetClubData.GetClubContextKeySet().iterator();
-            while( keys.hasNext() ){
-                String key = keys.next();
-                Log.d("test", "@@@@@@ 1111 " + key + "     " + TKManager.getInstance().TargetClubData.GetClubContext(key).GetContext());
-            }
-
-
-
             TKManager.getInstance().TargetContextData = tempData;
         }
 
@@ -140,7 +129,28 @@ public class ClubBodyActivity extends AppCompatActivity {
                 final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
                     @Override
                     public void Listener() {
+                        DialogFunc.getInstance().ShowLoadingPage(ClubBodyActivity.this);
                         // 게시글 삭제
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                // 데이터 추가 하고 아래 함수 콜
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                TKManager.getInstance().TargetReportContextData.remove(nKey);
+                                finish();
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+
+                            }
+                        };
+                        FirebaseManager.getInstance().RemoveClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), tempData.GetContextIndex(), listener);
                     }
                 };
 

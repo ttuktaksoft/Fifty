@@ -34,8 +34,6 @@ public class ClubBodyReportAdapter extends RecyclerView.Adapter<ClubBodyReportHo
         return new ClubBodyReportHolder(view);
     }
 
-
-
     @Override
     public void onBindViewHolder(ClubBodyReportHolder holder, final int position) {
         int i = position;
@@ -76,7 +74,7 @@ class ClubBodyReportHolder extends RecyclerView.ViewHolder {
     public void setData(String key)
     {
         // TODO 신고당한 클럽 내용
-        ClubContextData tempData = null;
+        ClubContextData tempData = TKManager.getInstance().TargetReportContextData.get(key);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Body_Report_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
         tv_Club_Body_Report_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
         tv_Club_Body_Report_Date.setText(tempData.GetDate());

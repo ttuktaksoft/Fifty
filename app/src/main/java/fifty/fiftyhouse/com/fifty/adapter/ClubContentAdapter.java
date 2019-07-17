@@ -294,7 +294,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                             Intent intent = new Intent(mContext, ClubWriteActivity.class);
                             intent.putExtra("Type", 1);
                             intent.putExtra("key", key);
-                            ClubActivity.mClubActivity.startActivity(intent);
+                            ClubActivity.mClubActivity.startActivityForResult(intent, 1000);
                         }
                     });
 
