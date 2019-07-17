@@ -1,11 +1,13 @@
 // Initialize Firebase
 // TODO: Replace with your project's customized code snippet
-var config = {
-  apiKey: "AIzaSyA_imM5VWH04xiG7Z4A5e6pI5vzTIbbSqw",
-  authDomain: "treasureone-4472e.firebaseapp.com",
-  databaseURL: "https://treasureone-4472e.firebaseio.com/",
-  projectId: "treasureone-4472e",
-  storageBucket: "treasureone-4472e.appspot.com",
-  messagingSenderId: "641308195675",
-};
-firebase.initializeApp(config);
+// Required for side-effects
+const firebaseConfig = {
+    apiKey: "AIzaSyBAQLEwLDQuzD54kQG4c4pK7q29YKhzvkY",
+    authDomain: "fifty-e2d17.firebaseapp.com",
+    databaseURL: "https://fifty-e2d17.firebaseio.com",
+    projectId: "fifty-e2d17",
+    storageBucket: "fifty-e2d17.appspot.com",
+    messagingSenderId: "475674577888",
+    appId: "1:475674577888:web:7c2abd7953496959"
+  };
+firebase.initializeApp(firebaseConfig);
