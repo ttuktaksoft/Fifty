@@ -69,4 +69,5 @@ public class TKManager {
     }
 
     public UpdateUIFunc mUpdateClubFragmentFunc = null;
+    public UpdateUIFunc mUpdateClubActivityFunc = null;
 }

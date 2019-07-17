@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -23,15 +25,22 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubWriteActivity;
 import fifty.fiftyhouse.com.fifty.activty.ShopActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleTouchListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static fifty.fiftyhouse.com.fifty.adapter.ClubContentListHolder.CLUB_CONTENT_TYPE.BIG_IMG;
 import static fifty.fiftyhouse.com.fifty.adapter.ClubContentListHolder.CLUB_CONTENT_TYPE.DESC;
 import static fifty.fiftyhouse.com.fifty.adapter.ClubContentListHolder.CLUB_CONTENT_TYPE.IMG;
@@ -82,6 +91,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         BIG_IMG,
         IMG,
     }
+    ConstraintLayout v_Club_Con_View;
     public ImageView iv_Club_Con_Profile, iv_Club_Con_Menu;
     public TextView tv_Club_Con_Nickname, tv_Club_Con_Date, tv_Club_Con_Desc;
     public ImageView tv_Club_Con_BigImg, tv_Club_Con_Img_1, tv_Club_Con_Img_2, tv_Club_Con_Img_3;
@@ -94,6 +104,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mContext = itemView.getContext();
 
+        v_Club_Con_View = itemView.findViewById(R.id.v_Club_Con_View);
         iv_Club_Con_Profile = itemView.findViewById(R.id.iv_Club_Con_Profile);
         tv_Club_Con_Nickname = itemView.findViewById(R.id.tv_Club_Con_Nickname);
         tv_Club_Con_Date = itemView.findViewById(R.id.tv_Club_Con_Date);
@@ -183,7 +194,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
   //      String[] tempValue = CommonFunc.getInstance().ConvertTimeToHM(tempData.Date);
         //tv_Club_Con_Date.setText(tempValue[0] + "시 " + tempValue[1] + "분");
 
-        tv_Club_Con_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.Date));
+        tv_Club_Con_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.Date, "yyyy/MM/dd HH시mm분"));
 
         if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
         {
@@ -194,11 +205,88 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
         mAdapter.setReplyCount(tempData.GetReplyDataCount());
 
+        iv_Club_Con_Profile.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                String UserIndex = tempData.GetWriterIndex();
+
+                if(UserIndex.equals(TKManager.getInstance().MyData.GetUserIndex()) == false)
+                {
+                    DialogFunc.getInstance().ShowLoadingPage(ClubActivity.mClubActivity);
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+
+
+                            Set KeySet = TKManager.getInstance().TargetUserData.GetUserClubDataKeySet();
+
+                            if(KeySet.size() > 0)
+                            {
+                                Iterator iterator = KeySet.iterator();
+
+                                FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TargetUserData.GetUserClubDataCount());
+
+                                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        Intent intent = new Intent(mContext, UserProfileActivity.class);
+                                        intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                                        mContext.startActivity(intent);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                    }
+                                };
+
+                                while(iterator.hasNext()){
+                                    String key = (String)iterator.next();
+                                    if(TKManager.getInstance().ClubData_Simple.get(key) != null)
+                                    {
+                                        FirebaseManager.getInstance().Complete(listener);
+                                    }
+                                    else
+                                        FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
+                                }
+                            }
+                            else
+                            {
+                                DialogFunc.getInstance().DismissLoadingPage();
+
+                                Intent intent = new Intent(mContext, UserProfileActivity.class);
+                                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+                        }
+                    };
+
+                    FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);
+
+                }
+
+            }
+        });
+
         iv_Club_Con_Menu.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 // 내가 쓴거
-                if(tempData.writerIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                if(tempData.GetWriterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                 {
                     ArrayList<String> menuList = new ArrayList<>();
                     menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_DEL));
@@ -211,12 +299,13 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         @Override
                         public void Listener()
                         {
-                            DialogFunc.getInstance().ShowLoadingPage(mContext);
+                            DialogFunc.getInstance().ShowLoadingPage(ClubActivity.mClubActivity);
                             // 삭제
                             FirebaseManager.CheckFirebaseComplete removeListener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
                                 public void CompleteListener() {
                                     TKManager.getInstance().TargetClubData.DelClubContext(key);
+                                    TKManager.getInstance().mUpdateClubActivityFunc.UpdateUI();
                                     DialogFunc.getInstance().DismissLoadingPage();
                                 }
 
@@ -227,7 +316,8 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
                                 @Override
                                 public void CompleteListener_No() {
-
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    TKManager.getInstance().mUpdateClubActivityFunc.UpdateUI();
                                 }
                             };
                             FirebaseManager.getInstance().RemoveClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), key, removeListener);
@@ -246,7 +336,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         }
                     });
 
-                    DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                    DialogFunc.getInstance().ShowMenuListPopup(ClubActivity.mClubActivity, menuList, menuListenerList);
                 }
                 else
                 {
@@ -265,8 +355,18 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         }
                     });
 
-                    DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                    DialogFunc.getInstance().ShowMenuListPopup(ClubActivity.mClubActivity, menuList, menuListenerList);
                 }
+            }
+        });
+
+       v_Club_Con_View.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, ClubBodyActivity.class);
+                intent.putExtra("Type",0);
+                intent.putExtra("key", key);
+                ClubActivity.mClubActivity.startActivityForResult(intent, 1000);
             }
         });
     }

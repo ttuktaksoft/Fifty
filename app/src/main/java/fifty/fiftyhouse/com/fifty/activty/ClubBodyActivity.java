@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -69,7 +71,7 @@ public class ClubBodyActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         int nType = getIntent().getIntExtra("Type", 0);
-        int nPosition = getIntent().getIntExtra("position", 0);
+        String nKey = getIntent().getStringExtra("key");
 
 
         tempData = new ClubContextData();
@@ -81,9 +83,16 @@ public class ClubBodyActivity extends AppCompatActivity {
         else
         {
             //GetClubMemberKeySet1
-            Set tempKey = TKManager.getInstance().TargetClubData.GetClubContextKeySet();
-            List array = new ArrayList(tempKey);
-            tempData = TKManager.getInstance().TargetClubData.GetClubContext(array.get(nPosition).toString());
+            Log.d("test", "@@@@@@ " + nKey);
+            tempData = TKManager.getInstance().TargetClubData.GetClubContext(nKey);
+
+            Iterator<String> keys = TKManager.getInstance().TargetClubData.GetClubContextKeySet().iterator();
+            while( keys.hasNext() ){
+                String key = keys.next();
+                Log.d("test", "@@@@@@ 1111 " + key + "     " + TKManager.getInstance().TargetClubData.GetClubContext(key).GetContext());
+            }
+
+
 
             TKManager.getInstance().TargetContextData = tempData;
         }

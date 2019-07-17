@@ -72,7 +72,7 @@ public class ClubBodyReportListActivity extends AppCompatActivity {
             public void onSingleClick(View view, int position) {
                 Intent intent = new Intent(ClubBodyReportListActivity.this, ClubBodyActivity.class);
                 intent.putExtra("Type",1);
-                intent.putExtra("position",position);
+                intent.putExtra("key", mReportContentList.get(position));
                 startActivity(intent);
 
             }

@@ -1092,6 +1092,132 @@ public class CommonFunc {
     }
 
 
+    //별도의 스태틱 함수로 구현
+
+    public void SortByClubContentDate(Map<String, ClubContextData> list, boolean descending)
+    {
+
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
+        Map<String, ClubContextData> tempClubContentDateDataMap = new LinkedHashMap<String, ClubContextData>();
+
+        Iterator<String> keys = list.keySet().iterator();
+        while( keys.hasNext() ){
+            String key = keys.next();
+            tempDataMap.put(key, Long.parseLong(list.get(key).GetDate()));
+        }
+
+        Iterator it = sortByValue(tempDataMap, descending).iterator();
+
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            tempClubContentDateDataMap.put(temp, list.get(temp));
+        }
+
+        list.clear();
+        list.putAll(tempClubContentDateDataMap);
+
+
+
+
+
+       /* ArrayList<String> tempDataList = new ArrayList<>();
+        tempDataList.addAll(list.keySet());
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
+        Map<String, ClubContextData> tempClubContentDateDataMap = new LinkedHashMap<String, ClubContextData>();
+
+        for(int i=0; i<tempDataList.size(); i++)
+        {
+            Log.d("test", "@@@@@@@@@@@@@@11" + tempDataList.get(i) + " = " + Long.parseLong(list.get(tempDataList.get(i)).GetDate()));
+            tempDataMap.put(tempDataList.get(i), Long.parseLong(list.get(tempDataList.get(i)).GetDate()));
+        }
+
+        Iterator it = sortByValue(tempDataMap, descending).iterator();
+
+        tempClubContentDateDataMap.clear();
+
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            Log.d("test", "@@@@@@@@@@@@@@22" + temp + " = " + tempDataMap.get(temp));
+            tempClubContentDateDataMap.put(temp, list.get(temp));
+        }
+
+        list.clear();
+        list.putAll(tempClubContentDateDataMap);*/
+    }
+
+    public final String getComleteWordByJongsung(String name, String firstValue, String secondValue) {
+
+        char lastName = name.charAt(name.length() - 1);
+
+        // 한글의 제일 처음과 끝의 범위밖일 경우는 오류
+        if (lastName < 0xAC00 || lastName > 0xD7A3) {
+            return name;
+        }
+
+
+        String seletedValue = (lastName - 0xAC00) % 28 > 0 ? firstValue : secondValue;
+
+        return name+seletedValue;
+    }
+
+    public String ConvertTimeSrt(String time, String nextFormat)
+    {
+        String returnString = "";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        try {
+            Date date = dateFormat.parse(time);
+
+            SimpleDateFormat sdfNow = new SimpleDateFormat(nextFormat);
+            returnString = sdfNow.format(date);
+
+            returnString = returnString.replace("PM", "오후");
+            returnString = returnString.replace("AM", "오전");
+        } catch (ParseException e) {
+        }
+
+        return returnString;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /// 테스트 함수 //
@@ -1166,87 +1292,5 @@ public class CommonFunc {
         return 성.get(0) + 이름.get(0) + 이름.get(1);
     }
 
-    //별도의 스태틱 함수로 구현
 
-    public void SortByClubContentDate(Map<String, ClubContextData> list, boolean descending)
-    {
-
-        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
-        Map<String, ClubContextData> tempClubContentDateDataMap = new LinkedHashMap<String, ClubContextData>();
-
-        Iterator<String> keys = list.keySet().iterator();
-        while( keys.hasNext() ){
-            String key = keys.next();
-            tempDataMap.put(key, Long.parseLong(list.get(key).GetDate()));
-        }
-
-        Iterator it = sortByValue(tempDataMap, descending).iterator();
-
-        while(it.hasNext()) {
-            String temp = (String) it.next();
-            tempClubContentDateDataMap.put(temp, list.get(temp));
-        }
-
-        list.clear();
-        list.putAll(tempClubContentDateDataMap);
-
-
-
-
-
-       /* ArrayList<String> tempDataList = new ArrayList<>();
-        tempDataList.addAll(list.keySet());
-        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
-        Map<String, ClubContextData> tempClubContentDateDataMap = new LinkedHashMap<String, ClubContextData>();
-
-        for(int i=0; i<tempDataList.size(); i++)
-        {
-            Log.d("test", "@@@@@@@@@@@@@@11" + tempDataList.get(i) + " = " + Long.parseLong(list.get(tempDataList.get(i)).GetDate()));
-            tempDataMap.put(tempDataList.get(i), Long.parseLong(list.get(tempDataList.get(i)).GetDate()));
-        }
-
-        Iterator it = sortByValue(tempDataMap, descending).iterator();
-
-        tempClubContentDateDataMap.clear();
-
-        while(it.hasNext()) {
-            String temp = (String) it.next();
-            Log.d("test", "@@@@@@@@@@@@@@22" + temp + " = " + tempDataMap.get(temp));
-            tempClubContentDateDataMap.put(temp, list.get(temp));
-        }
-
-        list.clear();
-        list.putAll(tempClubContentDateDataMap);*/
-    }
-
-    public final String getComleteWordByJongsung(String name, String firstValue, String secondValue) {
-
-        char lastName = name.charAt(name.length() - 1);
-
-        // 한글의 제일 처음과 끝의 범위밖일 경우는 오류
-        if (lastName < 0xAC00 || lastName > 0xD7A3) {
-            return name;
-        }
-
-
-        String seletedValue = (lastName - 0xAC00) % 28 > 0 ? firstValue : secondValue;
-
-        return name+seletedValue;
-    }
-
-    public String ConvertTimeSrt(String time2)
-    {
-        String returnString = "";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        try {
-            Date date = dateFormat.parse(time2);
-
-            SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH시mm분");
-            returnString = sdfNow.format(date);
-        } catch (ParseException e) {
-        }
-
-        return returnString;
-    }
 }
