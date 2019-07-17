@@ -2600,13 +2600,7 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
-
-
-
-
     }
-
-
 
     public void RegistClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
@@ -2618,7 +2612,6 @@ public class FirebaseManager {
                 newPopulation[0] = snapshot.getDouble("ClubContextCount") + 1;
                 int tempIndex = (int)newPopulation[0];
                 transaction.update(sfDocRef, "ClubContextCount", tempIndex);
-
 
                 // Success
                 return null;
