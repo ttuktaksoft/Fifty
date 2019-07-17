@@ -4,11 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
+import android.icu.util.GregorianCalendar;
 import android.os.Bundle;
-import android.support.annotation.RequiresPermission;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -20,19 +18,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.google.gson.annotations.SerializedName;
-import com.google.protobuf.Any;
-import com.kakao.auth.ApiResponseCallback;
-import com.kakao.auth.authorization.accesstoken.AccessToken;
-import com.kakao.network.ErrorResult;
-import com.kakao.usermgmt.UserManagement;
 
-import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -62,6 +55,8 @@ public class AuthActivity extends AppCompatActivity {
         activity_auth = (WebView) findViewById(R.id.activity_auth_webview);
         mContext = getApplicationContext();
 
+        DialogFunc.getInstance().DismissLoadingPage();
+
         WebSettings settings = activity_auth.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);
@@ -83,10 +78,12 @@ public class AuthActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void getData(final String impUid) {
-            String apiKey = "asd";
-            String apiSecretKey = "asdasd";
+            String apiKey = "3437818520863680";
+            String apiSecretKey = "yX1N2tEmW34OcUorUd5iTWllF4YK7s0Fq1stv7PraUgnPEPKSU2MQn7ws6gzzgf0iItNQjf1evo3adN2";
 
             Object getData = iamportClient.token(new AuthData(apiKey, apiSecretKey));
+
+
             ((Call) getData).enqueue(new Callback<AccessToken>() {
                 @Override
                 public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
@@ -101,75 +98,41 @@ public class AuthActivity extends AppCompatActivity {
                                 if (response.isSuccessful()) {
                                     Log.d("#### IAM ", String.valueOf(response.body().response));
 
-                                    final int i = Integer.parseInt(String.valueOf(response.body().response.birth));
-                                    if (i >= 50) {
 
-                                        FirebaseManager.CheckFirebaseComplete IndexListen = new FirebaseManager.CheckFirebaseComplete() {
-                                            @Override
-                                            public void CompleteListener() {
+                                    Date tempDate = new Date(response.body().response.birth);
 
-                                                final Map<String, String> properties = new HashMap<String, String>();
-                                                properties.put("Index", TKManager.getInstance().MyData.GetUserIndex());
+                                    final int nAge = tempDate.getYear();
 
-                                                UserManagement.getInstance().requestUpdateProfile(new ApiResponseCallback<Long>() {
-                                                    @Override
-                                                    public void onSuccess(Long result) {
+                                  //  final int i = Integer.parseInt(String.valueOf(response.body().response.birth));
+                                    if (nAge >= 50) {
 
-                                                        String tempGender = String.valueOf(response.body().response.gender);
-                                                        TKManager.getInstance().MyData.SetUserName(response.body().response.name);
+                                        String tempGender = String.valueOf(response.body().response.gender);
+                                        if(tempGender.equals("male"))
+                                            TKManager.getInstance().MyData.SetUserGender(0);
+                                        else
+                                            TKManager.getInstance().MyData.SetUserGender(1);
 
-                                                        TKManager.getInstance().MyData.SetUserGender(Integer.parseInt(tempGender));
-                                                        TKManager.getInstance().MyData.SetUserAge(i);
+                                        TKManager.getInstance().MyData.SetUserName(response.body().response.name);
 
-                                                        String strPhoneNumber;
-                                                        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                                                        try {
-                                                            if (ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                                                                // TODO: Consider calling
-                                                                return;
-                                                            }
+                                        TKManager.getInstance().MyData.SetUserAge(nAge);
 
-                                                            String tmpPhoneNumber = mgr.getLine1Number();
-                                                            strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
-
-                                                        } catch (Exception e) {
-                                                            strPhoneNumber = "";
-                                                        }
-
-                                                        TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
-                                                        MoveSignUpActivity();
-
-                                                        Log.i("Test", "MainActivity onSuccess");
-                                                    }
-
-                                                    @Override
-                                                    public void onSessionClosed(final ErrorResult errorResult) {
-                                                        Log.i("Test", "MainActivity onSessionClosed");
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(final ErrorResult errorResult) {
-                                                        Log.i("Test", "MainActivity onFailure ErrorResult = " + errorResult);
-                                                    }
-
-                                                    @Override
-                                                    public void onNotSignedUp() {
-                                                        Log.i("Test", "MainActivity onNotSignedUp");
-                                                    }
-                                                }, properties);
+                                        String strPhoneNumber;
+                                        TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                                        try {
+                                            if (ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(AuthActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                                                // TODO: Consider calling
+                                                return;
                                             }
 
-                                            @Override
-                                            public void CompleteListener_Yes() {
-                                            }
+                                            String tmpPhoneNumber = mgr.getLine1Number();
+                                            strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
 
-                                            @Override
-                                            public void CompleteListener_No() {
-                                                DialogFunc.getInstance().DismissLoadingPage();
-                                            }
-                                        };
+                                        } catch (Exception e) {
+                                            strPhoneNumber = "";
+                                        }
 
-                                        FirebaseManager.getInstance().GetUserIndex(IndexListen);
+                                        TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
+                                        MoveSignUpActivity();
                                     }
                                     else
                                     {
@@ -181,6 +144,7 @@ public class AuthActivity extends AppCompatActivity {
                            @Override
                            public void onFailure(Call call, Throwable t) {
 
+                                Log.d("####", t.toString());
                            }
                        });
                     }
@@ -188,7 +152,7 @@ public class AuthActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<AccessToken> call, Throwable t) {
-
+                    Log.d("####", t.toString());
                 }
             });
         }
@@ -230,12 +194,28 @@ public class AuthActivity extends AppCompatActivity {
         @SerializedName("access_token") String accessToken;
         @SerializedName("now") Integer now;
         @SerializedName("expired_at") Integer expiredAt;
+
+        public AccessTokenResponse(String Code, Integer msg, Integer Response)
+        {
+            accessToken  = Code;
+            now = msg;
+            expiredAt = Response;
+        }
+
     }
 
     class Certification{
         @SerializedName("code") Integer code;
-        @SerializedName("message") Object message;
+        @SerializedName("message") String message;
         @SerializedName("response") CertificationResponse response;
+
+        public Certification(Integer Code, String msg, CertificationResponse Response)
+        {
+            code = Code;
+            message = msg;
+            response = Response;
+        }
+
     }
 
     class CertificationResponse{
@@ -252,12 +232,32 @@ public class AuthActivity extends AppCompatActivity {
         @SerializedName("unique_key") String uniqueKey;
         @SerializedName("unique_in_site") String uniqueInSite;
         @SerializedName("origin") String origin;
+
+        public CertificationResponse(String impuid, String merchantuid, String pgtid, String pgprovider, String Name, String Gender, Integer Birth, Boolean Foreigner, Boolean Certified, Integer CertifiedAt, String UniqueKey, String UniqueInSite, String Origin)
+        {
+            impUid = impuid;
+            merchantUid = merchantuid;
+            pgTid = pgtid;
+            pgProvider = pgprovider;
+            name = Name;
+            gender = Gender;
+            birth = Birth;
+            foreigner = Foreigner;
+            certified = Certified;
+            certifiedAt = CertifiedAt;
+            uniqueKey = UniqueKey;
+            uniqueInSite = UniqueInSite;
+            origin = Origin;
+
+
+        }
+
     }
 }
 
     interface IamportClient {
         @POST("/users/getToken")
-        Call<AccessToken> token(@Body AuthActivity.AuthData auth);
+        Call<AuthActivity.AccessToken> token(@Body AuthActivity.AuthData auth);
 
         @GET("/certifications/{imp_uid}")
         Call<AuthActivity.Certification> certification_by_imp_uid(

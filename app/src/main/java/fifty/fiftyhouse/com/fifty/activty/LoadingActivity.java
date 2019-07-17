@@ -82,6 +82,12 @@ public class LoadingActivity extends AppCompatActivity {
         CommonFunc.getInstance().setHeightByDevice(size.y);
 
 
+
+
+        if(true)
+        {
+
+
         if(CommonFunc.getInstance().getWhatKindOfNetwork(mActivity).equals(NONE_STATE))
         {
             final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
@@ -118,7 +124,7 @@ public class LoadingActivity extends AppCompatActivity {
                     //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
                     userIndex = sf.getString("Index","");
 
-                      //userIndex = null;
+                     // userIndex = null;
 
                     //Log.d("#@!!",  userIndex);
                     if(CommonFunc.getInstance().CheckStringNull(userIndex))
@@ -167,7 +173,7 @@ public class LoadingActivity extends AppCompatActivity {
 
 
         }
-
+        }
         CommonFunc.getInstance().mCurActivity = this;
     }
 

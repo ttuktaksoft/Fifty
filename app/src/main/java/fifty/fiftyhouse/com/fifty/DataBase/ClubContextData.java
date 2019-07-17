@@ -7,7 +7,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ClubContextData {
+public class ClubContextData implements Cloneable{
+
+    public Object clone() throws CloneNotSupportedException {
+
+        return super.clone();
+
+    }
+
     public String writerIndex;
     public String ContextIndex;
     public String Context;

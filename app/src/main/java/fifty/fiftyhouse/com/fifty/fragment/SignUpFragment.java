@@ -118,7 +118,7 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        if (TKManager.getInstance().MyData.GetUserAge() == 0) {
+        if (TKManager.getInstance().MyData.GetUserGender() == 0) {
             Glide.with(mContext).load(R.drawable.ic_man_simple)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(iv_SignUp_Gender);
@@ -132,7 +132,7 @@ public class SignUpFragment extends Fragment {
             TKManager.getInstance().MyData.SetUserGender(1);
         }
 
-        tv_SignUp_Age.setText("입력해주세요");
+        tv_SignUp_Age.setText(Integer.toString(TKManager.getInstance().MyData.GetUserAge()));
 
         CommonFunc.getInstance().setEditTextMaxSize(et_SignUp_NickName, CommonData.NickNameMaxSize);
 

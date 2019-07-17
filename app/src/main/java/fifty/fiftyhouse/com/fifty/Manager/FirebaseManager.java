@@ -2623,7 +2623,7 @@ public class FirebaseManager {
 
         SetFireBaseLoadingCount(0);
 
-        colRef.orderBy("Date", Query.Direction.DESCENDING).limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.orderBy("Date", Query.Direction.DESCENDING)/*.limit(5)*/.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 int tempTotayVisitCount = 0;

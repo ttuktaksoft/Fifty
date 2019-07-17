@@ -99,26 +99,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                 if(TKManager.getInstance().TempClubContextImg.size()  == 0)
                 {
                     TKManager.getInstance().CreateTempClubContextData.SetContextType(0);
-                    FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
-                        @Override
-                        public void CompleteListener() {
-                            TKManager.getInstance().TargetClubData.AddClubContext(TKManager.getInstance().CreateTempClubContextData.GetContextIndex(), TKManager.getInstance().CreateTempClubContextData);
-                            CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
-                            DialogFunc.getInstance().DismissLoadingPage();
-                            finish();
-                        }
-
-                        @Override
-                        public void CompleteListener_Yes() {
-
-                        }
-
-                        @Override
-                        public void CompleteListener_No() {
-
-                        }
-                    };
-                    FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubContextData, ContextListener);
+                    SetClubContext();
                 }
 
                 else if(TKManager.getInstance().TempClubContextImg.size() == 1)
@@ -128,29 +109,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                     FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
-
-                            FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
-                                @Override
-                                public void CompleteListener() {
-                                    TKManager.getInstance().TargetClubData.AddClubContext(TKManager.getInstance().CreateTempClubContextData.GetContextIndex(), TKManager.getInstance().CreateTempClubContextData);
-                                    CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
-                                    TKManager.getInstance().TempClubContextImg.clear();
-                                    DialogFunc.getInstance().DismissLoadingPage();
-                                    finish();
-                                }
-
-                                @Override
-                                public void CompleteListener_Yes() {
-
-                                }
-
-                                @Override
-                                public void CompleteListener_No() {
-
-                                }
-                            };
-                            FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubContextData, ContextListener);
-
+                            SetClubContext();
                         }
 
                         @Override
@@ -177,29 +136,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                         FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-
-                                FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
-                                    @Override
-                                    public void CompleteListener() {
-                                        TKManager.getInstance().TargetClubData.AddClubContext(TKManager.getInstance().CreateTempClubContextData.GetContextIndex(), TKManager.getInstance().CreateTempClubContextData);
-                                        CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
-                                        TKManager.getInstance().TempClubContextImg.clear();
-                                        DialogFunc.getInstance().DismissLoadingPage();
-                                        finish();
-                                    }
-
-                                    @Override
-                                    public void CompleteListener_Yes() {
-
-                                    }
-
-                                    @Override
-                                    public void CompleteListener_No() {
-
-                                    }
-                                };
-                                FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubContextData, ContextListener);
-
+                                SetClubContext();
                             }
 
                             @Override
@@ -222,6 +159,39 @@ public class ClubWriteActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void SetClubContext()
+    {
+        FirebaseManager.CheckFirebaseComplete ContextListener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+
+                ClubContextData tempData = new ClubContextData();
+
+                try {
+                    tempData =  (ClubContextData) TKManager.getInstance().CreateTempClubContextData.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+
+                TKManager.getInstance().TargetClubData.AddClubContext(tempData.GetContextIndex(), tempData);
+                CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
+                DialogFunc.getInstance().DismissLoadingPage();
+                finish();
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+
+            }
+
+            @Override
+            public void CompleteListener_No() {
+
+            }
+        };
+        FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubContextData, ContextListener);
     }
 
     @Override

@@ -236,16 +236,18 @@ public class LoginActivity extends AppCompatActivity {
                     properties = response.getProperties();
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                     String tempUid = properties.get("Index");
-                  //  tempUid = null;
+                   // tempUid = null;
                     if(CommonFunc.getInstance().CheckStringNull(tempUid))
                     {
+                        DialogFunc.getInstance().DismissLoadingPage();
+
                         DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
                         {
                             @Override
                             public void Listener()
                             {
-                                DialogFunc.getInstance().DismissLoadingPage();
-                              //  CommonFunc.getInstance().MoveAuthActivity(LoginActivity.this);
+                                DialogFunc.getInstance().ShowLoadingPage(LoginActivity.this);
+
 
                                 FirebaseManager.CheckFirebaseComplete IndexListen = new FirebaseManager.CheckFirebaseComplete() {
                                     @Override
@@ -258,42 +260,11 @@ public class LoginActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Long result) {
 
-                                                //String tempGender = String.valueOf(response.body().response.gender);
-                                                TKManager.getInstance().MyData.SetUserName("테스트");
-
-                                                TKManager.getInstance().MyData.SetUserGender(1);
-                                                TKManager.getInstance().MyData.SetUserAge(50);
-
-                                                SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
-                                                editor.commit();
-
-
-                                                String strPhoneNumber;
-                                                TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                                                try {
-                                                    if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                                                        // TODO: Consider calling
-                                                        ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE}, REQUEST_LOCATION);
-                                                        return;
-                                                    }
-
-                                                    String tmpPhoneNumber = mgr.getLine1Number();
-                                                    strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
-
-                                                } catch (Exception e) {
-                                                    strPhoneNumber = "";
-                                                }
-
-                                                TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
-
-
                                                 CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
-
                                                     @Override
                                                     public void CompleteListener() {
-                                                        CommonFunc.getInstance().MoveSignUpActivity(LoginActivity.this);
+
+                                                        CommonFunc.getInstance().MoveAuthActivity(LoginActivity.this);
                                                     }
 
                                                     @Override
@@ -308,6 +279,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 };
 
                                                 CommonFunc.getInstance().GetUserLocation(LoginActivity.this, listener);
+
 
                                                 Log.i("Test", "MainActivity onSuccess");
                                             }
@@ -327,6 +299,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 Log.i("Test", "MainActivity onNotSignedUp");
                                             }
                                         }, properties);
+
+                                        Log.i("Test", "MainActivity onSuccess");
                                     }
 
                                     @Override
@@ -340,7 +314,6 @@ public class LoginActivity extends AppCompatActivity {
                                 };
 
                                 FirebaseManager.getInstance().GetUserIndex(IndexListen);
-
                             }
                         };
                         DialogFunc.getInstance().ShowMsgPopup(LoginActivity.this, AuthListener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM_DESC), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
