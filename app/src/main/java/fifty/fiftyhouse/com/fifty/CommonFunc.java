@@ -1232,14 +1232,24 @@ public class CommonFunc {
         return name+seletedValue;
     }
 
-    /*public String ConvertTimeSrt(String time)
+    public String ConvertTimeSrt(String time2)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return "";
+        /*SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
-        Date date = dateFormat.parse(time);
-        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH시mm분");
-        String formatDate = sdfNow.format(date);
+        try {
+            Date date = dateFormat.parse(time2);
 
-        return formatDate;
-    }*/
+            String out = dateFormat2.format(date);
+        } catch (ParseException e) {
+        }
+
+
+
+
+*//*        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH시mm분");
+        String formatDate = sdfNow.format(date);*//*
+
+        return formatDate;*/
+    }
 }
