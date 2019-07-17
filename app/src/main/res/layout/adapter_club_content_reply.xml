@@ -19,8 +19,18 @@
         android:layout_marginTop="2dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-/>
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <ImageView
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Con_Reply_Profile"
+        app:layout_constraintRight_toRightOf="@+id/iv_Club_Con_Reply_Profile"
+        app:layout_constraintTop_toTopOf="@+id/iv_Club_Con_Reply_Profile"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Con_Reply_Profile"
+        android:tint="@color/icon_tint_brown"
+        android:src="@drawable/bg_empty_circle" />
 
     <ImageView
         android:id="@+id/iv_Club_Con_Reply_Profile"
@@ -29,8 +39,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_club"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:src="@drawable/icon_write" />
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/bg_empty_circle" />
 
     <TextView
         android:id="@+id/tv_Club_Con_Reply_Nickname"
@@ -50,7 +60,7 @@
         android:layout_height="20dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_Club_Con_Reply_Profile"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
         android:textSize="13dp"
         android:textStyle="bold"
 

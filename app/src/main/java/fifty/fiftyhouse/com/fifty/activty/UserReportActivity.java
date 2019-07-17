@@ -78,6 +78,13 @@ public class UserReportActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_UserReport_Memo.getWindowToken(), 0);
+
+                if(CommonFunc.getInstance().CheckStringNull(et_UserReport_Memo.getText().toString()))
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(UserReportActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_DESC_EMPTY));
+                    return;
+                }
+
                 DialogFunc.getInstance().ShowToast(UserReportActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_REPORT_RESULT), true);
                 finish();
             }

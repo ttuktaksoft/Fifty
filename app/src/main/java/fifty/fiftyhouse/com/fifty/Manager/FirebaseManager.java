@@ -2814,6 +2814,8 @@ public class FirebaseManager {
                             GetUserData_Simple(tempData.writerIndex, TKManager.getInstance().UserData_Simple, listener);
                         }
 
+                        Complete(listener);
+
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -3010,7 +3012,6 @@ public class FirebaseManager {
     public void GetClubReportData(final String clubIndex, final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().TargetReportContextData.clear();
-
         SetFireBaseLoadingCount(0);
         final CollectionReference cocRef = mDataBase.collection("ClubData").document(clubIndex).collection("ReportContextList");
         cocRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -3022,14 +3023,10 @@ public class FirebaseManager {
                         Log.d(TAG, document.getId() + " => " + document.getData());
 
                         AddFireBaseLoadingCount();
+                        Log.d("test","@@@@@@ 111 " + document.getId());
                         GetClubContextData(clubIndex, document.getId(), listener);
 
                     }
-
-
-                    if (listener != null)
-                        listener.CompleteListener();
-
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }

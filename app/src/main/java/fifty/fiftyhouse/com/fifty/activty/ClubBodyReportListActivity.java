@@ -5,11 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
@@ -53,9 +55,6 @@ public class ClubBodyReportListActivity extends AppCompatActivity {
         });
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(getApplication().getResources(), R.string.TITLE_CLUB_BODY_REPORT));
 
-
-        tv_ClubBodyReportList_Empty.setVisibility(View.GONE);
-
         initRecyclerView();
     }
 
@@ -73,8 +72,7 @@ public class ClubBodyReportListActivity extends AppCompatActivity {
                 Intent intent = new Intent(ClubBodyReportListActivity.this, ClubBodyActivity.class);
                 intent.putExtra("Type",1);
                 intent.putExtra("key", mReportContentList.get(position));
-                startActivity(intent);
-
+                startActivityForResult(intent, 1000);
             }
 
         }));
@@ -91,6 +89,26 @@ public class ClubBodyReportListActivity extends AppCompatActivity {
     {
         // 신고 당한 게시물
         mReportContentList.clear();
-        //mReportContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
+        mReportContentList.addAll(TKManager.getInstance().TargetReportContextData.keySet());
+
+        if(mReportContentList.size() == 0)
+        {
+            tv_ClubBodyReportList_Empty.setVisibility(View.VISIBLE);
+            rv_ClubBodyReportList_List.setVisibility(View.GONE);
+        }
+        else
+        {
+            tv_ClubBodyReportList_Empty.setVisibility(View.GONE);
+            rv_ClubBodyReportList_List.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1000)
+        {
+            RefreshAdapter();
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

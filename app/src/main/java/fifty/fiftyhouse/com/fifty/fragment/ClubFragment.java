@@ -237,7 +237,7 @@ public class ClubFragment extends Fragment {
                 Set tempKey = tempClubKey.keySet(); //TKManager.getInstance().MyData.GetUserClubDataKeySet();
                 final List array = new ArrayList(tempKey);
 
-                //DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
                 FirebaseManager.CheckFirebaseComplete GetClubDataListener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
@@ -246,6 +246,7 @@ public class ClubFragment extends Fragment {
                         FirebaseManager.CheckFirebaseComplete GetClubContextListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                DialogFunc.getInstance().DismissLoadingPage();
                                 startActivity(new Intent(getContext(), ClubActivity.class));
                             }
 

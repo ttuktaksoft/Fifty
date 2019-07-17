@@ -69,7 +69,8 @@ public class UserProfileFragment extends Fragment {
     ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender, iv_UserProfile_Info_Memo_BG, iv_UserProfile_Info_Edit;
     TextView tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Location,
             tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3,
-            tv_UserProfile_Info_Terms_1, tv_UserProfile_Info_Terms_2, tv_UserProfile_Info_Terms_3;
+            tv_UserProfile_Info_Terms_1, tv_UserProfile_Info_Terms_2, tv_UserProfile_Info_Terms_3,
+            tv_UserProfile_Info_Club;
     RecyclerView rv_UserProfile_Info_Favorite, rv_UserProfile_Info_Club, rv_UserProfile_Info_Photo, rv_UserProfile_Info_Menu;
     Context mContext;
     View mUserProfileFragView;
@@ -127,6 +128,7 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Terms_1 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_1);
         tv_UserProfile_Info_Terms_2 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_2);
         tv_UserProfile_Info_Terms_3 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_3);
+        tv_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Club);
         rv_UserProfile_Info_Favorite = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Favorite);
         rv_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Club);
         rv_UserProfile_Info_Photo = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Photo);
@@ -649,6 +651,11 @@ public class UserProfileFragment extends Fragment {
         {
             list.addAll(TKManager.getInstance().TargetUserData.GetUserClubDataKeySet());
         }
+
+        if(list.size() == 0)
+            tv_UserProfile_Info_Club.setVisibility(View.GONE);
+        else
+            tv_UserProfile_Info_Club.setVisibility(View.VISIBLE);
 
         mClubAdapter = new UserProfileClubAdapter(mContext);
         mClubAdapter.setItemCount(list.size());
