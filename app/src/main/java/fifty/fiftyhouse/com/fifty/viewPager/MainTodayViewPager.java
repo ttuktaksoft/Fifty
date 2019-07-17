@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
@@ -59,7 +60,7 @@ public class MainTodayViewPager extends Fragment {
 
     private void initSubInfo()
     {
-        tv_Main_Today_Desc.setText(DAILY_FAVORITE + "를 좋아하는 유져");
+        tv_Main_Today_Desc.setText(CommonFunc.getInstance().getComleteWordByJongsung(DAILY_FAVORITE, "을", "를") + " " + CommonFunc.getInstance().getStr(getResources(), R.string.MSG_MAIN_USER_TODAY_DESC));
     }
     private void initRecyclerView()
     {

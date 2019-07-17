@@ -126,9 +126,6 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
-                if(mIsSignUpEnable == false)
-                    return;
-
                 if(mSignUpFragment.isSignUp())
                 {
                     DialogFunc.getInstance().ShowLoadingPage(SignUpActivity.this);

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -41,18 +42,12 @@ public class UserProfileClubAdapter extends RecyclerView.Adapter<UserProfileClub
     @Override
     public void onBindViewHolder(UserProfileClubListHolder holder, final int position) {
         int i = position;
-        holder.setData(i);
+        holder.setData(mItemList.get(i));
     }
 
     @Override
     public int getItemCount() {
-        int temp = TKManager.getInstance().MyData.GetUserClubDataCount();
-
-        if(temp > 3)
-            return 3;
-        else
-            return TKManager.getInstance().MyData.GetUserClubDataCount();
-        //return
+        return mItemCount;
     }
 
     public void setItemCount(int count)
@@ -82,12 +77,11 @@ class UserProfileClubListHolder extends RecyclerView.ViewHolder{
         tv_UserProfile_Club = itemView.findViewById(R.id.tv_UserProfile_Club);
     }
 
-    public void setData(int i)
+    public void setData(String key)
     {
-        Set tempKey = TKManager.getInstance().MyData.GetUserClubDataKeySet();
-        final List array = new ArrayList(tempKey);
-        tv_UserProfile_Club.setText(TKManager.getInstance().ClubData_Simple.get(array.get(i).toString()).GetClubName());
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_Club, TKManager.getInstance().ClubData_Simple.get(array.get(i).toString()).GetClubThumb(), false);
+        ClubData data = TKManager.getInstance().ClubData_Simple.get(key);
+        tv_UserProfile_Club.setText(data.GetClubName());
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_Club, data.GetClubThumb(), false);
 
     }
 }

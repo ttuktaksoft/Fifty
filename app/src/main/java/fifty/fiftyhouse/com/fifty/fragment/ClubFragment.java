@@ -1,30 +1,23 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.kakao.auth.AuthType;
-import com.kakao.auth.Session;
 
-import java.lang.annotation.Inherited;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,13 +33,16 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
-import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
+import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+
+
+
 
 public class ClubFragment extends Fragment {
 
@@ -66,6 +62,7 @@ public class ClubFragment extends Fragment {
     ArrayList<String> mClubList = new ArrayList<>();
 
     boolean bSearchClub = false;
+    int MY_PROFILE_EDIT = 1;
 
     public void SetMoveListener(MainActivity.MoveFragmentListener listener)
     {
@@ -97,8 +94,7 @@ public class ClubFragment extends Fragment {
         tv_Club_Create = v_FragmentView.findViewById(R.id.tv_Club_Create);
         //et_Club_TopBar_Search.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
-        et_Club_TopBar_Search
-                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        et_Club_TopBar_Search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                         switch (actionId) {
@@ -168,7 +164,7 @@ public class ClubFragment extends Fragment {
 
                 imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
 
-                mMoveListener.MoveFragment();
+                startActivityForResult(new Intent(mContext, MyProfileEditActivity.class), MY_PROFILE_EDIT);
             }
         });
 
@@ -318,6 +314,17 @@ public class ClubFragment extends Fragment {
         else {
             bSearchClub = true;
             FirebaseManager.getInstance().SearchClubList(name, listener);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == MY_PROFILE_EDIT) {
+            Glide.with(mContext).load(TKManager.getInstance().MyData.GetUserImgThumb())
+                    .centerCrop()
+                    .circleCrop()
+                    .into(iv_Club_TopBar_User);
         }
     }
 

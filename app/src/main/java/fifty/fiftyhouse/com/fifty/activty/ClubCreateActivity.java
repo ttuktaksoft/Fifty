@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -69,14 +72,34 @@ public class ClubCreateActivity extends AppCompatActivity {
             }
         });
 
+
+        RefreshOkButton();
+
+        et_ClubCreate_Name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                RefreshOkButton();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         tv_ClubCreate_OK.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 // 클럽 생성 가능한지 체크
                 if(CommonFunc.getInstance().CheckStringNull(et_ClubCreate_Name.getText().toString()))
-                    DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_EMPTY));
-                else if(false)
-                    DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_PROFILE));
+                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_EMPTY));
+                else if(isProfileUpload == false)
+                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_PROFILE));
                 else
                 {
                     DialogFunc.getInstance().ShowLoadingPage(ClubCreateActivity.this);
@@ -142,6 +165,7 @@ public class ClubCreateActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
                 isProfileUpload = true;
+                RefreshOkButton();
                 DialogFunc.getInstance().ShowLoadingPage(ClubCreateActivity.this);
 
                 // TODO 클럽 이미지 올려야함
@@ -178,5 +202,18 @@ public class ClubCreateActivity extends AppCompatActivity {
                 FirebaseManager.getInstance().UploadClubThumbImg(TKManager.getInstance().CreateTempClubData.GetClubIndex(), originalBm, TKManager.getInstance().CreateTempClubData, listener);
             }
         }
+    }
+
+    public void RefreshOkButton() {
+
+        boolean enable = CommonFunc.getInstance().CheckStringNull(et_ClubCreate_Name.getText().toString()) == false&& isProfileUpload;
+
+        int selectBGColor = ContextCompat.getColor(mContext, R.color.button_enable);
+        int selectSrtColor = ContextCompat.getColor(mContext, R.color.button_enable_str);
+        int disableBGColor = ContextCompat.getColor(mContext, R.color.button_disable);
+        int disableSrtColor = ContextCompat.getColor(mContext, R.color.button_disable_str);
+
+        tv_ClubCreate_OK.setBackgroundColor(enable ? selectBGColor : disableBGColor);
+        tv_ClubCreate_OK.setTextColor(enable ? selectSrtColor : disableSrtColor);
     }
 }

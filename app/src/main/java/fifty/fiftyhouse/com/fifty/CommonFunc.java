@@ -1033,6 +1033,10 @@ public class CommonFunc {
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
+
+                TKManager.getInstance().UserData_Simple.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData);
+
+
                 FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
@@ -1165,7 +1169,30 @@ public class CommonFunc {
 
     public void SortByClubContentDate(Map<String, ClubContextData> list, boolean descending)
     {
-        ArrayList<String> tempDataList = new ArrayList<>();
+        Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
+        Map<String, ClubContextData> tempClubContentDateDataMap = new LinkedHashMap<String, ClubContextData>();
+
+        Iterator<String> keys = list.keySet().iterator();
+        while( keys.hasNext() ){
+            String key = keys.next();
+            tempDataMap.put(key, Long.parseLong(list.get(key).GetDate()));
+        }
+
+        Iterator it = sortByValue(tempDataMap, descending).iterator();
+
+        while(it.hasNext()) {
+            String temp = (String) it.next();
+            tempClubContentDateDataMap.put(temp, list.get(temp));
+        }
+
+        list.clear();
+        list.putAll(tempClubContentDateDataMap);
+
+
+
+
+
+       /* ArrayList<String> tempDataList = new ArrayList<>();
         tempDataList.addAll(list.keySet());
         Map<String, Long> tempDataMap = new LinkedHashMap<String, Long>();
         Map<String, ClubContextData> tempClubContentDateDataMap = new LinkedHashMap<String, ClubContextData>();
@@ -1187,7 +1214,32 @@ public class CommonFunc {
         }
 
         list.clear();
-        list.putAll(tempClubContentDateDataMap);
+        list.putAll(tempClubContentDateDataMap);*/
     }
 
+    public final String getComleteWordByJongsung(String name, String firstValue, String secondValue) {
+
+        char lastName = name.charAt(name.length() - 1);
+
+        // 한글의 제일 처음과 끝의 범위밖일 경우는 오류
+        if (lastName < 0xAC00 || lastName > 0xD7A3) {
+            return name;
+        }
+
+
+        String seletedValue = (lastName - 0xAC00) % 28 > 0 ? firstValue : secondValue;
+
+        return name+seletedValue;
+    }
+
+    /*public String ConvertTimeSrt(String time)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        Date date = dateFormat.parse(time);
+        SimpleDateFormat sdfNow = new SimpleDateFormat("yyyy/MM/dd HH시mm분");
+        String formatDate = sdfNow.format(date);
+
+        return formatDate;
+    }*/
 }

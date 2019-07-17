@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
@@ -47,6 +48,8 @@ public class ClubActivity extends AppCompatActivity {
     Context mContext;
     boolean mIsJoinClub = false;
     boolean mIsMasterClub = false;
+
+    ArrayList<String> mContentList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -249,6 +252,7 @@ public class ClubActivity extends AppCompatActivity {
     private void initRecyclerView()
     {
         mAdapter = new ClubContentAdapter(getApplicationContext());
+        RefreshAdapter();
         mAdapter.setHasStableIds(true);
 
         rv_Club_Content.setAdapter(mAdapter);
@@ -273,8 +277,16 @@ public class ClubActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1000)
         {
+            RefreshAdapter();
             mAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    public void RefreshAdapter()
+    {
+        mContentList.clear();
+        mContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
+        mAdapter.setItemData(mContentList);
     }
 }

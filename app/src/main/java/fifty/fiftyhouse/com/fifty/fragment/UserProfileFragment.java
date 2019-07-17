@@ -33,6 +33,7 @@ import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -635,7 +636,19 @@ public class UserProfileFragment extends Fragment {
 
     public void initClubList()
     {
+        ArrayList<String> list = new ArrayList<>();
+        if(mMyProfile)
+        {
+            list.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+        }
+        else
+        {
+            list.addAll(TKManager.getInstance().TargetUserData.GetUserClubDataKeySet());
+        }
+
         mClubAdapter = new UserProfileClubAdapter(mContext);
+        mClubAdapter.setItemCount(list.size());
+        mClubAdapter.setItemData(list);
         mClubAdapter.setHasStableIds(true);
 
         rv_UserProfile_Info_Club.setAdapter(mClubAdapter);

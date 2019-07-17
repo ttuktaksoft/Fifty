@@ -33,24 +33,28 @@
 
         <ImageView
             android:id="@+id/iv_ClubCreate_Profile_Border"
-            android:layout_width="202dp"
-            android:layout_height="202dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintLeft_toLeftOf="@+id/iv_ClubCreate_Profile"
             app:layout_constraintRight_toRightOf="@+id/iv_ClubCreate_Profile"
             app:layout_constraintTop_toTopOf="@+id/iv_ClubCreate_Profile"
             app:layout_constraintBottom_toBottomOf="@+id/iv_ClubCreate_Profile"
-
             android:tint="@color/icon_tint_brown"
             android:src="@drawable/bg_empty_square_plus" />
 
         <ImageView
             android:id="@+id/iv_ClubCreate_Profile"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            app:layout_constrainedWidth="true"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintWidth_max="200dp"
+            app:layout_constraintHeight_max="200dp"
             app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Info"
             app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Info"
             app:layout_constraintTop_toBottomOf="@+id/et_ClubCreate_Name"
+            android:scaleType="centerCrop"
             android:src="@drawable/bg_empty_square_plus" />
 
         <TextView

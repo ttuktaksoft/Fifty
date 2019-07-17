@@ -17,6 +17,7 @@
             android:id="@+id/v_Club_TopBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/top_bar_height"
+            app:layout_constraintTop_toTopOf="parent"
             android:background="@color/topbar_bg">
 
             <ImageView
@@ -68,64 +69,70 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/ns_Club_List_Scroll"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/v_Club_TopBar"
-            android:scrollbars="none">
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/top_bar_height"
+            android:background="@color/activity_bg">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/v_Club_List"
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/ns_Club_List_Scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/activity_bg">
+                android:scrollbars="none">
 
-                <TextView
-                    android:id="@+id/tv_Club_Create"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    style="@style/BaseTextView_AutoSize"
-                    app:layout_constraintLeft_toLeftOf="@+id/v_Club_List"
-                    app:layout_constraintRight_toLeftOf="@+id/tv_Club_Recom"
-                    app:layout_constraintTop_toTopOf="@+id/v_Club_List"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/MSG_CLUB_CREATE"
-                    android:gravity="center"
-                    android:textColor="@color/button_enable_str"
-                    android:textStyle="bold"
-                    android:background="@color/button_enable"/>
-
-                <TextView
-                    android:id="@+id/tv_Club_Recom"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    style="@style/BaseTextView_AutoSize"
-                    app:layout_constraintLeft_toRightOf="@+id/tv_Club_Create"
-                    app:layout_constraintRight_toRightOf="@+id/v_Club_List"
-                    app:layout_constraintTop_toTopOf="@+id/v_Club_List"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/MSG_CLUB_RECOM"
-                    android:gravity="center"
-                    android:textColor="@color/button_enable_str"
-                    android:textStyle="bold"
-                    android:background="@color/button_enable"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_Club_List"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/v_Club_List"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_Club_Create"
-                    app:layout_constraintBottom_toBottomOf="@+id/v_Club_List"
-                    android:layout_marginTop="10dp"
-                    android:nestedScrollingEnabled="false"/>
+                    android:background="@color/activity_bg">
 
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v4.widget.NestedScrollView>
+                    <TextView
+                        android:id="@+id/tv_Club_Create"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        style="@style/BaseTextView_AutoSize"
+                        app:layout_constraintLeft_toLeftOf="@+id/v_Club_List"
+                        app:layout_constraintRight_toLeftOf="@+id/tv_Club_Recom"
+                        app:layout_constraintTop_toTopOf="@+id/v_Club_List"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/MSG_CLUB_CREATE"
+                        android:gravity="center"
+                        android:textColor="@color/button_enable_str"
+                        android:textStyle="bold"
+                        android:background="@color/button_enable"/>
+
+                    <TextView
+                        android:id="@+id/tv_Club_Recom"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        style="@style/BaseTextView_AutoSize"
+                        app:layout_constraintLeft_toRightOf="@+id/tv_Club_Create"
+                        app:layout_constraintRight_toRightOf="@+id/v_Club_List"
+                        app:layout_constraintTop_toTopOf="@+id/v_Club_List"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/MSG_CLUB_RECOM"
+                        android:gravity="center"
+                        android:textColor="@color/button_enable_str"
+                        android:textStyle="bold"
+                        android:background="@color/button_enable"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_Club_List"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_Club_Create"
+                        android:layout_marginTop="10dp"
+                        android:nestedScrollingEnabled="false"/>
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v4.widget.NestedScrollView>
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 
