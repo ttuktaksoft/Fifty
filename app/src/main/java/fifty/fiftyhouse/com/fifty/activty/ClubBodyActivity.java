@@ -135,9 +135,26 @@ public class ClubBodyActivity extends AppCompatActivity {
                             @Override
                             public void CompleteListener() {
                                 // 데이터 추가 하고 아래 함수 콜
-                                DialogFunc.getInstance().DismissLoadingPage();
-                                TKManager.getInstance().TargetReportContextData.remove(nKey);
-                                finish();
+                                FirebaseManager.CheckFirebaseComplete ReportListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        // 데이터 추가 하고 아래 함수 콜
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        TKManager.getInstance().TargetReportContextData.remove(nKey);
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+
+                                    }
+                                };
+                                FirebaseManager.getInstance().RemoveReportContext(TKManager.getInstance().TargetClubData.GetClubIndex(), tempData.GetContextIndex(), ReportListener);
                             }
 
                             @Override
