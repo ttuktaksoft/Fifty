@@ -328,11 +328,10 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         @Override
                         public void Listener()
                         {
-                            // 수정
-/*                            Intent intent = new Intent(mContext, ClubWriteActivity.class);
+                            Intent intent = new Intent(mContext, ClubWriteActivity.class);
                             intent.putExtra("Type", 1);
-                            intent.putExtra("position", Integer.parseInt(key));
-                            mContext.startActivity(intent);*/
+                            intent.putExtra("key", key);
+                            ClubActivity.mClubActivity.startActivity(intent);
                         }
                     });
 

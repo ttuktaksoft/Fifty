@@ -58,33 +58,34 @@
 
                     <TextView
                         android:id="@+id/tv_Club_Name"
-                        style="@style/BaseContentTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        style="@style/BaseTextView_AutoSize"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
                         android:text="냥냥 클럽"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/black"
+                        android:maxLines="1"
                         app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
+                        app:layout_constraintRight_toLeftOf="@+id/tv_Club_Join"
                         app:layout_constraintTop_toTopOf="@+id/v_Club_Info" />
 
                     <TextView
                         android:id="@+id/tv_Club_UserCount"
                         style="@style/BaseContentTextView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:text="공개 3명"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/str_color_1"
-                        android:textSize="@dimen/default_font_size_small"
                         app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
                         app:layout_constraintTop_toBottomOf="@+id/tv_Club_Name"/>
 
                     <ImageView
                         android:id="@+id/iv_Club_UserCount"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
                         app:layout_constraintLeft_toRightOf="@+id/tv_Club_UserCount"
                         app:layout_constraintTop_toTopOf="@+id/tv_Club_UserCount"
@@ -95,7 +96,7 @@
                         android:id="@+id/tv_Club_UserCount_View"
                         style="@style/BaseContentTextView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:text="@string/MSG_CLUB_USER_LIST_TITLE"
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dp"
@@ -134,14 +135,38 @@
 
                 </android.support.constraint.ConstraintLayout>
 
+                <TextView
+                    android:id="@+id/tv_Club_Favorite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/BaseTextView_AutoSize"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
+                    app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
+                    app:layout_constraintTop_toBottomOf="@+id/v_Club_Info"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:text="@string/tv_UserProfile_Info_Favorite"
+                    android:gravity="center|left"
+                    android:textColor="@color/str_color_1"
+                    android:background="@color/info_sub_slot_title_bg"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_Club_Favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Club_Favorite" />
+
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_Club_Content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="1dp"
                     android:nestedScrollingEnabled="false"
-                    app:layout_constraintTop_toBottomOf="@+id/v_Club_Info" />
+                    app:layout_constraintTop_toBottomOf="@+id/rv_Club_Favorite" />
 
             </android.support.constraint.ConstraintLayout>
 

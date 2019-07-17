@@ -44,7 +44,7 @@ public class ClubWriteActivity extends AppCompatActivity {
     ClubWriteFragment mClubWriteFragment;
 
     ClubContextData tempData = new ClubContextData();
-    int mClubWriteType = 0;
+    int mClubWriteType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +61,7 @@ public class ClubWriteActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         mClubWriteType = getIntent().getIntExtra("Type", 0);
-        int nPosition = getIntent().getIntExtra("position", 0);
-
-        if(mClubWriteType == 1)
-            tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(nPosition));
+        String key = getIntent().getStringExtra("key");
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -72,12 +69,29 @@ public class ClubWriteActivity extends AppCompatActivity {
                 finish();
             }
         });
+
         if(mClubWriteType == 0)
+        {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_WRITE_CLUB));
+            tv_ClubWrite_OK.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_WRITE));
+        }
         else
+        {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_WRITE_CLUB_CHANGE));
+            tv_ClubWrite_OK.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_WRITE_EDIT));
+        }
 
         mClubWriteFragment = new ClubWriteFragment();
+
+        if(mClubWriteType == 1)
+        {
+            tempData = TKManager.getInstance().TargetClubData.GetClubContext(key);
+            mClubWriteFragment.tempData = tempData;
+        }
+        else
+        {
+            mClubWriteFragment.tempData = null;
+        }
 
         mFragmentMgr.beginTransaction().replace(R.id.fl_ClubWrite_FrameLayout, mClubWriteFragment, "ClubWriteFragment").commit();
 
@@ -92,46 +106,21 @@ public class ClubWriteActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
-                DialogFunc.getInstance().ShowLoadingPage(ClubWriteActivity.this);
-                TKManager.getInstance().CreateTempClubContextData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
-                TKManager.getInstance().CreateTempClubContextData.SetDate(CommonFunc.getInstance().GetCurrentTime());
-
-                if(TKManager.getInstance().TempClubContextImg.size()  == 0)
+                if(mClubWriteType == 0)
                 {
-                    TKManager.getInstance().CreateTempClubContextData.SetContextType(0);
-                    SetClubContext();
-                }
+                    DialogFunc.getInstance().ShowLoadingPage(ClubWriteActivity.this);
+                    TKManager.getInstance().CreateTempClubContextData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
+                    TKManager.getInstance().CreateTempClubContextData.SetDate(CommonFunc.getInstance().GetCurrentTime());
 
-                else if(TKManager.getInstance().TempClubContextImg.size() == 1)
-                {
-                    TKManager.getInstance().CreateTempClubContextData.SetContextType(1);
-                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempClubContextImg.size());
-                    FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
-                        @Override
-                        public void CompleteListener() {
-                            SetClubContext();
-                        }
-
-                        @Override
-                        public void CompleteListener_Yes() {
-
-                        }
-
-                        @Override
-                        public void CompleteListener_No() {
-
-                        }
-                    };
-
-                    FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempClubContextImg.get("0"),
-                            "0", TKManager.getInstance().CreateTempClubContextData, uploadListener);
-                }
-                else
-                {
-                    TKManager.getInstance().CreateTempClubContextData.SetContextType(2);
-
-                    for(int i=0 ;i< TKManager.getInstance().TempClubContextImg.size(); i++)
+                    if(TKManager.getInstance().TempClubContextImg.size()  == 0)
                     {
+                        TKManager.getInstance().CreateTempClubContextData.SetContextType(0);
+                        SetClubContext();
+                    }
+
+                    else if(TKManager.getInstance().TempClubContextImg.size() == 1)
+                    {
+                        TKManager.getInstance().CreateTempClubContextData.SetContextType(1);
                         FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempClubContextImg.size());
                         FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -150,13 +139,43 @@ public class ClubWriteActivity extends AppCompatActivity {
                             }
                         };
 
-                        FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempClubContextImg.get(Integer.toString(i)),
-                                Integer.toString(i), TKManager.getInstance().CreateTempClubContextData, uploadListener);
+                        FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempClubContextImg.get("0"),
+                                "0", TKManager.getInstance().CreateTempClubContextData, uploadListener);
                     }
+                    else
+                    {
+                        TKManager.getInstance().CreateTempClubContextData.SetContextType(2);
 
+                        for(int i=0 ;i< TKManager.getInstance().TempClubContextImg.size(); i++)
+                        {
+                            FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempClubContextImg.size());
+                            FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    SetClubContext();
+                                }
 
+                                @Override
+                                public void CompleteListener_Yes() {
 
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+
+                            FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempClubContextImg.get(Integer.toString(i)),
+                                    Integer.toString(i), TKManager.getInstance().CreateTempClubContextData, uploadListener);
+                        }
+                    }
                 }
+                else
+                {
+                    // 글 수정
+                }
+
             }
         });
     }

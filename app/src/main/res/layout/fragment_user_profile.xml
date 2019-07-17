@@ -60,7 +60,7 @@
                     />
 
                 <ImageView
-                    android:id="@+id/iv_UserProfile_Info_Name"
+                    android:id="@+id/iv_UserProfile_Info_Edit"
                     style="@style/BaseContentTextView_AutoSize"
                     android:layout_width="25dp"
                     android:layout_height="25dp"

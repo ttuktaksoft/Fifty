@@ -51,16 +51,22 @@
         <activity android:name=".activty.StrContentListActivity" />
         <activity android:name=".activty.StrContentActivity" />
         <activity android:name=".activty.MyProfileEditActivity" />
-        <activity android:name=".activty.NickNameEditActivity" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".activty.MemoEditActivity" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".activty.LocationEditActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".activty.NickNameEditActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activty.MemoEditActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activty.LocationEditActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activty.CustomPhotoView" />
         <activity android:name=".activty.FavoriteSelectActivity" />
         <activity android:name=".activty.UserProfileMemoActivity" />
         <activity android:name=".activty.UserNoticeActivity" />
         <activity android:name=".activty.SettingActivity" />
         <activity android:name=".activty.SettingAccountActivity" />
-        <activity android:name=".activty.UserReportActivity" />
+        <activity android:name=".activty.UserReportActivity" android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -82,11 +88,12 @@
         <activity android:name=".activty.FriendListActivity" />
         <activity android:name=".activty.WebContentActivity" />
         <activity android:name=".activty.SortSettingActivity" />
-        <activity android:name=".activty.ClubCreateActivity" />
+        <activity android:name=".activty.ClubCreateActivity" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activty.ClubWriteActivity" />
         <activity android:name=".activty.ShopActivity" />
         <activity android:name=".activty.ClubSettingActivity" />
-        <activity android:name=".activty.ClubBodyReportListActivity"></activity>
+        <activity android:name=".activty.ClubBodyReportListActivity" />
+        <activity android:name=".activty.ClubEditActivity" android:windowSoftInputMode="adjustResize" ></activity>
     </application>
 
 </manifest>

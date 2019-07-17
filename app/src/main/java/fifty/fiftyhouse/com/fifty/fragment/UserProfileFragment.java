@@ -65,7 +65,7 @@ public class UserProfileFragment extends Fragment {
 
     ConstraintLayout v_UserProfile_Info_Detail, v_UserProfile_Info_Favorite, v_UserProfile_Info_Photo, v_UserProfile_Info_Club,
             v_UserProfile_Info_Menu, v_UserProfile_Info_Etc;
-    ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender, iv_UserProfile_Info_Memo_BG;
+    ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender, iv_UserProfile_Info_Memo_BG, iv_UserProfile_Info_Edit;
     TextView tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Location,
             tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3,
             tv_UserProfile_Info_Terms_1, tv_UserProfile_Info_Terms_2, tv_UserProfile_Info_Terms_3;
@@ -115,6 +115,7 @@ public class UserProfileFragment extends Fragment {
         iv_UserProfile_Profile = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Profile);
         iv_UserProfile_Info_Gender = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Gender);
         iv_UserProfile_Info_Memo_BG  = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Memo_BG);
+        iv_UserProfile_Info_Edit = mUserProfileFragView.findViewById(R.id.iv_UserProfile_Info_Edit);
         tv_UserProfile_Info_Name = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Name);
         tv_UserProfile_Info_Age = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Age);
         tv_UserProfile_Info_Location = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Location);
@@ -397,6 +398,8 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
+        iv_UserProfile_Info_Edit.setVisibility(View.VISIBLE);
+
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, true);
     }
@@ -449,7 +452,7 @@ public class UserProfileFragment extends Fragment {
         RefreshCountText();
 
         v_UserProfile_Info_Etc.setVisibility(View.GONE);
-
+        iv_UserProfile_Info_Edit.setVisibility(View.GONE);
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, false);
     }

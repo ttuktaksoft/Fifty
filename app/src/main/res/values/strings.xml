@@ -32,6 +32,7 @@
     <string name="MSG_MY_CLUB">내 클럽</string>
     <string name="MSG_RECOM_CLUB">추천</string>
     <string name="MSG_CLUB_WRITE">등록하기</string>
+    <string name="MSG_CLUB_WRITE_EDIT">수정하기</string>
     <string name="MSG_MOVE_SHOP">FIP구매하기</string>
     <string name="MSG_SHOP">FIP구매하기</string>
     <string name="MSG_VIEW_PROFILE">프로필 확인</string>
@@ -43,12 +44,15 @@
     <string name="MSG_CLUB_JOIN_REQUEST_CANCEL_DESC">클럽 가입 신청을 취소하시겠습니까?</string>
     <string name="MSG_CLUB_JOIN_WAIT">가입 대기 유저</string>
     <string name="MSG_CLUB_REPORT_CONTENT">신고당한 게시글</string>
+    <string name="MSG_CLUB_EDIT">클럽 수정</string>
     <string name="MSG_CLUB_WITHDRAWAL">클럽 탈퇴</string>
     <string name="MSG_CLUB_SETTING">클럽 설정</string>
     <string name="MSG_CLUB_WITHDRAWAL_DESC">클럽을 탈퇴 하시겠습니까?</string>
     <string name="MSG_CLUB_BODY_REPORT_LIST_EMPTY">신고당한 내용이 없습니다</string>
     <string name="MSG_CLUB_BODY_REPORT_DEL_DESC">신고당한 게시물을 삭제 하시겠습니까?</string>
     <string name="MSG_CLUB_BODY_REPORT_DEL">삭제하기</string>
+    <string name="MSG_CLUB_DEPORT">추방하기</string>
+
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
@@ -68,6 +72,7 @@
     <string name="TITLE_USER_REPORT">신고하기</string>
     <string name="TITLE_SORT_SETTING">정렬필터</string>
     <string name="TITLE_CREAT_CLUB">클럽 생성</string>
+    <string name="TITLE_EDIT_CLUB">클럽 수정</string>
     <string name="TITLE_WRITE_CLUB">글쓰기</string>
     <string name="TITLE_WRITE_CLUB_CHANGE">글수정</string>
     <string name="TITLE_CLUB_BODY">내용</string>
@@ -89,7 +94,7 @@
     <string name="SETTING_ACCOUNT_DESC">계정을 등록하시면 데이터를 동기화 할 수 있습니다</string>
     <string name="SETTING_ACCOUNT_EMAIL_HINT">이메일을 입력해주세요</string>
     <string name="SETTING_ACCOUNT_PASSWORD_HINT">비밀번호를 입력해주세요</string>
-    <string name="FAVORITE_SELECT_LACK">두 가지 이상 관심사를 선택해주세요</string>
+    <string name="FAVORITE_SELECT_LACK">세가지 이상 관심사를 선택해주세요</string>
     <string name="FAVORITE_SELECT_SEARCH_EMPTY">검색할 관심사를 적어주세요</string>
     <string name="FAVORITE_SELECT_EMPTY">나의 관심사를 입력해서\n더 많은 친구를 만나보세요</string>
     <string name="CLUB_SEARCH_EMPTY">검색할 클럽을 적어주세요</string>
