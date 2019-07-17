@@ -81,6 +81,7 @@ public class LoadingActivity extends AppCompatActivity {
         CommonFunc.getInstance().setWidthByDevice(size.x);
         CommonFunc.getInstance().setHeightByDevice(size.y);
 
+
         if(CommonFunc.getInstance().getWhatKindOfNetwork(mActivity).equals(NONE_STATE))
         {
             final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
@@ -117,16 +118,16 @@ public class LoadingActivity extends AppCompatActivity {
                     //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
                     userIndex = sf.getString("Index","");
 
-                    //  userIndex = null;
+                      //userIndex = null;
 
-                    Log.e("#@!!",  userIndex);
+                    //Log.d("#@!!",  userIndex);
                     if(CommonFunc.getInstance().CheckStringNull(userIndex))
                     {
                         if(permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED || permissionSMS == PackageManager.PERMISSION_DENIED) {
                             ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_LOCATION);
 
                         } else {
-                            DialogFunc.getInstance().DismissLoadingPage();
+
                             CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
 
                         }
@@ -134,7 +135,7 @@ public class LoadingActivity extends AppCompatActivity {
                     else
                     {
 
-                        DialogFunc.getInstance().DismissLoadingPage();
+
                         TKManager.getInstance().MyData.SetUserIndex(userIndex);
 
                         if(permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED || permissionSMS == PackageManager.PERMISSION_DENIED) {
@@ -241,16 +242,21 @@ public class LoadingActivity extends AppCompatActivity {
                     String tempUid = properties.get("Index");
                     Log.e("#@!!", tempUid);
                     //tempUid = null;
+
+                    DialogFunc.getInstance().DismissLoadingPage();
+
                     if(CommonFunc.getInstance().CheckStringNull(tempUid))
                     {
+
                         DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
                         {
                             @Override
                             public void Listener()
                             {
-                                DialogFunc.getInstance().DismissLoadingPage();
+
                                 //  CommonFunc.getInstance().MoveAuthActivity(LoginActivity.this);
 
+                                DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
                                 FirebaseManager.CheckFirebaseComplete IndexListen = new FirebaseManager.CheckFirebaseComplete() {
                                     @Override
                                     public void CompleteListener() {
@@ -348,6 +354,8 @@ public class LoadingActivity extends AppCompatActivity {
                     {
                         TKManager.getInstance().MyData.SetUserIndex(tempUid);
 
+                        DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
+
                         CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                             @Override
                             public void CompleteListener() {
@@ -355,7 +363,6 @@ public class LoadingActivity extends AppCompatActivity {
                                 FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
                                     @Override
                                     public void CompleteListener() {
-                                        DialogFunc.getInstance().DismissLoadingPage();
                                         CommonFunc.getInstance().GetUserList(LoadingActivity.this);
                                     }
 
@@ -366,7 +373,6 @@ public class LoadingActivity extends AppCompatActivity {
 
                                     @Override
                                     public void CompleteListener_No() {
-                                        DialogFunc.getInstance().DismissLoadingPage();
                                         CommonFunc.getInstance().GetUserList(LoadingActivity.this);
                                     }
                                 };
@@ -384,7 +390,6 @@ public class LoadingActivity extends AppCompatActivity {
                                 FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
                                     @Override
                                     public void CompleteListener() {
-                                        DialogFunc.getInstance().DismissLoadingPage();
                                         CommonFunc.getInstance().GetUserList(LoadingActivity.this);
                                     }
 
@@ -395,7 +400,6 @@ public class LoadingActivity extends AppCompatActivity {
 
                                     @Override
                                     public void CompleteListener_No() {
-                                        DialogFunc.getInstance().DismissLoadingPage();
                                         CommonFunc.getInstance().GetUserList(LoadingActivity.this);
                                     }
                                 };

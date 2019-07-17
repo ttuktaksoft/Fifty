@@ -969,14 +969,14 @@ public class CommonFunc {
     }
 
     public void MoveLoginActivity(Activity activity) {
-        DialogFunc.getInstance().DismissLoadingPage();
+
         final Intent intent = new Intent(activity, LoginActivity.class);
         activity.startActivity(intent);
         activity.finish();
     }
 
     public void MoveSignUpActivity(Activity activity) {
-        DialogFunc.getInstance().DismissLoadingPage();
+
         final Intent intent = new Intent(activity, SignUpActivity.class);
         activity.startActivity(intent);
         activity.finish();
@@ -995,7 +995,7 @@ public class CommonFunc {
             FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                 @Override
                 public void CompleteListener() {
-                    DialogFunc.getInstance().DismissLoadingPage();
+
                     TKManager.getInstance().isLoadDataByBoot = false;
                     final Intent intent = new Intent(activity, MainActivity.class);
                     activity.startActivity(intent);
@@ -1017,7 +1017,7 @@ public class CommonFunc {
 
         else
         {
-            DialogFunc.getInstance().DismissLoadingPage();
+
             final Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
             activity.finish();
@@ -1041,7 +1041,7 @@ public class CommonFunc {
                 FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
+                     //   DialogFunc.getInstance().DismissLoadingPage();
 
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);

@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         iv_Login = findViewById(R.id.iv_Login);
 
         callback= new SessionCallback();
-
+        DialogFunc.getInstance().DismissLoadingPage();
 
 
         iv_kakao_login.setOnClickListener(new OnSingleClickListener() {

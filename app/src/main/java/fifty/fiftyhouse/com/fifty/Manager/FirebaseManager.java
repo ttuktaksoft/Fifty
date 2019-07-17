@@ -45,6 +45,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -1818,7 +1819,7 @@ public class FirebaseManager {
 
     public void GetPopFavoriteData(final FirebaseManager.CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("PopFavorite");
-        colRef.orderBy("count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef/*.orderBy("count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count)*/.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -1826,6 +1827,9 @@ public class FirebaseManager {
                         Log.d(TAG, document.getId() + " => " + document.getData());
                         TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
                     }
+
+                    long seed = System.nanoTime();
+                    Collections.shuffle(TKManager.getInstance().FavoriteLIst_Pop, new Random(seed));
 
                     if (listener != null)
                         listener.CompleteListener();
