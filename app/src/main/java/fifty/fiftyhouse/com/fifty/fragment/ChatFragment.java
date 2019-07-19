@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,17 @@ public class ChatFragment extends Fragment {
         tl_ChatList_TopTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
+                switch(tab.getPosition()){
+                    case 0:
+                        mBookmarkViewPager.moveViewPager();
+                        mBookmarkViewPager.RefreshAdapter();
+                        break;
+                    case 1:
+                        mDefaultViewPager.moveViewPager();
+                        mDefaultViewPager.RefreshAdapter();
+                        break;
+                }
                 vp_ChatList.setCurrentItem(tab.getPosition());
             }
 
@@ -122,9 +134,8 @@ public class ChatFragment extends Fragment {
         vp_ChatList.setOffscreenPageLimit(3);
         vp_ChatList.setAdapter(new TabPagerAdapter(getFragmentManager(), tl_ChatList_TopTab.getTabCount()));
         vp_ChatList.setCurrentItem(0);
+
         vp_ChatList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_ChatList_TopTab));
-
-
 
         return ChatFragView;
     }
@@ -142,10 +153,12 @@ public class ChatFragment extends Fragment {
                 case 0:
                     mBookmarkViewPager = new ChatViewPager();
                     mBookmarkViewPager.mType = ChatViewPager.CHAT_LIST_TYPE_BOOKMARK;
+                    mBookmarkViewPager.moveViewPager();
                     return mBookmarkViewPager;
                 case 1:
                     mDefaultViewPager = new ChatViewPager();
                     mDefaultViewPager.mType = ChatViewPager.CHAT_LIST_TYPE_DEFAULT;
+                    mDefaultViewPager.moveViewPager();
                     return mDefaultViewPager;
             }
 
