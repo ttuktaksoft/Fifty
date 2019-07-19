@@ -73,7 +73,7 @@ public class UserProfileFragment extends Fragment {
             tv_UserProfile_Info_Club;
     RecyclerView rv_UserProfile_Info_Favorite, rv_UserProfile_Info_Club, rv_UserProfile_Info_Photo, rv_UserProfile_Info_Menu;
     Context mContext;
-    View mUserProfileFragView;
+    View mUserProfileFragView = null;
 
     FavoriteViewAdapter mFavoriteAdapter;
     UserProfilePhotoAdapter mPhotoAdapter;
@@ -101,6 +101,16 @@ public class UserProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if(mUserProfileFragView != null)
+        {
+            mFavoriteAdapter.notifyDataSetChanged();
+            mPhotoAdapter.notifyDataSetChanged();
+            mClubAdapter.notifyDataSetChanged();
+            mMenuAdapter.notifyDataSetChanged();
+            return mUserProfileFragView;
+        }
+
 
         mContext = getActivity();
 

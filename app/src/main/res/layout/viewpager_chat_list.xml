@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_Chat_Empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/BaseTextView"
+        android:text="채팅 목록에 등록된 사람이 없습니다"
+        android:visibility="gone"
+        android:textColor="@color/str_color_1"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/v_Chat_TopBar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_ChatList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/v_Chat_TopBar"/>
+
+</android.support.constraint.ConstraintLayout>

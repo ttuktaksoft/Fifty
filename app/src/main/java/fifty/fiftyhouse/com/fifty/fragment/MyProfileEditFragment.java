@@ -41,7 +41,7 @@ public class MyProfileEditFragment extends Fragment {
     MyProfileEditMenuAdapter mAdapter;
 
     Context mContext;
-    View mMyProfileEditFragView;
+    View mMyProfileEditFragView = null;
 
     public MyProfileEditFragment() {
         // Required empty public constructor
@@ -60,6 +60,13 @@ public class MyProfileEditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if(mMyProfileEditFragView != null)
+        {
+            mAdapter.notifyDataSetChanged();
+            return mMyProfileEditFragView;
+        }
+
 
         // Inflate the layout for this fragment
         mContext = getActivity();

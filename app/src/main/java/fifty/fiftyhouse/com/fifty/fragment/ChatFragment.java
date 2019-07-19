@@ -6,13 +6,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.internal.service.Common;
@@ -31,10 +36,14 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.viewPager.ChatViewPager;
+import fifty.fiftyhouse.com.fifty.viewPager.FriendListViewPager;
+import fifty.fiftyhouse.com.fifty.viewPager.FriendRequestListViewPager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,15 +55,14 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
  */
 public class ChatFragment extends Fragment {
 
-    private Context mContext;
-    private View ChatFragView;
-    private TextView txt_empty;
-    RecyclerView ChatRecyclerView;
-    ChatAdapter mAdapter;
+    ViewPager vp_ChatList;
+    TabLayout tl_ChatList_TopTab;
 
-    String strTargetIndex;
+    ChatViewPager mBookmarkViewPager = null;
+    ChatViewPager mDefaultViewPager = null;
 
-    static final int REFRESH_CHATFRAGMENT = 0;
+    Context mContext;
+    private View ChatFragView = null;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -82,135 +90,72 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        if(ChatFragView != null)
+            return ChatFragView;
+
         mContext = getContext();
         ChatFragView = inflater.inflate(R.layout.fragment_chat, container, false);
         ChatFragView.setTag("ChatFragment");
 
-        txt_empty = ChatFragView.findViewById(R.id.tv_ChatFrag_empty);
+        vp_ChatList = ChatFragView.findViewById(R.id.vp_ChatList);
+        tl_ChatList_TopTab = ChatFragView.findViewById(R.id.tl_ChatList_TopTab);
 
-        ChatRecyclerView = ChatFragView.findViewById(R.id.rv_ChatFrag_list_recy);
-
-        mAdapter = new ChatAdapter(getContext());
-        mAdapter.setHasStableIds(true);
-
-        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+        tl_ChatList_TopTab.addTab(tl_ChatList_TopTab.newTab().setText(getResources().getString(R.string.MSG_CHAT_LIST_BOOKMARK)));
+        tl_ChatList_TopTab.addTab(tl_ChatList_TopTab.newTab().setText(getResources().getString(R.string.MSG_CHAT_LIST_DEFAULT)));
+        tl_ChatList_TopTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void CompleteListener() {
-                //if(TKManager.getInstance().MyData.UserList_Chat.size() == TKManager.getInstance().MyData.GetUserChatDataListCount())
-                {
-                 //   CommonFunc.getInstance().SortByChatDate(TKManager.getInstance().MyData.UserList_Chat, false );
-                    mAdapter.notifyDataSetChanged();
-                    ChatRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
-                }
-              //
+            public void onTabSelected(TabLayout.Tab tab) {
+                vp_ChatList.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
             }
 
             @Override
-            public void CompleteListener_Yes() {
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
+        });
 
-            @Override
-            public void CompleteListener_No() {
-            }
-        };
-
-        Set KeySet = TKManager.getInstance().MyData.GetUserChatReadIndexListKeySet();
-        Iterator iterator = KeySet.iterator();
-
-        while(iterator.hasNext()){
-            String key = (String)iterator.next();
-            FirebaseManager.getInstance().MonitorChatData(key, TKManager.getInstance().MyData, listener);
-        }
-
-        ChatRecyclerView.setAdapter(mAdapter);
-        ChatRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
-
-        ChatRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(mContext, ChatRecyclerView, new OnRecyclerItemClickListener() {
-            @Override
-            public void onSingleClick(View view, int position) {
-
-                Set tempKey = TKManager.getInstance().MyData.GetUserChatDataListKeySet();
-                List array = new ArrayList(tempKey);
-                final ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(position).toString());
-
-                int idx = tempChatData.GetRoomIndex().indexOf("_");
-                String tempStr = tempChatData.GetRoomIndex().substring(0, idx);
-                String tempStrBack = tempChatData.GetRoomIndex().substring(idx+1);
-                if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
-                {
-                    strTargetIndex = tempStrBack;
-                }
-                else
-                {
-                    strTargetIndex = tempStr;
-                }
+        vp_ChatList.setOffscreenPageLimit(3);
+        vp_ChatList.setAdapter(new TabPagerAdapter(getFragmentManager(), tl_ChatList_TopTab.getTabCount()));
+        vp_ChatList.setCurrentItem(0);
+        vp_ChatList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_ChatList_TopTab));
 
 
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-
-                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
-                                Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                                intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
-                                //startActivity(intent);
-                                    startActivityForResult(intent, REFRESH_CHATFRAGMENT);
-                            }
-
-                            @Override
-                            public void CompleteListener_Yes() {
-                            }
-
-                            @Override
-                            public void CompleteListener_No() {
-                            }
-                        };
-
-                        if(TKManager.getInstance().UserData_Simple.get(strTargetIndex) != null)
-                        {
-                            Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                            intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
-                            startActivityForResult(intent, REFRESH_CHATFRAGMENT);
-                        }
-                        else
-                        {
-                            FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
-                            FirebaseManager.getInstance().GetUserData_Simple(strTargetIndex, TKManager.getInstance().UserData_Simple, listener);
-                        }
-
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-
-                FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
-
-                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
-                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
-                if (mAppStatus.bCheckMultiSend == false) {
-                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
-
-                    if (mCommon.getClickStatus() == false)
-                        mCommon.MoveUserPage(getActivity(), stTargetData);
-                }*/
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
-            }
-        }));
 
         return ChatFragView;
+    }
+
+    private class TabPagerAdapter extends FragmentStatePagerAdapter {
+        private  int tabCount;
+        public TabPagerAdapter(FragmentManager fm, int tabCount) {
+            super(fm);
+            this.tabCount =tabCount;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch(position){
+                case 0:
+                    mBookmarkViewPager = new ChatViewPager();
+                    mBookmarkViewPager.mType = ChatViewPager.CHAT_LIST_TYPE_BOOKMARK;
+                    return mBookmarkViewPager;
+                case 1:
+                    mDefaultViewPager = new ChatViewPager();
+                    mDefaultViewPager.mType = ChatViewPager.CHAT_LIST_TYPE_DEFAULT;
+                    return mDefaultViewPager;
+            }
+
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return tabCount;
+        }
     }
 
     /**
@@ -228,13 +173,4 @@ public class ChatFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == REFRESH_CHATFRAGMENT) {
-            mAdapter.notifyDataSetChanged();
-
-        }
-    }
 }

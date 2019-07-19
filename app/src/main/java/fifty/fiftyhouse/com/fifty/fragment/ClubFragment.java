@@ -47,7 +47,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 public class ClubFragment extends Fragment {
 
     private Context mContext;
-    private View v_FragmentView;
+    private View v_FragmentView = null;
 
     TextView tv_Club_Create, tv_Club_Recom;
     ImageView iv_Club_TopBar_Search, iv_Club_TopBar_User;
@@ -81,6 +81,14 @@ public class ClubFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if(v_FragmentView != null)
+        {
+            mAdapter.notifyDataSetChanged();
+            return v_FragmentView;
+        }
+
+
         // Inflate the layout for this fragment
         mContext = getContext();
         v_FragmentView = inflater.inflate(R.layout.fragment_club, container, false);

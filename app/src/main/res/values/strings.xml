@@ -142,6 +142,8 @@
     <string name="MSG_CLUB_MSG_DEL">삭제하기</string>
     <string name="MSG_CLUB_MSG_CHANGE">수정하기</string>
     <string name="MSG_CLUB_MSG_REPORT">신고하기</string>
+    <string name="MSG_CHAT_LIST_BOOKMARK">즐겨찾기</string>
+    <string name="MSG_CHAT_LIST_DEFAULT">일반</string>
 
     <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
     <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>

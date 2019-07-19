@@ -28,21 +28,31 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
-    <TextView
-        android:id="@+id/tv_ChatFrag_empty"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_ChatList_TopTab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/BaseTextView"
-        android:text="채팅 목록에 등록된 사람이 없습니다"
-        android:visibility="invisible"
-        android:textColor="@color/str_color_1"
-        android:gravity="center_horizontal|center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/v_Chat_TopBar"/>
+        android:layout_height="@dimen/mid_bar_height"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_Chat_TopBar"
+        android:background="@color/main_sub_tab_bg"
+        app:tabTextAppearance="@style/BaseTabTextWidget"
+        android:elevation="0dp"
+        android:translationZ="5dp"
+        app:tabIndicatorColor="@color/str_color_3"
+        app:tabSelectedTextColor="@color/str_color_3"
+        app:tabTextColor="@color/str_color_4"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_ChatFrag_list_recy"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_ChatList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/v_Chat_TopBar"/>
+        android:layout_height="0dp"
+        android:background="@color/activity_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_Chat_TopBar" />
+
+
+
 </android.support.constraint.ConstraintLayout>

@@ -75,6 +75,15 @@ public class ClubBodyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if(v_FragmentView != null)
+        {
+            mImgAdapter.notifyDataSetChanged();
+            mReplyAdapter.notifyDataSetChanged();
+            return v_FragmentView;
+        }
+
+
         // Inflate the layout for this fragment
         mContext = getActivity();
         mFragmentMgr = ((FragmentActivity) mContext).getSupportFragmentManager();

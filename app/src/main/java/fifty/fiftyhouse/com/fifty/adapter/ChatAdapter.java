@@ -25,6 +25,9 @@ import fifty.fiftyhouse.com.fifty.R;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     Context mContext;
+    int mItemCount;
+    ArrayList<String> mItemData = new ArrayList<>();
+
     public ChatAdapter(Context context) {
         mContext = context;
     }
@@ -40,19 +43,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     @Override
     public void onBindViewHolder(ChatListHolder holder, final int position) {
         int i = position;
-        holder.setData(i);
+        holder.setData(mItemData.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return TKManager.getInstance().MyData.GetUserChatDataListCount();
-        //return mMyData.arrChatTargetData.size();
+        return mItemCount;
     }
 
     @Override
     public long getItemId(int position) {
         long rtValue = 0;
-
         Set tempKey = TKManager.getInstance().MyData.GetUserChatDataListKeySet();
         List array = new ArrayList(tempKey);
         ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(position).toString());
@@ -79,6 +80,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
         return rtValue;
     }
 
+    public void setItemData(ArrayList<String> list)
+    {
+        mItemData.clear();
+        mItemData.addAll(list);
+        mItemCount = mItemData.size();
+    }
+
 }
 
 class ChatListHolder extends RecyclerView.ViewHolder {
@@ -99,11 +107,9 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         iv_Chat_Check = itemView.findViewById(R.id.iv_Chat_Check);
     }
 
-    public void setData(int i)
+    public void setData(String key)
     {
-        Set tempKey = TKManager.getInstance().MyData.GetUserChatDataListKeySet();
-        List array = new ArrayList(tempKey);
-        ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(array.get(i).toString());
+        ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(key);
 
         if(tempChatData.GetMsgType() == CommonData.MSGType.MSG)
         {
