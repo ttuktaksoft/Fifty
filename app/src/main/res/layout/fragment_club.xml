@@ -69,7 +69,33 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_Club_TopTab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/mid_bar_height"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_Club_TopBar"
+            android:background="@color/main_sub_tab_bg"
+            app:tabTextAppearance="@style/BaseTabTextWidget"
+            android:elevation="0dp"
+            android:translationZ="5dp"
+            app:tabIndicatorColor="@color/str_color_3"
+            app:tabSelectedTextColor="@color/str_color_3"
+            app:tabTextColor="@color/str_color_4"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_ClubList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/activity_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tl_Club_TopTab" />
+
+        <!--<android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/top_bar_height"
@@ -132,7 +158,7 @@
                 </android.support.constraint.ConstraintLayout>
             </android.support.v4.widget.NestedScrollView>
 
-        </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>-->
 
     </android.support.constraint.ConstraintLayout>
 

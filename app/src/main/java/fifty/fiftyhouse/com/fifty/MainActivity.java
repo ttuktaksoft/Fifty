@@ -75,13 +75,6 @@ public class MainActivity extends AppCompatActivity {
         mMainFragment = new MainFragment();
         mChatFragment = new ChatFragment();
         mClubFragment = new ClubFragment();
-        mClubFragment.SetMoveListener(new MoveFragmentListener(){
-            @Override
-            public void MoveFragment()
-            {
-                bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_profile);
-            }
-        });
         mMyProfileFragment = new MyProfileFragment();
 
 

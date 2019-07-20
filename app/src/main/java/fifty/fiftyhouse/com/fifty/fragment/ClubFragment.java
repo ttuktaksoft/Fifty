@@ -3,7 +3,11 @@ package fifty.fiftyhouse.com.fifty.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -38,6 +42,8 @@ import fifty.fiftyhouse.com.fifty.adapter.ClubAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.viewPager.ChatViewPager;
+import fifty.fiftyhouse.com.fifty.viewPager.ClubListViewPager;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -46,28 +52,23 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class ClubFragment extends Fragment {
 
+    ViewPager vp_ClubList;
+    TabLayout tl_Club_TopTab;
+
+    ClubListViewPager mRecommendClubList = null;
+    ClubListViewPager mMyClubList = null;
+
     private Context mContext;
     private View v_FragmentView = null;
 
-    TextView tv_Club_Create, tv_Club_Recom;
     ImageView iv_Club_TopBar_Search, iv_Club_TopBar_User;
     EditText et_Club_TopBar_Search;
-
-    RecyclerView rv_Club_List;
-    ClubAdapter mAdapter;
-
     InputMethodManager imm;
-
-    MainActivity.MoveFragmentListener mMoveListener = null;
-    ArrayList<String> mClubList = new ArrayList<>();
 
     boolean bSearchClub = false;
     int MY_PROFILE_EDIT = 1;
 
-    public void SetMoveListener(MainActivity.MoveFragmentListener listener)
-    {
-        mMoveListener = listener;
-    }
+    public static ClubFragment mClubFragment;
 
     public ClubFragment() {
         // Required empty public constructor
@@ -84,60 +85,54 @@ public class ClubFragment extends Fragment {
 
         if(v_FragmentView != null)
         {
-            mAdapter.notifyDataSetChanged();
+            if(mRecommendClubList != null)
+                mRecommendClubList.RefreshRecyclerView();
+            if(mMyClubList != null)
+                mMyClubList.RefreshRecyclerView();
+
             return v_FragmentView;
         }
-
 
         // Inflate the layout for this fragment
         mContext = getContext();
         v_FragmentView = inflater.inflate(R.layout.fragment_club, container, false);
         imm = (InputMethodManager) mContext.getSystemService(INPUT_METHOD_SERVICE);
+        mClubFragment = this;
 
-        rv_Club_List = v_FragmentView.findViewById(R.id.rv_Club_List);
         iv_Club_TopBar_Search = v_FragmentView.findViewById(R.id.iv_Club_TopBar_Search);
         iv_Club_TopBar_User = v_FragmentView.findViewById(R.id.iv_Club_TopBar_User);
         et_Club_TopBar_Search = v_FragmentView.findViewById(R.id.et_Club_TopBar_Search);
-        tv_Club_Recom = v_FragmentView.findViewById(R.id.tv_Club_Recom);
-        tv_Club_Create = v_FragmentView.findViewById(R.id.tv_Club_Create);
-        //et_Club_TopBar_Search.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+
+        vp_ClubList = v_FragmentView.findViewById(R.id.vp_ClubList);
+        tl_Club_TopTab = v_FragmentView.findViewById(R.id.tl_Club_TopTab);
+
+        TKManager.getInstance().mUpdateClubFragmentkeybordDownFunc = new TKManager.UpdateUIFunc() {
+            @Override
+            public void UpdateUI() {
+                imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
+            }
+        };
 
         et_Club_TopBar_Search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        switch (actionId) {
-                            case EditorInfo.IME_ACTION_SEARCH:
-                                // 검색 동작
-                                imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
-                                SearchClub(et_Club_TopBar_Search.getText().toString());
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        // 검색 동작
+                        imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
+                        SearchClub(et_Club_TopBar_Search.getText().toString());
 
-                                break;
-                            default:
-                                // 기본 엔터키 동작
-                                imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
-                                SearchClub(et_Club_TopBar_Search.getText().toString());
-                                return false;
-                        }
-                        return true;
-                    }
-                });
+                        break;
+                    default:
+                        // 기본 엔터키 동작
+                        imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
+                        SearchClub(et_Club_TopBar_Search.getText().toString());
+                        return false;
+                }
+                return true;
+            }
+        });
 
-        /*
-                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        switch (actionId) {
-                            case EditorInfo.IME_ACTION_SEARCH:
-                                imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
-                                SearchClub(et_Club_TopBar_Search.getText().toString());
-                                break;
-                            default:
-                                // 기본 엔터키 동작
-                                return false;
-                        }
-                        return true;
-                    }
-                });*/
 
         iv_Club_TopBar_Search.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -176,7 +171,31 @@ public class ClubFragment extends Fragment {
             }
         });
 
-        tv_Club_Create.setOnClickListener(new OnSingleClickListener() {
+        tl_Club_TopTab.addTab(tl_Club_TopTab.newTab().setText(getResources().getString(R.string.MSG_CLUB_LIST_RECOMMEND)));
+        tl_Club_TopTab.addTab(tl_Club_TopTab.newTab().setText(getResources().getString(R.string.MSG_CLUB_LIST_MY)));
+        tl_Club_TopTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                vp_ClubList.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        vp_ClubList.setOffscreenPageLimit(3);
+        vp_ClubList.setAdapter(new TabPagerAdapter(getFragmentManager(), tl_Club_TopTab.getTabCount()));
+        vp_ClubList.setCurrentItem(0);
+        vp_ClubList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_Club_TopTab));
+
+        /*tv_Club_Create.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
 
@@ -211,89 +230,17 @@ public class ClubFragment extends Fragment {
 
                 imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
             }
-        });
+        });*/
 
         TKManager.getInstance().mUpdateClubFragmentFunc = new TKManager.UpdateUIFunc(){
             @Override
             public void UpdateUI() {
-                RefreshAdapter();
-                mAdapter.notifyDataSetChanged();
+                if(mMyClubList != null)
+                    mMyClubList.RefreshRecyclerView();
             }
         };
 
-        initRecyclerView();
-
         return v_FragmentView;
-    }
-
-    private void initRecyclerView() {
-        mAdapter = new ClubAdapter(getContext());
-        RefreshAdapter();
-        mAdapter.setHasStableIds(true);
-
-        rv_Club_List.setAdapter(mAdapter);
-        rv_Club_List.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        rv_Club_List.offsetLeftAndRight(CommonFunc.getInstance().convertDPtoPX(getResources(),20));
-        rv_Club_List.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Club_List, new OnRecyclerItemClickListener() {
-            @Override
-            public void onSingleClick(View view, final int position) {
-
-                Map<String, ClubData> tempClubKey = new LinkedHashMap<>();
-                tempClubKey.putAll(TKManager.getInstance().MyData.GetUserClubData());
-                tempClubKey.putAll(TKManager.getInstance().SearchClubList);
-
-                Set tempKey = tempClubKey.keySet(); //TKManager.getInstance().MyData.GetUserClubDataKeySet();
-                final List array = new ArrayList(tempKey);
-
-                DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
-
-                FirebaseManager.CheckFirebaseComplete GetClubDataListener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-
-                        FirebaseManager.CheckFirebaseComplete GetClubContextListener = new FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
-                                DialogFunc.getInstance().DismissLoadingPage();
-                                startActivity(new Intent(getContext(), ClubActivity.class));
-                            }
-
-                            @Override
-                            public void CompleteListener_Yes() {}
-                            @Override
-                            public void CompleteListener_No() {}
-                        };
-
-                        FirebaseManager.getInstance().GetClubContextData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(), GetClubContextListener);
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {}
-                    @Override
-                    public void CompleteListener_No() {}
-                };
-
-                FirebaseManager.getInstance().GetClubData(TKManager.getInstance().MyData, TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(),
-                     GetClubDataListener);
-            }
-        }));
-    }
-
-    public void RefreshAdapter()
-    {
-        RefreshUserList();
-        mAdapter.setItemCount(mClubList.size());
-        mAdapter.setItemData(mClubList);
-    }
-
-    public void RefreshUserList()
-    {
-        mClubList.clear();
-
-        if(!bSearchClub)
-            mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
-        else
-            mClubList.addAll(TKManager.getInstance().SearchClubList.keySet());
     }
 
     private void SearchClub(String name)
@@ -301,8 +248,9 @@ public class ClubFragment extends Fragment {
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
-                RefreshAdapter();
-                mAdapter.notifyDataSetChanged();
+                // TODO 검색한걸 어떻게 보여줄까?
+                /*RefreshAdapter();
+                mAdapter.notifyDataSetChanged();*/
             }
 
             @Override
@@ -335,6 +283,39 @@ public class ClubFragment extends Fragment {
                     .circleCrop()
                     .into(iv_Club_TopBar_User);
         }
+    }
+
+
+    private class TabPagerAdapter extends FragmentStatePagerAdapter {
+        private  int tabCount;
+        public TabPagerAdapter(FragmentManager fm, int tabCount) {
+            super(fm);
+            this.tabCount =tabCount;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch(position){
+                case 0:
+                    mRecommendClubList = new ClubListViewPager();
+                    return mRecommendClubList;
+                case 1:
+                    mMyClubList = new ClubListViewPager();
+                    return mMyClubList;
+            }
+
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return tabCount;
+        }
+    }
+
+    public void KeyboardDown()
+    {
+        imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
     }
 
 }
