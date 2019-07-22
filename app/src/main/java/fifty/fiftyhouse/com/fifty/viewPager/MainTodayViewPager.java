@@ -109,13 +109,16 @@ public class MainTodayViewPager extends Fragment {
             }
         }));
 
-       /* rv_Main_Today_Favorite.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+        rv_Main_Today_Favorite.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
                 int action = e.getAction();
                 switch (action) {
                     case MotionEvent.ACTION_MOVE:
                         rv.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                    default:
+                        rv.getParent().requestDisallowInterceptTouchEvent(false);
                         break;
                 }
                 return false;
@@ -130,7 +133,7 @@ public class MainTodayViewPager extends Fragment {
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
             }
-        });*/
+        });
     }
 
     private void RefreshFavoriteViewListSlot() {
@@ -145,6 +148,7 @@ public class MainTodayViewPager extends Fragment {
 
         mFavoriteViewAdapter.setItemCount(TKManager.getInstance().MyData.GetUserFavoriteListCount());
         mFavoriteViewAdapter.setItemData(mFavoriteViewList);
+        mFavoriteViewAdapter.setSelectView(true);
 
         if(CommonFunc.getInstance().CheckStringNull(mSelectFavoriteKey) ||
                 mFavoriteViewList.contains(mSelectFavoriteKey) == false)
