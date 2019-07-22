@@ -144,6 +144,8 @@
     <string name="MSG_CLUB_MSG_DEL">삭제하기</string>
     <string name="MSG_CLUB_MSG_CHANGE">수정하기</string>
     <string name="MSG_CLUB_MSG_REPORT">신고하기</string>
+    <string name="MSG_CLUB_REPLY_CHANGE">수정하기</string>
+    <string name="MSG_CLUB_REPLY_DELETE">삭제하기</string>
     <string name="MSG_CHAT_LIST_BOOKMARK">즐겨찾기</string>
     <string name="MSG_CHAT_LIST_DEFAULT">일반</string>
     <string name="MSG_CLUB_LIST_RECOMMEND">추천클럽</string>

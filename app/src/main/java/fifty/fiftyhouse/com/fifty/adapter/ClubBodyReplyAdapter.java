@@ -2,6 +2,8 @@ package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
@@ -72,6 +76,7 @@ public class ClubBodyReplyAdapter extends RecyclerView.Adapter<ClubBodyReplyList
 
 class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
 
+    ConstraintLayout v_Club_Reply;
     public ImageView iv_Club_Body_Reply_Profile;
     public TextView tv_Club_Body_Reply_Nickname;
     public TextView tv_Club_Body_Reply_Date;
@@ -82,6 +87,7 @@ class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mContext = itemView.getContext();
 
+        v_Club_Reply = itemView.findViewById(R.id.v_Club_Reply);
         iv_Club_Body_Reply_Profile = itemView.findViewById(R.id.iv_Club_Body_Reply_Profile);
         tv_Club_Body_Reply_Nickname = itemView.findViewById(R.id.tv_Club_Body_Reply_Nickname);
         tv_Club_Body_Reply_Date = itemView.findViewById(R.id.tv_Club_Body_Reply_Date);
@@ -103,6 +109,46 @@ class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
         tv_Club_Body_Reply_Desc.setText(tempReplyData.GetContext());
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Body_Reply_Profile, TKManager.getInstance().UserData_Simple.get(tempReplyData.GetWriterIndex()).GetUserImgThumb(), true);
 
+        v_Club_Reply.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                String UserIndex = tempReplyData.GetWriterIndex();
+
+                if(UserIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                {
+                    // TODO 댓글 수정
+
+                    ArrayList<String> menuList = new ArrayList<>();
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_REPLY_CHANGE));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_REPLY_DELETE));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                    ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
+                    menuListenerList.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // TODO 수정 엑티비티
+                        }
+                    });
+
+                    menuListenerList.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // TODO 삭제
+                        }
+                    });
+
+                    DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList, null);
+
+
+                }
+
+            }
+        });
 
         iv_Club_Body_Reply_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -180,7 +226,6 @@ class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
                     FirebaseManager.getInstance().GetUserData(UserIndex, TKManager.getInstance().TargetUserData, listener);*/
 
                 }
-
             }
         });
 

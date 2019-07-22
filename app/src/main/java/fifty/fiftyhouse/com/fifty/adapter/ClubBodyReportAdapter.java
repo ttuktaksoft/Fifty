@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class ClubBodyReportAdapter extends RecyclerView.Adapter<ClubBodyReportHo
 
 class ClubBodyReportHolder extends RecyclerView.ViewHolder {
 
+    ConstraintLayout v_Club_Reply;
     ImageView iv_Club_Body_Report_Profile;
     TextView tv_Club_Body_Report_Nickname,tv_Club_Body_Report_Msg, tv_Club_Body_Report_Date;
     Context mContext;
