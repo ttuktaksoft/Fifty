@@ -53,6 +53,8 @@
     <string name="MSG_CLUB_BODY_REPORT_DEL">삭제하기</string>
     <string name="MSG_CLUB_DEPORT">추방하기</string>
     <string name="MSG_DESC_EMPTY">내용이 없습니다</string>
+    <string name="MSG_CLUB_EMPTY">클럽이 없습니다</string>
+    <string name="MSG_RECOM_CLUB_EMPTY">추천 클럽이 없습니다</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
@@ -144,6 +146,8 @@
     <string name="MSG_CLUB_MSG_REPORT">신고하기</string>
     <string name="MSG_CHAT_LIST_BOOKMARK">즐겨찾기</string>
     <string name="MSG_CHAT_LIST_DEFAULT">일반</string>
+    <string name="MSG_CLUB_LIST_RECOMMEND">추천클럽</string>
+    <string name="MSG_CLUB_LIST_MY">내 클럽</string>
 
     <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
     <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>
