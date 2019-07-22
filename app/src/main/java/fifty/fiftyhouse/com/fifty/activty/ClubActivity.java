@@ -51,8 +51,8 @@ public class ClubActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
 
-    ImageView iv_Club_Thumbnail, iv_Club_Write, iv_Club_UserCount, iv_Club_Setting;
-    TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join;
+    ImageView iv_Club_Thumbnail, iv_Club_Write, iv_Club_UserCount, iv_Club_Setting, iv_Club_Chat;
+    TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join, tv_Club_UserCount_View, tv_Club_Desc;
     RecyclerView rv_Club_Content;
     RecyclerView rv_Club_Favorite;
     ClubContentAdapter mAdapter;
@@ -84,6 +84,9 @@ public class ClubActivity extends AppCompatActivity {
         iv_Club_UserCount = findViewById(R.id.iv_Club_UserCount);
         tv_Club_Join = findViewById(R.id.tv_Club_Join);
         iv_Club_Setting = findViewById(R.id.iv_Club_Setting);
+        iv_Club_Chat = findViewById(R.id.iv_Club_Chat);
+        tv_Club_UserCount_View = findViewById(R.id.tv_Club_UserCount_View);
+        tv_Club_Desc = findViewById(R.id.tv_Club_Desc);
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -101,55 +104,19 @@ public class ClubActivity extends AppCompatActivity {
                 intent.putExtra("Type", 0);
                 intent.putExtra("position", 0);
                 startActivityForResult(intent, 1000);
-/*
-
-                Random random = new Random();
-                int tempRange = random.nextInt(3);
-
-
-
-                ClubContextData tempData = new ClubContextData();
-                tempData.SetContext("asdasd");
-                tempData.SetContextType(tempRange);
-                if(tempRange == 1)
-                {
-                    tempData.SetImg("0", TKManager.getInstance().MyData.GetUserImgThumb());
-                }
-                if( tempRange == 2)
-                {
-                    tempData.SetImg("0", TKManager.getInstance().MyData.GetUserImgThumb());
-                    tempData.SetImg("1", TKManager.getInstance().MyData.GetUserImgThumb());
-
-                }
-
-                tempData.SetDate(CommonFunc.getInstance().GetCurrentTime());
-                tempData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
-
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-                        mAdapter.notifyDataSetChanged();
-
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                    }
-                };
-
-                FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), tempData,  listener);
-*/
-
-
             }
         });
 
         iv_Club_UserCount.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, UserListActivity.class);
+                intent.putExtra("Type",CommonData.USER_LIST_CLUB);
+                startActivity(intent);
+            }
+        });
+
+        tv_Club_UserCount_View.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 Intent intent = new Intent(mContext, UserListActivity.class);
@@ -233,6 +200,13 @@ public class ClubActivity extends AppCompatActivity {
             }
         });
 
+        iv_Club_Chat.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                // TODO 단체 채팅방으로 이동
+            }
+        });
+
         iv_Club_Setting.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -268,12 +242,14 @@ public class ClubActivity extends AppCompatActivity {
             tv_Club_Join.setVisibility(View.GONE);
             iv_Club_Write.setVisibility(View.VISIBLE);
             iv_Club_Setting.setVisibility(View.VISIBLE);
+            iv_Club_Chat.setVisibility(View.VISIBLE);
         }
         else
         {
             tv_Club_Join.setVisibility(View.VISIBLE);
             iv_Club_Write.setVisibility(View.GONE);
             iv_Club_Setting.setVisibility(View.GONE);
+            iv_Club_Chat.setVisibility(View.GONE);
         }
 
         RefreshJoinStr();

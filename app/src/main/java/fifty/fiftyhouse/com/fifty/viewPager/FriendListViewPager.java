@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,10 +29,12 @@ import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserListAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class FriendListViewPager extends Fragment {
 
+    FloatingActionButton fa_Friend_UserList_Search;
     RecyclerView rv_Friend_UserList;
     TextView tv_Friend_UserList_Empty;
     View v_FragmentView = null;
@@ -49,8 +52,16 @@ public class FriendListViewPager extends Fragment {
         if(v_FragmentView == null)
         {
             v_FragmentView = inflater.inflate(R.layout.viewpager_friend_list, container, false);
+            fa_Friend_UserList_Search = v_FragmentView.findViewById(R.id.fa_Friend_UserList_Search);
             rv_Friend_UserList = v_FragmentView.findViewById(R.id.rv_Friend_UserList);
             tv_Friend_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Friend_UserList_Empty);
+
+            fa_Friend_UserList_Search.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    DialogFunc.getInstance().ShowUserSearchPopup(getContext());
+                }
+            });
 
             initRecyclerView();
         }

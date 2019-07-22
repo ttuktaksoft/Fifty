@@ -154,6 +154,9 @@
     <string name="MSG_CHAT_FONT_SIZE_SMALL">작게</string>
     <string name="MSG_CHAT_FONT_SIZE_DEFAULT">보통</string>
     <string name="MSG_CHAT_FONT_SIZE_BIG">크게</string>
+    <string name="MSG_CLUB_INFO_DESC">클럽 소개</string>
+    <string name="MSG_USER_SEARCH_TITLE">유저 찾기</string>
+    <string name="MSG_USER_SEARCH_HINT">닉네임을 입력해주세요</string>
 
     <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
     <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>

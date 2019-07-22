@@ -100,6 +100,8 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
     ClubContentReplyAdapter mAdapter;
     Context mContext;
 
+    String mClubKey;
+
     public ClubContentListHolder(View itemView) {
         super(itemView);
         mContext = itemView.getContext();
@@ -156,7 +158,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
     {
         tempData = TKManager.getInstance().TargetClubData.GetClubContext(key);
         TKManager.getInstance().TargetContextData = tempData;
-
+        mClubKey = key;
 
 
        switch (tempData.ContextType)
@@ -430,39 +432,14 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
         rv_Club_Reply_List.setAdapter(mAdapter);
         rv_Club_Reply_List.setLayoutManager(new GridLayoutManager(mContext, 1));
-//        rv_Club_Reply_List.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_Club_Reply_List, new OnRecyclerItemClickListener() {
-//            @Override
-//            public void onSingleClick(View view, int position) {
-//                //startActivity(new Intent(getContext(), UserProfileActivity.class));
-//                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
-//                if (mAppStatus.bCheckMultiSend == false) {
-//                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
-//
-//                    if (mCommon.getClickStatus() == false)
-//                        mCommon.MoveUserPage(getActivity(), stTargetData);
-//                }*/
-//            }
-//
-//            @Override
-//            public void onLongItemClick(View view, int position) {
-//                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
-//            }
-//        }));
-//
-//        rv_Club_Reply_List.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                /*int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-//                int nSize = 0;
-//                nSize = recyclerView.getAdapter().getItemCount() - 1;
-//
-//                if (lastVisibleItemPosition == nSize) {
-//                    // Toast.makeText(getContext(), "Last Position", Toast.LENGTH_SHORT).show();
-//                    //    CommonFunc.getInstance().ShowLoadingPage(getContext(), "로딩중");
-//                    //  FirebaseData.getInstance().GetHotData(RecvAdapter, false);
-//                }*/
-//            }
-//        });
+        rv_Club_Reply_List.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_Club_Reply_List, new OnRecyclerItemClickListener() {
+            @Override
+            public void onSingleClick(View view, int position) {
+                Intent intent = new Intent(mContext, ClubBodyActivity.class);
+                intent.putExtra("Type",0);
+                intent.putExtra("key", mClubKey);
+                ClubActivity.mClubActivity.startActivityForResult(intent, 1000);
+            }
+        }));
     }
 }
