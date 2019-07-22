@@ -106,8 +106,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
 class ChatListHolder extends RecyclerView.ViewHolder {
     public SwipeRevealLayout swipeLayout;
 
-    private ConstraintLayout frontLayout;
-    private View deleteLayout;
+    private ConstraintLayout v_Chat_Front;
+    private ConstraintLayout v_Chat_Bookmark, v_Chat_Delete;
 
     public ImageView iv_Chat_Profile, iv_Chat_Check;
     public TextView tv_Chat_Nickname,tv_Chat_Msg, tv_Chat_Date, tv_Chat_Check;
@@ -118,8 +118,9 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
 
         swipeLayout = (SwipeRevealLayout) itemView.findViewById(R.id.swipe_layout);
-        frontLayout = itemView.findViewById(R.id.front_layout);
-        deleteLayout = itemView.findViewById(R.id.delete_layout);
+        v_Chat_Front = itemView.findViewById(R.id.v_Chat_Front);
+        v_Chat_Bookmark = itemView.findViewById(R.id.v_Chat_Bookmark);
+        v_Chat_Delete = itemView.findViewById(R.id.v_Chat_Delete);
 
         iv_Chat_Profile = itemView.findViewById(R.id.iv_Chat_Profile);
         tv_Chat_Nickname = itemView.findViewById(R.id.tv_Chat_Nickname);
@@ -200,7 +201,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
     public void bind(final String data) {
 
-        deleteLayout.setOnClickListener(new View.OnClickListener() {
+        v_Chat_Bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // TODO 삭제
@@ -209,7 +210,16 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        frontLayout.setOnClickListener(new View.OnClickListener() {
+        v_Chat_Delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO 삭제
+                TKManager.getInstance().MyData.DelUserChatDataList(data);
+                TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+            }
+        });
+
+        v_Chat_Front.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

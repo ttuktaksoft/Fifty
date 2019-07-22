@@ -148,6 +148,10 @@
     <string name="MSG_CHAT_LIST_DEFAULT">일반</string>
     <string name="MSG_CLUB_LIST_RECOMMEND">추천클럽</string>
     <string name="MSG_CLUB_LIST_MY">내 클럽</string>
+    <string name="MSG_CHAT_FONT_SIZE_DESC">글씨 크기 변경</string>
+    <string name="MSG_CHAT_FONT_SIZE_SMALL">작게</string>
+    <string name="MSG_CHAT_FONT_SIZE_DEFAULT">보통</string>
+    <string name="MSG_CHAT_FONT_SIZE_BIG">크게</string>
 
     <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
     <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>

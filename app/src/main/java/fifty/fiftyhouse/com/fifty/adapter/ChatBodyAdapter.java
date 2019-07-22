@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -111,6 +112,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         tv_Chat_Body_Msg = itemView.findViewById(R.id.tv_Chat_Body_Msg);
         tv_Chat_Body_Date = itemView.findViewById(R.id.tv_Chat_Body_Date);
         tv_Chat_Body_Check = itemView.findViewById(R.id.tv_Chat_Body_Check);
+
+        tv_Chat_Body_Msg.setTextSize(TypedValue.COMPLEX_UNIT_DIP, CommonData.CHAT_FONT_SIZE);
     }
 
     public void setChatData(int pos)

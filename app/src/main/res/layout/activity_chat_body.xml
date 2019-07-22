@@ -14,7 +14,7 @@
         layout="@layout/ui_topbar"/>
 
     <ImageView
-        android:id="@+id/iv_ChatBody_Alert"
+        android:id="@+id/iv_ChatBody_Etc"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:padding="10dp"
@@ -22,8 +22,22 @@
         app:layout_constraintTop_toTopOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_ChatBody_TopBar"
         android:tint="@color/icon_tint_white"
+        android:src="@drawable/ic_menu"
+        />
+
+    <ImageView
+        android:id="@+id/iv_ChatBody_Alert"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        app:layout_constraintRight_toLeftOf="@+id/iv_ChatBody_Etc"
+        app:layout_constraintTop_toTopOf="@+id/ui_ChatBody_TopBar"
+        app:layout_constraintBottom_toBottomOf="@+id/ui_ChatBody_TopBar"
+        android:tint="@color/icon_tint_white"
         android:src="@drawable/ic_alert"
         />
+
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_Chat_Body_List"

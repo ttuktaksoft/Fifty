@@ -102,6 +102,7 @@ public class ClubListViewPager extends Fragment {
                 }
             });
 
+            RefreshPagerTypeUI();
             initRecyclerView();
         } else {
             mAdapter.notifyDataSetChanged();
@@ -110,9 +111,8 @@ public class ClubListViewPager extends Fragment {
         return v_FragmentView;
     }
 
-    public void setViewPagerType(int type)
+    private void RefreshPagerTypeUI()
     {
-        mType = type;
         fa_Club_Favorite.hide();
         fa_Club_Create.hide();
 
@@ -126,6 +126,11 @@ public class ClubListViewPager extends Fragment {
             tv_Club_Empty.setText(R.string.MSG_CLUB_EMPTY);
             fa_Club_Create.show();
         }
+    }
+
+    public void setViewPagerType(int type)
+    {
+        mType = type;
     }
 
     private void initRecyclerView() {

@@ -113,4 +113,9 @@ public class CommonData {
     public static final String MOBILE_STATE = "MOBILE";
     public static final String NONE_STATE = "NONE";
 
+    public static int CHAT_FONT_SIZE = 21;
+    public static final int CHAT_FONT_SIZE_SMALL = 18;
+    public static final int CHAT_FONT_SIZE_DEFAULT = 21;
+    public static final int CHAT_FONT_SIZE_BIG = 24;
+
 }

@@ -9,23 +9,66 @@
     app:dragEdge="right"
     app:mode="same_level">
 
-    <FrameLayout
-        android:id="@+id/delete_layout"
-        android:layout_width="80dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Chat_Btn"
+        android:layout_width="160dp"
         android:layout_height="match_parent"
         android:background="@color/button_enable">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_settings"
-            android:tint="@color/white"
-            android:layout_gravity="center"
-            />
-    </FrameLayout>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/v_Chat_Bookmark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Btn"
+            app:layout_constraintRight_toLeftOf="@+id/v_Chat_Delete"
+            app:layout_constraintTop_toTopOf="@+id/v_Chat_Btn"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Chat_Btn"
+            android:background="@color/button_enable">
+
+            <ImageView
+                android:id="@+id/iv_Chat_Bookmark"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_empty_star"
+                android:tint="@color/white"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toTopOf="@+id/v_Chat_Bookmark"
+                app:layout_constraintBottom_toBottomOf="@+id/v_Chat_Bookmark"
+                app:layout_constraintRight_toRightOf="@+id/v_Chat_Bookmark"
+                app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Bookmark"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/v_Chat_Delete"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintLeft_toRightOf="@+id/v_Chat_Bookmark"
+            app:layout_constraintRight_toRightOf="@+id/v_Chat_Btn"
+            app:layout_constraintTop_toTopOf="@+id/v_Chat_Btn"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Chat_Btn"
+            android:background="@color/button_enable">
+
+            <ImageView
+                android:id="@+id/iv_Chat_Delete"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_logo"
+                android:tint="@color/white"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toTopOf="@+id/v_Chat_Delete"
+                app:layout_constraintBottom_toBottomOf="@+id/v_Chat_Delete"
+                app:layout_constraintRight_toRightOf="@+id/v_Chat_Delete"
+                app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Delete"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/front_layout"
+        android:id="@+id/v_Chat_Front"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

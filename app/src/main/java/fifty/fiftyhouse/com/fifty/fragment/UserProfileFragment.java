@@ -617,7 +617,7 @@ public class UserProfileFragment extends Fragment {
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoViewFunc();
 
-                        DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                        DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList, null);
                     }
                     else if(position >= TKManager.getInstance().MyData.GetUserImgCount())
                     {
@@ -629,7 +629,7 @@ public class UserProfileFragment extends Fragment {
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoAddFunc();
 
-                        DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList);
+                        DialogFunc.getInstance().ShowMenuListPopup(mContext, menuList, menuListenerList, null);
                     }
                 }
                 else {

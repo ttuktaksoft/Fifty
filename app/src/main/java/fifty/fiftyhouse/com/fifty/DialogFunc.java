@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -182,14 +184,16 @@ public class DialogFunc {
         }
     }
 
-    public void ShowMenuListPopup(Context context, final ArrayList<String> menuStr, final ArrayList<MsgPopupListener> menuListener) {
+    public void ShowMenuListPopup(Context context, final ArrayList<String> menuStr, final ArrayList<MsgPopupListener> menuListener, String desc) {
 
         RecyclerView rv_Menu_List;
+        TextView tv_Menu_List_Desc;
         DialogMenuListAdapter mAdapter;
 
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_menu_list_popup, null, false);
 
         rv_Menu_List = v.findViewById(R.id.rv_Menu_List);
+        tv_Menu_List_Desc = v.findViewById(R.id.tv_Menu_List_Desc);
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -199,6 +203,14 @@ public class DialogFunc {
         mAdapter.setItemCount(menuStr.size());
         mAdapter.setItemData(menuStr);
         mAdapter.setHasStableIds(true);
+
+        if(CommonFunc.getInstance().CheckStringNull(desc))
+            tv_Menu_List_Desc.setVisibility(View.GONE);
+        else
+        {
+            tv_Menu_List_Desc.setVisibility(View.VISIBLE);
+            tv_Menu_List_Desc.setText(desc);
+        }
 
         rv_Menu_List.setAdapter(mAdapter);
         rv_Menu_List.setLayoutManager(new GridLayoutManager(context, 1));

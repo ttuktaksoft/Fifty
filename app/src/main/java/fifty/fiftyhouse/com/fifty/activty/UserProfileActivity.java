@@ -121,7 +121,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     }
                 });
 
-                DialogFunc.getInstance().ShowMenuListPopup(UserProfileActivity.this, menuList, menuListenerList);
+                DialogFunc.getInstance().ShowMenuListPopup(UserProfileActivity.this, menuList, menuListenerList, null);
             }
         });
 

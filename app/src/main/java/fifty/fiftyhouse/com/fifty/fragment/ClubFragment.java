@@ -298,9 +298,11 @@ public class ClubFragment extends Fragment {
             switch(position){
                 case 0:
                     mRecommendClubList = new ClubListViewPager();
+                    mRecommendClubList.setViewPagerType(ClubListViewPager.CLUB_LIST_RECOMMEND);
                     return mRecommendClubList;
                 case 1:
                     mMyClubList = new ClubListViewPager();
+                    mMyClubList.setViewPagerType(ClubListViewPager.CLUB_LIST_MY);
                     return mMyClubList;
             }
 

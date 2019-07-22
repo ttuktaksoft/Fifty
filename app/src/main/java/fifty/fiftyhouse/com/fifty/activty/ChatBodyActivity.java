@@ -45,7 +45,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     TextView tv_TopBar_Title, tv_Chat_Body_Send;
     ImageView iv_TopBar_Back;
     RecyclerView rv_Chat_Body_List;
-    ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus;
+    ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus, iv_ChatBody_Etc;
     EditText et_Chat_Body_Msg;
 
     Context mContext;
@@ -91,6 +91,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         rv_Chat_Body_List = findViewById(R.id.rv_Chat_Body_List);
         iv_ChatBody_Alert = findViewById(R.id.iv_ChatBody_Alert);
         iv_Chat_Body_Plus = findViewById(R.id.iv_Chat_Body_Plus);
+        iv_ChatBody_Etc = findViewById(R.id.iv_ChatBody_Etc);
         tv_Chat_Body_Send = findViewById(R.id.tv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
 
@@ -158,7 +159,54 @@ public class ChatBodyActivity extends AppCompatActivity {
                     }
                 });
 
-                DialogFunc.getInstance().ShowMenuListPopup(ChatBodyActivity.this, menuList, menuListenerList);
+                DialogFunc.getInstance().ShowMenuListPopup(ChatBodyActivity.this, menuList, menuListenerList, null);
+            }
+        });
+
+        iv_ChatBody_Etc.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                ArrayList<String> menuList = new ArrayList<>();
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CHAT_FONT_SIZE_SMALL));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CHAT_FONT_SIZE_DEFAULT));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CHAT_FONT_SIZE_BIG));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        CommonData.CHAT_FONT_SIZE = CommonData.CHAT_FONT_SIZE_SMALL;
+                        rv_Chat_Body_List.removeAllViewsInLayout();
+                        rv_Chat_Body_List.setLayoutManager(new LinearLayoutManager(ChatBodyActivity.this));
+                    }
+                });
+
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        CommonData.CHAT_FONT_SIZE = CommonData.CHAT_FONT_SIZE_DEFAULT;
+                        rv_Chat_Body_List.removeAllViewsInLayout();
+                        rv_Chat_Body_List.setLayoutManager(new LinearLayoutManager(ChatBodyActivity.this));
+                    }
+                });
+
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        CommonData.CHAT_FONT_SIZE = CommonData.CHAT_FONT_SIZE_BIG;
+                        rv_Chat_Body_List.removeAllViewsInLayout();
+                        rv_Chat_Body_List.setLayoutManager(new LinearLayoutManager(ChatBodyActivity.this));
+                    }
+                });
+
+                DialogFunc.getInstance().ShowMenuListPopup(ChatBodyActivity.this, menuList, menuListenerList, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CHAT_FONT_SIZE_DESC));
             }
         });
 

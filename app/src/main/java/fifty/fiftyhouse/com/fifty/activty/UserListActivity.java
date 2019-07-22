@@ -232,7 +232,7 @@ public class UserListActivity extends AppCompatActivity {
 
                     ArrayList<DialogFunc.MsgPopupListener> menuListenerList = list;
 
-                    DialogFunc.getInstance().ShowMenuListPopup(UserListActivity.this, menuList, menuListenerList);
+                    DialogFunc.getInstance().ShowMenuListPopup(UserListActivity.this, menuList, menuListenerList, null);
                 }
                 else if(mUserListType == CommonData.USER_LIST_CLUB)
                 {
@@ -264,7 +264,7 @@ public class UserListActivity extends AppCompatActivity {
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = list;
 
-                        DialogFunc.getInstance().ShowMenuListPopup(UserListActivity.this, menuList, menuListenerList);
+                        DialogFunc.getInstance().ShowMenuListPopup(UserListActivity.this, menuList, menuListenerList, null);
                     }
                     else
                     {

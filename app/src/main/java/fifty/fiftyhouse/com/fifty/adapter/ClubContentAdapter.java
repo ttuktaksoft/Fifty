@@ -298,7 +298,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         }
                     });
 
-                    DialogFunc.getInstance().ShowMenuListPopup(ClubActivity.mClubActivity, menuList, menuListenerList);
+                    DialogFunc.getInstance().ShowMenuListPopup(ClubActivity.mClubActivity, menuList, menuListenerList, null);
                 }
                 else
                 {
@@ -377,7 +377,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                         }
                     });
 
-                    DialogFunc.getInstance().ShowMenuListPopup(ClubActivity.mClubActivity, menuList, menuListenerList);
+                    DialogFunc.getInstance().ShowMenuListPopup(ClubActivity.mClubActivity, menuList, menuListenerList, null);
                 }
             }
         });
