@@ -65,6 +65,10 @@ public class ChatFragment extends Fragment {
     Context mContext;
     private View ChatFragView = null;
 
+    public static final int REFRESH_CHATFRAGMENT = 0;
+
+    public static ChatFragment mChatFragment;
+
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -92,8 +96,15 @@ public class ChatFragment extends Fragment {
         // Inflate the layout for this fragment
 
         if(ChatFragView != null)
+        {
+            if(mBookmarkViewPager != null)
+                mBookmarkViewPager.RefreshRecyclerView();
+            if(mDefaultViewPager != null)
+                mDefaultViewPager.RefreshRecyclerView();
             return ChatFragView;
+        }
 
+        mChatFragment = this;
         mContext = getContext();
         ChatFragView = inflater.inflate(R.layout.fragment_chat, container, false);
         ChatFragView.setTag("ChatFragment");
@@ -106,17 +117,6 @@ public class ChatFragment extends Fragment {
         tl_ChatList_TopTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
-                switch(tab.getPosition()){
-                    case 0:
-                        mBookmarkViewPager.moveViewPager();
-                        mBookmarkViewPager.RefreshAdapter();
-                        break;
-                    case 1:
-                        mDefaultViewPager.moveViewPager();
-                        mDefaultViewPager.RefreshAdapter();
-                        break;
-                }
                 vp_ChatList.setCurrentItem(tab.getPosition());
             }
 
@@ -137,6 +137,16 @@ public class ChatFragment extends Fragment {
 
         vp_ChatList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_ChatList_TopTab));
 
+        TKManager.getInstance().mUpdateChatFragmentFunc = new TKManager.UpdateUIFunc(){
+            @Override
+            public void UpdateUI() {
+                if(mBookmarkViewPager != null)
+                    mBookmarkViewPager.RefreshRecyclerView();
+                if(mDefaultViewPager != null)
+                    mDefaultViewPager.RefreshRecyclerView();
+            }
+        };
+
         return ChatFragView;
     }
 
@@ -153,12 +163,10 @@ public class ChatFragment extends Fragment {
                 case 0:
                     mBookmarkViewPager = new ChatViewPager();
                     mBookmarkViewPager.mType = ChatViewPager.CHAT_LIST_TYPE_BOOKMARK;
-                    mBookmarkViewPager.moveViewPager();
                     return mBookmarkViewPager;
                 case 1:
                     mDefaultViewPager = new ChatViewPager();
                     mDefaultViewPager.mType = ChatViewPager.CHAT_LIST_TYPE_DEFAULT;
-                    mDefaultViewPager.moveViewPager();
                     return mDefaultViewPager;
             }
 
@@ -184,6 +192,17 @@ public class ChatFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REFRESH_CHATFRAGMENT) {
+            if(mBookmarkViewPager != null)
+                mBookmarkViewPager.RefreshRecyclerView();
+            if(mDefaultViewPager != null)
+                mDefaultViewPager.RefreshRecyclerView();
+        }
     }
 
 }

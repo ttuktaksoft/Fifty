@@ -75,4 +75,5 @@ public class TKManager {
     public UpdateUIFunc mUpdateClubFragmentFunc = null;
     public UpdateUIFunc mUpdateClubActivityFunc = null;
     public UpdateUIFunc mUpdateClubFragmentkeybordDownFunc = null;
+    public UpdateUIFunc mUpdateChatFragmentFunc = null;
 }

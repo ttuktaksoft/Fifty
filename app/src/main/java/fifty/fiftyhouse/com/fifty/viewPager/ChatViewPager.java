@@ -42,12 +42,7 @@ public class ChatViewPager extends Fragment {
     public static int CHAT_LIST_TYPE_BOOKMARK = 0;
     public static int CHAT_LIST_TYPE_DEFAULT = 1;
 
-    public static final int REFRESH_CHATFRAGMENT = 0;
-
     public int mType = CHAT_LIST_TYPE_BOOKMARK;
-    public static Fragment mChatViewPager;
-
-    public TKManager.UpdateUIFunc mUpdateUI = null;
 
     public ChatViewPager() {
         super();
@@ -67,25 +62,6 @@ public class ChatViewPager extends Fragment {
         }
 
         return v_FragmentView;
-    }
-
-    public void moveViewPager()
-    {
-        mChatViewPager = this;
-
-        if(mUpdateUI == null)
-        {
-            mUpdateUI= new TKManager.UpdateUIFunc(){
-                @Override
-                public void UpdateUI() {
-                    Log.d("test","@@@@@@@ 77777");
-                    RefreshAdapter();
-                    mAdapter.notifyDataSetChanged();
-                }
-            };
-        }
-
-        TKManager.getInstance().mUpdateChatViewPagerFunc = mUpdateUI;
     }
 
     private void initRecyclerView() {
@@ -213,14 +189,7 @@ public class ChatViewPager extends Fragment {
 //        }));
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REFRESH_CHATFRAGMENT) {
-            RefreshChatList();
-            mAdapter.notifyDataSetChanged();
-        }
-    }
 
     public void RefreshChatList() {
         mChatList.clear();
@@ -249,6 +218,12 @@ public class ChatViewPager extends Fragment {
     public void RefreshAdapter() {
         RefreshChatList();
         mAdapter.setItemData(mChatList);
+    }
+
+    public void RefreshRecyclerView()
+    {
+        RefreshAdapter();
+        mAdapter.notifyDataSetChanged();
     }
 
 //    RecyclerView rv_ChatList;

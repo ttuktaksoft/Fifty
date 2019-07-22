@@ -31,6 +31,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
+import fifty.fiftyhouse.com.fifty.fragment.ChatFragment;
 import fifty.fiftyhouse.com.fifty.viewPager.ChatViewPager;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
@@ -204,7 +205,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             public void onClick(View v) {
                // TODO 삭제
                 TKManager.getInstance().MyData.DelUserChatDataList(data);
-                TKManager.getInstance().mUpdateChatViewPagerFunc.UpdateUI();
+                TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
             }
         });
 
@@ -235,10 +236,10 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-                                Intent intent = new Intent(ChatViewPager.mChatViewPager.getContext(), ChatBodyActivity.class);
+                                Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
                                 intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
                                 //startActivity(intent);
-                                ChatViewPager.mChatViewPager.startActivityForResult(intent, ChatViewPager.REFRESH_CHATFRAGMENT);
+                                ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
                             }
 
                             @Override
@@ -252,9 +253,9 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
                         if(TKManager.getInstance().UserData_Simple.get(strTargetIndex) != null)
                         {
-                            Intent intent = new Intent(ChatViewPager.mChatViewPager.getContext(), ChatBodyActivity.class);
+                            Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
                             intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
-                            ChatViewPager.mChatViewPager.startActivityForResult(intent, ChatViewPager.REFRESH_CHATFRAGMENT);
+                            ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
                         }
                         else
                         {
