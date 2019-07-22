@@ -13,7 +13,7 @@
         android:background="@color/topbar_bg">
         <TextView
             android:id="@+id/tv_TopBar_Title"
-            style="@style/BaseTextView"
+            style="@style/BaseTextView_AutoSize"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintRight_toRightOf="@+id/v_Chat_TopBar"

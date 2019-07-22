@@ -12,9 +12,6 @@ import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 
-import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
-import fifty.fiftyhouse.com.fifty.activty.LoadingActivity;
-
 
 public class GlobalApplication extends Application {
 
@@ -98,7 +95,7 @@ public class GlobalApplication extends Application {
         instance = this;
         KakaoSDK.init(new KakaoSDKAdapter());
 
-        MainMenuFont = Typeface.createFromAsset(this.getAssets(), "fonts/Menu.ttf");
-        ContentFont = Typeface.createFromAsset(this.getAssets(), "fonts/Content.ttf");
+        MainMenuFont = Typeface.createFromAsset(this.getAssets(), "fonts/menu.ttf");
+        ContentFont = Typeface.createFromAsset(this.getAssets(), "fonts/content.ttf");
     }
 }

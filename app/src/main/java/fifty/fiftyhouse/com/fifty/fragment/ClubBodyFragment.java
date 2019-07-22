@@ -98,7 +98,7 @@ public class ClubBodyFragment extends Fragment {
 
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Body_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
         tv_Club_Body_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
-        tv_Club_Body_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.GetDate(), "yyyy/MM/dd HH시mm분"));
+        tv_Club_Body_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.GetDate(), "MM.dd HH:mm"));
         tv_Club_Body_Desc.setText(tempData.GetContext());
 
         iv_Club_Body_Profile.setOnClickListener(new OnSingleClickListener() {

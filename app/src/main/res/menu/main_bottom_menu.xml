@@ -5,7 +5,7 @@
     <item
         android:id="@+id/i_main_bottom_main"
         android:title="@string/i_main_bottom_main"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_logo"
         app:showAsAction="ifRoom"/>
 
     <item

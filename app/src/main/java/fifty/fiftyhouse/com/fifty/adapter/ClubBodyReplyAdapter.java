@@ -99,7 +99,7 @@ class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
 
         //tempData = TKManager.getInstance().TargetClubData.GetClubContext(Integer.toString(pos));
         tv_Club_Body_Reply_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempReplyData.GetWriterIndex()).GetUserNickName());
-        tv_Club_Body_Reply_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempReplyData.GetDate(), "yyyy/MM/dd HH시mm분"));
+        tv_Club_Body_Reply_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempReplyData.GetDate(), "MM.dd HH:mm"));
         tv_Club_Body_Reply_Desc.setText(tempReplyData.GetContext());
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Body_Reply_Profile, TKManager.getInstance().UserData_Simple.get(tempReplyData.GetWriterIndex()).GetUserImgThumb(), true);
 

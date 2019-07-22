@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
@@ -22,19 +26,21 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
+import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
 public class MainTodayViewPager extends Fragment {
-
-    TextView tv_Main_Today_Desc;
-
-    RecyclerView rv_Main_Today_UserList;
+    RecyclerView rv_Main_Today_UserList, rv_Main_Today_Favorite;
     View v_FragmentView = null;
     public MainAdapter mAdapter;
+    FavoriteViewAdapter mFavoriteViewAdapter;
     private String UserIndex;
+
+    ArrayList<String> mFavoriteViewList = new ArrayList<>();
+    String mSelectFavoriteKey = "";
 
     public MainTodayViewPager() {
         super();
@@ -48,10 +54,10 @@ public class MainTodayViewPager extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_today, container, false);
 
             rv_Main_Today_UserList = v_FragmentView.findViewById(R.id.rv_Main_Today_UserList);
-            tv_Main_Today_Desc = v_FragmentView.findViewById(R.id.tv_Main_Today_Desc);
+            rv_Main_Today_Favorite = v_FragmentView.findViewById(R.id.rv_Main_Today_Favorite);
 
-            initSubInfo();
             initRecyclerView();
+            initFavoriteRecyclerView();
         }
         else
         {
@@ -61,10 +67,10 @@ public class MainTodayViewPager extends Fragment {
         return v_FragmentView;
     }
 
-    private void initSubInfo()
+    /*private void initSubInfo()
     {
         tv_Main_Today_Desc.setText(CommonFunc.getInstance().getComleteWordByJongsung(DAILY_FAVORITE, "을", "를") + " " + CommonFunc.getInstance().getStr(getResources(), R.string.MSG_MAIN_USER_TODAY_DESC));
-    }
+    }*/
     private void initRecyclerView()
     {
         mAdapter = new MainAdapter(getContext());
@@ -79,36 +85,73 @@ public class MainTodayViewPager extends Fragment {
 
                 UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Hot.get(position)).GetUserIndex();
                 CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
-
-                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
-                if (mAppStatus.bCheckMultiSend == false) {
-                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
-
-                    if (mCommon.getClickStatus() == false)
-                        mCommon.MoveUserPage(getActivity(), stTargetData);
-                }*/
             }
+        }));
+    }
 
+    private void initFavoriteRecyclerView()
+    {
+        mFavoriteViewAdapter = new FavoriteViewAdapter(getContext());
+        RefreshFavoriteViewListSlot();
+        mFavoriteViewAdapter.setHasStableIds(true);
+
+        rv_Main_Today_Favorite.setAdapter(mFavoriteViewAdapter);
+        rv_Main_Today_Favorite.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rv_Main_Today_Favorite.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Today_Favorite, new OnRecyclerItemClickListener() {
             @Override
-            public void onLongItemClick(View view, int position) {
-                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
+            public void onSingleClick(View view, int position) {
+
+                mSelectFavoriteKey = mFavoriteViewList.get(position);
+                RefreshFavoriteViewListSlot();
+                mFavoriteViewAdapter.notifyDataSetChanged();
+/*                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Hot.get(position)).GetUserIndex();
+                CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);*/
             }
         }));
 
-        rv_Main_Today_UserList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+       /* rv_Main_Today_Favorite.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                /*int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                int nSize = 0;
-                nSize = recyclerView.getAdapter().getItemCount() - 1;
-
-                if (lastVisibleItemPosition == nSize) {
-                    // Toast.makeText(getContext(), "Last Position", Toast.LENGTH_SHORT).show();
-                    //    CommonFunc.getInstance().ShowLoadingPage(getContext(), "로딩중");
-                    //  FirebaseData.getInstance().GetHotData(RecvAdapter, false);
-                }*/
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                int action = e.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_MOVE:
+                        rv.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                }
+                return false;
             }
-        });
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });*/
+    }
+
+    private void RefreshFavoriteViewListSlot() {
+        mFavoriteViewList.clear();
+        Iterator<String> it = TKManager.getInstance().MyData.GetUserFavoriteListKeySet().iterator();
+
+        while(it.hasNext())
+        {
+            String key = it.next();
+            mFavoriteViewList.add(key);
+        }
+
+        mFavoriteViewAdapter.setItemCount(TKManager.getInstance().MyData.GetUserFavoriteListCount());
+        mFavoriteViewAdapter.setItemData(mFavoriteViewList);
+
+        if(CommonFunc.getInstance().CheckStringNull(mSelectFavoriteKey) ||
+                mFavoriteViewList.contains(mSelectFavoriteKey) == false)
+            mSelectFavoriteKey = mFavoriteViewList.get(0);
+
+        ArrayList<String> selectlist = new ArrayList<>();
+        selectlist.add(mSelectFavoriteKey);
+        mFavoriteViewAdapter.setSelectItemData(selectlist);
     }
 }

@@ -21,8 +21,8 @@
     <color name="info_sub_slot_title_bg">#f4f4f2</color>
 
     // 특수
-    <color name="main_bottom_tab_bg">#ffffff</color>
-    <color name="main_bottom_tab_select">#111111</color>
+    <color name="main_bottom_tab_bg">#000000</color>
+    <color name="main_bottom_tab_select">#ffffff</color>
     <color name="main_bottom_tab_delect">#e0e0e0</color>
     <color name="main_sub_tab_bg">#ffffff</color>
     <color name="main_sub_info_bg">#f4f4f2</color>
@@ -48,7 +48,8 @@
     <color name="vip_disable_bg">#48000000</color>
     <color name="club_replay_bg">#f9f7f6</color>
     <color name="club_main_slot_bg">#48000000</color>
-
+    <color name="user_profile_bottom_tab_bg">#000000</color>
+    <color name="user_profile_bottom_tab_select">#ffffff</color>
 
 
     <color name="colorPrimary">#008577</color>

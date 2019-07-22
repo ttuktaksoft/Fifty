@@ -55,6 +55,10 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
             else
                 holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
         }
+        else if(mSelectItemList.size() > 0)
+        {
+            holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
+        }
         else
             holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
 
