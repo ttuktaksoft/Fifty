@@ -19,10 +19,12 @@ import android.webkit.WebViewClient;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -99,12 +101,17 @@ public class AuthActivity extends AppCompatActivity {
                                     Log.d("#### IAM ", String.valueOf(response.body().response));
 
 
-                                    Date tempDate = new Date(response.body().response.birth * 1000);
+                                    Date tempDate = new Date(response.body().response.birth * 1000L);
+                                    final int nBirthYear = tempDate.getYear();
 
-                                    final int nAge = tempDate.getYear();
+                                    Calendar current = Calendar.getInstance();
+                                    int currentYear  = current.get(Calendar.YEAR);
+                                    currentYear -= 1900;
+                                    int nAge = currentYear - nBirthYear + 1;
 
                                   //  final int i = Integer.parseInt(String.valueOf(response.body().response.birth));
-                                    if (nAge >= 50) {
+                                    //if (nAge >= 50) {
+                                    if (nAge >= 20) {
 
                                         String tempGender = String.valueOf(response.body().response.gender);
                                         if(tempGender.equals("male"))
@@ -137,6 +144,7 @@ public class AuthActivity extends AppCompatActivity {
                                     else
                                     {
                                         DialogFunc.getInstance().ShowMsgPopup(AuthActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.tv_Auth_Age));
+                                        android.os.Process.killProcess(android.os.Process.myPid());
                                     }
                                }
                            }

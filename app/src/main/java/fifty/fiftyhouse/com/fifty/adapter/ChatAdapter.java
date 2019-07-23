@@ -38,17 +38,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     Context mContext;
     int mItemCount;
     ArrayList<String> mItemData = new ArrayList<>();
+    CommonData.CHAT_ROOM_TYPE mType;
 
     private final ViewBinderHelper binderHelper = new ViewBinderHelper();
 
-    public ChatAdapter(Context context) {
+    public ChatAdapter(Context context, CommonData.CHAT_ROOM_TYPE type) {
         mContext = context;
+        mType = type;
     }
 
     @Override
     public ChatListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_chat, parent, false);
-        return new ChatListHolder(view);
+        return new ChatListHolder(view, mType);
     }
 
 
@@ -70,7 +72,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     public long getItemId(int position) {
         long rtValue = 0;
 
-        ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(mItemData.get(position));
+        ChatData tempChatData = new ChatData();
+
+        if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
+        {
+            tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(mItemData.get(position));
+        }
+        else
+        {
+            tempChatData = TKManager.getInstance().MyData.GetUserBookMarkChatDataList(mItemData.get(position));
+        }
 
         String tempID = null;
 
@@ -112,10 +123,12 @@ class ChatListHolder extends RecyclerView.ViewHolder {
     public ImageView iv_Chat_Profile, iv_Chat_Check;
     public TextView tv_Chat_Nickname,tv_Chat_Msg, tv_Chat_Date, tv_Chat_Check;
     Context mContext;
+    CommonData.CHAT_ROOM_TYPE mType;
 
-    public ChatListHolder(View itemView) {
+    public ChatListHolder(View itemView, CommonData.CHAT_ROOM_TYPE type) {
         super(itemView);
         mContext = itemView.getContext();
+        mType = type;
 
         swipeLayout = (SwipeRevealLayout) itemView.findViewById(R.id.swipe_layout);
         v_Chat_Front = itemView.findViewById(R.id.v_Chat_Front);
@@ -132,7 +145,15 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
     public void setData(String key)
     {
-        ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(key);
+        ChatData tempChatData = new ChatData();
+        if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
+        {
+            tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(key);
+        }
+        else
+        {
+            tempChatData = TKManager.getInstance().MyData.GetUserBookMarkChatDataList(key);
+        }
 
         if(tempChatData.GetMsgType() == CommonData.MSGType.MSG)
         {

@@ -787,11 +787,12 @@ public class CommonFunc {
 
                 switch (TKManager.getInstance().FilterData.GetGender())
                 {
+                    // 모두
                     case 0:
                         if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() >= TKManager.getInstance().FilterData.GetMinAge() &&
                                 TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() <= TKManager.getInstance().FilterData.GetMaxAge())
                         {
-                           if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                            if(TKManager.getInstance().FilterData.GetDistance() == 100)
                             {
 
                                 switch (TKManager.getInstance().FilterData.GetConnect())
@@ -811,41 +812,192 @@ public class CommonFunc {
                                         break;
 
                                     case 2:
-                                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 3 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                        // if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 3 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                    {
+                                        ViewList.add(tempDataList.get(i));
+                                    }
+                                    break;
+
+                                }
+                            }
+                            else
+                            {
+                                if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                                {
+
+                                    switch (TKManager.getInstance().FilterData.GetConnect())
+                                    {
+                                        case 0:
+                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            {
+                                                ViewList.add(tempDataList.get(i));
+                                            }
+                                            break;
+
+                                        case 1:
+                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            {
+                                                ViewList.add(tempDataList.get(i));
+                                            }
+                                            break;
+
+                                        case 2:
+                                            // if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 3 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                         {
                                             ViewList.add(tempDataList.get(i));
                                         }
                                         break;
 
+                                    }
+
+
                                 }
-
-
                             }
+
                         }
                         break;
+
+                    // 여자
                     case 1:
                         if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserGender() == 1)
                         {
                             if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() >= TKManager.getInstance().FilterData.GetMinAge() &&
                                     TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() <= TKManager.getInstance().FilterData.GetMaxAge())
                             {
-                                if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                                if(TKManager.getInstance().FilterData.GetDistance() == 100)
                                 {
-                                    ViewList.add(tempDataList.get(i));
+
+                                    switch (TKManager.getInstance().FilterData.GetConnect())
+                                    {
+                                        case 0:
+                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            {
+                                                ViewList.add(tempDataList.get(i));
+                                            }
+                                            break;
+
+                                        case 1:
+                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            {
+                                                ViewList.add(tempDataList.get(i));
+                                            }
+                                            break;
+
+                                        case 2:
+                                            // if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 3 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                        {
+                                            ViewList.add(tempDataList.get(i));
+                                        }
+                                        break;
+
+                                    }
                                 }
+                                else
+                                {
+                                    if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                                    {
+
+                                        switch (TKManager.getInstance().FilterData.GetConnect())
+                                        {
+                                            case 0:
+                                                if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                                {
+                                                    ViewList.add(tempDataList.get(i));
+                                                }
+                                                break;
+
+                                            case 1:
+                                                if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                                {
+                                                    ViewList.add(tempDataList.get(i));
+                                                }
+                                                break;
+
+                                            case 2:
+                                                // if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 3 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            {
+                                                ViewList.add(tempDataList.get(i));
+                                            }
+                                            break;
+
+                                        }
+
+
+                                    }
+                                }
+
                             }
                         }
                         break;
+                    // 남자
                     case 2:
                         if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserGender() == 0)
                         {
                             if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() >= TKManager.getInstance().FilterData.GetMinAge() &&
                                     TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserAge() <= TKManager.getInstance().FilterData.GetMaxAge())
                             {
-                                if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                                if(TKManager.getInstance().FilterData.GetDistance() == 100)
                                 {
-                                    ViewList.add(tempDataList.get(i));
+
+                                    switch (TKManager.getInstance().FilterData.GetConnect())
+                                    {
+                                        case 0:
+                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            {
+                                                ViewList.add(tempDataList.get(i));
+                                            }
+                                            break;
+
+                                        case 1:
+                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            {
+                                                ViewList.add(tempDataList.get(i));
+                                            }
+                                            break;
+
+                                        case 2:
+                                            // if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 3 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                        {
+                                            ViewList.add(tempDataList.get(i));
+                                        }
+                                        break;
+
+                                    }
                                 }
+                                else
+                                {
+                                    if((int)(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist() / 1000) <= TKManager.getInstance().FilterData.GetDistance())
+                                    {
+
+                                        switch (TKManager.getInstance().FilterData.GetConnect())
+                                        {
+                                            case 0:
+                                                if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                                {
+                                                    ViewList.add(tempDataList.get(i));
+                                                }
+                                                break;
+
+                                            case 1:
+                                                if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                                {
+                                                    ViewList.add(tempDataList.get(i));
+                                                }
+                                                break;
+
+                                            case 2:
+                                                // if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 3 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            {
+                                                ViewList.add(tempDataList.get(i));
+                                            }
+                                            break;
+
+                                        }
+
+
+                                    }
+                                }
+
                             }
                         }
                         break;

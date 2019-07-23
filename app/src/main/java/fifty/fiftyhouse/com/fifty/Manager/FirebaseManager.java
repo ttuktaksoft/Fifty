@@ -356,6 +356,7 @@ public class FirebaseManager {
         simpleUser.put("Dist_Lon", TKManager.getInstance().MyData.GetUserDist_Lon());
         simpleUser.put("Dist_Lat", TKManager.getInstance().MyData.GetUserDist_Lat());
         simpleUser.put("Gender", TKManager.getInstance().MyData.GetUserGender());
+        user.put("ConnectDate", Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
 
         mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(simpleUser, SetOptions.merge())
@@ -833,20 +834,8 @@ public class FirebaseManager {
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                                     tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
 
-                                    String tempType = document.getDocument().getData().get("MsgType").toString();
-
-                                    switch (tempType)
-                                    {
-                                        case "MSG":
-                                            tempData.SetMsgType(CommonData.MSGType.MSG);
-                                            break;
-                                        case "IMG":
-                                            tempData.SetMsgType(CommonData.MSGType.IMG);
-                                            break;
-                                        case "VIDEO":
-                                            tempData.SetMsgType(CommonData.MSGType.VIDEO);
-                                            break;
-                                    }
+                                    CommonData.MSGType tempType = CommonData.MSGType.valueOf(document.getDocument().getData().get("MsgType").toString());
+                                    tempData.SetMsgType(tempType);
 
                                     userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
                                 }
@@ -885,11 +874,23 @@ public class FirebaseManager {
                             String tempRoomName = document.getDocument().getId().toString();
 
                             ChatData tempData = new ChatData();
-                            tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
 
-                            tempData.SetFromIndex(document.getDocument().getData().get("FromIndex").toString());
-                            tempData.SetFromNickName(document.getDocument().getData().get("FromNickName").toString());
-                            tempData.SetFromThumbNail(document.getDocument().getData().get("FromThumbNail").toString());
+                            if (document.getDocument().getData().containsKey("RoomIndex")) {
+                                tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
+                            }
+
+                            if (document.getDocument().getData().containsKey("FromIndex")) {
+                                tempData.SetFromIndex(document.getDocument().getData().get("FromIndex").toString());
+                            }
+
+                            if (document.getDocument().getData().containsKey("FromNickName")) {
+                                tempData.SetFromNickName(document.getDocument().getData().get("FromNickName").toString());
+                            }
+
+                            if (document.getDocument().getData().containsKey("FromThumbNail")) {
+                                tempData.SetFromThumbNail(document.getDocument().getData().get("FromThumbNail").toString());
+                            }
+
 
                             tempData.SetToIndex(document.getDocument().getData().get("ToIndex").toString());
                             tempData.SetToNickName(document.getDocument().getData().get("ToNickName").toString());
@@ -901,22 +902,23 @@ public class FirebaseManager {
                             tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                             tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
 
-                            String tempType = document.getDocument().getData().get("MsgType").toString();
+                            CommonData.CHAT_ROOM_TYPE tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
 
-                            switch (tempType)
-                            {
-                                case "MSG":
-                                    tempData.SetMsgType(CommonData.MSGType.MSG);
-                                    break;
-                                case "IMG":
-                                    tempData.SetMsgType(CommonData.MSGType.IMG);
-                                    break;
-                                case "VIDEO":
-                                    tempData.SetMsgType(CommonData.MSGType.VIDEO);
-                                    break;
+                            if (document.getDocument().getData().containsKey("RoomType")) {
+                                tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
                             }
 
+                            tempData.SetRoomType(tempRoomType);
+
+                            CommonData.MSGType tempType = CommonData.MSGType.valueOf(document.getDocument().getData().get("MsgType").toString());
+                            tempData.SetMsgType(tempType);
+
                             userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
+
+
+                            if (tempData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
+                                userData.SetUserBookMarkChatDataList(tempRoomName, tempData);
+                            }
                             userData.UserList_Chat.add(tempRoomName);
 
                             //userData.SetUserChatList(tempRoomName, tempRoomName);
@@ -998,83 +1000,171 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserLikeList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
+    public void GetUserLikeList(String userIndex, final UserData userData, final  boolean mydata, final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("LikeUsers");
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
-        colRef.whereLessThanOrEqualTo("Date", TodayDate).limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                int tempTotayLikeCount = 0;
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
+        if(mydata)
+        {
+            colRef.whereLessThanOrEqualTo("Date", TodayDate).limit(20).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
 
+                    int tempTotayVisitCount = 0;
 
-                        userData.SetUserLikeList(document.getData().get("Index").toString(), document.getData().get("Date").toString());
+                    for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
+                        switch (document.getType()) {
+                            case ADDED:
+                            case MODIFIED:
 
-                        if (Integer.parseInt(document.getData().get("Date").toString()) == TodayDate) {
-                            tempTotayLikeCount++;
-                            userData.SetUserTodayLike(tempTotayLikeCount);
+                                TKManager.getInstance().MyData.SetUserLikeList(document.getDocument().getData().get("Index").toString(), document.getDocument().getData().get("Date").toString());
+
+                                if (Integer.parseInt(document.getDocument().getData().get("Date").toString()) == TodayDate) {
+                                    tempTotayVisitCount++;
+                                    TKManager.getInstance().MyData.SetUserTodayLike(tempTotayVisitCount);
+                                }
+
+                                TKManager.getInstance().MyData.SetUserTotalLike(userData.GetUserVisitListCount());
+
+                                break;
+                            case REMOVED:
+                                break;
                         }
                     }
-                    userData.SetUserTotalLike(userData.GetUserLikeListCount());
 
-                    if (listener != null)
+                    if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
                         listener.CompleteListener();
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-            }
-        });
+            });
+        }
+        else
+        {
+            colRef.whereLessThanOrEqualTo("Date", TodayDate).limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    int tempTotayLikeCount = 0;
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+
+
+                            userData.SetUserLikeList(document.getData().get("Index").toString(), document.getData().get("Date").toString());
+
+                            if (Integer.parseInt(document.getData().get("Date").toString()) == TodayDate) {
+                                tempTotayLikeCount++;
+                                userData.SetUserTodayLike(tempTotayLikeCount);
+                            }
+                        }
+                        userData.SetUserTotalLike(userData.GetUserLikeListCount());
+
+                        if (listener != null)
+                            listener.CompleteListener();
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
     }
 
-    private void GetUserVisitList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
+    private void GetUserVisitList(String userIndex, final UserData userData, final  boolean mydata, final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("VisitUsers");
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
-        colRef.whereLessThanOrEqualTo("Date", TodayDate).limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                int tempTotayVisitCount = 0;
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
+        if(mydata)
+        {
+            colRef.whereLessThanOrEqualTo("Date", TodayDate).limit(20).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
 
+                    int tempTotayVisitCount = 0;
 
-                        userData.SetUserVisitList(document.getData().get("Index").toString(), document.getData().get("Date").toString());
+                    for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
+                        switch (document.getType()) {
+                            case ADDED:
+                            case MODIFIED:
 
-                        if (Integer.parseInt(document.getData().get("Date").toString()) == TodayDate) {
-                            tempTotayVisitCount++;
-                            userData.SetUserTodayVisit(tempTotayVisitCount);
+                                TKManager.getInstance().MyData.SetUserVisitList(document.getDocument().getData().get("Index").toString(), document.getDocument().getData().get("Date").toString());
+
+                                if (Integer.parseInt(document.getDocument().getData().get("Date").toString()) == TodayDate) {
+                                    tempTotayVisitCount++;
+                                    TKManager.getInstance().MyData.SetUserTodayVisit(tempTotayVisitCount);
+                                }
+
+                                TKManager.getInstance().MyData.SetUserTotalVisit(userData.GetUserVisitListCount());
+
+                                break;
+                            case REMOVED:
+                                break;
                         }
                     }
-                    userData.SetUserTotalVisit(userData.GetUserVisitListCount());
 
-                    if (listener != null)
+                    if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
                         listener.CompleteListener();
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-            }
-        });
+            });
+        }
+        else
+        {
+            colRef.whereLessThanOrEqualTo("Date", TodayDate).limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    int tempTotayVisitCount = 0;
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+
+
+                            userData.SetUserVisitList(document.getData().get("Index").toString(), document.getData().get("Date").toString());
+
+                            if (Integer.parseInt(document.getData().get("Date").toString()) == TodayDate) {
+                                tempTotayVisitCount++;
+                                userData.SetUserTodayVisit(tempTotayVisitCount);
+                            }
+                        }
+                        userData.SetUserTotalVisit(userData.GetUserVisitListCount());
+
+                        if (listener != null)
+                            listener.CompleteListener();
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+        }
     }
 
 
     public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
+        boolean bMyData = false;
+
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+        {
+            bMyData = true;
             SetFireBaseLoadingCount(8);
+            //SetFireBaseLoadingCount(7);
+        }
         else
         {
+            bMyData = false;
             userData.Clear();
             SetFireBaseLoadingCount(5);
         }
 
 
         final DocumentReference docRef = mDataBase.collection("UserData").document(userIndex);
+        final boolean finalMyData = bMyData;
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -1181,7 +1271,7 @@ public class FirebaseManager {
                             }
                         };
 
-                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                        if(finalMyData)
                             GetUserChatList(userIndex, userData, ChatRoomListener);
 
 
@@ -1200,7 +1290,7 @@ public class FirebaseManager {
                             }
                         };
 
-                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                        if(finalMyData)
                             MonitorAlarm(userIndex, AlarmListener);
 
                         FirebaseManager.CheckFirebaseComplete FilterListener = new FirebaseManager.CheckFirebaseComplete() {
@@ -1218,7 +1308,7 @@ public class FirebaseManager {
                             }
                         };
 
-                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                        if(finalMyData)
                             GetSortData(FilterListener);
 
                      /*   FirebaseManager.CheckFirebaseComplete FriendUserListener = new FirebaseManager.CheckFirebaseComplete() {
@@ -1267,7 +1357,7 @@ public class FirebaseManager {
                             public void CompleteListener_No() {
                             }
                         };
-                        GetUserLikeList(userIndex, userData, LikeUserListener);
+                        GetUserLikeList(userIndex, userData, finalMyData, LikeUserListener);
 
                         FirebaseManager.CheckFirebaseComplete VisitUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -1283,7 +1373,7 @@ public class FirebaseManager {
                             public void CompleteListener_No() {
                             }
                         };
-                        GetUserVisitList(userIndex, userData, VisitUserListener);
+                        GetUserVisitList(userIndex, userData, finalMyData, VisitUserListener);
 
                         FirebaseManager.CheckFirebaseComplete ClubUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -1317,7 +1407,7 @@ public class FirebaseManager {
                             userData.SetUserDist_Lat(37.566659);
 
 
-                        if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                        if(finalMyData)
                             RegistUserGeoInfo();
 
                         if (document.getData().containsKey("Dist_Region")) {
@@ -1544,7 +1634,11 @@ public class FirebaseManager {
         int nWeek = cal.get(Calendar.DAY_OF_WEEK);
         DAILY_FAVORITE = TKManager.getInstance().DailyFavorite.get(nWeek -1);
 
-        CollectionReference colRef = mDataBase.collection("FavoriteList").document(TKManager.getInstance().DailyFavorite.get(nWeek -1)).collection("UserIndex");
+        Iterator<String> it = TKManager.getInstance().MyData.GetUserFavoriteListKeySet().iterator();
+        String key = it.next();
+
+
+        CollectionReference colRef = mDataBase.collection("FavoriteList").document(key).collection("UserIndex");
         colRef.orderBy("Index", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

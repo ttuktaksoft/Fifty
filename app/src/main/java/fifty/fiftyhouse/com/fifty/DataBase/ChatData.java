@@ -8,6 +8,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 
 public class ChatData {
     public   String RoomIndex;
+    public  CommonData.CHAT_ROOM_TYPE RoomType;
 
     public  String FromIndex ;
     public  String FromNickName;
@@ -31,6 +32,15 @@ public class ChatData {
     public String GetRoomIndex()
     {
         return RoomIndex;
+    }
+
+    public void SetRoomType(CommonData.CHAT_ROOM_TYPE type)
+    {
+        RoomType = type;
+    }
+    public CommonData.CHAT_ROOM_TYPE GetRoomType()
+    {
+        return RoomType;
     }
 
     public void SetFromIndex(String fromIndex)

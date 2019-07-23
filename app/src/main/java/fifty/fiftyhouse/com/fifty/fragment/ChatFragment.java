@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -162,11 +163,11 @@ public class ChatFragment extends Fragment {
             switch(position){
                 case 0:
                     mBookmarkViewPager = new ChatViewPager();
-                    mBookmarkViewPager.mType = ChatViewPager.CHAT_LIST_TYPE_BOOKMARK;
+                    mBookmarkViewPager.mType = CommonData.CHAT_ROOM_TYPE.BOOKMARK;
                     return mBookmarkViewPager;
                 case 1:
                     mDefaultViewPager = new ChatViewPager();
-                    mDefaultViewPager.mType = ChatViewPager.CHAT_LIST_TYPE_DEFAULT;
+                    mDefaultViewPager.mType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
                     return mDefaultViewPager;
             }
 

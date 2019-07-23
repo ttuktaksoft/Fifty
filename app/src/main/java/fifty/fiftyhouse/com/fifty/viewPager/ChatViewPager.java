@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.MainActivity;
@@ -39,10 +40,10 @@ public class ChatViewPager extends Fragment {
     ChatAdapter mAdapter;
     ArrayList<String> mChatList = new ArrayList<>();
 
-    public static int CHAT_LIST_TYPE_BOOKMARK = 0;
-    public static int CHAT_LIST_TYPE_DEFAULT = 1;
+  /*  public static int CHAT_LIST_TYPE_BOOKMARK = 0;
+    public static int CHAT_LIST_TYPE_DEFAULT = 1;*/
 
-    public int mType = CHAT_LIST_TYPE_BOOKMARK;
+    public CommonData.CHAT_ROOM_TYPE mType = CommonData.CHAT_ROOM_TYPE.BOOKMARK;
 
     public ChatViewPager() {
         super();
@@ -65,7 +66,7 @@ public class ChatViewPager extends Fragment {
     }
 
     private void initRecyclerView() {
-        mAdapter = new ChatAdapter(getContext());
+        mAdapter = new ChatAdapter(getContext(), mType);
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
 
@@ -194,10 +195,10 @@ public class ChatViewPager extends Fragment {
     public void RefreshChatList() {
         mChatList.clear();
 
-        if(mType == CHAT_LIST_TYPE_BOOKMARK)
+        if(mType == CommonData.CHAT_ROOM_TYPE.BOOKMARK)
         {
             // 즐겨찾기 채팅방
-            mChatList.addAll(TKManager.getInstance().MyData.GetUserChatDataListKeySet());
+            mChatList.addAll(TKManager.getInstance().MyData.GetUserBookMarkChatDataListKeySet());
         }
         else
         {

@@ -71,6 +71,7 @@ public class UserData {
         VisitList.clear();
 
         ChatRoomDataList.clear();
+        BookMarkChatRoomDataList.clear();
 
         ChatRoomData.clear();
 
@@ -136,6 +137,8 @@ public class UserData {
     private Map<String, String> VisitList = new LinkedHashMap<>();
 
     private Map<String, ChatData> ChatRoomDataList = new LinkedHashMap<>();
+    private Map<String, ChatData> BookMarkChatRoomDataList = new LinkedHashMap<>();
+
 
     private Map<String, ChatData> ChatRoomData = new LinkedHashMap<>();
 
@@ -347,6 +350,40 @@ public class UserData {
     {
         ChatRoomList.remove(chatRoomIdx);
     }*/
+
+    public void SetUserBookMarkChatDataList(Map<String, ChatData> map)
+    {
+        BookMarkChatRoomDataList = map;
+    }
+    public void SetUserBookMarkChatDataList(String chatRoomIdx, ChatData data)
+    {
+        BookMarkChatRoomDataList.put(chatRoomIdx, data);
+    }
+    public ChatData  GetUserBookMarkChatDataList(String chatRoomIdx)
+    {
+        return BookMarkChatRoomDataList.get(chatRoomIdx);
+    }
+    public Map<String, ChatData>  GetUserBookMarkChatDataList()
+    {
+        return BookMarkChatRoomDataList;
+    }
+    public int  GetUserBookMarkChatDataListCount()
+    {
+        return BookMarkChatRoomDataList.size();
+    }
+    public Set  GetUserBookMarkChatDataListKeySet()
+    {
+        return BookMarkChatRoomDataList.keySet();
+    }
+    public void  DelUserBookMarkChatDataList(String chatRoomIdx)
+    {
+        BookMarkChatRoomDataList.remove(chatRoomIdx);
+    }
+    public void  ClearUserBookMarkChatDataList()
+    {
+        BookMarkChatRoomDataList.clear();
+    }
+
 
     public void SetUserChatDataList(Map<String, ChatData> map)
     {
