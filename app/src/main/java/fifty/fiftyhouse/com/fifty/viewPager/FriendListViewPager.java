@@ -59,7 +59,7 @@ public class FriendListViewPager extends Fragment {
             fa_Friend_UserList_Search.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    DialogFunc.getInstance().ShowUserSearchPopup(getContext());
+                    DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
                 }
             });
 

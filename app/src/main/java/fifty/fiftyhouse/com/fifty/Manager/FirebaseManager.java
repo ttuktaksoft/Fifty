@@ -61,6 +61,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.R;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
@@ -273,7 +274,7 @@ public class FirebaseManager {
 
     }
 
-    public void SetMyDataOnFireBase(final FirebaseManager.CheckFirebaseComplete listener) {
+    public void SetMyDataOnFireBase(boolean boot, final FirebaseManager.CheckFirebaseComplete listener) {
         if (mDataBase == null)
             GetFireStore();
 
@@ -281,14 +282,17 @@ public class FirebaseManager {
         FirebaseManager.getInstance().RegistUserDistInfo();
         FirebaseManager.getInstance().RegistUserGeoInfo();
 
-        Map<String, String> tempFavoriteData = TKManager.getInstance().MyData.GetUserFavoriteList();
-        Set set = tempFavoriteData.entrySet();
-        Iterator iterator = set.iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            String key = (String) entry.getKey();
-            String value = (String) entry.getValue();
-            SetUserFavoriteOnFireBase(value, false);
+        if(boot)
+        {
+            Map<String, String> tempFavoriteData = TKManager.getInstance().MyData.GetUserFavoriteList();
+            Set set = tempFavoriteData.entrySet();
+            Iterator iterator = set.iterator();
+            while (iterator.hasNext()) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                String key = (String) entry.getKey();
+                String value = (String) entry.getValue();
+                SetUserFavoriteOnFireBase(value, false);
+            }
         }
 
         Map<String, Object> user = new HashMap<>();
@@ -1426,7 +1430,7 @@ public class FirebaseManager {
         Query limitQuery = collectionRef.limit(1);
 
         GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
-        GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()), 100);
+        GeoQuery geoQuery = geoFirestore.queryAtLocation(new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()), 500);
 
         geoQuery.addGeoQueryDataEventListener(new GeoQueryDataEventListener() {
             @Override
@@ -1627,106 +1631,149 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserData_Simple(final String userIndex, final Map<String, UserData> getData, final FirebaseManager.CheckFirebaseComplete listener) {
-        final DocumentReference docRef = mDataBase.collection("UserData_Simple").document(userIndex);
+    public void FindUserByNickName(final String userNick, final  Activity activity, final FirebaseManager.CheckFirebaseComplete listener) {
+        DialogFunc.getInstance().ShowLoadingPage(activity);
+        DocumentReference docRef = mDataBase.collection("UserData_NickName").document(userNick);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "GetUserData_Simple DocumentSnapshot data: " + document.getData());
-
-                        UserData tempUser = new UserData();
-
-                        if (document.getData().containsKey("NickName")) {
-                            String NickName = document.getData().get("NickName").toString();
-                            tempUser.SetUserNickName(NickName);
-                        } else
-                            tempUser.SetUserNickName(null);
-
-                        if (document.getData().containsKey("Index")) {
-                            String Index = document.getData().get("Index").toString();
-                            tempUser.SetUserIndex(Index);
-                        } else
-                            tempUser.SetUserIndex("1");
-
-                        if (document.getData().containsKey("Img_ThumbNail")) {
-                            String tempData = document.getData().get("Img_ThumbNail").toString();
-                            tempUser.SetUserImgThumb(tempData);
-                        } else
-                            tempUser.SetUserImgThumb(null);
-
-                        if (document.getData().containsKey("Img")) {
-                            tempUser.ClearUserImg();
-                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("Img");
-                            Set set = tempImg.entrySet();
-                            Iterator iterator = set.iterator();
-                            while (iterator.hasNext()) {
-                                Map.Entry entry = (Map.Entry) iterator.next();
-                                String key = (String) entry.getKey();
-                                String value = (String) entry.getValue();
-                                tempUser.SetUserImg(key, value);
-                            }
-                        }
-
-                        if (document.getData().containsKey("Favorite")) {
-                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("Favorite");
-                            Set set = tempImg.entrySet();
-                            Iterator iterator = set.iterator();
-                            while (iterator.hasNext()) {
-                                Map.Entry entry = (Map.Entry) iterator.next();
-                                String key = (String) entry.getKey();
-                                String value = (String) entry.getValue();
-                                tempUser.SetUserFavorite(key, value);
-                            }
-                        }
-
-                        if (document.getData().containsKey("ConnectDate")) {
-                            tempUser.SetUserConnectDate(Long.parseLong(document.getData().get("ConnectDate").toString()));
-                        } else
-                            tempUser.SetUserConnectDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
-
-                        if (document.getData().containsKey("Dist_Lon")) {
-                            tempUser.SetUserDist_Lon(Double.parseDouble(document.getData().get("Dist_Lon").toString()));
-                        } else
-                            tempUser.SetUserDist_Lon(126.978425);
-
-                        if (document.getData().containsKey("Dist_Lat")) {
-                            tempUser.SetUserDist_Lat(Double.parseDouble(document.getData().get("Dist_Lat").toString()));
-                        } else
-                            tempUser.SetUserDist_Lat(37.566659);
-
-                        double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempUser.GetUserDist_Lat(), tempUser.GetUserDist_Lon());
-                        tempUser.SetUserDist((long)Distance);
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
 
-                        if (document.getData().containsKey("Age")) {
-                            int Age = Integer.parseInt(document.getData().get("Age").toString());
-                            tempUser.SetUserAge(Age);
-                        } else
-                            tempUser.SetUserAge(50);
-
-                        if (document.getData().containsKey("Gender")) {
-                            int Gender = Integer.parseInt(document.getData().get("Gender").toString());
-                            tempUser.SetUserGender(Gender);
-                        } else
-                            tempUser.SetUserGender(0);
-
-                        getData.put(userIndex, tempUser);
-
-                        //AddFireBaseLoadingCount();
-                        Complete(listener);
+                        String Index = document.getData().get(userNick).toString();
+                        //GetUserData(Index, TKManager.getInstance().TargetUserData, listener);
+                        CommonFunc.getInstance().GetUserDataInFireBase(Index, activity, true);
 
                     } else {
                         Log.d(TAG, "No such document");
-                        Complete(listener);
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        //TKManager.getInstance().MyData.SetUserNickName(nickName);
+                        if (listener != null)
+                            listener.CompleteListener_No();
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
+    }
+
+    public void GetUserData_Simple(final String userIndex, final Map<String, UserData> getData, final FirebaseManager.CheckFirebaseComplete listener) {
+
+        if(TKManager.getInstance().UserData_Simple.get(userIndex) != null)
+        {
+            getData.put(userIndex, TKManager.getInstance().UserData_Simple.get(userIndex));
+            if(listener != null)
+                listener.CompleteListener();
+        }
+
+        else
+        {
+            final DocumentReference docRef = mDataBase.collection("UserData_Simple").document(userIndex);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "GetUserData_Simple DocumentSnapshot data: " + document.getData());
+
+                            UserData tempUser = new UserData();
+
+                            if (document.getData().containsKey("NickName")) {
+                                String NickName = document.getData().get("NickName").toString();
+                                tempUser.SetUserNickName(NickName);
+                            } else
+                                tempUser.SetUserNickName(null);
+
+                            if (document.getData().containsKey("Index")) {
+                                String Index = document.getData().get("Index").toString();
+                                tempUser.SetUserIndex(Index);
+                            } else
+                                tempUser.SetUserIndex("1");
+
+                            if (document.getData().containsKey("Img_ThumbNail")) {
+                                String tempData = document.getData().get("Img_ThumbNail").toString();
+                                tempUser.SetUserImgThumb(tempData);
+                            } else
+                                tempUser.SetUserImgThumb(null);
+
+                            if (document.getData().containsKey("Img")) {
+                                tempUser.ClearUserImg();
+                                HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("Img");
+                                Set set = tempImg.entrySet();
+                                Iterator iterator = set.iterator();
+                                while (iterator.hasNext()) {
+                                    Map.Entry entry = (Map.Entry) iterator.next();
+                                    String key = (String) entry.getKey();
+                                    String value = (String) entry.getValue();
+                                    tempUser.SetUserImg(key, value);
+                                }
+                            }
+
+                            if (document.getData().containsKey("Favorite")) {
+                                HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("Favorite");
+                                Set set = tempImg.entrySet();
+                                Iterator iterator = set.iterator();
+                                while (iterator.hasNext()) {
+                                    Map.Entry entry = (Map.Entry) iterator.next();
+                                    String key = (String) entry.getKey();
+                                    String value = (String) entry.getValue();
+                                    tempUser.SetUserFavorite(key, value);
+                                }
+                            }
+
+                            if (document.getData().containsKey("ConnectDate")) {
+                                tempUser.SetUserConnectDate(Long.parseLong(document.getData().get("ConnectDate").toString()));
+                            } else
+                                tempUser.SetUserConnectDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
+
+                            if (document.getData().containsKey("Dist_Lon")) {
+                                tempUser.SetUserDist_Lon(Double.parseDouble(document.getData().get("Dist_Lon").toString()));
+                            } else
+                                tempUser.SetUserDist_Lon(126.978425);
+
+                            if (document.getData().containsKey("Dist_Lat")) {
+                                tempUser.SetUserDist_Lat(Double.parseDouble(document.getData().get("Dist_Lat").toString()));
+                            } else
+                                tempUser.SetUserDist_Lat(37.566659);
+
+                            double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), tempUser.GetUserDist_Lat(), tempUser.GetUserDist_Lon());
+                            tempUser.SetUserDist((long)Distance);
+
+
+                            if (document.getData().containsKey("Age")) {
+                                int Age = Integer.parseInt(document.getData().get("Age").toString());
+                                tempUser.SetUserAge(Age);
+                            } else
+                                tempUser.SetUserAge(50);
+
+                            if (document.getData().containsKey("Gender")) {
+                                int Gender = Integer.parseInt(document.getData().get("Gender").toString());
+                                tempUser.SetUserGender(Gender);
+                            } else
+                                tempUser.SetUserGender(0);
+
+                            getData.put(userIndex, tempUser);
+
+                            //AddFireBaseLoadingCount();
+                            Complete(listener);
+
+                        } else {
+                            Log.d(TAG, "No such document");
+                            Complete(listener);
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
+
     }
 
     public void SetUserFavoriteOnFireBase(final String favoriteName, boolean update) {

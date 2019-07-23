@@ -99,7 +99,7 @@ public class AuthActivity extends AppCompatActivity {
                                     Log.d("#### IAM ", String.valueOf(response.body().response));
 
 
-                                    Date tempDate = new Date(response.body().response.birth);
+                                    Date tempDate = new Date(response.body().response.birth * 1000);
 
                                     final int nAge = tempDate.getYear();
 

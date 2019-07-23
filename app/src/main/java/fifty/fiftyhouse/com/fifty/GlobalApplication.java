@@ -95,7 +95,7 @@ public class GlobalApplication extends Application {
         instance = this;
         KakaoSDK.init(new KakaoSDKAdapter());
 
-        MainMenuFont = Typeface.createFromAsset(this.getAssets(), "fonts/menu.ttf");
-        ContentFont = Typeface.createFromAsset(this.getAssets(), "fonts/content.ttf");
+     //   MainMenuFont = Typeface.createFromAsset(this.getAssets(), "fonts/menu.ttf");
+    //   ContentFont = Typeface.createFromAsset(this.getAssets(), "fonts/content.ttf");
     }
 }

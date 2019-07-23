@@ -1013,7 +1013,7 @@ public class CommonFunc {
 
                 }
             };
-            FirebaseManager.getInstance().SetMyDataOnFireBase(listener);
+            FirebaseManager.getInstance().SetMyDataOnFireBase(boot, listener);
         }
 
         else

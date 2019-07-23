@@ -28,6 +28,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SettingAccountActivity;
 import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
@@ -269,7 +270,7 @@ public class DialogFunc {
         });
     }
 
-    public void ShowUserSearchPopup(final Context context) {
+    public void ShowUserSearchPopup(final Context context, final  Activity activity) {
         final EditText et_User_Search_Popup_Name;
         TextView tv_User_Search_Popup_Buttons_OK, tv_User_Search_Popup_Buttons_Cancel;
 
@@ -290,6 +291,26 @@ public class DialogFunc {
                 if(CommonFunc.getInstance().CheckStringNull(et_User_Search_Popup_Name.getText().toString()))
                 {
                     DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.NICKNAME_EMPTY));
+                }
+                else
+                {
+                    FirebaseManager.CheckFirebaseComplete findListener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                            DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.NICKNAME_FIND_EMPTY));
+                        }
+                    };
+                    FirebaseManager.getInstance().FindUserByNickName(et_User_Search_Popup_Name.getText().toString(), activity, findListener);
                 }
 
                 dialog.dismiss();
