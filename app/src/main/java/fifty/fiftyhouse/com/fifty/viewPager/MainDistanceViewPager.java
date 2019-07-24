@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,6 +39,7 @@ import fifty.fiftyhouse.com.fifty.R;
 
 public class MainDistanceViewPager extends Fragment {
 
+    FloatingActionButton fa_Friend_UserList_Search;
     TextView tv_Main_Dis_Curr_Pos;
     TextView tv_Main_Dis_Sort_Type;
 
@@ -61,6 +63,7 @@ public class MainDistanceViewPager extends Fragment {
             rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
             tv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.tv_Main_Dis_Sort_Type);
+            fa_Friend_UserList_Search = v_FragmentView.findViewById(R.id.fa_Friend_UserList_Search);
 
             if(TKManager.getInstance().FilterData.GetDistance() == 100)
                 tv_Main_Dis_Sort_Type.setText("내 근처 : 전체");
@@ -74,6 +77,13 @@ public class MainDistanceViewPager extends Fragment {
                     Intent intent = new Intent(MainActivity.mActivity, SortSettingActivity.class);
                     startActivity(intent);
                     MainActivity.mActivity.finish();
+                }
+            });
+
+            fa_Friend_UserList_Search.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
                 }
             });
 
