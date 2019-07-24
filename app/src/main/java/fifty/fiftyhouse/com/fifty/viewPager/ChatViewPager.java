@@ -69,8 +69,10 @@ public class ChatViewPager extends Fragment {
         mAdapter = new ChatAdapter(getContext(), mType);
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
+        mAdapter.notifyDataSetChanged();
+       // rv_ChatList.scrollToPosition(mAdapter.getItemCount() - 1);
 
-        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+    /*    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
                 //if(TKManager.getInstance().MyData.UserList_Chat.size() == TKManager.getInstance().MyData.GetUserChatDataListCount())
@@ -100,7 +102,7 @@ public class ChatViewPager extends Fragment {
         while(iterator.hasNext()){
             String key = (String)iterator.next();
             FirebaseManager.getInstance().MonitorChatData(key, TKManager.getInstance().MyData, listener);
-        }
+        }*/
 
         rv_ChatList.setAdapter(mAdapter);
         rv_ChatList.setLayoutManager(new GridLayoutManager(getContext(), 1));

@@ -2,50 +2,21 @@ package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.google.android.gms.common.internal.service.Common;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
-import fifty.fiftyhouse.com.fifty.CommonFunc;
-import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
-import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
-import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
-import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
-import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
-import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
-import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
-import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.viewPager.ChatViewPager;
-import fifty.fiftyhouse.com.fifty.viewPager.FriendListViewPager;
-import fifty.fiftyhouse.com.fifty.viewPager.FriendRequestListViewPager;
 
 /**
  * A simple {@link Fragment} subclass.

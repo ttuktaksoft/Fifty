@@ -577,10 +577,11 @@ public class FirebaseManager {
 
     public void RemoveMonitorUserChatData()
     {
-        ChatDataMonitor_registration.remove();
+        if(ChatDataMonitor_registration != null)
+            ChatDataMonitor_registration.remove();
     }
 
-    public void MonitorUserChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
+    public void MonitorUserChatData(final String chatRoomIndex, final UserData userData, final CommonData.CHAT_ROOM_TYPE type , final CheckFirebaseComplete listener) {
 
         //TKManager.getInstance().MyData.ClearUserChatData();
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
@@ -661,8 +662,19 @@ public class FirebaseManager {
                                         tempData.SetMsgType(CommonData.MSGType.VIDEO);
                                         break;
                                 }
+                                tempData.SetRoomType(type);
                                 userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
+                                if(type == CommonData.CHAT_ROOM_TYPE.DEFAULT)
+                                {
+
+                                }
+                                else
+                                {
+                                }
+
+
                                 userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
+
 
                                 mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(tempData.GetRoomIndex())
                                         .set(tempData, SetOptions.merge())
@@ -814,6 +826,7 @@ public class FirebaseManager {
                             case ADDED:
                             case MODIFIED:
                                 String tempRoomName = document.getDocument().getId().toString();
+                                CommonData.CHAT_ROOM_TYPE tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
 
                                 if(!document.getDocument().getId().equals("Index"))
                                 {
@@ -834,17 +847,45 @@ public class FirebaseManager {
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                                     tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
 
+
+
+                                    if (document.getDocument().getData().containsKey("RoomType")) {
+                                        tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
+                                    }
+
+                                    tempData.SetRoomType(tempRoomType);
+
                                     CommonData.MSGType tempType = CommonData.MSGType.valueOf(document.getDocument().getData().get("MsgType").toString());
                                     tempData.SetMsgType(tempType);
 
-                                    userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
+                                    if (tempData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
+                                        userData.SetUserBookMarkChatDataList(tempRoomName, tempData);
+                                    }
+                                    else
+                                    {
+                                        userData.SetUserChatDataList(tempRoomName, tempData);
+                                    }
+                                    userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
+
                                 }
 
 
                                 break;
                             case REMOVED:
                                 tempRoomName = document.getDocument().getId().toString();
-                                userData.DelUserChatDataList(tempRoomName);
+                                tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
+
+                                if (document.getDocument().getData().containsKey("RoomType")) {
+                                    tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
+                                }
+
+                                if (tempRoomType == CommonData.CHAT_ROOM_TYPE.BOOKMARK) {
+                                    userData.DelUserBookMarkChatDataList(tempRoomName);
+                                }
+                                else
+                                {
+                                    userData.DelUserChatDataList(tempRoomName);
+                                }
                                 break;
                         }
                     }
@@ -913,20 +954,35 @@ public class FirebaseManager {
                             CommonData.MSGType tempType = CommonData.MSGType.valueOf(document.getDocument().getData().get("MsgType").toString());
                             tempData.SetMsgType(tempType);
 
-                            userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
-
-
                             if (tempData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
                                 userData.SetUserBookMarkChatDataList(tempRoomName, tempData);
                             }
-                            userData.UserList_Chat.add(tempRoomName);
+                            else
+                            {
+                                userData.SetUserChatDataList(tempRoomName, tempData);
+                            }
+                            userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
+                           // userData.UserList_Chat.add(tempRoomName);
 
                             //userData.SetUserChatList(tempRoomName, tempRoomName);
 
                             break;
                         case REMOVED:
                             tempRoomName = document.getDocument().getId().toString();
-                            userData.DelUserChatDataList(tempRoomName);
+                            tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
+
+                            if (document.getDocument().getData().containsKey("RoomType")) {
+                                tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
+                            }
+
+                            if (tempRoomType == CommonData.CHAT_ROOM_TYPE.BOOKMARK) {
+                                userData.DelUserBookMarkChatDataList(tempRoomName);
+                            }
+                            else
+                            {
+                                userData.DelUserChatDataList(tempRoomName);
+                            }
+
                             break;
                     }
                 }
@@ -2427,10 +2483,12 @@ public class FirebaseManager {
     }
 
 
-    public void AddChatData(final String roomIndex, final ChatData chatData) {
+    public void AddChatData(final String roomIndex, final String targetIndex, final CommonData.CHAT_ROOM_TYPE type, final ChatData chatData) {
 
         final String userIndex = TKManager.getInstance().MyData.GetUserIndex();
         final Long[] newPopulation = new Long[1];
+
+
 
         final DocumentReference sfChatIndexRef = mDataBase.collection("ChatRoomData").document(roomIndex).collection(roomIndex).document("Index");
         mDataBase.runTransaction(new Transaction.Function<Void>() {
@@ -2464,8 +2522,49 @@ public class FirebaseManager {
                             }
                         });
 
+                Map<String, Object> tempTargetChatData = new HashMap<>();
+                tempTargetChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserIndex());
+                tempTargetChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserNickName());
+                tempTargetChatData.put("Msg", chatData.GetMsg());
+                tempTargetChatData.put("MsgDate", chatData.GetMsgDate());
+                tempTargetChatData.put("MsgReadCheck", chatData.GetMsgReadCheck());
+                tempTargetChatData.put("MsgSender", chatData.GetMsgSender());
+                tempTargetChatData.put("MsgType", chatData.GetMsgType());
+                tempTargetChatData.put("MsgIndex", chatData.GetMsgIndex());
+                tempTargetChatData.put("RoomIndex", chatData.GetRoomIndex());
+                tempTargetChatData.put("ToIndex", targetIndex);
+
+                mDataBase.collection("UserData").document(targetIndex).collection("ChatRoomList").document(roomIndex)
+                        .set(tempTargetChatData, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+                Map<String, Object> tempMyChatData = new HashMap<>();
+                tempMyChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserIndex());
+                tempMyChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserNickName());
+                tempMyChatData.put("Msg", chatData.GetMsg());
+                tempMyChatData.put("MsgDate", chatData.GetMsgDate());
+                tempMyChatData.put("MsgReadCheck", chatData.GetMsgReadCheck());
+                tempMyChatData.put("MsgSender", chatData.GetMsgSender());
+                tempMyChatData.put("MsgType", chatData.GetMsgType());
+                tempMyChatData.put("MsgIndex", chatData.GetMsgIndex());
+                tempMyChatData.put("RoomIndex", chatData.GetRoomIndex());
+                tempMyChatData.put("ToIndex", targetIndex);
+                tempMyChatData.put("RoomType", type);
+
+
                 mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(roomIndex)
-                        .set(chatData, SetOptions.merge())
+                        .set(tempMyChatData, SetOptions.merge())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -2695,6 +2794,52 @@ public class FirebaseManager {
                     }
                 });
     }
+
+
+    public void ChangeChatRoomType(final String chatIndex, final  CommonData.CHAT_ROOM_TYPE type, final FirebaseManager.CheckFirebaseComplete listener) {
+        Map<String, Object> RoomType = new HashMap<>();
+        RoomType.put("RoomType", type);
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(chatIndex)
+                .set(RoomType, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                        if(listener != null)
+                            listener.CompleteListener_No();
+                    }
+                });
+    }
+
+    public void RemoveChatList(final String chatIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(chatIndex).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                        if(listener != null)
+                            listener.CompleteListener_No();
+                    }
+                });
+    }
+
 
     public void RemoveClubContext(final String clubIndex, final String dataIndex, final FirebaseManager.CheckFirebaseComplete listener) {
          mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext").document(dataIndex).delete()

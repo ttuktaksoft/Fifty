@@ -226,8 +226,47 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                // TODO 삭제
-                TKManager.getInstance().MyData.DelUserChatDataList(data);
-                TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+
+                DialogFunc.getInstance().ShowLoadingPage(mContext);
+
+                CommonData.CHAT_ROOM_TYPE mType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
+
+                if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
+                {
+                    TKManager.getInstance().MyData.GetUserChatDataList(data).SetRoomType(CommonData.CHAT_ROOM_TYPE.BOOKMARK);
+                    mType = CommonData.CHAT_ROOM_TYPE.BOOKMARK;
+                    TKManager.getInstance().MyData.SetUserBookMarkChatDataList(data, TKManager.getInstance().MyData.GetUserChatDataList(data));
+                    TKManager.getInstance().MyData.DelUserChatDataList(data);
+
+                }
+                else
+                {
+                    TKManager.getInstance().MyData.GetUserBookMarkChatDataList(data).SetRoomType(CommonData.CHAT_ROOM_TYPE.DEFAULT);
+                    mType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
+                    TKManager.getInstance().MyData.SetUserChatDataList(data, TKManager.getInstance().MyData.GetUserBookMarkChatDataList(data));
+                    TKManager.getInstance().MyData.DelUserBookMarkChatDataList(data);
+                }
+
+                FirebaseManager.CheckFirebaseComplete ChangeListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().ChangeChatRoomType(data, mType, ChangeListener);
+
             }
         });
 
@@ -235,8 +274,34 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 // TODO 삭제
-                TKManager.getInstance().MyData.DelUserChatDataList(data);
-                TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+                if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
+                {
+                    TKManager.getInstance().MyData.DelUserChatDataList(data);
+                }
+                else
+                {
+                    TKManager.getInstance().MyData.DelUserBookMarkChatDataList(data);
+                }
+
+                FirebaseManager.CheckFirebaseComplete deleteListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
+                };
+
+                FirebaseManager.getInstance().RemoveChatList(data, deleteListener);
             }
         });
 
@@ -245,7 +310,17 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             public void onClick(View view) {
 
                 final String strTargetIndex;
-                final ChatData tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(data);
+
+                ChatData tempChatData = new ChatData();
+                if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
+                {
+                    tempChatData = TKManager.getInstance().MyData.GetUserChatDataList(data);
+                }
+                else
+                {
+                    tempChatData = TKManager.getInstance().MyData.GetUserBookMarkChatDataList(data);
+                }
+
 
                 int idx = tempChatData.GetRoomIndex().indexOf("_");
                 String tempStr = tempChatData.GetRoomIndex().substring(0, idx);
@@ -259,7 +334,42 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                     strTargetIndex = tempStr;
                 }
 
+                final ChatData finalTempChatData = tempChatData;
 
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
+                        intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
+                        intent.putExtra("RoomType", finalTempChatData.GetRoomType());
+                        //startActivity(intent);
+                        ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                if(TKManager.getInstance().UserData_Simple.get(strTargetIndex) != null)
+                {
+                    Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
+                    intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
+                    intent.putExtra("RoomType", finalTempChatData.GetRoomType().name());
+                    ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
+                }
+                else
+                {
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                    FirebaseManager.getInstance().GetUserData_Simple(strTargetIndex, TKManager.getInstance().UserData_Simple, listener);
+                }
+
+
+             /*
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
@@ -268,7 +378,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                             @Override
                             public void CompleteListener() {
                                 Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
-                                intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                                intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
                                 //startActivity(intent);
                                 ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
                             }
@@ -285,7 +395,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                         if(TKManager.getInstance().UserData_Simple.get(strTargetIndex) != null)
                         {
                             Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
-                            intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                            intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
                             ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
                         }
                         else
@@ -305,7 +415,8 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                     }
                 };
 
-                FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
+                FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);*/
+
             }
         });
     }

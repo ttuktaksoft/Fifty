@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.gun0912.tedpermission.util.ObjectUtils;
 
 import java.util.ArrayList;
 
@@ -263,6 +264,14 @@ public class UserProfileActivity extends AppCompatActivity {
                                             DialogFunc.getInstance().DismissLoadingPage();
                                             Intent intent = new Intent(mContext, ChatBodyActivity.class);
                                             intent.putExtra("RoomIndex",ChatRoomIndex);
+                                            if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex)))
+                                            {
+                                                intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex).GetRoomType().name());
+                                            }
+                                            else
+                                            {
+                                                intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex).GetRoomType().name());
+                                            }
                                             startActivity(intent);
                                         }
 
@@ -280,6 +289,14 @@ public class UserProfileActivity extends AppCompatActivity {
                                         DialogFunc.getInstance().DismissLoadingPage();
                                         Intent intent = new Intent(mContext, ChatBodyActivity.class);
                                         intent.putExtra("RoomIndex",ChatRoomIndex);
+                                        if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex)))
+                                        {
+                                            intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex).GetRoomType().name());
+                                        }
+                                        else
+                                        {
+                                            intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex).GetRoomType().name());
+                                        }
                                         startActivity(intent);
                                     }
                                     else
@@ -314,6 +331,14 @@ public class UserProfileActivity extends AppCompatActivity {
                                             DialogFunc.getInstance().DismissLoadingPage();
                                             Intent intent = new Intent(mContext, ChatBodyActivity.class);
                                             intent.putExtra("RoomIndex",AnotherChatRoomIndex);
+                                            if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserChatDataList(AnotherChatRoomIndex)))
+                                            {
+                                                intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(AnotherChatRoomIndex).GetRoomType().name());
+                                            }
+                                            else
+                                            {
+                                                intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(AnotherChatRoomIndex).GetRoomType().name());
+                                            }
                                             startActivity(intent);
                                         }
 
@@ -331,6 +356,16 @@ public class UserProfileActivity extends AppCompatActivity {
                                         DialogFunc.getInstance().DismissLoadingPage();
                                         Intent intent = new Intent(mContext, ChatBodyActivity.class);
                                         intent.putExtra("RoomIndex",AnotherChatRoomIndex);
+
+                                        if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserChatDataList(AnotherChatRoomIndex)))
+                                        {
+                                            intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(AnotherChatRoomIndex).GetRoomType().name());
+                                        }
+                                        else
+                                        {
+                                            intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(AnotherChatRoomIndex).GetRoomType().name());
+                                        }
+
                                         startActivity(intent);
                                     }
                                     else
@@ -382,6 +417,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                             Intent intent = new Intent(mContext, ChatBodyActivity.class);
                             intent.putExtra("RoomIndex",tempChatData.GetRoomIndex());
+                            intent.putExtra("RoomType", tempChatData.GetRoomType().name());
                             startActivity(intent);
 
                         }

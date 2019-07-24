@@ -60,6 +60,8 @@ public class ChatBodyActivity extends AppCompatActivity {
     boolean isProfileUpload = false;
     boolean isCamera = false;
 
+    CommonData.CHAT_ROOM_TYPE mType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,8 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         strRoomIndex = getIntent().getStringExtra("RoomIndex");
+        mType = CommonData.CHAT_ROOM_TYPE.valueOf(getIntent().getStringExtra("RoomType").toString());
+
         int idx = strRoomIndex.indexOf("_");
         String tempStr = strRoomIndex.substring(0, idx);
         String tempStrBack = strRoomIndex.substring(idx+1);
@@ -267,7 +271,7 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         };
 
-        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
+        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, mType, listener);
 
 
         rv_Chat_Body_List.setAdapter(mAdapter);
@@ -414,7 +418,8 @@ public class ChatBodyActivity extends AppCompatActivity {
         tempData.SetToNickName(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
         tempData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserImgThumb());
 
-        FirebaseManager.getInstance().AddChatData(strRoomIndex,tempData);
+
+        FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, tempData);
 
         imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
         et_Chat_Body_Msg.setText(null);
@@ -423,7 +428,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        FirebaseManager.getInstance().RemoveMonitorUserChatData();
+        //FirebaseManager.getInstance().RemoveMonitorUserChatData();
     }
 
 }
