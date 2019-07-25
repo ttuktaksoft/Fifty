@@ -39,6 +39,8 @@
     <string name="MSG_CLUB_JOIN_OK">가입 승인</string>
     <string name="MSG_CLUB_JOIN_CENCEL">가입 거절</string>
     <string name="MSG_CLUB_JOIN_REQUEST">가입 신청</string>
+    <string name="MSG_CLUB_JOIN_CHAT">단체 채팅방</string>
+    <string name="MSG_CLUB_MAIN_WRITE">글쓰기</string>
     <string name="MSG_CLUB_JOIN_REQUEST_CANCEL">가입 신청 취소</string>
     <string name="MSG_CLUB_JOIN_REQUEST_DESC">클럽 가입 신청을 하시겠습니까?</string>
     <string name="MSG_CLUB_JOIN_REQUEST_CANCEL_DESC">클럽 가입 신청을 취소하시겠습니까?</string>
@@ -156,6 +158,7 @@
     <string name="MSG_CHAT_FONT_SIZE_DEFAULT">보통</string>
     <string name="MSG_CHAT_FONT_SIZE_BIG">크게</string>
     <string name="MSG_CLUB_INFO_DESC">클럽 소개</string>
+    <string name="MSG_CLUB_OPEN_DAY">개설일</string>
     <string name="MSG_USER_SEARCH_TITLE">유저 찾기</string>
     <string name="MSG_USER_SEARCH_HINT">닉네임을 입력해주세요</string>
 

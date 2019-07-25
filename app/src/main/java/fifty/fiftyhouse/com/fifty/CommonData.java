@@ -124,4 +124,6 @@ public class CommonData {
     public static final int CHAT_FONT_SIZE_DEFAULT = 21;
     public static final int CHAT_FONT_SIZE_BIG = 24;
 
+    public static final int CLUB_MINI_USER_MAX_VIEW = 10;
+
 }

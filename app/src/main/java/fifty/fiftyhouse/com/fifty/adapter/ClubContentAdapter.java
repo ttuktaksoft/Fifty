@@ -50,9 +50,10 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
     Context mContext;
     int mItemCount = 0;
     ArrayList<String> mItemData = new ArrayList<>();
-
-    public ClubContentAdapter(Context context) {
+    boolean mClubBody;
+    public ClubContentAdapter(Context context, boolean body) {
         mContext = context;
+        mClubBody = body;
     }
 
 
@@ -60,7 +61,7 @@ public class ClubContentAdapter extends RecyclerView.Adapter<ClubContentListHold
     public ClubContentListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_club_content, parent, false);
 
-        return new ClubContentListHolder(view);
+        return new ClubContentListHolder(view, mClubBody);
     }
 
     @Override
@@ -91,9 +92,9 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         BIG_IMG,
         IMG,
     }
-    ConstraintLayout v_Club_Con_View;
+    ConstraintLayout v_Club_Con_View, v_Club_Reply_Count;
     public ImageView iv_Club_Con_Profile, iv_Club_Con_Menu;
-    public TextView tv_Club_Con_Nickname, tv_Club_Con_Date, tv_Club_Con_Desc;
+    public TextView tv_Club_Con_Nickname, tv_Club_Con_Date, tv_Club_Con_Desc, tv_Club_Reply_Count;
     public ImageView tv_Club_Con_BigImg, tv_Club_Con_Img_1, tv_Club_Con_Img_2, tv_Club_Con_Img_3;
     public RecyclerView rv_Club_Reply_List;
     CLUB_CONTENT_TYPE mContentType;
@@ -101,12 +102,15 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
     Context mContext;
 
     String mClubKey;
+    boolean mClubBody;
 
-    public ClubContentListHolder(View itemView) {
+    public ClubContentListHolder(View itemView, boolean body) {
         super(itemView);
         mContext = itemView.getContext();
+        mClubBody = body;
 
         v_Club_Con_View = itemView.findViewById(R.id.v_Club_Con_View);
+        v_Club_Reply_Count = itemView.findViewById(R.id.v_Club_Reply_Count);
         iv_Club_Con_Profile = itemView.findViewById(R.id.iv_Club_Con_Profile);
         tv_Club_Con_Nickname = itemView.findViewById(R.id.tv_Club_Con_Nickname);
         tv_Club_Con_Date = itemView.findViewById(R.id.tv_Club_Con_Date);
@@ -115,6 +119,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         tv_Club_Con_Img_1 = itemView.findViewById(R.id.tv_Club_Con_Img_1);
         tv_Club_Con_Img_2 = itemView.findViewById(R.id.tv_Club_Con_Img_2);
         tv_Club_Con_Img_3 = itemView.findViewById(R.id.tv_Club_Con_Img_3);
+        tv_Club_Reply_Count = itemView.findViewById(R.id.tv_Club_Reply_Count);
         rv_Club_Reply_List = itemView.findViewById(R.id.rv_Club_Reply_List);
         iv_Club_Con_Menu = itemView.findViewById(R.id.iv_Club_Con_Menu);
 
@@ -151,6 +156,16 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         tv_Club_Con_Img_3.setLayoutParams(lp_Club_Con_Img_3);
         tv_Club_Con_Img_3.setPadding(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
 
+        if(mClubBody)
+        {
+            v_Club_Reply_Count.setVisibility(View.GONE);
+            rv_Club_Reply_List.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            v_Club_Reply_Count.setVisibility(View.VISIBLE);
+            rv_Club_Reply_List.setVisibility(View.GONE);
+        }
         initReplyList();
     }
 
@@ -393,6 +408,18 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                 ClubActivity.mClubActivity.startActivityForResult(intent, 1000);
             }
         });
+
+        v_Club_Reply_Count.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, ClubBodyActivity.class);
+                intent.putExtra("Type",0);
+                intent.putExtra("key", key);
+                ClubActivity.mClubActivity.startActivityForResult(intent, 1000);
+            }
+        });
+
+        tv_Club_Reply_Count.setText(Integer.toString(tempData.GetReplyDataCount()));
     }
 
     private void setClubContentType(CLUB_CONTENT_TYPE type)
@@ -422,7 +449,10 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                 break;
         }
 
-        rv_Club_Reply_List.setLayoutParams(lp_Club_Reply_List);
+        if(mClubBody)
+            rv_Club_Reply_List.setLayoutParams(lp_Club_Reply_List);
+        else
+            v_Club_Reply_Count.setLayoutParams(lp_Club_Reply_List);
     }
 
     private void initReplyList()

@@ -134,6 +134,53 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Club_Reply_Count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Club_Con_Desc"
+        android:background="@color/white">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            app:layout_constraintRight_toRightOf="@+id/v_Club_Reply_Count"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Club_Reply_Count"
+            app:layout_constraintTop_toTopOf="@+id/v_Club_Reply_Count"
+            android:alpha="0.5"
+            android:background="@color/line_color"
+            />
+
+        <ImageView
+            android:id="@+id/iv_Club_Reply_Count"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Club_Reply_Count"
+            app:layout_constraintRight_toLeftOf="@+id/tv_Club_Reply_Count"
+            app:layout_constraintTop_toTopOf="@+id/v_Club_Reply_Count"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Club_Reply_Count"
+            android:src="@drawable/ic_reply"
+            android:tint="@color/str_color_4"/>
+
+        <TextView
+            android:id="@+id/tv_Club_Reply_Count"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            style="@style/BaseContentTextView"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintLeft_toRightOf="@+id/iv_Club_Reply_Count"
+            app:layout_constraintRight_toRightOf="@+id/v_Club_Reply_Count"
+            app:layout_constraintTop_toTopOf="@+id/v_Club_Reply_Count"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Club_Reply_Count"
+            android:text="2"
+            android:gravity="center"
+            android:textColor="@color/str_color_4"
+            android:textStyle="bold"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>
