@@ -19,6 +19,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
@@ -30,6 +32,12 @@ import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -44,6 +52,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
+import static com.kakao.auth.StringSet.file;
 import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
 
 public class LoadingActivity extends AppCompatActivity {
@@ -124,7 +133,7 @@ public class LoadingActivity extends AppCompatActivity {
                     //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
                     userIndex = sf.getString("Index","");
 
-                     // userIndex = null;
+                    // userIndex = null;
 
                     //Log.d("#@!!",  userIndex);
                     if(CommonFunc.getInstance().CheckStringNull(userIndex))
@@ -168,11 +177,7 @@ public class LoadingActivity extends AppCompatActivity {
             };
             FirebaseManager.getInstance().SignInAnonymously(LoadingActivity.this, signListener);
 
-
-
-
-
-        }
+            }
         }
         CommonFunc.getInstance().mCurActivity = this;
     }

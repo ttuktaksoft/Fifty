@@ -147,7 +147,30 @@ public class ClubSettingActivity extends AppCompatActivity {
                 final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
                     @Override
                     public void Listener() {
+                        DialogFunc.getInstance().ShowLoadingPage(ClubSettingActivity.this);
+
                         // 클럽 탈퇴
+                        FirebaseManager.CheckFirebaseComplete removeListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                TKManager.getInstance().MyData.DelUserClubData(TKManager.getInstance().TargetClubData.GetClubIndex());
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                DialogFunc.getInstance().ShowToast(ClubSettingActivity.this, "탈퇴 되었습니다", true);
+                                finish();
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+
+                            }
+                        };
+
+                        FirebaseManager.getInstance().RemoveClubMember(TKManager.getInstance().TargetClubData, TKManager.getInstance().MyData.GetUserIndex(), removeListener);
                     }
                 };
 

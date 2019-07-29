@@ -28,6 +28,9 @@ public class ClubData  implements Cloneable{
 
         ClubIndex = null;
         ClubName = null;
+        ClubCreateDate = 0;
+        ClubComment = null;
+
     }
 
     public String ClubIndex;
@@ -46,6 +49,8 @@ public class ClubData  implements Cloneable{
 
     public int ClubContextCount;
     public int ClubMemberCount;
+    public long ClubCreateDate;
+    public String ClubComment;
 
     public void SetClubIndex(String index) {
         ClubIndex = index;
@@ -53,6 +58,24 @@ public class ClubData  implements Cloneable{
 
     public String GetClubIndex() {
         return ClubIndex;
+    }
+
+    public void SetClubComment(String vip)
+    {
+        ClubComment = vip;
+    }
+    public String GetClubComment()
+    {
+        return ClubComment;
+    }
+
+    public void SetClubCreateDate(long vip)
+    {
+        ClubCreateDate = vip;
+    }
+    public long GetClubCreateDate()
+    {
+        return ClubCreateDate;
     }
 
     public void SetClubType(boolean vip)
@@ -92,6 +115,14 @@ public class ClubData  implements Cloneable{
     public String GetClubMember(String index)
     {
         return ClubMemberList.get(index);
+    }
+    public Map<String, String>  GetClubMember()
+    {
+        return ClubMemberList;
+    }
+    public void  DelClubMember(String index)
+    {
+        ClubMemberList.remove(index);
     }
 
     public int GetClubMemberCount()

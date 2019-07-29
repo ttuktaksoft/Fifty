@@ -217,7 +217,27 @@ public class UserListActivity extends AppCompatActivity {
                         public void Listener()
                         {
                             // 가입 승인
-                            DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입승인", true);
+                            FirebaseManager.CheckFirebaseComplete RequestListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    TKManager.getInstance().UserData_RequestJoin.remove(tempUserIndex);
+                                    DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입승인", true);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+
+                            FirebaseManager.getInstance().RegistClubMember(TKManager.getInstance().TargetClubData, tempUserIndex, false, RequestListener);
+
                         }
                     });
                     list.add(new DialogFunc.MsgPopupListener()
@@ -226,7 +246,27 @@ public class UserListActivity extends AppCompatActivity {
                         public void Listener()
                         {
                             // 가입 거절
-                            DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입거절", true);
+                            FirebaseManager.CheckFirebaseComplete RequestListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    TKManager.getInstance().UserData_RequestJoin.remove(tempUserIndex);
+                                    DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입거절", true);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+
+                            FirebaseManager.getInstance().RegistClubMember(TKManager.getInstance().TargetClubData, tempUserIndex, true, RequestListener);
+
                         }
                     });
 
@@ -236,7 +276,7 @@ public class UserListActivity extends AppCompatActivity {
                 }
                 else if(mUserListType == CommonData.USER_LIST_CLUB)
                 {
-                    if(TKManager.getInstance().TargetClubData.GetClubMasterIndex() == TKManager.getInstance().MyData.GetUserIndex())
+                    if(TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                     {
                         ArrayList<String> menuList = new ArrayList<>();
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW_PROFILE));
@@ -257,8 +297,26 @@ public class UserListActivity extends AppCompatActivity {
                             @Override
                             public void Listener()
                             {
-                                // 가입 승인
-                                DialogFunc.getInstance().ShowToast(UserListActivity.this, "클럽 추방", true);
+                                FirebaseManager.CheckFirebaseComplete removeListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        TKManager.getInstance().TargetClubData.DelClubMember(tempUserIndex);
+                                        DialogFunc.getInstance().ShowToast(UserListActivity.this, "클럽 추방", true);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+
+                                    }
+                                };
+
+                                FirebaseManager.getInstance().RemoveClubMember(TKManager.getInstance().TargetClubData, tempUserIndex, removeListener);
+
                             }
                         });
 

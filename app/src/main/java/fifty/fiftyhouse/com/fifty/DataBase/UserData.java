@@ -143,12 +143,15 @@ public class UserData {
     private Map<String, ChatData> ChatRoomData = new LinkedHashMap<>();
 
     private Map<String, Long> ChatReadIndex = new LinkedHashMap<>();
+    private Map<String, Long> SaveChatReadIndex = new LinkedHashMap<>();
+
     public ArrayList<String> UserList_Chat = new ArrayList<>();
     private String PassWord;
     private String PhoneNumber;
     private String Name;
 
     public Map<String, ClubData> ClubData = new LinkedHashMap<>();
+    public Map<String, ClubData> RecommendClubData = new LinkedHashMap<>();
     public long ConnectDate;
 
     public Map<String, ClubData> RequestJoinClubList = new LinkedHashMap<>();
@@ -418,13 +421,34 @@ public class UserData {
         ChatRoomDataList.clear();
     }
 
+    public void SetUserSaveChatReadIndexList(String chatRoomIdx, Long index)
+    {
+        SaveChatReadIndex.put(chatRoomIdx, index);
+    }
+    public Long  GetUserSaveChatReadIndexList(String chatRoomIdx)
+    {
+      return SaveChatReadIndex.get(chatRoomIdx);
+    }
+    public int  GetUserSaveChatReadIndexListCount()
+    {
+        return SaveChatReadIndex.size();
+    }
+    public Set  GetUserSaveChatReadIndexListKeySet()
+    {
+        return SaveChatReadIndex.keySet();
+    }
+    public void  DelUserSaveChatReadIndexList(String chatRoomIdx)
+    {
+        SaveChatReadIndex.remove(chatRoomIdx);
+    }
+
     public void SetUserChatReadIndexList(String chatRoomIdx, Long index)
     {
         ChatReadIndex.put(chatRoomIdx, index);
     }
     public Long  GetUserChatReadIndexList(String chatRoomIdx)
     {
-      return ChatReadIndex.get(chatRoomIdx);
+        return ChatReadIndex.get(chatRoomIdx);
     }
     public int  GetUserChatReadIndexListCount()
     {
@@ -438,6 +462,7 @@ public class UserData {
     {
         ChatReadIndex.remove(chatRoomIdx);
     }
+
 
     public void SetUserChatData(String chatIdx, ChatData data)
     {
@@ -693,6 +718,19 @@ public class UserData {
         return ClubData;
     }
     public Set GetUserClubDataKeySet() { return  ClubData.keySet(); }
+    public void DelUserClubData(String index) {  ClubData.remove(index); }
+
+    public void SetUserRecommendClubData(String Idx, ClubData data){ RecommendClubData.put(Idx, data); }
+    public ClubData  GetUserRecommendClubData(String index){ return RecommendClubData.get(index); }
+    public int  GetUserRecommendClubDataCount()
+    {
+        return RecommendClubData.size();
+    }
+    public Map<String, ClubData>  GetUserRecommendClubData()
+    {
+        return RecommendClubData;
+    }
+    public Set GetUserRecommendClubDataKeySet() { return  RecommendClubData.keySet(); }
 
 
     public void SetRequestJoinClubList(String Idx, ClubData data){ RequestJoinClubList.put(Idx, data); }
@@ -706,6 +744,8 @@ public class UserData {
         return RequestJoinClubList;
     }
     public Set GetRequestJoinClubListKeySet() { return  RequestJoinClubList.keySet(); }
+    public boolean ExistRequestJoinClubList(String key) {return RequestJoinClubList.containsKey(key);}
+    public void DelRequestJoinClubList(String key) { RequestJoinClubList.remove(key);}
 
     public void SetReportContextList(String Idx, ClubContextData data){ ReportContextList.put(Idx, data); }
     public ClubContextData  GetReportContextList(String index){ return ReportContextList.get(index); }

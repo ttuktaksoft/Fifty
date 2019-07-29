@@ -22,10 +22,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -90,13 +92,18 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.i_main_bottom_club:
 
                                 DialogFunc.getInstance().ShowLoadingPage(MainActivity.this);
-                                Set KeySet = TKManager.getInstance().MyData.GetUserClubDataKeySet();
+
+                                Map<String, ClubData> tempClub = new LinkedHashMap<>();
+                                tempClub.putAll(TKManager.getInstance().MyData.GetUserClubData());
+                                tempClub.putAll(TKManager.getInstance().MyData.GetUserRecommendClubData());
+
+                                Set KeySet = tempClub.keySet();
 
                                 if(KeySet.size() > 0)
                                 {
                                     Iterator iterator = KeySet.iterator();
 
-                                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserClubDataCount());
+                                    FirebaseManager.getInstance().SetFireBaseLoadingCount(tempClub.size());
 
                                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                                         @Override

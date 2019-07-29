@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.Manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
@@ -33,6 +35,7 @@ import com.google.firebase.firestore.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
 import org.imperiumlabs.geofirestore.GeoFirestore;
 import org.imperiumlabs.geofirestore.GeoQuery;
@@ -1200,6 +1203,42 @@ public class FirebaseManager {
         }
     }
 
+    private void GetUserRequestClubList(String userIndex,final  boolean mydata, final CheckFirebaseComplete listener) {
+        CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("RequestClubList");
+        //final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+
+        if(mydata)
+        {
+            colRef.orderBy("Date", Query.Direction.DESCENDING).limit(20).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
+                    for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
+                        switch (document.getType()) {
+                            case ADDED:
+                            case MODIFIED:
+
+                                ClubData tempData = new ClubData();
+                                tempData.SetClubIndex(document.getDocument().getData().get("index").toString());
+                                TKManager.getInstance().MyData.SetRequestJoinClubList(document.getDocument().getData().get("index").toString(), tempData);
+
+                                break;
+                            case REMOVED:
+                                break;
+                        }
+                    }
+
+                    if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
+                        listener.CompleteListener();
+                }
+            });
+        }
+    }
+
+
 
     public void GetUserData(final String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
@@ -1208,7 +1247,7 @@ public class FirebaseManager {
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
         {
             bMyData = true;
-            SetFireBaseLoadingCount(8);
+            SetFireBaseLoadingCount(10);
             //SetFireBaseLoadingCount(7);
         }
         else
@@ -1431,6 +1470,24 @@ public class FirebaseManager {
                         };
                         GetUserVisitList(userIndex, userData, finalMyData, VisitUserListener);
 
+                        FirebaseManager.CheckFirebaseComplete ClubRequestUserListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Complete(listener);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+                        if(finalMyData)
+                            GetUserRequestClubList(userIndex, finalMyData,ClubRequestUserListener );
+
+
                         FirebaseManager.CheckFirebaseComplete ClubUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
@@ -1446,6 +1503,24 @@ public class FirebaseManager {
                             }
                         };
                         GetUserClubList(userIndex, userData, ClubUserListener);
+
+                        FirebaseManager.CheckFirebaseComplete RecommendClubListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Complete(listener);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+                        if(finalMyData)
+                            RecommendClubList(RecommendClubListener);
+
 
                         if (document.getData().containsKey("Dist")) {
                             userData.SetUserDist(Integer.parseInt(document.getData().get("Dist").toString()));
@@ -1817,8 +1892,7 @@ public class FirebaseManager {
         if(TKManager.getInstance().UserData_Simple.get(userIndex) != null)
         {
             getData.put(userIndex, TKManager.getInstance().UserData_Simple.get(userIndex));
-            if(listener != null)
-                listener.CompleteListener();
+            Complete(listener);
         }
 
         else
@@ -1990,6 +2064,33 @@ public class FirebaseManager {
 
         RegistFavoriteListInUserData(favoriteName, update);
         RegistFavoriteList(favoriteName);
+    }
+
+    public void RecommendClubList(final FirebaseManager.CheckFirebaseComplete listener) {
+        CollectionReference colRef = mDataBase.collection("ClubData");
+        colRef.orderBy("ClubMemberCount", Query.Direction.DESCENDING).limit(6).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
+
+               //        AddFireBaseLoadingCount();
+                        ClubData tempClubData = new ClubData();
+                        tempClubData.SetClubIndex(document.getId());
+                        TKManager.getInstance().MyData.SetUserRecommendClubData(document.getId(), tempClubData);
+                        //GetClubData_Simple(document.getId(), TKManager.getInstance().MyData.RecommendClubData, listener);
+                    }
+
+                    if(listener != null)
+                        listener.CompleteListener();
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
 
@@ -2483,7 +2584,7 @@ public class FirebaseManager {
     }
 
 
-    public void AddChatData(final String roomIndex, final String targetIndex, final CommonData.CHAT_ROOM_TYPE type, final ChatData chatData) {
+    public void AddChatData(final String roomIndex, final String targetIndex, final CommonData.CHAT_ROOM_TYPE type, final  Context context, final ChatData chatData) {
 
         final String userIndex = TKManager.getInstance().MyData.GetUserIndex();
         final Long[] newPopulation = new Long[1];
@@ -2562,6 +2663,15 @@ public class FirebaseManager {
                 tempMyChatData.put("ToIndex", targetIndex);
                 tempMyChatData.put("RoomType", type);
 
+                HashMap<String, Long> ReadIndex = new HashMap<String, Long>();
+                ReadIndex.put(chatData.GetRoomIndex(), chatData.GetMsgIndex());
+
+                //convert to string using gson
+                Gson gson = new Gson();
+                String hashMapString = gson.toJson(ReadIndex);
+
+                SharedPreferences prefs = context.getSharedPreferences("userFile", context.MODE_PRIVATE);
+                prefs.edit().putString("SaveReadChatIndex", hashMapString).apply();
 
                 mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(roomIndex)
                         .set(tempMyChatData, SetOptions.merge())
@@ -3131,8 +3241,9 @@ public class FirebaseManager {
                     }
                     else
                     {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        SetFireBaseLoadingCount(task.getResult().size());
 
+                        for (QueryDocumentSnapshot document : task.getResult()) {
                             if(document.exists())
                             {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
@@ -3210,77 +3321,38 @@ public class FirebaseManager {
                                         tempReplyData.SetContext(array[2]);
                                         tempData.SetReplyData(key, tempReplyData);
 
-                                        AddFireBaseLoadingCount();
-                                        GetUserData_Simple(tempReplyData.GetWriterIndex(), TKManager.getInstance().UserData_Simple, listener);
+
+                                        if(!TKManager.getInstance().UserData_Simple.containsKey(tempReplyData.GetWriterIndex()))
+                                        {
+                                            AddFireBaseLoadingCount();
+                                            GetUserData_Simple(tempReplyData.GetWriterIndex(), TKManager.getInstance().UserData_Simple, listener);
+                                        }
+
 
                                     }
                                 }
-
-
-                               /* if (document.getData().containsKey("ReplyList")) {
-                                    tempData.ClearReply();
-
-                                    if(CommonFunc.getInstance().isEmpty(document.getData().containsKey("ReplyList")))
-                                    {
-
-                                        int aaa = 0;
-                                    }
-                                    else {
-                                        HashMap<String, ClubContextData> tempReply = (HashMap<String, ClubContextData>) document.getData().get("ReplyList");
-                                        Set set = tempReply.entrySet();
-                                        Iterator iterator = set.iterator();
-                                        while (iterator.hasNext()) {
-                                            Map.Entry entry = (Map.Entry) iterator.next();
-                                            String key = (String) entry.getKey();
-
-                                            HashMap<String, ClubContextData> tempReplyValue= (HashMap<String, ClubContextData>)  entry.getValue();
-                                            Set ReplySet = tempReplyValue.entrySet();
-                                            Iterator ReplyIterator = ReplySet.iterator();
-
-                                            ClubContextData tempReplyData = new ClubContextData();
-                                            while (ReplyIterator.hasNext()) {
-
-
-                                                Map.Entry ReplyEntry = (Map.Entry) ReplyIterator.next();
-                                                String ReplyKey = (String) ReplyEntry.getKey();
-
-                                                if(ReplyKey.equals("Context"))
-                                                    tempReplyData.SetContext((String)ReplyEntry.getValue());
-                                                if(ReplyKey.equals("Date"))
-                                                    tempReplyData.SetDate((String)ReplyEntry.getValue());
-                                                if(ReplyKey.equals("writerIndex"))
-                                                    tempReplyData.SetWriterIndex((String)ReplyEntry.getValue());
-
-                                                // HashMap<String, ClubContextData> tempReplyValue= (HashMap<String, ClubContextData>)  entry.getValue();
-                                                // Set set = tempReply.entrySet();
-                                                // Iterator iterator = set.iterator();
-
-                                                // tempData.SetImg(key, value);
-                                            }
-
-                                            tempData.SetReply(key, tempReplyData);
-                                    }
-
-
-                                       // tempData.SetImg(key, value);
-                                    }
-                                }*/
-
 
                                 TKManager.getInstance().TargetClubData.AddClubContext(Integer.toString(TKManager.getInstance().TargetClubData.GetClubContextCount()), tempData);
 
                                 // if(TKManager.getInstance().UserData_Simple.get(tempData.writerIndex) == null)
                                 {
-                                    AddFireBaseLoadingCount();
+
                                     // Log.d(TAG, tempData.writerIndex + " => " + document.getDocument().getData());
-                                    GetUserData_Simple(tempData.writerIndex, TKManager.getInstance().UserData_Simple, listener);
+                                    if(!TKManager.getInstance().UserData_Simple.containsKey(tempData.writerIndex))
+                                    {
+                                        AddFireBaseLoadingCount();
+                                        GetUserData_Simple(tempData.writerIndex, TKManager.getInstance().UserData_Simple, listener);
+                                    }
+
                                 }
                             }
                             else
                             {
 
                             }
+                            Complete(listener);
                         }
+
                     }
 
 
@@ -3305,14 +3377,23 @@ public class FirebaseManager {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 int tempTotayLikeCount = 0;
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-
-                        AddFireBaseLoadingCount();
-                        Log.d("test","@@@@@@ 111 " + document.getId());
-                        GetClubContextData(clubIndex, document.getId(), listener);
-
+                    if(task.getResult().size() == 0)
+                    {
+                        if(listener != null)
+                            listener.CompleteListener();
                     }
+                    else
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+
+                            AddFireBaseLoadingCount();
+                            Log.d("test","@@@@@@ 111 " + document.getId());
+                            GetClubContextData(clubIndex, document.getId(), listener);
+
+                        }
+                    }
+
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
@@ -3377,6 +3458,18 @@ public class FirebaseManager {
                             getClubData.SetClubType(tempData);
                         } else
                             getClubData.SetClubType(false);
+
+                        if (document.getData().containsKey("ClubCreateDate")) {
+                            long tempData = Long.parseLong(document.getData().get("ClubCreateDate").toString());
+                            getClubData.SetClubCreateDate(tempData);
+                        } else
+                            getClubData.SetClubCreateDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+
+                        if (document.getData().containsKey("ClubComment")) {
+                            String tempData = document.getData().get("ClubComment").toString();
+                            getClubData.SetClubComment(tempData);
+                        } else
+                            getClubData.SetClubComment(getClubData.GetClubName() + "입니다");
 
 
                         if (document.getData().containsKey("ClubFavorite")) {
@@ -3470,6 +3563,18 @@ public class FirebaseManager {
                         } else
                             tempUser.SetClubIndex(null);
 
+                        if (document.getData().containsKey("Date")) {
+                            long tempData = Long.parseLong(document.getData().get("Date").toString());
+                            tempUser.SetClubCreateDate(tempData);
+                        } else
+                            tempUser.SetClubCreateDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+
+                        if (document.getData().containsKey("Comment")) {
+                            String tempData = document.getData().get("Comment").toString();
+                            tempUser.SetClubComment(tempData);
+                        } else
+                            tempUser.SetClubComment(tempUser.GetClubName() + "입니다");
+
                         getData.put(tempUser.GetClubIndex(), tempUser);
 
                         //AddFireBaseLoadingCount();
@@ -3526,6 +3631,8 @@ public class FirebaseManager {
         clubSimpleData.put("ContextCount", club.GetClubContextCount());
         clubSimpleData.put("Name", club.ClubName);
         clubSimpleData.put("MemberCount", club.GetClubMemberCount());
+        clubSimpleData.put("Comment", club.GetClubComment());
+        clubSimpleData.put("Date", club.GetClubCreateDate());
 
         final Map<String, Object> clubData = new HashMap<>();
         clubData.put("index", club.ClubIndex);
@@ -3708,23 +3815,201 @@ public class FirebaseManager {
 
     }
 
+    public void RemoveClubMember(final ClubData club, final String userIndex, final  CheckFirebaseComplete listener)
+    {
+        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(club.GetClubIndex());
+        final double[] newPopulation = new double[1];
+        mDataBase.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                newPopulation[0] = snapshot.getDouble("ClubMemberCount") - 1;
+                transaction.update(sfDocRef, "ClubMemberCount", newPopulation[0]);
+                int tempIndex = (int)newPopulation[0];
+
+                // Success
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Transaction success!");
+
+                Map<String, String> tempClub = new HashMap<>();
+                tempClub.put("index", club.GetClubIndex());
+
+                mDataBase.collection("UserData").document(userIndex).collection("ClubList").document(club.GetClubIndex()).delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+                club.DelClubMember(userIndex);
+                mDataBase.collection("ClubData").document(club.GetClubIndex()).update("ClubMemberList", club.GetClubMember())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                if (listener != null) {
+                                    listener.CompleteListener();
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Transaction failure.", e);
+                    }
+                });
+    }
+
+    public void RegistClubMember(final ClubData club, final String userIndex, final  boolean refuse, final  CheckFirebaseComplete listener)
+    {
+        final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(club.GetClubIndex());
+        final double[] newPopulation = new double[1];
+
+        if(refuse)
+        {
+            mDataBase.collection("ClubData").document(club.GetClubIndex()).collection("RequestJoin").document(userIndex).delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                            if (listener != null) {
+                                listener.CompleteListener();
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+        else
+        {
+
+            mDataBase.runTransaction(new Transaction.Function<Void>() {
+                @Override
+                public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                    DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                    newPopulation[0] = snapshot.getDouble("ClubMemberCount") + 1;
+                    transaction.update(sfDocRef, "ClubMemberCount", newPopulation[0]);
+                    int tempIndex = (int)newPopulation[0];
+
+                    // Success
+                    return null;
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "Transaction success!");
+
+                    mDataBase.collection("ClubData").document(club.GetClubIndex()).collection("RequestJoin").document(userIndex).delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+                    Map<String, String> tempClub = new HashMap<>();
+                    tempClub.put("index", club.GetClubIndex());
+
+                    mDataBase.collection("UserData").document(userIndex).collection("ClubList").document(club.GetClubIndex()).set(tempClub, SetOptions.merge())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+                    club.AddClubMember(userIndex);
+                    mDataBase.collection("ClubData").document(club.GetClubIndex()).update("ClubMemberList", club.GetClubMember())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    if (listener != null) {
+                                        listener.CompleteListener();
+                                    }
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Transaction failure.", e);
+                        }
+                    });
+        }
+
+    }
+
     public void GetRequestJoinUserInMyClub(final String clubIndex, final CheckFirebaseComplete listener)
     {
         TKManager.getInstance().UserData_RequestJoin.clear();
         SetFireBaseLoadingCount(0);
 
         final CollectionReference sfColRef = mDataBase.collection("ClubData").document(clubIndex).collection("RequestJoin");
-        sfColRef.whereLessThanOrEqualTo("Date", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        sfColRef.orderBy("Date", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 int tempTotayLikeCount = 0;
                 if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-
-                        AddFireBaseLoadingCount();
-                        GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_RequestJoin, listener);
+                    if(task.getResult().size() == 0)
+                    {
+                        if(listener != null)
+                            listener.CompleteListener();
                     }
+                    else
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+
+                            AddFireBaseLoadingCount();
+                            GetUserData_Simple(document.getData().get(document.getId()).toString(), TKManager.getInstance().UserData_RequestJoin, listener);
+                        }
+                    }
+
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -3739,18 +4024,18 @@ public class FirebaseManager {
 
         Map<String, Object> Request = new HashMap<>();
         Request.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
-        Request.put("Date", CommonFunc.getInstance().GetCurrentTime());
+        Request.put("Date", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
 
         sfDocRef.set(Request, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        final DocumentReference sfDocRef = mDataBase.collection("RequestClubList").document(clubIndex);
+                        final DocumentReference sfDocRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("RequestClubList").document(clubIndex);
 
                         Map<String, Object> Request = new HashMap<>();
-                        Request.put("index", TKManager.getInstance().MyData.GetUserIndex());
-                        Request.put("Date", CommonFunc.getInstance().GetCurrentTime());
+                        Request.put("index", clubIndex);
+                        Request.put("Date", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
 
                         sfDocRef.set(Request, SetOptions.merge())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -3790,7 +4075,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        final DocumentReference sfDocRef = mDataBase.collection("RequestClubList").document(clubIndex);
+                        final DocumentReference sfDocRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("RequestClubList").document(clubIndex);
 
                         sfDocRef.delete()
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

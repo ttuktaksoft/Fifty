@@ -108,6 +108,10 @@ public class ClubCreateActivity extends AppCompatActivity {
                     TKManager.getInstance().CreateTempClubData.SetClubThumb(TKManager.getInstance().CreateTempClubData.GetClubThumb());
                     TKManager.getInstance().CreateTempClubData.SetClubType(isVIPType);
                     TKManager.getInstance().CreateTempClubData.AddClubMember(TKManager.getInstance().MyData.GetUserIndex());
+                    TKManager.getInstance().CreateTempClubData.ClubMemberCount = 1;
+                    TKManager.getInstance().CreateTempClubData.SetClubCreateDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+                    TKManager.getInstance().CreateTempClubData.SetClubComment(et_ClubCreate_Name.getText().toString() + "입니다");
+
 
                     FirebaseManager.CheckFirebaseComplete registClubListener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override

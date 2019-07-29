@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty.activty;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
@@ -19,10 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -419,7 +422,8 @@ public class ChatBodyActivity extends AppCompatActivity {
         tempData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserImgThumb());
 
 
-        FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, tempData);
+
+        FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, mContext, tempData);
 
         imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
         et_Chat_Body_Msg.setText(null);

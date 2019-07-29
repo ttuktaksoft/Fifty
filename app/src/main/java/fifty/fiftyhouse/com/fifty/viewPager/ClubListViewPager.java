@@ -146,8 +146,21 @@ public class ClubListViewPager extends Fragment {
             public void onSingleClick(View view, final int position) {
 
                 Map<String, ClubData> tempClubKey = new LinkedHashMap<>();
-                tempClubKey.putAll(TKManager.getInstance().MyData.GetUserClubData());
-                tempClubKey.putAll(TKManager.getInstance().SearchClubList);
+
+
+                if(mType == CLUB_LIST_RECOMMEND)
+                {
+                    tempClubKey.putAll(TKManager.getInstance().MyData.GetUserRecommendClubData());
+                }
+
+                else
+                {
+                    tempClubKey.putAll(TKManager.getInstance().MyData.GetUserClubData());
+                }
+
+
+
+                //tempClubKey.putAll(TKManager.getInstance().SearchClubList);
 
                 Set tempKey = tempClubKey.keySet(); //TKManager.getInstance().MyData.GetUserClubDataKeySet();
                 final List array = new ArrayList(tempKey);
@@ -198,7 +211,7 @@ public class ClubListViewPager extends Fragment {
         mClubList.clear();
 
         if(mType == CLUB_LIST_RECOMMEND)
-            mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+            mClubList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
         else
             mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
 

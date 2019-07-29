@@ -79,7 +79,7 @@ class ClubBodyReportHolder extends RecyclerView.ViewHolder {
         ClubContextData tempData = TKManager.getInstance().TargetReportContextData.get(key);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Body_Report_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
         tv_Club_Body_Report_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
-        tv_Club_Body_Report_Date.setText(tempData.GetDate());
+        tv_Club_Body_Report_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.GetDate(), "yyyy.MM.dd"));
         tv_Club_Body_Report_Msg.setText(tempData.GetContext());
     }
 }
