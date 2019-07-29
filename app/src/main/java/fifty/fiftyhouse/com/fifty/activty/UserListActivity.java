@@ -222,6 +222,8 @@ public class UserListActivity extends AppCompatActivity {
                                 public void CompleteListener() {
                                     TKManager.getInstance().UserData_RequestJoin.remove(tempUserIndex);
                                     DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입승인", true);
+
+                                    RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
                                     mAdapter.notifyDataSetChanged();
                                 }
 
@@ -251,6 +253,8 @@ public class UserListActivity extends AppCompatActivity {
                                 public void CompleteListener() {
                                     TKManager.getInstance().UserData_RequestJoin.remove(tempUserIndex);
                                     DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입거절", true);
+
+                                    RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
                                     mAdapter.notifyDataSetChanged();
                                 }
 
@@ -302,6 +306,10 @@ public class UserListActivity extends AppCompatActivity {
                                     public void CompleteListener() {
                                         TKManager.getInstance().TargetClubData.DelClubMember(tempUserIndex);
                                         DialogFunc.getInstance().ShowToast(UserListActivity.this, "클럽 추방", true);
+
+                                        RefreshAdapter(CommonData.USER_LIST_CLUB);
+                                        mAdapter.notifyDataSetChanged();
+
                                     }
 
                                     @Override

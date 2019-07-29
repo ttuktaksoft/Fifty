@@ -36,6 +36,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -54,8 +55,8 @@ public class ClubActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
 
-    ImageView iv_Club_Thumbnail, iv_Club_Setting, iv_Club_Chat_BG, iv_Club_Write_BG;
-    TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join, tv_Club_Introduce, tv_Club_OpenDay;
+    ImageView iv_Club_Thumbnail, iv_Club_Setting, iv_Club_Chat_BG, iv_Club_Write_BG, iv_Club_Chat, iv_Club_Write;
+    TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join, tv_Club_Introduce, tv_Club_OpenDay, tv_Club_Chat, tv_Club_Write;
     RecyclerView rv_Club_Content;
     RecyclerView rv_Club_Favorite;
     RecyclerView rv_Club_User;
@@ -83,7 +84,9 @@ public class ClubActivity extends AppCompatActivity {
         tv_TopBar_Title = ui_Club_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_Club_TopBar.findViewById(R.id.iv_TopBar_Back);
         iv_Club_Thumbnail = findViewById(R.id.iv_Club_Thumbnail);
+        iv_Club_Chat = findViewById(R.id.iv_Club_Chat);
         iv_Club_Chat_BG = findViewById(R.id.iv_Club_Chat_BG);
+        iv_Club_Write = findViewById(R.id.iv_Club_Write);
         iv_Club_Write_BG = findViewById(R.id.iv_Club_Write_BG);
         tv_Club_Name = findViewById(R.id.tv_Club_Name);
         tv_Club_UserCount = findViewById(R.id.tv_Club_UserCount);
@@ -94,6 +97,8 @@ public class ClubActivity extends AppCompatActivity {
         iv_Club_Setting = findViewById(R.id.iv_Club_Setting);
         tv_Club_Introduce = findViewById(R.id.tv_Club_Introduce);
         tv_Club_OpenDay = findViewById(R.id.tv_Club_OpenDay);
+        tv_Club_Chat = findViewById(R.id.tv_Club_Chat);
+        tv_Club_Write = findViewById(R.id.tv_Club_Write);
 
         tv_Club_Introduce.setText(TKManager.getInstance().TargetClubData.GetClubComment());
 
@@ -147,6 +152,7 @@ public class ClubActivity extends AppCompatActivity {
                                     public void CompleteListener() {
                                         TKManager.getInstance().MyData.DelRequestJoinClubList(TKManager.getInstance().TargetClubData.GetClubIndex());
                                         DialogFunc.getInstance().DismissLoadingPage();
+                                        DialogFunc.getInstance().ShowToast(ClubActivity.this, "가입 신청을 취소하였습니다", true);
                                         RefreshJoinStr();
                                     }
 
@@ -186,8 +192,9 @@ public class ClubActivity extends AppCompatActivity {
                                         public void CompleteListener() {
                                             TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
                                             TKManager.getInstance().TargetClubData.AddClubMember(TKManager.getInstance().MyData.GetUserIndex());
+                                            DialogFunc.getInstance().ShowToast(ClubActivity.this, "클럽에 가입 되었습니다", true);
                                             DialogFunc.getInstance().DismissLoadingPage();
-                                            RefreshJoinStr();
+                                            RefreshMenu();
                                         }
 
                                         @Override
@@ -211,6 +218,7 @@ public class ClubActivity extends AppCompatActivity {
                                         public void CompleteListener() {
                                             TKManager.getInstance().MyData.SetRequestJoinClubList(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
                                             DialogFunc.getInstance().DismissLoadingPage();
+                                            DialogFunc.getInstance().ShowToast(ClubActivity.this, "가입 신청을 하였습니다", true);
                                             RefreshJoinStr();
                                         }
 
@@ -276,15 +284,33 @@ public class ClubActivity extends AppCompatActivity {
             }
         };
 
+
+
+        RefreshMenu();
+        RefreshJoinStr();
+        RefreshClubInfo();
+        initRecyclerView();
+        initFavoriteList();
+        initClubUserList();
+    }
+
+    public void RefreshMenu()
+    {
         mIsJoinClub = TKManager.getInstance().TargetClubData.GetClubMember(TKManager.getInstance().MyData.GetUserIndex()) != null;
         mIsMasterClub = TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex());
 
         if(mIsMasterClub)
         {
             tv_Club_Join.setVisibility(View.GONE);
-            iv_Club_Write_BG.setVisibility(View.VISIBLE);
             iv_Club_Setting.setVisibility(View.VISIBLE);
+
+            iv_Club_Write.setVisibility(View.VISIBLE);
+            iv_Club_Write_BG.setVisibility(View.VISIBLE);
+            tv_Club_Write.setVisibility(View.VISIBLE);
+
+            iv_Club_Chat.setVisibility(View.VISIBLE);
             iv_Club_Chat_BG.setVisibility(View.VISIBLE);
+            tv_Club_Chat.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -292,25 +318,31 @@ public class ClubActivity extends AppCompatActivity {
             {
                 // 가입한 클럽
                 tv_Club_Join.setVisibility(View.GONE);
-                iv_Club_Write_BG.setVisibility(View.VISIBLE);
                 iv_Club_Setting.setVisibility(View.VISIBLE);
+
+                iv_Club_Write.setVisibility(View.VISIBLE);
+                iv_Club_Write_BG.setVisibility(View.VISIBLE);
+                tv_Club_Write.setVisibility(View.VISIBLE);
+
+                iv_Club_Chat.setVisibility(View.VISIBLE);
                 iv_Club_Chat_BG.setVisibility(View.VISIBLE);
+                tv_Club_Chat.setVisibility(View.VISIBLE);
+
             }
             else
             {
                 tv_Club_Join.setVisibility(View.VISIBLE);
-                iv_Club_Write_BG.setVisibility(View.GONE);
                 iv_Club_Setting.setVisibility(View.GONE);
+
+                iv_Club_Write.setVisibility(View.GONE);
+                iv_Club_Write_BG.setVisibility(View.GONE);
+                tv_Club_Write.setVisibility(View.GONE);
+
+                iv_Club_Chat.setVisibility(View.GONE);
                 iv_Club_Chat_BG.setVisibility(View.GONE);
+                tv_Club_Chat.setVisibility(View.GONE);
             }
         }
-
-
-        RefreshJoinStr();
-        RefreshClubInfo();
-        initRecyclerView();
-        initFavoriteList();
-        initClubUserList();
     }
 
     public void RefreshJoinStr()
@@ -365,19 +397,6 @@ public class ClubActivity extends AppCompatActivity {
         }));*/
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1000)
-        {
-            RefreshAdapter();
-            mAdapter.notifyDataSetChanged();
-        }
-        else if (requestCode == 1001)
-        {
-            RefreshClubInfo();
-            mFavoriteViewAdapter.notifyDataSetChanged();
-        }
-    }
 
     public void initFavoriteList()
     {
@@ -424,7 +443,12 @@ public class ClubActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(mContext, UserListActivity.class);
                     intent.putExtra("Type",CommonData.USER_LIST_CLUB);
-                    startActivity(intent);
+                    startActivityForResult(intent, 1001);
+                }
+                else
+                {
+                    // 유져페이지
+                    CommonFunc.getInstance().GetUserDataInFireBase(key, ClubActivity.this, false);
                 }
             }
 
@@ -487,5 +511,23 @@ public class ClubActivity extends AppCompatActivity {
 
         tv_Club_Name.setText(TKManager.getInstance().TargetClubData.GetClubName());
         tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1000)
+        {
+            RefreshAdapter();
+            mAdapter.notifyDataSetChanged();
+        }
+        else if (requestCode == 1001)
+        {
+            RefreshMenu();
+            RefreshClubUserAdapter();
+            RefreshClubInfo();
+            mClubMiniUserAdapter.notifyDataSetChanged();
+            mFavoriteViewAdapter.notifyDataSetChanged();
+        }
     }
 }

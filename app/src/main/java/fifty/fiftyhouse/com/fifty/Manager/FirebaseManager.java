@@ -3384,6 +3384,8 @@ public class FirebaseManager {
                     }
                     else
                     {
+                        SetFireBaseLoadingCount(task.getResult().size());
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
 
@@ -4002,10 +4004,12 @@ public class FirebaseManager {
                     }
                     else
                     {
+                        SetFireBaseLoadingCount(task.getResult().size());
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
 
-                            AddFireBaseLoadingCount();
+                         //   AddFireBaseLoadingCount();
                             GetUserData_Simple(document.getData().get(document.getId()).toString(), TKManager.getInstance().UserData_RequestJoin, listener);
                         }
                     }

@@ -77,12 +77,14 @@ public class ClubSettingActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
+                DialogFunc.getInstance().ShowLoadingPage(ClubSettingActivity.this);
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
                         Intent intent = new Intent(mContext, UserListActivity.class);
                         intent.putExtra("Type",CommonData.USER_LIST_CLUB_JOIN_WAIT);
                         startActivity(intent);
+                        DialogFunc.getInstance().DismissLoadingPage();
                     }
 
                     @Override
@@ -155,7 +157,7 @@ public class ClubSettingActivity extends AppCompatActivity {
                             public void CompleteListener() {
                                 TKManager.getInstance().MyData.DelUserClubData(TKManager.getInstance().TargetClubData.GetClubIndex());
                                 DialogFunc.getInstance().DismissLoadingPage();
-                                DialogFunc.getInstance().ShowToast(ClubSettingActivity.this, "탈퇴 되었습니다", true);
+                                DialogFunc.getInstance().ShowToast(ClubSettingActivity.this, "탈퇴 하였습니다", true);
                                 finish();
                             }
 

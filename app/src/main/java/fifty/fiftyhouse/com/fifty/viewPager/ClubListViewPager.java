@@ -175,7 +175,7 @@ public class ClubListViewPager extends Fragment {
                             @Override
                             public void CompleteListener() {
                                 DialogFunc.getInstance().DismissLoadingPage();
-                                startActivity(new Intent(getContext(), ClubActivity.class));
+                                startActivityForResult(new Intent(getContext(), ClubActivity.class), 1000);
                             }
 
                             @Override
@@ -228,5 +228,16 @@ public class ClubListViewPager extends Fragment {
     {
         RefreshAdapter();
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == 1000)
+        {
+            ClubFragment.mClubFragment.RefreshViewPager();
+/*            RefreshAdapter();
+            mAdapter.notifyDataSetChanged();*/
+        }
     }
 }

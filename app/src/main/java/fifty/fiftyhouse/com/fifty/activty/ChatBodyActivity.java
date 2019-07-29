@@ -425,7 +425,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, mContext, tempData);
 
-        imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
+        //imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
         et_Chat_Body_Msg.setText(null);
     }
 

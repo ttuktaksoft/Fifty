@@ -123,6 +123,14 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         rv_Club_Reply_List = itemView.findViewById(R.id.rv_Club_Reply_List);
         iv_Club_Con_Menu = itemView.findViewById(R.id.iv_Club_Con_Menu);
 
+
+        if(TKManager.getInstance().TargetClubData.ExistClubMember(TKManager.getInstance().MyData.GetUserIndex()))
+        {
+            iv_Club_Con_Menu.setVisibility(View.VISIBLE);
+        }
+        else
+            iv_Club_Con_Menu.setVisibility(View.GONE);
+
         int viewCount = 3;
         int thumbnailMargin = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 2);
         int thumbnailMargin_2 = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5);

@@ -133,6 +133,11 @@ public class ClubData  implements Cloneable{
     {
         return ClubMemberList.keySet();
     }
+    public boolean ExistClubMember(String index)
+    {
+        return ClubMemberList.containsKey(index);
+    }
+
 
     public void AddClubContext(String index, ClubContextData context)
     {

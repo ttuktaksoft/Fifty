@@ -320,4 +320,12 @@ public class ClubFragment extends Fragment {
         imm.hideSoftInputFromWindow(et_Club_TopBar_Search.getWindowToken(), 0);
     }
 
+    public void RefreshViewPager()
+    {
+        if(mRecommendClubList != null)
+            mRecommendClubList.RefreshRecyclerView();
+        if(mMyClubList != null)
+            mMyClubList.RefreshRecyclerView();
+    }
+
 }
