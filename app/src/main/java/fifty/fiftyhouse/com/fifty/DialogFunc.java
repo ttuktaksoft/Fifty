@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +18,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -27,6 +31,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -118,9 +123,9 @@ public class DialogFunc {
         });
     }
 
+    Runnable fireRun;
     public void ShowSignUpCompletePopup(Context context, final MsgPopupListener listenerYes) {
         TextView YesButton;
-
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_signup_complete_popup, null, false);
 
         YesButton = v.findViewById(R.id.tv_SignUp_Com_Popup_Buttons_OK);
