@@ -930,7 +930,7 @@ public class UserProfileFragment extends Fragment {
         {
             if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserLocation()))
                 //tv_UserProfile_Info_Location.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
-                tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserDist_Area() + "에서 활동 중입니다");
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserDist_Area());
             else
                 tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
         }
@@ -938,7 +938,7 @@ public class UserProfileFragment extends Fragment {
         {
             if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserLocation()))
                 //tv_UserProfile_Info_Location.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
-                tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserDist_Area() + "에서 활동 중입니다");
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserDist_Area());
             else
                 tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserLocation());
         }

@@ -52,6 +52,7 @@
     <color name="user_profile_bottom_tab_bg">#000000</color>
     <color name="user_profile_bottom_tab_select">#ffffff</color>
     <color name="loading_progress_bar">#d7d2cc</color>
+    <color name="floating_button_bg">#7b6d64</color>
 
 
     <color name="colorPrimary">#008577</color>
