@@ -263,7 +263,7 @@
                     android:layout_width="100dp"
                     android:layout_height="0dp"
                     app:layout_constraintLeft_toLeftOf="@+id/v_Club_Introduce"
-                    app:layout_constraintRight_toLeftOf="@+id/tv_MyProfile_Edit_Menu_Desc"
+                    app:layout_constraintRight_toLeftOf="@+id/rv_Club_Favorite"
                     app:layout_constraintTop_toTopOf="@+id/rv_Club_Favorite"
                     app:layout_constraintBottom_toBottomOf="@+id/rv_Club_Favorite"
                     android:paddingLeft="10dp"

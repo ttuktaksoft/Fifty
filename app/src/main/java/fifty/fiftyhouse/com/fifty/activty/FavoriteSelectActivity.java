@@ -97,7 +97,12 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             case 2:
                 tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_FAVORITE_EDIT));
                 tv_FavoriteSelect_Ok.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_NEXT));
-                mFavoriteSelectList.putAll(TKManager.getInstance().CreateTempClubData.ClubFavorite);
+                mFavoriteSelectList.putAll(TKManager.getInstance().CreateTempClubData.GetClubFavoriteList());
+                break;
+            case 3:
+                tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_FAVORITE_EDIT));
+                tv_FavoriteSelect_Ok.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_NEXT));
+                mFavoriteSelectList.putAll(TKManager.getInstance().TargetClubData.GetClubFavoriteList());
                 break;
         }
 
@@ -119,49 +124,48 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 } else {
                     if (nType == 2) {
 
-                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
+                        Set EntrySet = TKManager.getInstance().CreateTempClubData.ClubFavorite.keySet();
+                        Iterator iterator = EntrySet.iterator();
 
-                                Set EntrySet = TKManager.getInstance().CreateTempClubData.ClubFavorite.keySet();
-                                Iterator iterator = EntrySet.iterator();
+                        EntrySet = mFavoriteSelectList.entrySet();
+                        iterator = EntrySet.iterator();
 
-                                EntrySet = mFavoriteSelectList.entrySet();
-                                iterator = EntrySet.iterator();
+                        ArrayList<String> tempFavorite = new ArrayList<>();
 
-                                ArrayList<String> tempFavorite = new ArrayList<>();
+                        int FavoriteIndex = 0;
+                        while (iterator.hasNext()) {
 
-                                int FavoriteIndex = 0;
-                                while (iterator.hasNext()) {
+                            Map.Entry entry = (Map.Entry) iterator.next();
+                            String key = (String) entry.getKey();
+                            String value = (String) entry.getValue();
+                            TKManager.getInstance().CreateTempClubData.AddClubFavorite(key, value);
+                            FavoriteIndex++;
+                        }
+                        finish();
 
-                                    Map.Entry entry = (Map.Entry) iterator.next();
-                                    String key = (String) entry.getKey();
-                                    String value = (String) entry.getValue();
-                                    TKManager.getInstance().CreateTempClubData.AddClubFavorite(Integer.toString(FavoriteIndex), value);
-                                    FavoriteIndex++;
-                                }
+                    }
+                    else if (nType == 3)
+                    {
+                        Set EntrySet = TKManager.getInstance().TargetClubData.ClubFavorite.keySet();
+                        Iterator iterator = EntrySet.iterator();
 
-                                // 다음
-                                Intent intent = new Intent(mContext, ClubCreateActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
+                        EntrySet = mFavoriteSelectList.entrySet();
+                        iterator = EntrySet.iterator();
 
-                            @Override
-                            public void CompleteListener_Yes() {
+                        ArrayList<String> tempFavorite = new ArrayList<>();
 
-                            }
+                        int FavoriteIndex = 0;
+                        while (iterator.hasNext()) {
 
-                            @Override
-                            public void CompleteListener_No() {
-
-                            }
-                        };
-
-                        FirebaseManager.getInstance().RegistClubIndex(TKManager.getInstance().CreateTempClubData, listener);
-
-
-                    } else {
+                            Map.Entry entry = (Map.Entry) iterator.next();
+                            String key = (String) entry.getKey();
+                            String value = (String) entry.getValue();
+                            TKManager.getInstance().TargetClubData.AddClubFavorite(key, value);
+                            FavoriteIndex++;
+                        }
+                        finish();
+                    }
+                    else {
                         Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
                         Iterator iterator = EntrySet.iterator();
 

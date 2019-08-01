@@ -138,7 +138,8 @@ public class ClubSettingActivity extends AppCompatActivity {
         tv_ClubSetting_Edit.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(mContext, ClubEditActivity.class);
+                Intent intent = new Intent(mContext, ClubCreateActivity.class);
+                intent.putExtra("Type",1);
                 startActivity(intent);
             }
         });

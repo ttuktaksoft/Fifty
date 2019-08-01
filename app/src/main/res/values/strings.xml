@@ -161,6 +161,10 @@
     <string name="MSG_CHAT_FONT_SIZE_DEFAULT">보통</string>
     <string name="MSG_CHAT_FONT_SIZE_BIG">크게</string>
     <string name="MSG_CLUB_INFO_DESC">클럽 소개</string>
+    <string name="MSG_CLUB_INFO_HINT">클럽 소개를 입력해주세요</string>
+    <string name="MSG_CLUB_JOIN_TYPE">클럽 가입</string>
+    <string name="MSG_CLUB_JOIN_TYPE_FREE">자유가입</string>
+    <string name="MSG_CLUB_JOIN_TYPE_APPROVAL">가입승인</string>
     <string name="MSG_CLUB_OPEN_DAY">개설일</string>
     <string name="MSG_USER_SEARCH_TITLE">유저 찾기</string>
     <string name="MSG_USER_SEARCH_HINT">닉네임을 입력해주세요</string>
