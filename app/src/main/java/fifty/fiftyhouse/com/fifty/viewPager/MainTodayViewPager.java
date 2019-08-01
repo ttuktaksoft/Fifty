@@ -33,6 +33,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
 public class MainTodayViewPager extends Fragment {
+    TextView tv_Main_Today_UserList_Empty;
     RecyclerView rv_Main_Today_UserList, rv_Main_Today_Favorite;
     View v_FragmentView = null;
     public MainAdapter mAdapter;
@@ -53,6 +54,7 @@ public class MainTodayViewPager extends Fragment {
         {
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_today, container, false);
 
+            tv_Main_Today_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_Today_UserList_Empty);
             rv_Main_Today_UserList = v_FragmentView.findViewById(R.id.rv_Main_Today_UserList);
             rv_Main_Today_Favorite = v_FragmentView.findViewById(R.id.rv_Main_Today_Favorite);
 
@@ -61,7 +63,7 @@ public class MainTodayViewPager extends Fragment {
         }
         else
         {
-            mAdapter.notifyDataSetChanged();
+            RefreshAdapter();
         }
 
         return v_FragmentView;
@@ -74,6 +76,7 @@ public class MainTodayViewPager extends Fragment {
     private void initRecyclerView()
     {
         mAdapter = new MainAdapter(getContext());
+        RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.SetItemCountByType(CommonData.MainViewType.HOT, TKManager.getInstance().View_UserList_Hot.size());
 
@@ -87,6 +90,22 @@ public class MainTodayViewPager extends Fragment {
                 CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
             }
         }));
+    }
+
+    private void RefreshAdapter()
+    {
+        if(TKManager.getInstance().View_UserList_Hot.size() == 0)
+        {
+            rv_Main_Today_UserList.setVisibility(View.GONE);
+            tv_Main_Today_UserList_Empty.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            rv_Main_Today_UserList.setVisibility(View.VISIBLE);
+            tv_Main_Today_UserList_Empty.setVisibility(View.GONE);
+        }
+
+        mAdapter.notifyDataSetChanged();
     }
 
     private void initFavoriteRecyclerView()

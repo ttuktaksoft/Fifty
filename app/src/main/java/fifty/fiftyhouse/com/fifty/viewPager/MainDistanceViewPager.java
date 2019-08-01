@@ -41,7 +41,7 @@ public class MainDistanceViewPager extends Fragment {
 
     FloatingActionButton fa_Friend_UserList_Search;
     TextView tv_Main_Dis_Curr_Pos;
-    TextView tv_Main_Dis_Sort_Type;
+    TextView tv_Main_Dis_Sort_Type, tv_Main_Dis_UserList_Empty;
 
     RecyclerView rv_Main_Dis_UserList;
     View v_FragmentView = null;
@@ -63,6 +63,7 @@ public class MainDistanceViewPager extends Fragment {
             rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
             tv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.tv_Main_Dis_Sort_Type);
+            tv_Main_Dis_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_Dis_UserList_Empty);
             fa_Friend_UserList_Search = v_FragmentView.findViewById(R.id.fa_Friend_UserList_Search);
 
             if(TKManager.getInstance().FilterData.GetDistance() == 100)
@@ -91,7 +92,7 @@ public class MainDistanceViewPager extends Fragment {
         }
         else
         {
-            mAdapter.notifyDataSetChanged();
+            RefreshAdapter();
         }
 
         return v_FragmentView;
@@ -100,6 +101,7 @@ public class MainDistanceViewPager extends Fragment {
     private void initRecyclerView()
     {
         mAdapter = new MainAdapter(getContext());
+        RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());
         rv_Main_Dis_UserList.setAdapter(mAdapter);
@@ -133,5 +135,21 @@ public class MainDistanceViewPager extends Fragment {
                 }*/
             }
         });
+    }
+
+    private void RefreshAdapter()
+    {
+        if(TKManager.getInstance().View_UserList_Dist.size() == 0)
+        {
+            rv_Main_Dis_UserList.setVisibility(View.GONE);
+            tv_Main_Dis_UserList_Empty.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            rv_Main_Dis_UserList.setVisibility(View.VISIBLE);
+            tv_Main_Dis_UserList_Empty.setVisibility(View.GONE);
+        }
+
+        mAdapter.notifyDataSetChanged();
     }
 }

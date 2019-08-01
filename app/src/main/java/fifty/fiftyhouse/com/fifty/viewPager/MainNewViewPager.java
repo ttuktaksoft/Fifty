@@ -28,7 +28,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class MainNewViewPager extends Fragment {
 
-    TextView tv_Main_New_Desc;
+    TextView tv_Main_New_Desc, tv_Main_New_UserList_Empty;
 
     RecyclerView rv_Main_New_UserList;
     View v_FragmentView = null;
@@ -45,13 +45,14 @@ public class MainNewViewPager extends Fragment {
         if (v_FragmentView == null) {
             // Inflate the layout for this fragment
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_new, container, false);
+            tv_Main_New_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_New_UserList_Empty);
             rv_Main_New_UserList = v_FragmentView.findViewById(R.id.rv_Main_New_UserList);
             tv_Main_New_Desc = v_FragmentView.findViewById(R.id.tv_Main_New_Desc);
 
             initRecyclerView();
 
         } else {
-            mAdapter.notifyDataSetChanged();
+            RefreshAdapter();
         }
         return v_FragmentView;
     }
@@ -60,6 +61,7 @@ public class MainNewViewPager extends Fragment {
     private void initRecyclerView()
     {
         mAdapter = new MainAdapter(getContext());
+        RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.SetItemCountByType(CommonData.MainViewType.NEW, TKManager.getInstance().View_UserList_New.size());
 
@@ -102,5 +104,22 @@ public class MainNewViewPager extends Fragment {
             }
         });
     }
+
+    private void RefreshAdapter()
+    {
+        if(TKManager.getInstance().View_UserList_New.size() == 0)
+        {
+            rv_Main_New_UserList.setVisibility(View.GONE);
+            tv_Main_New_UserList_Empty.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            rv_Main_New_UserList.setVisibility(View.VISIBLE);
+            tv_Main_New_UserList_Empty.setVisibility(View.GONE);
+        }
+
+        mAdapter.notifyDataSetChanged();
+    }
+
 
 }

@@ -38,7 +38,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class MainFriendViewPager extends Fragment {
 
-    TextView tv_Main_Friend_Count;
+    TextView tv_Main_Friend_Count, tv_Main_Friend_UserList_Empty;
 
     RecyclerView rv_Main_Friend_UserList;
     View v_FragmentView = null;
@@ -58,14 +58,14 @@ public class MainFriendViewPager extends Fragment {
 
             rv_Main_Friend_UserList = v_FragmentView.findViewById(R.id.rv_Main_Friend_UserList);
             tv_Main_Friend_Count = v_FragmentView.findViewById(R.id.tv_Main_Friend_Count);
+            tv_Main_Friend_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_Friend_UserList_Empty);
 
             initSubInfo();
             initRecyclerView();
         }
         else
         {
-            mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
-            mAdapter.notifyDataSetChanged();
+            RefreshUI();
         }
 
         // Inflate the layout for this fragment
@@ -80,8 +80,8 @@ public class MainFriendViewPager extends Fragment {
     private void initRecyclerView()
     {
         mAdapter = new MainAdapter(getContext());
+        RefreshUI();
         mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
 
         rv_Main_Friend_UserList.setAdapter(mAdapter);
         rv_Main_Friend_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -125,6 +125,17 @@ public class MainFriendViewPager extends Fragment {
         initSubInfo();
         mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
         mAdapter.notifyDataSetChanged();
+
+        if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
+        {
+            tv_Main_Friend_UserList_Empty.setVisibility(View.VISIBLE);
+            rv_Main_Friend_UserList.setVisibility(View.GONE);
+        }
+        else
+        {
+            tv_Main_Friend_UserList_Empty.setVisibility(View.GONE);
+            rv_Main_Friend_UserList.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
