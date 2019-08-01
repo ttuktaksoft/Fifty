@@ -538,6 +538,7 @@ public class ClubActivity extends AppCompatActivity {
 
         tv_Club_Name.setText(TKManager.getInstance().TargetClubData.GetClubName());
         tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
+        tv_Club_Introduce.setText(TKManager.getInstance().TargetClubData.GetClubComment());
     }
 
 

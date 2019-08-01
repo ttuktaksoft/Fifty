@@ -1244,6 +1244,52 @@ public class CommonFunc {
         return NONE_STATE;
     }
 
+    public String GetConnectGap(String startDate, String EndDate){
+
+        String result = "";
+
+        String start = startDate.substring(0, 14);
+        String end = EndDate.substring(0, 14);
+
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date beginDate = formatter.parse(start);
+            Date endDate = formatter.parse(end);
+
+            // 시간차이를 시간,분,초를 곱한 값으로 나누면 하루 단위가 나옴
+            long diff = beginDate.getTime() - endDate.getTime();
+
+            long diffMin = diff / (60 * 1000);
+            if(diffMin < 30)
+            {
+                result = "조금 전";
+            }
+            else if(diffMin < 60)
+            {
+                result = "1시간";
+            }
+            else if(diffMin < 60 * 24)
+            {
+                result = "1일 전";
+            }
+            else if(diffMin < 60 * 48)
+            {
+                result = "2일 전";
+            }
+            else if(diffMin < 60 * 72)
+            {
+                result = "3일 전";
+            }
+            else
+            {
+                result = "3일 이상";
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     //별도의 스태틱 함수로 구현
 
