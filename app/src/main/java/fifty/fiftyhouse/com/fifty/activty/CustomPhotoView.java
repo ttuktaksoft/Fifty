@@ -33,9 +33,8 @@ import fifty.fiftyhouse.com.fifty.viewPager.PhotoViewPager;
 public class CustomPhotoView extends AppCompatActivity {
 
     String ImgSrc ;
-    View ui_Custom_Photo_TopBar;
-    TextView tv_TopBar_Title;
-    ImageView iv_TopBar_Back;
+    TextView tv_Custom_Photo_Title;
+    ImageView iv_Custom_Photo_Back;
     ViewPager vp_Custom_Photo_View;
     Context mContext;
 
@@ -54,9 +53,9 @@ public class CustomPhotoView extends AppCompatActivity {
         setContentView(R.layout.activity_custom_photo_view);
 
         mContext = getApplicationContext();
-        ui_Custom_Photo_TopBar = findViewById(R.id.ui_Custom_Photo_TopBar);
-        tv_TopBar_Title = ui_Custom_Photo_TopBar.findViewById(R.id.tv_TopBar_Title);
-        iv_TopBar_Back = ui_Custom_Photo_TopBar.findViewById(R.id.iv_TopBar_Back);
+
+        tv_Custom_Photo_Title = findViewById(R.id.tv_Custom_Photo_Title);
+        iv_Custom_Photo_Back = findViewById(R.id.iv_Custom_Photo_Back);
         vp_Custom_Photo_View = findViewById(R.id.vp_Custom_Photo_View);
 
         Intent intent = getIntent(); //getIntent()로 받을준비
@@ -72,7 +71,7 @@ public class CustomPhotoView extends AppCompatActivity {
         if(type == PHOTO_VIEW_TYPE_MY_PROFILE)
         {
             mPhotoSrcList.add(TKManager.getInstance().MyData.GetUserImg(Integer.toString(0)));
-            tv_TopBar_Title.setText(TKManager.getInstance().MyData.GetUserNickName());
+            tv_Custom_Photo_Title.setText(TKManager.getInstance().MyData.GetUserNickName());
         }
         else if(type == PHOTO_VIEW_TYPE_MY_PROFILE_LIST)
         {
@@ -82,12 +81,12 @@ public class CustomPhotoView extends AppCompatActivity {
                 mPhotoSrcList.add(TKManager.getInstance().MyData.GetUserImg(Integer.toString(i)));
             }
 
-            tv_TopBar_Title.setText(TKManager.getInstance().MyData.GetUserNickName());
+            tv_Custom_Photo_Title.setText(TKManager.getInstance().MyData.GetUserNickName());
         }
         else if(type == PHOTO_VIEW_TYPE_USER_PROFILE)
         {
             mPhotoSrcList.add(TKManager.getInstance().TargetUserData.GetUserImg(Integer.toString(0)));
-            tv_TopBar_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+            tv_Custom_Photo_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         }
         else if(type == PHOTO_VIEW_TYPE_USER_PROFILE_LIST)
         {
@@ -97,21 +96,21 @@ public class CustomPhotoView extends AppCompatActivity {
                 mPhotoSrcList.add(TKManager.getInstance().TargetUserData.GetUserImg(Integer.toString(i)));
             }
 
-            tv_TopBar_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
+            tv_Custom_Photo_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         }
         else if(type == PHOTO_VIEW_TYPE_ONE)
         {
             mPhotoSrcList.add(ImgSrc);
-            tv_TopBar_Title.setText("");
+            tv_Custom_Photo_Title.setText("");
         }
         else
         {
             mPhotoSrcList.addAll(ImgList);
-            tv_TopBar_Title.setText("");
+            tv_Custom_Photo_Title.setText("");
         }
 
 
-        iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
+        iv_Custom_Photo_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
                 finish();

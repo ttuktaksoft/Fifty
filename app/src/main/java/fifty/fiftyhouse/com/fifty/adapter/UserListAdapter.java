@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -25,8 +27,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListListHolder> {
 
     Context mContext;
     int mItemCount = 0;
-    ArrayList<String> mItemList = new ArrayList<>();
+    ArrayList<Pair<String, Integer>> mItemList = new ArrayList<>();
 
+    public static int CLUB_MATSER_VIEW = 1;
 
     public UserListAdapter(Context context) {
         mContext = context;
@@ -61,14 +64,23 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListListHolder> {
     public void setItemData(ArrayList<String> list)
     {
         mItemList.clear();
-        mItemList.addAll(list);
+        Iterator iterator = list.iterator();
+        while (iterator.hasNext()) {
+            String element = (String) iterator.next();
+            mItemList.add(new Pair<String, Integer>(element, 0));
+        }
     }
 
+    public void setSpecialItemData(ArrayList<Pair<String, Integer>> list)
+    {
+        mItemList.clear();
+        mItemList.addAll(list);
+    }
 }
 
 class UserListListHolder extends RecyclerView.ViewHolder {
 
-    ImageView iv_User_List_Profile, iv_User_List_Gender;
+    ImageView iv_User_List_Profile, iv_User_List_Gender, iv_User_List_Etc;
     TextView tv_User_List_Name, tv_User_List_Age, tv_User_List_Dis;
     Context mContext;
 
@@ -81,12 +93,13 @@ class UserListListHolder extends RecyclerView.ViewHolder {
         tv_User_List_Name = itemView.findViewById(R.id.tv_User_List_Name);
         tv_User_List_Age = itemView.findViewById(R.id.tv_User_List_Age);
         tv_User_List_Dis = itemView.findViewById(R.id.tv_User_List_Dis);
+        iv_User_List_Etc = itemView.findViewById(R.id.iv_User_List_Etc);
 
     }
 
-    public void setData(String key)
+    public void setData(Pair<String, Integer> key)
     {
-        UserData data = TKManager.getInstance().UserData_Simple.get(key);
+        UserData data = TKManager.getInstance().UserData_Simple.get(key.first);
 
         Glide.with(mContext).load(data.GetUserImgThumb())
                 .centerCrop()
@@ -108,5 +121,15 @@ class UserListListHolder extends RecyclerView.ViewHolder {
         tv_User_List_Name.setText(data.GetUserNickName());
         tv_User_List_Age.setText(data.GetUserAge() + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.MSG_AGE_END));
         tv_User_List_Dis.setText(data.GetUserDist() + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.DEFAULT_DISTANCE));
+
+        iv_User_List_Etc.setVisibility(View.GONE);
+
+        if(key.second == UserListAdapter.CLUB_MATSER_VIEW)
+        {
+            iv_User_List_Etc.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(R.drawable.ic_medal)
+                    .centerCrop()
+                    .into(iv_User_List_Etc);
+        }
     }
 }

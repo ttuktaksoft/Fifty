@@ -306,6 +306,7 @@ public class CommonFunc {
             CropImage.activity()
                     .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
                     .setGuidelines(CropImageView.Guidelines.ON)
+                    .setInitialCropWindowPaddingRatio(0)
                     .start(activity);
         }
         else if(ActivityFlag == CommonData.GET_PHOTO_FROM_CAMERA)
@@ -346,6 +347,7 @@ public class CommonFunc {
             CropImage.activity()
                     .setActivityTitle(getStr(context.getResources(), R.string.MSG_PHOTO_SELECT))
                     .setGuidelines(CropImageView.Guidelines.ON)
+                    .setInitialCropWindowPaddingRatio(0)
                     .start(context, fragment);
         }
         else if(ActivityFlag == CommonData.GET_PHOTO_FROM_CAMERA)

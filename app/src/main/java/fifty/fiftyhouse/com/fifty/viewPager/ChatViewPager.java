@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -70,6 +71,35 @@ public class ChatViewPager extends Fragment {
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.notifyDataSetChanged();
+        rv_ChatList.setAdapter(mAdapter);
+        rv_ChatList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_ChatList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                int action = e.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_MOVE:
+                        rv.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+                    default:
+                        rv.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+
        // rv_ChatList.scrollToPosition(mAdapter.getItemCount() - 1);
 
     /*    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
@@ -104,8 +134,7 @@ public class ChatViewPager extends Fragment {
             FirebaseManager.getInstance().MonitorChatData(key, TKManager.getInstance().MyData, listener);
         }*/
 
-        rv_ChatList.setAdapter(mAdapter);
-        rv_ChatList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+
 //        rv_ChatList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_ChatList, new OnRecyclerItemClickListener() {
 //            @Override
 //            public void onSingleClick(View view, int position) {
