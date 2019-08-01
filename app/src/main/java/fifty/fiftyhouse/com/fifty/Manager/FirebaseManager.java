@@ -1656,10 +1656,10 @@ public class FirebaseManager {
                         } else
                             userData.SetUserDist_Region(0);
 
-                        if (document.getData().containsKey("Dist_Area")) {
+                       /* if (document.getData().containsKey("Dist_Area")) {
                             userData.SetUserDist_Area(document.getData().get("Dist_Area").toString());
                         } else
-                            userData.SetUserDist_Area("대한민국");
+                            userData.SetUserDist_Area("대한민국");*/
 
                         double Distance = CommonFunc.getInstance().DistanceByDegree(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.MyData.GetUserDist_Lon(), userData.GetUserDist_Lat(), userData.GetUserDist_Lon());
                         userData.SetUserDist((long)Distance);
