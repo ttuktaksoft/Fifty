@@ -123,7 +123,6 @@ public class DialogFunc {
         });
     }
 
-    Runnable fireRun;
     public void ShowSignUpCompletePopup(Context context, final MsgPopupListener listenerYes) {
         TextView YesButton;
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_signup_complete_popup, null, false);
@@ -171,7 +170,7 @@ public class DialogFunc {
         }
         ProgressBar pgsBar = mProgressDialog.findViewById(R.id.pBar);
         pgsBar.setIndeterminate(true);
-        pgsBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, R.color.topbar_bg), PorterDuff.Mode.MULTIPLY);
+        pgsBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, R.color.loading_progress_bar), PorterDuff.Mode.MULTIPLY);
 /*
         ImageView iv_progress_loading = (ImageView) mProgressDialog.findViewById(R.id.iv_Loading_Icon);
         Glide.with(context)

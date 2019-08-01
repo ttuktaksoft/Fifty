@@ -28,6 +28,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubFavoriteActivity;
 import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubAdapter;
@@ -70,6 +71,9 @@ public class ClubListViewPager extends Fragment {
                 @Override
                 public void onSingleClick(View view) {
                     TKManager.getInstance().mUpdateClubFragmentkeybordDownFunc.UpdateUI();
+
+                    Intent intent = new Intent(getContext(), ClubFavoriteActivity.class);
+                    startActivity(intent);
                 }
             });
 

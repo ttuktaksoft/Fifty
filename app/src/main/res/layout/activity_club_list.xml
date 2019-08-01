@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activty.ClubListActivity">
+
+    <include
+        android:id="@+id/ui_ClubList_TopBar"
+        layout="@layout/ui_topbar"/>
+
+    <TextView
+        android:id="@+id/tv_ClubList_Empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/BaseTextView"
+        android:text="@string/MSG_CLUB_EMPTY"
+        android:visibility="gone"
+        android:textColor="@color/str_color_1"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/ui_ClubList_TopBar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_ClubList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/ui_ClubList_TopBar"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

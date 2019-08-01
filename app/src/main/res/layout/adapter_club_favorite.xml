@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_ClubFavorite_BG"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:tint="@color/icon_tint_brown"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_ClubFavorite"
+        style="@style/BaseTextView_AutoSize"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:text="1940년생"
+        android:textStyle="bold"
+        android:textColor="@color/str_color_2"
+        app:layout_constraintTop_toTopOf="@+id/iv_ClubFavorite_BG"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_ClubFavorite_BG"
+        app:layout_constraintRight_toRightOf="@+id/iv_ClubFavorite_BG"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_ClubFavorite_BG"/>
+
+</android.support.constraint.ConstraintLayout>
