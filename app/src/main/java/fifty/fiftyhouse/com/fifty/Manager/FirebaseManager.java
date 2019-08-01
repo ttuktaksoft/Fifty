@@ -4229,6 +4229,23 @@ public class FirebaseManager {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(club.GetClubIndex());
         final double[] newPopulation = new double[1];
 
+        mDataBase.collection("UserData").document(userIndex).collection("RequestClubList").document(club.GetClubIndex()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        if (listener != null) {
+                            listener.CompleteListener();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
         if(refuse)
         {
             mDataBase.collection("ClubData").document(club.GetClubIndex()).collection("RequestJoin").document(userIndex).delete()

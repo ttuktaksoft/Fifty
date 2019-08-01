@@ -268,9 +268,13 @@ public class UserProfileActivity extends AppCompatActivity {
                                             {
                                                 intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex).GetRoomType().name());
                                             }
-                                            else
+                                            else if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex)))
                                             {
                                                 intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex).GetRoomType().name());
+                                            }
+                                            else
+                                            {
+                                                intent.putExtra("RoomType",CommonData.CHAT_ROOM_TYPE.DEFAULT);
                                             }
                                             startActivity(intent);
                                         }
@@ -293,9 +297,13 @@ public class UserProfileActivity extends AppCompatActivity {
                                         {
                                             intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex).GetRoomType().name());
                                         }
-                                        else
+                                        else if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex)))
                                         {
                                             intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex).GetRoomType().name());
+                                        }
+                                        else
+                                        {
+                                            intent.putExtra("RoomType","DEFAULT");
                                         }
                                         startActivity(intent);
                                     }
@@ -331,13 +339,17 @@ public class UserProfileActivity extends AppCompatActivity {
                                             DialogFunc.getInstance().DismissLoadingPage();
                                             Intent intent = new Intent(mContext, ChatBodyActivity.class);
                                             intent.putExtra("RoomIndex",AnotherChatRoomIndex);
-                                            if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserChatDataList(AnotherChatRoomIndex)))
+                                            if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex)))
                                             {
-                                                intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(AnotherChatRoomIndex).GetRoomType().name());
+                                                intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex).GetRoomType().name());
+                                            }
+                                            else if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex)))
+                                            {
+                                                intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex).GetRoomType().name());
                                             }
                                             else
                                             {
-                                                intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(AnotherChatRoomIndex).GetRoomType().name());
+                                                intent.putExtra("RoomType","DEFAULT");
                                             }
                                             startActivity(intent);
                                         }
@@ -357,15 +369,18 @@ public class UserProfileActivity extends AppCompatActivity {
                                         Intent intent = new Intent(mContext, ChatBodyActivity.class);
                                         intent.putExtra("RoomIndex",AnotherChatRoomIndex);
 
-                                        if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserChatDataList(AnotherChatRoomIndex)))
+                                        if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex)))
                                         {
-                                            intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(AnotherChatRoomIndex).GetRoomType().name());
+                                            intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserChatDataList(ChatRoomIndex).GetRoomType().name());
+                                        }
+                                        else if(!ObjectUtils.isEmpty(TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex)))
+                                        {
+                                            intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(ChatRoomIndex).GetRoomType().name());
                                         }
                                         else
                                         {
-                                            intent.putExtra("RoomType",TKManager.getInstance().MyData.GetUserBookMarkChatDataList(AnotherChatRoomIndex).GetRoomType().name());
+                                            intent.putExtra("RoomType","DEFAULT");
                                         }
-
                                         startActivity(intent);
                                     }
                                     else
