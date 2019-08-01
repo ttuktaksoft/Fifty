@@ -3617,7 +3617,6 @@ public class FirebaseManager {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
 
-                            AddFireBaseLoadingCount();
                             Log.d("test","@@@@@@ 111 " + document.getId());
                             GetClubContextData(clubIndex, document.getId(), listener);
 
