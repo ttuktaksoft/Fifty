@@ -32,7 +32,8 @@
         android:layout_marginRight="20dp"
         android:tint="@color/white"
         android:src="@drawable/ic_plus"
-        android:backgroundTint="@color/floating_button_bg"/>
+        android:backgroundTint="@color/floating_button_bg"
+        app:borderWidth="0dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fa_Club_Favorite"
@@ -45,6 +46,7 @@
         android:visibility="gone"
         android:tint="@color/white"
         android:src="@drawable/ic_star"
-        android:backgroundTint="@color/floating_button_bg"/>
+        android:backgroundTint="@color/floating_button_bg"
+        app:borderWidth="0dp"/>
 
 </android.support.constraint.ConstraintLayout>
