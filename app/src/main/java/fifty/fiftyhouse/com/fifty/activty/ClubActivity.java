@@ -35,6 +35,7 @@ import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
@@ -277,6 +278,36 @@ public class ClubActivity extends AppCompatActivity {
 
                     @Override
                     public void CompleteListener_No() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                       // DialogFunc.getInstance().ShowToast(mContext, "채팅방이 없습니다", true);
+
+                        ChatData tempChatData = new ChatData();
+                        tempChatData.SetRoomIndex(TKManager.getInstance().TargetClubData.GetClubIndex());
+
+                        tempChatData.SetFromIndex(TKManager.getInstance().MyData.GetUserIndex());
+                        tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+                        tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+
+                        tempChatData.SetToIndex("club");
+                        tempChatData.SetToNickName(TKManager.getInstance().TargetClubData.GetClubName());
+                        tempChatData.SetToThumbNail("club");
+
+                        tempChatData.SetMsgIndex(0);
+                        tempChatData.SetMsgReadCheck(false);
+                        tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+                        tempChatData.SetMsgType(CommonData.MSGType.MSG);
+                        tempChatData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
+                        tempChatData.SetMsg(TKManager.getInstance().TargetClubData.GetClubName() + "클럽 채팅방입니다");
+                        tempChatData.SetRoomType(CommonData.CHAT_ROOM_TYPE.DEFAULT);
+
+                        FirebaseManager.getInstance().RegistClubChatList(TKManager.getInstance().TargetClubData.GetClubIndex(), tempChatData, true);
+
+                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                        intent.putExtra("RoomIndex",TKManager.getInstance().TargetClubData.GetClubIndex());
+                        intent.putExtra("RoomType","CLUB");
+
+                        startActivity(intent);
+
                     }
                 };
 
