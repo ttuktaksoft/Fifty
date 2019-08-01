@@ -97,7 +97,7 @@
                 android:id="@+id/et_SignUp_PassWord"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                style="@style/BaseEditTextView"
+                style="@style/BaseEditTextView_Password"
                 app:layout_constraintRight_toRightOf="@+id/v_SignUp_Profile_BG"
                 app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_NickName_Check_Result"
                 android:layout_marginTop="10dp"
