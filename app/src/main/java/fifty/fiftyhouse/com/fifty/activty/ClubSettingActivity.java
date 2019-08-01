@@ -157,6 +157,7 @@ public class ClubSettingActivity extends AppCompatActivity {
                             @Override
                             public void CompleteListener() {
                                 TKManager.getInstance().MyData.DelUserClubData(TKManager.getInstance().TargetClubData.GetClubIndex());
+                                TKManager.getInstance().MyData.DelRequestJoinClubList(TKManager.getInstance().TargetClubData.GetClubIndex());
                                 DialogFunc.getInstance().DismissLoadingPage();
                                 DialogFunc.getInstance().ShowToast(ClubSettingActivity.this, "탈퇴 하였습니다", true);
                                 finish();

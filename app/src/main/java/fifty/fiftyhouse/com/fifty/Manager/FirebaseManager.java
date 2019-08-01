@@ -1280,7 +1280,13 @@ public class FirebaseManager {
                     }
 
                     if(listener != null)
+                    {
+                        long seed = System.nanoTime();
+                        Collections.shuffle( TKManager.getInstance().FavoriteLIst_ClubList, new Random(seed));
+
                         listener.CompleteListener();
+                    }
+
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -4228,6 +4234,23 @@ public class FirebaseManager {
     {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(club.GetClubIndex());
         final double[] newPopulation = new double[1];
+
+        mDataBase.collection("UserData").document(userIndex).collection("RequestClubList").document(club.GetClubIndex()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                        if (listener != null) {
+                            listener.CompleteListener();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
 
         if(refuse)
         {
