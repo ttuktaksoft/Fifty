@@ -194,9 +194,14 @@ public class ClubActivity extends AppCompatActivity {
                                         public void CompleteListener() {
                                             TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
                                             TKManager.getInstance().TargetClubData.AddClubMember(TKManager.getInstance().MyData.GetUserIndex());
+                                            TKManager.getInstance().ClubData_Simple.get(TKManager.getInstance().TargetClubData.GetClubIndex()).ClubMemberCount = TKManager.getInstance().TargetClubData.GetClubMemberCount();
                                             DialogFunc.getInstance().ShowToast(ClubActivity.this, "클럽에 가입 되었습니다", true);
                                             DialogFunc.getInstance().DismissLoadingPage();
                                             RefreshMenu();
+                                            RefreshClubUserAdapter();
+                                            RefreshClubInfo();
+                                            mClubMiniUserAdapter.notifyDataSetChanged();
+                                            mFavoriteViewAdapter.notifyDataSetChanged();
                                         }
 
                                         @Override

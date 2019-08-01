@@ -158,6 +158,8 @@ public class ClubSettingActivity extends AppCompatActivity {
                             public void CompleteListener() {
                                 TKManager.getInstance().MyData.DelUserClubData(TKManager.getInstance().TargetClubData.GetClubIndex());
                                 TKManager.getInstance().MyData.DelRequestJoinClubList(TKManager.getInstance().TargetClubData.GetClubIndex());
+                                //TKManager.getInstance().ClubData_Simple.get(TKManager.getInstance().TargetClubData.GetClubIndex()).DelClubMember(TKManager.getInstance().MyData.GetUserIndex());
+                                TKManager.getInstance().ClubData_Simple.get(TKManager.getInstance().TargetClubData.GetClubIndex()).ClubMemberCount = TKManager.getInstance().TargetClubData.GetClubMemberCount();
                                 DialogFunc.getInstance().DismissLoadingPage();
                                 DialogFunc.getInstance().ShowToast(ClubSettingActivity.this, "탈퇴 하였습니다", true);
                                 finish();
