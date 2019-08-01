@@ -58,6 +58,7 @@ public class ClubCreateActivity extends AppCompatActivity {
     EditText et_ClubCreate_Name, et_ClubCreate_Introduce;
     ImageView iv_ClubCreate_Profile;
     RecyclerView rv_ClubCreate_Favorite;
+    TextView tv_ClubCreate_Favorite_Title, tv_ClubCreate_JoinType_Title;
     TextView tv_ClubCreate_JoinType_Free, tv_ClubCreate_JoinType_Approval;
     TextView tv_ClubCreate_OK;
 
@@ -84,6 +85,9 @@ public class ClubCreateActivity extends AppCompatActivity {
         et_ClubCreate_Introduce = findViewById(R.id.et_ClubCreate_Introduce);
         iv_ClubCreate_Profile = findViewById(R.id.iv_ClubCreate_Profile);
         rv_ClubCreate_Favorite = findViewById(R.id.rv_ClubCreate_Favorite);
+
+        tv_ClubCreate_Favorite_Title = findViewById(R.id.tv_ClubCreate_Favorite_Title);
+        tv_ClubCreate_JoinType_Title = findViewById(R.id.tv_ClubCreate_JoinType_Title);
         tv_ClubCreate_JoinType_Free = findViewById(R.id.tv_ClubCreate_JoinType_Free);
         tv_ClubCreate_JoinType_Approval = findViewById(R.id.tv_ClubCreate_JoinType_Approval);
         tv_ClubCreate_OK = findViewById(R.id.tv_ClubCreate_OK);
@@ -107,6 +111,23 @@ public class ClubCreateActivity extends AppCompatActivity {
             case 1:
                 mClubCreateType = CLUB_EDIT_TYPE;
                 break;
+        }
+
+        if(mClubCreateType == CLUB_CREATE_TYPE)
+        {
+            tv_ClubCreate_Favorite_Title.setVisibility(View.VISIBLE);
+            rv_ClubCreate_Favorite.setVisibility(View.VISIBLE);
+            tv_ClubCreate_JoinType_Title.setVisibility(View.VISIBLE);
+            tv_ClubCreate_JoinType_Free.setVisibility(View.VISIBLE);
+            tv_ClubCreate_JoinType_Approval.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            tv_ClubCreate_Favorite_Title.setVisibility(View.GONE);
+            rv_ClubCreate_Favorite.setVisibility(View.GONE);
+            tv_ClubCreate_JoinType_Title.setVisibility(View.GONE);
+            tv_ClubCreate_JoinType_Free.setVisibility(View.GONE);
+            tv_ClubCreate_JoinType_Approval.setVisibility(View.GONE);
         }
 
 
