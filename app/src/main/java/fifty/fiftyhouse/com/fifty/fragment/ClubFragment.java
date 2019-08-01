@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -249,8 +251,10 @@ public class ClubFragment extends Fragment {
             @Override
             public void CompleteListener() {
                 // TODO 검색한걸 어떻게 보여줄까?
-                /*RefreshAdapter();
-                mAdapter.notifyDataSetChanged();*/
+                //RefreshViewPager();
+                //mAdapter.notifyDataSetChanged();
+
+                Log.d("@@$#$@", "2342345234");
             }
 
             @Override

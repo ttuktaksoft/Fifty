@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -133,6 +134,27 @@ public class ClubCreateActivity extends AppCompatActivity {
                     };
 
                     FirebaseManager.getInstance().RegistClubList(TKManager.getInstance().CreateTempClubData, registClubListener);
+
+                    ChatData tempChatData = new ChatData();
+                    tempChatData.SetRoomIndex(TKManager.getInstance().CreateTempClubData.GetClubIndex());
+
+                    tempChatData.SetFromIndex(TKManager.getInstance().MyData.GetUserIndex());
+                    tempChatData.SetFromNickName(TKManager.getInstance().MyData.GetUserNickName());
+                    tempChatData.SetFromThumbNail(TKManager.getInstance().MyData.GetUserImgThumb());
+
+                    tempChatData.SetToIndex("club");
+                    tempChatData.SetToNickName(TKManager.getInstance().CreateTempClubData.GetClubName());
+                    tempChatData.SetToThumbNail("club");
+
+                    tempChatData.SetMsgIndex(0);
+                    tempChatData.SetMsgReadCheck(false);
+                    tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+                    tempChatData.SetMsgType(CommonData.MSGType.MSG);
+                    tempChatData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
+                    tempChatData.SetMsg(TKManager.getInstance().CreateTempClubData.GetClubName() + "클럽 채팅방입니다");
+                    tempChatData.SetRoomType(CommonData.CHAT_ROOM_TYPE.DEFAULT);
+
+                    FirebaseManager.getInstance().RegistClubChatList(TKManager.getInstance().CreateTempClubData.GetClubIndex(), tempChatData, true);
                 }
             }
         });

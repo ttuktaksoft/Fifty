@@ -378,6 +378,10 @@ public class UserData {
     {
         return BookMarkChatRoomDataList.keySet();
     }
+    public Boolean  ExistUserBookMarkChatDataListKeySet(String index)
+    {
+        return BookMarkChatRoomDataList.containsKey(index);
+    }
     public void  DelUserBookMarkChatDataList(String chatRoomIdx)
     {
         BookMarkChatRoomDataList.remove(chatRoomIdx);
@@ -411,6 +415,10 @@ public class UserData {
     public Set  GetUserChatDataListKeySet()
     {
         return ChatRoomDataList.keySet();
+    }
+    public Boolean  ExistUserChatDataListKeySet(String index)
+    {
+        return ChatRoomDataList.containsKey(index);
     }
     public void  DelUserChatDataList(String chatRoomIdx)
     {

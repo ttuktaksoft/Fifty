@@ -40,7 +40,6 @@ public class TKManager {
     public Map<String, ClubContextData> TargetReportContextData =  new HashMap<>();
     public Map<String, UserData> UserData_RequestJoin =  new HashMap<>();
 
-
     public Map<String, Object> UserData = new HashMap<>();
 
     public Map<String, UserData> UserData_Simple = new HashMap<>();
@@ -58,9 +57,13 @@ public class TKManager {
     public ArrayList<String> FavoriteLIst_Pop = new ArrayList<>();
     public ArrayList<String> DailyFavorite = new ArrayList<>();
 
+    public ArrayList<String> FavoriteLIst_ClubList = new ArrayList<>();
+    public ArrayList<String> FavoriteLIst_Club = new ArrayList<>();
+
     public boolean isLoadDataByBoot = true;
 
-    public Map<String, ClubData> SearchClubList = new LinkedHashMap<>();
+    //public Map<String, ClubData> SearchClubList = new LinkedHashMap<>();
+    public ArrayList<String> SearchClubList = new ArrayList<>();
 
     public FilterData FilterData = new FilterData();
     public ClubData CreateTempClubData = new ClubData();
@@ -76,4 +79,6 @@ public class TKManager {
     public UpdateUIFunc mUpdateClubActivityFunc = null;
     public UpdateUIFunc mUpdateClubFragmentkeybordDownFunc = null;
     public UpdateUIFunc mUpdateChatFragmentFunc = null;
+
+    public ArrayList<String> MonitorChatList = new ArrayList<>();
 }

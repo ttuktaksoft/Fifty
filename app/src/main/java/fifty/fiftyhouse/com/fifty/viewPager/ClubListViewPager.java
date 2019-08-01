@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -72,8 +73,37 @@ public class ClubListViewPager extends Fragment {
                 public void onSingleClick(View view) {
                     TKManager.getInstance().mUpdateClubFragmentkeybordDownFunc.UpdateUI();
 
-                    Intent intent = new Intent(getContext(), ClubFavoriteActivity.class);
-                    startActivity(intent);
+                    DialogFunc.getInstance().ShowLoadingPage(ClubFragment.mClubFragment.getContext());
+
+                    if(TKManager.getInstance().FavoriteLIst_ClubList.size() == 0)
+                    {
+                        FirebaseManager.CheckFirebaseComplete FavoriteClubList = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Intent intent = new Intent(getContext(), ClubFavoriteActivity.class);
+                                startActivity(intent);
+                                DialogFunc.getInstance().DismissLoadingPage();
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+
+                            }
+                        };
+
+                        FirebaseManager.getInstance().GetUserFavoriteClubList(FavoriteClubList);
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(getContext(), ClubFavoriteActivity.class);
+                        startActivity(intent);
+                        DialogFunc.getInstance().DismissLoadingPage();
+                    }
                 }
             });
 
@@ -154,7 +184,10 @@ public class ClubListViewPager extends Fragment {
 
                 if(mType == CLUB_LIST_RECOMMEND)
                 {
-                    tempClubKey.putAll(TKManager.getInstance().MyData.GetUserRecommendClubData());
+                    if(TKManager.getInstance().SearchClubList.size() == 0)
+                    {
+                        tempClubKey.putAll(TKManager.getInstance().MyData.GetUserRecommendClubData());
+                    }
                 }
 
                 else
@@ -167,10 +200,23 @@ public class ClubListViewPager extends Fragment {
                 //tempClubKey.putAll(TKManager.getInstance().SearchClubList);
 
                 Set tempKey = tempClubKey.keySet(); //TKManager.getInstance().MyData.GetUserClubDataKeySet();
-                final List array = new ArrayList(tempKey);
+
+                List array = new ArrayList();
+
+                if(TKManager.getInstance().SearchClubList.size() > 0)
+                {
+                    array = new ArrayList(TKManager.getInstance().SearchClubList);
+
+                }
+                else
+                {
+                    array = new ArrayList(tempKey);
+
+                }
 
                 DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
+                final List finalArray = array;
                 FirebaseManager.CheckFirebaseComplete GetClubDataListener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
@@ -188,7 +234,7 @@ public class ClubListViewPager extends Fragment {
                             public void CompleteListener_No() {}
                         };
 
-                        FirebaseManager.getInstance().GetClubContextData(TKManager.getInstance().ClubData_Simple.get(array.get(position).toString()).GetClubIndex(), GetClubContextListener);
+                        FirebaseManager.getInstance().GetClubContextData(TKManager.getInstance().ClubData_Simple.get(finalArray.get(position).toString()).GetClubIndex(), GetClubContextListener);
                     }
 
                     @Override
@@ -215,7 +261,18 @@ public class ClubListViewPager extends Fragment {
         mClubList.clear();
 
         if(mType == CLUB_LIST_RECOMMEND)
-            mClubList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
+        {
+            if(TKManager.getInstance().SearchClubList.size() > 0)
+            {
+                mClubList.addAll(TKManager.getInstance().SearchClubList);
+            }
+            else
+            {
+                mClubList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
+            }
+
+        }
+
         else
             mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
 

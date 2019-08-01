@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
+import com.gun0912.tedpermission.util.ObjectUtils;
 
 import org.w3c.dom.Text;
 
@@ -255,6 +256,32 @@ public class ClubActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 // TODO 단체 채팅방으로 이동
+
+                DialogFunc.getInstance().ShowLoadingPage(ClubActivity.this);
+
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                        intent.putExtra("RoomIndex",TKManager.getInstance().TargetClubData.GetClubIndex());
+                        intent.putExtra("RoomType","CLUB");
+
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserClubChatData(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().MyData, listener);
+
             }
         });
 
