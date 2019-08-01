@@ -185,7 +185,8 @@
 
     <string name="CREATE_CLUB_NAME_HINT">클럽 이름을 입력해주세요</string>
     <string name="CREATE_CLUB_DESC">클럽이름과 사진은 개설 후에도 변경할 수 있어요</string>
-    <string name="CREATE_CLUB_OK">만들기</string>
+    <string name="CREATE_CLUB_OK">클럽 만들기</string>
+    <string name="CREATE_CLUB_EDIT">수정 완료</string>
     <string name="CREATE_CLUB_VIP">VIP 타입</string>
     <string name="CREATE_CLUB_NAME_EMPTY">클럽 이름을 입력해주세요</string>
     <string name="CREATE_CLUB_NAME_PROFILE">클럽 사진을 등록해주세요</string>

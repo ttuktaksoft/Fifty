@@ -226,7 +226,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
         }
 
         mUserGender = tempData.GetUserGender();
-        mUserState = "수정중";
+        mUserState = CommonFunc.getInstance().GetConnectGap(CommonFunc.getInstance().GetCurrentTime(), Long.toString(tempData.GetUserConnectDate()));
     }
 }
 

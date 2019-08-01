@@ -121,6 +121,8 @@ public class ClubCreateActivity extends AppCompatActivity {
             tv_ClubCreate_JoinType_Title.setVisibility(View.VISIBLE);
             tv_ClubCreate_JoinType_Free.setVisibility(View.VISIBLE);
             tv_ClubCreate_JoinType_Approval.setVisibility(View.VISIBLE);
+
+            tv_ClubCreate_OK.setText(CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_OK));
         }
         else
         {
@@ -129,6 +131,8 @@ public class ClubCreateActivity extends AppCompatActivity {
             tv_ClubCreate_JoinType_Title.setVisibility(View.GONE);
             tv_ClubCreate_JoinType_Free.setVisibility(View.GONE);
             tv_ClubCreate_JoinType_Approval.setVisibility(View.GONE);
+
+            tv_ClubCreate_OK.setText(CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_EDIT));
         }
 
 
@@ -178,7 +182,7 @@ public class ClubCreateActivity extends AppCompatActivity {
                     DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_EMPTY));
                 else if(isProfileUpload == false)
                     DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_PROFILE));
-                else if(TKManager.getInstance().CreateTempClubData.ClubFavorite.size() < CommonData.FavoriteSelectMinCount)
+                else if(mClubCreateType == CLUB_CREATE_TYPE && TKManager.getInstance().CreateTempClubData.ClubFavorite.size() < CommonData.FavoriteSelectMinCount)
                     DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
                 else
                 {
@@ -240,6 +244,32 @@ public class ClubCreateActivity extends AppCompatActivity {
                     }
                     else
                     {
+                        DialogFunc.getInstance().ShowLoadingPage(ClubCreateActivity.this);
+                        TKManager.getInstance().TargetClubData.SetClubName(et_ClubCreate_Name.getText().toString());
+                        TKManager.getInstance().TargetClubData.SetClubThumb(TKManager.getInstance().TargetClubData.GetClubThumb());
+                        TKManager.getInstance().TargetClubData.SetClubComment(et_ClubCreate_Introduce.getText().toString());
+
+                        FirebaseManager.CheckFirebaseComplete registClubListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().TargetClubData.ClubIndex, TKManager.getInstance().TargetClubData);
+                                TKManager.getInstance().ClubData_Simple.put(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
+                                TKManager.getInstance().mUpdateClubFragmentFunc.UpdateUI();
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                finish();
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        FirebaseManager.getInstance().EditClubList(TKManager.getInstance().TargetClubData, registClubListener);
+
                        // 클럽 수정
                     }
                 }
@@ -484,7 +514,24 @@ public class ClubCreateActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    // 클럽 수정
+                    DialogFunc.getInstance().ShowLoadingPage(ClubCreateActivity.this);
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+                    FirebaseManager.getInstance().UploadClubThumbImg(TKManager.getInstance().TargetClubData.GetClubIndex(), originalBm, TKManager.getInstance().TargetClubData, listener);
                 }
 
             }

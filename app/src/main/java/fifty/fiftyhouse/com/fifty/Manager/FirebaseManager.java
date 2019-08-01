@@ -361,7 +361,7 @@ public class FirebaseManager {
         simpleUser.put("Dist_Lon", TKManager.getInstance().MyData.GetUserDist_Lon());
         simpleUser.put("Dist_Lat", TKManager.getInstance().MyData.GetUserDist_Lat());
         simpleUser.put("Gender", TKManager.getInstance().MyData.GetUserGender());
-        user.put("ConnectDate", Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
+        simpleUser.put("ConnectDate", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
 
         mDataBase.collection("UserData_Simple").document(TKManager.getInstance().MyData.GetUserIndex())
                 .set(simpleUser, SetOptions.merge())
@@ -2046,7 +2046,7 @@ public class FirebaseManager {
                             if (document.getData().containsKey("ConnectDate")) {
                                 tempUser.SetUserConnectDate(Long.parseLong(document.getData().get("ConnectDate").toString()));
                             } else
-                                tempUser.SetUserConnectDate(Long.parseLong(CommonFunc.getInstance().GetCurrentDate()));
+                                tempUser.SetUserConnectDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
 
                             if (document.getData().containsKey("Dist_Lon")) {
                                 tempUser.SetUserDist_Lon(Double.parseDouble(document.getData().get("Dist_Lon").toString()));
@@ -3850,6 +3850,45 @@ public class FirebaseManager {
                 }
             }
         });
+    }
+
+    public void EditClubList(final ClubData club, final CheckFirebaseComplete listener)
+    {
+        final Map<String, Object> clubSimpleData = new HashMap<>();
+        clubSimpleData.put("Thumb", club.ClubThumbNail);
+        clubSimpleData.put("Name", club.ClubName);
+        clubSimpleData.put("Comment", club.GetClubComment());
+
+        mDataBase.collection("ClubData").document(club.GetClubIndex())
+                .set(club, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        mDataBase.collection("ClubData_Simple").document(club.GetClubIndex())
+                                .set(clubSimpleData, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        if (listener != null) {
+                                            listener.CompleteListener();
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
 
     public void RegistClubList(final ClubData club, final CheckFirebaseComplete listener)
