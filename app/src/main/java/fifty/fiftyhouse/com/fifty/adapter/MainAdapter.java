@@ -243,6 +243,7 @@ class MainUserListHolder extends RecyclerView.ViewHolder{
         iv_Main_Thumbnail_3 = itemView.findViewById(R.id.iv_Main_Thumbnail_3);
         tv_Main_Thumbnail_Info_NickName = itemView.findViewById(R.id.tv_Main_Thumbnail_Info_NickName);
         iv_Main_Gender = itemView.findViewById(R.id.iv_Main_Gender);
+        tv_Main_Thumbnail_Info_State = itemView.findViewById(R.id.tv_Main_Thumbnail_Info_State);
         tv_Main_Thumbnail_Online_State = itemView.findViewById(R.id.tv_Main_Thumbnail_Online_State);
     }
 }
