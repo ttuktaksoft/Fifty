@@ -56,6 +56,11 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
         return mItemCount;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     public void ResetItem()
     {
         mItemList.clear();

@@ -343,6 +343,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                                 @Override
                                 public void CompleteListener() {
                                     DialogFunc.getInstance().ShowToast(ClubActivity.mClubActivity, "신고되었습니다", false);
+                                    TKManager.getInstance().TargetClubData.GetClubContext(key).SetReportList(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
                                     TKManager.getInstance().mUpdateClubActivityFunc.UpdateUI();
                                     DialogFunc.getInstance().DismissLoadingPage();
                                 }

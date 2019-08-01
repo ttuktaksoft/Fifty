@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                                 Map<String, ClubData> tempClub = new LinkedHashMap<>();
                                 tempClub.putAll(TKManager.getInstance().MyData.GetUserClubData());
                                 tempClub.putAll(TKManager.getInstance().MyData.GetUserRecommendClubData());
+                                tempClub.putAll(TKManager.getInstance().MyData.GetRequestJoinClubList());
 
                                 Set KeySet = tempClub.keySet();
 

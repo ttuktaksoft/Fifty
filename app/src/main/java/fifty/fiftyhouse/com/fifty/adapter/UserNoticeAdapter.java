@@ -82,6 +82,9 @@ class UserNoticeListHolder extends RecyclerView.ViewHolder {
             case "FRIEND":
                 tv_Notice_Desc.setText(TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserNickName() + "님이 친구 추가를 하였습니다");
                 break;
+            case "CHAT":
+                tv_Notice_Desc.setText(TKManager.getInstance().UserData_Simple.get(array.get(position).toString()).GetUserNickName() + "님이 메세지를 보냈습니다");
+                break;
         }
 
         tv_Notice_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.toString(TKManager.getInstance().MyData.GetAlarmList(array.get(position).toString()).Date), "MM.dd a hh:mm"));

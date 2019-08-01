@@ -198,6 +198,7 @@ public class ClubListViewPager extends Fragment {
                 else
                 {
                     tempClubKey.putAll(TKManager.getInstance().MyData.GetUserClubData());
+                    tempClubKey.putAll(TKManager.getInstance().MyData.GetRequestJoinClubList());
                 }
 
 
