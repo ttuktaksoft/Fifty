@@ -1280,7 +1280,13 @@ public class FirebaseManager {
                     }
 
                     if(listener != null)
+                    {
+                        long seed = System.nanoTime();
+                        Collections.shuffle( TKManager.getInstance().FavoriteLIst_ClubList, new Random(seed));
+
                         listener.CompleteListener();
+                    }
+
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
