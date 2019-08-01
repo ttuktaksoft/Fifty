@@ -116,6 +116,7 @@ public class FirebaseManager {
     public int FireBaseLoadingCount = 0;
 
     public void SetFireBaseLoadingCount(int count) {
+        UserLoading = 0;
         FireBaseLoadingCount = count;
     }
 
@@ -725,6 +726,9 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     SetFireBaseLoadingCount(task.getResult().size());
 
+                    if(task.getResult().size() == 0)
+                        listener.CompleteListener_No();
+
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
                         if(!document.getId().equals("Index"))
@@ -738,36 +742,6 @@ public class FirebaseManager {
 
                             tempData.SetMsg(document.getData().get("Msg").toString());
 
-                            if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
-                            {
-
-                                //AddFireBaseLoadingCount();
-
-                                GetUserData_Simple(tempData.GetFromIndex(), TKManager.getInstance().UserData_Simple, listener);
-                                //tempData.SetMsgReadCheck(true);
-
-                          /*      Map<String, Object> ReadCheck = new HashMap<>();
-                                ReadCheck.put("MsgReadCheck", true);
-
-                                mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(document.getId())
-                                        .set(ReadCheck, SetOptions.merge())
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });*/
-                            }
-                            else
-                            {
-                                Complete(listener);
-                            }
 
                             tempData.SetMsgIndex(Long.parseLong(document.getData().get("MsgIndex").toString()));
                             tempData.SetMsgSender(document.getData().get("MsgSender").toString());
@@ -789,6 +763,15 @@ public class FirebaseManager {
                             }
                             userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
                             userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
+
+                            if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                GetUserData_Simple(tempData.GetFromIndex(), TKManager.getInstance().UserData_Simple, listener);
+                            }
+                            else
+                            {
+                                Complete(listener);
+                            }
 
                         }
 
@@ -4195,6 +4178,25 @@ public class FirebaseManager {
                         });
 
                 club.DelClubMember(userIndex);
+
+                mDataBase.collection("ClubData_Simple").document(club.GetClubIndex()).update("MemberCount", club.GetClubMember().size())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                if (listener != null) {
+                                    listener.CompleteListener();
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+
                 mDataBase.collection("ClubData").document(club.GetClubIndex()).update("ClubMemberList", club.GetClubMember())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
