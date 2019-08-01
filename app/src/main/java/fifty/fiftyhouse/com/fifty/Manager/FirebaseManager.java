@@ -1858,35 +1858,39 @@ public class FirebaseManager {
         DAILY_FAVORITE = TKManager.getInstance().DailyFavorite.get(nWeek -1);
 
         Iterator<String> it = TKManager.getInstance().MyData.GetUserFavoriteListKeySet().iterator();
-        String key = it.next();
 
+        while(it.hasNext()) {
+            final String key = it.next();
+            CollectionReference colRef = mDataBase.collection("FavoriteList").document(key).collection("UserIndex");
+            colRef.orderBy("Index", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
 
-        CollectionReference colRef = mDataBase.collection("FavoriteList").document(key).collection("UserIndex");
-        colRef.orderBy("Index", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-
-                        if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
-                        {
-                            TKManager.getInstance().UserList_Hot.add(document.getId().toString());
-
-                            if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                            if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                             {
-                                AddFireBaseLoadingCount();
-                                Log.d(TAG, "HOT : " +document.getId() + " => " + document.getData());
-                                GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                                TKManager.getInstance().UserList_Hot.put(document.getId().toString(), key);
+
+                                if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                                {
+                                    AddFireBaseLoadingCount();
+                                    Log.d(TAG, "HOT : " +document.getId() + " => " + document.getData());
+                                    GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                                }
                             }
                         }
+
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
-
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-            }
-        });
+            });
+        }
+
+
+
     }
 
     public void GetUserListNew(final CheckFirebaseComplete listener) {
