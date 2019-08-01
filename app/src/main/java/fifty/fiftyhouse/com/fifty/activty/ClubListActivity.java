@@ -60,7 +60,11 @@ public class ClubListActivity extends AppCompatActivity {
         tv_ClubList_Empty = findViewById(R.id.tv_ClubList_Empty);
         rv_ClubList = findViewById(R.id.rv_ClubList);
 
-        tv_TopBar_Title.setText(SelectFavorite +" " + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_SELECT_FAVORITE));
+        if(SelectFavorite.equals("검색결과"))
+            tv_TopBar_Title.setText(SelectFavorite);
+        else
+            tv_TopBar_Title.setText(SelectFavorite +" " + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_SELECT_FAVORITE));
+
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
