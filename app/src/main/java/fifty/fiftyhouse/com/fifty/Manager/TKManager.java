@@ -47,7 +47,9 @@ public class TKManager {
 
     public ArrayList<String> UserList_Dist = new ArrayList<>();
     public ArrayList<String> UserList_New= new ArrayList<>();
-    public ArrayList<String> UserList_Hot = new ArrayList<>();
+    //public ArrayList<String> UserList_Hot = new ArrayList<>();
+    public Map<String, String> UserList_Hot = new HashMap<>();
+
     public ArrayList<String> UserList_Friend = new ArrayList<>();
 
     public ArrayList<String> View_UserList_Dist = new ArrayList<>();

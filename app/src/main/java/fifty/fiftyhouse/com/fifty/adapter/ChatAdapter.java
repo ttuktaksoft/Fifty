@@ -246,13 +246,21 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
                 DialogFunc.getInstance().ShowLoadingPage(mContext);
 
-                CommonData.CHAT_ROOM_TYPE mType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
+                //CommonData.CHAT_ROOM_TYPE mType'' = CommonData.CHAT_ROOM_TYPE.DEFAULT;
 
                 if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
                 {
                     TKManager.getInstance().MyData.GetUserChatDataList(data).SetRoomType(CommonData.CHAT_ROOM_TYPE.BOOKMARK);
                     mType = CommonData.CHAT_ROOM_TYPE.BOOKMARK;
-                    TKManager.getInstance().MyData.SetUserBookMarkChatDataList(data, TKManager.getInstance().MyData.GetUserChatDataList(data));
+
+                    ChatData tempChat = new ChatData();
+                    try {
+                        tempChat = (ChatData) TKManager.getInstance().MyData.GetUserChatDataList(data).clone();
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+
+                    TKManager.getInstance().MyData.SetUserBookMarkChatDataList(tempChat.GetRoomIndex(), tempChat);
                     TKManager.getInstance().MyData.DelUserChatDataList(data);
 
                 }
@@ -260,7 +268,15 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                 {
                     TKManager.getInstance().MyData.GetUserBookMarkChatDataList(data).SetRoomType(CommonData.CHAT_ROOM_TYPE.DEFAULT);
                     mType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
-                    TKManager.getInstance().MyData.SetUserChatDataList(data, TKManager.getInstance().MyData.GetUserBookMarkChatDataList(data));
+
+                    ChatData tempChat = new ChatData();
+                    try {
+                        tempChat = (ChatData) TKManager.getInstance().MyData.GetUserBookMarkChatDataList(data).clone();
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+
+                    TKManager.getInstance().MyData.SetUserChatDataList(tempChat.GetRoomIndex(), tempChat);
                     TKManager.getInstance().MyData.DelUserBookMarkChatDataList(data);
                 }
 

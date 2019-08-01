@@ -800,14 +800,14 @@ public class CommonFunc {
                                 switch (TKManager.getInstance().FilterData.GetConnect())
                                 {
                                     case 0:
-                                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                        if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate()) == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                         {
                                             ViewList.add(tempDataList.get(i));
                                         }
                                         break;
 
                                     case 1:
-                                        if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                        if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 )>= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                         {
                                             ViewList.add(tempDataList.get(i));
                                         }
@@ -830,14 +830,14 @@ public class CommonFunc {
                                     switch (TKManager.getInstance().FilterData.GetConnect())
                                     {
                                         case 0:
-                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() )== Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                             {
                                                 ViewList.add(tempDataList.get(i));
                                             }
                                             break;
 
                                         case 1:
-                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1) >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                             {
                                                 ViewList.add(tempDataList.get(i));
                                             }
@@ -872,14 +872,14 @@ public class CommonFunc {
                                     switch (TKManager.getInstance().FilterData.GetConnect())
                                     {
                                         case 0:
-                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() )== Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                             {
                                                 ViewList.add(tempDataList.get(i));
                                             }
                                             break;
 
                                         case 1:
-                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 )>= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                             {
                                                 ViewList.add(tempDataList.get(i));
                                             }
@@ -902,14 +902,14 @@ public class CommonFunc {
                                         switch (TKManager.getInstance().FilterData.GetConnect())
                                         {
                                             case 0:
-                                                if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                                if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate()) == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                                 {
                                                     ViewList.add(tempDataList.get(i));
                                                 }
                                                 break;
 
                                             case 1:
-                                                if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                                if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1) >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                                 {
                                                     ViewList.add(tempDataList.get(i));
                                                 }
@@ -944,14 +944,14 @@ public class CommonFunc {
                                     switch (TKManager.getInstance().FilterData.GetConnect())
                                     {
                                         case 0:
-                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate()) == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                             {
                                                 ViewList.add(tempDataList.get(i));
                                             }
                                             break;
 
                                         case 1:
-                                            if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                            if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1) >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                             {
                                                 ViewList.add(tempDataList.get(i));
                                             }
@@ -974,14 +974,14 @@ public class CommonFunc {
                                         switch (TKManager.getInstance().FilterData.GetConnect())
                                         {
                                             case 0:
-                                                if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                                if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate()) == Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                                 {
                                                     ViewList.add(tempDataList.get(i));
                                                 }
                                                 break;
 
                                             case 1:
-                                                if(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 >= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
+                                                if(GetConnectDate(TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserConnectDate() + 1 )>= Long.parseLong(CommonFunc.getInstance().GetCurrentDate()))
                                                 {
                                                     ViewList.add(tempDataList.get(i));
                                                 }
@@ -1200,7 +1200,7 @@ public class CommonFunc {
 
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
-                        CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+                        //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
 
 
                         MoveMainActivity(activity, true);
@@ -1246,9 +1246,25 @@ public class CommonFunc {
         return NONE_STATE;
     }
 
+    public Long GetConnectDate(long date)
+    {
+        String tempData = Long.toString(date);
+        String result = tempData.substring(0, 8);
+        return Long.parseLong(result);
+    }
+
     public String GetConnectGap(String startDate, String EndDate){
 
         String result = "";
+
+        if(EndDate.length() < 14)
+        {
+            EndDate += "000000";
+        }
+        if(startDate.length() < 14)
+        {
+            startDate += "000000";
+        }
 
         String start = startDate.substring(0, 14);
         String end = EndDate.substring(0, 14);
