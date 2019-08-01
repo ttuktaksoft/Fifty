@@ -118,7 +118,7 @@ class ClubListHolder extends RecyclerView.ViewHolder {
         }
 
         tv_Club_Name.setText(tempClubSimple.ClubName);
-        tv_Club_Count.setText(tempClubSimple.GetClubMemberCount() + "명");
+        tv_Club_Count.setText(tempClubSimple.ClubMemberCount + "명");
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Profile, tempClubSimple.ClubThumbNail, false);
     }
 }

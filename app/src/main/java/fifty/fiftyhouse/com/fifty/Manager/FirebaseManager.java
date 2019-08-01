@@ -4243,7 +4243,7 @@ public class FirebaseManager {
                                 }
                             });
 
-                    mDataBase.collection("ClubData_Simple").document(club.GetClubIndex()).update("MemberCount", club.GetClubMember())
+                    mDataBase.collection("ClubData_Simple").document(club.GetClubIndex()).update("MemberCount", club.GetClubMemberCount())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
