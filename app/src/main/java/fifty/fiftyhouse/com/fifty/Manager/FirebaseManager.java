@@ -544,7 +544,7 @@ public class FirebaseManager {
 
         CollectionReference colRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("AlarmList");
         //CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
-            colRef.orderBy("Date", Query.Direction.DESCENDING).limit(5).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                     if (e != null) {
@@ -948,6 +948,34 @@ public class FirebaseManager {
                                         userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
                                     }
                                    // userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
+
+
+                                    if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                                    {
+                                        Map<String, Object> AlarmData = new HashMap<>();
+                                        AlarmData.put("Index", tempData.GetFromIndex());
+                                        AlarmData.put("Date", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+                                        AlarmData.put("Type", "CHAT");
+                                        AlarmData.put("Msg", tempData.GetMsg());
+
+
+                                        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("AlarmList").document(tempData.GetFromIndex())
+                                                .set(AlarmData, SetOptions.merge())
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Error writing document", e);
+                                                    }
+                                                });
+                                    }
+
+
 
                                 }
 
