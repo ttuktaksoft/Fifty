@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
+import com.gun0912.tedpermission.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -378,6 +379,60 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
                 final ChatData finalTempChatData = tempChatData;
 
+
+                final String finalStrTargetIndex = strTargetIndex;
+                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
+                                intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
+                                intent.putExtra("RoomType", finalTempChatData.GetRoomType().name());
+                                //startActivity(intent);
+                                ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        if(TKManager.getInstance().UserData_Simple.get(finalStrTargetIndex) != null)
+                        {
+                            DialogFunc.getInstance().DismissLoadingPage();
+                            Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
+                            intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
+                            intent.putExtra("RoomType", finalTempChatData.GetRoomType().name());
+                            //startActivity(intent);
+                            ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
+                        }
+                        else
+                        {
+                            FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                            FirebaseManager.getInstance().GetUserData_Simple(finalStrTargetIndex, TKManager.getInstance().UserData_Simple, listener);
+                        }
+
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+              FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
+  /*
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
@@ -408,7 +463,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                 {
                     FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
                     FirebaseManager.getInstance().GetUserData_Simple(strTargetIndex, TKManager.getInstance().UserData_Simple, listener);
-                }
+                }*/
             }
         });
     }
