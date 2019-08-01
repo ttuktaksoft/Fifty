@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -388,8 +389,27 @@ public class UserListActivity extends AppCompatActivity {
     public void RefreshAdapter(int type)
     {
         RefreshUserList(type);
-        mAdapter.setItemCount(mUserList.size());
-        mAdapter.setItemData(mUserList);
+        if (type == CommonData.USER_LIST_CLUB)
+        {
+            ArrayList<Pair<String, Integer>> list = new ArrayList<>();
+
+            Iterator iterator = mUserList.iterator();
+            while (iterator.hasNext()) {
+                String element = (String) iterator.next();
+                if(element.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                    list.add(new Pair<String, Integer>(element, UserListAdapter.CLUB_MATSER_VIEW));
+                else
+                    list.add(new Pair<String, Integer>(element, 0));
+            }
+
+            mAdapter.setItemCount(list.size());
+            mAdapter.setSpecialItemData(list);
+        }
+        else
+        {
+            mAdapter.setItemCount(mUserList.size());
+            mAdapter.setItemData(mUserList);
+        }
     }
 
     public void RefreshUserList(int type)

@@ -54,7 +54,7 @@
                 android:id="@+id/iv_Chat_Delete"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_logo"
+                android:src="@drawable/ic_del"
                 android:tint="@color/white"
                 android:layout_gravity="center"
                 app:layout_constraintTop_toTopOf="@+id/v_Chat_Delete"

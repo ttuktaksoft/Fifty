@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".activty.CustomPhotoView">
 
-    <include
-        android:id="@+id/ui_Custom_Photo_TopBar"
-        layout="@layout/ui_topbar"/>
-
     <fifty.fiftyhouse.com.fifty.viewPager.PhotoViewPager
         android:id="@+id/vp_Custom_Photo_View"
         android:layout_width="match_parent"
@@ -18,7 +14,46 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ui_Custom_Photo_TopBar" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Custom_Photo_Topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        android:background="@color/topbar_bg"
+        android:alpha="0.3">
+
+        <ImageView
+            android:id="@+id/iv_Custom_Photo_Back"
+            android:layout_width="@dimen/top_bar_height"
+            android:layout_height="@dimen/top_bar_height"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Custom_Photo_Topbar"
+            app:layout_constraintTop_toTopOf="@+id/v_Custom_Photo_Topbar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Custom_Photo_Topbar"
+            android:padding="10dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/icon_tint_white"
+            />
+
+        <TextView
+            android:id="@+id/tv_Custom_Photo_Title"
+            style="@style/TobBarTextView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/top_bar_height"
+            app:layout_constraintRight_toRightOf="@+id/v_Custom_Photo_Topbar"
+            app:layout_constraintLeft_toRightOf="@+id/iv_Custom_Photo_Back"
+            app:layout_constraintTop_toTopOf="@+id/v_Custom_Photo_Topbar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Custom_Photo_Topbar"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="80dp"
+            android:gravity="center_vertical"
+            android:text="프로필 작성"
+            android:maxLines="1"
+            android:textColor="@color/str_color_2"
+            android:textStyle="bold"/>
+
+    </android.support.constraint.ConstraintLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

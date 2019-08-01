@@ -43,7 +43,7 @@
         app:tabSelectedTextColor="@color/str_color_3"
         app:tabTextColor="@color/str_color_4"/>
 
-    <fifty.fiftyhouse.com.fifty.util.NonSwipeViewPager
+    <android.support.v4.view.ViewPager
         android:id="@+id/vp_ChatList"
         android:layout_width="match_parent"
         android:layout_height="0dp"

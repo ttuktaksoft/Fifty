@@ -492,6 +492,7 @@ public class ClubCreateActivity extends AppCompatActivity {
         else if (requestCode == GET_FROM_FAVORITE_SELECT)
         {
             RefreshFavoriteViewListSlot();
+            RefreshOkButton();
         }
     }
 }
