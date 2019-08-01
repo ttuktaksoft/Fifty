@@ -82,7 +82,7 @@ public class ClubListViewPager extends Fragment {
                             @Override
                             public void CompleteListener() {
                                 Intent intent = new Intent(getContext(), ClubFavoriteActivity.class);
-                                startActivity(intent);
+                                startActivityForResult(intent, 1000);
                                 DialogFunc.getInstance().DismissLoadingPage();
                             }
 
@@ -121,7 +121,7 @@ public class ClubListViewPager extends Fragment {
 
                             Intent intent = new Intent(getContext(), ClubCreateActivity.class);
                             intent.putExtra("Type",0);
-                            startActivity(intent);
+                            startActivityForResult(intent, 1000);
                         }
 
                         @Override
