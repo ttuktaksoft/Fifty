@@ -186,7 +186,7 @@ public class ClubActivity extends AppCompatActivity {
                                 DialogFunc.getInstance().ShowLoadingPage(ClubActivity.this);
 
                                 // 가입 승인제가 아님
-                                if(!TKManager.getInstance().TargetClubData.GetClubType())
+                                if(TKManager.getInstance().TargetClubData.GetClubType())
                                 {
                                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                                         @Override
