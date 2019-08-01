@@ -44,7 +44,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 public class ClubBodyFragment extends Fragment {
 
     ImageView iv_Club_Body_Profile;
-    TextView tv_Club_Body_Nickname, tv_Club_Body_Date, tv_Club_Body_Desc;
+    TextView tv_Club_Body_Nickname, tv_Club_Body_Date, tv_Club_Body_Desc, tv_Club_Body_Report;
     RecyclerView rv_Club_Body_Img_List, rv_Club_Body_Reply_List;
     ClubBodyImgAdapter mImgAdapter;
     ClubBodyReplyAdapter mReplyAdapter;
@@ -95,11 +95,17 @@ public class ClubBodyFragment extends Fragment {
         tv_Club_Body_Desc = v_FragmentView.findViewById(R.id.tv_Club_Body_Desc);
         rv_Club_Body_Img_List = v_FragmentView.findViewById(R.id.rv_Club_Body_Img_List);
         rv_Club_Body_Reply_List = v_FragmentView.findViewById(R.id.rv_Club_Body_Reply_List);
+        tv_Club_Body_Report = v_FragmentView.findViewById(R.id.tv_Club_Body_Report);
 
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Body_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
         tv_Club_Body_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
         tv_Club_Body_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.GetDate(), "MM.dd HH:mm"));
         tv_Club_Body_Desc.setText(tempData.GetContext());
+
+        if(CommonFunc.getInstance().CheckStringNull(tempData.GetReportList(TKManager.getInstance().MyData.GetUserIndex())) == false)
+            tv_Club_Body_Report.setVisibility(View.VISIBLE);
+        else
+            tv_Club_Body_Report.setVisibility(View.GONE);
 
         iv_Club_Body_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override

@@ -59,6 +59,7 @@
     <string name="MSG_CLUB_EMPTY">클럽이 없습니다</string>
     <string name="MSG_RECOM_CLUB_EMPTY">추천 클럽이 없습니다</string>
     <string name="MSG_CLUB_FAVORITE_PLUS">추가 + </string>
+    <string name="MSG_CLUB_BODY_REPORT">게시글을 신고 하였습니다</string>
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>

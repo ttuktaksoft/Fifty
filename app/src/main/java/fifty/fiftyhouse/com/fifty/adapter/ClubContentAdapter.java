@@ -94,7 +94,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
     }
     ConstraintLayout v_Club_Con_View, v_Club_Reply_Count;
     public ImageView iv_Club_Con_Profile, iv_Club_Con_Menu;
-    public TextView tv_Club_Con_Nickname, tv_Club_Con_Date, tv_Club_Con_Desc, tv_Club_Reply_Count;
+    public TextView tv_Club_Con_Nickname, tv_Club_Con_Date, tv_Club_Con_Desc, tv_Club_Reply_Count, tv_Club_Con_Report;
     public ImageView tv_Club_Con_BigImg, tv_Club_Con_Img_1, tv_Club_Con_Img_2, tv_Club_Con_Img_3;
     public RecyclerView rv_Club_Reply_List;
     CLUB_CONTENT_TYPE mContentType;
@@ -115,6 +115,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         tv_Club_Con_Nickname = itemView.findViewById(R.id.tv_Club_Con_Nickname);
         tv_Club_Con_Date = itemView.findViewById(R.id.tv_Club_Con_Date);
         tv_Club_Con_Desc = itemView.findViewById(R.id.tv_Club_Con_Desc);
+        tv_Club_Con_Report = itemView.findViewById(R.id.tv_Club_Con_Report);
         tv_Club_Con_BigImg = itemView.findViewById(R.id.tv_Club_Con_BigImg);
         tv_Club_Con_Img_1 = itemView.findViewById(R.id.tv_Club_Con_Img_1);
         tv_Club_Con_Img_2 = itemView.findViewById(R.id.tv_Club_Con_Img_2);
@@ -138,14 +139,14 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout.LayoutParams lp_Club_Con_BigImg = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, thumbnailSize);
         lp_Club_Con_BigImg.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
-        lp_Club_Con_BigImg.topToBottom = tv_Club_Con_Desc.getId();
+        lp_Club_Con_BigImg.topToBottom = tv_Club_Con_Report.getId();
         //lp_Club_Con_BigImg.setMargins(thumbnailMargin_2,thumbnailMargin,thumbnailMargin_2,thumbnailMargin);
         tv_Club_Con_BigImg.setPadding(thumbnailMargin_2,thumbnailMargin_2,thumbnailMargin_2,thumbnailMargin_2);
         tv_Club_Con_BigImg.setLayoutParams(lp_Club_Con_BigImg);
 
         ConstraintLayout.LayoutParams lp_Club_Con_Img_1 = new ConstraintLayout.LayoutParams(thumbnailSize, thumbnailSize);
         lp_Club_Con_Img_1.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
-        lp_Club_Con_Img_1.topToBottom = tv_Club_Con_Desc.getId();
+        lp_Club_Con_Img_1.topToBottom = tv_Club_Con_Report.getId();
         //lp_Club_Con_Img_1.setMargins(thumbnailMargin_2,thumbnailMargin,thumbnailMargin,thumbnailMargin_2);
         tv_Club_Con_Img_1.setLayoutParams(lp_Club_Con_Img_1);
         tv_Club_Con_Img_1.setPadding(thumbnailMargin,thumbnailMargin,thumbnailMargin,thumbnailMargin);
@@ -217,45 +218,6 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
 
                break;
        }
-
-
-       // 내일 신고글 대응
-    /*    if(!CommonFunc.getInstance().CheckStringNull(tempData.GetReportList(TKManager.getInstance().MyData.GetUserIndex())))
-        {
-            if(tempData.GetReportList(TKManager.getInstance().MyData.GetUserIndex()).equals(TKManager.getInstance().MyData.GetUserIndex()))
-            {
-                // 신고한글 안보이게
-
-            }
-        }
-
-        else*/
-
-
-        {
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
-
-
-            tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
-
-            //      String[] tempValue = CommonFunc.getInstance().ConvertTimeToHM(tempData.Date);
-            //tv_Club_Con_Date.setText(tempValue[0] + "시 " + tempValue[1] + "분");
-
-            tv_Club_Con_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.Date, "MM.dd HH:mm"));
-
-            if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
-            {
-                tv_Club_Con_Desc.setVisibility(View.INVISIBLE);
-            }
-            else
-                tv_Club_Con_Desc.setText(tempData.Context);
-
-            mAdapter.setReplyCount(tempData.GetReplyDataCount());
-        }
-
-
-
-
 
         iv_Club_Con_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -381,7 +343,6 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                                 @Override
                                 public void CompleteListener() {
                                     DialogFunc.getInstance().ShowToast(ClubActivity.mClubActivity, "신고되었습니다", false);
-                                    TKManager.getInstance().TargetClubData.DelClubContext(key);
                                     TKManager.getInstance().mUpdateClubActivityFunc.UpdateUI();
                                     DialogFunc.getInstance().DismissLoadingPage();
                                 }
@@ -428,6 +389,25 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         });
 
         tv_Club_Reply_Count.setText(Integer.toString(tempData.GetReplyDataCount()));
+
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Con_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserImgThumb(), true);
+
+        tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
+        tv_Club_Con_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.Date, "MM.dd HH:mm"));
+
+        if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
+        {
+            tv_Club_Con_Desc.setVisibility(View.INVISIBLE);
+        }
+        else
+            tv_Club_Con_Desc.setText(tempData.Context);
+
+        if(CommonFunc.getInstance().CheckStringNull(tempData.GetReportList(TKManager.getInstance().MyData.GetUserIndex())) == false)
+            tv_Club_Con_Report.setVisibility(View.VISIBLE);
+        else
+            tv_Club_Con_Report.setVisibility(View.GONE);
+
+        mAdapter.setReplyCount(tempData.GetReplyDataCount());
     }
 
     private void setClubContentType(CLUB_CONTENT_TYPE type)
@@ -443,7 +423,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         switch (type)
         {
             case DESC:
-                lp_Club_Reply_List.topToBottom = tv_Club_Con_Desc.getId();
+                lp_Club_Reply_List.topToBottom = tv_Club_Con_Report.getId();
                 break;
             case BIG_IMG:
                 tv_Club_Con_BigImg.setVisibility(View.VISIBLE);
