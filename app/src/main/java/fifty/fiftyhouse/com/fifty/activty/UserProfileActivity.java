@@ -412,7 +412,7 @@ public class UserProfileActivity extends AppCompatActivity {
                             tempChatData.SetMsg(TKManager.getInstance().MyData.GetUserNickName() + "님과 " + TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserNickName() + "님의 채팅방입니다");
                             tempChatData.SetRoomType(CommonData.CHAT_ROOM_TYPE.DEFAULT);
 
-                            FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
+                            FirebaseManager.getInstance().RegistChatList(TKManager.getInstance().TargetUserData.GetUserIndex());
                             FirebaseManager.getInstance().RegistChatData(TKManager.getInstance().TargetUserData.GetUserIndex(), tempChatData);
 
                             Intent intent = new Intent(mContext, ChatBodyActivity.class);

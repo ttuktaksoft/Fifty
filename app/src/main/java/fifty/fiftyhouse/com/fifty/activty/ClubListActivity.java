@@ -42,6 +42,7 @@ public class ClubListActivity extends AppCompatActivity {
     ArrayList<String> mClubList = new ArrayList<>();
 
     Context mContext;
+    String SelectFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +51,16 @@ public class ClubListActivity extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        SelectFavorite = getIntent().getStringExtra("FAVORITE");
+
         ui_ClubList_TopBar = findViewById(R.id.ui_ClubList_TopBar);
         tv_TopBar_Title = ui_ClubList_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_ClubList_TopBar.findViewById(R.id.iv_TopBar_Back);
         tv_ClubList_Empty = findViewById(R.id.tv_ClubList_Empty);
         rv_ClubList = findViewById(R.id.rv_ClubList);
 
-        tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_SELECT_FAVORITE));
+        tv_TopBar_Title.setText(SelectFavorite +" " + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_SELECT_FAVORITE));
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -81,17 +85,10 @@ public class ClubListActivity extends AppCompatActivity {
 
                 Map<String, ClubData> tempClubKey = new LinkedHashMap<>();
 
+                mClubList.addAll(TKManager.getInstance().SearchClubList);
 
-
-                mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
-
-
-
-
-
-
-                Set tempKey = tempClubKey.keySet(); //TKManager.getInstance().MyData.GetUserClubDataKeySet();
-                final List array = new ArrayList(tempKey);
+                //Set tempKey = tempClubKey.keySet(); //TKManager.getInstance().MyData.GetUserClubDataKeySet();
+                final List array = new ArrayList(mClubList);
 
                 DialogFunc.getInstance().ShowLoadingPage(ClubListActivity.this);
 
@@ -142,7 +139,7 @@ public class ClubListActivity extends AppCompatActivity {
 
 
 
-        mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+        mClubList.addAll(TKManager.getInstance().SearchClubList);
 
 
 

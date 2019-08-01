@@ -76,17 +76,8 @@ public class ChatBodyActivity extends AppCompatActivity {
         strRoomIndex = getIntent().getStringExtra("RoomIndex");
         mType = CommonData.CHAT_ROOM_TYPE.valueOf(getIntent().getStringExtra("RoomType").toString());
 
-        int idx = strRoomIndex.indexOf("_");
-        String tempStr = strRoomIndex.substring(0, idx);
-        String tempStrBack = strRoomIndex.substring(idx+1);
-        if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
-        {
-            strTargetIndex = tempStrBack;
-        }
-        else
-        {
-            strTargetIndex = tempStr;
-        }
+
+
 
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
@@ -101,6 +92,31 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_ChatBody_Etc = findViewById(R.id.iv_ChatBody_Etc);
         tv_Chat_Body_Send = findViewById(R.id.tv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
+
+        if(mType == CommonData.CHAT_ROOM_TYPE.CLUB)
+        {
+            tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
+            strTargetIndex = "club";
+        }
+        else
+        {
+            int idx = strRoomIndex.indexOf("_");
+
+            String tempStr = strRoomIndex.substring(0, idx);
+            String tempStrBack = strRoomIndex.substring(idx+1);
+            if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
+            {
+                strTargetIndex = tempStrBack;
+            }
+            else
+            {
+                strTargetIndex = tempStr;
+            }
+
+            tv_TopBar_Title.setText(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
+        }
+
+
 
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
@@ -217,7 +233,7 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         });
 
-        tv_TopBar_Title.setText(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
+
 
         initRecyclerView();
     }
@@ -242,6 +258,8 @@ public class ChatBodyActivity extends AppCompatActivity {
             @Override
             public void CompleteListener() {
                 mAdapter.notifyDataSetChanged();
+                if(TKManager.getInstance().mUpdateChatFragmentFunc != null)
+                    TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -418,12 +436,21 @@ public class ChatBodyActivity extends AppCompatActivity {
         tempData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
 
         tempData.SetToIndex(strTargetIndex);
-        tempData.SetToNickName(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
-        tempData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserImgThumb());
+
+        if(mType != CommonData.CHAT_ROOM_TYPE.CLUB)
+        {
+            tempData.SetToNickName(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
+            tempData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserImgThumb());
+            FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, mContext, tempData);
+        }
+        else
+        {
+            tempData.SetToNickName(strTargetIndex);
+            tempData.SetToThumbNail(strTargetIndex);
+            FirebaseManager.getInstance().AddClubChatData(strRoomIndex,  tempData);
+        }
 
 
-
-        FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, mContext, tempData);
 
         //imm.hideSoftInputFromWindow(et_Chat_Body_Msg.getWindowToken(), 0);
         et_Chat_Body_Msg.setText(null);

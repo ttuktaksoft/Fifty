@@ -86,16 +86,24 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
         String tempID = null;
 
         int idx = tempChatData.GetRoomIndex().indexOf("_");
-        String tempStr = tempChatData.GetRoomIndex().substring(0, idx);
-        String tempStrBack = tempChatData.GetRoomIndex().substring(idx+1);
-        if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
+        if(idx == -1)
         {
-            tempID = tempStrBack;
+            tempID = tempChatData.GetRoomIndex();
         }
         else
         {
-            tempID = tempStr;
+            String tempStr = tempChatData.GetRoomIndex().substring(0, idx);
+            String tempStrBack = tempChatData.GetRoomIndex().substring(idx+1);
+            if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
+            {
+                tempID = tempStrBack;
+            }
+            else
+            {
+                tempID = tempStr;
+            }
         }
+
         rtValue = Long.parseLong(tempID);
 
 
@@ -309,7 +317,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View view) {
 
-                final String strTargetIndex;
+                String strTargetIndex = null;
 
                 ChatData tempChatData = new ChatData();
                 if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
@@ -323,16 +331,25 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
 
                 int idx = tempChatData.GetRoomIndex().indexOf("_");
-                String tempStr = tempChatData.GetRoomIndex().substring(0, idx);
-                String tempStrBack = tempChatData.GetRoomIndex().substring(idx+1);
-                if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
+
+                if(idx == -1)
                 {
-                    strTargetIndex = tempStrBack;
+
                 }
                 else
                 {
-                    strTargetIndex = tempStr;
+                    String tempStr = tempChatData.GetRoomIndex().substring(0, idx);
+                    String tempStrBack = tempChatData.GetRoomIndex().substring(idx+1);
+                    if(tempStr.equals(TKManager.getInstance().MyData.GetUserIndex()))
+                    {
+                        strTargetIndex = tempStrBack;
+                    }
+                    else
+                    {
+                        strTargetIndex = tempStr;
+                    }
                 }
+
 
                 final ChatData finalTempChatData = tempChatData;
 
@@ -367,56 +384,6 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                     FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
                     FirebaseManager.getInstance().GetUserData_Simple(strTargetIndex, TKManager.getInstance().UserData_Simple, listener);
                 }
-
-
-             /*
-                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                    @Override
-                    public void CompleteListener() {
-
-                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
-                                Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
-                                intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
-                                //startActivity(intent);
-                                ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
-                            }
-
-                            @Override
-                            public void CompleteListener_Yes() {
-                            }
-
-                            @Override
-                            public void CompleteListener_No() {
-                            }
-                        };
-
-                        if(TKManager.getInstance().UserData_Simple.get(strTargetIndex) != null)
-                        {
-                            Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
-                            intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
-                            ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
-                        }
-                        else
-                        {
-                            FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
-                            FirebaseManager.getInstance().GetUserData_Simple(strTargetIndex, TKManager.getInstance().UserData_Simple, listener);
-                        }
-
-                    }
-
-                    @Override
-                    public void CompleteListener_Yes() {
-                    }
-
-                    @Override
-                    public void CompleteListener_No() {
-                    }
-                };
-
-                FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);*/
-
             }
         });
     }

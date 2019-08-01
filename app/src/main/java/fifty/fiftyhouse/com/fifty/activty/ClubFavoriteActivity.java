@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubFavoriteAdapter;
@@ -69,9 +71,9 @@ public class ClubFavoriteActivity extends AppCompatActivity {
         rv_ClubFavorite_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
         rv_ClubFavorite_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_ClubFavorite_List, new OnRecyclerItemClickListener() {
             @Override
-            public void onSingleClick(View view, int position) {
+            public void onSingleClick(View view, final int position) {
 
-                String key = mFavoriteList.get(position);
+                final String key = mFavoriteList.get(position);
 
                 if(key.equals("plus"))
                 {
@@ -79,7 +81,35 @@ public class ClubFavoriteActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    startActivity(new Intent(getApplicationContext(), ClubListActivity.class));
+                    DialogFunc.getInstance().ShowLoadingPage(ClubFavoriteActivity.this);
+
+                    FirebaseManager.CheckFirebaseComplete FavoriteClubData = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+
+                            Intent intent = new Intent(getApplicationContext(), ClubListActivity.class);
+                            intent.putExtra("FAVORITE",key);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+
+                        }
+                    };
+
+                    FirebaseManager.getInstance().SearchClubListOnFavorite(key, FavoriteClubData);
+
+
+                    //FirebaseManager.getInstance().GetUserFavoriteClubData(key, FavoriteClubData);
+
+
                 }
             }
 
@@ -94,11 +124,8 @@ public class ClubFavoriteActivity extends AppCompatActivity {
         mFavoriteList.clear();
         //mFavoriteList.addAll(TKManager.getInstance().MyData.GetUserFriendListKeySet());
 
-
         // 마지막엔 관심사 추가
-        mFavoriteList.add("관심사1");
-        mFavoriteList.add("관심사2");
-        mFavoriteList.add("관심사3");
+        mFavoriteList.addAll(TKManager.getInstance().FavoriteLIst_ClubList);
         mFavoriteList.add("plus");
     }
     public void RefreshAdapter()

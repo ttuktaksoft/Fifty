@@ -314,8 +314,8 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             tv_Chat_Body_Date.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0, 0);
             tv_Chat_Body_Check.setPadding(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 5), 0,0, 0);
 
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Profile, tempData.GetFromThumbNail(), true);
-            tv_Chat_Body_NickName.setText(tempData.GetFromNickName());
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Profile, TKManager.getInstance().UserData_Simple.get(tempData.GetMsgSender()).GetUserImgThumb(), true);
+            tv_Chat_Body_NickName.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetMsgSender()).GetUserNickName());
         }
 
         tv_Chat_Body_Msg.setText(tempData.GetMsg());
@@ -331,7 +331,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         iv_Chat_Body_Profile.setOnTouchListener(new OnSingleTouchListener() {
             @Override
             public void onSingleTouch(View v) {
-                String UserIndex = tempData.GetFromIndex();
+                String UserIndex = tempData.GetMsgSender();
 
                 CommonFunc.getInstance().GetUserDataInFireBase(UserIndex,ChatBodyActivity.mChatBodyActivity, true);
               /*  DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.mChatBodyActivity);

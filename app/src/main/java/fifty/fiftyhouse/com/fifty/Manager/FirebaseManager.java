@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.Manager;
 
 import android.app.Activity;
+import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -51,6 +52,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -676,7 +678,7 @@ public class FirebaseManager {
                                 }
 
 
-                                userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
+                 /*               userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
 
 
                                 mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(tempData.GetRoomIndex())
@@ -692,7 +694,7 @@ public class FirebaseManager {
                                             public void onFailure(@NonNull Exception e) {
                                                 Log.w(TAG, "Error writing document", e);
                                             }
-                                        });
+                                        });*/
                             }
 
 
@@ -705,6 +707,96 @@ public class FirebaseManager {
                 }
                 if (listener != null)
                     listener.CompleteListener();
+            }
+        });
+    }
+
+
+    public void GetUserClubChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
+
+        TKManager.getInstance().MyData.ClearUserChatData();
+        SetFireBaseLoadingCount(0);
+        CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+
+        colRef.orderBy("MsgIndex", Query.Direction.ASCENDING).limit(50).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    SetFireBaseLoadingCount(task.getResult().size());
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        if(!document.getId().equals("Index"))
+                        {
+                            ChatData tempData = new ChatData();
+                            tempData.SetRoomIndex(document.getData().get("RoomIndex").toString());
+
+                            tempData.SetFromIndex(document.getData().get("FromIndex").toString());
+                            tempData.SetFromNickName(document.getData().get("FromNickName").toString());
+                            tempData.SetFromThumbNail(document.getData().get("FromThumbNail").toString());
+
+                            tempData.SetMsg(document.getData().get("Msg").toString());
+
+                            if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+
+                                //AddFireBaseLoadingCount();
+
+                                GetUserData_Simple(tempData.GetFromIndex(), TKManager.getInstance().UserData_Simple, listener);
+                                //tempData.SetMsgReadCheck(true);
+
+                          /*      Map<String, Object> ReadCheck = new HashMap<>();
+                                ReadCheck.put("MsgReadCheck", true);
+
+                                mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(document.getId())
+                                        .set(ReadCheck, SetOptions.merge())
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error writing document", e);
+                                            }
+                                        });*/
+                            }
+                            else
+                            {
+                                Complete(listener);
+                            }
+
+                            tempData.SetMsgIndex(Long.parseLong(document.getData().get("MsgIndex").toString()));
+                            tempData.SetMsgSender(document.getData().get("MsgSender").toString());
+                            tempData.SetMsgDate(Long.parseLong(document.getData().get("MsgDate").toString()));
+
+                            String tempType = document.getData().get("MsgType").toString();
+
+                            switch (tempType)
+                            {
+                                case "MSG":
+                                    tempData.SetMsgType(CommonData.MSGType.MSG);
+                                    break;
+                                case "IMG":
+                                    tempData.SetMsgType(CommonData.MSGType.IMG);
+                                    break;
+                                case "VIDEO":
+                                    tempData.SetMsgType(CommonData.MSGType.VIDEO);
+                                    break;
+                            }
+                            userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
+                            userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
+
+                        }
+
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
             }
         });
     }
@@ -783,20 +875,6 @@ public class FirebaseManager {
                                 userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
                                 userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
 
-                 /*               mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(tempData.GetRoomIndex())
-                                        .set(tempData, SetOptions.merge())
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
-                                            }
-                                        });*/
                             }
                         }
 
@@ -850,32 +928,33 @@ public class FirebaseManager {
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                                     tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
 
-
-
-                                    if (document.getDocument().getData().containsKey("RoomType")) {
+                                   /* if (document.getDocument().getData().containsKey("RoomType")) {
                                         tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
-                                    }
+                                    }*/
 
-                                    tempData.SetRoomType(tempRoomType);
+                                   if(TKManager.getInstance().MyData.ExistUserBookMarkChatDataListKeySet(tempData.GetRoomIndex()))
+                                       tempData.SetRoomType(CommonData.CHAT_ROOM_TYPE.BOOKMARK);
+                                   else
+                                       tempData.SetRoomType(CommonData.CHAT_ROOM_TYPE.DEFAULT);
 
                                     CommonData.MSGType tempType = CommonData.MSGType.valueOf(document.getDocument().getData().get("MsgType").toString());
                                     tempData.SetMsgType(tempType);
 
                                     if (tempData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
-                                        userData.SetUserBookMarkChatDataList(tempRoomName, tempData);
+                                        userData.SetUserBookMarkChatDataList(tempData.GetRoomIndex(), tempData);
                                     }
                                     else
                                     {
-                                        userData.SetUserChatDataList(tempRoomName, tempData);
+                                        userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
                                     }
-                                    userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
+                                   // userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
 
                                 }
 
 
                                 break;
                             case REMOVED:
-                                tempRoomName = document.getDocument().getId().toString();
+                    /*            tempRoomName = document.getDocument().getData().get("RoomIndex").toString();
                                 tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
 
                                 if (document.getDocument().getData().containsKey("RoomType")) {
@@ -888,7 +967,7 @@ public class FirebaseManager {
                                 else
                                 {
                                     userData.DelUserChatDataList(tempRoomName);
-                                }
+                                }*/
                                 break;
                         }
                     }
@@ -915,36 +994,11 @@ public class FirebaseManager {
                     switch (document.getType()) {
                         case ADDED:
                         case MODIFIED:
-                            String tempRoomName = document.getDocument().getId().toString();
-
                             ChatData tempData = new ChatData();
 
                             if (document.getDocument().getData().containsKey("RoomIndex")) {
                                 tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
                             }
-
-                            if (document.getDocument().getData().containsKey("FromIndex")) {
-                                tempData.SetFromIndex(document.getDocument().getData().get("FromIndex").toString());
-                            }
-
-                            if (document.getDocument().getData().containsKey("FromNickName")) {
-                                tempData.SetFromNickName(document.getDocument().getData().get("FromNickName").toString());
-                            }
-
-                            if (document.getDocument().getData().containsKey("FromThumbNail")) {
-                                tempData.SetFromThumbNail(document.getDocument().getData().get("FromThumbNail").toString());
-                            }
-
-
-                            tempData.SetToIndex(document.getDocument().getData().get("ToIndex").toString());
-                            tempData.SetToNickName(document.getDocument().getData().get("ToNickName").toString());
-                            tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
-
-                            tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
-                            tempData.SetMsgReadCheck(Boolean.valueOf((document.getDocument().getData().get("MsgReadCheck").toString())).booleanValue());
-                            tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
-                            tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
-                            tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
 
                             CommonData.CHAT_ROOM_TYPE tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
 
@@ -954,24 +1008,23 @@ public class FirebaseManager {
 
                             tempData.SetRoomType(tempRoomType);
 
-                            CommonData.MSGType tempType = CommonData.MSGType.valueOf(document.getDocument().getData().get("MsgType").toString());
-                            tempData.SetMsgType(tempType);
-
                             if (tempData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
-                                userData.SetUserBookMarkChatDataList(tempRoomName, tempData);
+                                userData.SetUserBookMarkChatDataList(tempData.GetRoomIndex(), tempData);
                             }
                             else
                             {
-                                userData.SetUserChatDataList(tempRoomName, tempData);
+                                userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
                             }
-                            userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
-                           // userData.UserList_Chat.add(tempRoomName);
 
-                            //userData.SetUserChatList(tempRoomName, tempRoomName);
+                            if(!TKManager.getInstance().MonitorChatList.contains(tempData.GetRoomIndex()))
+                            {
+                                TKManager.getInstance().MonitorChatList.add(tempData.GetRoomIndex());
+                                MonitorChatData(tempData.GetRoomIndex(), TKManager.getInstance().MyData, null);
+                            }
 
                             break;
+
                         case REMOVED:
-                            tempRoomName = document.getDocument().getId().toString();
                             tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
 
                             if (document.getDocument().getData().containsKey("RoomType")) {
@@ -979,11 +1032,11 @@ public class FirebaseManager {
                             }
 
                             if (tempRoomType == CommonData.CHAT_ROOM_TYPE.BOOKMARK) {
-                                userData.DelUserBookMarkChatDataList(tempRoomName);
+                                userData.DelUserBookMarkChatDataList(document.getDocument().getId());
                             }
                             else
                             {
-                                userData.DelUserChatDataList(tempRoomName);
+                                userData.DelUserChatDataList(document.getDocument().getId());
                             }
 
                             break;
@@ -1201,6 +1254,45 @@ public class FirebaseManager {
                 }
             });
         }
+    }
+
+    public void GetUserFavoriteClubList(final CheckFirebaseComplete listener)
+    {
+        CollectionReference colRef = mDataBase.collection("ClubData_Favorite");
+        colRef.limit(50).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        TKManager.getInstance().FavoriteLIst_ClubList.add(document.getId().toString());
+                    }
+
+                    if(listener != null)
+                        listener.CompleteListener();
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetUserFavoriteClubData(final  String clubName, final CheckFirebaseComplete listener)
+    {
+        CollectionReference colRef = mDataBase.collection("ClubData_Favorite").document(clubName).collection("ClubIndex");
+        colRef.orderBy("MemberCount", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        TKManager.getInstance().FavoriteLIst_Club.add(document.getId().toString());
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
     private void GetUserRequestClubList(String userIndex,final  boolean mydata, final CheckFirebaseComplete listener) {
@@ -2068,7 +2160,7 @@ public class FirebaseManager {
 
     public void RecommendClubList(final FirebaseManager.CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("ClubData");
-        colRef.orderBy("ClubMemberCount", Query.Direction.DESCENDING).limit(6).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.orderBy("ClubMemberCount", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -2095,6 +2187,35 @@ public class FirebaseManager {
 
 
     public void SearchClubList(String name, final FirebaseManager.CheckFirebaseComplete listener) {
+        TKManager.getInstance().SearchClubList.clear();
+        SetFireBaseLoadingCount(0);
+        CollectionReference colRef = mDataBase.collection("ClubData");
+        colRef.whereEqualTo("ClubName", name).limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
+
+                        AddFireBaseLoadingCount();
+                        TKManager.getInstance().SearchClubList.add(document.getId());
+
+                        GetClubData_Simple(document.getId(), TKManager.getInstance().ClubData_Simple, listener);
+                    }
+
+                    /*if (listener != null)
+                        listener.CompleteListener();*/
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void SearchClubListOnFavorite(String name, final FirebaseManager.CheckFirebaseComplete listener) {
+        TKManager.getInstance().SearchClubList.clear();
         SetFireBaseLoadingCount(0);
         CollectionReference colRef = mDataBase.collection("ClubData_Favorite").document(name).collection("ClubIndex");
         colRef./*orderBy("Count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).*/get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -2104,9 +2225,10 @@ public class FirebaseManager {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
                         //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
-
                         AddFireBaseLoadingCount();
-                        GetClubData_Simple(document.getId(), TKManager.getInstance().SearchClubList, listener);
+                        TKManager.getInstance().SearchClubList.add(document.getId());
+
+                        GetClubData_Simple(document.getId(), TKManager.getInstance().ClubData_Simple, listener);
                     }
 
                     /*if (listener != null)
@@ -2589,8 +2711,6 @@ public class FirebaseManager {
         final String userIndex = TKManager.getInstance().MyData.GetUserIndex();
         final Long[] newPopulation = new Long[1];
 
-
-
         final DocumentReference sfChatIndexRef = mDataBase.collection("ChatRoomData").document(roomIndex).collection(roomIndex).document("Index");
         mDataBase.runTransaction(new Transaction.Function<Void>() {
             @Override
@@ -2651,16 +2771,16 @@ public class FirebaseManager {
                         });
 
                 Map<String, Object> tempMyChatData = new HashMap<>();
-                tempMyChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserIndex());
+/*                tempMyChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserIndex());
                 tempMyChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserNickName());
                 tempMyChatData.put("Msg", chatData.GetMsg());
                 tempMyChatData.put("MsgDate", chatData.GetMsgDate());
                 tempMyChatData.put("MsgReadCheck", chatData.GetMsgReadCheck());
                 tempMyChatData.put("MsgSender", chatData.GetMsgSender());
                 tempMyChatData.put("MsgType", chatData.GetMsgType());
-                tempMyChatData.put("MsgIndex", chatData.GetMsgIndex());
+                tempMyChatData.put("MsgIndex", chatData.GetMsgIndex());*/
                 tempMyChatData.put("RoomIndex", chatData.GetRoomIndex());
-                tempMyChatData.put("ToIndex", targetIndex);
+                //tempMyChatData.put("ToIndex", targetIndex);
                 tempMyChatData.put("RoomType", type);
 
                 HashMap<String, Long> ReadIndex = new HashMap<String, Long>();
@@ -2699,13 +2819,62 @@ public class FirebaseManager {
                 });
     }
 
+    public void AddClubChatData(final String roomIndex, final ChatData chatData) {
 
-    public void RegistChatList(String targetIndex, ChatData chatData) {
+        final String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+        final Long[] newPopulation = new Long[1];
+
+        final DocumentReference sfChatIndexRef = mDataBase.collection("ChatRoomData").document(roomIndex).collection(roomIndex).document("Index");
+        mDataBase.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(sfChatIndexRef);
+
+                newPopulation[0] = snapshot.getLong("Index") + 1;
+                transaction.update(sfChatIndexRef, "Index", newPopulation[0]);
+                // Success
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Transaction success!");
+
+                chatData.SetMsgIndex((newPopulation[0]));
+                mDataBase.collection("ChatRoomData").document(roomIndex).collection(roomIndex).document( newPopulation[0].toString())
+                        .set(chatData, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Transaction failure.", e);
+                    }
+                });
+    }
+
+    public void RegistClubChatList(String clubIndex, ChatData chatData, boolean master) {
         String userIndex = TKManager.getInstance().MyData.GetUserIndex();
-        String ChatRoomIndex = userIndex + "_" + targetIndex;
+        String ChatRoomIndex = clubIndex;
 
-      /*  mDataBase.collection("ChatRoomList").document(targetIndex).collection("ChatRoomIndex").document(ChatRoomIndex)
-                .set(chatData, SetOptions.merge())
+        Map<String, Object> tempData = new HashMap<>();
+        tempData.put("RoomIndex", ChatRoomIndex);
+        tempData.put("RoomType", "DEFAULT");
+
+/*        mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList").document(ChatRoomIndex)
+                .set(tempData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -2719,10 +2888,53 @@ public class FirebaseManager {
                     }
                 });*/
 
-        //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+        if(master)
+        {
+            mDataBase.collection("ChatRoomData").document(ChatRoomIndex).collection(ChatRoomIndex).document("0")
+                    .set(chatData, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            Map<String, Object> tempIndex = new HashMap<>();
+            tempIndex.put("Index", 0);
+            mDataBase.collection("ChatRoomData").document(ChatRoomIndex).collection(ChatRoomIndex).document("Index")
+                    .set(tempIndex, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+        }
+    }
+
+    public void RegistChatList(String targetIndex) {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+        String ChatRoomIndex = userIndex + "_" + targetIndex;
+
+        Map<String, Object> tempData = new HashMap<>();
+        tempData.put("RoomIndex", ChatRoomIndex);
+        tempData.put("RoomType", "DEFAULT");
+        tempData.put("MsgIndex", 0);
 
         mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList").document(ChatRoomIndex)
-                .set(chatData, SetOptions.merge())
+                .set(tempData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -2738,7 +2950,7 @@ public class FirebaseManager {
 
 
         mDataBase.collection("UserData").document(targetIndex).collection("ChatRoomList").document(ChatRoomIndex)
-                .set(chatData, SetOptions.merge())
+                .set(tempData, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -3689,14 +3901,57 @@ public class FirebaseManager {
                     }
                 });
 
-        final Map<String, Object> clubFavoriteData = new HashMap<>();
+
+        Set tempKey = club.ClubFavorite.keySet();
+        List array = new ArrayList();
+
+        array = new ArrayList(tempKey);
 
         for(int i=0; i<club.ClubFavorite.size(); i++)
         {
-            clubFavoriteData.put("count", club.GetClubMemberCount());
+            final DocumentReference sfDocRef = mDataBase.collection("ClubData_Favorite").document(array.get(i).toString());
+            final double[] newPopulation = new double[1];
+            final int finalI = i;
+            final List finalArray = array;
+            mDataBase.runTransaction(new Transaction.Function<Void>() {
+                @Override
+                public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                    DocumentSnapshot snapshot = transaction.get(sfDocRef);
 
-            mDataBase.collection("ClubData_Favorite").document(club.ClubFavorite.get(Integer.toString(i))).collection("ClubIndex").document(club.ClubIndex)
-                    .set(clubFavoriteData, SetOptions.merge())
+                    if(snapshot.getData() == null)
+                    {
+                        final Map<String, Object> clubFavoriteData = new HashMap<>();
+                        clubFavoriteData.put("Count", 0);
+                        mDataBase.collection("ClubData_Favorite").document(finalArray.get(finalI).toString()).set(clubFavoriteData, SetOptions.merge());
+                        //transaction.update(sfDocRef, "Count", 0);
+                    }
+                    else
+                    {
+                        newPopulation[0] = snapshot.getDouble("Count") + 1;
+                        transaction.update(sfDocRef, "Count", newPopulation[0]);
+                    }
+
+                    int tempIndex = (int)newPopulation[0];
+
+                    // Success
+                    return null;
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "Transaction success!");
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Transaction failure.", e);
+                        }
+                    });
+
+
+            mDataBase.collection("ClubData_Favorite").document(array.get(i).toString()).collection("ClubIndex").document(club.ClubIndex)
+                    .set(clubSimpleData, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -3710,10 +3965,6 @@ public class FirebaseManager {
                         }
                     });
         }
-
-
-
-
     }
 
     public void RegistClubIndex(final ClubData club, final CheckFirebaseComplete listener)
@@ -3965,6 +4216,20 @@ public class FirebaseManager {
                                     if (listener != null) {
                                         listener.CompleteListener();
                                     }
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+                    mDataBase.collection("ClubData_Simple").document(club.GetClubIndex()).update("MemberCount", club.GetClubMember())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
