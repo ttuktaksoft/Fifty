@@ -52,6 +52,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -2159,7 +2160,7 @@ public class FirebaseManager {
 
     public void RecommendClubList(final FirebaseManager.CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("ClubData");
-        colRef.orderBy("ClubMemberCount", Query.Direction.DESCENDING).limit(6).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.orderBy("ClubMemberCount", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -3901,12 +3902,17 @@ public class FirebaseManager {
                 });
 
 
+        Set tempKey = club.ClubFavorite.keySet();
+        List array = new ArrayList();
+
+        array = new ArrayList(tempKey);
 
         for(int i=0; i<club.ClubFavorite.size(); i++)
         {
-            final DocumentReference sfDocRef = mDataBase.collection("ClubData_Favorite").document(club.ClubFavorite.get(Integer.toString(i)));
+            final DocumentReference sfDocRef = mDataBase.collection("ClubData_Favorite").document(array.get(i).toString());
             final double[] newPopulation = new double[1];
             final int finalI = i;
+            final List finalArray = array;
             mDataBase.runTransaction(new Transaction.Function<Void>() {
                 @Override
                 public Void apply(Transaction transaction) throws FirebaseFirestoreException {
@@ -3916,7 +3922,7 @@ public class FirebaseManager {
                     {
                         final Map<String, Object> clubFavoriteData = new HashMap<>();
                         clubFavoriteData.put("Count", 0);
-                        mDataBase.collection("ClubData_Favorite").document(club.ClubFavorite.get(Integer.toString(finalI))).set(clubFavoriteData, SetOptions.merge());
+                        mDataBase.collection("ClubData_Favorite").document(finalArray.get(finalI).toString()).set(clubFavoriteData, SetOptions.merge());
                         //transaction.update(sfDocRef, "Count", 0);
                     }
                     else
@@ -3944,7 +3950,7 @@ public class FirebaseManager {
                     });
 
 
-            mDataBase.collection("ClubData_Favorite").document(club.ClubFavorite.get(Integer.toString(i))).collection("ClubIndex").document(club.ClubIndex)
+            mDataBase.collection("ClubData_Favorite").document(array.get(i).toString()).collection("ClubIndex").document(club.ClubIndex)
                     .set(clubSimpleData, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
