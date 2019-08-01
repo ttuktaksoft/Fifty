@@ -189,12 +189,8 @@ public class ClubListViewPager extends Fragment {
 
                 if(mType == CLUB_LIST_RECOMMEND)
                 {
-                    if(TKManager.getInstance().SearchClubList.size() == 0)
-                    {
-                        tempClubKey.putAll(TKManager.getInstance().MyData.GetUserRecommendClubData());
-                    }
+                    tempClubKey.putAll(TKManager.getInstance().MyData.GetUserRecommendClubData());
                 }
-
                 else
                 {
                     tempClubKey.putAll(TKManager.getInstance().MyData.GetUserClubData());
@@ -208,18 +204,7 @@ public class ClubListViewPager extends Fragment {
                 Set tempKey = tempClubKey.keySet(); //TKManager.getInstance().MyData.GetUserClubDataKeySet();
 
                 List array = new ArrayList();
-
-                if(TKManager.getInstance().SearchClubList.size() > 0)
-                {
-                    array = new ArrayList(TKManager.getInstance().SearchClubList);
-
-                }
-                else
-                {
-                    array = new ArrayList(tempKey);
-
-                }
-
+                array = new ArrayList(tempKey);
                 DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
 
                 final List finalArray = array;
@@ -268,15 +253,7 @@ public class ClubListViewPager extends Fragment {
 
         if(mType == CLUB_LIST_RECOMMEND)
         {
-            if(TKManager.getInstance().SearchClubList.size() > 0)
-            {
-                mClubList.addAll(TKManager.getInstance().SearchClubList);
-            }
-            else
-            {
-                mClubList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
-            }
-
+            mClubList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
         }
 
         else
@@ -306,6 +283,7 @@ public class ClubListViewPager extends Fragment {
 
         if(requestCode == 1000)
         {
+            //TKManager.getInstance().SearchClubList.clear();
             ClubFragment.mClubFragment.RefreshViewPager();
 /*            RefreshAdapter();
             mAdapter.notifyDataSetChanged();*/
