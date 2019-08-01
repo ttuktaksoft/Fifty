@@ -2193,15 +2193,26 @@ public class FirebaseManager {
         colRef.whereEqualTo("ClubName", name).limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                 if (task.isSuccessful()) {
+
+                    if(task.getResult().size() == 0)
+                    {
+                        if (listener != null)
+                            listener.CompleteListener_No();
+                    }
+
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                        //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
+                        if (document.exists()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
 
-                        AddFireBaseLoadingCount();
-                        TKManager.getInstance().SearchClubList.add(document.getId());
+                            AddFireBaseLoadingCount();
+                            TKManager.getInstance().SearchClubList.add(document.getId());
 
-                        GetClubData_Simple(document.getId(), TKManager.getInstance().ClubData_Simple, listener);
+                            GetClubData_Simple(document.getId(), TKManager.getInstance().ClubData_Simple, listener);
+                        }
+
                     }
 
                     /*if (listener != null)
@@ -3777,6 +3788,12 @@ public class FirebaseManager {
                         } else
                             tempUser.SetClubIndex(null);
 
+                        if (document.getData().containsKey("MasterIndex")) {
+                            String tempData = document.getData().get("MasterIndex").toString();
+                            tempUser.SetClubMasterIndex(tempData);
+                        } else
+                            tempUser.SetClubMasterIndex(null);
+
                         if (document.getData().containsKey("Date")) {
                             long tempData = Long.parseLong(document.getData().get("Date").toString());
                             tempUser.SetClubCreateDate(tempData);
@@ -3847,6 +3864,7 @@ public class FirebaseManager {
         clubSimpleData.put("MemberCount", club.GetClubMemberCount());
         clubSimpleData.put("Comment", club.GetClubComment());
         clubSimpleData.put("Date", club.GetClubCreateDate());
+        clubSimpleData.put("MasterIndex", club.GetClubMasterIndex());
 
         final Map<String, Object> clubData = new HashMap<>();
         clubData.put("index", club.ClubIndex);

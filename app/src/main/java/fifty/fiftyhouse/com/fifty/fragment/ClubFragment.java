@@ -38,6 +38,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubListActivity;
 import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubAdapter;
@@ -247,6 +248,8 @@ public class ClubFragment extends Fragment {
 
     private void SearchClub(String name)
     {
+
+        DialogFunc.getInstance().ShowLoadingPage(mContext);
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
@@ -255,6 +258,14 @@ public class ClubFragment extends Fragment {
                 //mAdapter.notifyDataSetChanged();
 
                 Log.d("@@$#$@", "2342345234");
+
+                DialogFunc.getInstance().DismissLoadingPage();
+
+                Intent intent = new Intent(mContext, ClubListActivity.class);
+                intent.putExtra("FAVORITE","검색결과");
+                startActivity(intent);
+
+
             }
 
             @Override
@@ -265,15 +276,18 @@ public class ClubFragment extends Fragment {
             @Override
             public void CompleteListener_No() {
 
+                DialogFunc.getInstance().DismissLoadingPage();
+                DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EMPTY));
             }
         };
 
         if(CommonFunc.getInstance().CheckStringNull(name))
         {
-            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EMPTY));
+            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EDIT_EMPTY));
         }
         else {
             bSearchClub = true;
+            et_Club_TopBar_Search.setText(null);
             FirebaseManager.getInstance().SearchClubList(name, listener);
         }
     }
