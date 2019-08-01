@@ -88,6 +88,7 @@ class ClubListHolder extends RecyclerView.ViewHolder {
         iv_Club_Tag = itemView.findViewById(R.id.iv_Club_Tag);
         tv_Club_Tag = itemView.findViewById(R.id.tv_Club_Tag);
         iv_Club_Master = itemView.findViewById(R.id.iv_Club_Master);
+        tv_Club_Count = itemView.findViewById(R.id.tv_Club_Count);
     }
 
     public void setData(String clubKey)
