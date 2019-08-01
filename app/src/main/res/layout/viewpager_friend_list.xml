@@ -38,6 +38,8 @@
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         android:tint="@color/white"
-        android:src="@drawable/ic_search" />
+        android:src="@drawable/ic_search"
+        android:backgroundTint="@color/floating_button_bg"
+        app:borderWidth="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

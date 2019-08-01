@@ -260,7 +260,7 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
                 //없음
                 tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_LOCATION));
 //                tv_MyProfile_Edit_Menu_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
-                tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserDist_Area() + "에서 활동 중입니다");
+                tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserDist_Area());
 
             }
         }
