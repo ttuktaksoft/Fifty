@@ -1,6 +1,8 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,28 +96,35 @@ class ClubListHolder extends RecyclerView.ViewHolder {
     public void setData(String clubKey)
     {
         ClubData tempClubSimple = TKManager.getInstance().ClubData_Simple.get(clubKey);
-        ClubData myClubData = TKManager.getInstance().MyData.GetUserClubData(clubKey);
 
         iv_Club_Master.setVisibility(View.GONE);
+        tv_Club_Tag.setText("");
+        iv_Club_Tag.setVisibility(View.GONE);
 
-        if(myClubData != null)
+        if(TKManager.getInstance().MyData.GetUserClubData(clubKey) != null)
         {
-            // 내 클럽
-            tv_Club_Tag.setText("");
-            iv_Club_Tag.setVisibility(View.GONE);
-
+            // 가입된 클럽
             if(CommonFunc.getInstance().CheckStringNull(tempClubSimple.GetClubMasterIndex()) == false)
             {
                 if(tempClubSimple.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                     iv_Club_Master.setVisibility(View.VISIBLE);
             }
         }
-        else
+        else if(TKManager.getInstance().MyData.GetRequestJoinClubList(clubKey) != null)
         {
-            // 추천 클럽
+            // 가입 대기중
+            tv_Club_Tag.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REQUEST_JOIN_CLUB));
+            iv_Club_Tag.setVisibility(View.VISIBLE);
+            iv_Club_Tag.setColorFilter(ContextCompat.getColor(mContext, R.color.request_club_tag), PorterDuff.Mode.MULTIPLY);
+        }
+        else if(TKManager.getInstance().MyData.GetUserRecommendClubData(clubKey) != null)
+        {
+            // 추천
             tv_Club_Tag.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_RECOM_CLUB));
             iv_Club_Tag.setVisibility(View.VISIBLE);
+            iv_Club_Tag.setColorFilter(ContextCompat.getColor(mContext, R.color.recom_club_tag), PorterDuff.Mode.MULTIPLY);
         }
+
 
         tv_Club_Name.setText(tempClubSimple.ClubName);
         tv_Club_Count.setText(tempClubSimple.ClubMemberCount + "명");

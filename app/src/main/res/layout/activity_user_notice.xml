@@ -42,6 +42,8 @@
                 style="@style/BaseContentTextView"
                 app:layout_constraintRight_toRightOf="@+id/v_VIP_Info"
                 app:layout_constraintLeft_toLeftOf="@+id/v_VIP_Info"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
                 android:text="나를 좋아요한 친구를 볼려면\n아이템을 구매해주세요"
                 android:gravity="center"
                 android:textSize="@dimen/default_font_size_big_1"

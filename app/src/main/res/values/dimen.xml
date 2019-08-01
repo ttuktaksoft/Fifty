@@ -8,4 +8,5 @@
     <dimen name="default_font_size">18dp</dimen>
     <dimen name="default_font_size_small">15dp</dimen>
     <dimen name="default_font_size_small_1">12dp</dimen>
+    <dimen name="default_font_size_small_2">9dp</dimen>
 </resources>

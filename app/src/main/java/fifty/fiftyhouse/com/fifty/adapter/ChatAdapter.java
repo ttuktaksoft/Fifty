@@ -128,7 +128,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
     private ConstraintLayout v_Chat_Front;
     private ConstraintLayout v_Chat_Bookmark, v_Chat_Delete;
 
-    public ImageView iv_Chat_Profile, iv_Chat_Check;
+    public ImageView iv_Chat_Profile, iv_Chat_Check, iv_Chat_Bookmark;
     public TextView tv_Chat_Nickname,tv_Chat_Msg, tv_Chat_Date, tv_Chat_Check;
     Context mContext;
     CommonData.CHAT_ROOM_TYPE mType;
@@ -149,6 +149,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         tv_Chat_Date = itemView.findViewById(R.id.tv_Chat_Date);
         tv_Chat_Check = itemView.findViewById(R.id.tv_Chat_Check);
         iv_Chat_Check = itemView.findViewById(R.id.iv_Chat_Check);
+        iv_Chat_Bookmark = itemView.findViewById(R.id.iv_Chat_Bookmark);
     }
 
     public void setData(String key)
@@ -224,6 +225,14 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         {
             tv_Chat_Check.setVisibility(View.INVISIBLE);
             iv_Chat_Check.setVisibility(View.INVISIBLE);
+        }
+        if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
+        {
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Bookmark, R.drawable.ic_empty_star, false);
+        }
+        else
+        {
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Bookmark, R.drawable.ic_star, false);
         }
 
     }

@@ -70,7 +70,9 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/v_Chat_Front"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:minHeight="70dp"
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="match_parent"
@@ -121,8 +123,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
+            android:paddingRight="5dp"
             android:gravity="left"
-            android:text="234234234252525252"
+            android:text="23423423425252"
             android:textColor="@color/str_color_1"
             android:maxLines="2"
             app:layout_constraintRight_toLeftOf="@+id/iv_Chat_Check"
@@ -146,8 +149,9 @@
 
         <ImageView
             android:id="@+id/iv_Chat_Check"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="2dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/ic_red_dot"
             app:layout_constraintLeft_toRightOf="@+id/tv_Chat_Msg"

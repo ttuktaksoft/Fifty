@@ -45,6 +45,7 @@
     <color name="signup_check_1">#e9e5e0</color>
     <color name="signup_check_2">#9d8755</color>
     <color name="recom_club_tag">#6AB95F</color>
+    <color name="request_club_tag">#c16566</color>
     <color name="vip_disable_bg">#48000000</color>
     <color name="club_replay_bg">#f9f7f6</color>
     <color name="club_main_slot_bg">#48000000</color>

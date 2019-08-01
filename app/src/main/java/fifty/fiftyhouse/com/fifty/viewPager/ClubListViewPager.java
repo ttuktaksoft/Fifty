@@ -279,7 +279,11 @@ public class ClubListViewPager extends Fragment {
         }
 
         else
+        {
             mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+            mClubList.addAll(TKManager.getInstance().MyData.GetRequestJoinClubListKeySet());
+        }
+
 
         if (mClubList.size() == 0) {
             tv_Club_Empty.setVisibility(View.VISIBLE);

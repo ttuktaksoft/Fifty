@@ -49,7 +49,7 @@
 
     <style name="BaseContentTextView_AutoSize" parent="BaseContentTextView">
         <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">@dimen/default_font_size_small_1</item>
+        <item name="autoSizeMinTextSize">@dimen/default_font_size_small_2</item>
         <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
     </style>
 

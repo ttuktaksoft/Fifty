@@ -31,6 +31,7 @@
     <string name="MSG_CLUB_RECOM">클럽 추천</string>
     <string name="MSG_MY_CLUB">내 클럽</string>
     <string name="MSG_RECOM_CLUB">추천</string>
+    <string name="MSG_REQUEST_JOIN_CLUB">승인 대기중</string>
     <string name="MSG_CLUB_WRITE">등록하기</string>
     <string name="MSG_CLUB_WRITE_EDIT">수정하기</string>
     <string name="MSG_MOVE_SHOP">FIP구매하기</string>
