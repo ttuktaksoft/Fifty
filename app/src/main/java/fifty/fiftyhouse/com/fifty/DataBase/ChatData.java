@@ -6,7 +6,12 @@ import fifty.fiftyhouse.com.fifty.CommonData;
  * Created by boram on 2019-06-11.
  */
 
-public class ChatData {
+public class ChatData implements Cloneable{
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
     public   String RoomIndex;
     public  CommonData.CHAT_ROOM_TYPE RoomType;
 

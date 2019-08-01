@@ -993,7 +993,6 @@ public class FirebaseManager {
                 for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
                     switch (document.getType()) {
                         case ADDED:
-                        case MODIFIED:
                             ChatData tempData = new ChatData();
 
                             if (document.getDocument().getData().containsKey("RoomIndex")) {
@@ -1022,6 +1021,8 @@ public class FirebaseManager {
                                 MonitorChatData(tempData.GetRoomIndex(), TKManager.getInstance().MyData, null);
                             }
 
+                            break;
+                        case MODIFIED:
                             break;
 
                         case REMOVED:
