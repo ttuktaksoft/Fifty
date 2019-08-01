@@ -173,7 +173,7 @@ public class SignUpFragment extends Fragment {
             public void onSingleTouch(View view) {
                 // 입력을 시도 했을경우 중복체크 안함으로 수정
                 UpdateSignCheck();
-                if(mIsCheckNickName == false)
+/*                if(mIsCheckNickName == false)
                 {
                     DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
                     {
@@ -195,7 +195,7 @@ public class SignUpFragment extends Fragment {
 
                     DialogFunc.getInstance().ShowMsgPopup(mContext, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.NICKNAME_CHECK_ASK), "확인", null);
 
-                }
+                }*/
             }
         });
 

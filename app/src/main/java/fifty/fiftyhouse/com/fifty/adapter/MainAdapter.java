@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
     CommonData.MainViewType UserType = CommonData.MainViewType.DIST;
     String mUserName = null;
     String mUserDist = null;
+    int mUserGender = 0;
+    String mUserState = null;
     String[] mUserImg = new String[8];
 
     public MainAdapter(Context context) {
@@ -57,6 +60,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
 
         holder.tv_Main_Thumbnail_Info_NickName.setText(mUserName);
         holder.tv_Main_Thumbnail_Info_State.setText(mUserDist);
+        holder.tv_Main_Thumbnail_Online_State.setText(mUserState);
+
+
+        if (mUserGender == 0) {
+            Glide.with(mContext).load(R.drawable.ic_man_simple)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.iv_Main_Gender);
+        } else {
+            Glide.with(mContext).load(R.drawable.ic_woman_simple)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.iv_Main_Gender);
+        }
 
         viewCount = CommonFunc.getInstance().MainUserListSlotCount;
         int thumbnailMargin = CommonFunc.getInstance().convertPXtoDP(mContext.getResources(), 2);
@@ -210,13 +225,15 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
             mUserImg[i] = tempData.GetUserImg(Integer.toString(i));
         }
 
+        mUserGender = tempData.GetUserGender();
+        mUserState = "수정중";
     }
 }
 
 class MainUserListHolder extends RecyclerView.ViewHolder{
 
-    public ImageView iv_Main_Thumbnail_1,iv_Main_Thumbnail_2,iv_Main_Thumbnail_3;
-    public TextView tv_Main_Thumbnail_Info_NickName, tv_Main_Thumbnail_Info_State;
+    public ImageView iv_Main_Thumbnail_1,iv_Main_Thumbnail_2,iv_Main_Thumbnail_3, iv_Main_Gender;
+    public TextView tv_Main_Thumbnail_Info_NickName, tv_Main_Thumbnail_Info_State, tv_Main_Thumbnail_Online_State;
 
     public MainUserListHolder(View itemView) {
         super(itemView);
@@ -225,7 +242,8 @@ class MainUserListHolder extends RecyclerView.ViewHolder{
         iv_Main_Thumbnail_2 = itemView.findViewById(R.id.iv_Main_Thumbnail_2);
         iv_Main_Thumbnail_3 = itemView.findViewById(R.id.iv_Main_Thumbnail_3);
         tv_Main_Thumbnail_Info_NickName = itemView.findViewById(R.id.tv_Main_Thumbnail_Info_NickName);
-        tv_Main_Thumbnail_Info_State = itemView.findViewById(R.id.tv_Main_Thumbnail_Info_State);
+        iv_Main_Gender = itemView.findViewById(R.id.iv_Main_Gender);
+        tv_Main_Thumbnail_Online_State = itemView.findViewById(R.id.tv_Main_Thumbnail_Online_State);
     }
 }
 

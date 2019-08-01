@@ -74,8 +74,8 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubListHolder> {
 
 class ClubListHolder extends RecyclerView.ViewHolder {
 
-    public ImageView iv_Club_Profile, iv_Club_Tag;
-    public TextView tv_Club_Name;
+    public ImageView iv_Club_Profile, iv_Club_Tag, iv_Club_Master;
+    public TextView tv_Club_Name, tv_Club_Count;
     public TextView tv_Club_Tag;
     Context mContext;
 
@@ -87,17 +87,23 @@ class ClubListHolder extends RecyclerView.ViewHolder {
         tv_Club_Name = itemView.findViewById(R.id.tv_Club_Name);
         iv_Club_Tag = itemView.findViewById(R.id.iv_Club_Tag);
         tv_Club_Tag = itemView.findViewById(R.id.tv_Club_Tag);
+        iv_Club_Master = itemView.findViewById(R.id.iv_Club_Master);
     }
 
     public void setData(String clubKey)
     {
         ClubData tempClub = TKManager.getInstance().ClubData_Simple.get(clubKey);
 
+        iv_Club_Master.setVisibility(View.GONE);
+
         if(TKManager.getInstance().MyData.GetUserClubData(clubKey) != null)
         {
             // 내 클럽
             tv_Club_Tag.setText("");
             iv_Club_Tag.setVisibility(View.GONE);
+
+            if(tempClub.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                iv_Club_Master.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -107,6 +113,7 @@ class ClubListHolder extends RecyclerView.ViewHolder {
         }
 
         tv_Club_Name.setText(tempClub.ClubName);
+        tv_Club_Count.setText(tempClub.GetClubMemberCount() + "명");
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Profile, tempClub.ClubThumbNail, false);
     }
 }
