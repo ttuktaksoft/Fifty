@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
+
 public class ClubData  implements Cloneable{
 
     public Object clone() throws CloneNotSupportedException {
@@ -45,7 +47,13 @@ public class ClubData  implements Cloneable{
     public String ClubMasterIndex;
     public Map<String, String> ClubMemberList = new LinkedHashMap<String, String>();
     public Map<String, ClubContextData> ClubContext = new LinkedHashMap<String, ClubContextData>();
-    public Map<String, String> ClubFavorite = new LinkedHashMap<String, String>();
+    public Map<String, String> ClubFavorite = new LinkedHashMap<String, String>(){
+        @Override
+        protected boolean removeEldestEntry(Entry<String, String> arg0)
+        {
+            return size() == CommonData.FavoriteSelectMaxCountCheck? true : false;
+        }
+    };
 
     public int ClubContextCount;
     public int ClubMemberCount;
@@ -176,5 +184,10 @@ public class ClubData  implements Cloneable{
     {
         return ClubFavorite.keySet();
     }
+    public Map<String, String> GetClubFavoriteList()
+    {
+        return ClubFavorite;
+    }
+
 
 }

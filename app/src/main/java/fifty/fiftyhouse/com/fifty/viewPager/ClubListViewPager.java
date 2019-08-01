@@ -29,6 +29,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubCreateActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubFavoriteActivity;
 import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ChatAdapter;
@@ -113,26 +114,30 @@ public class ClubListViewPager extends Fragment {
                     TKManager.getInstance().mUpdateClubFragmentkeybordDownFunc.UpdateUI();
 
                     TKManager.getInstance().CreateTempClubData.ClubFavorite.clear();
-                    DialogFunc.getInstance().ShowLoadingPage(ClubFragment.mClubFragment.getContext());
+
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
-                            DialogFunc.getInstance().DismissLoadingPage();
-                            Intent intent = new Intent(getContext(), FavoriteSelectActivity.class);
-                            intent.putExtra("Type",2);
+
+                            Intent intent = new Intent(getContext(), ClubCreateActivity.class);
+                            intent.putExtra("Type",0);
                             startActivity(intent);
                         }
 
                         @Override
                         public void CompleteListener_Yes() {
+
                         }
 
                         @Override
                         public void CompleteListener_No() {
+
                         }
                     };
 
-                    FirebaseManager.getInstance().GetPopFavoriteData(listener);
+                    FirebaseManager.getInstance().RegistClubIndex(TKManager.getInstance().CreateTempClubData, listener);
+
+
                 }
             });
 
