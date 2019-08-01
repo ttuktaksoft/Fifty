@@ -181,7 +181,7 @@
     <string name="MSG_SORT_TYPE_ONLINE">접속 시간</string>
     <string name="MSG_SORT_TYPE_ONLINE_1">접속중</string>
     <string name="MSG_SORT_TYPE_ONLINE_2">1일 이내</string>
-    <string name="MSG_SORT_TYPE_ONLINE_3">3일 이내</string>
+    <string name="MSG_SORT_TYPE_ONLINE_3">3일 이상</string>
 
     <string name="CREATE_CLUB_NAME_HINT">클럽 이름을 입력해주세요</string>
     <string name="CREATE_CLUB_DESC">클럽이름과 사진은 개설 후에도 변경할 수 있어요</string>

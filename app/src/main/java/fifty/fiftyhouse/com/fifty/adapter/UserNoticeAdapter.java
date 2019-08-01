@@ -51,7 +51,7 @@ public class UserNoticeAdapter extends RecyclerView.Adapter<UserNoticeListHolder
 class UserNoticeListHolder extends RecyclerView.ViewHolder {
 
     public ImageView iv_Notice_Profile;
-    public TextView tv_Notice_Desc;
+    public TextView tv_Notice_Desc, tv_Notice_Date;
     Context mContext;
 
     public UserNoticeListHolder(View itemView, Context context) {
@@ -60,6 +60,7 @@ class UserNoticeListHolder extends RecyclerView.ViewHolder {
         mContext = context;
         iv_Notice_Profile = itemView.findViewById(R.id.iv_Notice_Profile);
         tv_Notice_Desc = itemView.findViewById(R.id.tv_Notice_Desc);
+        tv_Notice_Date = itemView.findViewById(R.id.tv_Notice_Date);
 
     }
 
@@ -83,5 +84,6 @@ class UserNoticeListHolder extends RecyclerView.ViewHolder {
                 break;
         }
 
+        tv_Notice_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.toString(TKManager.getInstance().MyData.GetAlarmList(array.get(position).toString()).Date), "MM.dd a hh:mm"));
     }
 }
