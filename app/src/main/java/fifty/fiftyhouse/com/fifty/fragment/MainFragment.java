@@ -126,8 +126,8 @@ public class MainFragment extends Fragment {
             iv_Main_Logo.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-//                    vp_UserList.setCurrentItem(0);
-                    CommonFunc.getInstance().RefreshUserList(MainActivity.mActivity);
+                    vp_UserList.setCurrentItem(0);
+                   // CommonFunc.getInstance().RefreshUserList(MainActivity.mActivity);
 
 /*
                     DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
