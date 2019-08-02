@@ -6,6 +6,17 @@
     android:layout_height="wrap_content">
 
 
+    <ImageView
+        android:id="@+id/iv_Club_Mini_User_Border"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Mini_User"
+        app:layout_constraintRight_toRightOf="@+id/iv_Club_Mini_User"
+        app:layout_constraintTop_toTopOf="@+id/iv_Club_Mini_User"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Mini_User"
+        android:scaleType="fitXY"
+        android:tint="@color/icon_tint_brown"
+        android:src="@drawable/bg_empty_square" />
 
     <ImageView
         android:id="@+id/iv_Club_Mini_User_Menu"
@@ -20,19 +31,6 @@
         android:tint="@color/icon_tint_brown"
         android:background="@color/button_disable"
         android:src="@drawable/ic_menu" />
-
-    <ImageView
-        android:id="@+id/iv_Club_Mini_User_Border"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Mini_User"
-        app:layout_constraintRight_toRightOf="@+id/iv_Club_Mini_User"
-        app:layout_constraintTop_toTopOf="@+id/iv_Club_Mini_User"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Mini_User"
-        android:scaleType="fitXY"
-        android:tint="@color/icon_tint_brown"
-        android:src="@drawable/bg_empty_square" />
-
 
     <ImageView
         android:id="@+id/iv_Club_Mini_User"
