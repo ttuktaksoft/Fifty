@@ -149,14 +149,16 @@ public class SortSettingFragment extends Fragment {
 
                 if(leftThumbIndex == 0 && rightThumbIndex == 50)
                 {
-                    TKManager.getInstance().FilterData.SetMinAge(50);
+                    //TKManager.getInstance().FilterData.SetMinAge(50);
+                    TKManager.getInstance().FilterData.SetMinAge(10);
                     TKManager.getInstance().FilterData.SetMaxAge(100);
                     RefreshAge(TKManager.getInstance().FilterData.GetMinAge(), TKManager.getInstance().FilterData.GetMaxAge());
                 }
 
                 else
                 {
-                    TKManager.getInstance().FilterData.SetMinAge(leftThumbIndex + 50);
+                    //TKManager.getInstance().FilterData.SetMinAge(leftThumbIndex + 50);
+                    TKManager.getInstance().FilterData.SetMinAge(leftThumbIndex);
                     TKManager.getInstance().FilterData.SetMaxAge(rightThumbIndex + 50);
                     RefreshAge(TKManager.getInstance().FilterData.GetMinAge(), TKManager.getInstance().FilterData.GetMaxAge());
                 }

@@ -132,7 +132,7 @@ public class LoadingActivity extends AppCompatActivity {
                     SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
                     //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
                     userIndex = sf.getString("Index","");
-
+                 //   userIndex = null;
                      //userIndex = "71";
 
                     //Log.d("#@!!",  userIndex);
@@ -251,8 +251,8 @@ public class LoadingActivity extends AppCompatActivity {
                     properties = response.getProperties();
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                     String tempUid = properties.get("Index");
-                    Log.e("#@!!", tempUid);
-                    //tempUid = "71";
+                //    Log.e("#@!!", tempUid);
+                    //tempUid = null;
 
                     DialogFunc.getInstance().DismissLoadingPage();
 

@@ -518,6 +518,10 @@ public class UserData {
     {
         FriendList.remove(key);
     }
+    public void  ClearUserFriendList()
+    {
+        FriendList.clear();
+    }
 
 
     public void SetRequestFriend(String index, String friendIdx)
@@ -540,6 +544,10 @@ public class UserData {
     public void  DelRequestFriendList(String key)
     {
         RequestFriendList.remove(key);
+    }
+    public void  ClearRequestFriendList( )
+    {
+        RequestFriendList.clear();
     }
 
     public void SetAlarmList(String index, AlarmData data)

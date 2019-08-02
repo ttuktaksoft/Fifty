@@ -138,45 +138,48 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void CompleteListener() {
-                            FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+
+                            FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
                                 public void CompleteListener() {
-                                    FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
+                                    DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                                    {
                                         @Override
-                                        public void CompleteListener() {
-                                            DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
-                                            {
-                                                @Override
-                                                public void Listener()
-                                                {
+                                        public void Listener()
+                                        {
 
-                                                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
-                                                    CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
-                                                    //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
+                                            CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+                                            //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
 
-                                                    SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
-                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                    editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
-                                                    editor.commit();
-                                                    CommonFunc.getInstance().MoveMainActivity(SignUpActivity.this, true);
+                                            SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("Index",TKManager.getInstance().MyData.GetUserIndex());
+                                            editor.commit();
+                                            CommonFunc.getInstance().MoveMainActivity(SignUpActivity.this, true);
 
-                                                }
-                                            };
-                                            DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
-                                        }
-
-                                        @Override
-                                        public void CompleteListener_Yes() {
-                                        }
-
-                                        @Override
-                                        public void CompleteListener_No() {
-                                            DialogFunc.getInstance().DismissLoadingPage();
-                                            DialogFunc.getInstance().ShowToast(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_RETRY), true);
                                         }
                                     };
+                                    DialogFunc.getInstance().ShowSignUpCompletePopup(SignUpActivity.this, listener);
+                                }
 
-                                    FirebaseManager.getInstance().GetUserList(Innerlistener);
+                                @Override
+                                public void CompleteListener_Yes() {
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    DialogFunc.getInstance().ShowToast(SignUpActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_RETRY), true);
+                                }
+                            };
+
+                            FirebaseManager.getInstance().GetUserList(Innerlistener);
+
+                    /*        FirebaseManager.CheckFirebaseComplete FavoriteListener = new   FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+
                                 }
 
                                 @Override
@@ -225,7 +228,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 }
                             };
 
-                            FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);
+                            FirebaseManager.getInstance().GetDailyFavorite(FavoriteListener);*/
                         }
 
                         @Override

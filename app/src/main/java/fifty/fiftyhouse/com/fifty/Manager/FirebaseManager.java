@@ -1873,7 +1873,7 @@ public class FirebaseManager {
 
         Calendar cal = Calendar.getInstance();
         int nWeek = cal.get(Calendar.DAY_OF_WEEK);
-        DAILY_FAVORITE = TKManager.getInstance().DailyFavorite.get(nWeek -1);
+      //  DAILY_FAVORITE = TKManager.getInstance().DailyFavorite.get(nWeek -1);
 
         Iterator<String> it = TKManager.getInstance().MyData.GetUserFavoriteListKeySet().iterator();
 

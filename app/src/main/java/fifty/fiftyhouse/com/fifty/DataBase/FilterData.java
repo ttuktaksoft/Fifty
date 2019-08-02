@@ -4,7 +4,7 @@ import fifty.fiftyhouse.com.fifty.DialogFunc;
 
 public class FilterData {
     public int Distance = 100;
-    public int MinAge = 50;
+    public int MinAge = 10;
     public int MaxAge = 100;
 
     public int Gender = 0;

@@ -27,6 +27,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.LoadingActivity;
 import fifty.fiftyhouse.com.fifty.activty.ShopActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserNoticeActivity;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -125,7 +126,8 @@ public class MainFragment extends Fragment {
             iv_Main_Logo.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    vp_UserList.setCurrentItem(0);
+//                    vp_UserList.setCurrentItem(0);
+                    CommonFunc.getInstance().RefreshUserList(MainActivity.mActivity);
 
 /*
                     DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);

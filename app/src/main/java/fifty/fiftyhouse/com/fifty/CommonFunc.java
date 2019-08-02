@@ -1177,10 +1177,43 @@ public class CommonFunc {
             activity.startActivity(intent);
             activity.finish();
         }
-
-
     }
 
+    public void RefreshUserList(final  Activity activity)
+    {
+        DialogFunc.getInstance().ShowLoadingPage(activity);
+
+        TKManager.getInstance().UserList_Dist.clear();
+        TKManager.getInstance().UserList_New.clear();
+        TKManager.getInstance().UserData_Simple.clear();
+        TKManager.getInstance().MyData.ClearUserFriendList();
+        TKManager.getInstance().MyData.ClearRequestFriendList();
+
+        FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
+            @Override
+            public void CompleteListener() {
+                //   DialogFunc.getInstance().DismissLoadingPage();
+
+                CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
+                CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+                //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+
+
+                MoveMainActivity(activity, false);
+            }
+
+            @Override
+            public void CompleteListener_Yes() {
+            }
+
+            @Override
+            public void CompleteListener_No() {
+                DialogFunc.getInstance().DismissLoadingPage();
+            }
+        };
+
+        FirebaseManager.getInstance().GetUserList(Innerlistener);
+    }
     public void GetUserList(final Activity activity)
     {
 
