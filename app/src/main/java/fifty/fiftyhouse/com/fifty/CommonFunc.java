@@ -1433,7 +1433,7 @@ public class CommonFunc {
     {
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
         {
-            DialogFunc.getInstance().ShowToast(activity, "본인 입니다", true);
+            DialogFunc.getInstance().ShowToast(activity, CommonFunc.getInstance().getStr(activity.getResources(), R.string.MSG_MY_PROFILE_CLICK), true);
         }
         else
         {

@@ -514,6 +514,10 @@ public class UserListActivity extends AppCompatActivity {
 
 
         }
+        else
+        {
+            DialogFunc.getInstance().ShowToast(getApplicationContext(), CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_MY_PROFILE_CLICK), true);
+        }
     }
 
     public void RefreshVIP()
