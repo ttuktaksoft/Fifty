@@ -208,7 +208,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainUserListHolder> {
 
         if(tempData.GetUserDist() < 1000)
         {
-            mUserDist = "1km 이내";
+            mUserDist = "내 근처";
         }
         else if(tempData.GetUserDist() > 1000 * 100)
         {

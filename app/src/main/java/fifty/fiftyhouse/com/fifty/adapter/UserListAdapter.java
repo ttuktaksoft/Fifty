@@ -121,10 +121,19 @@ class UserListListHolder extends RecyclerView.ViewHolder {
         tv_User_List_Name.setText(data.GetUserNickName());
         tv_User_List_Age.setText(data.GetUserAge() + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.MSG_AGE_END));
 
-        if(data.GetUserDist() > 100)
-            tv_User_List_Dis.setText("100" + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.DEFAULT_DISTANCE));
+
+        if(data.GetUserDist() < 1000)
+        {
+            tv_User_List_Dis.setText("내 근처");
+        }
+        else if(data.GetUserDist() > 1000 * 100)
+        {
+            tv_User_List_Dis.setText("100" + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.DEFAULT_DISTANCE) + "이상");
+        }
         else
-            tv_User_List_Dis.setText(data.GetUserDist() + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.DEFAULT_DISTANCE));
+        {
+            tv_User_List_Dis.setText((int)(data.GetUserDist()  / 1000) + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.DEFAULT_DISTANCE));
+        }
 
         iv_User_List_Etc.setVisibility(View.GONE);
 
