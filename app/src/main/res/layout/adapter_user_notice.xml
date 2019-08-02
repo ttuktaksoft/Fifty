@@ -7,6 +7,17 @@
     android:background="@color/info_slot_bg">
 
     <ImageView
+        android:id="@+id/iv_Notice_Profile_Border"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Notice_Profile"
+        app:layout_constraintRight_toRightOf="@+id/iv_Notice_Profile"
+        app:layout_constraintTop_toTopOf="@+id/iv_Notice_Profile"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Notice_Profile"
+        android:tint="@color/icon_tint_brown"
+        android:src="@drawable/bg_empty_circle" />
+
+    <ImageView
         android:id="@+id/iv_Notice_Profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -14,7 +25,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/bg_empty_square"/>
+        android:src="@drawable/bg_empty_circle"/>
 
     <TextView
         android:id="@+id/tv_Notice_Desc"
@@ -27,9 +38,9 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_Notice_Date"
         app:layout_constraintLeft_toRightOf="@+id/iv_Notice_Profile"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="일이삼사오육칠팔 님이 방문하였습니다"
-        android:maxLines="1"
+        android:text="WMWMWMWMWMWM 님이 친구 추가를 하였습니다"
         android:gravity="left|center_vertical"
+        android:breakStrategy="high_quality"
         android:textColor="@color/str_color_1"/>
 
     <TextView

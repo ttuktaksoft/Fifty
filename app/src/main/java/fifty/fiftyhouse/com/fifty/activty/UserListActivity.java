@@ -281,7 +281,8 @@ public class UserListActivity extends AppCompatActivity {
                 }
                 else if(mUserListType == CommonData.USER_LIST_CLUB)
                 {
-                    if(TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                    if(TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()) &&
+                        tempUserIndex.equals(TKManager.getInstance().MyData.GetUserIndex()) == false)
                     {
                         ArrayList<String> menuList = new ArrayList<>();
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW_PROFILE));
@@ -398,7 +399,7 @@ public class UserListActivity extends AppCompatActivity {
                 String element = (String) iterator.next();
 
                 if(element.equals(TKManager.getInstance().MyData.GetUserIndex()) &&
-                        TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                        TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(element))
                     list.add(new Pair<String, Integer>(element, UserListAdapter.CLUB_MATSER_VIEW));
                 else
                     list.add(new Pair<String, Integer>(element, 0));
