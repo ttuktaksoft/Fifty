@@ -34,6 +34,9 @@ public class SortSettingFragment extends Fragment {
     SeekBar sb_SortSetting_Distance;
     RangeBar sb_SortSetting_Age;
 
+    // TODO 수정하세요
+    int offsetAge = 0;
+
     public CommonData.SORT_SETTING_GENDER mGender = CommonData.SORT_SETTING_GENDER.ALL;
     public CommonData.SORT_SETTING_ONLINE mOnLineTime = CommonData.SORT_SETTING_ONLINE.ONLINE;
 
@@ -135,12 +138,14 @@ public class SortSettingFragment extends Fragment {
             }
         });
 
+
+
         sb_SortSetting_Age.setTickCount(51);
         sb_SortSetting_Age.setTickHeight(0);
 
-        sb_SortSetting_Age.setLeft(TKManager.getInstance().FilterData.GetMinAge() - 50);
+        sb_SortSetting_Age.setLeft(TKManager.getInstance().FilterData.GetMinAge() - offsetAge);
         sb_SortSetting_Age.setRight(TKManager.getInstance().FilterData.GetMaxAge() - 50);
-        sb_SortSetting_Age.setThumbIndices(TKManager.getInstance().FilterData.GetMinAge() - 50, TKManager.getInstance().FilterData.GetMaxAge() - 50);
+        sb_SortSetting_Age.setThumbIndices(TKManager.getInstance().FilterData.GetMinAge() - offsetAge, TKManager.getInstance().FilterData.GetMaxAge() - 50);
         RefreshAge(TKManager.getInstance().FilterData.GetMinAge(), TKManager.getInstance().FilterData.GetMaxAge());
 
         sb_SortSetting_Age.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
@@ -259,7 +264,7 @@ public class SortSettingFragment extends Fragment {
 
     public void RefreshAge(int min, int max)
     {
-        if(min == 50 && max == 100)
+        if(min == offsetAge && max == 100)
         {
             tv_SortSetting_Age_Count.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SORT_TYPE_AGE_ALL));
         }
