@@ -928,19 +928,21 @@ public class UserProfileFragment extends Fragment {
     {
         if(mMyProfile)
         {
-            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserLocation()))
-                //tv_UserProfile_Info_Location.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
+            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserLocation()) == false)
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
+            else if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserDist_Area()) == false)
                 tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserDist_Area());
             else
-                tv_UserProfile_Info_Location.setText(TKManager.getInstance().MyData.GetUserLocation());
+                tv_UserProfile_Info_Location.setText("활동 지역이 없습니다");
         }
         else
         {
-            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserLocation()))
-                //tv_UserProfile_Info_Location.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
+            if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserLocation()) == false)
+                tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserLocation());
+            else if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().TargetUserData.GetUserDist_Area()) == false)
                 tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserDist_Area());
             else
-                tv_UserProfile_Info_Location.setText(TKManager.getInstance().TargetUserData.GetUserLocation());
+                tv_UserProfile_Info_Location.setText("활동 지역이 없습니다");
         }
 
     }

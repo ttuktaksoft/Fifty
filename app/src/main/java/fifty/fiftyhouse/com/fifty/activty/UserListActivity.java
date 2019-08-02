@@ -398,8 +398,7 @@ public class UserListActivity extends AppCompatActivity {
             while (iterator.hasNext()) {
                 String element = (String) iterator.next();
 
-                if(element.equals(TKManager.getInstance().MyData.GetUserIndex()) &&
-                        TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(element))
+                if(TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(element))
                     list.add(new Pair<String, Integer>(element, UserListAdapter.CLUB_MATSER_VIEW));
                 else
                     list.add(new Pair<String, Integer>(element, 0));
