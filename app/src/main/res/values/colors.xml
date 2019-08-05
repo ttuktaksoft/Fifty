@@ -21,8 +21,8 @@
     <color name="info_sub_slot_title_bg">#f4f4f2</color>
 
     // 특수
-    <color name="main_bottom_tab_bg">#000000</color>
-    <color name="main_bottom_tab_select">#ffffff</color>
+    <color name="main_bottom_tab_bg">#f4f4f4</color>
+    <color name="main_bottom_tab_select">#000000</color>
     <color name="main_bottom_tab_delect">#e0e0e0</color>
     <color name="main_sub_tab_bg">#ffffff</color>
     <color name="main_sub_info_bg">#f4f4f2</color>
@@ -53,7 +53,7 @@
     <color name="user_profile_bottom_tab_select">#ffffff</color>
     <color name="loading_progress_bar">#d7d2cc</color>
     <color name="floating_button_bg">#7b6d64</color>
-
+    <color name="icon_tint_online">#43faf7</color>
 
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574b</color>

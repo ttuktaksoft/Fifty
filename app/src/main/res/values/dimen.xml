@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="top_bar_height">56dp</dimen>
-    <dimen name="mid_bar_height">40dp</dimen>
+    <dimen name="top_bar_height">50dp</dimen>
+    <dimen name="mid_bar_height">30dp</dimen>
     <dimen name="bottom_bar_height">56dp</dimen>
-    <dimen name="default_font_size_big_1">24dp</dimen>
-    <dimen name="default_font_size_big">21dp</dimen>
-    <dimen name="default_font_size">18dp</dimen>
-    <dimen name="default_font_size_small">15dp</dimen>
-    <dimen name="default_font_size_small_1">12dp</dimen>
-    <dimen name="default_font_size_small_2">9dp</dimen>
+    <dimen name="default_font_size_big_1">21dp</dimen>
+    <dimen name="default_font_size_big">18dp</dimen>
+    <dimen name="default_font_size">15dp</dimen>
+    <dimen name="default_font_size_small">12dp</dimen>
+    <dimen name="default_font_size_small_1">9dp</dimen>
+    <dimen name="default_font_size_small_2">6dp</dimen>
 </resources>

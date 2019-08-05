@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tv_Location_Edit_Desc"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/info_sub_slot_title_bg"
@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/tv_Location_Edit_Count"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
@@ -66,7 +66,7 @@
 
     <TextView
         android:id="@+id/tv_Location_Edit_Save"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         android:layout_width="0dp"
         android:layout_height="@dimen/top_bar_height"
         android:background="@color/button_enable"

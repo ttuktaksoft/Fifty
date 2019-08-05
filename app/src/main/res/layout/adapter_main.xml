@@ -52,9 +52,9 @@
 
     <TextView
         android:id="@+id/tv_Main_Thumbnail_Info_NickName"
-        style="@style/BaseContentTextView_AutoSize"
+        style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:gravity="left|center_vertical"
         android:maxWidth="170dp"
         app:layout_constraintTop_toBottomOf="@+id/iv_Main_Thumbnail_1"
@@ -66,8 +66,8 @@
 
     <ImageView
         android:id="@+id/iv_Main_Gender"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_marginLeft="5dp"
         app:layout_constraintLeft_toRightOf="@+id/tv_Main_Thumbnail_Info_NickName"
         app:layout_constraintBottom_toBottomOf="@+id/tv_Main_Thumbnail_Info_NickName"
@@ -78,7 +78,7 @@
         android:id="@+id/tv_Main_Thumbnail_Info_State"
         style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:gravity="right|center_vertical"
         app:layout_constraintTop_toTopOf="@+id/tv_Main_Thumbnail_Online_State"
         app:layout_constraintBottom_toBottomOf="@+id/tv_Main_Thumbnail_Online_State"
@@ -92,7 +92,7 @@
         android:id="@+id/tv_Main_Thumbnail_Online_State"
         style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:gravity="right|center_vertical"
         app:layout_constraintTop_toBottomOf="@+id/iv_Main_Thumbnail_1"
         app:layout_constraintRight_toRightOf="parent"

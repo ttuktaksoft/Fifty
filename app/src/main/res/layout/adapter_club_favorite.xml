@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/tv_ClubFavorite"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="10dp"

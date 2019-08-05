@@ -54,7 +54,7 @@
 
         <TextView
             android:id="@+id/tv_SignUp_Com_Popup_Desc"
-            style="@style/BaseContentTextView_AutoSize"
+            style="@style/BaseContentTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -72,7 +72,7 @@
             android:id="@+id/tv_SignUp_Com_Popup_Buttons_OK"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            style="@style/BaseTextView_AutoSize"
+            style="@style/BaseTextView"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/tv_SignUp_Com_Popup_Desc"
             app:layout_constraintBottom_toBottomOf="@+id/iv_SignUp_Com_Popup_BG"

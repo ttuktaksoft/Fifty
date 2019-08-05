@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SortSettingActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
@@ -41,12 +43,13 @@ public class MainDistanceViewPager extends Fragment {
 
     FloatingActionButton fa_Friend_UserList_Search;
     TextView tv_Main_Dis_Curr_Pos;
-    TextView tv_Main_Dis_Sort_Type, tv_Main_Dis_UserList_Empty;
+    TextView tv_Main_Dis_UserList_Empty;
+    ImageView iv_Main_Dis_Sort_Type;
 
     RecyclerView rv_Main_Dis_UserList;
     View v_FragmentView = null;
 
-    MainAdapter mAdapter;
+    MainAdapterOne mAdapter;
 
     boolean mSortEnable = false;
     private String UserIndex;
@@ -62,17 +65,17 @@ public class MainDistanceViewPager extends Fragment {
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_distance, container, false);
             rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
-            tv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.tv_Main_Dis_Sort_Type);
+            iv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.iv_Main_Dis_Sort_Type);
             tv_Main_Dis_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_Dis_UserList_Empty);
             fa_Friend_UserList_Search = v_FragmentView.findViewById(R.id.fa_Friend_UserList_Search);
 
-            if(TKManager.getInstance().FilterData.GetDistance() == 100)
+/*            if(TKManager.getInstance().FilterData.GetDistance() == 100)
                 tv_Main_Dis_Sort_Type.setText("내 근처 : 전체");
             else
-                tv_Main_Dis_Sort_Type.setText("내 근처 : "+ TKManager.getInstance().FilterData.GetDistance() + "KM");
+                tv_Main_Dis_Sort_Type.setText("내 근처 : "+ TKManager.getInstance().FilterData.GetDistance() + "KM");*/
             tv_Main_Dis_Curr_Pos.setText(TKManager.getInstance().MyData.GetUserDist_Area());
 
-            tv_Main_Dis_Sort_Type.setOnClickListener(new OnSingleClickListener() {
+            iv_Main_Dis_Sort_Type.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
                     Intent intent = new Intent(MainActivity.mActivity, SortSettingActivity.class);
@@ -100,13 +103,13 @@ public class MainDistanceViewPager extends Fragment {
 
     private void initRecyclerView()
     {
-        mAdapter = new MainAdapter(getContext());
+        mAdapter = new MainAdapterOne(getContext());
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());
         rv_Main_Dis_UserList.setAdapter(mAdapter);
 
-        rv_Main_Dis_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_Main_Dis_UserList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rv_Main_Dis_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Dis_UserList, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {

@@ -58,7 +58,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/v_Club_Name"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:background="@color/club_main_slot_bg"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Profile"
         app:layout_constraintRight_toRightOf="@+id/iv_Club_Profile"

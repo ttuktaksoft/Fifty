@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/tv_Login_Desc_1"
-            style="@style/BaseTextView_AutoSize"
+            style="@style/BaseTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/tv_Login_Desc_2"
-            style="@style/BaseTextView_AutoSize"
+            style="@style/BaseTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/tv_Login_nickname"
@@ -78,7 +78,7 @@
 
         <TextView
             android:id="@+id/tv_Login"
-            style="@style/BaseTextView_AutoSize"
+            style="@style/BaseTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/tv_Login"

@@ -473,7 +473,7 @@ public class ClubActivity extends AppCompatActivity {
         rv_Club_Favorite.setAdapter(mFavoriteViewAdapter);
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.CENTER)
-                .setMaxViewsInRow(3)
+                .setMaxViewsInRow(5)
                 .setGravityResolver(new IChildGravityResolver() {
                     @Override
                     public int getItemGravity(int i) {

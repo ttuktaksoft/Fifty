@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/tv_Msg_Popup_Desc"
-        style="@style/BaseContentTextView_AutoSize"
+        style="@style/BaseContentTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/MSG_ME_CONFIRM_DESC"
@@ -44,7 +44,7 @@
         android:id="@+id/tv_Msg_Popup_Buttons_OK"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Msg_Popup_DescBG"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Msg_Popup_DescBG"
         app:layout_constraintRight_toLeftOf="@+id/tv_Msg_Popup_Buttons_Cancel"
@@ -58,7 +58,7 @@
         android:id="@+id/tv_Msg_Popup_Buttons_Cancel"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Msg_Popup_DescBG"
         app:layout_constraintLeft_toRightOf="@+id/tv_Msg_Popup_Buttons_OK"
         app:layout_constraintRight_toRightOf="@+id/iv_Msg_Popup_DescBG"

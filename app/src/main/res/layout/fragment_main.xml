@@ -20,16 +20,7 @@
             android:elevation="0dp"
             android:background="@color/topbar_bg"/>
 
-        <ImageView
-            android:id="@+id/iv_Main_Alarm"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            app:layout_constraintLeft_toLeftOf="@+id/v_Main_TopBar"
-            app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopBar"
-            android:src="@drawable/ic_alarm"
-            android:tint="@color/icon_tint_white"/>
+
 
         <ImageView
             android:id="@+id/iv_Main_Logo"
@@ -37,10 +28,21 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_logo"
             android:tint="@color/icon_tint_white"
+            android:layout_marginLeft="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopBar"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_TopBar"
-            app:layout_constraintRight_toRightOf="@+id/v_Main_TopBar"
             app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar" />
+
+        <ImageView
+            android:id="@+id/iv_Main_Alarm"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            app:layout_constraintRight_toLeftOf="@+id/iv_Main_Shop"
+            app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Main_TopBar"
+            android:src="@drawable/ic_alarm"
+            android:tint="@color/icon_tint_white"/>
 
         <ImageView
             android:id="@+id/iv_Main_Shop"

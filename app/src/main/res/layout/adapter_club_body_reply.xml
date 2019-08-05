@@ -52,30 +52,32 @@
 
     <TextView
         android:id="@+id/tv_Club_Body_Reply_Nickname"
+        style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         app:layout_constraintLeft_toRightOf="@+id/iv_Club_Body_Reply_Profile"
         app:layout_constraintTop_toTopOf="@+id/iv_Club_Body_Reply_Profile"
         android:layout_marginLeft="5dp"
-        android:textSize="13dp"
+        android:textSize="@dimen/default_font_size"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:text="닉네임"/>
 
     <TextView
         android:id="@+id/tv_Club_Body_Reply_Date"
+        style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_Club_Body_Reply_Profile"
         android:layout_marginRight="10dp"
         android:textSize="13dp"
-        android:textStyle="bold"
-
+        android:textColor="@color/str_color_1"
         android:text="지금막"/>
 
     <TextView
         android:id="@+id/tv_Club_Body_Reply_Desc"
+        style="@style/BaseContentTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@+id/iv_Club_Body_Reply_Profile"
@@ -84,8 +86,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:paddingBottom="5dp"
-        android:textSize="13dp"
-        android:textColor="@color/black"
+        android:textSize="@dimen/default_font_size_small"
+        android:textColor="@color/str_color_1"
         android:gravity="left|top"
         android:ellipsize="none"
         android:scrollHorizontally="false"

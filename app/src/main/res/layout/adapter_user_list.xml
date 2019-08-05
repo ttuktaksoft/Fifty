@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/tv_User_List_Name"
-        style="@style/BaseContentTextView_AutoSize"
+        style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:maxWidth="140dp"

@@ -75,7 +75,7 @@
             android:id="@+id/tv_Shop_Info_Buy"
             android:layout_width="0dp"
             android:layout_height="@dimen/top_bar_height"
-            style="@style/BaseTextView_AutoSize"
+            style="@style/BaseTextView"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"

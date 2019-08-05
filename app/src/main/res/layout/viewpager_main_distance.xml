@@ -16,7 +16,7 @@
         <View
             android:id="@+id/v_Main_Dis_SubInfo"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:background="@color/main_sub_info_bg"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/tv_Main_Dis_Curr_Pos"
-            style="@style/BaseTextView_AutoSize"
+            style="@style/BaseTextView"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:text="서울특별시 영등포구 여의도동"
@@ -34,25 +34,19 @@
             app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_Dis_SubInfo"
-            app:layout_constraintRight_toLeftOf="@+id/tv_Main_Dis_Sort_Type"
+            app:layout_constraintRight_toLeftOf="@+id/iv_Main_Dis_Sort_Type"
             android:textColor="@color/str_color_1"/>
 
-        <TextView
-            android:id="@+id/tv_Main_Dis_Sort_Type"
-            style="@style/BaseTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="@string/MSG_SORT_MAIN"
-            android:textSize="15dp"
-            android:gravity="center_vertical|left"
+        <ImageView
+            android:id="@+id/iv_Main_Dis_Sort_Type"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
             android:layout_marginRight="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:textColor="@color/button_enable_str"
             app:layout_constraintTop_toTopOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_Dis_SubInfo"
             app:layout_constraintRight_toRightOf="@+id/v_Main_Dis_SubInfo"
-            android:background="@color/button_enable"/>
+            android:src="@drawable/ic_filter"/>
 
 
         <!--<Spinner

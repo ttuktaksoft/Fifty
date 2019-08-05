@@ -52,7 +52,7 @@
                 android:id="@+id/tv_VIP_Info_Shop"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/top_bar_height"
-                style="@style/BaseTextView_AutoSize"
+                style="@style/BaseTextView"
                 android:layout_margin="20dp"
                 app:layout_constraintRight_toRightOf="@+id/v_VIP_Info"
                 app:layout_constraintLeft_toLeftOf="@+id/v_VIP_Info"

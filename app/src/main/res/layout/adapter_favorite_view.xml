@@ -16,7 +16,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/tv_Favorite_View_Name"
         android:tint="@color/favorite_view_bg_tint_1"
         android:scaleType="fitXY"
-        android:src="@drawable/bg_white"/>
+        android:src="@drawable/bg_white_square"/>
 
     <TextView
         android:id="@+id/tv_Favorite_View_Name"

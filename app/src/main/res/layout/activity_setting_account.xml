@@ -63,7 +63,7 @@
         android:id="@+id/tv_Setting_Account_Save"
         android:layout_width="0dp"
         android:layout_height="@dimen/top_bar_height"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -60,13 +60,15 @@
 
                     <TextView
                         android:id="@+id/tv_Club_Name"
-                        style="@style/BaseTextView_AutoSize"
+                        style="@style/BaseTextView"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:text="냥냥 클럽"
                         android:gravity="center"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:maxLines="1"
+                        android:textSize="@dimen/default_font_size_big_1"
                         app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
                         app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
                         app:layout_constraintTop_toTopOf="@+id/v_Club_Info" />
@@ -100,6 +102,7 @@
                         android:id="@+id/rv_Club_User"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:nestedScrollingEnabled="false"
                         android:orientation="horizontal"
                         app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
@@ -218,7 +221,7 @@
                     android:id="@+id/tv_Club_Introduce_Title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    style="@style/BaseTextView_AutoSize"
+                    style="@style/BaseTextView"
                     app:layout_constraintLeft_toLeftOf="@+id/v_Club_Introduce"
                     app:layout_constraintRight_toRightOf="@+id/v_Club_Introduce"
                     app:layout_constraintTop_toTopOf="@+id/v_Club_Introduce"
@@ -226,6 +229,7 @@
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:text="@string/MSG_CLUB_INFO_DESC"
+                    android:textStyle="bold"
                     android:gravity="center|left"
                     android:textColor="@color/str_color_1"
                     android:background="@color/info_sub_slot_title_bg"/>
@@ -234,6 +238,7 @@
                     android:id="@+id/tv_Club_Introduce"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:minHeight="100dp"
                     style="@style/BaseContentTextView"
                     app:layout_constraintLeft_toLeftOf="@+id/v_Club_Introduce"
                     app:layout_constraintRight_toRightOf="@+id/v_Club_Introduce"
@@ -243,35 +248,26 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="클럽 소개 입니다"
-                    android:gravity="center|left"
+                    android:gravity="left"
                     android:textColor="@color/str_color_1"
                     android:background="@color/white"/>
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="2dp"
-                    app:layout_constraintRight_toRightOf="@+id/v_Club_Introduce"
-                    app:layout_constraintLeft_toLeftOf="@+id/v_Club_Introduce"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_Club_Introduce"
-                    android:alpha="0.5"
-                    android:background="@color/line_color"
-                    />
-
                 <TextView
                     android:id="@+id/tv_Club_Favorite_Title"
-                    style="@style/BaseContentTextView"
-                    android:layout_width="100dp"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/BaseTextView"
                     app:layout_constraintLeft_toLeftOf="@+id/v_Club_Introduce"
-                    app:layout_constraintRight_toLeftOf="@+id/rv_Club_Favorite"
-                    app:layout_constraintTop_toTopOf="@+id/rv_Club_Favorite"
-                    app:layout_constraintBottom_toBottomOf="@+id/rv_Club_Favorite"
+                    app:layout_constraintRight_toRightOf="@+id/v_Club_Introduce"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Club_Introduce"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
-                    android:gravity="left|center_vertical"
                     android:text="@string/MSG_FAVORITE"
+                    android:textStyle="bold"
+                    android:gravity="center|left"
                     android:textColor="@color/str_color_1"
-                    android:background="@color/white"
-                    />
+                    android:background="@color/info_sub_slot_title_bg"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_Club_Favorite"
@@ -280,47 +276,38 @@
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:nestedScrollingEnabled="false"
-                    app:layout_constraintLeft_toRightOf="@+id/tv_Club_Favorite_Title"
-                    app:layout_constraintRight_toRightOf="@+id/v_Club_Introduce"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_Club_Introduce"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_Club_OpenDay_Title"
-                    android:background="@color/white"/>
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="2dp"
                     app:layout_constraintRight_toRightOf="@+id/v_Club_Introduce"
                     app:layout_constraintLeft_toLeftOf="@+id/v_Club_Introduce"
-                    app:layout_constraintBottom_toBottomOf="@+id/rv_Club_Favorite"
-                    android:alpha="0.5"
-                    android:background="@color/line_color"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Club_Favorite_Title"
+                    android:background="@color/white"/>
 
                 <TextView
                     android:id="@+id/tv_Club_OpenDay_Title"
-                    style="@style/BaseContentTextView"
-                    android:layout_width="100dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_Club_Favorite_Title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/BaseTextView"
                     app:layout_constraintLeft_toLeftOf="@+id/v_Club_Introduce"
+                    app:layout_constraintRight_toRightOf="@+id/v_Club_Introduce"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_Club_Favorite"
                     android:paddingTop="5dp"
-                    android:paddingLeft="10dp"
                     android:paddingBottom="5dp"
-                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="@string/MSG_CLUB_OPEN_DAY"
+                    android:textStyle="bold"
+                    android:gravity="center|left"
                     android:textColor="@color/str_color_1"
-                    android:background="@color/white"
-                    />
+                    android:background="@color/info_sub_slot_title_bg"/>
 
                 <TextView
                     android:id="@+id/tv_Club_OpenDay"
                     style="@style/BaseContentTextView"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintTop_toTopOf="@+id/tv_Club_OpenDay_Title"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_Club_OpenDay_Title"
-                    app:layout_constraintLeft_toRightOf="@+id/tv_Club_OpenDay_Title"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_Club_OpenDay_Title"
+                    app:layout_constraintLeft_toLeftOf="@+id/v_Club_Introduce"
                     app:layout_constraintRight_toRightOf="@+id/v_Club_Introduce"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:gravity="left|center_vertical"
                     android:text="ㅁ"
@@ -334,7 +321,7 @@
                     android:id="@+id/rv_Club_Content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="10dp"
                     android:paddingBottom="10dp"
                     android:nestedScrollingEnabled="false"
                     app:layout_constraintTop_toBottomOf="@+id/v_Club_Introduce" />

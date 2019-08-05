@@ -13,7 +13,7 @@
         <View
             android:id="@+id/v_Main_New_SubInfo"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:background="@color/main_sub_info_bg"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -21,7 +21,7 @@
 
         <TextView
             android:id="@+id/tv_Main_New_Desc"
-            style="@style/BaseTextView_AutoSize"
+            style="@style/BaseTextView"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:text="@string/tv_Main_New_Desc"

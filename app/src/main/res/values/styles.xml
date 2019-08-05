@@ -28,35 +28,14 @@
         <item name="android:textColor">@color/red</item>
         <item name="android:textSize">@dimen/default_font_size</item>
     </style>
-
-    <style name="BaseTextView_AutoSize" parent="BaseTextView">
-        <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">@dimen/default_font_size_small_1</item>
-        <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
-    </style>
-
     <style name="TobBarTextView" parent="BaseTextView">
-        <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">@dimen/default_font_size</item>
-        <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
+         <item name="android:textSize">@dimen/default_font_size_big</item>
     </style>
 
     <style name="BaseContentTextView" parent="@android:style/Widget.TextView">
         <item name="android:fontFamily">@font/content</item>
         <item name="android:textColor">@color/red</item>
-        <item name="android:textSize">@dimen/default_font_size_big</item>
-    </style>
-
-    <style name="BaseContentTextView_AutoSize" parent="BaseContentTextView">
-        <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">@dimen/default_font_size_small_2</item>
-        <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
-    </style>
-
-    <style name="TobBarContentTextView" parent="BaseContentTextView">
-        <item name="autoSizeTextType">uniform</item>
-        <item name="autoSizeMinTextSize">@dimen/default_font_size</item>
-        <item name="autoSizeMaxTextSize">@dimen/default_font_size_big</item>
+        <item name="android:textSize">@dimen/default_font_size</item>
     </style>
 
     <style name="BaseEditTextView" parent="@android:style/Widget.EditText">

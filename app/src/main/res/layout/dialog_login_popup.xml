@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/tv_Login_Popup_Desc"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/tv_Login_Popup_Desc"
@@ -67,7 +67,7 @@
         android:id="@+id/tv_Login_Popup_Buttons_OK"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         android:layout_marginLeft="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Login_Popup_BG"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Login_Popup_BG"
@@ -82,7 +82,7 @@
         android:id="@+id/tv_Login_Popup_Buttons_Cancel"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        style="@style/BaseTextView_AutoSize"
+        style="@style/BaseTextView"
         android:layout_marginRight="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Login_Popup_BG"
         app:layout_constraintLeft_toRightOf="@+id/tv_Login_Popup_Buttons_OK"
