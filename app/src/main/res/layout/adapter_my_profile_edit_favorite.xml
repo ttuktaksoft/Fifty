@@ -34,7 +34,8 @@
             android:id="@+id/rv_MyProfile_Edit_Favorite_Menu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
             app:layout_constraintLeft_toRightOf="@+id/tv_MyProfile_Edit_Favorite_Menu_Title"
             app:layout_constraintRight_toLeftOf="@+id/tv_MyProfile_Edit_Favorite_Menu_Arrow"
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Favorite_Menu"
