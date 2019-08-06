@@ -31,7 +31,7 @@
         android:text="@string/MSG_OK"
         android:gravity="center"
         android:textColor="@color/button_enable_str"
-        android:textStyle="bold"
+        android:textSize="@dimen/default_font_size_big"
         android:background="@color/button_enable"/>
 
 </android.support.constraint.ConstraintLayout>
