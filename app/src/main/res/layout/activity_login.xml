@@ -33,7 +33,6 @@
             android:layout_marginTop="20dp"
             android:text="@string/tv_Login_kakao"
             android:textColor="@color/str_color_2"
-            android:textSize="20dp"
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="@+id/v_Login"
             app:layout_constraintRight_toRightOf="@+id/v_Login"
@@ -57,7 +56,6 @@
             android:layout_height="wrap_content"
             android:text="@string/tv_Login_nickname"
             android:textColor="@color/str_color_2"
-            android:textSize="20dp"
             android:gravity="center"
             android:layout_marginTop="30dp"
             app:layout_constraintLeft_toLeftOf="@+id/v_Login"
@@ -73,7 +71,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/v_Login"
             app:layout_constraintRight_toRightOf="@+id/v_Login"
             android:scaleType="fitXY"
-            android:src="@drawable/bg_white"
+            android:src="@drawable/bg_empty_square"
             android:tint="@color/button_enable"/>
 
         <TextView
@@ -82,8 +80,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/tv_Login"
+            android:textSize="@dimen/default_font_size_big"
             android:textColor="@color/str_color_2"
-            android:textSize="20dp"
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="@+id/iv_Login"
             app:layout_constraintRight_toRightOf="@+id/iv_Login"

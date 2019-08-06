@@ -13,7 +13,7 @@
         android:id="@+id/ui_ChatBody_TopBar"
         layout="@layout/ui_topbar"/>
 
-    <ImageView
+<!--    <ImageView
         android:id="@+id/iv_ChatBody_Etc"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -23,14 +23,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/ui_ChatBody_TopBar"
         android:tint="@color/icon_tint_white"
         android:src="@drawable/ic_menu"
-        />
+        />-->
 
     <ImageView
         android:id="@+id/iv_ChatBody_Alert"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:padding="10dp"
-        app:layout_constraintRight_toLeftOf="@+id/iv_ChatBody_Etc"
+        app:layout_constraintRight_toRightOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintTop_toTopOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_ChatBody_TopBar"
         android:tint="@color/icon_tint_white"
@@ -84,7 +84,6 @@
         android:maxLength="100"
         android:maxLines="5"
         android:minLines="1"
-        android:text=""
         app:layout_constraintLeft_toRightOf="@+id/iv_Chat_Body_Plus"
         app:layout_constraintRight_toLeftOf="@+id/tv_Chat_Body_Send"
         app:layout_constraintBottom_toBottomOf="parent"/>

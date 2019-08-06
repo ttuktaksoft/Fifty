@@ -49,7 +49,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/iv_Msg_Popup_DescBG"
         app:layout_constraintRight_toLeftOf="@+id/tv_Msg_Popup_Buttons_Cancel"
         android:text="@string/MSG_OK"
-        android:textStyle="bold"
+        android:textSize="@dimen/default_font_size_big"
         android:gravity="center"
         android:textColor="@color/button_enable_str"
         android:background="@color/button_enable"/>
@@ -64,7 +64,7 @@
         app:layout_constraintRight_toRightOf="@+id/iv_Msg_Popup_DescBG"
         android:text="@string/MSG_CANCEL"
         android:textColor="@color/button_disable_str"
-        android:textStyle="bold"
+        android:textSize="@dimen/default_font_size_big"
         android:gravity="center"
         android:background="@color/button_disable"/>
 

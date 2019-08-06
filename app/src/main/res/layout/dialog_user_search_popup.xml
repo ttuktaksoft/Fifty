@@ -25,12 +25,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/MSG_USER_SEARCH_TITLE"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         app:layout_constraintTop_toTopOf="@+id/iv_User_Search_Popup_DescBG"
         app:layout_constraintRight_toRightOf="@+id/iv_User_Search_Popup_DescBG"
         app:layout_constraintLeft_toLeftOf="@+id/iv_User_Search_Popup_DescBG"
+        android:textSize="@dimen/default_font_size_big"
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/str_color_1"/>
@@ -63,6 +64,7 @@
         app:layout_constraintRight_toLeftOf="@+id/tv_User_Search_Popup_Buttons_Cancel"
         android:text="@string/MSG_OK"
         android:textStyle="bold"
+        android:textSize="@dimen/default_font_size_big"
         android:gravity="center"
         android:textColor="@color/button_enable_str"
         android:background="@color/button_enable"/>
@@ -79,6 +81,7 @@
         android:text="@string/MSG_CANCEL"
         android:textColor="@color/button_disable_str"
         android:textStyle="bold"
+        android:textSize="@dimen/default_font_size_big"
         android:gravity="center"
         android:background="@color/button_disable"/>
 

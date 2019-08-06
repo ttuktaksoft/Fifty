@@ -8,29 +8,37 @@
         android:id="@+id/iv_ClubFavorite_BG"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:tint="@color/icon_tint_brown"
-        android:padding="2dp"
         android:scaleType="fitXY"
-        android:src="@drawable/bg_white"
+        android:src="@drawable/dummy_100"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_ClubFavorite"
-        style="@style/BaseTextView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="10dp"
-        android:gravity="center"
-        android:textSize="30dp"
-        android:text="1940년생"
-        android:textStyle="bold"
-        android:textColor="@color/str_color_2"
-        app:layout_constraintTop_toTopOf="@+id/iv_ClubFavorite_BG"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_ClubFavorite_BG"
-        app:layout_constraintRight_toRightOf="@+id/iv_ClubFavorite_BG"
-        app:layout_constraintLeft_toLeftOf="@+id/iv_ClubFavorite_BG"/>
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_ClubFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/club_main_slot_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_ClubFavorite"
+            style="@style/BaseTextView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="1940년생"
+            android:textStyle="bold"
+            android:textSize="@dimen/default_font_size_big"
+            android:textColor="@color/str_color_2"
+            app:layout_constraintTop_toTopOf="@+id/v_ClubFavorite"
+            app:layout_constraintBottom_toBottomOf="@+id/v_ClubFavorite"
+            app:layout_constraintRight_toRightOf="@+id/v_ClubFavorite"
+            app:layout_constraintLeft_toLeftOf="@+id/v_ClubFavorite"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

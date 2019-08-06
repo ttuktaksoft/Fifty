@@ -471,7 +471,7 @@ public class ClubActivity extends AppCompatActivity {
         rv_Club_Content.setLayoutManager(new LinearLayoutManager(this));
 
         rv_Club_Favorite.setAdapter(mFavoriteViewAdapter);
-        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
+/*        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.CENTER)
                 .setMaxViewsInRow(5)
                 .setGravityResolver(new IChildGravityResolver() {
@@ -484,7 +484,8 @@ public class ClubActivity extends AppCompatActivity {
                 .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER_DENSE)
                 .withLastRow(true)
                 .build();
-        rv_Club_Favorite.setLayoutManager(chipsLayoutManager);
+        rv_Club_Favorite.setLayoutManager(chipsLayoutManager);*/
+        rv_Club_Favorite.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
     }
 
     public void initClubUserList()

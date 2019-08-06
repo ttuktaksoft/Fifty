@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -552,7 +553,7 @@ public class UserProfileFragment extends Fragment {
         mFavoriteAdapter.setHasStableIds(true);
 
         rv_UserProfile_Info_Favorite.setAdapter(mFavoriteAdapter);
-        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
+/*        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.CENTER)
                 .setMaxViewsInRow(3)
                 .setGravityResolver(new IChildGravityResolver() {
@@ -565,7 +566,8 @@ public class UserProfileFragment extends Fragment {
                 .setRowStrategy(ChipsLayoutManager.STRATEGY_CENTER_DENSE)
                 .withLastRow(true)
                 .build();
-        rv_UserProfile_Info_Favorite.setLayoutManager(chipsLayoutManager);
+        rv_UserProfile_Info_Favorite.setLayoutManager(chipsLayoutManager);*/
+        rv_UserProfile_Info_Favorite.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
     }
 
     public void initPhotoList()

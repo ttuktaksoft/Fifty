@@ -65,7 +65,7 @@
             app:layout_constraintRight_toRightOf="@+id/v_SignUp_Com_Popup_BG"
             app:layout_constraintLeft_toLeftOf="@+id/v_SignUp_Com_Popup_BG"
             android:gravity="center"
-            android:textSize="25dp"
+            android:textSize="@dimen/default_font_size_big_1"
             android:textColor="@color/str_color_1"/>
 
         <TextView
@@ -79,8 +79,8 @@
             app:layout_constraintRight_toRightOf="@+id/v_SignUp_Com_Popup_BG"
             app:layout_constraintLeft_toLeftOf="@+id/v_SignUp_Com_Popup_BG"
             android:text="@string/MSG_OK"
-            android:textStyle="bold"
             android:gravity="center"
+            android:textSize="@dimen/default_font_size_big"
             android:textColor="@color/button_enable_str"
             android:background="@color/button_enable"/>
     </android.support.constraint.ConstraintLayout>

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="3dp">
 
     <ImageView
         android:id="@+id/iv_Favorite_Select_View_Bg"
@@ -16,7 +16,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/tv_Favorite_Select_View_Name"
         android:tint="@color/favorite_view_bg_tint_1"
         android:scaleType="fitXY"
-        android:src="@drawable/bg_white"/>
+        android:src="@drawable/bg_white_square"/>
 
     <TextView
         android:id="@+id/tv_Favorite_Select_View_Name"
@@ -28,6 +28,7 @@
         android:paddingBottom="5dp"
         android:paddingRight="40dp"
         android:text="asdfasdfgsdfgsdf"
+        android:textSize="@dimen/default_font_size_big"
         android:textColor="@color/favorite_view_bg_tint_1_str"/>
 
     <ImageView

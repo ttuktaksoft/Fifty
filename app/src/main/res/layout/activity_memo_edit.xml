@@ -23,11 +23,12 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ui_Memo_Edit_TopBar"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:gravity="center|left"
         android:text="@string/STORE_EDIT"
+        android:textStyle="bold"
         android:textColor="@color/str_color_1"
         android:background="@color/info_sub_slot_title_bg"
         />
@@ -38,11 +39,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_Story_Edit_Desc"
         app:layout_constraintBottom_toBottomOf="@+id/tv_Story_Edit_Desc"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="10dp"
+        android:gravity="center|right"
         android:text="4000"
         android:textColor="@color/str_color_1"
         />
@@ -62,7 +64,7 @@
         android:hint="@string/et_Store_Edit_NickName"
         android:inputType="textNoSuggestions|textMultiLine|textImeMultiLine"
         android:cursorVisible="true"
-        android:background="@drawable/bg_white"
+        android:background="@drawable/bg_white_square"
         />
 
     <TextView
@@ -76,7 +78,7 @@
         android:text="@string/MSG_SAVE"
         android:gravity="center"
         android:textColor="@color/button_enable_str"
-        android:textStyle="bold"
+        android:textSize="@dimen/default_font_size_big"
         android:background="@color/button_enable"/>
 
 
