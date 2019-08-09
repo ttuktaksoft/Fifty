@@ -24,6 +24,7 @@
             android:text="@string/tv_Chat_Title"
             android:maxLines="1"
             android:textColor="@color/str_color_2"
+            android:textSize="@dimen/default_font_size_big"
             android:textStyle="bold"/>
 
     </android.support.constraint.ConstraintLayout>

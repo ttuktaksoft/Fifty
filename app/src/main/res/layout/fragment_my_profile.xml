@@ -50,6 +50,7 @@
             android:textColor="@color/str_color_2"
             android:textStyle="bold"
             android:text="닉네임"
+            android:textSize="@dimen/default_font_size_big"
             />
 
     </android.support.constraint.ConstraintLayout>
