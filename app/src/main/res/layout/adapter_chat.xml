@@ -73,7 +73,7 @@
         android:id="@+id/v_Chat_Front"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="60dp">
+        android:minHeight="70dp">
 
         <ImageView
             android:id="@+id/iv_Slot_BG"
@@ -107,8 +107,8 @@
             android:id="@+id/iv_Chat_Profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
             android:padding="1dp"
             android:src="@drawable/bg_empty_circle"
             android:scaleType="fitCenter"
@@ -128,7 +128,7 @@
             android:textSize="@dimen/default_font_size_big"
             app:layout_constraintLeft_toRightOf="@+id/iv_Chat_Profile"
             app:layout_constraintTop_toTopOf="@+id/iv_Chat_Profile"
-            android:textColor="@color/str_color_1"
+            android:textColor="@color/str_color_5"
             />
 
         <TextView
@@ -136,10 +136,11 @@
             style="@style/BaseContentTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:paddingBottom="4dp"
             android:paddingRight="5dp"
             android:gravity="left"
-            android:text="234234234asdf2"
+            android:text="WMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMWMW"
             android:textColor="@color/str_color_1"
             android:maxLines="2"
             app:layout_constraintRight_toLeftOf="@+id/iv_Chat_Check"
@@ -152,7 +153,7 @@
             style="@style/BaseContentTextView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="15dp"
             android:gravity="center"
             android:text="17/8/19"
             android:textSize="@dimen/default_font_size_small"
@@ -167,7 +168,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="2dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/ic_red_dot"
             app:layout_constraintLeft_toRightOf="@+id/tv_Chat_Msg"
             app:layout_constraintRight_toRightOf="parent"

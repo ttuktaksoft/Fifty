@@ -25,7 +25,7 @@ public class UserProfileClubAdapter extends RecyclerView.Adapter<UserProfileClub
     Context mContext;
     int mItemCount = 0;
     ArrayList<String> mItemList = new ArrayList<>();
-
+    boolean mMyProfile = false;
     public UserProfileClubAdapter(Context context) {
         mContext = context;
     }
@@ -42,7 +42,7 @@ public class UserProfileClubAdapter extends RecyclerView.Adapter<UserProfileClub
     @Override
     public void onBindViewHolder(UserProfileClubListHolder holder, final int position) {
         int i = position;
-        holder.setData(mItemList.get(i));
+        holder.setData(mItemList.get(i), mMyProfile);
     }
 
     @Override
@@ -61,11 +61,16 @@ public class UserProfileClubAdapter extends RecyclerView.Adapter<UserProfileClub
         mItemList.addAll(list);
     }
 
+    public void setMyProfile(boolean myprofile)
+    {
+        mMyProfile = myprofile;
+    }
+
 }
 
 class UserProfileClubListHolder extends RecyclerView.ViewHolder{
 
-    ImageView iv_UserProfile_Club;
+    ImageView iv_UserProfile_Club, iv_UserProfile_Club_Master;
     TextView tv_UserProfile_Club;
     Context mContext;
 
@@ -73,14 +78,21 @@ class UserProfileClubListHolder extends RecyclerView.ViewHolder{
         super(itemView);
         mContext = itemView.getContext();
 
+        iv_UserProfile_Club_Master = itemView.findViewById(R.id.iv_UserProfile_Club_Master);
         iv_UserProfile_Club = itemView.findViewById(R.id.iv_UserProfile_Club);
         tv_UserProfile_Club = itemView.findViewById(R.id.tv_UserProfile_Club);
     }
 
-    public void setData(String key)
+    public void setData(String key, boolean myprofile)
     {
-
         ClubData data = TKManager.getInstance().ClubData_Simple.get(key);
+
+        iv_UserProfile_Club_Master.setVisibility(View.GONE);
+        if(myprofile && data.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+            iv_UserProfile_Club_Master.setVisibility(View.VISIBLE);
+        else if(myprofile == false && data.GetClubMasterIndex().equals(TKManager.getInstance().TargetUserData.GetUserIndex()))
+            iv_UserProfile_Club_Master.setVisibility(View.VISIBLE);
+
         tv_UserProfile_Club.setText(data.GetClubName());
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_Club, data.GetClubThumb(), false);
 

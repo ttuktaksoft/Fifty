@@ -670,6 +670,7 @@ public class UserProfileFragment extends Fragment {
             tv_UserProfile_Info_Club.setVisibility(View.VISIBLE);
 
         mClubAdapter = new UserProfileClubAdapter(mContext);
+        mClubAdapter.setMyProfile(mMyProfile);
         mClubAdapter.setItemCount(list.size());
         mClubAdapter.setItemData(list);
         mClubAdapter.setHasStableIds(true);

@@ -27,7 +27,8 @@
             android:layout_marginLeft="10dp"
             android:gravity="left|center_vertical"
             android:text="@string/MY_PROFILE_FAVORITE"
-            android:textColor="@color/str_color_1"
+            android:textStyle="bold"
+            android:textColor="@color/str_color_5"
             />
 
         <android.support.v7.widget.RecyclerView

@@ -26,7 +26,8 @@
             android:layout_marginLeft="10dp"
             android:gravity="left|center_vertical"
             android:text="닉네임"
-            android:textColor="@color/str_color_1"
+            android:textStyle="bold"
+            android:textColor="@color/str_color_5"
             />
 
         <TextView

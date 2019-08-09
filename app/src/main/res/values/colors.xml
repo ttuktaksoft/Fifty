@@ -3,11 +3,12 @@
 
      // 통합
     <color name="topbar_bg">#111111</color>
-    <color name="activity_bg">#f1edeb</color>
+    <color name="activity_bg">#f7f4f3</color>
     <color name="str_color_1">#676767</color>
     <color name="str_color_2">#fffdfe</color>
     <color name="str_color_3">#9d8755</color>
     <color name="str_color_4">#d9d9d9</color>
+    <color name="str_color_5">#000000</color>
     <color name="button_enable">#7b6d64</color>
     <color name="button_enable_str">#fefffb</color>
     <color name="button_disable">#d7d2cc</color>

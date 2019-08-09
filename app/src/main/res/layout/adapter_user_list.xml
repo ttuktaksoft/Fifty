@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="70dp">
 
     <ImageView
         android:id="@+id/iv_Slot_BG"
@@ -40,8 +40,8 @@
         android:padding="1dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/bg_empty_circle"/>
 
     <TextView
@@ -57,7 +57,7 @@
         android:textSize="@dimen/default_font_size_big"
         android:gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/str_color_1"/>
+        android:textColor="@color/str_color_5"/>
 
     <ImageView
         android:id="@+id/iv_User_List_Etc"
@@ -98,7 +98,7 @@
         style="@style/BaseContentTextView"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="15dp"
         app:layout_constraintTop_toTopOf="@+id/iv_User_List_Profile"
         app:layout_constraintBottom_toBottomOf="@+id/iv_User_List_Profile"
         app:layout_constraintRight_toRightOf="parent"
