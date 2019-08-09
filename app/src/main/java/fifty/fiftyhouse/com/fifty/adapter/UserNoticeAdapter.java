@@ -50,7 +50,7 @@ public class UserNoticeAdapter extends RecyclerView.Adapter<UserNoticeListHolder
 
 class UserNoticeListHolder extends RecyclerView.ViewHolder {
 
-    public ImageView iv_Notice_Profile;
+    public ImageView iv_Slot_BG, iv_Notice_Profile;
     public TextView tv_Notice_Desc, tv_Notice_Date;
     Context mContext;
 
@@ -58,6 +58,7 @@ class UserNoticeListHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         mContext = context;
+        iv_Slot_BG = itemView.findViewById(R.id.iv_Slot_BG);
         iv_Notice_Profile = itemView.findViewById(R.id.iv_Notice_Profile);
         tv_Notice_Desc = itemView.findViewById(R.id.tv_Notice_Desc);
         tv_Notice_Date = itemView.findViewById(R.id.tv_Notice_Date);
@@ -66,6 +67,8 @@ class UserNoticeListHolder extends RecyclerView.ViewHolder {
 
     public void setData(int position)
     {
+        CommonFunc.getInstance().SetSlotBG(position, iv_Slot_BG, mContext);
+
         Set tempKey = TKManager.getInstance().MyData.GetAlarmListKeySet();
         final List array = new ArrayList(tempKey);
 

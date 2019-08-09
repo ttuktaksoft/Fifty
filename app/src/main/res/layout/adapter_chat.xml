@@ -9,6 +9,8 @@
     app:dragEdge="right"
     app:mode="same_level">
 
+
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/v_Chat_Btn"
         android:layout_width="160dp"
@@ -71,8 +73,18 @@
         android:id="@+id/v_Chat_Front"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="60dp"
-        android:background="@color/white">
+        android:minHeight="60dp">
+
+        <ImageView
+            android:id="@+id/iv_Slot_BG"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_white_square"/>
 
         <ImageView
             android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.ImageViewCompat;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -1504,6 +1506,14 @@ public class CommonFunc {
             FirebaseManager.getInstance().GetUserData(userIndex, TKManager.getInstance().TargetUserData, listener);
         }
 
+    }
+
+    public void SetSlotBG(int i, ImageView bg, Context context)
+    {
+        if(i % 2 == 0)
+            ImageViewCompat.setImageTintList(bg, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.list_slot_bg_1)));
+        else
+            ImageViewCompat.setImageTintList(bg, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.list_slot_bg_2)));
     }
 
 

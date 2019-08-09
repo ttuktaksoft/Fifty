@@ -29,7 +29,7 @@
         android:id="@+id/iv_ChatBody_Alert"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="10dp"
+        android:padding="12dp"
         app:layout_constraintRight_toRightOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintTop_toTopOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintBottom_toBottomOf="@+id/ui_ChatBody_TopBar"

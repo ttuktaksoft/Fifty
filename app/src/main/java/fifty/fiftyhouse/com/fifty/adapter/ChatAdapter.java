@@ -61,7 +61,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
         int i = position;
         binderHelper.bind(holder.swipeLayout,mItemData.get(i));
         holder.bind(mItemData.get(i));
-        holder.setData(mItemData.get(i));
+        holder.setData(i, mItemData.get(i));
     }
 
     @Override
@@ -129,7 +129,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
     private ConstraintLayout v_Chat_Front;
     private ConstraintLayout v_Chat_Bookmark, v_Chat_Delete;
 
-    public ImageView iv_Chat_Profile, iv_Chat_Check, iv_Chat_Bookmark;
+    public ImageView iv_Slot_BG, iv_Chat_Profile, iv_Chat_Check, iv_Chat_Bookmark;
     public TextView tv_Chat_Nickname,tv_Chat_Msg, tv_Chat_Date, tv_Chat_Check;
     Context mContext;
     CommonData.CHAT_ROOM_TYPE mType;
@@ -140,6 +140,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         mType = type;
 
         swipeLayout = (SwipeRevealLayout) itemView.findViewById(R.id.swipe_layout);
+        iv_Slot_BG = itemView.findViewById(R.id.iv_Slot_BG);
         v_Chat_Front = itemView.findViewById(R.id.v_Chat_Front);
         v_Chat_Bookmark = itemView.findViewById(R.id.v_Chat_Bookmark);
         v_Chat_Delete = itemView.findViewById(R.id.v_Chat_Delete);
@@ -153,8 +154,10 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         iv_Chat_Bookmark = itemView.findViewById(R.id.iv_Chat_Bookmark);
     }
 
-    public void setData(String key)
+    public void setData(int index, String key)
     {
+        CommonFunc.getInstance().SetSlotBG(index, iv_Slot_BG, mContext);
+
         ChatData tempChatData = new ChatData();
         if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
         {

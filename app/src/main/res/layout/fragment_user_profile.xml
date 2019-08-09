@@ -48,8 +48,8 @@
                 <ImageView
                     android:id="@+id/iv_UserProfile_Info_Edit"
                     style="@style/BaseContentTextView"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Detail"
@@ -94,8 +94,8 @@
 
                 <ImageView
                     android:id="@+id/iv_UserProfile_Info_Gender"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:layout_marginLeft="5dp"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Detail"
                     app:layout_constraintLeft_toRightOf="@+id/tv_UserProfile_Info_Age"

@@ -4,22 +4,26 @@
 
     <item
         android:id="@+id/i_main_bottom_main"
-        android:icon="@drawable/ic_logo"
+        android:title=""
+        android:icon="@drawable/ic_logo_big"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/i_main_bottom_club"
-        android:icon="@drawable/ic_club"
+        android:title=""
+        android:icon="@drawable/ic_club_big"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/i_main_bottom_chat"
-        android:icon="@drawable/ic_chat"
+        android:title=""
+        android:icon="@drawable/ic_chat_big"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/i_main_bottom_profile"
-        android:icon="@drawable/ic_user"
+        android:title=""
+        android:icon="@drawable/ic_user_big"
         app:showAsAction="ifRoom"/>
 
 </menu>

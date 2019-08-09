@@ -112,6 +112,7 @@ public class MainTodayViewPager extends Fragment {
     {
         mFavoriteViewAdapter = new FavoriteViewAdapter(getContext());
         RefreshFavoriteViewListSlot();
+        mFavoriteViewAdapter.setFontSize(CommonData.FAVORITE_FONT_SIZE_SMALL);
         mFavoriteViewAdapter.setHasStableIds(true);
 
         rv_Main_Today_Favorite.setAdapter(mFavoriteViewAdapter);

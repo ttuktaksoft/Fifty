@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
     int mItemCount = 0;
     ArrayList<String> mItemList = new ArrayList<>();
     ArrayList<String> mSelectItemList = new ArrayList<>();
+    int mFontSize = CommonData.FAVORITE_FONT_SIZE_DEFAULT;
 
     public FavoriteViewAdapter(Context context) {
         mContext = context;
@@ -51,16 +53,16 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
         if(mAdd)
         {
             if(mItemCount - 1 <= position)
-                holder.setData(mAddString, true, mSelectView, false);
+                holder.setData(mAddString, true, mSelectView, false, mFontSize);
             else
-                holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
+                holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)), mFontSize);
         }
         else if(mSelectItemList.size() > 0)
         {
-            holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
+            holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)), mFontSize);
         }
         else
-            holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)));
+            holder.setData(mItemList.get(i), false, mSelectView, mSelectItemList.contains(mItemList.get(i)), mFontSize);
 
     }
     @Override
@@ -102,6 +104,11 @@ public class FavoriteViewAdapter extends RecyclerView.Adapter<FavoriteViewHolder
         mSelectItemList.addAll(list);
     }
 
+    public void setFontSize(int size)
+    {
+        mFontSize = size;
+    }
+
 }
 
 class FavoriteViewHolder extends RecyclerView.ViewHolder {
@@ -118,7 +125,7 @@ class FavoriteViewHolder extends RecyclerView.ViewHolder {
         tv_Favorite_View_Name = itemView.findViewById(R.id.tv_Favorite_View_Name);
     }
 
-    public void setData(String favorite, boolean add, boolean selectView, boolean selectBG)
+    public void setData(String favorite, boolean add, boolean selectView, boolean selectBG, int fontsize)
     {
         if(add == false)
         {
@@ -151,6 +158,8 @@ class FavoriteViewHolder extends RecyclerView.ViewHolder {
             tv_Favorite_View_Name.setTextColor(ContextCompat.getColor(mContext, R.color.favorite_view_bg_tint_3_str));
             tv_Favorite_View_Name.setText(favorite);
         }
+
+        tv_Favorite_View_Name.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontsize);
 
     }
 }

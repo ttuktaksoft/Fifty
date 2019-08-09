@@ -30,6 +30,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_chainStyle="spread_inside"
+        app:itemIconSize="28dp"
         app:menu="@menu/main_bottom_menu" />
 
 </android.support.constraint.ConstraintLayout>

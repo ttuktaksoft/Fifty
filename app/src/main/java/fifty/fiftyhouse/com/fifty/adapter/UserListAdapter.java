@@ -48,7 +48,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListListHolder> {
     public void onBindViewHolder(UserListListHolder holder, final int position) {
         int i = position;
 
-        holder.setData(mItemList.get(i));
+        holder.setData(i, mItemList.get(i));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListListHolder> {
 
 class UserListListHolder extends RecyclerView.ViewHolder {
 
-    ImageView iv_User_List_Profile, iv_User_List_Gender, iv_User_List_Etc;
+    ImageView iv_Slot_BG, iv_User_List_Profile, iv_User_List_Gender, iv_User_List_Etc;
     TextView tv_User_List_Name, tv_User_List_Age, tv_User_List_Dis;
     Context mContext;
 
@@ -88,6 +88,7 @@ class UserListListHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mContext = itemView.getContext();
 
+        iv_Slot_BG = itemView.findViewById(R.id.iv_Slot_BG);
         iv_User_List_Profile = itemView.findViewById(R.id.iv_User_List_Profile);
         iv_User_List_Gender = itemView.findViewById(R.id.iv_User_List_Gender);
         tv_User_List_Name = itemView.findViewById(R.id.tv_User_List_Name);
@@ -97,8 +98,10 @@ class UserListListHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void setData(Pair<String, Integer> key)
+    public void setData(int index, Pair<String, Integer> key)
     {
+        CommonFunc.getInstance().SetSlotBG(index, iv_Slot_BG, mContext);
+
         UserData data = TKManager.getInstance().UserData_Simple.get(key.first);
 
         Glide.with(mContext).load(data.GetUserImgThumb())

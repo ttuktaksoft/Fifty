@@ -46,8 +46,8 @@
 
         <ImageView
             android:id="@+id/tv_MyProfile_Edit_Menu_Arrow"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             app:layout_constraintRight_toRightOf="@+id/v_MyProfile_Edit_Menu"
             app:layout_constraintTop_toTopOf="@+id/v_MyProfile_Edit_Menu"
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Menu"

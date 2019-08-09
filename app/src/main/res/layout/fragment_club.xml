@@ -24,7 +24,7 @@
                 android:id="@+id/iv_Club_TopBar_Search"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:padding="10dp"
+                android:padding="12dp"
                 app:layout_constraintLeft_toLeftOf="@+id/v_Club_TopBar"
                 app:layout_constraintTop_toTopOf="@+id/v_Club_TopBar"
                 app:layout_constraintBottom_toBottomOf="@+id/v_Club_TopBar"
