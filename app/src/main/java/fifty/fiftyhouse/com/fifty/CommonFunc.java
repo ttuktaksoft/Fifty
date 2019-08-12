@@ -475,7 +475,6 @@ public class CommonFunc {
                     .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
                     .showTitle(false)
                     .showVideoMedia()
-                    .show
                     .setCompleteButtonText("확인")
                     .setEmptySelectionText("이미지가 없습니다")
                     .showMultiImage(uriList -> {
