@@ -188,9 +188,29 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_ChatBody_User.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(mContext, UserListActivity.class);
-                intent.putExtra("Type",CommonData.USER_LIST_CLUB_CHAT);
-                startActivity(intent);
+
+                FirebaseManager.CheckFirebaseComplete ChatUserListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(mContext, UserListActivity.class);
+                        intent.putExtra("Type",CommonData.USER_LIST_CLUB_CHAT);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+
+                FirebaseManager.getInstance().GetUserListInChatList(strRoomIndex, TKManager.getInstance().MyData, ChatUserListener);
+
+
             }
         });
 

@@ -1,5 +1,11 @@
 package fifty.fiftyhouse.com.fifty.DataBase;
 
+import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
 
 /**
@@ -29,6 +35,7 @@ public class ChatData implements Cloneable{
     public  CommonData.MSGType MsgType;
     public  long MsgDate;
     public  boolean MsgReadCheck;
+    public Map<String, String> ChatUserList = new LinkedHashMap<String, String>();
 
     public void SetRoomIndex(String roomIndex)
     {
@@ -125,4 +132,35 @@ public class ChatData implements Cloneable{
     {
         return MsgReadCheck;
     }
+
+    public void AddChatUser(String index)
+    {
+        ChatUserList.put(index, index);
+    }
+    public String GetChatUser(String index)
+    {
+        return ChatUserList.get(index);
+    }
+    public Map<String, String>  GetChatUser()
+    {
+        return ChatUserList;
+    }
+    public void  DelChatUser(String index)
+    {
+        ChatUserList.remove(index);
+    }
+
+    public int GetChatUserCount()
+    {
+        return ChatUserList.size();
+    }
+    public Set GetChatUserKeySet()
+    {
+        return ChatUserList.keySet();
+    }
+    public boolean ExistChatUser(String index)
+    {
+        return ChatUserList.containsKey(index);
+    }
+
 }
