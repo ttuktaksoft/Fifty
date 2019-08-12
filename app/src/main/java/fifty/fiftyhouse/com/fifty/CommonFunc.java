@@ -270,16 +270,20 @@ public class CommonFunc {
 
     public void DrawImageByGlide(Context context, ImageView view, Bitmap bmp, boolean circle)
     {
+
+
         if(circle)
         {
             Glide.with(context).load(bmp)
                     .circleCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.bg_empty_circle)
                     .into(view);
         }
         else
             Glide.with(context).load(bmp)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.bg_empty_square)
                     .into(view);
     }
 
@@ -1326,7 +1330,11 @@ public class CommonFunc {
 
                 CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                 CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
-                //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+                TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                long seed = System.nanoTime();
+                Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
+
 
 
                 MoveMainActivity(activity, false);
@@ -1363,7 +1371,11 @@ public class CommonFunc {
 
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
-                        //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+                        TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                        long seed = System.nanoTime();
+                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
+
 
 
                         MoveMainActivity(activity, true);

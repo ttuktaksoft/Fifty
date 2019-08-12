@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Collections;
+import java.util.Random;
+
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
@@ -62,6 +65,11 @@ public class SortSettingActivity extends AppCompatActivity {
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
                         //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
 
+                        TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                        long seed = System.nanoTime();
+                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
+
                         Intent intent = new Intent(MainActivity.mActivity, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -92,7 +100,11 @@ public class SortSettingActivity extends AppCompatActivity {
 
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
-                        //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+                        TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                        long seed = System.nanoTime();
+                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
+
 
                         CommonFunc.getInstance().MoveMainActivity(SortSettingActivity.this, false);
                     }

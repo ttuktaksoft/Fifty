@@ -33,9 +33,11 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
@@ -150,7 +152,11 @@ public class SignUpActivity extends AppCompatActivity {
 
                                             CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                                             CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
-                                            //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Hot, TKManager.getInstance().View_UserList_Hot, true);
+                                            TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                                            long seed = System.nanoTime();
+                                            Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
+
 
                                             SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
                                             SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -1982,8 +1982,36 @@ public class FirebaseManager {
     }
 
     public void GetUserListHot(final CheckFirebaseComplete listener) {
-        //CollectionReference colRef = mDataBase.collection("UserList_Hot");
 
+            CollectionReference colRef = mDataBase.collection("UserData");
+            colRef./*orderBy("Index", Query.Direction.DESCENDING).*/limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                TKManager.getInstance().UserList_Hot.add(document.getId().toString());
+
+                                if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                                {
+                                    AddFireBaseLoadingCount();
+                                    Log.d(TAG, "HOT : " +document.getId() + " => " + document.getData());
+                                    GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                                }
+                            }
+                        }
+
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+
+/*
         Calendar cal = Calendar.getInstance();
         int nWeek = cal.get(Calendar.DAY_OF_WEEK);
       //  DAILY_FAVORITE = TKManager.getInstance().DailyFavorite.get(nWeek -1);
@@ -2018,7 +2046,7 @@ public class FirebaseManager {
                     }
                 }
             });
-        }
+        }*/
 
 
 
@@ -2931,15 +2959,16 @@ public class FirebaseManager {
                 tempMyChatData.put("ToNickName", chatData.GetToNickName());
                 tempMyChatData.put("RoomType", type);
 
+ /*
                 HashMap<String, Long> ReadIndex = new HashMap<String, Long>();
                 ReadIndex.put(chatData.GetRoomIndex(), chatData.GetMsgIndex());
 
                 //convert to string using gson
-                Gson gson = new Gson();
+               Gson gson = new Gson();
                 String hashMapString = gson.toJson(ReadIndex);
 
                 SharedPreferences prefs = context.getSharedPreferences("userFile", context.MODE_PRIVATE);
-                prefs.edit().putString("SaveReadChatIndex", hashMapString).apply();
+                prefs.edit().putString("SaveReadChatIndex", hashMapString).apply();*/
 
                 mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(roomIndex)
                         .set(tempMyChatData, SetOptions.merge())
