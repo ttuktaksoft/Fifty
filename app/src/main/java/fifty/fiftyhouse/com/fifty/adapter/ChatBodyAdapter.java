@@ -161,6 +161,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Msg = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Msg.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
+            lp_Chat_Body_Type_Msg.setMargins(0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 3), 0, 0);
 
             tv_Chat_Body_Msg.setGravity(Gravity.LEFT);
             int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
@@ -171,10 +172,12 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Img.topToBottom = tv_Chat_Body_NickName.getId();
+            lp_Chat_Body_Type_Img.setMargins(0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 6), 0, 0);
 
             lp_Chat_Body_Type_Video = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Video.rightToLeft = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Video.topToBottom = tv_Chat_Body_NickName.getId();
+            lp_Chat_Body_Type_Video.setMargins(0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 6), 0, 0);
 
             // 타입별 나누기
             int AttachID = 0;
@@ -223,6 +226,7 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Msg = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Msg.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Msg.topToBottom = tv_Chat_Body_NickName.getId();
+            lp_Chat_Body_Type_Msg.setMargins(0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 3), 0, 0);
 
             tv_Chat_Body_Msg.setGravity(Gravity.LEFT);
             int padding = CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 10);
@@ -233,10 +237,12 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             lp_Chat_Body_Type_Img = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Img.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Img.topToBottom = tv_Chat_Body_NickName.getId();
+            lp_Chat_Body_Type_Img.setMargins(0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 6), 0, 0);
 
             lp_Chat_Body_Type_Video = new ConstraintLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp_Chat_Body_Type_Video.leftToRight = iv_Chat_Body_Profile.getId();
             lp_Chat_Body_Type_Video.topToBottom = tv_Chat_Body_NickName.getId();
+            lp_Chat_Body_Type_Video.setMargins(0, CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), 6), 0, 0);
 
             // 타입별 나누기
             int AttachID = 0;
