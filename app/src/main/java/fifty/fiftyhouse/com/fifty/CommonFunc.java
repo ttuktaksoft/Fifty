@@ -422,15 +422,21 @@ public class CommonFunc {
                     .showMultiImage(uriList -> {
                         if (uriList.size() > 0)
                         {
-                            if(uriList.size() == 1 && oneSelectCrop)
-                            {
-                                if(context != null && fragment != null)
+                            if(uriList.size() == 1 && oneSelectCrop) {
+                                if (context != null && fragment != null) {
+                                    CropImage.activity(uriList.get(0))
+                                            .setActivityTitle(getStr(context.getResources(), R.string.MSG_PHOTO_SELECT))
+                                            .setGuidelines(CropImageView.Guidelines.ON)
+                                            .setInitialCropWindowPaddingRatio(0)
+                                            .start(context, fragment);
+                                }
+                                else
                                 {
                                     CropImage.activity(uriList.get(0))
                                             .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
                                             .setGuidelines(CropImageView.Guidelines.ON)
                                             .setInitialCropWindowPaddingRatio(0)
-                                            .start(context, fragment);
+                                            .start(activity);
                                 }
                             }
                             else
