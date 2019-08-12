@@ -128,6 +128,7 @@ public class CustomPhotoView extends AppCompatActivity {
                     @Override
                     public void Listener() {
                         CommonFunc.getInstance().SaveImageByGlide(mContext, mPhotoSrcList.get(vp_Custom_Photo_View.getCurrentItem()));
+                        DialogFunc.getInstance().ShowToast(mContext,  CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_SAVE_PIC_SUCCESS), true);
                     }
                 };
 
