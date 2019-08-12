@@ -87,7 +87,7 @@ public class UserData {
         RequestJoinClubList.clear();
         ReportContextList.clear();
         ReportUserList.clear();
-
+        ChatUserList.clear();
     }
 
 
@@ -157,6 +157,8 @@ public class UserData {
     public Map<String, ClubData> RequestJoinClubList = new LinkedHashMap<>();
     public Map<String, ClubContextData> ReportContextList = new LinkedHashMap<>();
     public Map<String, UserData> ReportUserList = new LinkedHashMap<>();
+
+    private Map<String, String> ChatUserList = new LinkedHashMap<>();
 
   /*  public void SetUserData(String index, String token, String nickname, String[] favorite, String thumb, int age,  int gender)
     {
@@ -786,4 +788,17 @@ public class UserData {
         return ReportUserList;
     }
     public Set GetReportUserListKeySet() { return  ReportUserList.keySet(); }
+
+    public void SetChatUserList(String Idx, String data){ ChatUserList.put(Idx, data); }
+    public String  GetChatUserList(String index){ return ChatUserList.get(index); }
+    public int  GetChatUserListCount()
+    {
+        return ChatUserList.size();
+    }
+    public Map<String, String>  GetChatUserList()
+    {
+        return ChatUserList;
+    }
+    public Set GetChatUserListKeySet() { return  ChatUserList.keySet(); }
+    public void ClearChatUserList() { ChatUserList.clear(); }
 }

@@ -52,6 +52,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -779,6 +780,59 @@ public class FirebaseManager {
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetUserListInChatList(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
+
+        TKManager.getInstance().MyData.ClearChatUserList();
+        SetFireBaseLoadingCount(0);
+
+        DocumentReference docRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        if (document.getData().containsKey("UserList")) {
+                            HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("UserList");
+                            SetFireBaseLoadingCount(tempImg.size());
+
+                            Set set = tempImg.entrySet();
+                            Iterator iterator = set.iterator();
+                            while (iterator.hasNext()) {
+                                Map.Entry entry = (Map.Entry) iterator.next();
+                                String key = (String) entry.getKey();
+                                String value = (String) entry.getValue();
+                                userData.SetChatUserList(key, value);
+
+                                if(!TKManager.getInstance().UserData_Simple.containsKey(key))
+                                {
+                                    GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                                }
+                                else
+                                {
+                                    Complete(listener);
+                                }
+                            }
+                        }
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        //TKManager.getInstance().MyData.SetUserNickName(nickName);
+                        if (listener != null)
+                            listener.CompleteListener_No();
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
@@ -3090,6 +3144,29 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
+        Map<String, Object> tempUserList= new HashMap<>();
+        tempUserList.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
+        tempUserList.put(targetIndex, targetIndex);
+
+        Map<String, Object> tempUser= new HashMap<>();
+        tempUser.put("UserList", tempUserList);
+
+        mDataBase.collection("ChatRoomData").document(ChatRoomIndex)
+                .set(tempUser, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
     }
 
     public void UpdateFavoriteListInUserData()
@@ -4346,6 +4423,27 @@ public class FirebaseManager {
                             });
 
                     mDataBase.collection("ClubData_Simple").document(club.GetClubIndex()).update("MemberCount", club.GetClubMemberCount())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+                    Map<String, Object> tempUserList= new HashMap<>();
+                    tempUserList.put(userIndex, userIndex);
+
+                    Map<String, Object> tempUser= new HashMap<>();
+                    tempUser.put("UserList", tempUserList);
+
+                    mDataBase.collection("ChatRoomData").document(club.GetClubIndex())
+                            .set(tempUser, SetOptions.merge())
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

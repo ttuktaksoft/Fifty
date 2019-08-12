@@ -381,9 +381,8 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
 
                 final ChatData finalTempChatData = tempChatData;
-
-
                 final String finalStrTargetIndex = strTargetIndex;
+
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {

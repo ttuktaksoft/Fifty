@@ -151,7 +151,7 @@ public class UserListActivity extends AppCompatActivity {
         }
         else if(mUserListType == CommonData.USER_LIST_CLUB_CHAT)
         {
-            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_CLUB_CHAT));
+            tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_CLUB_CHAT));
         }
 
         initRecyclerView();
@@ -194,7 +194,7 @@ public class UserListActivity extends AppCompatActivity {
                         tempKey = TKManager.getInstance().UserData_RequestJoin.keySet();
                         break;
                     case CommonData.USER_LIST_CLUB_CHAT:
-                        tempKey = new HashSet();
+                        tempKey = TKManager.getInstance().MyData.GetChatUserListKeySet();
                         break;
                     default:
                         tempKey = null;
@@ -455,7 +455,7 @@ public class UserListActivity extends AppCompatActivity {
         }
         else if (type == CommonData.USER_LIST_CLUB_CHAT)
         {
-
+            mUserList.addAll(TKManager.getInstance().MyData.GetChatUserListKeySet());
         }
 
         if(mUserList.size() == 0)
