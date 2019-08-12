@@ -101,10 +101,6 @@ public class CommonData {
     public static int LocationMaxSize = 30;
     public static int UserReportMaxSize = 4000;
 
-    public static final int GET_PHOTO_FROM_GALLERY = 1;
-    public static final int GET_PHOTO_FROM_CAMERA = 2;
-    public static final int GET_PHOTO_FROM_CROP = 3;
-
     public static final int MAX_PROFILE_IMG_COUNT = 8;
 
     public static String DAILY_FAVORITE = null;

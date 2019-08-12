@@ -17,12 +17,15 @@ import android.widget.ImageView;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.util.List;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ClubWriteActivity;
 import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
 import fifty.fiftyhouse.com.fifty.activty.LocationEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.MemoEditActivity;
@@ -80,7 +83,7 @@ public class MyProfileEditFragment extends Fragment {
         iv_MyProfile_Edit_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(mContext, MyProfileEditFragment.this, CommonData.GET_PHOTO_FROM_CROP);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(MyProfileEditFragment.this.getActivity(), mContext, MyProfileEditFragment.this, null, true);
             }
         });
 

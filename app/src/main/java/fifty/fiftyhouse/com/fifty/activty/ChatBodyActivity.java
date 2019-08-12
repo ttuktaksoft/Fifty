@@ -27,6 +27,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
@@ -128,7 +129,16 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_Chat_Body_Plus.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, CommonData.GET_PHOTO_FROM_CROP);
+                CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+                {
+                    @Override
+                    public void Listener(List<Uri> list)
+                    {
+
+                    }
+                };
+
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, mContext, null, selectListener, true);
             }
         });
 

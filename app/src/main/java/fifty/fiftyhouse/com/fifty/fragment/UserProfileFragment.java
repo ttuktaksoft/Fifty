@@ -43,6 +43,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubWriteActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
@@ -784,7 +785,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void Listener()
             {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(mContext, UserProfileFragment.this, CommonData.GET_PHOTO_FROM_CROP);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(UserProfileFragment.this.getActivity(), mContext, UserProfileFragment.this,null, true);
             }
         });
 
@@ -809,7 +810,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void Listener()
             {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(mContext, UserProfileFragment.this, CommonData.GET_PHOTO_FROM_CROP);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(UserProfileFragment.this.getActivity(), mContext, UserProfileFragment.this,null, true);
             }
         });
 
