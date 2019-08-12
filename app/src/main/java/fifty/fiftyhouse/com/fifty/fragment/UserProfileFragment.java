@@ -55,6 +55,7 @@ import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileMemoActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserReportActivity;
 import fifty.fiftyhouse.com.fifty.activty.WebContentActivity;
+import fifty.fiftyhouse.com.fifty.adapter.FavoriteSlotAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileMenuAdapter;
@@ -76,7 +77,7 @@ public class UserProfileFragment extends Fragment {
     Context mContext;
     View mUserProfileFragView = null;
 
-    FavoriteViewAdapter mFavoriteAdapter;
+    FavoriteSlotAdapter mFavoriteAdapter;
     UserProfilePhotoAdapter mPhotoAdapter;
     UserProfileClubAdapter mClubAdapter;
     UserProfileMenuAdapter mMenuAdapter;
@@ -547,8 +548,7 @@ public class UserProfileFragment extends Fragment {
             list.add(value);
         }
 
-        mFavoriteAdapter = new FavoriteViewAdapter(mContext);
-        mFavoriteAdapter.setItemCount(list.size());
+        mFavoriteAdapter = new FavoriteSlotAdapter(mContext);
         mFavoriteAdapter.setItemData(list);
         mFavoriteAdapter.setHasStableIds(true);
 
@@ -839,7 +839,6 @@ public class UserProfileFragment extends Fragment {
                     list.add(value);
                 }
 
-                mFavoriteAdapter.setItemCount(list.size());
                 mFavoriteAdapter.setItemData(list);
                 mFavoriteAdapter.notifyDataSetChanged();
 

@@ -18,13 +18,13 @@
 
     </style>
     <style name="BaseTabTextWidget" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="android:fontFamily">@font/menu</item>
+        <item name="android:fontFamily">@font/content</item>
         <item name="android:textSize">@dimen/default_font_size</item>
         <item name="android:textColor">@color/str_color_1</item>
     </style>
 
     <style name="BaseTextView" parent="@android:style/Widget.TextView">
-        <item name="android:fontFamily">@font/menu</item>
+        <item name="android:fontFamily">@font/content</item>
         <item name="android:textColor">@color/red</item>
         <item name="android:textSize">@dimen/default_font_size</item>
     </style>
@@ -63,7 +63,7 @@
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">@dimen/default_font_size_small</item>
-        <item name="android:fontFamily">@font/menu</item>
+        <item name="android:fontFamily">@font/content</item>
     </style>
 
 </resources>

@@ -41,7 +41,7 @@ import fifty.fiftyhouse.com.fifty.R;
 
 public class MainDistanceViewPager extends Fragment {
 
-    FloatingActionButton fa_Friend_UserList_Search;
+    FloatingActionButton fa_Main_Dis_Search;
     TextView tv_Main_Dis_Curr_Pos;
     TextView tv_Main_Dis_UserList_Empty;
     ImageView iv_Main_Dis_Sort_Type;
@@ -67,7 +67,7 @@ public class MainDistanceViewPager extends Fragment {
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
             iv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.iv_Main_Dis_Sort_Type);
             tv_Main_Dis_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_Dis_UserList_Empty);
-            fa_Friend_UserList_Search = v_FragmentView.findViewById(R.id.fa_Friend_UserList_Search);
+            fa_Main_Dis_Search = v_FragmentView.findViewById(R.id.fa_Main_Dis_Search);
 
 /*            if(TKManager.getInstance().FilterData.GetDistance() == 100)
                 tv_Main_Dis_Sort_Type.setText("내 근처 : 전체");
@@ -84,7 +84,7 @@ public class MainDistanceViewPager extends Fragment {
                 }
             });
 
-            fa_Friend_UserList_Search.setOnClickListener(new OnSingleClickListener() {
+            fa_Main_Dis_Search.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
                     DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);

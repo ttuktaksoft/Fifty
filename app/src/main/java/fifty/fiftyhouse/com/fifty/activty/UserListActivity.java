@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArraySet;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -122,7 +123,10 @@ public class UserListActivity extends AppCompatActivity {
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_CLUB_JOIN_WAIT));
         }
-
+        else if(mUserListType == CommonData.USER_LIST_CLUB_CHAT)
+        {
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_CLUB_CHAT));
+        }
 
         RefreshUserList(mUserListType);
         if (mUserListType == CommonData.USER_LIST_MY_LIKE)
@@ -144,6 +148,10 @@ public class UserListActivity extends AppCompatActivity {
         else if(mUserListType == CommonData.USER_LIST_CLUB_JOIN_WAIT)
         {
             tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_CLUB_JOIN_WAIT));
+        }
+        else if(mUserListType == CommonData.USER_LIST_CLUB_CHAT)
+        {
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_CLUB_CHAT));
         }
 
         initRecyclerView();
@@ -184,6 +192,9 @@ public class UserListActivity extends AppCompatActivity {
                     case CommonData.USER_LIST_CLUB_JOIN_WAIT:
                         // 가입 대기 목록
                         tempKey = TKManager.getInstance().UserData_RequestJoin.keySet();
+                        break;
+                    case CommonData.USER_LIST_CLUB_CHAT:
+                        tempKey = new HashSet();
                         break;
                     default:
                         tempKey = null;
@@ -380,6 +391,11 @@ public class UserListActivity extends AppCompatActivity {
             RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
             mAdapter.notifyDataSetChanged();
         }
+        else if (requestCode == CommonData.USER_LIST_CLUB_CHAT)
+        {
+            RefreshAdapter(CommonData.USER_LIST_CLUB_CHAT);
+            mAdapter.notifyDataSetChanged();
+        }
 
         if (requestCode == 1000)
         {
@@ -436,6 +452,10 @@ public class UserListActivity extends AppCompatActivity {
         else if (type == CommonData.USER_LIST_CLUB_JOIN_WAIT)
         {
             mUserList.addAll(TKManager.getInstance().UserData_RequestJoin.keySet());
+        }
+        else if (type == CommonData.USER_LIST_CLUB_CHAT)
+        {
+
         }
 
         if(mUserList.size() == 0)

@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,15 +29,18 @@ import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
 public class MainTodayViewPager extends Fragment {
     TextView tv_Main_Today_UserList_Empty;
+    FloatingActionButton fa_Main_Today_Search;
     RecyclerView rv_Main_Today_UserList, rv_Main_Today_Favorite;
     View v_FragmentView = null;
-    public MainAdapter mAdapter;
+    public MainAdapterOne mAdapter;
     FavoriteViewAdapter mFavoriteViewAdapter;
     private String UserIndex;
 
@@ -57,9 +61,17 @@ public class MainTodayViewPager extends Fragment {
             tv_Main_Today_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_Today_UserList_Empty);
             rv_Main_Today_UserList = v_FragmentView.findViewById(R.id.rv_Main_Today_UserList);
             rv_Main_Today_Favorite = v_FragmentView.findViewById(R.id.rv_Main_Today_Favorite);
+            fa_Main_Today_Search = v_FragmentView.findViewById(R.id.fa_Main_Today_Search);
 
             initRecyclerView();
             initFavoriteRecyclerView();
+
+            fa_Main_Today_Search.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
+                }
+            });
         }
         else
         {
@@ -75,13 +87,13 @@ public class MainTodayViewPager extends Fragment {
     }*/
     private void initRecyclerView()
     {
-        mAdapter = new MainAdapter(getContext());
+        mAdapter = new MainAdapterOne(getContext());
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.SetItemCountByType(CommonData.MainViewType.HOT, TKManager.getInstance().View_UserList_Hot.size());
 
         rv_Main_Today_UserList.setAdapter(mAdapter);
-        rv_Main_Today_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_Main_Today_UserList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rv_Main_Today_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Today_UserList, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {

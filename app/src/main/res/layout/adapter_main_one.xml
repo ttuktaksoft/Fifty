@@ -22,6 +22,7 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_margin="5dp"
+        android:visibility="gone"
         app:layout_constraintRight_toRightOf="@+id/iv_Main_Thumbnail"
         app:layout_constraintBottom_toBottomOf="@+id/iv_Main_Thumbnail"
         android:src="@drawable/ic_man_simple" />
@@ -50,7 +51,7 @@
         android:layout_marginRight="8dp"
         android:text="접속중"
         android:textSize="@dimen/default_font_size_small_1"
-        android:textColor="@color/str_color_1"/>
+        android:textColor="@color/str_color_7"/>
 
     <ImageView
         android:id="@+id/iv_Main_Thumbnail_Online_State"

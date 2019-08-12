@@ -33,6 +33,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
@@ -42,7 +43,7 @@ public class MainFriendViewPager extends Fragment {
 
     RecyclerView rv_Main_Friend_UserList;
     View v_FragmentView = null;
-    public MainAdapter mAdapter;
+    public MainAdapterOne mAdapter;
     private String UserIndex;
     public MainFriendViewPager() {
         super();
@@ -79,12 +80,12 @@ public class MainFriendViewPager extends Fragment {
 
     private void initRecyclerView()
     {
-        mAdapter = new MainAdapter(getContext());
+        mAdapter = new MainAdapterOne(getContext());
         RefreshUI();
         mAdapter.setHasStableIds(true);
 
         rv_Main_Friend_UserList.setAdapter(mAdapter);
-        rv_Main_Friend_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_Main_Friend_UserList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rv_Main_Friend_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Friend_UserList, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {

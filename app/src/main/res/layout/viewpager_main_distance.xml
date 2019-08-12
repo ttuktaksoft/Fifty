@@ -91,7 +91,7 @@
             android:textColor="@color/str_color_1" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fa_Friend_UserList_Search"
+            android:id="@+id/fa_Main_Dis_Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="parent"

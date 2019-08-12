@@ -48,7 +48,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     TextView tv_TopBar_Title, tv_Chat_Body_Send;
     ImageView iv_TopBar_Back;
     RecyclerView rv_Chat_Body_List;
-    ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus;//, iv_ChatBody_Etc;
+    ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus, iv_ChatBody_User;//, iv_ChatBody_Etc;
     EditText et_Chat_Body_Msg;
 
     Context mContext;
@@ -76,18 +76,14 @@ public class ChatBodyActivity extends AppCompatActivity {
         strRoomIndex = getIntent().getStringExtra("RoomIndex");
         mType = CommonData.CHAT_ROOM_TYPE.valueOf(getIntent().getStringExtra("RoomType").toString());
 
-
-
-
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-
-
 
         ui_ChatBody_TopBar = findViewById(R.id.ui_ChatBody_TopBar);
         tv_TopBar_Title = ui_ChatBody_TopBar.findViewById(R.id.tv_TopBar_Title);
         iv_TopBar_Back = ui_ChatBody_TopBar.findViewById(R.id.iv_TopBar_Back);
         rv_Chat_Body_List = findViewById(R.id.rv_Chat_Body_List);
         iv_ChatBody_Alert = findViewById(R.id.iv_ChatBody_Alert);
+        iv_ChatBody_User = findViewById(R.id.iv_ChatBody_User);
         iv_Chat_Body_Plus = findViewById(R.id.iv_Chat_Body_Plus);
         //iv_ChatBody_Etc = findViewById(R.id.iv_ChatBody_Etc);
         tv_Chat_Body_Send = findViewById(R.id.tv_Chat_Body_Send);
@@ -97,6 +93,9 @@ public class ChatBodyActivity extends AppCompatActivity {
         {
             tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
             strTargetIndex = "club";
+
+            iv_ChatBody_Alert.setVisibility(View.GONE);
+            iv_ChatBody_User.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -114,10 +113,10 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
 
             tv_TopBar_Title.setText(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
+
+            iv_ChatBody_Alert.setVisibility(View.VISIBLE);
+            iv_ChatBody_User.setVisibility(View.GONE);
         }
-
-
-
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -185,6 +184,17 @@ public class ChatBodyActivity extends AppCompatActivity {
                 DialogFunc.getInstance().ShowMenuListPopup(ChatBodyActivity.this, menuList, menuListenerList, null);
             }
         });
+
+        iv_ChatBody_User.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, UserListActivity.class);
+                intent.putExtra("Type",CommonData.USER_LIST_CLUB_CHAT);
+                startActivity(intent);
+            }
+        });
+
+
 
   /*      iv_ChatBody_Etc.setOnClickListener(new OnSingleClickListener() {
             @Override

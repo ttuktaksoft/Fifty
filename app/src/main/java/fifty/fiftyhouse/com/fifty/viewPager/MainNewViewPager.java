@@ -2,6 +2,7 @@ package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,16 +24,18 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class MainNewViewPager extends Fragment {
 
     TextView tv_Main_New_Desc, tv_Main_New_UserList_Empty;
-
+    FloatingActionButton fa_Main_New_Search;
     RecyclerView rv_Main_New_UserList;
     View v_FragmentView = null;
-    public MainAdapter mAdapter;
+    public MainAdapterOne mAdapter;
     private String UserIndex;
 
     public MainNewViewPager() {
@@ -48,8 +51,17 @@ public class MainNewViewPager extends Fragment {
             tv_Main_New_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_New_UserList_Empty);
             rv_Main_New_UserList = v_FragmentView.findViewById(R.id.rv_Main_New_UserList);
             tv_Main_New_Desc = v_FragmentView.findViewById(R.id.tv_Main_New_Desc);
+            fa_Main_New_Search = v_FragmentView.findViewById(R.id.fa_Main_New_Search);
 
             initRecyclerView();
+
+
+            fa_Main_New_Search.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
+                }
+            });
 
         } else {
             RefreshAdapter();
@@ -60,13 +72,13 @@ public class MainNewViewPager extends Fragment {
 
     private void initRecyclerView()
     {
-        mAdapter = new MainAdapter(getContext());
+        mAdapter = new MainAdapterOne(getContext());
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.SetItemCountByType(CommonData.MainViewType.NEW, TKManager.getInstance().View_UserList_New.size());
 
         rv_Main_New_UserList.setAdapter(mAdapter);
-        rv_Main_New_UserList.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        rv_Main_New_UserList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rv_Main_New_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_New_UserList, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
@@ -103,6 +115,8 @@ public class MainNewViewPager extends Fragment {
                 }*/
             }
         });
+
+
     }
 
     private void RefreshAdapter()

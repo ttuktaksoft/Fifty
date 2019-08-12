@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_Favorite_View_Bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/tv_Favorite_View_Name"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_Favorite_View_Name"
+        app:layout_constraintRight_toRightOf="@+id/tv_Favorite_View_Name"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_Favorite_View_Name"
+        android:tint="@color/activity_bg"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_white_square"/>
+
+    <TextView
+        android:id="@+id/tv_Favorite_View_Name"
+        style="@style/BaseContentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="운동"
+        android:textSize="@dimen/default_font_size_big"
+        android:textColor="@color/str_color_6"/>
+
+</android.support.constraint.ConstraintLayout>

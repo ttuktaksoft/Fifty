@@ -44,6 +44,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ClubContentAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubMiniUserAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.FavoriteSlotAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -63,7 +64,7 @@ public class ClubActivity extends AppCompatActivity {
     RecyclerView rv_Club_Favorite;
     RecyclerView rv_Club_User;
     ClubContentAdapter mAdapter;
-    FavoriteViewAdapter mFavoriteViewAdapter;
+    FavoriteSlotAdapter mFavoriteViewAdapter;
     ClubMiniUserAdapter mClubMiniUserAdapter;
 
     Context mContext;
@@ -463,7 +464,7 @@ public class ClubActivity extends AppCompatActivity {
 
     public void initFavoriteList()
     {
-        mFavoriteViewAdapter = new FavoriteViewAdapter(mContext);
+        mFavoriteViewAdapter = new FavoriteSlotAdapter(mContext);
         RefreshFavoriteAdapter();
         mFavoriteViewAdapter.setHasStableIds(true);
 
@@ -539,7 +540,6 @@ public class ClubActivity extends AppCompatActivity {
             mFavoriteList.add(TKManager.getInstance().TargetClubData.GetClubFavorite(key));
         }
 
-        mFavoriteViewAdapter.setItemCount(mFavoriteList.size());
         mFavoriteViewAdapter.setItemData(mFavoriteList);
     }
 

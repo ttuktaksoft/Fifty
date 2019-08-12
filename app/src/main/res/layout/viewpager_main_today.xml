@@ -10,45 +10,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <View
-        android:id="@+id/v_Main_Today_SubInfo"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="@color/main_sub_info_bg"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <View
+            android:id="@+id/v_Main_Today_SubInfo"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/main_sub_info_bg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <!--<TextView
-        android:id="@+id/tv_Main_Today_Desc"
-        style="@style/BaseTextView_AutoSize"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:text="@string/bt_Main_Today"
-        android:gravity="center_vertical|left"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toTopOf="@+id/v_Main_Today_SubInfo"
-        app:layout_constraintBottom_toBottomOf="@+id/v_Main_Today_SubInfo"
-        app:layout_constraintLeft_toLeftOf="@+id/v_Main_Today_SubInfo"
-        app:layout_constraintRight_toRightOf="@+id/v_Main_Today_SubInfo"
-        android:textColor="@color/str_color_1"/>-->
+        <TextView
+            android:id="@+id/tv_Main_Today_Desc"
+            style="@style/BaseTextView"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:text="@string/tv_Main_Today_Desc"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintTop_toTopOf="@+id/v_Main_Today_SubInfo"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Main_Today_SubInfo"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Main_Today_SubInfo"
+            app:layout_constraintRight_toRightOf="@+id/v_Main_Today_SubInfo"
+            android:textColor="@color/str_color_1"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_Main_Today_Favorite"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingLeft="5dp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@+id/v_Main_Today_SubInfo"
             app:layout_constraintBottom_toBottomOf="@+id/v_Main_Today_SubInfo"
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_Today_SubInfo"
             app:layout_constraintRight_toRightOf="@+id/v_Main_Today_SubInfo"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_Main_Today_UserList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/rv_Main_Today_Favorite"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_Main_Today_UserList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Main_Today_Desc"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/tv_Main_Today_UserList_Empty"
@@ -57,11 +59,24 @@
             style="@style/BaseContentTextView"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_Main_Today_Favorite"
+            app:layout_constraintTop_toBottomOf="@+id/tv_Main_Today_Desc"
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="@string/MSG_USER_LIST_EMPTY"
             android:gravity="center"
             android:textColor="@color/str_color_1" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fa_Main_Today_Search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:tint="@color/white"
+            android:src="@drawable/ic_search"
+            android:backgroundTint="@color/floating_button_bg"
+            app:borderWidth="0dp"/>
 
     </android.support.constraint.ConstraintLayout>
 
