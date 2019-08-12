@@ -334,9 +334,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
         iv_Chat_Body_Video.setMaxWidth(contentMaxSize);
         CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
 
-        iv_Chat_Body_Profile.setOnTouchListener(new OnSingleTouchListener() {
+        iv_Chat_Body_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onSingleTouch(View v) {
+            public void onSingleClick(View v) {
                 String UserIndex = tempData.GetMsgSender();
 
                 CommonFunc.getInstance().GetUserDataInFireBase(UserIndex,ChatBodyActivity.mChatBodyActivity, true);
@@ -367,9 +367,9 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
         });
 
-        iv_Chat_Body_Img.setOnTouchListener(new OnSingleTouchListener(){
+        iv_Chat_Body_Img.setOnClickListener(new OnSingleClickListener(){
             @Override
-            public void onSingleTouch(View v) {
+            public void onSingleClick(View v) {
                 DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.mChatBodyActivity);
 
                 Intent intent = new Intent(mContext, CustomPhotoView.class);

@@ -397,8 +397,9 @@ public class CommonFunc {
         if(multiSelectListener == null && context != null && fragment != null)
         {
             TedBottomPicker.with(activity)
-                    //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
-                    //.showVideoMedia()
+                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
+                    .showTitle(false)
+                    .showVideoMedia()
                     .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
                     .show(uri -> {
                         CropImage.activity(uri)
@@ -418,6 +419,65 @@ public class CommonFunc {
                     .showMultiImage(uriList -> {
                         if (uriList.size() > 0)
                         {
+                            if(uriList.size() == 1 && oneSelectCrop) {
+                                if (context != null && fragment != null) {
+                                    CropImage.activity(uriList.get(0))
+                                            .setActivityTitle(getStr(context.getResources(), R.string.MSG_PHOTO_SELECT))
+                                            .setGuidelines(CropImageView.Guidelines.ON)
+                                            .setInitialCropWindowPaddingRatio(0)
+                                            .start(context, fragment);
+                                }
+                                else
+                                {
+                                    CropImage.activity(uriList.get(0))
+                                            .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
+                                            .setGuidelines(CropImageView.Guidelines.ON)
+                                            .setInitialCropWindowPaddingRatio(0)
+                                            .start(activity);
+                                }
+                            }
+                            else
+                            {
+                                if(multiSelectListener != null)
+                                    multiSelectListener.Listener(uriList);
+                            }
+
+                        }
+                    });
+        }
+
+    }
+
+    private void GetPhotoVideoInGallery(FragmentActivity activity, Context context, Fragment fragment, final PhotoSelectListener multiSelectListener, boolean oneSelectCrop) {
+
+        if(multiSelectListener == null && context != null && fragment != null)
+        {
+            TedBottomPicker.with(activity)
+                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
+                    .showTitle(false)
+                    .showVideoMedia()
+                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
+                    .show(uri -> {
+                        CropImage.activity(uri)
+                                .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setInitialCropWindowPaddingRatio(0)
+                                .start(context, fragment);
+                    });
+        }
+        else
+        {
+            TedBottomPicker.with(activity)
+                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
+                    .showTitle(false)
+                    .showVideoMedia()
+                    .show
+                    .setCompleteButtonText("확인")
+                    .setEmptySelectionText("이미지가 없습니다")
+                    .showMultiImage(uriList -> {
+                        if (uriList.size() > 0)
+                        {
+                            uriList.get(0)
                             if(uriList.size() == 1 && oneSelectCrop) {
                                 if (context != null && fragment != null) {
                                     CropImage.activity(uriList.get(0))
@@ -543,6 +603,29 @@ public class CommonFunc {
                 .check();
 
     }
+
+    public void GetPermissionForGalleryVideo(final FragmentActivity activity, Context context, Fragment fragment, final PhotoSelectListener multiSelectListener, boolean oneSelectCrop) {
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                CommonFunc.getInstance().GetPhotoVideoInGallery(activity, context, fragment, multiSelectListener, oneSelectCrop);
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+            }
+        };
+
+        TedPermission.with(activity)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage(activity.getResources().getString(R.string.permission_cammera))
+                .setDeniedMessage(activity.getResources().getString(R.string.permission_request))
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+
+    }
+
+
 
 
 
