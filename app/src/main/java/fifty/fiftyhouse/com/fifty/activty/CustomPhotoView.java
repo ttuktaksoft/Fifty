@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -34,7 +36,7 @@ public class CustomPhotoView extends AppCompatActivity {
 
     String ImgSrc ;
     TextView tv_Custom_Photo_Title;
-    ImageView iv_Custom_Photo_Back;
+    ImageView iv_Custom_Photo_Back, iv_Custom_Photo_Down;
     ViewPager vp_Custom_Photo_View;
     Context mContext;
 
@@ -56,6 +58,7 @@ public class CustomPhotoView extends AppCompatActivity {
 
         tv_Custom_Photo_Title = findViewById(R.id.tv_Custom_Photo_Title);
         iv_Custom_Photo_Back = findViewById(R.id.iv_Custom_Photo_Back);
+        iv_Custom_Photo_Down = findViewById(R.id.iv_Custom_Photo_Down);
         vp_Custom_Photo_View = findViewById(R.id.vp_Custom_Photo_View);
 
         Intent intent = getIntent(); //getIntent()로 받을준비
@@ -114,6 +117,23 @@ public class CustomPhotoView extends AppCompatActivity {
             @Override
             public void onSingleClick(View v) {
                 finish();
+            }
+        });
+
+        iv_Custom_Photo_Down.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+
+                final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                    @Override
+                    public void Listener() {
+                        CommonFunc.getInstance().SaveImageByGlide(mContext, mPhotoSrcList.get(vp_Custom_Photo_View.getCurrentItem()));
+                    }
+                };
+
+                DialogFunc.getInstance().ShowMsgPopup(CustomPhotoView.this, listenerYes, null, CommonFunc.getInstance().getStr(CustomPhotoView.this.getResources(), R.string.MSG_SAVE_PIC),
+                        CommonFunc.getInstance().getStr(CustomPhotoView.this.getResources(), R.string.MSG_SAVE), CommonFunc.getInstance().getStr(CustomPhotoView.this.getResources(), R.string.MSG_CANCEL));
+
             }
         });
 

@@ -52,6 +52,17 @@
             android:textColor="@color/str_color_2"
             android:textStyle="bold"/>
 
+        <ImageView
+            android:id="@+id/iv_Custom_Photo_Down"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            app:layout_constraintRight_toRightOf="@+id/v_Custom_Photo_Topbar"
+            app:layout_constraintTop_toTopOf="@+id/v_Custom_Photo_Topbar"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Custom_Photo_Topbar"
+            android:src="@drawable/ic_download"
+            android:tint="@color/icon_tint_white" />
+
     </android.support.constraint.ConstraintLayout>
 
 

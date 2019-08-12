@@ -39,7 +39,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.firestore.auth.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -52,7 +58,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -222,8 +230,8 @@ public class CommonFunc {
 
     public void MoveUserActivity(Activity from)
     {
-            from.startActivity(new Intent(from, UserProfileActivity.class));
-            from.finish();
+        from.startActivity(new Intent(from, UserProfileActivity.class));
+        from.finish();
     }
 
     public void DrawImageByGlide(Context context, ImageView view, int src, boolean circle)
@@ -278,6 +286,76 @@ public class CommonFunc {
                     .placeholder(R.drawable.bg_empty_square)
                     .into(view);
     }
+
+    public void SaveImageByGlide(final Context context, String src)
+    {
+        try{
+
+            Glide.with(context)
+                    .asBitmap().load(src)
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL))
+                    .listener(new RequestListener<Bitmap>(){
+
+                                  @Override
+                                  public boolean onLoadFailed(GlideException e, Object
+                                          o, Target<Bitmap> target, boolean b){
+
+                                      return false;
+                                  }
+
+                                  @Override
+                                  public boolean onResourceReady(Bitmap bitmap, Object o, Target<Bitmap>
+                                          target, DataSource dataSource, boolean b){
+
+                                      saveImage(context, bitmap);   // save your bitmap
+
+                                      return false;
+                                  }
+                              }
+                    ).submit();
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private String saveImage(final Context context, Bitmap image) {
+        String savedImagePath = null;
+
+        String imageFileName = "FIFTY_" + System.currentTimeMillis() + ".jpg";
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                + "/FIFTY");
+        boolean success = true;
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs();
+        }
+        if (success) {
+            File imageFile = new File(storageDir, imageFileName);
+            savedImagePath = imageFile.getAbsolutePath();
+            try {
+                OutputStream fOut = new FileOutputStream(imageFile);
+                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+                fOut.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Add the image to the system gallery
+            galleryAddPic(context, savedImagePath);
+        }
+        return savedImagePath;
+    }
+
+    private void galleryAddPic(final Context context, String imagePath) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(imagePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        context.sendBroadcast(mediaScanIntent);
+    }
+
     public void setEditTextMaxSize(EditText et, int size)
     {
         InputFilter[] FilterArray = new InputFilter[1];
@@ -1019,7 +1097,7 @@ public class CommonFunc {
                 tempDataMap.put(tempDataList.get(i), TKManager.getInstance().UserData_Simple.get(tempDataList.get(i)).GetUserDist());
             }
 
-           // tempDataMap.put(tempDataList.get(i), (long) 0);
+            // tempDataMap.put(tempDataList.get(i), (long) 0);
         }
 
         Iterator it = sortByValue(tempDataMap, descending).iterator();
@@ -1086,6 +1164,7 @@ public class CommonFunc {
         activity.startActivity(intent);
         activity.finish();
     }
+
 
     public void MoveLoginActivity(Activity activity) {
 
@@ -1199,7 +1278,7 @@ public class CommonFunc {
                 FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                     //   DialogFunc.getInstance().DismissLoadingPage();
+                        //   DialogFunc.getInstance().DismissLoadingPage();
 
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
@@ -1594,26 +1673,26 @@ public class CommonFunc {
 
         Random rnd = new Random();
 
-            for(int i=0; i< count; i++)
-            {
-                UserData tempData = new UserData();
-                String[] fav = new String[3];
-                fav[0] = "Book";
-                fav[1] = "Cook";
-                fav[2] = "Golf";
+        for(int i=0; i< count; i++)
+        {
+            UserData tempData = new UserData();
+            String[] fav = new String[3];
+            fav[0] = "Book";
+            fav[1] = "Cook";
+            fav[2] = "Golf";
 
-                String[] img = new String[3];
-                img[0] = tempThumb[rnd.nextInt(15)];
-                img[1] = tempThumb[rnd.nextInt(15)];
-                img[2] = tempThumb[rnd.nextInt(15)];
-
-
-               // tempData.SetUserData(Integer.toString(i), Integer.toString(i), randomHangulName(), fav, tempThumb[rnd.nextInt(15)], tempThumb[rnd.nextInt(15)], rnd.nextInt(20) + 50, rnd.nextInt(2));
-                //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, Integer.toString(i), tempData);
+            String[] img = new String[3];
+            img[0] = tempThumb[rnd.nextInt(15)];
+            img[1] = tempThumb[rnd.nextInt(15)];
+            img[2] = tempThumb[rnd.nextInt(15)];
 
 
-                FirebaseManager.getInstance().randomList(Integer.toString(i));
-            }
+            // tempData.SetUserData(Integer.toString(i), Integer.toString(i), randomHangulName(), fav, tempThumb[rnd.nextInt(15)], tempThumb[rnd.nextInt(15)], rnd.nextInt(20) + 50, rnd.nextInt(2));
+            //FirebaseManager.getInstance().SetUserDataOnFireBase(CommonData.CollentionType.USERS, Integer.toString(i), tempData);
+
+
+            FirebaseManager.getInstance().randomList(Integer.toString(i));
+        }
     }
 
     public static String randomHangulName() {
