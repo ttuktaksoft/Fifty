@@ -18,7 +18,9 @@ public class ChatData implements Cloneable{
         return super.clone();
     }
 
+    public   String RoomName;
     public   String RoomIndex;
+    public   String RoomThumb;
     public  CommonData.CHAT_ROOM_TYPE RoomType;
 
     public  String FromIndex ;
@@ -36,6 +38,25 @@ public class ChatData implements Cloneable{
     public  long MsgDate;
     public  boolean MsgReadCheck;
     public Map<String, String> ChatUserList = new LinkedHashMap<String, String>();
+
+    public void SetRoomName(String name)
+    {
+        RoomName = name;
+    }
+    public String GetRoomName()
+    {
+        return RoomName;
+    }
+
+    public void SetRoomThumb(String thumb)
+    {
+        RoomThumb = thumb;
+    }
+    public String GetRoomThumb()
+    {
+        return RoomThumb;
+    }
+
 
     public void SetRoomIndex(String roomIndex)
     {

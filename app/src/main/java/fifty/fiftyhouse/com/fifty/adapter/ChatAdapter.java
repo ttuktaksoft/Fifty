@@ -196,17 +196,20 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         }
 
         //tv_Chat_Date.setText(Long.toString(tempChatData.GetMsgDate()));
-
         if(tempChatData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
         {
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Profile, tempChatData.GetToThumbNail(), true);
-            tv_Chat_Nickname.setText(tempChatData.GetToNickName());
-
+            tv_Chat_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempChatData.GetToIndex()).GetUserNickName());
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Profile, TKManager.getInstance().UserData_Simple.get(tempChatData.GetToIndex()).GetUserImgThumb(), true);
         }
         else
         {
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Profile, tempChatData.GetFromThumbNail(), true);
-            tv_Chat_Nickname.setText(tempChatData.GetFromNickName());
+            tv_Chat_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempChatData.GetFromIndex()).GetUserNickName());
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Profile, TKManager.getInstance().UserData_Simple.get(tempChatData.GetFromIndex()).GetUserImgThumb(), true);
+        }
+
+        if(CommonFunc.getInstance().CheckStringNull(tempChatData.GetRoomName()) == false)
+        {
+            tv_Chat_Nickname.setText(tempChatData.GetRoomName());
         }
 
         long tempReadCount = 0 ;
@@ -409,10 +412,12 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
                         if(TKManager.getInstance().UserData_Simple.get(finalStrTargetIndex) != null)
                         {
+                            CommonFunc.getInstance().SetChatReadIndex(mContext, finalTempChatData.GetRoomIndex(), finalTempChatData.GetMsgIndex());
                             DialogFunc.getInstance().DismissLoadingPage();
                             Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
                             intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
                             intent.putExtra("RoomType", finalTempChatData.GetRoomType().name());
+
                             //startActivity(intent);
                             ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
                         }
@@ -434,6 +439,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                 };
 
               FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
+
   /*
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override

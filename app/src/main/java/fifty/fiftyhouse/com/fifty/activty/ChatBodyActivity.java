@@ -489,7 +489,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //FirebaseManager.getInstance().RemoveMonitorUserChatData();
+        FirebaseManager.getInstance().RemoveMonitorUserChatData();
     }
 
 }

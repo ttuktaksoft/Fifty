@@ -35,14 +35,19 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.firestore.auth.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -1149,6 +1154,8 @@ public class CommonFunc {
 
         if(boot)
         {
+            GetChatReadIndex(activity);
+
             FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                 @Override
                 public void CompleteListener() {
@@ -1514,6 +1521,43 @@ public class CommonFunc {
             ImageViewCompat.setImageTintList(bg, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.list_slot_bg_1)));
         else
             ImageViewCompat.setImageTintList(bg, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.list_slot_bg_2)));
+    }
+
+    public void SetChatReadIndex(Context activity, String chatRoomIndex, Long chatIndex)
+    {
+        HashMap<String, Long> HashMap = new HashMap<String, Long>();
+        HashMap.put(chatRoomIndex, chatIndex);
+
+        SharedPreferences pSharedPref = activity.getSharedPreferences("ChatReadIndex", Context.MODE_PRIVATE);
+        if (pSharedPref != null){
+            JSONObject jsonObject = new JSONObject(HashMap);
+            String jsonString = jsonObject.toString();
+            SharedPreferences.Editor editor = pSharedPref.edit();
+            editor.remove("ReadIndex").commit();
+            editor.putString("ReadIndex", jsonString);
+            editor.commit();
+        }
+    }
+
+    public void GetChatReadIndex(Activity activity)
+    {
+        Map<String,Boolean> outputMap = new HashMap<String,Boolean>();
+        SharedPreferences pSharedPref = activity.getSharedPreferences("ChatReadIndex", Context.MODE_PRIVATE);
+        try{
+            if (pSharedPref != null){
+                String jsonString = pSharedPref.getString("ReadIndex", (new JSONObject()).toString());
+                JSONObject jsonObject = new JSONObject(jsonString);
+                Iterator<String> keysItr = jsonObject.keys();
+                while(keysItr.hasNext()) {
+                    String key = keysItr.next();
+                    //Boolean value = (Boolean) jsonObject.get(key);
+                    TKManager.getInstance().MyData.SetUserChatReadIndexList(key, Long.parseLong(jsonObject.get(key).toString()));
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 
