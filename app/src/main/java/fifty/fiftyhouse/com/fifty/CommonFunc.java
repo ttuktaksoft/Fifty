@@ -480,7 +480,6 @@ public class CommonFunc {
                     .showMultiImage(uriList -> {
                         if (uriList.size() > 0)
                         {
-                            uriList.get(0)
                             if(uriList.size() == 1 && oneSelectCrop) {
                                 if (context != null && fragment != null) {
                                     CropImage.activity(uriList.get(0))
