@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -24,6 +25,8 @@ import com.google.gson.Gson;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -135,6 +138,43 @@ public class ChatBodyActivity extends AppCompatActivity {
                     public void Listener(List<Uri> list)
                     {
 
+                        Bitmap[] originalBm = new Bitmap[list.size()];
+
+
+
+                        if(mType == CommonData.CHAT_ROOM_TYPE.CLUB)
+                        {
+
+                        }
+                        else
+                        {
+                            DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.this);
+
+
+                            for(int i=0; i<list.size(); i++)
+                            {
+                                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        SendChatData(CommonData.MSGType.IMG);
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                    }
+                                };
+
+                                CommonFunc.getInstance().SetImageInChatRoom(ChatBodyActivity.this, list.get(i), strRoomIndex,  listener);
+                            }
+
+
+
+                        }
                     }
                 };
 
