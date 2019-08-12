@@ -34,6 +34,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,6 +45,7 @@ import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ClubWriteActivity;
 import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
@@ -125,7 +127,7 @@ public class SignUpFragment extends Fragment {
         iv_SignUp_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(mContext, SignUpFragment.this, CommonData.GET_PHOTO_FROM_CROP);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(SignUpFragment.this.getActivity(), mContext, SignUpFragment.this, null, true);
             }
         });
 

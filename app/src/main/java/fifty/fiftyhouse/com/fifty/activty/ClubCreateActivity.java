@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -279,7 +280,7 @@ public class ClubCreateActivity extends AppCompatActivity {
         iv_ClubCreate_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(ClubCreateActivity.this, CommonData.GET_PHOTO_FROM_CROP);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(ClubCreateActivity.this, mContext, null,null, true);
             }
         });
 

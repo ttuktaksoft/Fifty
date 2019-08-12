@@ -26,6 +26,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.ImageViewCompat;
@@ -72,6 +73,8 @@ import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.util.ImageResize;
+import gun0912.tedbottompicker.TedBottomPicker;
+import gun0912.tedbottompicker.TedRxBottomPicker;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -302,86 +305,57 @@ public class CommonFunc {
             return false;
     }
 
-    private void GetPhotoInGallery(Activity activity, int ActivityFlag) {
-        if(ActivityFlag == CommonData.GET_PHOTO_FROM_CROP)
-        {
-            CropImage.activity()
-                    .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .setInitialCropWindowPaddingRatio(0)
-                    .start(activity);
-        }
-        else if(ActivityFlag == CommonData.GET_PHOTO_FROM_CAMERA)
-        {
-            //https://developer.android.com/training/camera/photobasics.html
-            /*// 이미지 파일 이름 ( blackJin_{시간}_ )
-            String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
-            String imageFileName = "fifty_" + timeStamp + "_";
-            File storageDir = new File(Environment.getExternalStorageDirectory() + "/fifty/");
-            if (!storageDir.exists()) storageDir.mkdirs();
-            File image = null;
-            try{
-                // 빈 파일 생성
-                image =  File.createTempFile(imageFileName, ".jpg", storageDir);
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-
-            if (image != null) {
-
-                Uri photoUri = FileProvider.getUriForFile(activity, "fifty.fiftyhouse.com.fifty.fileprovider", image);
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                activity.startActivityForResult(intent, ActivityFlag);
-            }*/
-        }
-        else
-        {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-            activity.startActivityForResult(intent, ActivityFlag);
-        }
+    public interface PhotoSelectListener {
+        void Listener(List<Uri> list);
     }
 
-    private void GetPhotoInGallery(Context context, Fragment fragment, int ActivityFlag) {
-        if(ActivityFlag == CommonData.GET_PHOTO_FROM_CROP)
-        {
-            CropImage.activity()
-                    .setActivityTitle(getStr(context.getResources(), R.string.MSG_PHOTO_SELECT))
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .setInitialCropWindowPaddingRatio(0)
-                    .start(context, fragment);
-        }
-        else if(ActivityFlag == CommonData.GET_PHOTO_FROM_CAMERA)
-        {
-            //https://developer.android.com/training/camera/photobasics.html
-            /*// 이미지 파일 이름 ( blackJin_{시간}_ )
-            String timeStamp = new SimpleDateFormat("HHmmss").format(new Date());
-            String imageFileName = "fifty_" + timeStamp + "_";
-            File storageDir = new File(Environment.getExternalStorageDirectory() + "/fifty/");
-            if (!storageDir.exists()) storageDir.mkdirs();
-            File image = null;
-            try{
-                // 빈 파일 생성
-                image =  File.createTempFile(imageFileName, ".jpg", storageDir);
-            } catch (IOException e) {
-                System.out.println(e);
-            }
+    private void GetPhotoInGallery(FragmentActivity activity, Context context, Fragment fragment, final PhotoSelectListener multiSelectListener, boolean oneSelectCrop) {
 
-            if (image != null) {
-
-                Uri photoUri = FileProvider.getUriForFile(activity, "fifty.fiftyhouse.com.fifty.fileprovider", image);
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                activity.startActivityForResult(intent, ActivityFlag);
-            }*/
+        if(multiSelectListener == null && context != null && fragment != null)
+        {
+            TedBottomPicker.with(activity)
+                    //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
+                    //.showVideoMedia()
+                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
+                    .show(uri -> {
+                        CropImage.activity(uri)
+                                .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setInitialCropWindowPaddingRatio(0)
+                                .start(context, fragment);
+                    });
         }
         else
         {
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-            fragment.startActivityForResult(intent, ActivityFlag);
+            TedBottomPicker.with(activity)
+                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
+                    .showTitle(false)
+                    .setCompleteButtonText("확인")
+                    .setEmptySelectionText("이미지가 없습니다")
+                    .showMultiImage(uriList -> {
+                        if (uriList.size() > 0)
+                        {
+                            if(uriList.size() == 1 && oneSelectCrop)
+                            {
+                                if(context != null && fragment != null)
+                                {
+                                    CropImage.activity(uriList.get(0))
+                                            .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
+                                            .setGuidelines(CropImageView.Guidelines.ON)
+                                            .setInitialCropWindowPaddingRatio(0)
+                                            .start(context, fragment);
+                                }
+                            }
+                            else
+                            {
+                                if(multiSelectListener != null)
+                                    multiSelectListener.Listener(uriList);
+                            }
+
+                        }
+                    });
         }
+
     }
 
     public void SetCropImage(Context context, Uri uri, int addImgIndex, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
@@ -460,11 +434,11 @@ public class CommonFunc {
     }
 
 
-    public void GetPermissionForGalleryCamera(final Activity activity, final int intentFlag) {
+    public void GetPermissionForGalleryCamera(final FragmentActivity activity, Context context, Fragment fragment, final PhotoSelectListener multiSelectListener, boolean oneSelectCrop) {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CommonFunc.getInstance().GetPhotoInGallery(activity, intentFlag);
+                CommonFunc.getInstance().GetPhotoInGallery(activity, context, fragment, multiSelectListener, oneSelectCrop);
             }
 
             @Override
@@ -476,27 +450,6 @@ public class CommonFunc {
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage(activity.getResources().getString(R.string.permission_cammera))
                 .setDeniedMessage(activity.getResources().getString(R.string.permission_request))
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
-
-    }
-
-    public void GetPermissionForGalleryCamera(final Context context, final Fragment fragment, final int intentFlag) {
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                CommonFunc.getInstance().GetPhotoInGallery(context, fragment, intentFlag);
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-            }
-        };
-
-        TedPermission.with(context)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage(context.getResources().getString(R.string.permission_cammera))
-                .setDeniedMessage(context.getResources().getString(R.string.permission_request))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
 

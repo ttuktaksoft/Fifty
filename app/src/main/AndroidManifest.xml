@@ -83,10 +83,12 @@
             android:name="android.support.v4.content.FileProvider"
             android:authorities="fifty.fiftyhouse.com.fifty.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
+                android:resource="@xml/filepaths"
+                tools:replace="android:resource"/>
         </provider>
 
         <activity android:name=".activty.FriendListActivity" />
@@ -99,9 +101,6 @@
         <activity android:name=".activty.ShopActivity" />
         <activity android:name=".activty.ClubSettingActivity" />
         <activity android:name=".activty.ClubBodyReportListActivity" />
-        <activity
-            android:name=".activty.ClubEditActivity"
-            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activty.ClubFavoriteActivity" />
         <activity android:name=".activty.ClubListActivity"></activity>
     </application>

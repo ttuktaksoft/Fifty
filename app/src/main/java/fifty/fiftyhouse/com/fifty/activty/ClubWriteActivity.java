@@ -18,6 +18,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -99,7 +100,16 @@ public class ClubWriteActivity extends AppCompatActivity {
         iv_ClubWrite_Img.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(ClubWriteActivity.this, CommonData.GET_PHOTO_FROM_CROP);
+                CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+                {
+                    @Override
+                    public void Listener(List<Uri> list)
+                    {
+
+                    }
+                };
+
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(ClubWriteActivity.this, mContext, null, selectListener, true);
             }
         });
 
