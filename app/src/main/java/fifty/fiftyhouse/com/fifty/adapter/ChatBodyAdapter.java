@@ -383,9 +383,14 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
         tv_Chat_Body_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.toString(tempData.GetMsgDate()), "a hh:mm"));
 
-        if(tempData.GetMsgReadCheck())
-            tv_Chat_Body_Check.setVisibility(View.INVISIBLE);
-        else
+        if(tempData.GetMsgReadCheckNumber() > 0)
+        {
             tv_Chat_Body_Check.setVisibility(View.VISIBLE);
+            tv_Chat_Body_Check.setText(Long.toString(tempData.GetMsgReadCheckNumber()));
+        }
+        else
+        {
+            tv_Chat_Body_Check.setVisibility(View.INVISIBLE);
+        }
     }
 }

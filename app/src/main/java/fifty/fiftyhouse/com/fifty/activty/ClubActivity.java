@@ -269,13 +269,30 @@ public class ClubActivity extends AppCompatActivity {
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {
-                        DialogFunc.getInstance().DismissLoadingPage();
-                        Intent intent = new Intent(mContext, ChatBodyActivity.class);
-                        intent.putExtra("RoomIndex",TKManager.getInstance().TargetClubData.GetClubIndex());
-                        intent.putExtra("RoomType","CLUB");
 
-                        startActivity(intent);
+                        FirebaseManager.CheckFirebaseComplete ChatUserListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                Intent intent = new Intent(mContext, ChatBodyActivity.class);
+                                intent.putExtra("RoomIndex",TKManager.getInstance().TargetClubData.GetClubIndex());
+                                intent.putExtra("RoomType","CLUB");
 
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+
+                            }
+                        };
+
+                        FirebaseManager.getInstance().GetUserListInChatRoom(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().MyData, ChatUserListener);
                     }
 
                     @Override

@@ -785,7 +785,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserListInChatList(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
+    public void GetUserListInChatRoom(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         TKManager.getInstance().MyData.ClearChatUserList();
         SetFireBaseLoadingCount(0);
@@ -864,25 +864,35 @@ public class FirebaseManager {
                                 tempData.SetToThumbNail(document.getData().get("ToThumbNail").toString());
 
                                 tempData.SetMsg(document.getData().get("Msg").toString());
-                                if(tempData.GetToIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+
+                                tempData.SetMsgReadCheckNumber(Long.parseLong(document.getData().get("MsgReadCheckNum").toString()));
+
+                                if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                                 {
                                     tempData.SetMsgReadCheck(true);
 
-                                    Map<String, Object> ReadCheck = new HashMap<>();
-                                    ReadCheck.put("MsgReadCheck", true);
+                                    final DocumentReference sfDocRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(document.getId());
 
-                                    mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(document.getId())
-                                            .set(ReadCheck, SetOptions.merge())
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                }
-                                            })
+                                    mDataBase.runTransaction(new Transaction.Function<Void>() {
+                                        @Override
+                                        public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                                            DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                                            double newPopulation = snapshot.getDouble("MsgReadCheckNum") - 1;
+                                            transaction.update(sfDocRef, "MsgReadCheckNum", newPopulation);
+
+                                            // Success
+                                            return null;
+                                        }
+                                    }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "Transaction success!");
+                                        }
+                                    })
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-                                                    Log.w(TAG, "Error writing document", e);
+                                                    Log.w(TAG, "Transaction failure.", e);
                                                 }
                                             });
                                 }

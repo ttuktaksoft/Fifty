@@ -68,6 +68,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     boolean isCamera = false;
 
     CommonData.CHAT_ROOM_TYPE mType;
+    LinearLayoutManager mLinearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,7 +259,7 @@ public class ChatBodyActivity extends AppCompatActivity {
                     }
                 };
 
-                FirebaseManager.getInstance().GetUserListInChatList(strRoomIndex, TKManager.getInstance().MyData, ChatUserListener);
+                FirebaseManager.getInstance().GetUserListInChatRoom(strRoomIndex, TKManager.getInstance().MyData, ChatUserListener);
 
 
             }
@@ -330,11 +331,17 @@ public class ChatBodyActivity extends AppCompatActivity {
 
     private void initRecyclerView()
     {
+
         mAdapter = new ChatBodyAdapter(getApplicationContext());
         mAdapter.setHasStableIds(true);
 
 
-        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mLinearLayoutManager.setStackFromEnd(true);
+        rv_Chat_Body_List.setLayoutManager(mLinearLayoutManager);
+
+
+      /*  FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
                 mAdapter.notifyDataSetChanged();
@@ -348,7 +355,7 @@ public class ChatBodyActivity extends AppCompatActivity {
                     }
                 }, 500);
 
-                /*rv_Chat_Body_List.postDelayed(new Runnable() {
+                *//*rv_Chat_Body_List.postDelayed(new Runnable() {
 
                     @Override
 
@@ -360,7 +367,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
                     }
 
-                },100);*/
+                },100);*//*
             }
 
             @Override
@@ -372,8 +379,23 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         };
 
-        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, mType, listener);
+        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, mType, listener);*/
 
+
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = mAdapter.getItemCount();
+                int lastVisiblePosition =
+                        mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    rv_Chat_Body_List.scrollToPosition(positionStart);
+                }
+            }
+        });
 
         rv_Chat_Body_List.setAdapter(mAdapter);
 
@@ -517,14 +539,17 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         tempData.SetToIndex(strTargetIndex);
 
+
         if(mType != CommonData.CHAT_ROOM_TYPE.CLUB)
         {
+            tempData.SetMsgReadCheckNumber(1);
             tempData.SetToNickName(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
             tempData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserImgThumb());
             FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, mContext, tempData);
         }
         else
         {
+            tempData.SetMsgReadCheckNumber(TKManager.getInstance().MyData.GetChatUserListCount());
             tempData.SetToNickName(strTargetIndex);
             tempData.SetToThumbNail(strTargetIndex);
             FirebaseManager.getInstance().AddClubChatData(strRoomIndex,  tempData);
