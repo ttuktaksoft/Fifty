@@ -438,7 +438,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                     }
                 };
 
-              FirebaseManager.getInstance().GetUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
+              FirebaseManager.getInstance().MonitorUserChatData(tempChatData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
 
   /*
                 FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {

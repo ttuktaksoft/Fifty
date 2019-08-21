@@ -588,13 +588,13 @@ public class FirebaseManager {
             ChatDataMonitor_registration.remove();
     }
 
-    public void MonitorUserChatData(final String chatRoomIndex, final UserData userData, final CommonData.CHAT_ROOM_TYPE type , final CheckFirebaseComplete listener) {
+    public void MonitorUserChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         //TKManager.getInstance().MyData.ClearUserChatData();
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
-        Query query = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).orderBy("MsgIndex", Query.Direction.DESCENDING).limit(1);
+        Query query = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).orderBy("MsgIndex", Query.Direction.ASCENDING);//.limit(1);
 
         ChatDataMonitor_registration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -669,15 +669,9 @@ public class FirebaseManager {
                                         tempData.SetMsgType(CommonData.MSGType.VIDEO);
                                         break;
                                 }
-                                tempData.SetRoomType(type);
-                                userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
-                                if(type == CommonData.CHAT_ROOM_TYPE.DEFAULT)
-                                {
 
-                                }
-                                else
-                                {
-                                }
+                                userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
+
 
 
                  /*               userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
@@ -838,7 +832,7 @@ public class FirebaseManager {
         });
     }
 
-    public void GetUserChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
+  /*  public void GetUserChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         TKManager.getInstance().MyData.ClearUserChatData();
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
@@ -934,6 +928,107 @@ public class FirebaseManager {
                     }
                 }
             });
+    }*/
+
+
+    public void GetUserChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
+
+        TKManager.getInstance().MyData.ClearUserChatData();
+
+
+        CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+
+        colRef.orderBy("MsgIndex", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        if(!document.getId().equals("Index"))
+                        {
+                            ChatData tempData = new ChatData();
+                            tempData.SetRoomIndex(document.getData().get("RoomIndex").toString());
+
+                            tempData.SetFromIndex(document.getData().get("FromIndex").toString());
+                            tempData.SetFromNickName(document.getData().get("FromNickName").toString());
+                            tempData.SetFromThumbNail(document.getData().get("FromThumbNail").toString());
+
+                            tempData.SetToIndex(document.getData().get("ToIndex").toString());
+                            tempData.SetToNickName(document.getData().get("ToNickName").toString());
+                            tempData.SetToThumbNail(document.getData().get("ToThumbNail").toString());
+
+                            tempData.SetMsg(document.getData().get("Msg").toString());
+
+                            tempData.SetMsgReadCheckNumber(Long.parseLong(document.getData().get("MsgReadCheckNum").toString()));
+
+                            if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                tempData.SetMsgReadCheck(true);
+
+                                final DocumentReference sfDocRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(document.getId());
+
+                                mDataBase.runTransaction(new Transaction.Function<Void>() {
+                                    @Override
+                                    public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                                        DocumentSnapshot snapshot = transaction.get(sfDocRef);
+                                        double newPopulation = snapshot.getDouble("MsgReadCheckNum") - 1;
+                                        transaction.update(sfDocRef, "MsgReadCheckNum", newPopulation);
+
+                                        // Success
+                                        return null;
+                                    }
+                                }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "Transaction success!");
+                                    }
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Transaction failure.", e);
+                                            }
+                                        });
+                            }
+                            else
+                            {
+                                tempData.SetMsgReadCheck(Boolean.valueOf((document.getData().get("MsgReadCheck").toString())).booleanValue());
+                            }
+
+                            tempData.SetMsgIndex(Long.parseLong(document.getData().get("MsgIndex").toString()));
+                            tempData.SetMsgSender(document.getData().get("MsgSender").toString());
+                            tempData.SetMsgDate(Long.parseLong(document.getData().get("MsgDate").toString()));
+
+                            String tempType = document.getData().get("MsgType").toString();
+
+                            switch (tempType)
+                            {
+                                case "MSG":
+                                    tempData.SetMsgType(CommonData.MSGType.MSG);
+                                    break;
+                                case "IMG":
+                                    tempData.SetMsgType(CommonData.MSGType.IMG);
+                                    break;
+                                case "VIDEO":
+                                    tempData.SetMsgType(CommonData.MSGType.VIDEO);
+                                    break;
+                            }
+                            userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
+                            //userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
+
+
+                        }
+                    }
+
+                    if (listener != null)
+                        listener.CompleteListener();
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
     public void MonitorChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
@@ -995,7 +1090,8 @@ public class FirebaseManager {
                                     {
                                         userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
                                     }
-                                   // userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
+
+                                   userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
 
 
                                     if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
@@ -1047,14 +1143,16 @@ public class FirebaseManager {
                                 break;
                         }
                     }
-                    if (listener != null)
+
+                    if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
                         listener.CompleteListener();
+
                 }
             });
         }
     }
 
-    public void GetUserChatList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
+ /*   public void GetUserChatList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList");
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
@@ -1144,11 +1242,11 @@ public class FirebaseManager {
 
 
 
-                     /*       if(!TKManager.getInstance().MonitorChatList.contains(tempData.GetRoomIndex()))
+                     *//*       if(!TKManager.getInstance().MonitorChatList.contains(tempData.GetRoomIndex()))
                             {
                                 TKManager.getInstance().MonitorChatList.add(tempData.GetRoomIndex());
                                 MonitorChatData(tempData.GetRoomIndex(), TKManager.getInstance().MyData, null);
-                            }*/
+                            }*//*
 
                             break;
 
@@ -1175,6 +1273,85 @@ public class FirebaseManager {
 
                 if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
                     listener.CompleteListener();
+
+            }
+        });
+    }*/
+
+    public void GetUserChatList(String userIndex, final UserData userData, final CheckFirebaseComplete listener) {
+        CollectionReference colRef = mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList");
+        final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+
+        colRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                for (DocumentChange document : queryDocumentSnapshots.getDocumentChanges()) {
+                    switch (document.getType()) {
+                        case ADDED:
+                        case MODIFIED:
+                            ChatData tempData = new ChatData();
+
+                            if (document.getDocument().getData().containsKey("RoomIndex")) {
+                                tempData.SetRoomIndex(document.getDocument().getData().get("RoomIndex").toString());
+                            }
+
+                            CommonData.CHAT_ROOM_TYPE tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
+
+                            if (document.getDocument().getData().containsKey("RoomType")) {
+                                tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
+                            }
+
+                            tempData.SetRoomType(tempRoomType);
+
+                            if (tempData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
+                                userData.SetUserBookMarkChatDataList(tempData.GetRoomIndex(), tempData);
+                            }
+                            else
+                            {
+                                userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
+                            }
+
+                            if(!TKManager.getInstance().MonitorChatList.contains(tempData.GetRoomIndex()))
+                            {
+                                TKManager.getInstance().MonitorChatList.add(tempData.GetRoomIndex());
+                                MonitorChatData(tempData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
+                            }
+                            else
+                            {
+                                if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
+                                    listener.CompleteListener();
+                            }
+
+                            break;
+
+
+                        case REMOVED:
+                            tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
+
+                            if (document.getDocument().getData().containsKey("RoomType")) {
+                                tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
+                            }
+
+                            if (tempRoomType == CommonData.CHAT_ROOM_TYPE.BOOKMARK) {
+                                userData.DelUserBookMarkChatDataList(document.getDocument().getId());
+                            }
+                            else
+                            {
+                                userData.DelUserChatDataList(document.getDocument().getId());
+                            }
+
+                            break;
+                    }
+                }
+
+
+               /* if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
+                    listener.CompleteListener();*/
 
             }
         });

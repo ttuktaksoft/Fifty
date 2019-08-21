@@ -324,7 +324,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                 }
                             };
 
-                            FirebaseManager.getInstance().GetUserChatData(ChatRoomIndex, TKManager.getInstance().MyData, listener);
+                            FirebaseManager.getInstance().MonitorUserChatData(ChatRoomIndex, TKManager.getInstance().MyData, listener);
                         }
 
                         @Override
@@ -400,7 +400,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                 }
                             };
 
-                            FirebaseManager.getInstance().GetUserChatData(ChatRoomIndex, TKManager.getInstance().MyData, listener);
+                            FirebaseManager.getInstance().MonitorUserChatData(ChatRoomIndex, TKManager.getInstance().MyData, listener);
                         }
 
                         @Override

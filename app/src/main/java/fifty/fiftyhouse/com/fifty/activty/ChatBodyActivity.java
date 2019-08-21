@@ -341,7 +341,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         rv_Chat_Body_List.setLayoutManager(mLinearLayoutManager);
 
 
-      /*  FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
                 mAdapter.notifyDataSetChanged();
@@ -355,7 +355,7 @@ public class ChatBodyActivity extends AppCompatActivity {
                     }
                 }, 500);
 
-                *//*rv_Chat_Body_List.postDelayed(new Runnable() {
+                /*rv_Chat_Body_List.postDelayed(new Runnable() {
 
                     @Override
 
@@ -367,7 +367,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
                     }
 
-                },100);*//*
+                },100);*/
             }
 
             @Override
@@ -379,7 +379,7 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         };
 
-        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, mType, listener);*/
+        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
 
 
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
