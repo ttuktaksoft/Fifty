@@ -82,7 +82,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         pb_VideoPlayer_Down = findViewById(R.id.pb_VideoPlayer_Down);
 
         tv_TopBar_Title.setText("");
-        player.stop(true);
+
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -265,6 +265,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
             //플레이어 연결
             ex_VideoPlayer.setPlayer(player);
+
+            player.stop(true);
 
             //컨트롤러 없애기
             //exoPlayerView.setUseController(false);
