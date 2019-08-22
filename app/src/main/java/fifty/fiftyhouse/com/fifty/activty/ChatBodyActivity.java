@@ -135,7 +135,6 @@ public class ChatBodyActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
-
                 ArrayList<String> menuList = new ArrayList<>();
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_MENU_PHOTO));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_MENU_VIDEO));
@@ -203,7 +202,6 @@ public class ChatBodyActivity extends AppCompatActivity {
                             @Override
                             public void Listener(List<Uri> list)
                             {
-
                                 DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.this);
 
                                 Bitmap thumb = ThumbnailUtils.createVideoThumbnail(CommonFunc.getInstance().getPath(ChatBodyActivity.this, list.get(0)),
@@ -220,8 +218,6 @@ public class ChatBodyActivity extends AppCompatActivity {
                                             public void CompleteListener() {
                                                 DialogFunc.getInstance().DismissLoadingPage();
                                                 SendChatData(CommonData.MSGType.VIDEO);
-
-
                                             }
 
                                             @Override
@@ -246,57 +242,10 @@ public class ChatBodyActivity extends AppCompatActivity {
                                 };
                                 FirebaseManager.getInstance().UploadFileInChatRoom(strRoomIndex, list.get(0),  FileListener);
 
-
-                                /*
-                                // 썸네일 뽑아서 올리고
-                                Glide.with(getApplicationContext())
-                                        .load(list.get(0))
-                                        *//*.apply(new RequestOptions()
-                                                .placeholder(R.color.colorPrimary)
-                                                .dontAnimate().skipMemoryCache(true))*//*
-                                        .listener(new RequestListener<Drawable>() {
-                                            @Override
-                                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                                return false;
-                                            }
-
-                                            @Override
-                                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                                                Context context = getApplicationContext();
-                                                Bitmap bitmap = ((BitmapDrawable)resource).getBitmap();
-
-                                                Uri tempBitmap = CommonFunc.getInstance().getImageUri(ChatBodyActivity.this, bitmap);
-
-                                                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                                                    @Override
-                                                    public void CompleteListener() {
-                                                        DialogFunc.getInstance().DismissLoadingPage();
-                                                        SendChatData(CommonData.MSGType.VIDEO);
-                                                    }
-
-                                                    @Override
-                                                    public void CompleteListener_Yes() {
-                                                    }
-
-                                                    @Override
-                                                    public void CompleteListener_No() {
-                                                    }
-                                                };
-
-                                                CommonFunc.getInstance().SetImageInChatRoom(ChatBodyActivity.this, tempBitmap, strRoomIndex,  listener);
-
-
-                                                return false;
-                                            }
-                                        }).into(iv_Chat_Body_Temp_Video_Thumnail);*/
-
-                                // 동영상 따로 올리고
-
                             }
                         };
 
-                        CommonFunc.getInstance().GetPermissionForGalleryVideo(ChatBodyActivity.this, selectListener);
+                        CommonFunc.getInstance().GetPermissionForGalleryVideo(ChatBodyActivity.this,  selectListener);
                     }
                 });
 

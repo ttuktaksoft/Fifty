@@ -1072,6 +1072,11 @@ public class FirebaseManager {
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                                     tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
 
+                                    if (document.getDocument().getData().containsKey("File")) {
+                                        tempData.SetFile((document.getDocument().getData().get("File").toString()));
+                                    }
+
+
                                    /* if (document.getDocument().getData().containsKey("RoomType")) {
                                         tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
                                     }*/
@@ -2864,8 +2869,6 @@ public class FirebaseManager {
                 }
             }
         });
-
-
     }
 
     public void UploadFileInChatRoom(String roomIndex, Uri file, final FirebaseManager.CheckFirebaseComplete listener) {
