@@ -1,9 +1,7 @@
 package fifty.fiftyhouse.com.fifty.Manager;
 
 import android.app.Activity;
-import android.app.VoiceInteractor;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -23,7 +21,6 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
@@ -36,7 +33,6 @@ import com.google.firebase.firestore.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
 
 import org.imperiumlabs.geofirestore.GeoFirestore;
 import org.imperiumlabs.geofirestore.GeoQuery;
@@ -48,11 +44,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -69,8 +63,6 @@ import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.R;
-
-import static fifty.fiftyhouse.com.fifty.CommonData.DAILY_FAVORITE;
 
 public class FirebaseManager {
 
@@ -594,7 +586,7 @@ public class FirebaseManager {
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
-        Query query = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).orderBy("MsgIndex", Query.Direction.ASCENDING);//.limit(1);
+        Query query = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).orderBy("MsgIndex", Query.Direction.DESCENDING).limit(1);
 
         ChatDataMonitor_registration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -703,6 +695,10 @@ public class FirebaseManager {
                 }
                 if (listener != null)
                     listener.CompleteListener();
+
+              //  TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+
+              //  ChatDataMonitor_registration.remove();
             }
         });
     }
@@ -960,7 +956,10 @@ public class FirebaseManager {
 
                             tempData.SetMsg(document.getData().get("Msg").toString());
 
-                            tempData.SetMsgReadCheckNumber(Long.parseLong(document.getData().get("MsgReadCheckNum").toString()));
+                                if (document.getData().containsKey("MsgReadCheckNum")) {
+                                    tempData.SetMsgReadCheckNumber(Long.parseLong(document.getData().get("MsgReadCheckNum").toString()));
+                                }
+
 
                             if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                             {
@@ -1075,7 +1074,8 @@ public class FirebaseManager {
                                         tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
                                     }*/
 
-                                   if(TKManager.getInstance().MyData.ExistUserBookMarkChatDataListKeySet(tempData.GetRoomIndex()))
+                                   if(TKManager.getInstance().MyData.GetUserChatRoomTypeList(tempData.GetRoomIndex()) == CommonData.CHAT_ROOM_TYPE.BOOKMARK)
+                                   //if(TKManager.getInstance().MyData.ExistUserBookMarkChatDataListKeySet(tempData.GetRoomIndex()))
                                        tempData.SetRoomType(CommonData.CHAT_ROOM_TYPE.BOOKMARK);
                                    else
                                        tempData.SetRoomType(CommonData.CHAT_ROOM_TYPE.DEFAULT);
@@ -1083,27 +1083,34 @@ public class FirebaseManager {
                                     CommonData.MSGType tempType = CommonData.MSGType.valueOf(document.getDocument().getData().get("MsgType").toString());
                                     tempData.SetMsgType(tempType);
 
-                                    if (tempData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
-                                        userData.SetUserBookMarkChatDataList(tempData.GetRoomIndex(), tempData);
+
+                                    try {
+                                        TKManager.getInstance().copyData = (ChatData)tempData.clone();
+                                    } catch (CloneNotSupportedException e1) {
+                                        e1.printStackTrace();
+                                    }
+
+                                    if ( TKManager.getInstance().copyData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
+                                        userData.SetUserBookMarkChatDataList(TKManager.getInstance().copyData.GetRoomIndex(), TKManager.getInstance().copyData);
                                     }
                                     else
                                     {
-                                        userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
+                                        userData.SetUserChatDataList(TKManager.getInstance().copyData.GetRoomIndex(), TKManager.getInstance().copyData);
                                     }
 
-                                   userData.SetUserChatReadIndexList(tempRoomName, tempData.GetMsgIndex());
+                                   userData.SetUserChatReadIndexList(tempRoomName, TKManager.getInstance().copyData.GetMsgIndex());
 
 
-                                    if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                                    if(!TKManager.getInstance().copyData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                                     {
                                         Map<String, Object> AlarmData = new HashMap<>();
-                                        AlarmData.put("Index", tempData.GetFromIndex());
+                                        AlarmData.put("Index", TKManager.getInstance().copyData.GetFromIndex());
                                         AlarmData.put("Date", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
                                         AlarmData.put("Type", "CHAT");
-                                        AlarmData.put("Msg", tempData.GetMsg());
+                                        AlarmData.put("Msg", TKManager.getInstance().copyData.GetMsg());
 
 
-                                        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("AlarmList").document(tempData.GetFromIndex())
+                                        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("AlarmList").document(TKManager.getInstance().copyData.GetFromIndex())
                                                 .set(AlarmData, SetOptions.merge())
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
@@ -1122,7 +1129,6 @@ public class FirebaseManager {
 
 
                                 }
-
 
                                 break;
                             case REMOVED:
@@ -1146,6 +1152,12 @@ public class FirebaseManager {
 
                     if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
                         listener.CompleteListener();
+
+                    if(TKManager.getInstance().mUpdateChatFragmentFunc != null)
+                    {
+                        TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+                    }
+
 
                 }
             });
@@ -1304,9 +1316,10 @@ public class FirebaseManager {
 
                             if (document.getDocument().getData().containsKey("RoomType")) {
                                 tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
+                                userData.SetUserChatRoomTypeList(tempData.GetRoomIndex(), tempRoomType);
                             }
 
-                            tempData.SetRoomType(tempRoomType);
+                     /*       tempData.SetRoomType(tempRoomType);
 
                             if (tempData.GetRoomType().equals(CommonData.CHAT_ROOM_TYPE.BOOKMARK)) {
                                 userData.SetUserBookMarkChatDataList(tempData.GetRoomIndex(), tempData);
@@ -1314,7 +1327,7 @@ public class FirebaseManager {
                             else
                             {
                                 userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
-                            }
+                            }*/
 
                             if(!TKManager.getInstance().MonitorChatList.contains(tempData.GetRoomIndex()))
                             {
@@ -3104,7 +3117,7 @@ public class FirebaseManager {
                             }
                         });
 
-                Map<String, Object> tempTargetChatData = new HashMap<>();
+              /*  Map<String, Object> tempTargetChatData = new HashMap<>();
                 tempTargetChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserIndex());
                 tempTargetChatData.put("FromNickName", TKManager.getInstance().MyData.GetUserNickName());
                 tempTargetChatData.put("Msg", chatData.GetMsg());
@@ -3130,7 +3143,7 @@ public class FirebaseManager {
                             public void onFailure(@NonNull Exception e) {
                                 Log.w(TAG, "Error writing document", e);
                             }
-                        });
+                        });*/
 
                 Map<String, Object> tempMyChatData = new HashMap<>();
                 tempMyChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserIndex());
