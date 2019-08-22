@@ -83,6 +83,7 @@ import fifty.fiftyhouse.com.fifty.activty.AuthActivity;
 import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
+import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
 import gun0912.tedbottompicker.TedBottomPicker;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -1810,6 +1811,36 @@ public class CommonFunc {
 
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    public List<CustomGridListHolder> getCustomGridListHolderList(List<String> keyList)
+    {
+        List<CustomGridListHolder> items = new ArrayList<>();
+        int bigsizetum = 0;
+        for (int i = 0; i < keyList.size(); i++) {
+            int colSpan = 1;
+
+            if(bigsizetum > 0)
+            {
+                colSpan = 1;
+                bigsizetum--;
+            }
+            else
+            {
+                colSpan = Math.random() < 0.3f ? 2 : 1;
+                if(colSpan == 2)
+                    bigsizetum = 2;
+            }
+
+
+
+
+            int rowSpan = colSpan;
+            CustomGridListHolder item = new CustomGridListHolder(colSpan, rowSpan, i,keyList.get(i));
+            items.add(item);
+        }
+
+        return items;
     }
 
 

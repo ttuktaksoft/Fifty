@@ -21,7 +21,7 @@ import fifty.fiftyhouse.com.fifty.R;
 
 import java.util.List;
 
-public class MainAdapterOneList extends ArrayAdapter<MainAdapterOneListHolder> implements ListAdapter{
+public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> implements ListAdapter{
 
     private final LayoutInflater layoutInflater;
 
@@ -29,7 +29,7 @@ public class MainAdapterOneList extends ArrayAdapter<MainAdapterOneListHolder> i
     public TextView tv_Main_Dis, tv_Main_Thumbnail_Online_State;
 
 
-    public MainAdapterOneList(Context context, List<MainAdapterOneListHolder> items) {
+    public CustomMainAdapterOne(Context context, List<CustomGridListHolder> items) {
         super(context, 0, items);
         layoutInflater = LayoutInflater.from(context);
     }
@@ -110,12 +110,12 @@ public class MainAdapterOneList extends ArrayAdapter<MainAdapterOneListHolder> i
         return position % 2 == 0 ? 1 : 0;
     }
 
-    public void appendItems(List<MainAdapterOneListHolder> newItems) {
+    public void appendItems(List<CustomGridListHolder> newItems) {
         addAll(newItems);
         notifyDataSetChanged();
     }
 
-    public void setItems(List<MainAdapterOneListHolder> moreItems) {
+    public void setItems(List<CustomGridListHolder> moreItems) {
         clear();
         appendItems(moreItems);
     }

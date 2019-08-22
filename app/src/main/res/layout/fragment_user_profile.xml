@@ -135,7 +135,7 @@
                 app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Detail"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_UserProfile_Info_Memo"
                 app:layout_constraintTop_toTopOf="@+id/tv_UserProfile_Info_Memo"
-                android:background="@color/info_slot_bg"
+                android:background="@color/user_profile_memo_bg"
                 />
 
             <ImageView
@@ -168,7 +168,6 @@
                 android:text="자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개자기소개"
                 android:textSize="@dimen/default_font_size_big"
                 android:textColor="@color/str_color_1"
-                android:background="@color/user_profile_memo_bg"
                 />
 
 
@@ -291,13 +290,14 @@
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Favorite"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Favorite"
                     app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Favorite"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="10dp"
                     android:text="@string/tv_UserProfile_Info_Favorite"
                     android:textStyle="bold"
                     android:gravity="center|left"
-                    android:textColor="@color/str_color_1"
+                    android:textSize="@dimen/default_font_size_small"
+                    android:textColor="@color/str_color_4"
                     />
 
 
@@ -327,13 +327,14 @@
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Photo"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Photo"
                     app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Photo"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="10dp"
                     android:text="@string/tv_UserProfile_Info_Photo"
                     android:textStyle="bold"
                     android:gravity="center|left"
-                    android:textColor="@color/str_color_1"
+                    android:textSize="@dimen/default_font_size_small"
+                    android:textColor="@color/str_color_4"
                     />
 
 
@@ -365,13 +366,14 @@
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Club"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Club"
                     app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Club"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="10dp"
                     android:text="@string/tv_UserProfile_Info_Club"
                     android:textStyle="bold"
                     android:gravity="center|left"
-                    android:textColor="@color/str_color_1"
+                    android:textSize="@dimen/default_font_size_small"
+                    android:textColor="@color/str_color_4"
                     />
 
 
@@ -400,13 +402,14 @@
                     app:layout_constraintLeft_toLeftOf="@+id/v_UserProfile_Info_Menu"
                     app:layout_constraintRight_toRightOf="@+id/v_UserProfile_Info_Menu"
                     app:layout_constraintTop_toTopOf="@+id/v_UserProfile_Info_Menu"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
                     android:paddingLeft="10dp"
                     android:text="@string/tv_UserProfile_Info_Menu"
                     android:textStyle="bold"
                     android:gravity="center|left"
-                    android:textColor="@color/str_color_1"
+                    android:textSize="@dimen/default_font_size_small"
+                    android:textColor="@color/str_color_4"
                     />
 
 

@@ -16,15 +16,14 @@ import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter
 import java.util.ArrayList;
 import java.util.List;
 
-import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SortSettingActivity;
-import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOneListHolder;
+import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
-import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOneList;
+import fifty.fiftyhouse.com.fifty.adapter.CustomMainAdapterOne;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 import fifty.fiftyhouse.com.fifty.R;
@@ -40,8 +39,9 @@ public class MainDistanceViewPager extends Fragment {
     AsymmetricGridView rv_Main_Dis_UserList;
     View v_FragmentView = null;
 
-    MainAdapterOne mAdapter;
+    CustomMainAdapterOne mAdapter;
 
+    ArrayList<String> mUserList = new ArrayList<>();
     boolean mSortEnable = false;
     private String UserIndex;
     public MainDistanceViewPager() {
@@ -94,29 +94,20 @@ public class MainDistanceViewPager extends Fragment {
 
     private void initRecyclerView()
     {
-        mAdapter = new MainAdapterOne(getContext());
+/*        mAdapter = new MainAdapterOne(getContext());
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());
+        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());*/
 
-        List<MainAdapterOneListHolder> items = new ArrayList<>();
-        int currentOffset = 0;
-        for (int i = 0; i < TKManager.getInstance().UserData_Simple.size() - 1; i++) {
-            int colSpan = Math.random() < 0.2f ? 2 : 1;
-            int rowSpan = colSpan;
-            MainAdapterOneListHolder item = new MainAdapterOneListHolder(colSpan, rowSpan, currentOffset + i);
-            items.add(item);
-        }
-
-        currentOffset += TKManager.getInstance().UserData_Simple.size() - 1;
+        RefreshUserList();
+        mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
         rv_Main_Dis_UserList.setRequestedColumnCount(3);
-        rv_Main_Dis_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Dis_UserList, new MainAdapterOneList(getContext(), items)));
-        //rv_Main_Dis_UserList.setDebugging(true);
+        rv_Main_Dis_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Dis_UserList,mAdapter));
         rv_Main_Dis_UserList.setOnItemClickListener(
                 new RecyclerItemOneClickListener() {
                     @Override
                     public void RecyclerItemOneClick(int position) {
-                        UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)).GetUserIndex();
+                        UserIndex = TKManager.getInstance().UserData_Simple.get(mUserList.get(position)).GetUserIndex();
                         CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
                     }
                 });
@@ -144,8 +135,19 @@ public class MainDistanceViewPager extends Fragment {
         }));*/
     }
 
-    private void RefreshAdapter()
+    public void RefreshAdapter()
     {
+        RefreshUserList();
+
+        List<CustomGridListHolder> list = CommonFunc.getInstance().getCustomGridListHolderList(mUserList);
+        mAdapter.setItems(list);
+    }
+
+    public void RefreshUserList()
+    {
+        mUserList.clear();
+        mUserList.addAll(TKManager.getInstance().View_UserList_Dist);
+
         if(TKManager.getInstance().View_UserList_Dist.size() == 0)
         {
             rv_Main_Dis_UserList.setVisibility(View.GONE);
@@ -156,7 +158,5 @@ public class MainDistanceViewPager extends Fragment {
             rv_Main_Dis_UserList.setVisibility(View.VISIBLE);
             tv_Main_Dis_UserList_Empty.setVisibility(View.GONE);
         }
-
-        mAdapter.notifyDataSetChanged();
     }
 }
