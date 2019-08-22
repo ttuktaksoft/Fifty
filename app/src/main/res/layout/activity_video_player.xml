@@ -10,6 +10,17 @@
         android:id="@+id/ui_VideoPlayer_TopBar"
         layout="@layout/ui_topbar"/>
 
+    <ImageView
+        android:id="@+id/iv_VideoPlayer_Down"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="12dp"
+        app:layout_constraintRight_toRightOf="@+id/ui_VideoPlayer_TopBar"
+        app:layout_constraintTop_toTopOf="@+id/ui_VideoPlayer_TopBar"
+        app:layout_constraintBottom_toBottomOf="@+id/ui_VideoPlayer_TopBar"
+        android:src="@drawable/ic_download"
+        android:tint="@color/icon_tint_white" />
+
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/ex_VideoPlayer"
         android:layout_width="match_parent"

@@ -17,6 +17,12 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.huxq17.download.DownloadConfig;
+import com.huxq17.download.DownloadDetailsInfo;
+import com.huxq17.download.Pump;
+import com.huxq17.download.message.DownloadListener;
+
+import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -25,7 +31,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     View ui_VideoPlayer_TopBar;
     TextView tv_TopBar_Title;
-    ImageView iv_TopBar_Back;
+    ImageView iv_TopBar_Back, iv_VideoPlayer_Down;
 
     PlayerView ex_VideoPlayer;
 
@@ -53,13 +59,87 @@ public class VideoPlayerActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_VideoPlayer_TopBar.findViewById(R.id.iv_TopBar_Back);
 
         ex_VideoPlayer = findViewById(R.id.ex_VideoPlayer);
+        iv_VideoPlayer_Down = findViewById(R.id.iv_VideoPlayer_Down);
 
         tv_TopBar_Title.setText("");
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+
                 finish();
+            }
+        });
+
+        iv_VideoPlayer_Down.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+                player.stop(true);
+
+                String sample = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+
+                DownloadConfig.newBuilder(getApplicationContext())
+                        .build();
+
+
+
+                Pump.newRequest(sample)
+                        .listener(new DownloadListener(sample) {
+
+                            @Override
+                            public void onProgress(int progress) {
+                                //progressDialog.setProgress(progress);
+                                //tv_TopBar_Title.setText("" + progress);
+                            }
+
+                            @Override
+                            public void onSuccess() {
+/*                                progressDialog.dismiss();
+                                String apkPath = getDownloadInfo().getFilePath();
+                                APK.with(MainActivity.this)
+                                        .from(apkPath)
+//                                        .forceInstall();
+                                        .install();
+                                Toast.makeText(MainActivity.this, "Download Finished", Toast.LENGTH_SHORT).show();*/
+                            }
+
+                            @Override
+                            public void onFailed() {
+ /*                               progressDialog.dismiss();
+                                Toast.makeText(MainActivity.this, "Download failed", Toast.LENGTH_SHORT).show();*/
+                            }
+                        })
+                        //Optionally,Set whether to repeatedly download the downloaded file,default false.
+                        .forceReDownload(true)
+                        //Optionally,Set how many threads are used when downloading,default 3.
+                        .threadNum(3)
+                        .setRetry(3, 200)
+                        .tag("video")
+                        .submit();
+
+                DownloadListener downloadObserver = new DownloadListener() {
+                    @Override
+                    public void onProgress(int progress) {
+
+                        List<DownloadDetailsInfo> list = Pump.getDownloadListByTag("video");
+
+                      //  tv_TopBar_Title.setText(list.get(0).getContentLength() + "/" + list.get(0).getCompletedSize());
+
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        super.onFailed();
+
+                    }
+                };
+
+                downloadObserver.enable();
+
+
+
+                //finish();
             }
         });
     }

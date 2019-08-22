@@ -65,6 +65,8 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-ui:2.9.3"
 
     implementation 'com.airbnb.android:lottie:3.0.0'
+    implementation'com.huxq17.pump:download:1.2.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
