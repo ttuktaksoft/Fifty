@@ -20,7 +20,9 @@ import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> implements ListAdapter{
 
@@ -45,7 +47,30 @@ public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> imp
         tv_Main_Dis = v.findViewById(R.id.tv_Main_Dis);
         tv_Main_Thumbnail_Online_State = v.findViewById(R.id.tv_Main_Thumbnail_Online_State);
 
-        UserData tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)));
+        UserData tempData = new UserData();
+        switch (UserType)
+        {
+            case DIST:
+                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)));
+                break;
+
+            case NEW:
+                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_New.get(position)));
+                break;
+
+            case HOT:
+                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Hot.get(position)));
+                break;
+
+            case FRIEND:
+
+                Set tempKey = TKManager.getInstance().MyData.GetUserFriendListKeySet();
+                List array = new ArrayList(tempKey);
+
+                tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(array.get(position).toString()));
+                break;
+        }
+
 
         String mUserName = null;
         String mUserDist = null;
