@@ -231,8 +231,6 @@ public class ClubFragment extends Fragment {
 
     private void SearchClub(String name)
     {
-
-        DialogFunc.getInstance().ShowLoadingPage(mContext);
         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
             public void CompleteListener() {
@@ -269,6 +267,7 @@ public class ClubFragment extends Fragment {
             DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EDIT_EMPTY));
         }
         else {
+            DialogFunc.getInstance().ShowLoadingPage(mContext);
             bSearchClub = true;
             et_Club_TopBar_Search.setText(null);
             FirebaseManager.getInstance().SearchClubList(name, listener);

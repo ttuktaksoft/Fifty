@@ -4,40 +4,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
+
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.GlobalApplication;
 import fifty.fiftyhouse.com.fifty.MainActivity;
-import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SortSettingActivity;
-import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
-import fifty.fiftyhouse.com.fifty.adapter.MainAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOneListHolder;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
+import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOneList;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
-import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainDistanceViewPager extends Fragment {
 
@@ -46,7 +39,7 @@ public class MainDistanceViewPager extends Fragment {
     TextView tv_Main_Dis_UserList_Empty;
     ImageView iv_Main_Dis_Sort_Type;
 
-    RecyclerView rv_Main_Dis_UserList;
+    AsymmetricGridView rv_Main_Dis_UserList;
     View v_FragmentView = null;
 
     MainAdapterOne mAdapter;
@@ -107,6 +100,35 @@ public class MainDistanceViewPager extends Fragment {
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());
+
+        List<MainAdapterOneListHolder> items = new ArrayList<>();
+        int currentOffset = 0;
+        for (int i = 0; i < TKManager.getInstance().UserData_Simple.size() - 1; i++) {
+            int colSpan = Math.random() < 0.2f ? 2 : 1;
+            int rowSpan = colSpan;
+            MainAdapterOneListHolder item = new MainAdapterOneListHolder(colSpan, rowSpan, currentOffset + i);
+            items.add(item);
+        }
+
+        currentOffset += TKManager.getInstance().UserData_Simple.size() - 1;
+        rv_Main_Dis_UserList.setRequestedColumnCount(3);
+        rv_Main_Dis_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Dis_UserList, new MainAdapterOneList(getContext(), items)));
+        //rv_Main_Dis_UserList.setDebugging(true);
+        rv_Main_Dis_UserList.setOnItemClickListener(
+                new RecyclerItemOneClickListener() {
+                    @Override
+                    public void RecyclerItemOneClick(int position) {
+                        UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)).GetUserIndex();
+                        CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
+                    }
+                });
+
+
+
+        /*mAdapter = new MainAdapterOne(getContext());
+        RefreshAdapter();
+        mAdapter.setHasStableIds(true);
+        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());
         rv_Main_Dis_UserList.setAdapter(mAdapter);
 
         rv_Main_Dis_UserList.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -121,23 +143,7 @@ public class MainDistanceViewPager extends Fragment {
             public void onLongItemClick(View view, int position) {
                 //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
             }
-        }));
-
-        rv_Main_Dis_UserList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                /*int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                int nSize = 0;
-                nSize = recyclerView.getAdapter().getItemCount() - 1;
-
-                if (lastVisibleItemPosition == nSize) {
-                    // Toast.makeText(getContext(), "Last Position", Toast.LENGTH_SHORT).show();
-                    //    CommonFunc.getInstance().ShowLoadingPage(getContext(), "로딩중");
-                    //  FirebaseData.getInstance().GetHotData(RecvAdapter, false);
-                }*/
-            }
-        });
+        }));*/
     }
 
     private void RefreshAdapter()

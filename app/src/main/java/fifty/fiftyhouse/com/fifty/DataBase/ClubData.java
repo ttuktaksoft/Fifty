@@ -132,6 +132,9 @@ public class ClubData  implements Cloneable{
     {
         ClubMemberList.remove(index);
     }
+    public boolean IsClubMember(String index){
+        return ClubMemberList.containsKey(index);
+    }
 
     public int GetClubMemberCount()
     {

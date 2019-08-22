@@ -43,6 +43,10 @@
                 app:layout_constraintBottom_toBottomOf="@+id/v_Club_TopBar"
                 android:inputType="textCapSentences"
                 android:imeOptions="actionSearch"
+                android:background="@color/alpha"
+                android:textColorHint="@color/str_color_4"
+                android:textColor="@color/str_color_2"
+                android:hint="@string/MSG_CLUB_SEARCH"
                 />
 
             <ImageView
