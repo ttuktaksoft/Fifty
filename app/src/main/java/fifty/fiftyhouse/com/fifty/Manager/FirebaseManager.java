@@ -616,6 +616,11 @@ public class FirebaseManager {
                                 tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
 
                                 tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
+
+                                if (document.getDocument().getData().containsKey("File") && document.getDocument().getData().get("File") != null) {
+                                    tempData.SetFile((document.getDocument().getData().get("File").toString()));
+                                }
+
                                 if(tempData.GetToIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                                 {
                                     tempData.SetMsgReadCheck(true);
@@ -962,6 +967,11 @@ public class FirebaseManager {
                                     tempData.SetMsgReadCheckNumber(inum);
                                 }
 
+                            if (document.getData().containsKey("File") && document.getData().get("File") != null) {
+                                tempData.SetFile((document.getData().get("File").toString()));
+                            }
+
+
 
                             if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                             {
@@ -1071,6 +1081,11 @@ public class FirebaseManager {
                                     tempData.SetMsgReadCheck(Boolean.valueOf((document.getDocument().getData().get("MsgReadCheck").toString())).booleanValue());
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                                     tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
+
+                                    if (document.getDocument().getData().containsKey("File") && document.getDocument().getData().get("File") != null) {
+                                        tempData.SetFile((document.getDocument().getData().get("File").toString()));
+                                    }
+
 
                                    /* if (document.getDocument().getData().containsKey("RoomType")) {
                                         tempRoomType = CommonData.CHAT_ROOM_TYPE.valueOf(document.getDocument().getData().get("RoomType").toString());
@@ -2826,10 +2841,87 @@ public class FirebaseManager {
                 }
             }
         });
+    }
+
+    public void UploadImgInChatRoom(String roomIndex, Bitmap bitmap, final FirebaseManager.CheckFirebaseComplete listener) {
+        long seed = System.currentTimeMillis();
+        Random rand = new Random(seed);
+
+        String chatIndex = Integer.toString(rand.nextInt());
+
+        final StorageReference tempThumbnailRef = mStorageRef.child("ChatData/" + roomIndex + "Images/" + chatIndex);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = tempThumbnailRef.putBytes(data);
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return tempThumbnailRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    TKManager.getInstance().MyData.SetUserImgChat(downloadUri.toString());
+                    if (listener != null)
+                        listener.CompleteListener();
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
+    }
+
+    public void UploadFileInChatRoom(String roomIndex, Uri file, final FirebaseManager.CheckFirebaseComplete listener) {
+        long seed = System.currentTimeMillis();
+        Random rand = new Random(seed);
+
+        String chatIndex = Integer.toString(rand.nextInt());
+
+       // final StorageReference tempThumbnailRef = mStorageRef.child("ChatData/" + roomIndex + "/" + chatIndex + "/file");
+
+        Uri UploadFile = file;
+        StorageReference FileRef = mStorageRef.child("ChatData/" + roomIndex + "Files/"+UploadFile.getLastPathSegment());
+        UploadTask uploadTask = FileRef.putFile(UploadFile);
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return FileRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    TKManager.getInstance().MyData.SetUserFileChat(downloadUri.toString());
+                    if (listener != null)
+                        listener.CompleteListener();
+
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
 
     }
 
-    public void UploadImgInChatRoom(String roomIndex, String chatIndex, Bitmap bitmap, final FirebaseManager.CheckFirebaseComplete listener) {
+  /*  public void UploadImgInChatRoom(String roomIndex, String chatIndex, Bitmap bitmap, final FirebaseManager.CheckFirebaseComplete listener) {
         final StorageReference tempThumbnailRef = mStorageRef.child("ChatData/" + roomIndex + "/" + chatIndex + "/Image.jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -2862,7 +2954,7 @@ public class FirebaseManager {
         });
 
 
-    }
+    }*/
 
 
     public void UploadClubThumbImg(String clubIndex, Bitmap bitmap, final ClubData clubData, final FirebaseManager.CheckFirebaseComplete listener) {
@@ -3211,6 +3303,7 @@ public class FirebaseManager {
                 tempMyChatData.put("MsgReadCheck", chatData.GetMsgReadCheck());
                 tempMyChatData.put("MsgSender", chatData.GetMsgSender());
                 tempMyChatData.put("MsgType", chatData.GetMsgType());
+                tempMyChatData.put("File", chatData.GetFile());
                 tempMyChatData.put("MsgIndex", chatData.GetMsgIndex());
                 tempMyChatData.put("RoomIndex", chatData.GetRoomIndex());
                 tempMyChatData.put("ToIndex", targetIndex);

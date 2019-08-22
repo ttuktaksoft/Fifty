@@ -109,6 +109,7 @@ public class UserData {
         }
     };
 
+    private  String File_Chat;
     private  String Img_Chat;
     private  String Img_ThumbNail;
     private Map<String, String> ImgList = new LinkedHashMap<>();
@@ -239,6 +240,15 @@ public class UserData {
     public String GetUserLocation()
     {
         return Location;
+    }
+
+    public void SetUserFileChat(String img)
+    {
+        File_Chat = img;
+    }
+    public String GetUserFileChat()
+    {
+        return File_Chat;
     }
 
     public void SetUserImgChat(String img)
