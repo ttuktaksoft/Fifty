@@ -55,7 +55,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     private SimpleExoPlayer player;
 
-    private Boolean playWhenReady = true;
+    private Boolean playWhenReady = false;
     private int currentWindow = 0;
     private Long playbackPosition = 0L;
     DownloadListener downloadObserver;
@@ -265,8 +265,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
             //플레이어 연결
             ex_VideoPlayer.setPlayer(player);
-
-            player.stop(true);
 
             //컨트롤러 없애기
             //exoPlayerView.setUseController(false);
