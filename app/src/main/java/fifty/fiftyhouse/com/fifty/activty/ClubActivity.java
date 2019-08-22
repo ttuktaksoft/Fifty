@@ -543,9 +543,12 @@ public class ClubActivity extends AppCompatActivity {
 
     public void RefreshAdapter()
     {
-        mContentList.clear();
-        mContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
-        mAdapter.setItemData(mContentList);
+        if(TKManager.getInstance().TargetClubData.IsClubMember(TKManager.getInstance().MyData.GetUserIndex()))
+        {
+            mContentList.clear();
+            mContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
+            mAdapter.setItemData(mContentList);
+        }
     }
 
     public void RefreshFavoriteAdapter()

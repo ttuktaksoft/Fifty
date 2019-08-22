@@ -176,6 +176,7 @@
     <string name="MSG_CLUB_OPEN_DAY">개설일</string>
     <string name="MSG_USER_SEARCH_TITLE">유저 찾기</string>
     <string name="MSG_USER_SEARCH_HINT">닉네임을 입력해주세요</string>
+    <string name="MSG_CLUB_SEARCH">클럽 검색</string>
 
     <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
     <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>
