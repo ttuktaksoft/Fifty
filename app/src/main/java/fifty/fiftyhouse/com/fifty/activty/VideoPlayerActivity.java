@@ -2,11 +2,15 @@ package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -19,19 +23,30 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.huxq17.download.DownloadConfig;
 import com.huxq17.download.DownloadDetailsInfo;
+import com.huxq17.download.DownloadInfo;
 import com.huxq17.download.Pump;
 import com.huxq17.download.message.DownloadListener;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class VideoPlayerActivity extends AppCompatActivity {
 
     View ui_VideoPlayer_TopBar;
-    TextView tv_TopBar_Title;
+    TextView tv_TopBar_Title, tv_VideoPlayer_Down;
     ImageView iv_TopBar_Back, iv_VideoPlayer_Down;
+    ProgressBar pb_VideoPlayer_Down;
+    ConstraintLayout v_VideoPlayer_Down;
 
     PlayerView ex_VideoPlayer;
 
@@ -43,6 +58,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private Boolean playWhenReady = true;
     private int currentWindow = 0;
     private Long playbackPosition = 0L;
+    DownloadListener downloadObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +77,26 @@ public class VideoPlayerActivity extends AppCompatActivity {
         ex_VideoPlayer = findViewById(R.id.ex_VideoPlayer);
         iv_VideoPlayer_Down = findViewById(R.id.iv_VideoPlayer_Down);
 
+        v_VideoPlayer_Down = findViewById(R.id.v_VideoPlayer_Down);
+        tv_VideoPlayer_Down = findViewById(R.id.tv_VideoPlayer_Down);
+        pb_VideoPlayer_Down = findViewById(R.id.pb_VideoPlayer_Down);
+
         tv_TopBar_Title.setText("");
+        player.stop(true);
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-
                 finish();
+            }
+        });
+
+        downloadObserver = null;
+        v_VideoPlayer_Down.setVisibility(View.GONE);
+
+        v_VideoPlayer_Down.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
             }
         });
 
@@ -75,26 +104,33 @@ public class VideoPlayerActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
-                player.stop(true);
+                final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                    @Override
+                    public void Listener() {
+                        player.stop(true);
 
-                String sample = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+                        v_VideoPlayer_Down.setVisibility(View.VISIBLE);
+                        pb_VideoPlayer_Down.setProgress(0);
 
-                DownloadConfig.newBuilder(getApplicationContext())
-                        .build();
+                        DownloadConfig.newBuilder(getApplicationContext())
+                                .setMaxRunningTaskNum(5)
+                                .build();
+
+
+                        Pump.newRequest(mUrl)
+                                .listener(new DownloadListener(mUrl) {
+
+                                    @Override
+                                    public void onProgress(int progress) {
+                                        //progressDialog.setProgress(progress);
+                                        //tv_TopBar_Title.setText("" + progress);
+                                    }
+
+                                    @Override
+                                    public void onSuccess() {
 
 
 
-                Pump.newRequest(sample)
-                        .listener(new DownloadListener(sample) {
-
-                            @Override
-                            public void onProgress(int progress) {
-                                //progressDialog.setProgress(progress);
-                                //tv_TopBar_Title.setText("" + progress);
-                            }
-
-                            @Override
-                            public void onSuccess() {
 /*                                progressDialog.dismiss();
                                 String apkPath = getDownloadInfo().getFilePath();
                                 APK.with(MainActivity.this)
@@ -102,44 +138,92 @@ public class VideoPlayerActivity extends AppCompatActivity {
 //                                        .forceInstall();
                                         .install();
                                 Toast.makeText(MainActivity.this, "Download Finished", Toast.LENGTH_SHORT).show();*/
+                                    }
+
+                                    @Override
+                                    public void onFailed() {
+ /*                               progressDialog.dismiss();
+                                Toast.makeText(MainActivity.this, "Download failed", Toast.LENGTH_SHORT).show();*/
+                                    }
+                                })
+                                //Optionally,Set whether to repeatedly download the downloaded file,default false.
+                                .forceReDownload(true)
+                                //Optionally,Set how many threads are used when downloading,default 3.
+                                .threadNum(5)
+                                .setRetry(3, 200)
+                                .submit();
+
+                        downloadObserver = new DownloadListener() {
+                            @Override
+                            public void onProgress(int progress) {
+                                DownloadInfo info = getDownloadInfo();
+
+                                pb_VideoPlayer_Down.setProgress(info.getProgress());
+                                tv_VideoPlayer_Down.setText(CommonFunc.getInstance().getDataSize(info.getCompletedSize()) +"/" + "\n" + CommonFunc.getInstance().getDataSize(info.getContentLength()));
                             }
 
                             @Override
                             public void onFailed() {
- /*                               progressDialog.dismiss();
-                                Toast.makeText(MainActivity.this, "Download failed", Toast.LENGTH_SHORT).show();*/
+                                super.onFailed();
+
                             }
-                        })
-                        //Optionally,Set whether to repeatedly download the downloaded file,default false.
-                        .forceReDownload(true)
-                        //Optionally,Set how many threads are used when downloading,default 3.
-                        .threadNum(3)
-                        .setRetry(3, 200)
-                        .tag("video")
-                        .submit();
 
-                DownloadListener downloadObserver = new DownloadListener() {
-                    @Override
-                    public void onProgress(int progress) {
+                            @Override
+                            public void onSuccess() {
+                                v_VideoPlayer_Down.setVisibility(View.GONE);
+                                DialogFunc.getInstance().ShowToast(getApplicationContext(),  CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_SAVE_VIDEO_SUCCESS), true);
 
-                        List<DownloadDetailsInfo> list = Pump.getDownloadListByTag("video");
+                                String imageFileName = "FIFTY_" + System.currentTimeMillis() + ".mp4";
+                                File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
+                                        + "/FIFTY");
+                                File outFile = new File(storageDir, imageFileName);
 
-                      //  tv_TopBar_Title.setText(list.get(0).getContentLength() + "/" + list.get(0).getCompletedSize());
+                                boolean success = true;
+                                if (!storageDir.exists()) {
+                                    success = storageDir.mkdirs();
+                                }
+                                if (success) {
+                                    try {
+                                        File inFile = new File(getDownloadInfo().getFilePath());
 
-                    }
+                                        InputStream in = new FileInputStream(inFile);
+                                        OutputStream out = new FileOutputStream(outFile);
 
-                    @Override
-                    public void onFailed() {
-                        super.onFailed();
 
+                                        // Copy the bits from instream to outstream
+                                        byte[] buf = new byte[1024];
+                                        int len;
+
+                                        while ((len = in.read(buf)) > 0) {
+                                            out.write(buf, 0, len);
+                                        }
+
+                                        out.flush();
+                                        in.close();
+                                        out.close();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                Uri contentUri = Uri.fromFile(outFile.getAbsoluteFile());
+                                mediaScanIntent.setData(contentUri);
+                                getApplicationContext().sendBroadcast(mediaScanIntent);
+
+
+                            }
+                        };
+
+                        downloadObserver.enable();
                     }
                 };
 
-                downloadObserver.enable();
+                DialogFunc.getInstance().ShowMsgPopup(VideoPlayerActivity.this, listenerYes, null, CommonFunc.getInstance().getStr(VideoPlayerActivity.this.getResources(), R.string.MSG_SAVE_VIDEO),
+                        CommonFunc.getInstance().getStr(VideoPlayerActivity.this.getResources(), R.string.MSG_SAVE), CommonFunc.getInstance().getStr(VideoPlayerActivity.this.getResources(), R.string.MSG_CANCEL));
 
 
-
-                //finish();
             }
         });
     }
@@ -155,6 +239,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         releasePlayer();
+
+        if(downloadObserver != null)
+        {
+            Pump.stop(downloadObserver.getDownloadInfo());
+            downloadObserver.disable();
+            Pump.shutdown();
+        }
     }
 
     private void initializePlayer() {
@@ -189,9 +280,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         }
 
-        String sample = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-
-        MediaSource mediaSource = buildMediaSource(Uri.parse(sample));
+        MediaSource mediaSource = buildMediaSource(Uri.parse(mUrl));
 
         //prepare
         player.prepare(mediaSource, true, false);

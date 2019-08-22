@@ -53,6 +53,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1638,6 +1639,27 @@ public class CommonFunc {
 
     }
 
+    public static String getDataSize(long size) {
+        if (size < 0) {
+            size = 0;
+        }
+        DecimalFormat format = new DecimalFormat("####.00");
+        if (size < 1024) {
+            return size + "bytes";
+        } else if (size < 1024 * 1024) {
+            float kbsize = size / 1024f;
+            return format.format(kbsize) + "KB";
+        } else if (size < 1024 * 1024 * 1024) {
+            float mbsize = size / 1024f / 1024f;
+            return format.format(mbsize) + "MB";
+        } else if (size < 1024 * 1024 * 1024 * 1024) {
+            float gbsize = size / 1024f / 1024f / 1024f;
+            return format.format(gbsize) + "GB";
+        } else {
+            return "size: error";
+        }
+
+    }
 
 
 

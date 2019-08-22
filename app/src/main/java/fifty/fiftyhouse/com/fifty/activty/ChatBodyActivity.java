@@ -135,7 +135,6 @@ public class ChatBodyActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
 
-
                 ArrayList<String> menuList = new ArrayList<>();
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_MENU_PHOTO));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_MENU_VIDEO));
@@ -198,7 +197,7 @@ public class ChatBodyActivity extends AppCompatActivity {
                     @Override
                     public void Listener()
                     {
-                        CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+                       /* CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
                         {
                             @Override
                             public void Listener(List<Uri> list)
@@ -206,9 +205,9 @@ public class ChatBodyActivity extends AppCompatActivity {
                                 // 썸네일 뽑아서 올리고
                                 Glide.with(getApplicationContext())
                                         .load(list.get(0))
-                                        /*.apply(new RequestOptions()
+                                        *//*.apply(new RequestOptions()
                                                 .placeholder(R.color.colorPrimary)
-                                                .dontAnimate().skipMemoryCache(true))*/
+                                                .dontAnimate().skipMemoryCache(true))*//*
                                         .listener(new RequestListener<Drawable>() {
                                             @Override
                                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -229,7 +228,10 @@ public class ChatBodyActivity extends AppCompatActivity {
                             }
                         };
 
-                        CommonFunc.getInstance().GetPermissionForGalleryVideo(ChatBodyActivity.this, selectListener);
+                        CommonFunc.getInstance().GetPermissionForGalleryVideo(ChatBodyActivity.this, selectListener);*/
+                        Intent intent = new Intent(getApplicationContext(), VideoPlayerActivity.class);
+                        intent.putExtra("url", "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+                        startActivity(intent);
                     }
                 });
 
