@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +24,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.engine.Resource;
+import com.bumptech.glide.load.resource.drawable.DrawableResource;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -50,7 +62,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
     View ui_ChatBody_TopBar;
     TextView tv_TopBar_Title, tv_Chat_Body_Send;
-    ImageView iv_TopBar_Back;
+    ImageView iv_TopBar_Back, iv_Chat_Body_Temp_Video_Thumnail;
     RecyclerView rv_Chat_Body_List;
     ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus, iv_ChatBody_User;//, iv_ChatBody_Etc;
     EditText et_Chat_Body_Msg;
@@ -94,6 +106,8 @@ public class ChatBodyActivity extends AppCompatActivity {
         tv_Chat_Body_Send = findViewById(R.id.tv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
 
+        iv_Chat_Body_Temp_Video_Thumnail = findViewById(R.id.iv_Chat_Body_Temp_Video_Thumnail);
+
         if(mType == CommonData.CHAT_ROOM_TYPE.CLUB)
         {
             tv_TopBar_Title.setText(TKManager.getInstance().TargetClubData.GetClubName());
@@ -133,53 +147,107 @@ public class ChatBodyActivity extends AppCompatActivity {
         iv_Chat_Body_Plus.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+
+
+                ArrayList<String> menuList = new ArrayList<>();
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_MENU_PHOTO));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_MENU_VIDEO));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
                 {
                     @Override
-                    public void Listener(List<Uri> list)
+                    public void Listener()
                     {
-
-                        Bitmap[] originalBm = new Bitmap[list.size()];
-
-
-
-                        if(mType == CommonData.CHAT_ROOM_TYPE.CLUB)
+                        CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
                         {
-
-                        }
-                        else
-                        {
-                            DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.this);
-
-
-                            for(int i=0; i<list.size(); i++)
+                            @Override
+                            public void Listener(List<Uri> list)
                             {
-                                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                                    @Override
-                                    public void CompleteListener() {
-                                        DialogFunc.getInstance().DismissLoadingPage();
-                                        SendChatData(CommonData.MSGType.IMG);
-                                    }
 
-                                    @Override
-                                    public void CompleteListener_Yes() {
-                                    }
+                                Bitmap[] originalBm = new Bitmap[list.size()];
 
-                                    @Override
-                                    public void CompleteListener_No() {
-                                    }
-                                };
 
-                                CommonFunc.getInstance().SetImageInChatRoom(ChatBodyActivity.this, list.get(i), strRoomIndex,  listener);
+
+                                if(mType == CommonData.CHAT_ROOM_TYPE.CLUB)
+                                {
+
+                                }
+                                else
+                                {
+                                    DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.this);
+
+
+                                    for(int i=0; i<list.size(); i++)
+                                    {
+                                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                            @Override
+                                            public void CompleteListener() {
+                                                DialogFunc.getInstance().DismissLoadingPage();
+                                                SendChatData(CommonData.MSGType.IMG);
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_Yes() {
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_No() {
+                                            }
+                                        };
+
+                                        CommonFunc.getInstance().SetImageInChatRoom(ChatBodyActivity.this, list.get(i), strRoomIndex,  listener);
+                                    }
+                                }
                             }
+                        };
 
-
-
-                        }
+                        CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, mContext, null, selectListener, true);
                     }
-                };
+                });
+                menuListenerList.add(new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+                        {
+                            @Override
+                            public void Listener(List<Uri> list)
+                            {
+                                // 썸네일 뽑아서 올리고
+                                Glide.with(getApplicationContext())
+                                        .load(list.get(0))
+                                        /*.apply(new RequestOptions()
+                                                .placeholder(R.color.colorPrimary)
+                                                .dontAnimate().skipMemoryCache(true))*/
+                                        .listener(new RequestListener<Drawable>() {
+                                            @Override
+                                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                                return false;
+                                            }
 
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, mContext, null, selectListener, true);
+                                            @Override
+                                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
+                                                Context context = getApplicationContext();
+                                                Bitmap bitmap = ((BitmapDrawable)resource).getBitmap();
+                                                return false;
+                                            }
+                                        }).into(iv_Chat_Body_Temp_Video_Thumnail);
+
+                                // 동영상 따로 올리고
+
+                            }
+                        };
+
+                        CommonFunc.getInstance().GetPermissionForGalleryVideo(ChatBodyActivity.this, selectListener);
+                    }
+                });
+
+
+                DialogFunc.getInstance().ShowMenuListPopup(ChatBodyActivity.this, menuList, menuListenerList, null);
             }
         });
 

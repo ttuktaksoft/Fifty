@@ -58,6 +58,8 @@
         app:layout_constraintTop_toBottomOf="@+id/ui_ChatBody_TopBar"
         app:layout_constraintBottom_toTopOf="@+id/et_Chat_Body_Msg"/>
 
+
+
     <ImageView
         android:id="@+id/iv_Chat_Body_Plus"
         android:layout_width="40dp"
@@ -99,5 +101,11 @@
         app:layout_constraintLeft_toRightOf="@+id/iv_Chat_Body_Plus"
         app:layout_constraintRight_toLeftOf="@+id/tv_Chat_Body_Send"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_Chat_Body_Temp_Video_Thumnail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>

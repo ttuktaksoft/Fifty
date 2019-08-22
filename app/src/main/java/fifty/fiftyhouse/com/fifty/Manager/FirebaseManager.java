@@ -957,7 +957,9 @@ public class FirebaseManager {
                             tempData.SetMsg(document.getData().get("Msg").toString());
 
                                 if (document.getData().containsKey("MsgReadCheckNum")) {
-                                    tempData.SetMsgReadCheckNumber(Long.parseLong(document.getData().get("MsgReadCheckNum").toString()));
+                                    double num = Double.parseDouble(document.getData().get("MsgReadCheckNum").toString());
+                                    int inum = (int)num;
+                                    tempData.SetMsgReadCheckNumber(inum);
                                 }
 
 

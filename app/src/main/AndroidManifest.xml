@@ -90,7 +90,8 @@
         <activity android:name=".activty.ClubSettingActivity" />
         <activity android:name=".activty.ClubBodyReportListActivity" />
         <activity android:name=".activty.ClubFavoriteActivity" />
-        <activity android:name=".activty.ClubListActivity"></activity>
+        <activity android:name=".activty.ClubListActivity" />
+        <activity android:name=".activty.VideoPlayerActivity"></activity>
     </application>
 
 </manifest>

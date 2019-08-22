@@ -452,61 +452,18 @@ public class CommonFunc {
 
     }
 
-    private void GetPhotoVideoInGallery(FragmentActivity activity, Context context, Fragment fragment, final PhotoSelectListener multiSelectListener, boolean oneSelectCrop) {
+    private void GetPhotoVideoInGallery(FragmentActivity activity, final PhotoSelectListener selectListener) {
 
-        if(multiSelectListener == null && context != null && fragment != null)
-        {
-            TedBottomPicker.with(activity)
-                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
-                    .showTitle(false)
-                    .showVideoMedia()
-                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
-                    .show(uri -> {
-                        CropImage.activity(uri)
-                                .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
-                                .setGuidelines(CropImageView.Guidelines.ON)
-                                .setInitialCropWindowPaddingRatio(0)
-                                .start(context, fragment);
-                    });
-        }
-        else
-        {
-            TedBottomPicker.with(activity)
-                    .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
-                    .showTitle(false)
-                    .showVideoMedia()
-                    .setCompleteButtonText("확인")
-                    .setEmptySelectionText("이미지가 없습니다")
-                    .showMultiImage(uriList -> {
-                        if (uriList.size() > 0)
-                        {
-                            if(uriList.size() == 1 && oneSelectCrop) {
-                                if (context != null && fragment != null) {
-                                    CropImage.activity(uriList.get(0))
-                                            .setActivityTitle(getStr(context.getResources(), R.string.MSG_PHOTO_SELECT))
-                                            .setGuidelines(CropImageView.Guidelines.ON)
-                                            .setInitialCropWindowPaddingRatio(0)
-                                            .start(context, fragment);
-                                }
-                                else
-                                {
-                                    CropImage.activity(uriList.get(0))
-                                            .setActivityTitle(getStr(activity.getResources(), R.string.MSG_PHOTO_SELECT))
-                                            .setGuidelines(CropImageView.Guidelines.ON)
-                                            .setInitialCropWindowPaddingRatio(0)
-                                            .start(activity);
-                                }
-                            }
-                            else
-                            {
-                                if(multiSelectListener != null)
-                                    multiSelectListener.Listener(uriList);
-                            }
-
-                        }
-                    });
-        }
-
+        TedBottomPicker.with(activity)
+                .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
+                .showTitle(false)
+                .showVideoMedia()
+                .setCompleteButtonText("확인")
+                .setEmptySelectionText("동영상이 없습니다")
+                .showMultiImage(uriList -> {
+                    if(selectListener != null)
+                        selectListener.Listener(uriList);
+                });
     }
 
     public void SetCropImage(Context context, Uri uri, int addImgIndex, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
@@ -606,11 +563,11 @@ public class CommonFunc {
 
     }
 
-    public void GetPermissionForGalleryVideo(final FragmentActivity activity, Context context, Fragment fragment, final PhotoSelectListener multiSelectListener, boolean oneSelectCrop) {
+    public void GetPermissionForGalleryVideo(final FragmentActivity activity, final PhotoSelectListener selectListener) {
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
-                CommonFunc.getInstance().GetPhotoVideoInGallery(activity, context, fragment, multiSelectListener, oneSelectCrop);
+                CommonFunc.getInstance().GetPhotoVideoInGallery(activity, selectListener);
             }
 
             @Override
