@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Handler;
 
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -49,7 +51,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
     View ui_ChatBody_TopBar;
     TextView tv_TopBar_Title, tv_Chat_Body_Send;
-    ImageView iv_TopBar_Back, iv_Chat_Body_Temp_Video_Thumnail;
+    ImageView iv_TopBar_Back;
     RecyclerView rv_Chat_Body_List;
     ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus, iv_ChatBody_User;//, iv_ChatBody_Etc;
     EditText et_Chat_Body_Msg;
@@ -92,8 +94,6 @@ public class ChatBodyActivity extends AppCompatActivity {
         //iv_ChatBody_Etc = findViewById(R.id.iv_ChatBody_Etc);
         tv_Chat_Body_Send = findViewById(R.id.tv_Chat_Body_Send);
         et_Chat_Body_Msg = findViewById(R.id.et_Chat_Body_Msg);
-
-        iv_Chat_Body_Temp_Video_Thumnail = findViewById(R.id.iv_Chat_Body_Temp_Video_Thumnail);
 
         if(mType == CommonData.CHAT_ROOM_TYPE.CLUB)
         {
@@ -203,12 +203,57 @@ public class ChatBodyActivity extends AppCompatActivity {
                             @Override
                             public void Listener(List<Uri> list)
                             {
+
+                                DialogFunc.getInstance().ShowLoadingPage(ChatBodyActivity.this);
+
+                                Bitmap thumb = ThumbnailUtils.createVideoThumbnail(CommonFunc.getInstance().getPath(ChatBodyActivity.this, list.get(0)),
+                                        MediaStore.Images.Thumbnails.MINI_KIND);
+                                Uri tempBitmap = CommonFunc.getInstance().getImageUri(ChatBodyActivity.this, thumb);
+
+                                FirebaseManager.CheckFirebaseComplete FileListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+
+                                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                            @Override
+                                            public void CompleteListener() {
+                                                DialogFunc.getInstance().DismissLoadingPage();
+                                                SendChatData(CommonData.MSGType.VIDEO);
+
+
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_Yes() {
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_No() {
+                                            }
+                                        };
+                                        CommonFunc.getInstance().SetImageInChatRoom(ChatBodyActivity.this, tempBitmap, strRoomIndex,  listener);
+
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                    }
+                                };
+                                FirebaseManager.getInstance().UploadFileInChatRoom(strRoomIndex, list.get(0),  FileListener);
+
+
+                                /*
                                 // 썸네일 뽑아서 올리고
                                 Glide.with(getApplicationContext())
                                         .load(list.get(0))
-                                        /*.apply(new RequestOptions()
+                                        *//*.apply(new RequestOptions()
                                                 .placeholder(R.color.colorPrimary)
-                                                .dontAnimate().skipMemoryCache(true))*/
+                                                .dontAnimate().skipMemoryCache(true))*//*
                                         .listener(new RequestListener<Drawable>() {
                                             @Override
                                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -220,9 +265,31 @@ public class ChatBodyActivity extends AppCompatActivity {
 
                                                 Context context = getApplicationContext();
                                                 Bitmap bitmap = ((BitmapDrawable)resource).getBitmap();
+
+                                                Uri tempBitmap = CommonFunc.getInstance().getImageUri(ChatBodyActivity.this, bitmap);
+
+                                                FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                                    @Override
+                                                    public void CompleteListener() {
+                                                        DialogFunc.getInstance().DismissLoadingPage();
+                                                        SendChatData(CommonData.MSGType.VIDEO);
+                                                    }
+
+                                                    @Override
+                                                    public void CompleteListener_Yes() {
+                                                    }
+
+                                                    @Override
+                                                    public void CompleteListener_No() {
+                                                    }
+                                                };
+
+                                                CommonFunc.getInstance().SetImageInChatRoom(ChatBodyActivity.this, tempBitmap, strRoomIndex,  listener);
+
+
                                                 return false;
                                             }
-                                        }).into(iv_Chat_Body_Temp_Video_Thumnail);
+                                        }).into(iv_Chat_Body_Temp_Video_Thumnail);*/
 
                                 // 동영상 따로 올리고
 
@@ -586,6 +653,9 @@ public class ChatBodyActivity extends AppCompatActivity {
             tempData.SetMsg(et_Chat_Body_Msg.getText().toString());
         else
             tempData.SetMsg(TKManager.getInstance().MyData.GetUserImgChat());
+
+        if (type == CommonData.MSGType.VIDEO)
+            tempData.SetFile(TKManager.getInstance().MyData.GetUserFileChat());
 
         tempData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
         tempData.SetMsgType(type);

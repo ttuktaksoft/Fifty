@@ -376,8 +376,10 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
             @Override
             public void onSingleClick(View v) {
                 Intent intent = new Intent(mContext, VideoPlayerActivity.class);
-                intent.putExtra("url", "");
+                intent.putExtra("url", tempData.GetFile());
+                intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
+                DialogFunc.getInstance().DismissLoadingPage();
             }
         });
 

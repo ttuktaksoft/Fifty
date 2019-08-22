@@ -32,6 +32,7 @@ public class ChatData implements Cloneable{
     public  String ToThumbNail;
 
     public  String Msg;
+    public  String File;
     public  long MsgIndex;
     public  String MsgSender;
     public  CommonData.MSGType MsgType;
@@ -132,6 +133,13 @@ public class ChatData implements Cloneable{
     {
         return Msg;
     }
+
+    public void SetFile(String file) {File = file;}
+    public String GetFile()
+    {
+        return File;
+    }
+
     public void SetMsgSender(String msgSender) {MsgSender = msgSender;}
     public String GetMsgSender()
     {
