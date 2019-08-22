@@ -3,43 +3,31 @@ package fifty.fiftyhouse.com.fifty.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.auth.User;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
-import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
-import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.ClubBodyImgAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.ClubBodyReplyAdapter;
-import fifty.fiftyhouse.com.fifty.adapter.ClubWriteImgAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ClubBodyFragment extends Fragment {
 

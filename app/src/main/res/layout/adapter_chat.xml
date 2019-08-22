@@ -11,13 +11,13 @@
 
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/v_Chat_Btn"
         android:layout_width="160dp"
         android:layout_height="match_parent"
         android:background="@color/button_enable">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/v_Chat_Bookmark"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -40,9 +40,9 @@
                 app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Bookmark"
                 />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/v_Chat_Delete"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -65,11 +65,11 @@
                 app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Delete"
                 />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/v_Chat_Front"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -188,7 +188,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Check"
             app:layout_constraintTop_toTopOf="@+id/iv_Chat_Check" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.chauthai.swipereveallayout.SwipeRevealLayout>
 
 

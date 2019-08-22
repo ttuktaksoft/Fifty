@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tv_SignUp_Save"
         android:background="@color/activity_bg"/>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/v_SignUp_Save_Check"
         android:layout_width="match_parent"
         android:layout_height="15dp"
@@ -70,7 +70,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:background="@color/signup_check_1"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_SignUp_Save"
@@ -86,4 +86,4 @@
         android:textSize="@dimen/default_font_size_big"
         android:background="@color/button_enable"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

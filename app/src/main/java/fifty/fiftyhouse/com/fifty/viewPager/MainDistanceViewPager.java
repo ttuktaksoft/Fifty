@@ -2,8 +2,8 @@ package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +25,9 @@ import fifty.fiftyhouse.com.fifty.activty.SortSettingActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOneListHolder;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOneList;
-import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainDistanceViewPager extends Fragment {

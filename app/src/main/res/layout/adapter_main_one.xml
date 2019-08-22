@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/iv_Main_Thumbnail"
         android:src="@drawable/ic_man_simple" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/v_Main_Thumbnail_Info"
         android:layout_width="0dp"
         android:layout_height="25dp"
@@ -75,4 +75,4 @@
         android:src="@drawable/bg_empty_circle"
         android:tint="@color/icon_tint_online"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

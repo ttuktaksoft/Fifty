@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toTopOf="@+id/v_ClubWrite_Menu"
         android:background="@color/activity_bg"/>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/v_ClubWrite_Menu"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_ClubWrite_Menu"
             app:layout_constraintBottom_toBottomOf="@+id/v_ClubWrite_Menu"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_ClubWrite_OK"
@@ -53,4 +53,4 @@
         android:textStyle="bold"
         android:background="@color/button_enable"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
-import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class ClubWriteImgAdapter extends RecyclerView.Adapter<ClubWriteImgHolder> {

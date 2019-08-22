@@ -3,41 +3,28 @@ package fifty.fiftyhouse.com.fifty;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.ImageViewCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialog;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialog;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import org.w3c.dom.Text;
+import com.airbnb.lottie.LottieAnimationView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
-import fifty.fiftyhouse.com.fifty.Manager.TKManager;
-import fifty.fiftyhouse.com.fifty.activty.SettingAccountActivity;
 import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
-import fifty.fiftyhouse.com.fifty.adapter.SettingAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
@@ -168,9 +155,17 @@ public class DialogFunc {
             mProgressDialog.show();
 
         }
-        ProgressBar pgsBar = mProgressDialog.findViewById(R.id.pBar);
+
+        LottieAnimationView animationView = (LottieAnimationView) mProgressDialog.findViewById(R.id.animation_view);
+        animationView.setAnimation("loading.json");
+        animationView.loop(true);
+        animationView.playAnimation();
+
+        /*ProgressBar pgsBar = mProgressDialog.findViewById(R.id.pBar);
         pgsBar.setIndeterminate(true);
-        pgsBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, R.color.loading_progress_bar), PorterDuff.Mode.MULTIPLY);
+        pgsBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, R.color.loading_progress_bar), PorterDuff.Mode.MULTIPLY);*/
+
+
 /*
         ImageView iv_progress_loading = (ImageView) mProgressDialog.findViewById(R.id.iv_Loading_Icon);
         Glide.with(context)

@@ -11,16 +11,15 @@ import android.content.pm.Signature;
 import android.graphics.Point;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.airbnb.lottie.LottieAnimationView;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
@@ -32,12 +31,6 @@ import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -47,12 +40,10 @@ import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
-import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
-import static com.kakao.auth.StringSet.file;
 import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
 
 public class LoadingActivity extends AppCompatActivity {

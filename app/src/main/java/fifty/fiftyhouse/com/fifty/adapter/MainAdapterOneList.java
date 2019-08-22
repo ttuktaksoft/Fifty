@@ -1,8 +1,8 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
+import androidx.annotation.NonNull;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +19,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class MainAdapterOneList extends ArrayAdapter<MainAdapterOneListHolder> implements ListAdapter{
 

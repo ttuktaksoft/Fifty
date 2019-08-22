@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".viewPager.MainTodayViewPager">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -33,7 +33,7 @@
             app:layout_constraintRight_toRightOf="@+id/v_Main_Today_SubInfo"
             android:textColor="@color/str_color_1"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Main_Today_Favorite"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -45,7 +45,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_Today_SubInfo"
             app:layout_constraintRight_toRightOf="@+id/v_Main_Today_SubInfo"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Main_Today_UserList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -65,7 +65,7 @@
             android:gravity="center"
             android:textColor="@color/str_color_1" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fa_Main_Today_Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,6 +78,6 @@
             android:backgroundTint="@color/floating_button_bg"
             app:borderWidth="0dp"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

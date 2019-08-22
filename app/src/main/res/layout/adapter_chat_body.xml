@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/v_Chat_Body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             app:layout_constraintRight_toLeftOf="@id/iv_Chat_Body_Profile"
             app:layout_constraintTop_toTopOf="@id/iv_Chat_Body_Profile"/>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/v_Chat_Body_Type_Msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,9 +76,9 @@
                 app:layout_constraintLeft_toLeftOf="@id/v_Chat_Body_Type_Msg"
                 app:layout_constraintTop_toTopOf="@id/v_Chat_Body_Type_Msg"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/v_Chat_Body_Type_Img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,9 +95,9 @@
                 android:maxHeight="200dp"
                 android:maxWidth="200dp"
                 android:src="@drawable/dummy_7"/>
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/v_Chat_Body_Type_Video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,10 +114,10 @@
                 android:maxHeight="200dp"
                 android:maxWidth="200dp"
                 android:src="@drawable/dummy_2"/>
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/v_Chat_Body_Type_Etc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -148,9 +148,9 @@
                 app:layout_constraintRight_toLeftOf="@id/tv_Chat_Body_Date"
                 app:layout_constraintBottom_toBottomOf="@id/tv_Chat_Body_Date"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

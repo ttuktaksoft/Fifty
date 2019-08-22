@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +10,7 @@
         android:id="@+id/ui_FriendList_TopBar"
         layout="@layout/ui_topbar"/>
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_FriendList_TopTab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mid_bar_height"
@@ -25,7 +25,7 @@
         app:tabSelectedTextColor="@color/str_color_3"
         app:tabTextColor="@color/str_color_4"/>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_FriendList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -35,4 +35,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tl_FriendList_TopTab" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

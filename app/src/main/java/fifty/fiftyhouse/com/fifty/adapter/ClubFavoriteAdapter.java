@@ -1,8 +1,8 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
-import android.media.Image;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
-import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 

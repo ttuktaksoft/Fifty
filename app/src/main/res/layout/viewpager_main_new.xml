@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".viewPager.MainNewViewPager">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -46,14 +46,14 @@
             android:gravity="center"
             android:textColor="@color/str_color_1" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Main_New_UserList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/v_Main_New_SubInfo"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fa_Main_New_Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:backgroundTint="@color/floating_button_bg"
             app:borderWidth="0dp"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </FrameLayout>

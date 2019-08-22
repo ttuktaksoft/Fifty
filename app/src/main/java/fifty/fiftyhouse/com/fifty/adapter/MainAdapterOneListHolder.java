@@ -2,14 +2,9 @@ package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import androidx.annotation.NonNull;
 
 import com.felipecsl.asymmetricgridview.library.model.AsymmetricItem;
-
-import fifty.fiftyhouse.com.fifty.R;
 
 public class MainAdapterOneListHolder implements AsymmetricItem {
   private int columnSpan;

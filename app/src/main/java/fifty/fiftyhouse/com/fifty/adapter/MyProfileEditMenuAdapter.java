@@ -1,9 +1,9 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +22,8 @@ import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
-import fifty.fiftyhouse.com.fifty.GlobalApplication;
-import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.FavoriteSelectActivity;
-import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
-import fifty.fiftyhouse.com.fifty.viewPager.PhotoViewPager;
 
 public class MyProfileEditMenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
