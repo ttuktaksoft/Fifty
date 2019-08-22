@@ -2036,7 +2036,7 @@ public class FirebaseManager {
                         } else
                             userData.SetUserDist_Region(0);
 
-                        if(!finalMyData)
+                        if(finalMyData)
                         {
                             if (document.getData().containsKey("Dist_Area")) {
                                 userData.SetUserDist_Area(document.getData().get("Dist_Area").toString());
@@ -2049,7 +2049,7 @@ public class FirebaseManager {
                         userData.SetUserDist((long)Distance);
 
                         if (document.getData().containsKey("Location")) {
-                            String Location = document.getData().get("Location").toString();
+                            userData.SetUserLocation(document.getData().get("Location").toString());
                         } else
                         {
                             userData.SetUserLocation("");

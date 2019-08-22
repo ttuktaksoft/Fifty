@@ -357,7 +357,8 @@ public class LoadingActivity extends AppCompatActivity {
                         TKManager.getInstance().MyData.SetUserIndex(tempUid);
 
                         DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
-
+                        CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+/*
                         CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
                             @Override
                             public void CompleteListener() {
@@ -411,6 +412,8 @@ public class LoadingActivity extends AppCompatActivity {
                         };
 
                         CommonFunc.getInstance().GetUserLocation(LoadingActivity.this, listener);
+                        */
+
                     }
                 }
             });
