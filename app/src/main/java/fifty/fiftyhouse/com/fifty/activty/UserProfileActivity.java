@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.gun0912.tedpermission.util.ObjectUtils;
 
@@ -42,7 +43,7 @@ public class UserProfileActivity extends AppCompatActivity {
     FragmentManager mFragmentMgr;
 
     UserProfileFragment mUserProfileFragment;
-
+    LottieAnimationView animationView, animationView_Friend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mActivity = this;
         mContext = getApplicationContext();
+
+        animationView = (LottieAnimationView) findViewById(R.id.animation_Like_view);
+        animationView.setAnimation("like.json");
+
+        animationView_Friend = (LottieAnimationView) findViewById(R.id.animation_Friend_view);
+        animationView_Friend.setAnimation("friend.json");
+
 
         DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserIndex(), false);
 
@@ -139,6 +147,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
                         FirebaseManager.getInstance().RemoveLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
                         DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_UNLIKE), true);
+
+
                     }
                     else
                     {
@@ -150,11 +160,13 @@ public class UserProfileActivity extends AppCompatActivity {
                         TKManager.getInstance().TargetUserData.SetUserLikeList(TKManager.getInstance().MyData.GetUserIndex(), CommonFunc.getInstance().GetCurrentDate());
                         DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserNickName()  + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIKE), true);
                         FirebaseManager.getInstance().RegistLikeUser( TKManager.getInstance().TargetUserData.GetUserIndex());
+
                     }
 
                     DialogFunc.getInstance().DismissLoadingPage();
 
                     mUserProfileFragment.RefreshCountText();
+                    RefreshLikeIcon();
 
                 }
             }
@@ -449,10 +461,18 @@ public class UserProfileActivity extends AppCompatActivity {
     {
         if(TKManager.getInstance().TargetUserData.GetUserLikeList(TKManager.getInstance().MyData.GetUserIndex()) != null)
         {
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like, false);
+
+            animationView.setVisibility(View.VISIBLE);
+            animationView.playAnimation();
+
+            iv_UserProfile_BottomBar_Like.setVisibility(View.INVISIBLE);
+            //CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like, false);
         }
         else
         {
+
+            animationView.setVisibility(View.INVISIBLE);
+            iv_UserProfile_BottomBar_Like.setVisibility(View.VISIBLE);
             CommonFunc.getInstance().DrawImageByGlide(mContext, iv_UserProfile_BottomBar_Like, R.drawable.ic_like_empty, false);
         }
 
@@ -461,15 +481,29 @@ public class UserProfileActivity extends AppCompatActivity {
     private void RefreshFriendIcon()
     {
         if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null){
-            Glide.with(mContext).load(R.drawable.ic_add_friend)
-                    .into(iv_UserProfile_BottomBar_Friend);
+
+            animationView_Friend.setVisibility(View.INVISIBLE);
+
+            iv_UserProfile_BottomBar_Friend.setVisibility(View.VISIBLE);
             tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.FRIEND_ADD));
+            Glide.with(mContext).load(R.drawable.ic_empty_star)
+                    .into(iv_UserProfile_BottomBar_Friend);
         }
 
         else
         {
+           /* animationView_Friend.setVisibility(View.INVISIBLE);
+
+            iv_UserProfile_BottomBar_Friend.setVisibility(View.VISIBLE);
+
             Glide.with(mContext).load(R.drawable.ic_remove_friend)
-                    .into(iv_UserProfile_BottomBar_Friend);
+                    .into(iv_UserProfile_BottomBar_Friend);*/
+
+            animationView_Friend.setVisibility(View.VISIBLE);
+            animationView_Friend.playAnimation();
+
+            iv_UserProfile_BottomBar_Friend.setVisibility(View.INVISIBLE);
+
             tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.FRIEND_REMOVE));
         }
     }

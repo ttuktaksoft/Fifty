@@ -2,6 +2,8 @@ package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -39,6 +41,7 @@ public class MainFragment extends Fragment {
     MainFriendViewPager mMainFriendViewPager = null;
 
     ImageView iv_Main_Alarm, iv_Main_Shop, iv_Main_Logo;
+    LottieAnimationView animationView_Alarm;
 
     public MainFragment() {
         // Required empty public constructor
@@ -55,6 +58,64 @@ public class MainFragment extends Fragment {
             iv_Main_Alarm = v_FragmentView.findViewById(R.id.iv_Main_Alarm);
             iv_Main_Shop = v_FragmentView.findViewById(R.id.iv_Main_Shop);
             iv_Main_Logo = v_FragmentView.findViewById(R.id.iv_Main_Logo);
+
+            animationView_Alarm = (LottieAnimationView) v_FragmentView.findViewById(R.id.animation_Alarm_view);
+            animationView_Alarm.setAnimation("noti.json");
+            animationView_Alarm.playAnimation();
+            iv_Main_Alarm.setVisibility(View.INVISIBLE);
+            animationView_Alarm.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    //DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
+                    animationView_Alarm.setVisibility(View.GONE);
+                    iv_Main_Alarm.setVisibility(View.VISIBLE);
+                    DialogFunc.getInstance().ShowLoadingPage(getContext());
+                    Set KeySet = TKManager.getInstance().MyData.GetAlarmListKeySet();
+
+                    if(KeySet.size() > 0)
+                    {
+                        Iterator iterator = KeySet.iterator();
+
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetAlarmListCount());
+
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                DialogFunc.getInstance().DismissLoadingPage();
+
+                                Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        while(iterator.hasNext()){
+                            String key = (String)iterator.next();
+                            if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                            {
+                                FirebaseManager.getInstance().Complete(listener);
+                            }
+                            else
+                                FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                        }
+                    }
+                    else
+                    {
+                        DialogFunc.getInstance().DismissLoadingPage();
+
+                        Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+
             iv_Main_Alarm.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
