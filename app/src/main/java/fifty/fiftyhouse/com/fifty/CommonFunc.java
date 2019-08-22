@@ -49,9 +49,11 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -345,6 +347,61 @@ public class CommonFunc {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         context.sendBroadcast(mediaScanIntent);
+    }
+
+    public void saveVideo(Context context, String cacheFile)
+    {
+        int first = cacheFile.lastIndexOf("/");
+        int end = cacheFile.lastIndexOf(".");
+        String tempName = cacheFile.substring(first+1, end);
+        String imageFileName = tempName + ".mp4";
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
+                + "/FIFTY");
+        File saveFile = new File(storageDir, imageFileName);
+
+        boolean success = true;
+        if (!storageDir.exists()) {
+            success = storageDir.mkdirs();
+        }
+        if (success) {
+            try {
+                File inFile = new File(cacheFile);
+
+                InputStream in = new FileInputStream(inFile);
+                OutputStream save = new FileOutputStream(saveFile);
+
+                // Copy the bits from instream to outstream
+                byte[] buf = new byte[1024];
+                int len;
+
+                while ((len = in.read(buf)) > 0) {
+                    save.write(buf, 0, len);
+                }
+
+                in.close();
+                save.flush();
+                save.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(saveFile.getAbsoluteFile());
+        mediaScanIntent.setData(contentUri);
+        context.sendBroadcast(mediaScanIntent);
+    }
+
+    public boolean IsGalleryVideo(String name)
+    {
+        File files = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
+                + "/FIFTY/" + name + ".mp4");
+        if(files.exists()==true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void setEditTextMaxSize(EditText et, int size)

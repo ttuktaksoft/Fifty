@@ -173,46 +173,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
                                 v_VideoPlayer_Down.setVisibility(View.GONE);
                                 DialogFunc.getInstance().ShowToast(getApplicationContext(),  CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_SAVE_VIDEO_SUCCESS), true);
 
-                                String imageFileName = "FIFTY_" + System.currentTimeMillis() + ".mp4";
-                                File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
-                                        + "/FIFTY");
-                                File outFile = new File(storageDir, imageFileName);
-
-                                boolean success = true;
-                                if (!storageDir.exists()) {
-                                    success = storageDir.mkdirs();
-                                }
-                                if (success) {
-                                    try {
-                                        File inFile = new File(getDownloadInfo().getFilePath());
-
-                                        InputStream in = new FileInputStream(inFile);
-                                        OutputStream out = new FileOutputStream(outFile);
-
-
-                                        // Copy the bits from instream to outstream
-                                        byte[] buf = new byte[1024];
-                                        int len;
-
-                                        while ((len = in.read(buf)) > 0) {
-                                            out.write(buf, 0, len);
-                                        }
-
-                                        out.flush();
-                                        in.close();
-                                        out.close();
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                Uri contentUri = Uri.fromFile(outFile.getAbsoluteFile());
-                                mediaScanIntent.setData(contentUri);
-                                getApplicationContext().sendBroadcast(mediaScanIntent);
-
-
+                                CommonFunc.getInstance().saveVideo(getApplicationContext(), getDownloadInfo().getFilePath());
                             }
                         };
 
@@ -280,7 +241,22 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         }
 
-        MediaSource mediaSource = buildMediaSource(Uri.parse(mUrl));
+        int first = mUrl.lastIndexOf("/");
+        int end = mUrl.lastIndexOf(".");
+        String tempName = mUrl.substring(first+1, end);
+        MediaSource mediaSource = null;
+
+        if(CommonFunc.getInstance().IsGalleryVideo(tempName))
+        {
+            String userAgent = Util.getUserAgent(this, CommonFunc.getInstance().getStr(getResources(), R.string.app_name));
+            mediaSource =  new ExtractorMediaSource.Factory(new DefaultDataSourceFactory(this, userAgent))
+                    .createMediaSource(Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)
+                            + "/FIFTY/" + tempName + ".mp4"));
+        }
+        else
+        {
+            mediaSource = buildMediaSource(Uri.parse(mUrl));
+        }
 
         //prepare
         player.prepare(mediaSource, true, false);
@@ -291,7 +267,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     private MediaSource buildMediaSource(Uri uri) {
 
-        String userAgent = Util.getUserAgent(this, "blackJin");
+        String userAgent = Util.getUserAgent(this, CommonFunc.getInstance().getStr(getResources(), R.string.app_name));
 
         if (uri.getLastPathSegment().contains("mp3") || uri.getLastPathSegment().contains("mp4")) {
 
