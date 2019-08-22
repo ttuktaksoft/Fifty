@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -27,7 +28,7 @@ public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> imp
 
     public ImageView iv_Main_Thumbnail, iv_Main_Gender, iv_Main_Thumbnail_Online_State;
     public TextView tv_Main_Dis, tv_Main_Thumbnail_Online_State;
-
+    CommonData.MainViewType UserType = CommonData.MainViewType.DIST;
 
     public CustomMainAdapterOne(Context context, List<CustomGridListHolder> items) {
         super(context, 0, items);
@@ -102,12 +103,9 @@ public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> imp
         return v;
     }
 
-    @Override public int getViewTypeCount() {
-        return 2;
-    }
-
-    @Override public int getItemViewType(int position) {
-        return position % 2 == 0 ? 1 : 0;
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     public void appendItems(List<CustomGridListHolder> newItems) {
@@ -118,5 +116,10 @@ public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> imp
     public void setItems(List<CustomGridListHolder> moreItems) {
         clear();
         appendItems(moreItems);
+    }
+
+    public void SetItemCountByType(CommonData.MainViewType type)
+    {
+        UserType = type;
     }
 }

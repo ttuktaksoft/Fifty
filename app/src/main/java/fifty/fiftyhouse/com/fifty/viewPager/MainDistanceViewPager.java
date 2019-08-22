@@ -16,6 +16,7 @@ import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter
 import java.util.ArrayList;
 import java.util.List;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
@@ -101,6 +102,7 @@ public class MainDistanceViewPager extends Fragment {
 
         RefreshUserList();
         mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
+        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST);
         rv_Main_Dis_UserList.setRequestedColumnCount(3);
         rv_Main_Dis_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Dis_UserList,mAdapter));
         rv_Main_Dis_UserList.setOnItemClickListener(

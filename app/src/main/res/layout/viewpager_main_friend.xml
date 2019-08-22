@@ -46,10 +46,11 @@
             android:gravity="center"
             android:textColor="@color/str_color_1" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
             android:id="@+id/rv_Main_Friend_UserList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:divider="@color/alpha"
             app:layout_constraintTop_toBottomOf="@+id/v_Main_Friend_SubInfo"
             app:layout_constraintBottom_toBottomOf="parent"
             />

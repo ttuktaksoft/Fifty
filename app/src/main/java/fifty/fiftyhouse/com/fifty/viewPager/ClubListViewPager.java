@@ -347,15 +347,9 @@ public class ClubListViewPager extends Fragment {
 
     public void RefreshRecyclerView()
     {
-
-        ArrayList<String> tempList = new ArrayList<>();
-        tempList.addAll(mClubList);
         RefreshAdapter();
 
-        if(tempList.equals(mClubList) == false)
-        {
-            mAdapter.notifyDataSetChanged();
-        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

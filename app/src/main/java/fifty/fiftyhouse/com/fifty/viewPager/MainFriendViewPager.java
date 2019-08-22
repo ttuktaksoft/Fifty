@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,17 +22,21 @@ import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
+import fifty.fiftyhouse.com.fifty.adapter.CustomMainAdapterOne;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainFriendViewPager extends Fragment {
 
     TextView tv_Main_Friend_Count, tv_Main_Friend_UserList_Empty;
 
-    RecyclerView rv_Main_Friend_UserList;
+    AsymmetricGridView rv_Main_Friend_UserList;
+    ArrayList<String> mUserList = new ArrayList<>();
     View v_FragmentView = null;
-    public MainAdapterOne mAdapter;
+    public CustomMainAdapterOne mAdapter;
     private String UserIndex;
     public MainFriendViewPager() {
         super();
@@ -66,7 +73,7 @@ public class MainFriendViewPager extends Fragment {
 
     private void initRecyclerView()
     {
-        mAdapter = new MainAdapterOne(getContext());
+        /*mAdapter = new MainAdapterOne(getContext());
         RefreshUI();
         mAdapter.setHasStableIds(true);
 
@@ -94,7 +101,7 @@ public class MainFriendViewPager extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                /*int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                *//*int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
                 int nSize = 0;
                 nSize = recyclerView.getAdapter().getItemCount() - 1;
 
@@ -102,16 +109,43 @@ public class MainFriendViewPager extends Fragment {
                     // Toast.makeText(getContext(), "Last Position", Toast.LENGTH_SHORT).show();
                     //    CommonFunc.getInstance().ShowLoadingPage(getContext(), "로딩중");
                     //  FirebaseData.getInstance().GetHotData(RecvAdapter, false);
-                }*/
+                }*//*
             }
-        });
+        });*/
+
+        RefreshUserList();
+        mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
+        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND);
+        rv_Main_Friend_UserList.setRequestedColumnCount(3);
+        rv_Main_Friend_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Friend_UserList,mAdapter));
+        rv_Main_Friend_UserList.setOnItemClickListener(
+                new RecyclerItemOneClickListener() {
+                    @Override
+                    public void RecyclerItemOneClick(int position) {
+                        UserIndex = TKManager.getInstance().UserData_Simple.get(mUserList.get(position)).GetUserIndex();
+                        CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
+                    }
+                });
     }
 
     public void RefreshUI()
     {
         initSubInfo();
-        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND, TKManager.getInstance().MyData.GetUserFriendListCount());
-        mAdapter.notifyDataSetChanged();
+        RefreshAdapter();
+    }
+
+    public void RefreshAdapter()
+    {
+        RefreshUserList();
+
+        List<CustomGridListHolder> list = CommonFunc.getInstance().getCustomGridListHolderList(mUserList);
+        mAdapter.setItems(list);
+    }
+
+    public void RefreshUserList()
+    {
+        mUserList.clear();
+        mUserList.addAll(TKManager.getInstance().MyData.GetRequestFriendListKeySet());
 
         if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
         {

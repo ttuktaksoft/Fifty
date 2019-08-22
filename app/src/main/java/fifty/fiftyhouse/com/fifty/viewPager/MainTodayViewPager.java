@@ -1,6 +1,9 @@
 package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.os.Bundle;
+
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -21,18 +25,23 @@ import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
+import fifty.fiftyhouse.com.fifty.adapter.CustomMainAdapterOne;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainTodayViewPager extends Fragment {
     TextView tv_Main_Today_UserList_Empty;
     FloatingActionButton fa_Main_Today_Search;
-    RecyclerView rv_Main_Today_UserList, rv_Main_Today_Favorite;
+    RecyclerView rv_Main_Today_Favorite;
+    AsymmetricGridView rv_Main_Today_UserList;
     View v_FragmentView = null;
-    public MainAdapterOne mAdapter;
+    public CustomMainAdapterOne mAdapter;
+    ArrayList<String> mUserList = new ArrayList<>();
     FavoriteViewAdapter mFavoriteViewAdapter;
     private String UserIndex;
 
@@ -79,7 +88,7 @@ public class MainTodayViewPager extends Fragment {
     }*/
     private void initRecyclerView()
     {
-        mAdapter = new MainAdapterOne(getContext());
+        /*mAdapter = new MainAdapterOne(getContext());
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
         mAdapter.SetItemCountByType(CommonData.MainViewType.HOT, TKManager.getInstance().View_UserList_Hot.size());
@@ -93,11 +102,36 @@ public class MainTodayViewPager extends Fragment {
                 UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Hot.get(position)).GetUserIndex();
                 CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
             }
-        }));
+        }));*/
+
+        RefreshUserList();
+        mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
+        mAdapter.SetItemCountByType(CommonData.MainViewType.HOT);
+        rv_Main_Today_UserList.setRequestedColumnCount(3);
+        rv_Main_Today_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Today_UserList,mAdapter));
+        rv_Main_Today_UserList.setOnItemClickListener(
+                new RecyclerItemOneClickListener() {
+                    @Override
+                    public void RecyclerItemOneClick(int position) {
+                        UserIndex = TKManager.getInstance().UserData_Simple.get(mUserList.get(position)).GetUserIndex();
+                        CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
+                    }
+                });
     }
 
-    private void RefreshAdapter()
+    public void RefreshAdapter()
     {
+        RefreshUserList();
+
+        List<CustomGridListHolder> list = CommonFunc.getInstance().getCustomGridListHolderList(mUserList);
+        mAdapter.setItems(list);
+    }
+
+    public void RefreshUserList()
+    {
+        mUserList.clear();
+        mUserList.addAll(TKManager.getInstance().View_UserList_Hot);
+
         if(TKManager.getInstance().View_UserList_Hot.size() == 0)
         {
             rv_Main_Today_UserList.setVisibility(View.GONE);
@@ -108,8 +142,6 @@ public class MainTodayViewPager extends Fragment {
             rv_Main_Today_UserList.setVisibility(View.VISIBLE);
             tv_Main_Today_UserList_Empty.setVisibility(View.GONE);
         }
-
-        mAdapter.notifyDataSetChanged();
     }
 
     private void initFavoriteRecyclerView()

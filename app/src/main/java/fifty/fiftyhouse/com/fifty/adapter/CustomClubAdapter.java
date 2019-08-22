@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -31,18 +32,20 @@ public class CustomClubAdapter extends ArrayAdapter<CustomGridListHolder> implem
     public TextView tv_Club_Name, tv_Club_Count;
     public TextView tv_Club_Tag;
     Context mContext;
+    private ArrayList<String> mCreate = new ArrayList<>();
 
 
     public CustomClubAdapter(Context context, List<CustomGridListHolder> items) {
         super(context, 0, items);
         layoutInflater = LayoutInflater.from(context);
+        mCreate.clear();
     }
 
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        View v = layoutInflater.inflate(R.layout.adapter_club,parent,false);
 
         mContext = getContext();
+        View v = layoutInflater.inflate(R.layout.adapter_club,parent,false);
 
         iv_Club_Profile = v.findViewById(R.id.iv_Club_Profile);
         tv_Club_Name = v.findViewById(R.id.tv_Club_Name);
@@ -52,8 +55,11 @@ public class CustomClubAdapter extends ArrayAdapter<CustomGridListHolder> implem
         tv_Club_Count = v.findViewById(R.id.tv_Club_Count);
 
         String clubKey = getItem(position).key;
-
         ClubData tempClubSimple = TKManager.getInstance().ClubData_Simple.get(clubKey);
+
+        tv_Club_Name.setText(tempClubSimple.ClubName);
+        tv_Club_Count.setText(tempClubSimple.ClubMemberCount + "명");
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Profile, tempClubSimple.ClubThumbNail, false);
 
         iv_Club_Master.setVisibility(View.GONE);
         tv_Club_Tag.setText("");
@@ -83,20 +89,12 @@ public class CustomClubAdapter extends ArrayAdapter<CustomGridListHolder> implem
             iv_Club_Tag.setColorFilter(ContextCompat.getColor(mContext, R.color.recom_club_tag), PorterDuff.Mode.MULTIPLY);
         }
 
-
-        tv_Club_Name.setText(tempClubSimple.ClubName);
-        tv_Club_Count.setText(tempClubSimple.ClubMemberCount + "명");
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Profile, tempClubSimple.ClubThumbNail, false);
-
         return v;
     }
 
-    @Override public int getViewTypeCount() {
-        return 2;
-    }
-
-    @Override public int getItemViewType(int position) {
-        return position % 2 == 0 ? 1 : 0;
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     public void appendItems(List<CustomGridListHolder> newItems) {

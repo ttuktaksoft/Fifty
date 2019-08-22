@@ -58,7 +58,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/v_Club_Name"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="50dp"
         android:background="@color/club_main_slot_bg"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Profile"
         app:layout_constraintRight_toRightOf="@+id/iv_Club_Profile"
@@ -68,51 +68,48 @@
             android:id="@+id/tv_Club_Name"
             style="@style/BaseContentTextView"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:maxLength="15"
             android:text="등산 카페ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁ"
             android:textColor="@color/str_color_2"
             android:textStyle="bold"
             android:gravity="left|center_vertical"
             android:paddingLeft="10dp"
+            android:layout_marginTop="2dp"
             android:lines="1"
             app:layout_constraintLeft_toLeftOf="@+id/v_Club_Name"
             app:layout_constraintRight_toRightOf="@+id/v_Club_Name"
-            app:layout_constraintBottom_toBottomOf="@+id/v_Club_Name"
             app:layout_constraintTop_toTopOf="@+id/v_Club_Name" />
 
+        <ImageView
+            android:id="@+id/iv_Club_Count"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintLeft_toLeftOf="@+id/v_Club_Name"
+            app:layout_constraintTop_toTopOf="@+id/tv_Club_Count"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_Club_Count"
+            android:src="@drawable/ic_club"
+            android:tint="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_Club_Count"
+            style="@style/BaseContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="15"
+            android:text="10명"
+            android:textColor="@color/str_color_2"
+            android:textStyle="bold"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintLeft_toRightOf="@+id/iv_Club_Count"
+            app:layout_constraintBottom_toBottomOf="@+id/v_Club_Name" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/iv_Club_Count"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:layout_constraintRight_toLeftOf="@+id/tv_Club_Count"
-        app:layout_constraintTop_toTopOf="@+id/tv_Club_Count"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_Club_Count"
-        android:src="@drawable/ic_club"
-        android:tint="@color/white"/>
-
-    <TextView
-        android:id="@+id/tv_Club_Count"
-        style="@style/BaseContentTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:maxLength="15"
-        android:text="10명"
-        android:textColor="@color/str_color_2"
-        android:textStyle="bold"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        app:layout_constraintRight_toRightOf="@+id/iv_Club_Profile"
-        app:layout_constraintTop_toTopOf="@+id/iv_Club_Profile" />
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

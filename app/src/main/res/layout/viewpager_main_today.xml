@@ -45,10 +45,11 @@
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_Today_SubInfo"
             app:layout_constraintRight_toRightOf="@+id/v_Main_Today_SubInfo"/>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
             android:id="@+id/rv_Main_Today_UserList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:divider="@color/alpha"
             app:layout_constraintTop_toBottomOf="@+id/tv_Main_Today_Desc"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

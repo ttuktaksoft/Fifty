@@ -139,7 +139,7 @@ class MyProfileEditMenuAgeListHolder extends RecyclerView.ViewHolder {
 class MyProfileEditMenuFavoriteListHolder extends RecyclerView.ViewHolder {
     RecyclerView rv_MyProfile_Edit_Favorite_Menu;
     Context mContext;
-    FavoriteViewAdapter mFavoriteAdapter;
+    FavoriteSlotAdapter mFavoriteAdapter;
 
     public MyProfileEditMenuFavoriteListHolder(View itemView) {
         super(itemView);
@@ -157,7 +157,7 @@ class MyProfileEditMenuFavoriteListHolder extends RecyclerView.ViewHolder {
     {
         if(mFavoriteAdapter == null)
         {
-            mFavoriteAdapter = new FavoriteViewAdapter(mContext);
+            mFavoriteAdapter = new FavoriteSlotAdapter(mContext);
             RefreshFavoriteViewListSlot();
             mFavoriteAdapter.setHasStableIds(true);
 
@@ -196,7 +196,7 @@ class MyProfileEditMenuFavoriteListHolder extends RecyclerView.ViewHolder {
             list.add(value);
         }
 
-        mFavoriteAdapter.setItemCount(list.size());
+        //mFavoriteAdapter.setItemCount(list.size());
         mFavoriteAdapter.setItemData(list);
         mFavoriteAdapter.notifyDataSetChanged();
     }
