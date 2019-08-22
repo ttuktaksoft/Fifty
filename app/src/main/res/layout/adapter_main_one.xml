@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
+    android:padding="1dp"
     android:foreground="?attr/selectableItemBackground">
 
     <ImageView
@@ -27,18 +28,29 @@
         app:layout_constraintBottom_toBottomOf="@+id/iv_Main_Thumbnail"
         android:src="@drawable/ic_man_simple" />
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/v_Main_Thumbnail_Info"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_Main_Thumbnail"
+        app:layout_constraintRight_toRightOf="@+id/iv_Main_Thumbnail"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Main_Thumbnail"
+        android:background="@color/line_color"
+        android:alpha="0.7"/>
+
     <TextView
         android:id="@+id/tv_Main_Dis"
         style="@style/BaseContentTextView"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:gravity="right|center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/iv_Main_Thumbnail"
-        app:layout_constraintLeft_toLeftOf="@+id/iv_Main_Thumbnail"
+        app:layout_constraintTop_toTopOf="@+id/v_Main_Thumbnail_Info"
+        app:layout_constraintBottom_toBottomOf="@+id/v_Main_Thumbnail_Info"
+        app:layout_constraintLeft_toLeftOf="@+id/v_Main_Thumbnail_Info"
         android:layout_marginLeft="8dp"
         android:text="100km"
-        android:textSize="@dimen/default_font_size_small"
-        android:textColor="@color/str_color_1"/>
+        android:textSize="@dimen/default_font_size"
+        android:textColor="@color/str_color_2"/>
 
     <TextView
         android:id="@+id/tv_Main_Thumbnail_Online_State"
@@ -46,22 +58,21 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:gravity="right|center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/iv_Main_Thumbnail"
+        app:layout_constraintTop_toTopOf="@+id/iv_Main_Thumbnail"
         app:layout_constraintRight_toRightOf="@+id/iv_Main_Thumbnail"
         android:layout_marginRight="8dp"
         android:text="접속중"
         android:textSize="@dimen/default_font_size_small_1"
-        android:textColor="@color/str_color_7"/>
+        android:textColor="@color/str_color_2"/>
 
     <ImageView
         android:id="@+id/iv_Main_Thumbnail_Online_State"
         android:layout_width="10dp"
         android:layout_height="10dp"
-        android:visibility="gone"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintTop_toTopOf="@+id/tv_Main_Dis"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_Main_Dis"
-        app:layout_constraintRight_toRightOf="@+id/iv_Main_Thumbnail"
+        app:layout_constraintTop_toTopOf="@+id/iv_Main_Thumbnail"
+        app:layout_constraintRight_toRightOf="@+id/v_Main_Thumbnail_Info"
         android:src="@drawable/bg_empty_circle"
         android:tint="@color/icon_tint_online"/>
 
