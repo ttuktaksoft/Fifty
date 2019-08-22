@@ -616,6 +616,11 @@ public class FirebaseManager {
                                 tempData.SetToThumbNail(document.getDocument().getData().get("ToThumbNail").toString());
 
                                 tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
+
+                                if (document.getDocument().getData().containsKey("File") && document.getDocument().getData().get("File") != null) {
+                                    tempData.SetFile((document.getDocument().getData().get("File").toString()));
+                                }
+
                                 if(tempData.GetToIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                                 {
                                     tempData.SetMsgReadCheck(true);
@@ -962,6 +967,11 @@ public class FirebaseManager {
                                     tempData.SetMsgReadCheckNumber(inum);
                                 }
 
+                            if (document.getData().containsKey("File") && document.getData().get("File") != null) {
+                                tempData.SetFile((document.getData().get("File").toString()));
+                            }
+
+
 
                             if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                             {
@@ -1072,7 +1082,7 @@ public class FirebaseManager {
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                                     tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
 
-                                    if (document.getDocument().getData().containsKey("File")) {
+                                    if (document.getDocument().getData().containsKey("File") && document.getDocument().getData().get("File") != null) {
                                         tempData.SetFile((document.getDocument().getData().get("File").toString()));
                                     }
 
