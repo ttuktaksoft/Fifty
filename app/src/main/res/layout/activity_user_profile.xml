@@ -52,7 +52,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_UserProfile_BottomBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar">
 
-            <ImageView
+        <ImageView
                 android:id="@+id/iv_UserProfile_BottomBar_Like"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -64,6 +64,20 @@
                 app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar_Like"
                 android:layout_marginRight="5dp"
                 android:tint="@color/user_profile_bottom_tab_select"
+                />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_Like_view"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:lottie_fileName="like.json"
+                app:lottie_loop="false"
+                app:lottie_autoPlay="false"
+
+                app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_BottomBar_Like"
+                app:layout_constraintRight_toRightOf="@+id/iv_UserProfile_BottomBar_Like"
+                app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_BottomBar_Like"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_BottomBar_Like"
 
                 />
 
@@ -133,6 +147,21 @@
             app:layout_constraintRight_toRightOf="@+id/v_UserProfile_BottomBar"
             app:layout_constraintTop_toTopOf="@+id/v_UserProfile_BottomBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_Friend_view"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:lottie_fileName="friend.json"
+                app:lottie_loop="false"
+                app:lottie_autoPlay="false"
+
+                app:layout_constraintLeft_toLeftOf="@+id/iv_UserProfile_BottomBar_Friend"
+                app:layout_constraintRight_toRightOf="@+id/iv_UserProfile_BottomBar_Friend"
+                app:layout_constraintTop_toTopOf="@+id/iv_UserProfile_BottomBar_Friend"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_UserProfile_BottomBar_Friend"
+
+                />
 
             <ImageView
                 android:id="@+id/iv_UserProfile_BottomBar_Friend"

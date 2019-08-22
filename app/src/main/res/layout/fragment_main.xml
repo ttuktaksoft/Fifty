@@ -35,6 +35,21 @@
             app:layout_constraintLeft_toLeftOf="@+id/v_Main_TopBar"
             app:layout_constraintTop_toTopOf="@+id/v_Main_TopBar" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_Alarm_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:lottie_fileName="noti.json"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="false"
+
+            app:layout_constraintRight_toRightOf="@+id/iv_Main_Alarm"
+            app:layout_constraintTop_toTopOf="@+id/iv_Main_Alarm"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_Main_Alarm"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_Main_Alarm"
+
+            />
+
         <ImageView
             android:id="@+id/iv_Main_Alarm"
             android:layout_width="50dp"
