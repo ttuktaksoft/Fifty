@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +74,7 @@ public class ClubFavoriteAdapter extends RecyclerView.Adapter<ClubFavoriteHolder
 
 class ClubFavoriteHolder extends RecyclerView.ViewHolder {
 
+    ImageView iv_ClubFavorite_BG;
     TextView tv_ClubFavorite;
     Context mContext;
 
@@ -81,6 +83,7 @@ class ClubFavoriteHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
 
         tv_ClubFavorite = itemView.findViewById(R.id.tv_ClubFavorite);
+        iv_ClubFavorite_BG = itemView.findViewById(R.id.iv_ClubFavorite_BG);
     }
 
     public void setData(String key)
@@ -93,5 +96,7 @@ class ClubFavoriteHolder extends RecyclerView.ViewHolder {
         {
             tv_ClubFavorite.setText(key);
         }
+
+        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubFavorite_BG, TKManager.getInstance().FavoriteLIst_ClubThumbList.get(key), false);
     }
 }

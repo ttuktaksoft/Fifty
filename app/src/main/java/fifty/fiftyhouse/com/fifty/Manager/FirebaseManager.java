@@ -1575,15 +1575,17 @@ public class FirebaseManager {
         }
     }
 
-    public void GetUserFavoriteClubList(final CheckFirebaseComplete listener)
+/*
+    public void GetUserFavoriteClubThumb(final String clubIndex, final CheckFirebaseComplete listener)
     {
-        CollectionReference colRef = mDataBase.collection("ClubData_Favorite");
-        colRef.limit(50).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        CollectionReference colRef = mDataBase.collection("ClubData_Favorite").document(favorite).collection("ClubIndex");
+        colRef.orderBy("MemberCount", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        TKManager.getInstance().FavoriteLIst_ClubList.add(document.getId().toString());
+
+                        TKManager.getInstance().Fa.add(document.getId().toString());
                     }
 
                     if(listener != null)
@@ -1593,6 +1595,60 @@ public class FirebaseManager {
 
                         listener.CompleteListener();
                     }
+
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }*/
+
+    public void GetUserFavoriteClubThumbList(final String favorite, final CheckFirebaseComplete listener)
+    {
+        CollectionReference colRef = mDataBase.collection("ClubData_Favorite").document(favorite).collection("ClubIndex");
+        colRef.orderBy("MemberCount", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        if (document.getData().containsKey("Thumb")) {
+                            TKManager.getInstance().FavoriteLIst_ClubThumbList.put(favorite, document.getData().get("Thumb").toString());
+                        }
+                    }
+
+                  Complete(listener);
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetUserFavoriteClubList(final CheckFirebaseComplete listener)
+    {
+        SetFireBaseLoadingCount(0);
+        CollectionReference colRef = mDataBase.collection("ClubData_Favorite");
+        colRef.limit(50).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        SetFireBaseLoadingCount(task.getResult().size());
+
+                        TKManager.getInstance().FavoriteLIst_ClubList.add(document.getId().toString());
+                        GetUserFavoriteClubThumbList(document.getId().toString(), listener);
+                    }
+/*
+                    if(listener != null)
+                    {
+                        long seed = System.nanoTime();
+                        Collections.shuffle( TKManager.getInstance().FavoriteLIst_ClubList, new Random(seed));
+
+                        listener.CompleteListener();
+                    }*/
 
 
                 } else {

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.FilterData;
@@ -59,6 +60,7 @@ public class TKManager {
     public ArrayList<String> FavoriteLIst_Pop = new ArrayList<>();
     public ArrayList<String> DailyFavorite = new ArrayList<>();
 
+    public Map<String, String> FavoriteLIst_ClubThumbList =  new HashMap<>();
     public ArrayList<String> FavoriteLIst_ClubList = new ArrayList<>();
     public ArrayList<String> FavoriteLIst_Club = new ArrayList<>();
 
@@ -72,6 +74,7 @@ public class TKManager {
     public ClubContextData CreateTempClubContextData = new ClubContextData();
     public Map<String, Bitmap> TempClubContextImg = new HashMap<>();
     public ClubContextData TargetContextData = new ClubContextData();
+    public ChatData copyData = new ChatData();
 
     public interface UpdateUIFunc {
         void UpdateUI();

@@ -136,6 +136,8 @@ public class UserData {
     private Map<String, String> LikeList = new LinkedHashMap<>();
     private Map<String, String> VisitList = new LinkedHashMap<>();
 
+    private Map<String, CommonData.CHAT_ROOM_TYPE> ChatRoomTypeList = new LinkedHashMap<>();
+
     private Map<String, ChatData> ChatRoomDataList = new LinkedHashMap<>();
     private Map<String, ChatData> BookMarkChatRoomDataList = new LinkedHashMap<>();
 
@@ -355,6 +357,43 @@ public class UserData {
     {
         ChatRoomList.remove(chatRoomIdx);
     }*/
+
+    public void SetUserChatRoomTypeList(Map<String, CommonData.CHAT_ROOM_TYPE> map)
+    {
+        ChatRoomTypeList = map;
+    }
+    public void SetUserChatRoomTypeList(String chatRoomIdx, CommonData.CHAT_ROOM_TYPE data)
+    {
+        ChatRoomTypeList.put(chatRoomIdx, data);
+    }
+    public CommonData.CHAT_ROOM_TYPE  GetUserChatRoomTypeList(String chatRoomIdx)
+    {
+        return ChatRoomTypeList.get(chatRoomIdx);
+    }
+    public Map<String, CommonData.CHAT_ROOM_TYPE>  GetUserChatRoomTypeList()
+    {
+        return ChatRoomTypeList;
+    }
+    public int  GetUserChatRoomTypeListCount()
+    {
+        return ChatRoomTypeList.size();
+    }
+    public Set  GetUserChatRoomTypeListKeySet()
+    {
+        return ChatRoomTypeList.keySet();
+    }
+    public Boolean  ExistUserChatRoomTypeListKeySet(String index)
+    {
+        return ChatRoomTypeList.containsKey(index);
+    }
+    public void  DelUserChatRoomTypeList(String chatRoomIdx)
+    {
+        ChatRoomTypeList.remove(chatRoomIdx);
+    }
+    public void  ClearChatRoomTypeList()
+    {
+        ChatRoomTypeList.clear();
+    }
 
     public void SetUserBookMarkChatDataList(Map<String, ChatData> map)
     {

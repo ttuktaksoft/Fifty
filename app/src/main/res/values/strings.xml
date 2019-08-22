@@ -114,7 +114,7 @@
     <string name="CLUB_SEARCH_EMPTY">해당 클럽이 없습니다</string>
     <string name="USER_REPORT_DESC">신고사유</string>
     <string name="USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
-    <string name="MSG_SORT_MAIN">내근처:</string>
+    <string name="MSG_SORT_MAIN">근처:</string>
     <string name="MSG_SORT_DISTANCE">근처</string>
     <string name="MSG_SORT_NEW_MEMBER">신입</string>
     <string name="MSG_SORT_TODAY_MEMBER">추천</string>
@@ -162,7 +162,7 @@
     <string name="MSG_CLUB_REPLY_DELETE">삭제하기</string>
     <string name="MSG_CHAT_LIST_BOOKMARK">즐겨찾기</string>
     <string name="MSG_CHAT_LIST_DEFAULT">일반</string>
-    <string name="MSG_CLUB_LIST_RECOMMEND">추천클럽</string>
+    <string name="MSG_CLUB_LIST_RECOMMEND">클럽</string>
     <string name="MSG_CLUB_LIST_MY">내 클럽</string>
     <string name="MSG_CHAT_FONT_SIZE_DESC">글씨 크기 변경</string>
     <string name="MSG_CHAT_FONT_SIZE_SMALL">작게</string>
@@ -318,11 +318,11 @@
     <string name="bt_Main_Distance">우리동네</string>
     <string name="bt_Main_New">신입</string>
     <string name="bt_Main_Today">관심사</string>
-    <string name="bt_Main_Friend">내친구</string>
+    <string name="bt_Main_Friend">친구</string>
     <string name="permission_request">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
     <string name="permission_cammera">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
     <string name="STR_ERROR">오류</string>
-    <string name="tv_Main_Sort_Title">내근처</string>
+    <string name="tv_Main_Sort_Title">근처</string>
     <string name="bt_Main_Sort_Type_All">전체</string>
     <string name="bt_Main_Sort_Type_Online">접속중</string>
     <string name="i_main_bottom_main">메인</string>

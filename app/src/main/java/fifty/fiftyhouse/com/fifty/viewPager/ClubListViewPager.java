@@ -13,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -81,6 +83,9 @@ public class ClubListViewPager extends Fragment {
                         FirebaseManager.CheckFirebaseComplete FavoriteClubList = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                long seed = System.nanoTime();
+                                Collections.shuffle( TKManager.getInstance().FavoriteLIst_ClubList, new Random(seed));
+
                                 Intent intent = new Intent(getContext(), ClubFavoriteActivity.class);
                                 startActivityForResult(intent, 1000);
                                 DialogFunc.getInstance().DismissLoadingPage();
