@@ -145,7 +145,7 @@ public class MainFriendViewPager extends Fragment {
     public void RefreshUserList()
     {
         mUserList.clear();
-        mUserList.addAll(TKManager.getInstance().MyData.GetRequestFriendListKeySet());
+        mUserList.addAll(TKManager.getInstance().MyData.GetUserFriendListKeySet());
 
         if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
         {

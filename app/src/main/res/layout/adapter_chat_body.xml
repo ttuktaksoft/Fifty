@@ -101,7 +101,7 @@
             android:id="@+id/v_Chat_Body_Type_Video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+android:visibility="gone"
             app:layout_constraintLeft_toRightOf="@+id/v_Chat_Body_Type_Etc"
             app:layout_constraintRight_toLeftOf="@id/iv_Chat_Body_Profile"
             app:layout_constraintTop_toBottomOf="@id/tv_Chat_Body_NickName">
@@ -114,6 +114,21 @@
                 android:maxHeight="200dp"
                 android:maxWidth="200dp"
                 android:src="@drawable/dummy_2"/>
+
+            <ImageView
+                android:id="@+id/iv_Chat_Body_Video_Icon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="45dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_video"
+                android:tint="@color/white"
+                app:layout_constraintTop_toTopOf="@+id/iv_Chat_Body_Video"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_Chat_Body_Video"
+                app:layout_constraintRight_toRightOf="@+id/iv_Chat_Body_Video"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_Chat_Body_Video"/>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
