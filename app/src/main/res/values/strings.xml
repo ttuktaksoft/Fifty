@@ -115,10 +115,10 @@
     <string name="USER_REPORT_DESC">신고사유</string>
     <string name="USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
     <string name="MSG_SORT_MAIN">내근처:</string>
-    <string name="MSG_SORT_DISTANCE">내근처</string>
+    <string name="MSG_SORT_DISTANCE">근처</string>
     <string name="MSG_SORT_NEW_MEMBER">신입</string>
     <string name="MSG_SORT_TODAY_MEMBER">추천</string>
-    <string name="MSG_SORT_MY_FRIEND">내친구</string>
+    <string name="MSG_SORT_MY_FRIEND">친구</string>
     <string name="MSG_SORT_FAVORITE">관심사정렬</string>
     <string name="MSG_REPORT_MENU_REPORT">신고하기</string>
     <string name="MSG_REPORT_MENU_BLOCK">차단하기</string>
