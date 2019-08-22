@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/v_Chat_Bookmark"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             app:layout_constraintLeft_toLeftOf="@+id/v_Chat_Btn"
             app:layout_constraintRight_toLeftOf="@+id/v_Chat_Delete"
             app:layout_constraintTop_toTopOf="@+id/v_Chat_Btn"
@@ -45,7 +45,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/v_Chat_Delete"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             app:layout_constraintLeft_toRightOf="@+id/v_Chat_Bookmark"
             app:layout_constraintRight_toRightOf="@+id/v_Chat_Btn"
             app:layout_constraintTop_toTopOf="@+id/v_Chat_Btn"
