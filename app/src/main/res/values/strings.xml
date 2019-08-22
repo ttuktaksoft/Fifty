@@ -127,6 +127,7 @@
     <string name="MSG_PROFILE_PHOTO_GALLERY_ADD">사진을 앨범에서 등록</string>
     <string name="MSG_PROFILE_PHOTO_ADD">사진 등록</string>
     <string name="MSG_PHOTO_SELECT">사진 선택</string>
+    <string name="MSG_VIDEO_SELECT">동영상 선택</string>
     <string name="MSG_DEFAULT_LOCATION">FIFTY에서 활동중 입니다.</string>
     <string name="MSG_DEFAULT_LOCATION_MEMO_1">안녕하세요 </string>
     <string name="MSG_DEFAULT_LOCATION_MEMO_2">입니다</string>
@@ -177,6 +178,8 @@
     <string name="MSG_USER_SEARCH_TITLE">유저 찾기</string>
     <string name="MSG_USER_SEARCH_HINT">닉네임을 입력해주세요</string>
     <string name="MSG_CLUB_SEARCH">클럽 검색</string>
+    <string name="MSG_MENU_PHOTO">사진</string>
+    <string name="MSG_MENU_VIDEO">동영상</string>
 
     <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
     <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>
