@@ -37,6 +37,7 @@ import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
+import fifty.fiftyhouse.com.fifty.activty.VideoPlayerActivity;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleTouchListener;
 
@@ -380,6 +381,16 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
                 DialogFunc.getInstance().DismissLoadingPage();
             }
         });
+
+        iv_Chat_Body_Video.setOnClickListener(new OnSingleClickListener(){
+            @Override
+            public void onSingleClick(View v) {
+                Intent intent = new Intent(mContext, VideoPlayerActivity.class);
+                intent.putExtra("url", "");
+                mContext.startActivity(intent);
+            }
+        });
+
 
         tv_Chat_Body_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.toString(tempData.GetMsgDate()), "a hh:mm"));
 
