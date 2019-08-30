@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -945,15 +947,27 @@ public class UserProfileFragment extends Fragment {
         String MSG_LIKE = CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_LIKE);
         if(mMyProfile)
         {
-            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + "\n" +TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
-            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + "\n" +TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
-            tv_UserProfile_Info_Count_3.setText(MSG_FRIEND + "\n" +TKManager.getInstance().MyData.GetUserFriendListCount()+ " / " + TKManager.getInstance().MyData.GetUserFriendListCount());
+            SpannableStringBuilder str_1 = new SpannableStringBuilder(MSG_VISITER + "\n" +TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
+            str_1.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_VISITER.length(), str_1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_UserProfile_Info_Count_1.setText(str_1);
+
+            SpannableStringBuilder str_2 = new SpannableStringBuilder(MSG_LIKE + "\n" +TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
+            str_2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_LIKE.length(), str_2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_UserProfile_Info_Count_2.setText(str_2);
+
+            SpannableStringBuilder str_3 = new SpannableStringBuilder(MSG_FRIEND + "\n" +TKManager.getInstance().MyData.GetUserFriendListCount()+ " / " + TKManager.getInstance().MyData.GetUserFriendListCount());
+            str_3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_FRIEND.length(), str_3.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_UserProfile_Info_Count_3.setText(str_3);
         }
         else
         {
-            tv_UserProfile_Info_Count_1.setText(MSG_VISITER + "\n" +TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
-            tv_UserProfile_Info_Count_2.setText(MSG_LIKE + "\n" +TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+            SpannableStringBuilder str_1 = new SpannableStringBuilder(MSG_VISITER + "\n" +TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
+            str_1.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_VISITER.length(), str_1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_UserProfile_Info_Count_1.setText(str_1);
 
+            SpannableStringBuilder str_2 = new SpannableStringBuilder(MSG_LIKE + "\n" +TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+            str_2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_LIKE.length(), str_2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_UserProfile_Info_Count_2.setText(str_2);
 
             String mUserDist = null;
             if(TKManager.getInstance().TargetUserData.GetUserDist()  < 1000)
@@ -964,7 +978,10 @@ public class UserProfileFragment extends Fragment {
             {
                 mUserDist = (int)(TKManager.getInstance().TargetUserData.GetUserDist()  / 1000) + "km";
             }
-            tv_UserProfile_Info_Count_3.setText(MSG_DISTANCE + "\n" +mUserDist);
+
+            SpannableStringBuilder str_3 = new SpannableStringBuilder(MSG_DISTANCE + "\n" +mUserDist);
+            str_3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_DISTANCE.length(), str_3.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv_UserProfile_Info_Count_3.setText(str_3);
         }
 
     }

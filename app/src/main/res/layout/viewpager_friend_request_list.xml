@@ -43,7 +43,6 @@
                 android:text="나를 좋아요한 친구를 볼려면\n아이템을 구매해주세요"
                 android:gravity="center"
                 android:textSize="@dimen/default_font_size_big_1"
-                android:textStyle="bold"
                 android:textColor="@color/str_color_2" />
 
             <TextView

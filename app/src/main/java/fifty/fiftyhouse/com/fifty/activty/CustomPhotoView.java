@@ -65,11 +65,13 @@ public class CustomPhotoView extends AppCompatActivity {
 
         if(type == PHOTO_VIEW_TYPE_MY_PROFILE)
         {
+            iv_Custom_Photo_Down.setVisibility(View.GONE);
             mPhotoSrcList.add(TKManager.getInstance().MyData.GetUserImg(Integer.toString(0)));
             tv_Custom_Photo_Title.setText(TKManager.getInstance().MyData.GetUserNickName());
         }
         else if(type == PHOTO_VIEW_TYPE_MY_PROFILE_LIST)
         {
+            iv_Custom_Photo_Down.setVisibility(View.GONE);
             Map<String, String> map = TKManager.getInstance().MyData.GetUserImg();
             for(int i = 0 ; i < map.size() ; ++i)
             {
@@ -80,11 +82,13 @@ public class CustomPhotoView extends AppCompatActivity {
         }
         else if(type == PHOTO_VIEW_TYPE_USER_PROFILE)
         {
+            iv_Custom_Photo_Down.setVisibility(View.GONE);
             mPhotoSrcList.add(TKManager.getInstance().TargetUserData.GetUserImg(Integer.toString(0)));
             tv_Custom_Photo_Title.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         }
         else if(type == PHOTO_VIEW_TYPE_USER_PROFILE_LIST)
         {
+            iv_Custom_Photo_Down.setVisibility(View.GONE);
             Map<String, String> map = TKManager.getInstance().TargetUserData.GetUserImg();
             for(int i = 0 ; i < map.size() ; ++i)
             {
@@ -95,11 +99,13 @@ public class CustomPhotoView extends AppCompatActivity {
         }
         else if(type == PHOTO_VIEW_TYPE_ONE)
         {
+            iv_Custom_Photo_Down.setVisibility(View.VISIBLE);
             mPhotoSrcList.add(ImgSrc);
             tv_Custom_Photo_Title.setText("");
         }
         else
         {
+            iv_Custom_Photo_Down.setVisibility(View.VISIBLE);
             mPhotoSrcList.addAll(ImgList);
             tv_Custom_Photo_Title.setText("");
         }
