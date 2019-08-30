@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         app:lottie_fileName="loading.json"
         app:lottie_loop="true"
+        app:lottie_scale="2"
         app:lottie_autoPlay="true" />
 
 <!--    <ProgressBar

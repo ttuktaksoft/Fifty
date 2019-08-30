@@ -245,7 +245,7 @@ public class LoadingActivity extends AppCompatActivity {
                 //    Log.e("#@!!", tempUid);
                     //tempUid = null;
 
-                    DialogFunc.getInstance().DismissLoadingPage();
+                 //  DialogFunc.getInstance().DismissLoadingPage();
 
                     if(CommonFunc.getInstance().CheckStringNull(tempUid))
                     {
