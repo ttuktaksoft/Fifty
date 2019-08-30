@@ -220,8 +220,8 @@ public class MainFragment extends Fragment {
             });*/
 
             tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_DISTANCE)));
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_NEW_MEMBER)));
             tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_TODAY_MEMBER)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_NEW_MEMBER)));
             tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_MY_FRIEND)));
             tl_TopBarTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
@@ -269,11 +269,11 @@ public class MainFragment extends Fragment {
                     mMainDistanceViewPager = new MainDistanceViewPager();
                     return mMainDistanceViewPager;
                 case 1:
-                    mMainNewViewPager = new MainNewViewPager();
-                    return mMainNewViewPager;
-                case 2:
                     mMainTodayViewPager = new MainTodayViewPager();
                     return mMainTodayViewPager;
+                case 2:
+                    mMainNewViewPager = new MainNewViewPager();
+                    return mMainNewViewPager;
                 case 3:
                     mMainFriendViewPager = new MainFriendViewPager();
                     return mMainFriendViewPager;
