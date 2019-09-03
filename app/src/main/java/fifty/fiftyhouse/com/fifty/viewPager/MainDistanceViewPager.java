@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +34,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainDistanceViewPager extends Fragment {
 
-    FloatingActionButton fa_Main_Dis_Search;
+    FloatingActionButton fa_Main_Dis_Search, fa_Main_Dis_Favorite, fa_Main_Dis_Name;
     TextView tv_Main_Dis_Curr_Pos;
     TextView tv_Main_Dis_UserList_Empty;
     ImageView iv_Main_Dis_Sort_Type;
@@ -49,17 +51,43 @@ public class MainDistanceViewPager extends Fragment {
         super();
     }
 
+
+    private Animation fab_open, fab_close;
+    private boolean isFabOpen = false;
+    private void toggleFab() {
+        if (isFabOpen) {
+            fa_Main_Dis_Favorite.startAnimation(fab_close);
+            fa_Main_Dis_Name.startAnimation(fab_close);
+            fa_Main_Dis_Favorite.setClickable(false);
+            fa_Main_Dis_Name.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fa_Main_Dis_Favorite.startAnimation(fab_open);
+            fa_Main_Dis_Name.startAnimation(fab_open);
+            fa_Main_Dis_Favorite.setClickable(true);
+            fa_Main_Dis_Name.setClickable(true);
+            isFabOpen = true;
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if(v_FragmentView == null)
         {
+
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_distance, container, false);
             rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
             iv_Main_Dis_Sort_Type = v_FragmentView.findViewById(R.id.iv_Main_Dis_Sort_Type);
             tv_Main_Dis_UserList_Empty = v_FragmentView.findViewById(R.id.tv_Main_Dis_UserList_Empty);
             fa_Main_Dis_Search = v_FragmentView.findViewById(R.id.fa_Main_Dis_Search);
+            fa_Main_Dis_Favorite = v_FragmentView.findViewById(R.id.fa_Main_Dis_Favorite);
+            fa_Main_Dis_Name = v_FragmentView.findViewById(R.id.fa_Main_Dis_Name);
+
+            fab_open = AnimationUtils.loadAnimation(MainActivity.mActivity, R.anim.fab_open);
+
+            fab_close = AnimationUtils.loadAnimation(MainActivity.mActivity, R.anim.fab_close);
 
 /*            if(TKManager.getInstance().FilterData.GetDistance() == 100)
                 tv_Main_Dis_Sort_Type.setText("내 근처 : 전체");
@@ -77,6 +105,21 @@ public class MainDistanceViewPager extends Fragment {
             });
 
             fa_Main_Dis_Search.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                  //  DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
+                    toggleFab();
+                }
+            });
+
+            fa_Main_Dis_Favorite.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
+                }
+            });
+
+            fa_Main_Dis_Name.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
                     DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);

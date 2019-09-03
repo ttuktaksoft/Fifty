@@ -2384,6 +2384,73 @@ public class FirebaseManager {
         });
     }
 
+    public void RegistSearchResult(String searchName)
+    {
+
+        DocumentReference docRef = mDataBase.collection("SearchList").document(searchName);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        final double[] newPopulation = new double[1];
+                        mDataBase.runTransaction(new Transaction.Function<Void>() {
+                            @Override
+                            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                                DocumentSnapshot snapshot = transaction.get(docRef);
+                                newPopulation[0] = snapshot.getDouble("count") + 1;
+                                transaction.update(docRef, "count", newPopulation[0]);
+                                int tempIndex = (int)newPopulation[0];
+
+                                // Success
+                                return null;
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Transaction success!");
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Transaction failure.", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                        Map<String, Object> popFavorite = new HashMap<>();
+                        popFavorite.put("count", 1);
+
+                        docRef
+                                .set(popFavorite, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+    }
+
     public void FindUserByNickName(final String userNick, final  Activity activity, final FirebaseManager.CheckFirebaseComplete listener) {
         DialogFunc.getInstance().ShowLoadingPage(activity);
         DocumentReference docRef = mDataBase.collection("UserData_NickName").document(userNick);
@@ -4594,6 +4661,38 @@ public class FirebaseManager {
                         Log.w(TAG, "Transaction failure.", e);
                     }
                 });
+    }
+
+    public void FindFavoriteList(String favoriteName, final UserData userData, final CheckFirebaseComplete listener)
+    {
+        TKManager.getInstance().UserList_Hot.clear();
+        SetFireBaseLoadingCount(0);
+
+        final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
+        sfColRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+
+                    SetFireBaseLoadingCount(task.getResult().size());
+                    {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+
+                            //   AddFireBaseLoadingCount();
+                            TKManager.getInstance().UserList_Hot.add(document.getId());
+                            GetUserData_Simple(document.getData().get(document.getId()).toString(), TKManager.getInstance().UserData_Simple, listener);
+                        }
+                    }
+
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
     public void RegistFavoriteList(String favoriteName)
