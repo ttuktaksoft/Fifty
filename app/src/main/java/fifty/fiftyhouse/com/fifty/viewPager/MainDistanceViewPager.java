@@ -115,7 +115,7 @@ public class MainDistanceViewPager extends Fragment {
             fa_Main_Dis_Favorite.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
+                    DialogFunc.getInstance().ShowFavoriteSearchPopup(getContext());
                 }
             });
 

@@ -4663,7 +4663,7 @@ public class FirebaseManager {
                 });
     }
 
-    public void FindFavoriteList(String favoriteName, final UserData userData, final CheckFirebaseComplete listener)
+    public void FindFavoriteList(String favoriteName, final CheckFirebaseComplete listener)
     {
         TKManager.getInstance().UserList_Hot.clear();
         SetFireBaseLoadingCount(0);
