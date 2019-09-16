@@ -272,6 +272,67 @@ public class DialogFunc {
     public void ShowFavoriteSearchPopup(final Context context) {
         final EditText et_User_Search_Popup_Name;
         TextView tv_User_Search_Popup_Buttons_OK, tv_User_Search_Popup_Buttons_Cancel;
+        TextView tv_User_Search_Popup_Title;
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_user_search_popup, null, false);
+
+        et_User_Search_Popup_Name = v.findViewById(R.id.et_User_Search_Popup_Name);
+        tv_User_Search_Popup_Buttons_OK = v.findViewById(R.id.tv_User_Search_Popup_Buttons_OK);
+        tv_User_Search_Popup_Buttons_Cancel =  v.findViewById(R.id.tv_User_Search_Popup_Buttons_Cancel);
+        tv_User_Search_Popup_Title = v.findViewById(R.id.tv_User_Search_Popup_Title);
+
+        tv_User_Search_Popup_Title.setText("관심사 찾기");
+        et_User_Search_Popup_Name.setHint("관심사를 입력해주세요");
+
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.show();
+
+        tv_User_Search_Popup_Buttons_OK.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+
+                if(CommonFunc.getInstance().CheckStringNull(et_User_Search_Popup_Name.getText().toString()))
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.FAVORITE_EMPTY));
+                }
+                else
+                {
+                    FirebaseManager.CheckFirebaseComplete findListener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                            DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.FAVORITE_FIND_EMPTY));
+                        }
+                    };
+                    FirebaseManager.getInstance().FindFavoriteList(et_User_Search_Popup_Name.getText().toString(), findListener);
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+
+        tv_User_Search_Popup_Buttons_Cancel.setOnClickListener(new OnSingleClickListener(){
+            @Override
+            public void onSingleClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void ShowUserSearchPopup(final Context context, final  Activity activity) {
+        final EditText et_User_Search_Popup_Name;
+        TextView tv_User_Search_Popup_Buttons_OK, tv_User_Search_Popup_Buttons_Cancel;
 
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_user_search_popup, null, false);
 
@@ -309,7 +370,7 @@ public class DialogFunc {
                             DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.NICKNAME_FIND_EMPTY));
                         }
                     };
-                    FirebaseManager.getInstance().FindFavoriteList(et_User_Search_Popup_Name.getText().toString(), findListener);
+                    FirebaseManager.getInstance().FindUserByNickName(et_User_Search_Popup_Name.getText().toString(), activity, findListener);
                 }
 
                 dialog.dismiss();
@@ -325,15 +386,19 @@ public class DialogFunc {
         });
     }
 
-    public void ShowUserSearchPopup(final Context context, final  Activity activity) {
+    public void ShowUserInvitePopup(final Context context, final  Activity activity) {
         final EditText et_User_Search_Popup_Name;
         TextView tv_User_Search_Popup_Buttons_OK, tv_User_Search_Popup_Buttons_Cancel;
+        TextView tv_User_Search_Popup_Title;
 
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_user_search_popup, null, false);
 
         et_User_Search_Popup_Name = v.findViewById(R.id.et_User_Search_Popup_Name);
         tv_User_Search_Popup_Buttons_OK = v.findViewById(R.id.tv_User_Search_Popup_Buttons_OK);
         tv_User_Search_Popup_Buttons_Cancel =  v.findViewById(R.id.tv_User_Search_Popup_Buttons_Cancel);
+        tv_User_Search_Popup_Title = v.findViewById(R.id.tv_User_Search_Popup_Title);
+
+        tv_User_Search_Popup_Title.setText("클럽 초대");
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

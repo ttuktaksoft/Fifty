@@ -1592,6 +1592,7 @@ public class CommonFunc {
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
         {
             DialogFunc.getInstance().ShowToast(activity, CommonFunc.getInstance().getStr(activity.getResources(), R.string.MSG_MY_PROFILE_CLICK), true);
+            DialogFunc.getInstance().DismissLoadingPage();
         }
         else
         {

@@ -105,6 +105,8 @@
     <string name="NICKNAME_CHECK_ASK">닉네임 중복체크를 해주세요</string>
     <string name="NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
     <string name="NICKNAME_CHECK_FAIL">중복된 닉네임입니다</string>
+    <string name="FAVORITE_EMPTY">관심사를 입력해주세요</string>
+    <string name="FAVORITE_FIND_EMPTY">해당 관심사를 가진 유져가 없습니다</string>
     <string name="PROFILE_EMPTY">사진을 등록해주세요</string>
     <string name="SETTING_ACCOUNT_DESC">계정을 등록하시면 데이터를 동기화 할 수 있습니다</string>
     <string name="SETTING_ACCOUNT_EMAIL_HINT">이메일을 입력해주세요</string>

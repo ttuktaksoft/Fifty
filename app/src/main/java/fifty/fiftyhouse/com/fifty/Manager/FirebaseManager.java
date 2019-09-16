@@ -1737,7 +1737,7 @@ public class FirebaseManager {
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
         {
             bMyData = true;
-            SetFireBaseLoadingCount(10);
+            SetFireBaseLoadingCount(11);
             //SetFireBaseLoadingCount(7);
         }
         else
@@ -1859,6 +1859,23 @@ public class FirebaseManager {
                         if(finalMyData)
                             GetUserChatList(userIndex, userData, ChatRoomListener);
 
+                        FirebaseManager.CheckFirebaseComplete FavoriteRankListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                Complete(listener);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        if(finalMyData)
+                            FindFavoriteRank(FavoriteRankListener);
 
                         FirebaseManager.CheckFirebaseComplete AlarmListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -4663,9 +4680,85 @@ public class FirebaseManager {
                 });
     }
 
+    public void SetFavoriteRank(String favoriteName)
+    {
+        final DocumentReference sfDocRef = mDataBase.collection("FavoriteList_Rank").document(favoriteName);
+        final double[] newPopulation = new double[1];
+        mDataBase.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                DocumentSnapshot snapshot = transaction.get(sfDocRef);
+
+                if(snapshot.getData() == null)
+                {
+                    final Map<String, Object> clubFavoriteData = new HashMap<>();
+                    clubFavoriteData.put("count", 0);
+                    mDataBase.collection("FavoriteList_Rank").document(favoriteName).set(clubFavoriteData, SetOptions.merge());
+                }
+                else
+                {
+                    newPopulation[0] = snapshot.getDouble("count") + 1;
+                    transaction.update(sfDocRef, "count", newPopulation[0]);
+                }
+
+                int tempIndex = (int)newPopulation[0];
+
+                // Success
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Transaction success!");
+
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Transaction failure.", e);
+                    }
+                });
+    }
+
+
+    public void FindFavoriteRank(final CheckFirebaseComplete listener)
+    {
+        TKManager.getInstance().SearchList_Favorite.clear();
+
+        final CollectionReference sfColRef = mDataBase.collection("FavoriteList_Rank");
+        sfColRef.orderBy("count", Query.Direction.DESCENDING).limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+
+                    SetFireBaseLoadingCount(task.getResult().size());
+                    {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
+
+                            TKManager.getInstance().SearchList_Favorite.add(document.getId());
+
+                        }
+
+
+                        if (listener != null)
+                            listener.CompleteListener();
+                    }
+
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
     public void FindFavoriteList(String favoriteName, final CheckFirebaseComplete listener)
     {
-        TKManager.getInstance().UserList_Hot.clear();
+        TKManager.getInstance().UserList_Search_Hot.clear();
         SetFireBaseLoadingCount(0);
 
         final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
@@ -4679,11 +4772,13 @@ public class FirebaseManager {
                     {
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
 
+                            SetFavoriteRank(document.getId());
                             //   AddFireBaseLoadingCount();
-                            TKManager.getInstance().UserList_Hot.add(document.getId());
-                            GetUserData_Simple(document.getData().get(document.getId()).toString(), TKManager.getInstance().UserData_Simple, listener);
+                            TKManager.getInstance().UserList_Search_Hot.add(document.getId());
+                            GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
+
                         }
                     }
 

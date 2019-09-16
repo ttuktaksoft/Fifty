@@ -16,8 +16,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
@@ -35,7 +38,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainTodayViewPager extends Fragment {
-    TextView tv_Main_Today_UserList_Empty;
+    TextView tv_Main_Today_UserList_Empty, tv_Main_Today_Desc;
     FloatingActionButton fa_Main_Today_Search;
     RecyclerView rv_Main_Today_Favorite;
     AsymmetricGridView rv_Main_Today_UserList;
@@ -63,8 +66,10 @@ public class MainTodayViewPager extends Fragment {
             rv_Main_Today_UserList = v_FragmentView.findViewById(R.id.rv_Main_Today_UserList);
             rv_Main_Today_Favorite = v_FragmentView.findViewById(R.id.rv_Main_Today_Favorite);
             fa_Main_Today_Search = v_FragmentView.findViewById(R.id.fa_Main_Today_Search);
+            tv_Main_Today_Desc = v_FragmentView.findViewById(R.id.tv_Main_Today_Desc);
 
             initRecyclerView();
+            initSubInfo();
             initFavoriteRecyclerView();
 
             fa_Main_Today_Search.setOnClickListener(new OnSingleClickListener() {
@@ -82,10 +87,13 @@ public class MainTodayViewPager extends Fragment {
         return v_FragmentView;
     }
 
-    /*private void initSubInfo()
+    private void initSubInfo()
     {
-        tv_Main_Today_Desc.setText(CommonFunc.getInstance().getComleteWordByJongsung(DAILY_FAVORITE, "을", "를") + " " + CommonFunc.getInstance().getStr(getResources(), R.string.MSG_MAIN_USER_TODAY_DESC));
-    }*/
+        Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+        List array = new ArrayList(EntrySet);
+        tv_Main_Today_Desc.setText(CommonFunc.getInstance().getComleteWordByJongsung(array.get(0).toString(), "을", "를") + " " + CommonFunc.getInstance().getStr(getResources(), R.string.MSG_MAIN_USER_TODAY_DESC));
+    }
+
     private void initRecyclerView()
     {
         /*mAdapter = new MainAdapterOne(getContext());

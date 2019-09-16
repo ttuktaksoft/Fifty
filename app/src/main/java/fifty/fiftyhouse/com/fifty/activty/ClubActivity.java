@@ -23,6 +23,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -39,7 +40,7 @@ public class ClubActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
 
-    ImageView iv_Club_Thumbnail, iv_Club_Setting, iv_Club_Chat_BG, iv_Club_Write_BG, iv_Club_Chat, iv_Club_Write;
+    ImageView iv_Club_Thumbnail, iv_Club_Setting, iv_Club_Chat_BG, iv_Club_Write_BG, iv_Club_Chat, iv_Club_Write, iv_Club_Invite;
     TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join, tv_Club_Introduce, tv_Club_OpenDay, tv_Club_Chat, tv_Club_Write;
     RecyclerView rv_Club_Content;
     RecyclerView rv_Club_Favorite;
@@ -72,6 +73,7 @@ public class ClubActivity extends AppCompatActivity {
         iv_Club_Chat_BG = findViewById(R.id.iv_Club_Chat_BG);
         iv_Club_Write = findViewById(R.id.iv_Club_Write);
         iv_Club_Write_BG = findViewById(R.id.iv_Club_Write_BG);
+        iv_Club_Invite = findViewById(R.id.iv_Club_Invite);
         tv_Club_Name = findViewById(R.id.tv_Club_Name);
         tv_Club_UserCount = findViewById(R.id.tv_Club_UserCount);
         rv_Club_Content = findViewById(R.id.rv_Club_Content);
@@ -104,6 +106,14 @@ public class ClubActivity extends AppCompatActivity {
                 intent.putExtra("Type", 0);
                 intent.putExtra("position", 0);
                 startActivityForResult(intent, 1000);
+            }
+        });
+
+        iv_Club_Invite.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+            // 사람 초대
+                DialogFunc.getInstance().ShowUserInvitePopup(ClubActivity.this, ClubActivity.this);
             }
         });
 
