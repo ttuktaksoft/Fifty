@@ -4744,17 +4744,17 @@ public class FirebaseManager {
                 int tempTotayLikeCount = 0;
                 if (task.isSuccessful()) {
 
-                    AddFireBaseLoadingCount(task.getResult().size());
+                    //AddFireBaseLoadingCount(task.getResult().size());
                     {
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
 
                             TKManager.getInstance().SearchList_Favorite.add(document.getId());
-
-                            Complete(listener);
-
                         }
+
+                        if(listener != null)
+                            listener.CompleteListener();
 
 
 
@@ -4780,12 +4780,12 @@ public class FirebaseManager {
                 int tempTotayLikeCount = 0;
                 if (task.isSuccessful()) {
                     {
-                        AddFireBaseLoadingCount(task.getResult().size());
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
 
                             if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                             {
+                                AddFireBaseLoadingCount();
                                 TKManager.getInstance().UserList_Hot.add(document.getId());
                                 GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                             }
