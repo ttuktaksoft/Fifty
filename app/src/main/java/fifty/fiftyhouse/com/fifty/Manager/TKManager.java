@@ -92,4 +92,7 @@ public class TKManager {
     public UpdateUIFunc mUpdateChatFragmentFunc = null;
 
     public ArrayList<String> MonitorChatList = new ArrayList<>();
+
+    // 메인 추천탭에서 보여줘야 할 관심사
+    public String SelectFavorite = "";
 }

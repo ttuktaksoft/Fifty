@@ -8,6 +8,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bnv_Main_BottomMenu;
 
+    private int MoveMainTabIndex = -1;
+    private int MoveSubTabIndex = -1;
+
     public interface MoveFragmentListener {
         void MoveFragment();
     }
@@ -56,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
         DialogFunc.getInstance().DismissLoadingPage();
 
+
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        MoveSubTabIndex = getIntent().getIntExtra("subtabpostion", -1);
+        MoveMainTabIndex = getIntent().getIntExtra("maintabpostion", -1);
+
         backPressCloseHandler = new BackPressCloseHandler(mActivity);
 
         CommonFunc.getInstance().mCurActivity = this;
@@ -73,7 +83,21 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
 
                             case R.id.i_main_bottom_main:
-                                mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
+                                if(MoveSubTabIndex >= 0)
+                                {
+                                    mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment")
+                                            .runOnCommit(new Runnable() // be carefull on this call. check documentation!!
+                                            {
+                                                @Override
+                                                public void run()
+                                                {
+                                                    mMainFragment.MoveStartTab(MoveSubTabIndex);
+                                                    MoveSubTabIndex = -1;
+                                                }
+                                            }).commit();
+                                }
+                                else
+                                    mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
                                 return true;
                             case R.id.i_main_bottom_club:
 
@@ -181,12 +205,32 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
+        if(MoveMainTabIndex >= 0)
+            MoveFragmentTab(MoveMainTabIndex, MoveSubTabIndex);
+
         mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed()
+    {
         //super.onBackPressed();
-         backPressCloseHandler.onBackPressed();
-         }
+        backPressCloseHandler.onBackPressed();
+    }
 
+     public void MoveFragmentTab(int postion, int etcPostion)
+         {
+             MoveSubTabIndex = -1;
+             if(postion == 0)
+             {
+                 MoveSubTabIndex = etcPostion;
+                 bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_main);
+             }
+             else if(postion == 1)
+                 bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_club);
+             else if(postion == 2)
+                 bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_chat);
+             else if(postion == 3)
+                 bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_profile);
+         }
 }

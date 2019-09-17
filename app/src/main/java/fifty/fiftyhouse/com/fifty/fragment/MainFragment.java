@@ -229,6 +229,8 @@ public class MainFragment extends Fragment {
                     int i = tab.getPosition();
                     if(i == 3)
                         mMainFriendViewPager.RefreshUI();
+                    else if(i == 1)
+                        mMainTodayViewPager.RefreshUI();
 
                     vp_UserList.setCurrentItem(tab.getPosition());
                 }
@@ -260,22 +262,30 @@ public class MainFragment extends Fragment {
         public TabPagerAdapter(FragmentManager fm, int tabCount) {
             super(fm);
             this.tabCount =tabCount;
+            mMainDistanceViewPager = new MainDistanceViewPager();
+            mMainTodayViewPager = new MainTodayViewPager();
+            mMainNewViewPager = new MainNewViewPager();
+            mMainFriendViewPager = new MainFriendViewPager();
         }
 
         @Override
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
-                    mMainDistanceViewPager = new MainDistanceViewPager();
+                    if(mMainDistanceViewPager == null)
+                        mMainDistanceViewPager = new MainDistanceViewPager();
                     return mMainDistanceViewPager;
                 case 1:
-                    mMainTodayViewPager = new MainTodayViewPager();
+                    if(mMainTodayViewPager == null)
+                        mMainTodayViewPager = new MainTodayViewPager();
                     return mMainTodayViewPager;
                 case 2:
-                    mMainNewViewPager = new MainNewViewPager();
+                    if(mMainNewViewPager == null)
+                        mMainNewViewPager = new MainNewViewPager();
                     return mMainNewViewPager;
                 case 3:
-                    mMainFriendViewPager = new MainFriendViewPager();
+                    if(mMainFriendViewPager == null)
+                        mMainFriendViewPager = new MainFriendViewPager();
                     return mMainFriendViewPager;
             }
 
@@ -286,5 +296,19 @@ public class MainFragment extends Fragment {
         public int getCount() {
             return tabCount;
         }
+    }
+
+    public void MoveStartTab(int position)
+    {
+        if(tl_TopBarTab.getTabAt(position).isSelected())
+        {
+            if(position == 3)
+                mMainFriendViewPager.RefreshUI();
+            else if(position == 1)
+                mMainTodayViewPager.RefreshUI();
+        }
+        else
+            tl_TopBarTab.getTabAt(position).select();
+        //vp_UserList.setCurrentItem(position);
     }
 }

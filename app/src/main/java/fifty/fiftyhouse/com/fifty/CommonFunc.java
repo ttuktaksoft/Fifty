@@ -1283,7 +1283,11 @@ public class CommonFunc {
         activity.finish();
     }
 
-    public void MoveMainActivity(final Activity activity , boolean boot) {
+    public void MoveMainActivity(final Activity activity, boolean boot) {
+        MoveMainActivity(activity, -1, -1, boot);
+    }
+
+    public void MoveMainActivity(final Activity activity , int mainTabPostion, int subTabPostion, boolean boot) {
 
 
         SharedPreferences sharedPreferences = activity.getSharedPreferences("userFile",MODE_PRIVATE);
@@ -1301,6 +1305,8 @@ public class CommonFunc {
 
                     TKManager.getInstance().isLoadDataByBoot = false;
                     final Intent intent = new Intent(activity, MainActivity.class);
+                    intent.putExtra("maintabpostion", mainTabPostion);
+                    intent.putExtra("subtabpostion", subTabPostion);
                     activity.startActivity(intent);
                     activity.finish();
                 }
@@ -1322,6 +1328,8 @@ public class CommonFunc {
         {
 
             final Intent intent = new Intent(activity, MainActivity.class);
+            intent.putExtra("maintabpostion", mainTabPostion);
+            intent.putExtra("subtabpostion", subTabPostion);
             activity.startActivity(intent);
             activity.finish();
         }

@@ -67,6 +67,7 @@ public class MainTodayViewPager extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         if(v_FragmentView == null)
         {
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_today, container, false);
@@ -81,6 +82,7 @@ public class MainTodayViewPager extends Fragment {
             Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
             List array = new ArrayList(EntrySet);
             mSelectRealTimeFavorite = array.get(0).toString();
+            //TKManager.getInstance().SelectFavorite = mSelectRealTimeFavorite;
 
             initRecyclerView();
             initSubInfo();
@@ -95,7 +97,7 @@ public class MainTodayViewPager extends Fragment {
         }
         else
         {
-            RefreshAdapter();
+            RefreshUI();
         }
 
         return v_FragmentView;
@@ -200,5 +202,39 @@ public class MainTodayViewPager extends Fragment {
         mRealTimeFavoriteViewList.addAll(TKManager.getInstance().SearchList_Favorite);
         mRealTimeFavoriteAdapter.setItemData(mRealTimeFavoriteViewList);
         mRealTimeFavoriteAdapter.notifyDataSetChanged();
+    }
+
+    public void RefreshUI()
+    {
+        if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().SelectFavorite))
+            return;
+
+        if(mSelectRealTimeFavorite.equals(TKManager.getInstance().SelectFavorite) == false)
+        {
+            DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+            FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+
+                @Override
+                public void CompleteListener() {
+                    DialogFunc.getInstance().DismissLoadingPage();
+                    mSelectRealTimeFavorite = TKManager.getInstance().SelectFavorite;
+                    initSubInfo();
+                    RefreshAdapter();
+                }
+
+                @Override
+                public void CompleteListener_Yes() {
+
+                }
+
+                @Override
+                public void CompleteListener_No() {
+
+                }
+            };
+
+            FirebaseManager.getInstance().FindFavoriteList(TKManager.getInstance().SelectFavorite, listener);
+        }
     }
 }

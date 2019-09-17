@@ -1,6 +1,7 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -44,6 +46,7 @@ import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
+import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileMemoActivity;
 import fifty.fiftyhouse.com.fifty.activty.WebContentActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteSlotAdapter;
@@ -76,6 +79,8 @@ public class UserProfileFragment extends Fragment {
 
     int MY_PROFILE_EDIT = 1;
     int mSelectPhotoIndex = 0;
+
+    ArrayList<String> mFavoriteList = new ArrayList<>();
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -518,7 +523,7 @@ public class UserProfileFragment extends Fragment {
 
     public void initFavoriteList()
     {
-        ArrayList<String> list = new ArrayList<>();
+        mFavoriteList.clear();
         Map<String, String> mapList = new HashMap<>();
         if(mMyProfile)
         {
@@ -535,11 +540,11 @@ public class UserProfileFragment extends Fragment {
             Map.Entry entry = (Map.Entry)iterator.next();
             String key = (String)entry.getKey();
             String value = (String)entry.getValue();
-            list.add(value);
+            mFavoriteList.add(value);
         }
 
         mFavoriteAdapter = new FavoriteSlotAdapter(mContext);
-        mFavoriteAdapter.setItemData(list);
+        mFavoriteAdapter.setItemData(mFavoriteList);
         mFavoriteAdapter.setHasStableIds(true);
 
         rv_UserProfile_Info_Favorite.setAdapter(mFavoriteAdapter);
@@ -558,6 +563,27 @@ public class UserProfileFragment extends Fragment {
                 .build();
         rv_UserProfile_Info_Favorite.setLayoutManager(chipsLayoutManager);*/
         rv_UserProfile_Info_Favorite.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        rv_UserProfile_Info_Favorite.addOnItemTouchListener(new RecyclerItemClickListener(mContext, rv_UserProfile_Info_Favorite, new OnRecyclerItemClickListener() {
+            @Override
+            public void onSingleClick(View view, final int position) {
+
+                ActivityManager manager = (ActivityManager)mContext.getSystemService(Activity.ACTIVITY_SERVICE);
+                List<ActivityManager.RunningTaskInfo>list = manager.getRunningTasks(1);
+                ActivityManager.RunningTaskInfo info = list.get(0);
+
+                if (info.topActivity.getClassName().equals("fifty.fiftyhouse.com.fifty.activty.UserProfileActivity")) {
+                    TKManager.getInstance().SelectFavorite = mFavoriteList.get(position);
+                    CommonFunc.getInstance().MoveMainActivity(UserProfileActivity.mActivity, 0, 1, false);
+                }
+                else if(info.topActivity.getClassName().equals("fifty.fiftyhouse.com.fifty.MainActivity")){
+                    if((MainActivity)getActivity() != null)
+                    {
+                        TKManager.getInstance().SelectFavorite = mFavoriteList.get(position);
+                        ((MainActivity)getActivity()).MoveFragmentTab(0, 1);
+                    }
+                }
+            }
+        }));
     }
 
     public void initPhotoList()

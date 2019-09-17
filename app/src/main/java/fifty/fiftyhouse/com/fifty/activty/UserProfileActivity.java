@@ -39,7 +39,7 @@ public class UserProfileActivity extends AppCompatActivity {
     ConstraintLayout v_UserProfile_BottomBar_Like, v_UserProfile_BottomBar_Chat, v_UserProfile_BottomBar_Friend;
 
     Context mContext;
-    Activity mActivity;
+    static public Activity mActivity;
     FragmentManager mFragmentMgr;
 
     UserProfileFragment mUserProfileFragment;
