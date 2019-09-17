@@ -4773,6 +4773,7 @@ public class FirebaseManager {
     {
         //TKManager.getInstance().UserList_Search_Hot.clear();
         TKManager.getInstance().UserList_Hot.clear();
+        TKManager.getInstance().View_UserList_Hot.clear();
 
         final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
         sfColRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -4791,6 +4792,11 @@ public class FirebaseManager {
                                 GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                             }
                         }
+
+                        TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                        long seed = System.nanoTime();
+                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
                     }
 
                 } else {
@@ -4802,7 +4808,7 @@ public class FirebaseManager {
 
     public void FindFavoriteList(String favoriteName, final CheckFirebaseComplete listener)
     {
-        TKManager.getInstance().UserList_Hot.clear();
+
         SetFireBaseLoadingCount(0);
 
         final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
@@ -4811,24 +4817,36 @@ public class FirebaseManager {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 int tempTotayLikeCount = 0;
                 if (task.isSuccessful()) {
-
-
                     {
-
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
-
-                            SetFavoriteRank(favoriteName);
-                            //
-                            if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
-                            {
-                                AddFireBaseLoadingCount();
-                                TKManager.getInstance().UserList_Hot.add(document.getId());
-                                GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
-                            }
-
-
+                        if(task.getResult().size() == 0)
+                        {
+                            if(listener != null)
+                                listener.CompleteListener_No();
                         }
+                        else
+                        {
+                            TKManager.getInstance().UserList_Hot.clear();
+                            TKManager.getInstance().View_UserList_Hot.clear();
+                            SetFavoriteRank(favoriteName);
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
+
+                                if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                                {
+                                    AddFireBaseLoadingCount();
+                                    TKManager.getInstance().UserList_Hot.add(document.getId());
+                                    GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
+                                }
+
+                                TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                                long seed = System.nanoTime();
+                                Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
+
+                            }
+                        }
+
                     }
 
 
