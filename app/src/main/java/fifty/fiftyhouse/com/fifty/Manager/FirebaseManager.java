@@ -4773,6 +4773,7 @@ public class FirebaseManager {
     {
         //TKManager.getInstance().UserList_Search_Hot.clear();
         TKManager.getInstance().UserList_Hot.clear();
+        TKManager.getInstance().View_UserList_Hot.clear();
 
         final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
         sfColRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -4791,6 +4792,11 @@ public class FirebaseManager {
                                 GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                             }
                         }
+
+                        TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                        long seed = System.nanoTime();
+                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
                     }
 
                 } else {
@@ -4820,6 +4826,7 @@ public class FirebaseManager {
                         else
                         {
                             TKManager.getInstance().UserList_Hot.clear();
+                            TKManager.getInstance().View_UserList_Hot.clear();
                             SetFavoriteRank(favoriteName);
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
@@ -4832,6 +4839,10 @@ public class FirebaseManager {
                                     GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                                 }
 
+                                TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+
+                                long seed = System.nanoTime();
+                                Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
 
                             }
                         }
