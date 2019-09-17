@@ -80,6 +80,8 @@ public class TKManager {
     public ClubContextData TargetContextData = new ClubContextData();
     public ChatData copyData = new ChatData();
 
+    public Map<String, Boolean> AppSettingData = new HashMap<>();
+
     public ArrayList<NoticeData> NoticeData = new ArrayList<>();
 
     public interface UpdateUIFunc {
