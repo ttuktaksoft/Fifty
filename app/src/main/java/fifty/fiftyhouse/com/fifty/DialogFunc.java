@@ -279,12 +279,13 @@ public class DialogFunc {
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_user_search_popup, null, false);
 
         et_User_Search_Popup_Name = v.findViewById(R.id.et_User_Search_Popup_Name);
+        CommonFunc.getInstance().setEditTextMaxSize(et_User_Search_Popup_Name, CommonData.FavoriteNameMaxSize);
         tv_User_Search_Popup_Buttons_OK = v.findViewById(R.id.tv_User_Search_Popup_Buttons_OK);
         tv_User_Search_Popup_Buttons_Cancel =  v.findViewById(R.id.tv_User_Search_Popup_Buttons_Cancel);
         tv_User_Search_Popup_Title = v.findViewById(R.id.tv_User_Search_Popup_Title);
 
         tv_User_Search_Popup_Title.setText("관심사 찾기");
-        et_User_Search_Popup_Name.setHint("관심사를 입력해주세요");
+        et_User_Search_Popup_Name.setHint("관심사를 입력해주세요 (2~10자)");
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -347,6 +348,7 @@ public class DialogFunc {
         View v = LayoutInflater.from(context).inflate(R.layout.dialog_user_search_popup, null, false);
 
         et_User_Search_Popup_Name = v.findViewById(R.id.et_User_Search_Popup_Name);
+        CommonFunc.getInstance().setEditTextMaxSize(et_User_Search_Popup_Name, CommonData.NickNameMaxSize);
         tv_User_Search_Popup_Buttons_OK = v.findViewById(R.id.tv_User_Search_Popup_Buttons_OK);
         tv_User_Search_Popup_Buttons_Cancel =  v.findViewById(R.id.tv_User_Search_Popup_Buttons_Cancel);
 

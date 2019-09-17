@@ -322,6 +322,7 @@ public class ClubCreateActivity extends AppCompatActivity {
                 arrayList);
 
         s_ClubCreate_JoinCount.setAdapter(arrayAdapter);
+        s_ClubCreate_JoinCount.setSelection(arrayList.size() - 1);
         s_ClubCreate_JoinCount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

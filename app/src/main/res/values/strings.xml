@@ -106,6 +106,7 @@
     <string name="NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
     <string name="NICKNAME_CHECK_FAIL">중복된 닉네임입니다</string>
     <string name="CLUB_LEAK">클럽이름이 너무 짧습니다</string>
+    <string name="FAVORITE_LEAK">관심사가 너무 짧습니다</string>
     <string name="FAVORITE_EMPTY">관심사를 입력해주세요</string>
     <string name="FAVORITE_FIND_EMPTY">해당 관심사를 가진 유져가 없습니다</string>
     <string name="PROFILE_EMPTY">사진을 등록해주세요</string>
@@ -184,7 +185,7 @@
     <string name="MSG_CLUB_JOIN_TYPE_APPROVAL">가입승인</string>
     <string name="MSG_CLUB_OPEN_DAY">개설일</string>
     <string name="MSG_USER_SEARCH_TITLE">유저 찾기</string>
-    <string name="MSG_USER_SEARCH_HINT">닉네임을 입력해주세요</string>
+    <string name="MSG_USER_SEARCH_HINT">닉네임을 입력해주세요 (2~10자)</string>
     <string name="MSG_CLUB_SEARCH">클럽 검색</string>
     <string name="MSG_MENU_PHOTO">사진</string>
     <string name="MSG_MENU_VIDEO">동영상</string>
@@ -262,7 +263,7 @@
     <string name="tv_SignUp_Favorite_Comment">당신의 관심사는..</string>
     <string name="tv_SignUp_Favorite_Comment_Desc">당신에게 꼭 알맞은 친구를 찾을 수 있게 관심사를\n등록해주세요</string>
     <string name="tv_SignUp_Favorite_Next">다음</string>
-    <string name="et_SignUp_Favorite_Detail_Search">관심사를 검색해주세요</string>
+    <string name="et_SignUp_Favorite_Detail_Search">관심사를 검색해주세요 (2~10자)</string>
     <string name="tv_SignUp_Favorite_Detail_Recom">다른관심사 추천</string>
     <string name="tv_SignUp_Favorite_Detail_Next">다음</string>
     <string name="et_SignUp_Favorite_Detail_REGIST">두 가지 관심사를 등록해주세요</string>

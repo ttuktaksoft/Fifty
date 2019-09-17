@@ -215,6 +215,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             }
         });
 
+        CommonFunc.getInstance().setEditTextMaxSize(et_FavoriteSelect_Search, CommonData.FavoriteNameMaxSize);
         et_FavoriteSelect_Search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -242,7 +243,11 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     {
         if (CommonFunc.getInstance().CheckStringNull(et_FavoriteSelect_Search.getText().toString())) {
             DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_SEARCH_EMPTY));
-        } else {
+        }
+        else if(et_FavoriteSelect_Search.getText().length() < CommonData.FavoriteNameMinSize)
+        {
+            DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_LEAK));
+        }else {
             String favorite = et_FavoriteSelect_Search.getText().toString();
             mFavoriteSelectList.put(favorite, favorite);
             RefreshFavoriteSelectViewListDesc();

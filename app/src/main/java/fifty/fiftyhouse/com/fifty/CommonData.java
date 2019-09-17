@@ -98,6 +98,8 @@ public class CommonData {
     public static int NickNameMaxSize = 10;
     public static int ClubNameMinSize = 2;
     public static int ClubNameMaxSize = 10;
+    public static int FavoriteNameMinSize = 1;
+    public static int FavoriteNameMaxSize = 10;
     public static int ClubUserCountMinSize = 2;
     public static int ClubUserCountMaxSize = 100;
     public static int PassWordMinSize = 8;
