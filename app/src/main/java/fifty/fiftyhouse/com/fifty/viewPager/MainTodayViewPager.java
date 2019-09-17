@@ -233,7 +233,7 @@ public class MainTodayViewPager extends Fragment {
             }
         }));
 
-        /*rv_RealTime_Favorite.setOnTouchListener(new View.OnTouchListener() {
+/*        rv_RealTime_Favorite.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;

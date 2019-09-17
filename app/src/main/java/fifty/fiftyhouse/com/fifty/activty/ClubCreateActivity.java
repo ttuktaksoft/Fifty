@@ -318,7 +318,7 @@ public class ClubCreateActivity extends AppCompatActivity {
         }
 
         ArrayAdapter arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.ui_club_count_spinner,
                 arrayList);
 
         s_ClubCreate_JoinCount.setAdapter(arrayAdapter);
