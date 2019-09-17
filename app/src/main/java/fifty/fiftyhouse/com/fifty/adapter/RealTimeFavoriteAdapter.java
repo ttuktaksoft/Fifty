@@ -71,6 +71,6 @@ class RealTimeFavoriteHolder extends RecyclerView.ViewHolder {
 
     public void setData(String favorite, int count)
     {
-        tv_RealTime_Favorite.setText(count + "위 : " + favorite);
+        tv_RealTime_Favorite.setText(count + "위 : #" + favorite);
     }
 }

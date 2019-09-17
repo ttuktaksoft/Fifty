@@ -218,16 +218,17 @@
                         android:textColor="@color/str_color_1"
                         android:background="@color/info_sub_slot_title_bg"/>
 
-                    <Spinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/s_ClubCreate_JoinCount"
-                        android:layout_width="100dp"
+                        android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:paddingBottom="5dp"
                         android:paddingTop="5dp"
+                        android:gravity="center"
+                        android:textAlignment="center"
                         app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Introduce"
                         app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Introduce"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_ClubCreate_JoinCount_Title"
-                        android:background="@color/user_profile_count_bg"/>
+                        app:layout_constraintTop_toBottomOf="@+id/tv_ClubCreate_JoinCount_Title" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -521,8 +521,12 @@ public class CommonFunc {
                 .setCompleteButtonText("확인")
                 .setEmptySelectionText("동영상이 없습니다")
                 .showMultiImage(uriList -> {
-                    if(selectListener != null)
-                        selectListener.Listener(uriList);
+                    if(uriList.size() > 0)
+                    {
+                        if(selectListener != null)
+                            selectListener.Listener(uriList);
+                    }
+
                 });
     }
 
