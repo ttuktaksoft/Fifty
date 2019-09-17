@@ -24,10 +24,12 @@ import com.airbnb.lottie.LottieAnimationView;
 import java.util.ArrayList;
 
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
+import fifty.fiftyhouse.com.fifty.viewPager.MainTodayViewPager;
 
 public class DialogFunc {
     private static DialogFunc _Instance;
@@ -269,7 +271,7 @@ public class DialogFunc {
         });
     }
 
-    public void ShowFavoriteSearchPopup(final Context context) {
+    public void ShowFavoriteSearchPopup(final Context context, final Activity activity) {
         final EditText et_User_Search_Popup_Name;
         TextView tv_User_Search_Popup_Buttons_OK, tv_User_Search_Popup_Buttons_Cancel;
         TextView tv_User_Search_Popup_Title;
@@ -298,10 +300,14 @@ public class DialogFunc {
                 }
                 else
                 {
+                    DialogFunc.getInstance().ShowLoadingPage(context);
                     FirebaseManager.CheckFirebaseComplete findListener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
 
+                            CommonFunc.getInstance().MoveMainActivity(activity, false);
+                           // TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
                         }
 
                         @Override
@@ -311,6 +317,7 @@ public class DialogFunc {
 
                         @Override
                         public void CompleteListener_No() {
+                            DialogFunc.getInstance().DismissLoadingPage();
                             DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.FAVORITE_FIND_EMPTY));
                         }
                     };

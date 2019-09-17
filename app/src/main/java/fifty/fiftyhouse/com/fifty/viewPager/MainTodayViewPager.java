@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -46,7 +48,9 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainTodayViewPager extends Fragment {
     TextView tv_Main_Today_UserList_Empty, tv_Main_Today_Desc;
-    FloatingActionButton fa_Main_Today_Search;
+
+    FloatingActionButton fa_Main_Today_Search, fa_Main_Today_Favorite, fa_Main_Today_Name;
+
     RecyclerView rv_Main_Today_Favorite;
     RecyclerView rv_RealTime_Favorite;
     TextView tv_RealTime_Favorite_Time;
@@ -64,6 +68,24 @@ public class MainTodayViewPager extends Fragment {
         super();
     }
 
+    private Animation fab_open, fab_close;
+    private boolean isFabOpen = false;
+    private void toggleFab() {
+        if (isFabOpen) {
+            fa_Main_Today_Favorite.startAnimation(fab_close);
+            fa_Main_Today_Name.startAnimation(fab_close);
+            fa_Main_Today_Favorite.setClickable(false);
+            fa_Main_Today_Name.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fa_Main_Today_Favorite.startAnimation(fab_open);
+            fa_Main_Today_Name.startAnimation(fab_open);
+            fa_Main_Today_Favorite.setClickable(true);
+            fa_Main_Today_Name.setClickable(true);
+            isFabOpen = true;
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,6 +98,13 @@ public class MainTodayViewPager extends Fragment {
             tv_RealTime_Favorite_Time = v_FragmentView.findViewById(R.id.tv_RealTime_Favorite_Time);
             rv_Main_Today_UserList = v_FragmentView.findViewById(R.id.rv_Main_Today_UserList);
             fa_Main_Today_Search = v_FragmentView.findViewById(R.id.fa_Main_Today_Search);
+            fa_Main_Today_Favorite = v_FragmentView.findViewById(R.id.fa_Main_Today_Favorite);
+            fa_Main_Today_Name = v_FragmentView.findViewById(R.id.fa_Main_Today_Name);
+
+            fab_open = AnimationUtils.loadAnimation(MainActivity.mActivity, R.anim.fab_open);
+
+            fab_close = AnimationUtils.loadAnimation(MainActivity.mActivity, R.anim.fab_close);
+
             tv_Main_Today_Desc = v_FragmentView.findViewById(R.id.tv_Main_Today_Desc);
 
             Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
@@ -89,9 +118,25 @@ public class MainTodayViewPager extends Fragment {
             fa_Main_Today_Search.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
+                    //  DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
+                    toggleFab();
+                }
+            });
+
+            fa_Main_Today_Favorite.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    DialogFunc.getInstance().ShowFavoriteSearchPopup(getContext(), MainActivity.mActivity);
+                }
+            });
+
+            fa_Main_Today_Name.setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
                     DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
                 }
             });
+
         }
         else
         {
@@ -178,7 +223,7 @@ public class MainTodayViewPager extends Fragment {
 
                     @Override
                     public void CompleteListener_No() {
-
+                        DialogFunc.getInstance().DismissLoadingPage();
                     }
                 };
 
