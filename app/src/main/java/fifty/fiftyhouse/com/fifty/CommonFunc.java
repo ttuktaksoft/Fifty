@@ -1387,6 +1387,8 @@ public class CommonFunc {
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
                         TKManager.getInstance().View_UserList_New = TKManager.getInstance().UserList_New;
+
+                        //TKManager.getInstance().UserList_Hot = TKManager.getInstance().UserList_Search_Hot;
                         TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
 
                         long seed = System.nanoTime();

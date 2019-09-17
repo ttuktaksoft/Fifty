@@ -117,6 +117,10 @@ public class FirebaseManager {
         FireBaseLoadingCount++;
     }
 
+    public void AddFireBaseLoadingCount(int count) {
+        FireBaseLoadingCount += count;
+    }
+
     public int GetFireBaseLoadingCount() {
         return FireBaseLoadingCount;
     }
@@ -1995,6 +1999,8 @@ public class FirebaseManager {
                             GetUserRequestClubList(userIndex, finalMyData,ClubRequestUserListener );
 
 
+
+
                         FirebaseManager.CheckFirebaseComplete ClubUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
@@ -2152,7 +2158,12 @@ public class FirebaseManager {
     public void GetUserList(final CheckFirebaseComplete listener) {
         SetFireBaseLoadingCount(0);
         GetUserListDist(listener);
-        GetUserListHot(listener);
+        //GetUserListHot(listener);
+
+        Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+        List array = new ArrayList(EntrySet);
+        GetFavoriteList(array.get(0).toString(), listener);
+
         GetUserListNew(listener);
         GetUserListFriend(listener);
         GetRequestFriendList(listener);
@@ -4682,7 +4693,7 @@ public class FirebaseManager {
 
     public void SetFavoriteRank(String favoriteName)
     {
-        final DocumentReference sfDocRef = mDataBase.collection("FavoriteList_Rank").document(favoriteName);
+        final DocumentReference sfDocRef = mDataBase.collection("Favorite_Rank").document(favoriteName);
         final double[] newPopulation = new double[1];
         mDataBase.runTransaction(new Transaction.Function<Void>() {
             @Override
@@ -4693,7 +4704,7 @@ public class FirebaseManager {
                 {
                     final Map<String, Object> clubFavoriteData = new HashMap<>();
                     clubFavoriteData.put("count", 0);
-                    mDataBase.collection("FavoriteList_Rank").document(favoriteName).set(clubFavoriteData, SetOptions.merge());
+                    mDataBase.collection("Favorite_Rank").document(favoriteName).set(clubFavoriteData, SetOptions.merge());
                 }
                 else
                 {
@@ -4726,14 +4737,14 @@ public class FirebaseManager {
     {
         TKManager.getInstance().SearchList_Favorite.clear();
 
-        final CollectionReference sfColRef = mDataBase.collection("FavoriteList_Rank");
+        final CollectionReference sfColRef = mDataBase.collection("Favorite_Rank");
         sfColRef.orderBy("count", Query.Direction.DESCENDING).limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 int tempTotayLikeCount = 0;
                 if (task.isSuccessful()) {
 
-                    SetFireBaseLoadingCount(task.getResult().size());
+                    AddFireBaseLoadingCount(task.getResult().size());
                     {
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -4741,11 +4752,12 @@ public class FirebaseManager {
 
                             TKManager.getInstance().SearchList_Favorite.add(document.getId());
 
+                            Complete(listener);
+
                         }
 
 
-                        if (listener != null)
-                            listener.CompleteListener();
+
                     }
 
 
@@ -4756,9 +4768,40 @@ public class FirebaseManager {
         });
     }
 
+    public void GetFavoriteList(String favoriteName, final CheckFirebaseComplete listener)
+    {
+        //TKManager.getInstance().UserList_Search_Hot.clear();
+        TKManager.getInstance().UserList_Hot.clear();
+
+        final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
+        sfColRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+                    {
+                        AddFireBaseLoadingCount(task.getResult().size());
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
+
+                            if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                TKManager.getInstance().UserList_Hot.add(document.getId());
+                                GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
+                            }
+                        }
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
     public void FindFavoriteList(String favoriteName, final CheckFirebaseComplete listener)
     {
-        TKManager.getInstance().UserList_Search_Hot.clear();
+        TKManager.getInstance().UserList_Hot.clear();
         SetFireBaseLoadingCount(0);
 
         final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
@@ -4768,16 +4811,21 @@ public class FirebaseManager {
                 int tempTotayLikeCount = 0;
                 if (task.isSuccessful()) {
 
-                    SetFireBaseLoadingCount(task.getResult().size());
+
                     {
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
 
-                            SetFavoriteRank(document.getId());
-                            //   AddFireBaseLoadingCount();
-                            TKManager.getInstance().UserList_Search_Hot.add(document.getId());
-                            GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
+                            SetFavoriteRank(favoriteName);
+                            //
+                            if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                AddFireBaseLoadingCount();
+                                TKManager.getInstance().UserList_Hot.add(document.getId());
+                                GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
+                            }
+
 
                         }
                     }

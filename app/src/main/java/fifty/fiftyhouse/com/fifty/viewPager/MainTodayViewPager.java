@@ -26,6 +26,7 @@ import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
@@ -75,7 +76,34 @@ public class MainTodayViewPager extends Fragment {
             fa_Main_Today_Search.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
+                    //DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
+
+                    DialogFunc.getInstance().ShowLoadingPage(MainActivity.mActivity);
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+                            RefreshAdapter();
+
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+
+                        }
+                    };
+
+                    Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+                    List array = new ArrayList(EntrySet);
+                    FirebaseManager.getInstance().FindFavoriteList(array.get(1).toString(), listener);
+
                 }
             });
         }
