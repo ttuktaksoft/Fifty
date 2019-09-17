@@ -300,7 +300,10 @@ public class DialogFunc {
                 }
                 else
                 {
-                    DialogFunc.getInstance().ShowLoadingPage(context);
+                    TKManager.getInstance().SelectFavorite = et_User_Search_Popup_Name.getText().toString();
+                    ((MainActivity)activity).MoveFragmentTab(0, 1);
+
+                 /*   DialogFunc.getInstance().ShowLoadingPage(context);
                     FirebaseManager.CheckFirebaseComplete findListener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
                         public void CompleteListener() {
@@ -321,7 +324,7 @@ public class DialogFunc {
                             DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.FAVORITE_FIND_EMPTY));
                         }
                     };
-                    FirebaseManager.getInstance().FindFavoriteList(et_User_Search_Popup_Name.getText().toString(), findListener);
+                    FirebaseManager.getInstance().FindFavoriteList(et_User_Search_Popup_Name.getText().toString(), findListener);*/
                 }
 
                 dialog.dismiss();

@@ -18,6 +18,7 @@ import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.fragment.app.FragmentTransaction;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -34,6 +35,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainDistanceViewPager extends Fragment {
 
+    Fragment mFragment;
     FloatingActionButton fa_Main_Dis_Search, fa_Main_Dis_Favorite, fa_Main_Dis_Name;
     TextView tv_Main_Dis_Curr_Pos;
     TextView tv_Main_Dis_UserList_Empty;
@@ -75,7 +77,6 @@ public class MainDistanceViewPager extends Fragment {
                              Bundle savedInstanceState) {
         if(v_FragmentView == null)
         {
-
             v_FragmentView = inflater.inflate(R.layout.viewpager_main_distance, container, false);
             rv_Main_Dis_UserList = v_FragmentView.findViewById(R.id.rv_Main_Dis_UserList);
             tv_Main_Dis_Curr_Pos = v_FragmentView.findViewById(R.id.tv_Main_Dis_Curr_Pos);
@@ -115,7 +116,7 @@ public class MainDistanceViewPager extends Fragment {
             fa_Main_Dis_Favorite.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    DialogFunc.getInstance().ShowFavoriteSearchPopup(getContext());
+                    DialogFunc.getInstance().ShowFavoriteSearchPopup(getContext(),MainActivity.mActivity);
                 }
             });
 
@@ -125,6 +126,7 @@ public class MainDistanceViewPager extends Fragment {
                     DialogFunc.getInstance().ShowUserSearchPopup(getContext(), MainActivity.mActivity);
                 }
             });
+
 
             initRecyclerView();
         }
