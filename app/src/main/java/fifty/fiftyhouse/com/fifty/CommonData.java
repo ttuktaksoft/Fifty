@@ -130,4 +130,5 @@ public class CommonData {
     public static final int FAVORITE_FONT_SIZE_SMALL = 15;
     public static final int FAVORITE_FONT_SIZE_DEFAULT = 18;
 
+    public static int FAVORITE_RANK_COUNT = 8;
 }
