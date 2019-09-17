@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1044,24 +1045,29 @@ public class UserProfileFragment extends Fragment {
         if(mMyProfile)
         {
             SpannableStringBuilder str_1 = new SpannableStringBuilder(MSG_VISITER + "\n" +TKManager.getInstance().MyData.GetUserTodayVisit() + " / " + TKManager.getInstance().MyData.GetUserTotalVisit());
+            str_1.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.str_color_7)), 0, MSG_VISITER.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             str_1.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_VISITER.length(), str_1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             tv_UserProfile_Info_Count_1.setText(str_1);
 
             SpannableStringBuilder str_2 = new SpannableStringBuilder(MSG_LIKE + "\n" +TKManager.getInstance().MyData.GetUserTodayLike() + " / " + TKManager.getInstance().MyData.GetUserTotalLike());
+            str_1.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.str_color_7)), 0, MSG_LIKE.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             str_2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_LIKE.length(), str_2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             tv_UserProfile_Info_Count_2.setText(str_2);
 
             SpannableStringBuilder str_3 = new SpannableStringBuilder(MSG_FRIEND + "\n" +TKManager.getInstance().MyData.GetUserFriendListCount()+ " / " + TKManager.getInstance().MyData.GetUserFriendListCount());
+            str_1.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.str_color_7)), 0, MSG_FRIEND.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             str_3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_FRIEND.length(), str_3.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             tv_UserProfile_Info_Count_3.setText(str_3);
         }
         else
         {
             SpannableStringBuilder str_1 = new SpannableStringBuilder(MSG_VISITER + "\n" +TKManager.getInstance().TargetUserData.GetUserTodayVisit() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalVisit());
+            str_1.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.str_color_7)), 0, MSG_VISITER.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             str_1.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_VISITER.length(), str_1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             tv_UserProfile_Info_Count_1.setText(str_1);
 
             SpannableStringBuilder str_2 = new SpannableStringBuilder(MSG_LIKE + "\n" +TKManager.getInstance().TargetUserData.GetUserTodayLike() + " / " + TKManager.getInstance().TargetUserData.GetUserTotalLike());
+            str_1.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.str_color_7)), 0, MSG_LIKE.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             str_2.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_LIKE.length(), str_2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             tv_UserProfile_Info_Count_2.setText(str_2);
 
@@ -1076,6 +1082,7 @@ public class UserProfileFragment extends Fragment {
             }
 
             SpannableStringBuilder str_3 = new SpannableStringBuilder(MSG_DISTANCE + "\n" +mUserDist);
+            str_1.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.str_color_7)), 0, MSG_DISTANCE.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             str_3.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), MSG_DISTANCE.length(), str_3.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             tv_UserProfile_Info_Count_3.setText(str_3);
         }

@@ -17,8 +17,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
@@ -56,6 +59,7 @@ public class ClubCreateActivity extends AppCompatActivity {
     RecyclerView rv_ClubCreate_Favorite;
     TextView tv_ClubCreate_Favorite_Title, tv_ClubCreate_JoinType_Title;
     TextView tv_ClubCreate_JoinType_Free, tv_ClubCreate_JoinType_Approval;
+    Spinner s_ClubCreate_JoinCount;
     TextView tv_ClubCreate_OK;
 
     FavoriteViewAdapter mFavoriteAdapter;
@@ -86,6 +90,7 @@ public class ClubCreateActivity extends AppCompatActivity {
         tv_ClubCreate_JoinType_Title = findViewById(R.id.tv_ClubCreate_JoinType_Title);
         tv_ClubCreate_JoinType_Free = findViewById(R.id.tv_ClubCreate_JoinType_Free);
         tv_ClubCreate_JoinType_Approval = findViewById(R.id.tv_ClubCreate_JoinType_Approval);
+        s_ClubCreate_JoinCount = findViewById(R.id.s_ClubCreate_JoinCount);
         tv_ClubCreate_OK = findViewById(R.id.tv_ClubCreate_OK);
 
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -131,7 +136,7 @@ public class ClubCreateActivity extends AppCompatActivity {
         }
 
 
-
+        CommonFunc.getInstance().setEditTextMaxSize(et_ClubCreate_Name, CommonData.ClubNameMaxSize);
         et_ClubCreate_Name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -175,10 +180,14 @@ public class ClubCreateActivity extends AppCompatActivity {
                 // 클럽 생성 가능한지 체크
                 if(CommonFunc.getInstance().CheckStringNull(et_ClubCreate_Name.getText().toString()))
                     DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_EMPTY));
+                else if(et_ClubCreate_Name.getText().length() < CommonData.ClubNameMinSize)
+                {
+                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_LEAK));
+                }
                 else if(isProfileUpload == false)
                     DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_PROFILE));
-                else if(mClubCreateType == CLUB_CREATE_TYPE && TKManager.getInstance().CreateTempClubData.ClubFavorite.size() < CommonData.FavoriteSelectMinCount)
-                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
+                else if(mClubCreateType == CLUB_CREATE_TYPE && TKManager.getInstance().CreateTempClubData.ClubFavorite.size() < CommonData.ClubFavoriteSelectMinCount)
+                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_FAVORITE_SELECT_LACK));
                 else
                 {
                     if(mClubCreateType == CLUB_CREATE_TYPE)
@@ -299,6 +308,26 @@ public class ClubCreateActivity extends AppCompatActivity {
 
                 isJoinType = false;
                 RefreshJoinType();
+            }
+        });
+
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (int i = CommonData.ClubUserCountMinSize ; i <= CommonData.ClubUserCountMaxSize ; i++)
+        {
+            arrayList.add(i + " 명");
+        }
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                arrayList);
+
+        s_ClubCreate_JoinCount.setAdapter(arrayAdapter);
+        s_ClubCreate_JoinCount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
@@ -434,8 +463,8 @@ public class ClubCreateActivity extends AppCompatActivity {
 
         boolean enable = CommonFunc.getInstance().CheckStringNull(et_ClubCreate_Name.getText().toString()) == false &&
                 isProfileUpload &&
-                ((mClubCreateType == CLUB_CREATE_TYPE && TKManager.getInstance().CreateTempClubData.GetClubFavoriteList().size() >= CommonData.FavoriteSelectMinCount) ||
-                        (mClubCreateType == CLUB_EDIT_TYPE && TKManager.getInstance().TargetClubData.GetClubFavoriteList().size() >= CommonData.FavoriteSelectMinCount));
+                ((mClubCreateType == CLUB_CREATE_TYPE && TKManager.getInstance().CreateTempClubData.GetClubFavoriteList().size() >= CommonData.ClubFavoriteSelectMinCount) ||
+                        (mClubCreateType == CLUB_EDIT_TYPE && TKManager.getInstance().TargetClubData.GetClubFavoriteList().size() >= CommonData.ClubFavoriteSelectMinCount));
 
         int selectBGColor = ContextCompat.getColor(mContext, R.color.button_enable);
         int selectSrtColor = ContextCompat.getColor(mContext, R.color.button_enable_str);

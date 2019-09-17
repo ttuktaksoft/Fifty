@@ -90,11 +90,16 @@ public class CommonData {
 
     public static int UserData_Loding_Count = 5;
 
+    public static int ClubFavoriteSelectMinCount = 1;
     public static int FavoriteSelectMinCount = 3;
     public static int FavoriteSelectMaxCount = 5;
     public static int FavoriteSelectMaxCountCheck = 6;
     public static int NickNameMinSize = 2;
     public static int NickNameMaxSize = 10;
+    public static int ClubNameMinSize = 2;
+    public static int ClubNameMaxSize = 10;
+    public static int ClubUserCountMinSize = 2;
+    public static int ClubUserCountMaxSize = 100;
     public static int PassWordMinSize = 8;
     public static int PassWordMaxSize = 10;
     public static int MemoMaxSize = 4000;
