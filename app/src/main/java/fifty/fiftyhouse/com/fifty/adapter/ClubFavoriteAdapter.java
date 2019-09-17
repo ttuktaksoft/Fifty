@@ -89,13 +89,13 @@ class ClubFavoriteHolder extends RecyclerView.ViewHolder {
     {
         if(key.equals("plus"))
         {
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubFavorite_BG, R.drawable.bg_empty_square_plus, false);
             tv_ClubFavorite.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_FAVORITE_PLUS));
         }
         else
         {
             tv_ClubFavorite.setText(key);
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubFavorite_BG, TKManager.getInstance().FavoriteLIst_ClubThumbList.get(key), false);
         }
-
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubFavorite_BG, TKManager.getInstance().FavoriteLIst_ClubThumbList.get(key), false);
     }
 }

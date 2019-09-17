@@ -454,8 +454,8 @@ public class CommonFunc {
         {
             TedBottomPicker.with(activity)
                     .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
-                    .showTitle(false)
-                    .showVideoMedia()
+                    .showTitle(true)
+                    .setTitle("사진 선택")
                     .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
                     .show(uri -> {
                         CropImage.activity(uri)
@@ -469,7 +469,8 @@ public class CommonFunc {
         {
             TedBottomPicker.with(activity)
                     .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
-                    .showTitle(false)
+                    .showTitle(true)
+                    .setTitle("사진 선택")
                     .setCompleteButtonText("확인")
                     .setEmptySelectionText("이미지가 없습니다")
                     .showMultiImage(uriList -> {
@@ -515,8 +516,8 @@ public class CommonFunc {
 
         TedBottomPicker.with(activity)
                 .setPeekHeight(activity.getResources().getDisplayMetrics().heightPixels/2)
-                .showTitle(false)
                 .showVideoMedia()
+                .setTitle("동영상 선택")
                 .setCompleteButtonText("확인")
                 .setEmptySelectionText("동영상이 없습니다")
                 .showMultiImage(uriList -> {

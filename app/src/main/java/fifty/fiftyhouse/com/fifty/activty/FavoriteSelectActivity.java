@@ -118,82 +118,91 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         tv_FavoriteSelect_Ok.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                if (mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount) {
-                    DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
-                } else {
-                    if (nType == 2) {
-
-                        Set EntrySet = TKManager.getInstance().CreateTempClubData.ClubFavorite.keySet();
-                        Iterator iterator = EntrySet.iterator();
-
-                        EntrySet = mFavoriteSelectList.entrySet();
-                        iterator = EntrySet.iterator();
-
-                        ArrayList<String> tempFavorite = new ArrayList<>();
-
-                        int FavoriteIndex = 0;
-                        while (iterator.hasNext()) {
-
-                            Map.Entry entry = (Map.Entry) iterator.next();
-                            String key = (String) entry.getKey();
-                            String value = (String) entry.getValue();
-                            TKManager.getInstance().CreateTempClubData.AddClubFavorite(key, value);
-                            FavoriteIndex++;
-                        }
-                        finish();
-
-                    }
-                    else if (nType == 3)
+                if(nType == 2 || nType == 3)
+                {
+                    if(mFavoriteSelectList.size() < CommonData.ClubFavoriteSelectMinCount)
                     {
-                        Set EntrySet = TKManager.getInstance().TargetClubData.ClubFavorite.keySet();
-                        Iterator iterator = EntrySet.iterator();
-
-                        EntrySet = mFavoriteSelectList.entrySet();
-                        iterator = EntrySet.iterator();
-
-                        ArrayList<String> tempFavorite = new ArrayList<>();
-
-                        int FavoriteIndex = 0;
-                        while (iterator.hasNext()) {
-
-                            Map.Entry entry = (Map.Entry) iterator.next();
-                            String key = (String) entry.getKey();
-                            String value = (String) entry.getValue();
-                            TKManager.getInstance().TargetClubData.AddClubFavorite(key, value);
-                            FavoriteIndex++;
-                        }
-                        finish();
+                        DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_FAVORITE_SELECT_LACK));
+                        return;
                     }
-                    else {
-                        Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
-                        Iterator iterator = EntrySet.iterator();
+                }
+                else
+                {
+                    if(mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount)
+                    {
+                        DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
+                        return;
+                    }
+                }
 
-                        while (iterator.hasNext()) {
-                            String key = (String) iterator.next();
-                            FirebaseManager.getInstance().RemoveFavoriteUser(key);
-                        }
+                if (nType == 2) {
 
-                        TKManager.getInstance().MyData.ClearUserFavorite();
+                    Set EntrySet = TKManager.getInstance().CreateTempClubData.ClubFavorite.keySet();
+                    Iterator iterator = EntrySet.iterator();
 
-                        EntrySet = mFavoriteSelectList.entrySet();
-                        iterator = EntrySet.iterator();
+                    EntrySet = mFavoriteSelectList.entrySet();
+                    iterator = EntrySet.iterator();
 
-                        ArrayList<String> tempFavorite = new ArrayList<>();
+                    ArrayList<String> tempFavorite = new ArrayList<>();
 
-                        while (iterator.hasNext()) {
-                            Map.Entry entry = (Map.Entry) iterator.next();
-                            String key = (String) entry.getKey();
-                            String value = (String) entry.getValue();
-                            TKManager.getInstance().MyData.SetUserFavorite(key, value);
-                            FirebaseManager.getInstance().SetUserFavoriteOnFireBase(TKManager.getInstance().MyData.GetUserFavoriteList(key), true);
-                        }
+                    int FavoriteIndex = 0;
+                    while (iterator.hasNext()) {
 
-                        finish();
+                        Map.Entry entry = (Map.Entry) iterator.next();
+                        String key = (String) entry.getKey();
+                        String value = (String) entry.getValue();
+                        TKManager.getInstance().CreateTempClubData.AddClubFavorite(key, value);
+                        FavoriteIndex++;
+                    }
+                    finish();
+
+                }
+                else if (nType == 3)
+                {
+                    Set EntrySet = TKManager.getInstance().TargetClubData.ClubFavorite.keySet();
+                    Iterator iterator = EntrySet.iterator();
+
+                    EntrySet = mFavoriteSelectList.entrySet();
+                    iterator = EntrySet.iterator();
+
+                    ArrayList<String> tempFavorite = new ArrayList<>();
+
+                    int FavoriteIndex = 0;
+                    while (iterator.hasNext()) {
+
+                        Map.Entry entry = (Map.Entry) iterator.next();
+                        String key = (String) entry.getKey();
+                        String value = (String) entry.getValue();
+                        TKManager.getInstance().TargetClubData.AddClubFavorite(key, value);
+                        FavoriteIndex++;
+                    }
+                    finish();
+                }
+                else {
+                    Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+                    Iterator iterator = EntrySet.iterator();
+
+                    while (iterator.hasNext()) {
+                        String key = (String) iterator.next();
+                        FirebaseManager.getInstance().RemoveFavoriteUser(key);
                     }
 
+                    TKManager.getInstance().MyData.ClearUserFavorite();
 
-                    //FirebaseManager.getInstance().UpdateFavoriteListInUserData();
+                    EntrySet = mFavoriteSelectList.entrySet();
+                    iterator = EntrySet.iterator();
 
+                    ArrayList<String> tempFavorite = new ArrayList<>();
+
+                    while (iterator.hasNext()) {
+                        Map.Entry entry = (Map.Entry) iterator.next();
+                        String key = (String) entry.getKey();
+                        String value = (String) entry.getValue();
+                        TKManager.getInstance().MyData.SetUserFavorite(key, value);
+                        FirebaseManager.getInstance().SetUserFavoriteOnFireBase(TKManager.getInstance().MyData.GetUserFavoriteList(key), true);
+                    }
+
+                    finish();
                 }
             }
         });
@@ -416,7 +425,15 @@ public class FavoriteSelectActivity extends AppCompatActivity {
         int disableBGColor = ContextCompat.getColor(mContext, R.color.button_disable);
         int disableSrtColor = ContextCompat.getColor(mContext, R.color.button_disable_str);
 
-        tv_FavoriteSelect_Ok.setBackgroundColor(mFavoriteSelectList.size() >= CommonData.FavoriteSelectMinCount ? selectBGColor : disableBGColor);
-        tv_FavoriteSelect_Ok.setTextColor(mFavoriteSelectList.size() >= CommonData.FavoriteSelectMinCount ? selectSrtColor : disableSrtColor);
+        if(nType == 2 || nType == 3)
+        {
+            tv_FavoriteSelect_Ok.setBackgroundColor(mFavoriteSelectList.size() >= CommonData.ClubFavoriteSelectMinCount ? selectBGColor : disableBGColor);
+            tv_FavoriteSelect_Ok.setTextColor(mFavoriteSelectList.size() >= CommonData.ClubFavoriteSelectMinCount ? selectSrtColor : disableSrtColor);
+        }
+        else
+        {
+            tv_FavoriteSelect_Ok.setBackgroundColor(mFavoriteSelectList.size() >= CommonData.FavoriteSelectMinCount ? selectBGColor : disableBGColor);
+            tv_FavoriteSelect_Ok.setTextColor(mFavoriteSelectList.size() >= CommonData.FavoriteSelectMinCount ? selectSrtColor : disableSrtColor);
+        }
     }
 }

@@ -37,6 +37,7 @@
                     android:id="@+id/v_ClubCreate_Info"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:background="@color/activity_bg">
 
                     <ImageView
@@ -200,6 +201,34 @@
                         android:gravity="center"
                         android:textColor="@color/str_color_1"
                         android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/tv_ClubCreate_JoinCount_Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/BaseTextView"
+                        app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Introduce"
+                        app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Introduce"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_ClubCreate_JoinType_Free"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:text="@string/MSG_CLUB_JOIN_COUNT"
+                        android:gravity="center|left"
+                        android:textColor="@color/str_color_1"
+                        android:background="@color/info_sub_slot_title_bg"/>
+
+                    <Spinner
+                        android:id="@+id/s_ClubCreate_JoinCount"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Introduce"
+                        app:layout_constraintRight_toRightOf="@+id/v_ClubCreate_Introduce"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_ClubCreate_JoinCount_Title"
+                        android:background="@color/user_profile_count_bg"/>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

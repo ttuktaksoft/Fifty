@@ -192,6 +192,8 @@ public class ClubActivity extends AppCompatActivity {
                                             RefreshMenu();
                                             RefreshClubUserAdapter();
                                             RefreshClubInfo();
+                                            RefreshAdapter();
+                                            mAdapter.notifyDataSetChanged();
                                             mClubMiniUserAdapter.notifyDataSetChanged();
                                             mFavoriteViewAdapter.notifyDataSetChanged();
                                         }
@@ -476,8 +478,10 @@ public class ClubActivity extends AppCompatActivity {
         RefreshFavoriteAdapter();
         mFavoriteViewAdapter.setHasStableIds(true);
 
+/*
         rv_Club_Content.setAdapter(mAdapter);
         rv_Club_Content.setLayoutManager(new LinearLayoutManager(this));
+*/
 
         rv_Club_Favorite.setAdapter(mFavoriteViewAdapter);
 /*        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
