@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.StrContentListAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
@@ -84,8 +85,8 @@ public class StrContentListActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), StrContentActivity.class);
-                intent.putExtra("title", "타이틀 입력해주세요");
-                intent.putExtra("content", "입력해주세요.");
+                intent.putExtra("title", TKManager.getInstance().NoticeData.get(position).GetTitle());
+                intent.putExtra("content", TKManager.getInstance().NoticeData.get(position).GetContent());
                 startActivity(intent);
             }
 

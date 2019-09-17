@@ -19,6 +19,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.FilterData;
+import fifty.fiftyhouse.com.fifty.DataBase.NoticeData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 
@@ -78,6 +79,8 @@ public class TKManager {
     public Map<String, Bitmap> TempClubContextImg = new HashMap<>();
     public ClubContextData TargetContextData = new ClubContextData();
     public ChatData copyData = new ChatData();
+
+    public ArrayList<NoticeData> NoticeData = new ArrayList<>();
 
     public interface UpdateUIFunc {
         void UpdateUI();

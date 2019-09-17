@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class StrContentListAdapter extends RecyclerView.Adapter<StrContentListListHolder> {
@@ -34,7 +35,7 @@ public class StrContentListAdapter extends RecyclerView.Adapter<StrContentListLi
 
     @Override
     public int getItemCount() {
-        return 20;
+        return TKManager.getInstance().NoticeData.size();
         //return  TKManager.getInstance().TargetUserData.GetUserImgCount();
         //return mMyData.arrChatTargetData.size();
     }
@@ -55,6 +56,7 @@ class StrContentListListHolder extends RecyclerView.ViewHolder {
 
     public void setData(int i)
     {
-        tv_StrContent_Desc.setText("내용 입니다_" + i);
+
+        tv_StrContent_Desc.setText(TKManager.getInstance().NoticeData.get(i).GetTitle());
     }
 }

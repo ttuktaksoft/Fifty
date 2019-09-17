@@ -60,6 +60,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.AlarmData;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
+import fifty.fiftyhouse.com.fifty.DataBase.NoticeData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.R;
@@ -5697,6 +5698,117 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+    }
+
+    public void GetManagerNotice(final FirebaseManager.CheckFirebaseComplete listener)
+    {
+        TKManager.getInstance().NoticeData.clear();
+        SetFireBaseLoadingCount(0);
+        CollectionReference colRef = mDataBase.collection("Manager_Notice");
+
+        colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    SetFireBaseLoadingCount(task.getResult().size());
+
+                    if(task.getResult().size() == 0)
+                        listener.CompleteListener_No();
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                         Log.d(TAG, document.getId() + " => " + document.getData());
+
+                            NoticeData tempData = new NoticeData();
+                            tempData.SetTitle(document.getData().get("Title").toString());
+                            tempData.SetContent(document.getData().get("Context").toString());
+                            tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
+
+                            TKManager.getInstance().NoticeData.add(tempData);
+
+                            Complete(listener);
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetManagerEvent(final FirebaseManager.CheckFirebaseComplete listener)
+    {
+        TKManager.getInstance().NoticeData.clear();
+        SetFireBaseLoadingCount(0);
+        CollectionReference colRef = mDataBase.collection("Manager_Event");
+
+        colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    SetFireBaseLoadingCount(task.getResult().size());
+
+                    if(task.getResult().size() == 0)
+                        listener.CompleteListener_No();
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                        NoticeData tempData = new NoticeData();
+                        tempData.SetTitle(document.getData().get("Title").toString());
+                        tempData.SetContent(document.getData().get("Context").toString());
+                        tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
+
+                        TKManager.getInstance().NoticeData.add(tempData);
+
+                        Complete(listener);
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void GetManagerFAQ(final FirebaseManager.CheckFirebaseComplete listener)
+    {
+        TKManager.getInstance().NoticeData.clear();
+        SetFireBaseLoadingCount(0);
+        CollectionReference colRef = mDataBase.collection("Manager_FAQ");
+
+        colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    SetFireBaseLoadingCount(task.getResult().size());
+
+                    if(task.getResult().size() == 0)
+                        listener.CompleteListener_No();
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+
+                        NoticeData tempData = new NoticeData();
+                        tempData.SetTitle(document.getData().get("Title").toString());
+                        tempData.SetContent(document.getData().get("Context").toString());
+                        tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
+
+                        TKManager.getInstance().NoticeData.add(tempData);
+
+                        Complete(listener);
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
     public String[] AddFavorite(Context context) {
