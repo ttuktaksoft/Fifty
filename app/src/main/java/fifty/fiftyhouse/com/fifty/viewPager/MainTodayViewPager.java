@@ -275,7 +275,9 @@ public class MainTodayViewPager extends Fragment {
 
                 @Override
                 public void CompleteListener_No() {
-
+                    DialogFunc.getInstance().DismissLoadingPage();
+                    DialogFunc.getInstance().ShowMsgPopup(MainActivity.mActivity, CommonFunc.getInstance().getStr(MainActivity.mActivity.getResources(), R.string.FAVORITE_FIND_EMPTY));
+                    TKManager.getInstance().SelectFavorite = mSelectRealTimeFavorite;
                 }
             };
 

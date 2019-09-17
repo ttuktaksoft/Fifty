@@ -65,6 +65,8 @@ import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.R;
 
+import static fifty.fiftyhouse.com.fifty.CommonData.FAVORITE_RANK_COUNT;
+
 public class FirebaseManager {
 
     private static final String TAG = "!!!Firebase";
@@ -116,10 +118,12 @@ public class FirebaseManager {
 
     public void AddFireBaseLoadingCount() {
         FireBaseLoadingCount++;
+        Log.d("!!!!!!!", "로딩 추가: " + FireBaseLoadingCount);
     }
 
     public void AddFireBaseLoadingCount(int count) {
         FireBaseLoadingCount += count;
+        Log.d("!!!!!!!", "로딩 추가 덩어리 : " + FireBaseLoadingCount);
     }
 
     public int GetFireBaseLoadingCount() {
@@ -137,10 +141,15 @@ public class FirebaseManager {
     }
 
     public void Complete(final FirebaseManager.CheckFirebaseComplete listener) {
+
+
+
         UserLoading++;
+        Log.d("!!!!!!!", "로딩 완료 : " + UserLoading);
         if (UserLoading == GetFireBaseLoadingCount()) {
             UserLoading = 0;
             SetFireBaseLoadingCount(0);
+            Log.d("!!!!!!!", "로딩 완료 끝: " + UserLoading);
             if (listener != null)
                 listener.CompleteListener();
         }
@@ -1741,12 +1750,14 @@ public class FirebaseManager {
 
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
         {
+            Log.d("!!!!!!!", "본인");
             bMyData = true;
             SetFireBaseLoadingCount(11);
             //SetFireBaseLoadingCount(7);
         }
         else
         {
+            Log.d("!!!!!!!", "타인");
             bMyData = false;
             userData.Clear();
             SetFireBaseLoadingCount(5);
@@ -4739,7 +4750,7 @@ public class FirebaseManager {
         TKManager.getInstance().SearchList_Favorite.clear();
 
         final CollectionReference sfColRef = mDataBase.collection("Favorite_Rank");
-        sfColRef.orderBy("count", Query.Direction.DESCENDING).limit(5).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        sfColRef.orderBy("count", Query.Direction.DESCENDING).limit(FAVORITE_RANK_COUNT).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 int tempTotayLikeCount = 0;
