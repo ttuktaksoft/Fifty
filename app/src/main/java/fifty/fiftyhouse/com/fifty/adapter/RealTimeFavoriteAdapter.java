@@ -2,6 +2,9 @@ package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class RealTimeFavoriteAdapter extends RecyclerView.Adapter<RealTimeFavoriteHolder> {
@@ -71,6 +75,9 @@ class RealTimeFavoriteHolder extends RecyclerView.ViewHolder {
 
     public void setData(String favorite, int count)
     {
-        tv_RealTime_Favorite.setText(count + "위 : #" + favorite);
+        SpannableStringBuilder str = new SpannableStringBuilder(count + ". #" + favorite);
+        str.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.str_color_7)), 0, Integer.toString(count).length() + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), Integer.toString(count).length() + 1, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_RealTime_Favorite.setText(str);
     }
 }

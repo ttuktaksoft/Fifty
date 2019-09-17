@@ -139,6 +139,9 @@ public class MainTodayViewPager extends Fragment {
                 }
             });
 
+
+            tv_RealTime_Favorite_Time.setText(CommonFunc.getInstance().ConvertTimeSrt(CommonFunc.getInstance().GetCurrentTime(), "yyyy년 MM월 dd일 HH:00") + "기준");
+
         }
         else
         {
@@ -201,7 +204,7 @@ public class MainTodayViewPager extends Fragment {
         RefreshRealTimeFavoriteList();
         mRealTimeFavoriteAdapter.setHasStableIds(true);
         rv_RealTime_Favorite.setAdapter(mRealTimeFavoriteAdapter);
-        rv_RealTime_Favorite.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_RealTime_Favorite.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rv_RealTime_Favorite.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_RealTime_Favorite, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, final int position) {
