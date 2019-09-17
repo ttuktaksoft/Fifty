@@ -6,12 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
@@ -32,6 +26,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
@@ -44,6 +43,7 @@ import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
+import fifty.fiftyhouse.com.fifty.activty.SettingActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserListActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
@@ -770,8 +770,8 @@ public class UserProfileFragment extends Fragment {
             public void onSingleClick(View view, int position) {
                 if(position == 3)
                 {
-                    /*Intent intent = new Intent(mContext, SettingActivity.class);
-                    startActivity(intent);*/
+                    Intent intent = new Intent(mContext, SettingActivity.class);
+                    startActivity(intent);
                 }
                 else
                 {

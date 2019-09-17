@@ -17,6 +17,12 @@
         <item name="windowNoTitle">true</item>
 
     </style>
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/topbar_bg</item>
+
+    </style>
+
     <style name="BaseTabTextWidget" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/content</item>
         <item name="android:textSize">@dimen/default_font_size</item>
