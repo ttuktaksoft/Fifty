@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class SettingActivity extends AppCompatActivity {
     Context mContext;
 
     SettingAdapter mAdapter;
+    private Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         mContext = getApplicationContext();
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
         SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
 
@@ -96,6 +100,10 @@ public class SettingActivity extends AppCompatActivity {
                 boolean tempData = TKManager.getInstance().AppSettingData.get(array.get(position));
                 tempData = !tempData;
 
+                if(array.get(position).toString().equals("진동") && tempData == true)
+                {
+                    vibrator.vibrate(500); // 1초간 진동
+                }
                 SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(array.get(position).toString(),tempData);
