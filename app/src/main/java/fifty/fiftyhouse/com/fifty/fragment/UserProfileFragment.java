@@ -749,9 +749,79 @@ public class UserProfileFragment extends Fragment {
                 }
                 else
                 {
-                    Intent intent = new Intent(mContext, StrContentListActivity.class);
-                    intent.putExtra("Type",position);
-                    startActivity(intent);
+                    switch (position)
+                    {
+                        case 0:
+
+                            FirebaseManager.CheckFirebaseComplete EventListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    Intent intent = new Intent(mContext, StrContentListActivity.class);
+                                    intent.putExtra("Type",position);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+
+                            FirebaseManager.getInstance().GetManagerEvent(EventListener);
+
+                            break;
+                        case 1:
+                            FirebaseManager.CheckFirebaseComplete NoticeListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    Intent intent = new Intent(mContext, StrContentListActivity.class);
+                                    intent.putExtra("Type",position);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+
+                            FirebaseManager.getInstance().GetManagerNotice(NoticeListener);
+                            break;
+                        case 2:
+                            FirebaseManager.CheckFirebaseComplete FAQListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    Intent intent = new Intent(mContext, StrContentListActivity.class);
+                                    intent.putExtra("Type",position);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+
+                                }
+                            };
+
+                            FirebaseManager.getInstance().GetManagerFAQ(FAQListener);
+                            break;
+                    }
+
+
                 }
             }
 

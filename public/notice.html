@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" name="viewport"/>
+<title>피프티 관리자페이지</title>
+
+<!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js">
+</script>
+<script type="text/javascript" src="./js/materialize.min.js"></script>
+<script type="text/javascript" src="./js/shCore.js"></script>
+<script type="text/javascript" src="./js/shAutoloader.js"></script>
+<script type="text/javascript">
+// SyntaxHighlighter 설정 (http://alexgorbatchev.com/SyntaxHighlighter)
+  SyntaxHighlighter.autoloader(
+    'bash shell             ./js/shBrushBash.js',
+    'js jscript javascript  ./js/shBrushJScript.js'
+  );
+  SyntaxHighlighter.defaults['toolbar'] = false;
+  SyntaxHighlighter.all()
+</script>
+<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
+<script src="./fireinit.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="./css/materialize.min.css" media="screen,projection" rel="stylesheet" type="text/css"/>
+<!-- SyntaxHighlighter 포함 -->
+<link href="./css/shCore.css" rel="stylesheet" type="text/css"/>
+<!-- <link href="css/shThemeDefault.css" rel="stylesheet" type="text/css" /> -->
+<link href="./css/shThemeMidnight.css" rel="stylesheet" type="text/css"/>
+<style>
+ul.tabs{
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+ul.tabs li{
+  background: none;
+  color: #222;
+  display: inline-block;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+ul.tabs li.current{
+  background: #A9BCF5;
+  color: #222;
+}
+
+.tab-content{
+  display: none;
+  background: #FFFFFF;
+  padding: 15px;
+}
+
+.tab-content.current{
+  display: inherit;
+}
+
+            #Summary {
+                font-size: 1.2em;
+            }
+            #Summary ul {
+                margin-left: 32px;
+            }
+            #Summary ul li {
+                list-style: disc;
+            }
+            .hint {
+                border-left: 0.3em #ddd solid;
+                padding-left: 1em;
+                color: #777;
+            }
+            .code_block {
+                background-color: #eee;
+                padding: 5px;
+            }
+            table,
+            th,
+            td {
+                border: 1px solid #bcbcbc;
+                table-layout: fixed;
+            }
+</style>
+</head>
+<body>
+<nav class="indigo">
+<div class="nav-wrapper">
+	<div class="container">
+		<a class="breadcrumb" href="/">메인 페이지</a>
+		<!-- <a href="/giftManager.html" class="breadcrumb">상품권 관리자</a> -->
+	</div>
+</div>
+</nav>
+<div class="container center">
+	<br>
+	<br>
+</div>
+<!-- 내용영역 -->
+<div class="container" id="CONTENTS">
+
+
+  <!-- 핵심 -->
+  <h3 class="indigo-text center">:+: 관리자 페이지 :+:</h3>
+
+  <ul class="tabs">
+     <li class="tab-link current" data-tab="tab-1">공지사항</li>
+     <li class="tab-link" data-tab="tab-2">이벤트</li>
+     <li class="tab-link" data-tab="tab-3">FAQ</li>
+   </ul>
+
+   <div id="tab-1" class="tab-content current">
+     <h5 class="indigo-text">:+: 공지사항 작성 칸 :+:</h5><br>
+     <div class="row z-depth-1">
+       <div class="col l12 m12 s12">
+         <p>
+            <span  type="input" class="indigo-text">제목</span><br>
+             <input id="Alarm_Title" name="abc" type="text" /><br>
+            <span  type="input" class="indigo-text">내용</span><br>
+            <input id="Alarm_Content" name="abc" type="text"  /><br>
+            <button id="BTN_ALARM" type="button" class="btn white indigo-text">공지사항 알림 등록</button>
+          </p>
+       </div>
+     </div>
+
+     <table>
+       <col style="width:40%;">
+       <col style="width:40%;">
+       <col style="width:20%;">
+        <br>
+         <br>
+       <h5 class="indigo-text">:+: 공지사항 내역  :+:</h5> <br>
+       <thead>
+         <th>제목</th>
+         <th>내용</th>
+         <th>날짜</th>
+       </thead>
+       <tbody id="AlarmHistory"></tbody>
+     </table>
+
+   </div>
+   <div id="tab-2" class="tab-content">
+     <h5 class="indigo-text">:+: 이벤트 작성 칸 :+:</h5><br>
+     <div class="row z-depth-1">
+       <div class="col l12 m12 s12">
+         <p>
+            <span  type="input" class="indigo-text">제목</span><br>
+             <input id="Event_Title" name="abc" type="text" /><br>
+            <span  type="input" class="indigo-text">내용</span><br>
+            <input id="Event_Content" name="abc" type="text"  /><br>
+            <button id="BTN_EVENT" type="button" class="btn white indigo-text">이벤트 알림 등록</button>
+          </p>
+       </div>
+     </div>
+
+     <br>
+     <br>
+
+     <table>
+       <col style="width:40%;">
+       <col style="width:40%;">
+       <col style="width:20%;">
+
+       <h5 class="indigo-text">:+: 이벤트 내역  :+:</h5> <br>
+       <thead>
+         <th>제목</th>
+         <th>내용</th>
+         <th>날짜</th>
+       </thead>
+       <tbody id="EventHistory"></tbody>
+     </table>
+   </div>
+
+   <div id="tab-3" class="tab-content">
+     <h5 class="indigo-text">:+: FAQ 작성 칸 :+:</h5><br>
+     <div class="row z-depth-1">
+       <div class="col l12 m12 s12">
+         <p>
+            <span  type="input" class="indigo-text">제목</span><br>
+             <input id="Faq_Title" name="abc" type="text" /><br>
+            <span  type="input" class="indigo-text">내용</span><br>
+            <input id="Faq_Content" name="abc" type="text"  /><br>
+            <button id="BTN_FAQ" type="button" class="btn white indigo-text">FAQ 알림 등록</button>
+          </p>
+       </div>
+     </div>
+
+     <br>
+     <br>
+
+     <table>
+       <col style="width:40%;">
+       <col style="width:40%;">
+       <col style="width:20%;">
+
+       <h5 class="indigo-text">:+: FAQ 내역  :+:</h5> <br>
+       <thead>
+         <th>제목</th>
+         <th>내용</th>
+         <th>날짜</th>
+       </thead>
+       <tbody id="FAQHistory"></tbody>
+     </table>
+
+   </div>
+
+</div>
+<script>
+
+var db = firebase.firestore();
+
+db
+    .collection("Manager_Notice")
+    .orderBy("Date", "desc")
+    .limit(10)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(`${
+                doc.id
+            } => ${
+                doc.data()['Title']
+            }`);
+
+
+          SetAlarmHistory(doc.data()['Title'],  doc.data()['Date'],  doc.data()['Context']);
+        });
+    });
+
+    db
+        .collection("Manager_Event")
+        .orderBy("Date", "desc")
+        .limit(10)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log(`${
+                    doc.id
+                } => ${
+                    doc.data()['Title']
+                }`);
+
+
+              SetEventHistory(doc.data()['Title'],  doc.data()['Date'],  doc.data()['Context']);
+            });
+        });
+
+        db
+            .collection("Manager_FAQ")
+            .orderBy("Date", "desc")
+            .limit(10)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(`${
+                        doc.id
+                    } => ${
+                        doc.data()['Title']
+                    }`);
+
+
+                  SetFAQHistory(doc.data()['Title'],  doc.data()['Date'],  doc.data()['Context']);
+                });
+            });
+
+
+    function deleteLine(obj) {
+        var tr = $(obj).parent().parent();
+       var td = tr.children();
+       var no = td.eq(0).text();
+
+       //firebase.database().ref('CashBack/' + no).remove();
+
+      no -= 1;
+
+        tr.remove();
+
+        alert( '푸시알림이 삭제되었습니다' );
+    }
+
+    function RegistNotice(Title, Context)
+    {
+
+
+      var ContentDate = new Date();
+      var dd = ContentDate.getDate();
+      var mm = ContentDate.getMonth()+1; //January is 0!
+      var yyyy = ContentDate.getFullYear();
+      var hour = ContentDate.getHours();
+      var Minute = ContentDate.getMinutes();
+      var Second = ContentDate.getSeconds();
+
+      if(dd<10) {
+          dd='0'+dd
+      }
+
+      if(mm<10) {
+          mm='0'+mm
+      }
+
+      ContentDate = yyyy.toString()+mm.toString()+dd.toString()+hour.toString() + Minute.toString() + Second.toString();
+
+      var docData = {
+    Title: Title,
+    Context: Context,
+    Date: ContentDate*1
+    };
+
+    db.collection("Manager_Notice").doc(ContentDate.toString()).set(docData).then(function() {
+        console.log("Document successfully written!");
+    });
+
+    }
+
+
+    function RegistEvent(Title, Context)
+    {
+
+
+      var ContentDate = new Date();
+      var dd = ContentDate.getDate();
+      var mm = ContentDate.getMonth()+1; //January is 0!
+      var yyyy = ContentDate.getFullYear();
+      var hour = ContentDate.getHours();
+      var Minute = ContentDate.getMinutes();
+      var Second = ContentDate.getSeconds();
+
+      if(dd<10) {
+          dd='0'+dd
+      }
+
+      if(mm<10) {
+          mm='0'+mm
+      }
+
+      ContentDate = yyyy.toString()+mm.toString()+dd.toString()+hour.toString() + Minute.toString() + Second.toString();
+
+      var docData = {
+    Title: Title,
+    Context: Context,
+    Date: ContentDate*1
+    };
+
+    db.collection("Manager_Event").doc(ContentDate.toString()).set(docData).then(function() {
+        console.log("Document successfully written!");
+    });
+
+    }
+
+
+
+    function RegistFAQ(Title, Context)
+    {
+
+
+      var ContentDate = new Date();
+      var dd = ContentDate.getDate();
+      var mm = ContentDate.getMonth()+1; //January is 0!
+      var yyyy = ContentDate.getFullYear();
+      var hour = ContentDate.getHours();
+      var Minute = ContentDate.getMinutes();
+      var Second = ContentDate.getSeconds();
+
+      if(dd<10) {
+          dd='0'+dd
+      }
+
+      if(mm<10) {
+          mm='0'+mm
+      }
+
+      ContentDate = yyyy.toString()+mm.toString()+dd.toString()+hour.toString() + Minute.toString() + Second.toString();
+
+      var docData = {
+    Title: Title,
+    Context: Context,
+    Date: ContentDate*1
+    };
+
+    db.collection("Manager_FAQ").doc(ContentDate.toString()).set(docData).then(function() {
+        console.log("Document successfully written!");
+    });
+
+    }
+
+
+
+    function SetAlarmHistory(Title, Date, Content)
+    {
+      //console.log(arrLottoWinUserName);
+      var my_tbody = document.getElementById('AlarmHistory');
+      // var row = my_tbody.insertRow(0); // 상단에 추가
+      var row = my_tbody.insertRow( my_tbody.rows.length ); // 하단에 추가
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+      cell1.innerHTML = Title;
+      cell2.innerHTML = Content;
+      var element2 = document.createElement("input");
+      cell2.addEventListener('click', function(event) {
+            var con_test = alert(Content);
+          })
+
+      var element3 = document.createElement("input");
+      cell3.innerHTML = Date;
+
+    /*
+      element3.type = "button";
+      element3.value = "삭제";
+      element3.addEventListener('click', function(event) {
+            var con_test = confirm("푸시알림을 삭제하시겠습니까?");
+            if(con_test == true){
+                deleteLine(this);
+            }
+            else if(con_test == false){
+               alert( '푸시알림 삭제가 취소되었습니다' );
+            }
+      })
+      cell3.appendChild(element3);
+      */
+
+
+    }
+
+
+
+
+    function SetEventHistory(Title, Date, Content)
+    {
+      //console.log(arrLottoWinUserName);
+      var my_tbody = document.getElementById('EventHistory');
+      // var row = my_tbody.insertRow(0); // 상단에 추가
+      var row = my_tbody.insertRow( my_tbody.rows.length ); // 하단에 추가
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+      cell1.innerHTML = Title;
+      cell2.innerHTML = Content;
+      var element2 = document.createElement("input");
+      cell2.addEventListener('click', function(event) {
+            var con_test = alert(Content);
+          })
+
+      var element3 = document.createElement("input");
+      cell3.innerHTML = Date;
+
+/*
+      element3.type = "button";
+      element3.value = "삭제";
+      element3.addEventListener('click', function(event) {
+            var con_test = confirm("푸시알림을 삭제하시겠습니까?");
+            if(con_test == true){
+                deleteLine(this);
+            }
+            else if(con_test == false){
+               alert( '푸시알림 삭제가 취소되었습니다' );
+            }
+      })
+      cell3.appendChild(element3);
+      */
+
+
+    }
+
+
+    function SetFAQHistory(Title, Date, Content)
+    {
+      //console.log(arrLottoWinUserName);
+      var my_tbody = document.getElementById('FAQHistory');
+      // var row = my_tbody.insertRow(0); // 상단에 추가
+      var row = my_tbody.insertRow( my_tbody.rows.length ); // 하단에 추가
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+      cell1.innerHTML = Title;
+      cell2.innerHTML = Content;
+      var element2 = document.createElement("input");
+      cell2.addEventListener('click', function(event) {
+            var con_test = alert(Content);
+          })
+
+      var element3 = document.createElement("input");
+      cell3.innerHTML = Date;
+
+  /*
+      element3.type = "button";
+      element3.value = "삭제";
+      element3.addEventListener('click', function(event) {
+            var con_test = confirm("푸시알림을 삭제하시겠습니까?");
+            if(con_test == true){
+                deleteLine(this);
+            }
+            else if(con_test == false){
+               alert( '푸시알림 삭제가 취소되었습니다' );
+            }
+      })
+      cell3.appendChild(element3);
+      */
+
+
+    }
+
+            $("#BTN_ALARM").click(function() {
+              var Title = document.getElementById("Alarm_Title").value;
+              var Content = document.getElementById("Alarm_Content").value;
+
+              if(Title == '' || Title == null || Title == undefined || Title == 0 || Title == NaN){
+                 alert( '공지사항 내용을 입력해주세요' );
+               }
+               else{
+                 var con_test = confirm("공지사항을 등록하시겠습니까?");
+                 if(con_test == true){
+                   RegistNotice(Title, Content);
+
+                   document.getElementById("Alarm_Title").value = '';
+                   document.getElementById("Alarm_Content").value = '';
+                  alert( '공지사항이 등록되었습니다' );
+                 }
+                 else if(con_test == false){
+                    alert( '공지사항 등록이 취소되었습니다' );
+                 }
+               }
+
+
+            });
+
+            $("#BTN_EVENT").click(function() {
+              var Title = document.getElementById("Event_Title").value;
+              var Content = document.getElementById("Event_Content").value;
+
+              if(Title == '' || Title == null || Title == undefined || Title == 0 || Title == NaN){
+                 alert( '이벤트 내용을 입력해주세요' );
+               }
+               else{
+                 var con_test = confirm("이벤트를 등록하시겠습니까?");
+                 if(con_test == true){
+                   RegistEvent(Title, Content);
+
+                   document.getElementById("Event_Title").value = '';
+                   document.getElementById("Event_Content").value = '';
+                  alert( '이벤트가 등록되었습니다' );
+                 }
+                 else if(con_test == false){
+                    alert( '이벤트 등록이 취소되었습니다' );
+                 }
+               }
+            });
+
+            $("#BTN_FAQ").click(function() {
+              var Title = document.getElementById("Faq_Title").value;
+              var Content = document.getElementById("Faq_Content").value;
+
+              if(Title == '' || Title == null || Title == undefined || Title == 0 || Title == NaN){
+                 alert( 'FAQ 내용을 입력해주세요' );
+               }
+               else{
+                 var con_test = confirm("FAQ를 등록하시겠습니까?");
+                 if(con_test == true){
+                   RegistFAQ(Title, Content);
+
+                   document.getElementById("Faq_Title").value = '';
+                   document.getElementById("Faq_Content").value = '';
+                  alert( 'FAQ가 등록되었습니다' );
+                 }
+                 else if(con_test == false){
+                    alert( 'FAQ 등록이 취소되었습니다' );
+                 }
+               }
+
+
+            });
+            $(document).ready(function(){
+
+            	$('ul.tabs li').click(function(){
+            		var tab_id = $(this).attr('data-tab');
+
+            		$('ul.tabs li').removeClass('current');
+            		$('.tab-content').removeClass('current');
+
+            		$(this).addClass('current');
+            		$("#"+tab_id).addClass('current');
+            	})
+
+            })
+
+      </script>
+</body>
+</html>
