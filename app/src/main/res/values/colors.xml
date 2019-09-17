@@ -61,6 +61,7 @@
     <color name="icon_tint_online">#43faf7</color>
     <color name="list_slot_bg_1">#ffffff</color>
     <color name="list_slot_bg_2">#fafafa</color>
+    <color name="real_time_favorite">#E0D9D4</color>
 
 
     <color name="colorPrimary">#008577</color>
