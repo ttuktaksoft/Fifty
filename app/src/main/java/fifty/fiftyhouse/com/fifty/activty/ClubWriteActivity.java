@@ -247,6 +247,13 @@ public class ClubWriteActivity extends AppCompatActivity {
 
                 try {
                     tempData =  (ClubContextData) TKManager.getInstance().TargetClubData.GetClubContext(key).clone();
+                    tempData.ImgList = new LinkedHashMap<>();
+/*                    for (Map.Entry<String, String> entry : origMap.entrySet()) {
+
+                        entryMap.put(entry.getKey(), entry.getValue());
+
+                    }*/
+                    tempData.ImgList.putAll(TKManager.getInstance().CreateTempClubContextData.ImgList);
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
