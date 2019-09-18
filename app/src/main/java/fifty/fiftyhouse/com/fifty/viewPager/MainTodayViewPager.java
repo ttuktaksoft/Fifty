@@ -19,11 +19,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
@@ -185,6 +187,10 @@ public class MainTodayViewPager extends Fragment {
     public void RefreshUserList()
     {
         mUserList.clear();
+
+        long seed = System.nanoTime();
+        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
+
         mUserList.addAll(TKManager.getInstance().View_UserList_Hot);
 
         if(TKManager.getInstance().View_UserList_Hot.size() == 0)
