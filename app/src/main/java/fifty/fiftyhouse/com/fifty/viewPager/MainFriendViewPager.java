@@ -115,7 +115,7 @@ public class MainFriendViewPager extends Fragment {
 
         RefreshUserList();
         mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
-        mAdapter.SetItemCountByType(CommonData.MainViewType.FRIEND);
+        mAdapter.setItemData(mUserList);
         rv_Main_Friend_UserList.setRequestedColumnCount(3);
         rv_Main_Friend_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Friend_UserList,mAdapter));
         rv_Main_Friend_UserList.setOnItemClickListener(
@@ -139,6 +139,7 @@ public class MainFriendViewPager extends Fragment {
         RefreshUserList();
 
         List<CustomGridListHolder> list = CommonFunc.getInstance().getCustomGridListHolderList(mUserList);
+        mAdapter.setItemData(mUserList);
         mAdapter.setItems(list);
     }
 

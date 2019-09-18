@@ -40,6 +40,7 @@ public class CustomPhotoView extends AppCompatActivity {
     public static int PHOTO_VIEW_TYPE_DATAS = 6;
 
     ArrayList<String> mPhotoSrcList = new ArrayList<>();
+    int mStartPos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,8 @@ public class CustomPhotoView extends AppCompatActivity {
         ArrayList<String> ImgList = new ArrayList<>();
         if(intent.hasExtra("datas"))
             ImgList = intent.getStringArrayListExtra("datas");
+
+        mStartPos = intent.getIntExtra("startpos", 0);
 
         if(type == PHOTO_VIEW_TYPE_MY_PROFILE)
         {
@@ -137,7 +140,7 @@ public class CustomPhotoView extends AppCompatActivity {
         });
 
         vp_Custom_Photo_View.setAdapter(new PhotoPagerAdapter());
-        vp_Custom_Photo_View.setCurrentItem(0);
+        vp_Custom_Photo_View.setCurrentItem(mStartPos);
 
     }
 

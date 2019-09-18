@@ -147,7 +147,7 @@ public class MainDistanceViewPager extends Fragment {
 
         RefreshUserList();
         mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
-        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST);
+        mAdapter.setItemData(mUserList);
         rv_Main_Dis_UserList.setRequestedColumnCount(3);
         rv_Main_Dis_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Dis_UserList,mAdapter));
         rv_Main_Dis_UserList.setOnItemClickListener(
@@ -187,6 +187,7 @@ public class MainDistanceViewPager extends Fragment {
         RefreshUserList();
 
         List<CustomGridListHolder> list = CommonFunc.getInstance().getCustomGridListHolderList(mUserList);
+        mAdapter.setItemData(mUserList);
         mAdapter.setItems(list);
     }
 
