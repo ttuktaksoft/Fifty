@@ -237,6 +237,7 @@ public class CommonFunc {
         {
             Glide.with(context).load(src)
                     .circleCrop()
+                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_circle)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(view);
@@ -244,6 +245,7 @@ public class CommonFunc {
         else
             Glide.with(context).load(src)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_square)
                     .into(view);
 
@@ -257,12 +259,14 @@ public class CommonFunc {
             Glide.with(context).load(src)
                     .circleCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_circle)
                     .into(view);
         }
         else
             Glide.with(context).load(src)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_square)
                     .into(view);
 
@@ -277,6 +281,7 @@ public class CommonFunc {
         {
             Glide.with(context).load(bmp)
                     .circleCrop()
+                    .dontTransform()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.bg_empty_circle)
                     .into(view);
@@ -284,6 +289,7 @@ public class CommonFunc {
         else
             Glide.with(context).load(bmp)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_square)
                     .into(view);
     }

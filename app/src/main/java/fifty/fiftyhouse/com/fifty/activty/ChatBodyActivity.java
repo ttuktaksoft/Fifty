@@ -471,29 +471,17 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         rv_Chat_Body_List.setLayoutManager(new LinearLayoutManager(this)) ;
         //rv_Chat_Body_List.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rv_Chat_Body_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Chat_Body_List, new OnRecyclerItemClickListener() {
+        /*rv_Chat_Body_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Chat_Body_List, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
 
-                //TKManager.getInstance().TargetClubData
-                //CommonFunc.getInstance().GetUserDataInFireBase(UserIndex,ChatBodyActivity.mChatBodyActivity, true);
-
-                //startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
-                //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
-                /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);
-                if (mAppStatus.bCheckMultiSend == false) {
-                    stTargetData = mMyData.arrUserAll_Hot_Age.get(position);
-
-                    if (mCommon.getClickStatus() == false)
-                        mCommon.MoveUserPage(getActivity(), stTargetData);
-                }*/
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
                 //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
             }
-        }));
+        }));*/
 
         rv_Chat_Body_List.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
