@@ -17,7 +17,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
@@ -107,18 +109,7 @@ public class ClubWriteActivity extends AppCompatActivity {
 
                         for(int i=0; i<list.size(); i++)
                         {
-                            Bitmap originalBm = null;
-                            try {
-                                originalBm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), list.get(i));
-                            } catch (FileNotFoundException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
 
-                            TKManager.getInstance().TempUploadClubContextImg.put(Integer.toString(TKManager.getInstance().TempUploadClubContextImg.size()), originalBm);
                             mClubWriteFragment.AddImg(list.get(i).toString());
                             //CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, false);
                         }
@@ -143,6 +134,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                         return;
 
                     DialogFunc.getInstance().ShowLoadingPage(ClubWriteActivity.this);
+                    ClubWriteImgSetting();
                     TKManager.getInstance().CreateTempClubContextData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
                     TKManager.getInstance().CreateTempClubContextData.SetDate(CommonFunc.getInstance().GetCurrentTime());
 
@@ -179,6 +171,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                     else
                     {
                         TKManager.getInstance().CreateTempClubContextData.SetContextType(2);
+                        ClubWriteImgSetting();
 
                         for(int i=0 ;i< TKManager.getInstance().TempUploadClubContextImg.size(); i++)
                         {
@@ -213,6 +206,28 @@ public class ClubWriteActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void ClubWriteImgSetting()
+    {
+        TKManager.getInstance().TempUploadClubContextImg.clear();
+
+        for(int i=0; i< mClubWriteFragment.TempClubWriteImgLIst.size(); i++)
+        {
+
+            Bitmap originalBm = null;
+            try {
+                originalBm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), Uri.parse(mClubWriteFragment.TempClubWriteImgLIst.get(i)));
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            TKManager.getInstance().TempUploadClubContextImg.put(Integer.toString(TKManager.getInstance().TempUploadClubContextImg.size()), originalBm);
+        }
     }
 
     public void EditClubContext()
@@ -271,6 +286,13 @@ public class ClubWriteActivity extends AppCompatActivity {
 
                 try {
                     tempData =  (ClubContextData) TKManager.getInstance().CreateTempClubContextData.clone();
+                    tempData.ImgList = new LinkedHashMap<>();
+/*                    for (Map.Entry<String, String> entry : origMap.entrySet()) {
+
+                        entryMap.put(entry.getKey(), entry.getValue());
+
+                    }*/
+                    tempData.ImgList.putAll(TKManager.getInstance().CreateTempClubContextData.ImgList);
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }

@@ -42,7 +42,7 @@ public class ClubWriteFragment extends Fragment {
     InputMethodManager imm;
 
     ClubWriteImgAdapter mAdapter;
-    ArrayList<String> TempClubWriteImgLIst = new ArrayList<>();
+    public ArrayList<String> TempClubWriteImgLIst = new ArrayList<>();
     public ClubContextData tempData = null;
 
     public ClubWriteFragment() {
