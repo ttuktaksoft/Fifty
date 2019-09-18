@@ -4815,14 +4815,13 @@ public class FirebaseManager {
                             {
                                 AddFireBaseLoadingCount();
                                 TKManager.getInstance().UserList_Hot.add(document.getId());
+                                TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
                                 GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                             }
                         }
-
-                        TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
-
+/*
                         long seed = System.nanoTime();
-                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
+                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));*/
                     }
 
                 } else {
@@ -4855,22 +4854,22 @@ public class FirebaseManager {
                             TKManager.getInstance().View_UserList_Hot.clear();
                             SetFavoriteRank(favoriteName);
 
+                            SetFireBaseLoadingCount(task.getResult().size());
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
 
                                 if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                                 {
-                                    AddFireBaseLoadingCount();
                                     TKManager.getInstance().UserList_Hot.add(document.getId());
+                                    TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
                                     GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                                 }
-
-                                TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
-
-                                long seed = System.nanoTime();
-                                Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
-
+                                else
+                                    Complete(listener);
                             }
+
+
                         }
 
                     }
