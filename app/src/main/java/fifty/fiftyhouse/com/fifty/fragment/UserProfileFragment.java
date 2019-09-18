@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -871,7 +872,23 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void Listener()
             {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(UserProfileFragment.this.getActivity(), mContext, UserProfileFragment.this,null, true);
+                CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+                {
+                    @Override
+                    public void Listener(List<Uri> list)
+                    {
+                        if(list.size() <= 0)
+                            return;
+
+                        CropImage.activity(list.get(0))
+                                .setActivityTitle(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PHOTO_SELECT))
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setInitialCropWindowPaddingRatio(0)
+                                .start(mContext, UserProfileFragment.this);
+
+                    }
+                };
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(UserProfileFragment.this.getActivity(), selectListener, false);
             }
         });
 
@@ -896,7 +913,23 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void Listener()
             {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(UserProfileFragment.this.getActivity(), mContext, UserProfileFragment.this,null, true);
+                CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+                {
+                    @Override
+                    public void Listener(List<Uri> list)
+                    {
+                        if(list.size() <= 0)
+                            return;
+
+                        CropImage.activity(list.get(0))
+                                .setActivityTitle(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PHOTO_SELECT))
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setInitialCropWindowPaddingRatio(0)
+                                .start(mContext, UserProfileFragment.this);
+
+                    }
+                };
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(UserProfileFragment.this.getActivity(), selectListener, false);
             }
         });
 

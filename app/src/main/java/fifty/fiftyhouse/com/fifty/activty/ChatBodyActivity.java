@@ -151,10 +151,7 @@ public class ChatBodyActivity extends AppCompatActivity {
                             @Override
                             public void Listener(List<Uri> list)
                             {
-
                                 Bitmap[] originalBm = new Bitmap[list.size()];
-
-
 
                                 if(mType == CommonData.CHAT_ROOM_TYPE.CLUB)
                                 {
@@ -189,7 +186,7 @@ public class ChatBodyActivity extends AppCompatActivity {
                             }
                         };
 
-                        CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, mContext, null, selectListener, true);
+                        CommonFunc.getInstance().GetPermissionForGalleryCamera(ChatBodyActivity.this, selectListener, true);
                     }
                 });
                 menuListenerList.add(new DialogFunc.MsgPopupListener()

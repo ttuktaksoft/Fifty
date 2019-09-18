@@ -27,12 +27,14 @@ import android.widget.TextView;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -283,7 +285,27 @@ public class ClubCreateActivity extends AppCompatActivity {
         iv_ClubCreate_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(ClubCreateActivity.this, mContext, null,null, true);
+
+                CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+                {
+                    @Override
+                    public void Listener(List<Uri> list)
+                    {
+                        if(list.size() <= 0)
+                            return;
+
+                        Bitmap[] originalBm = new Bitmap[list.size()];
+
+                        CropImage.activity(list.get(0))
+                                .setActivityTitle(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PHOTO_SELECT))
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setInitialCropWindowPaddingRatio(0)
+                                .start(ClubCreateActivity.this);
+                    }
+                };
+
+
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(ClubCreateActivity.this, selectListener, false);
             }
         });
 
