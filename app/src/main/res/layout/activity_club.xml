@@ -50,8 +50,8 @@
                     android:layout_height="300dp"
                     app:layout_constraintTop_toTopOf="parent"
                     android:gravity="center"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/dummy_12"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/dummy_0"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/v_Club_Info"

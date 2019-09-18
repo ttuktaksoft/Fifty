@@ -30,9 +30,11 @@ import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -123,7 +125,23 @@ public class SignUpFragment extends Fragment {
         iv_SignUp_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(SignUpFragment.this.getActivity(), mContext, SignUpFragment.this, null, true);
+                CommonFunc.PhotoSelectListener selectListener = new CommonFunc.PhotoSelectListener()
+                {
+                    @Override
+                    public void Listener(List<Uri> list)
+                    {
+                        if(list.size() <= 0)
+                            return;
+
+                        CropImage.activity(list.get(0))
+                                .setActivityTitle(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PHOTO_SELECT))
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .setInitialCropWindowPaddingRatio(0)
+                                .start(mContext, SignUpFragment.this);
+
+                    }
+                };
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(SignUpFragment.this.getActivity(), selectListener, false);
             }
         });
 

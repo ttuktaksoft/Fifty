@@ -106,7 +106,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                     }
                 };
 
-                CommonFunc.getInstance().GetPermissionForGalleryCamera(ClubWriteActivity.this, mContext, null, selectListener, true);
+                CommonFunc.getInstance().GetPermissionForGalleryCamera(ClubWriteActivity.this, selectListener, true);
             }
         });
 
