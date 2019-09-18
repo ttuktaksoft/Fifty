@@ -76,7 +76,8 @@ public class TKManager {
     public FilterData FilterData = new FilterData();
     public ClubData CreateTempClubData = new ClubData();
     public ClubContextData CreateTempClubContextData = new ClubContextData();
-    public Map<String, Bitmap> TempClubContextImg = new HashMap<>();
+    public Map<String, Bitmap> TempUploadClubContextImg = new HashMap<>();
+   // public Map<String, String> TempClubContextImg = new HashMap<>();
     public ClubContextData TargetContextData = new ClubContextData();
     public ChatData copyData = new ChatData();
 

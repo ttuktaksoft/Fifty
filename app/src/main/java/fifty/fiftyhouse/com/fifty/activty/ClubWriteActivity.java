@@ -102,6 +102,29 @@ public class ClubWriteActivity extends AppCompatActivity {
                     @Override
                     public void Listener(List<Uri> list)
                     {
+                        DialogFunc.getInstance().ShowLoadingPage(ClubWriteActivity.this);
+
+
+                        for(int i=0; i<list.size(); i++)
+                        {
+                            Bitmap originalBm = null;
+                            try {
+                                originalBm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), list.get(i));
+                            } catch (FileNotFoundException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+
+                            TKManager.getInstance().TempUploadClubContextImg.put(Integer.toString(TKManager.getInstance().TempUploadClubContextImg.size()), originalBm);
+                            mClubWriteFragment.AddImg(list.get(i).toString());
+                            //CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, false);
+                        }
+
+
+                        DialogFunc.getInstance().DismissLoadingPage();
 
                     }
                 };
@@ -123,16 +146,16 @@ public class ClubWriteActivity extends AppCompatActivity {
                     TKManager.getInstance().CreateTempClubContextData.SetWriterIndex(TKManager.getInstance().MyData.GetUserIndex());
                     TKManager.getInstance().CreateTempClubContextData.SetDate(CommonFunc.getInstance().GetCurrentTime());
 
-                    if(TKManager.getInstance().TempClubContextImg.size()  == 0)
+                    if(TKManager.getInstance().TempUploadClubContextImg.size()  == 0)
                     {
                         TKManager.getInstance().CreateTempClubContextData.SetContextType(0);
                         SetClubContext();
                     }
 
-                    else if(TKManager.getInstance().TempClubContextImg.size() == 1)
+                    else if(TKManager.getInstance().TempUploadClubContextImg.size() == 1)
                     {
                         TKManager.getInstance().CreateTempClubContextData.SetContextType(1);
-                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempClubContextImg.size());
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempUploadClubContextImg.size());
                         FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
@@ -150,16 +173,16 @@ public class ClubWriteActivity extends AppCompatActivity {
                             }
                         };
 
-                        FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempClubContextImg.get("0"),
+                        FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempUploadClubContextImg.get("0"),
                                 "0", TKManager.getInstance().CreateTempClubContextData, uploadListener);
                     }
                     else
                     {
                         TKManager.getInstance().CreateTempClubContextData.SetContextType(2);
 
-                        for(int i=0 ;i< TKManager.getInstance().TempClubContextImg.size(); i++)
+                        for(int i=0 ;i< TKManager.getInstance().TempUploadClubContextImg.size(); i++)
                         {
-                            FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempClubContextImg.size());
+                            FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempUploadClubContextImg.size());
                             FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
                                 public void CompleteListener() {
@@ -177,7 +200,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                                 }
                             };
 
-                            FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempClubContextImg.get(Integer.toString(i)),
+                            FirebaseManager.getInstance().UploadClubContextImg(TKManager.getInstance().TargetClubData, TKManager.getInstance().TempUploadClubContextImg.get(Integer.toString(i)),
                                     Integer.toString(i), TKManager.getInstance().CreateTempClubContextData, uploadListener);
                         }
                     }
@@ -245,6 +268,7 @@ public class ClubWriteActivity extends AppCompatActivity {
 
                 ClubContextData tempData = new ClubContextData();
 
+
                 try {
                     tempData =  (ClubContextData) TKManager.getInstance().CreateTempClubContextData.clone();
                 } catch (CloneNotSupportedException e) {
@@ -256,6 +280,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                 CommonFunc.getInstance().SortByClubContentDate(TKManager.getInstance().TargetClubData.ClubContext, false);
 
                 TKManager.getInstance().CreateTempClubContextData.Clear();
+                TKManager.getInstance().TempUploadClubContextImg.clear();
 
                 DialogFunc.getInstance().DismissLoadingPage();
                 finish();
@@ -296,7 +321,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                TKManager.getInstance().TempClubContextImg.put(Integer.toString(TKManager.getInstance().TempClubContextImg.size()), originalBm);
+                TKManager.getInstance().TempUploadClubContextImg.put(Integer.toString(TKManager.getInstance().TempUploadClubContextImg.size()), originalBm);
                 mClubWriteFragment.AddImg(resultUri.toString());
                 //CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, false);
                 DialogFunc.getInstance().DismissLoadingPage();
