@@ -2933,7 +2933,7 @@ public class FirebaseManager {
     public void UploadThumbImg(String userIndex, Bitmap bitmap, final FirebaseManager.CheckFirebaseComplete listener) {
         final StorageReference tempThumbnailRef = mStorageRef.child("Image/" + TKManager.getInstance().MyData.GetUserIndex() + "/thumbnail.jpg");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         byte[] data = baos.toByteArray();
 
         UploadTask uploadTask = tempThumbnailRef.putBytes(data);
@@ -2972,7 +2972,7 @@ public class FirebaseManager {
 
         final StorageReference tempThumbnailRef = mStorageRef.child("ChatData/" + roomIndex + "Images/" + chatIndex);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
         byte[] data = baos.toByteArray();
 
         UploadTask uploadTask = tempThumbnailRef.putBytes(data);

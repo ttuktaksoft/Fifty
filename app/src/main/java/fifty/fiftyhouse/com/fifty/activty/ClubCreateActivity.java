@@ -525,15 +525,7 @@ public class ClubCreateActivity extends AppCompatActivity {
                 Uri resultUri = result.getUri();
 
                 Bitmap originalBm = null;
-                try {
-                    originalBm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), resultUri);
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                originalBm = CommonFunc.getInstance().resize(mContext, resultUri, 512);
 
                 CommonFunc.getInstance().DrawImageByGlide(mContext, iv_ClubCreate_Profile, originalBm, false);
 
