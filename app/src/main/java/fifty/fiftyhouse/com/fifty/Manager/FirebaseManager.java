@@ -288,6 +288,10 @@ public class FirebaseManager {
     }
 
     public void SetMyDataOnFireBase(boolean boot, final FirebaseManager.CheckFirebaseComplete listener) {
+
+        Log.d("!!!!!!!", "내 정보 저장");
+        SetFireBaseLoadingCount(5);
+
         if (mDataBase == null)
             GetFireStore();
 
@@ -345,16 +349,13 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        if (listener != null)
-                            listener.CompleteListener();
+                        Complete(listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
-                        if (listener != null)
-                            listener.CompleteListener_No();
                     }
                 });
 
@@ -377,6 +378,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Complete(listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -395,6 +397,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Complete(listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -412,6 +415,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Complete(listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -420,6 +424,7 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
 
         Map<String, Object> New = new HashMap<>();
         final long TodayDate = Long.parseLong(CommonFunc.getInstance().GetCurrentTime());
@@ -429,6 +434,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Complete(listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -438,7 +444,7 @@ public class FirebaseManager {
                     }
                 });
 
-
+        Complete(listener);
     }
 
     public void SetUserDataOnFireBase(CommonData.CollentionType collectType, String documentName, String key, Object obj) {
@@ -564,7 +570,7 @@ public class FirebaseManager {
                         switch (document.getType()) {
                             case ADDED:
                             case MODIFIED:
-
+                                Log.d("@@@@@@", "알람 변경 " + document.getDocument().getData().get("Index").toString());
                                 AlarmData tempData = new AlarmData();
 
                                 tempData.SetType(document.getDocument().getData().get("Type").toString());
@@ -580,6 +586,7 @@ public class FirebaseManager {
                                 break;
                         }
                     }
+
 
                     if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
                         listener.CompleteListener();
@@ -1136,7 +1143,7 @@ public class FirebaseManager {
                                     {
                                         Map<String, Object> AlarmData = new HashMap<>();
                                         AlarmData.put("Index", TKManager.getInstance().copyData.GetFromIndex());
-                                        AlarmData.put("Date", Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
+                                        AlarmData.put("Date", TKManager.getInstance().copyData.GetMsgDate());
                                         AlarmData.put("Type", "CHAT");
                                         AlarmData.put("Msg", TKManager.getInstance().copyData.GetMsg());
 
@@ -1360,8 +1367,11 @@ public class FirebaseManager {
                                 userData.SetUserChatDataList(tempData.GetRoomIndex(), tempData);
                             }*/
 
+                            Log.d("@@@@@@", "TKManager.getInstance().MonitorChatList " + tempData.GetRoomIndex());
+
                             if(!TKManager.getInstance().MonitorChatList.contains(tempData.GetRoomIndex()))
                             {
+                                AddFireBaseLoadingCount();
                                 TKManager.getInstance().MonitorChatList.add(tempData.GetRoomIndex());
                                 MonitorChatData(tempData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
                             }
@@ -1752,7 +1762,7 @@ public class FirebaseManager {
         {
             Log.d("!!!!!!!", "본인");
             bMyData = true;
-            SetFireBaseLoadingCount(11);
+            SetFireBaseLoadingCount(10);
             //SetFireBaseLoadingCount(7);
         }
         else
@@ -1878,7 +1888,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete FavoriteRankListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-                                Complete(listener);
+                                  Complete(listener);
                             }
 
                             @Override
@@ -1964,7 +1974,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete LikeUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-                                Complete(listener);
+                                  Complete(listener);
                             }
 
                             @Override
@@ -1980,7 +1990,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete VisitUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-                                Complete(listener);
+                                 Complete(listener);
                             }
 
                             @Override
@@ -1996,7 +2006,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete ClubRequestUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-                                Complete(listener);
+                                  Complete(listener);
                             }
 
                             @Override
@@ -2016,7 +2026,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete ClubUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-                                Complete(listener);
+                              Complete(listener);
                             }
 
                             @Override
@@ -2032,7 +2042,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete RecommendClubListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-                                Complete(listener);
+                                 Complete(listener);
                             }
 
                             @Override
@@ -2527,6 +2537,7 @@ public class FirebaseManager {
         if(TKManager.getInstance().UserData_Simple.get(userIndex) != null)
         {
             getData.put(userIndex, TKManager.getInstance().UserData_Simple.get(userIndex));
+            Log.d("!!!!!!!", "심플데이터 있음 " + userIndex);
             Complete(listener);
         }
 
@@ -2620,10 +2631,12 @@ public class FirebaseManager {
                             getData.put(userIndex, tempUser);
 
                             //AddFireBaseLoadingCount();
+                            Log.d("!!!!!!!", "심플데이터  " + userIndex);
                             Complete(listener);
 
                         } else {
                             Log.d(TAG, "No such document");
+                            Log.d("!!!!!!!", "심플데이터 없 " + userIndex);
                             Complete(listener);
                         }
                     } else {
@@ -2662,6 +2675,7 @@ public class FirebaseManager {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "Transaction success!");
+                                Log.d("!!!!!!!" ," 팝 고고");
                             }
                         })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -4455,6 +4469,7 @@ public class FirebaseManager {
                         getData.put(tempUser.GetClubIndex(), tempUser);
 
                         //AddFireBaseLoadingCount();
+
                         Complete(listener);
 
                     } else {
