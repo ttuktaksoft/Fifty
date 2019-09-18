@@ -271,6 +271,27 @@ public class CommonFunc {
 
     }
 
+    public void DrawImageByGlideInChatRoom(Context context, ImageView view, String src, boolean circle)
+    {
+
+        if(circle)
+        {
+            Glide.with(context).load(src)
+                    .circleCrop()
+                    .dontTransform()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.bg_empty_circle)
+                    .into(view);
+        }
+        else
+            Glide.with(context).load(src)
+                    .dontTransform()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.bg_empty_square)
+                    .into(view);
+
+    }
+
     public void DrawImageByGlide(Context context, ImageView view, Bitmap bmp, boolean circle)
     {
 

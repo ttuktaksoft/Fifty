@@ -319,11 +319,11 @@ class ChatBodyListHolder extends RecyclerView.ViewHolder {
 
         iv_Chat_Body_Img.setMaxHeight(contentMaxSize);
         iv_Chat_Body_Img.setMaxWidth(contentMaxSize);
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
+        CommonFunc.getInstance().DrawImageByGlideInChatRoom(mContext, iv_Chat_Body_Img, tempData.GetMsg(), false);
 
         iv_Chat_Body_Video.setMaxHeight(contentMaxSize);
         iv_Chat_Body_Video.setMaxWidth(contentMaxSize);
-        CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
+        CommonFunc.getInstance().DrawImageByGlideInChatRoom(mContext, iv_Chat_Body_Video, tempData.GetMsg(), false);
 
         iv_Chat_Body_Profile.setOnClickListener(new OnSingleClickListener() {
             @Override
