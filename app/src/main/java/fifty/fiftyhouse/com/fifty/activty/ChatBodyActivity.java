@@ -4,18 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.Handler;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,17 +15,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
@@ -43,9 +32,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.ChatBodyAdapter;
-import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
-import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ChatBodyActivity extends AppCompatActivity {
 
@@ -55,6 +42,7 @@ public class ChatBodyActivity extends AppCompatActivity {
     RecyclerView rv_Chat_Body_List;
     ImageView iv_ChatBody_Alert, iv_Chat_Body_Plus, iv_ChatBody_User;//, iv_ChatBody_Etc;
     EditText et_Chat_Body_Msg;
+
 
     Context mContext;
     public static Activity mChatBodyActivity;
@@ -452,7 +440,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
 
 
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+     /*   mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
@@ -465,7 +453,7 @@ public class ChatBodyActivity extends AppCompatActivity {
                     rv_Chat_Body_List.scrollToPosition(positionStart);
                 }
             }
-        });
+        });*/
 
         rv_Chat_Body_List.setAdapter(mAdapter);
 

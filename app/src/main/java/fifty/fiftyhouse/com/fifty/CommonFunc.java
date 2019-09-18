@@ -11,6 +11,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -84,6 +85,7 @@ import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
+import fifty.fiftyhouse.com.fifty.util.ImageResize;
 import gun0912.tedbottompicker.TedBottomPicker;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -237,7 +239,6 @@ public class CommonFunc {
         {
             Glide.with(context).load(src)
                     .circleCrop()
-                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_circle)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(view);
@@ -245,7 +246,6 @@ public class CommonFunc {
         else
             Glide.with(context).load(src)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_square)
                     .into(view);
 
@@ -254,22 +254,20 @@ public class CommonFunc {
 
     public void DrawImageByGlide(Context context, ImageView view, String src, boolean circle)
     {
+
         if(circle)
         {
             Glide.with(context).load(src)
                     .circleCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_circle)
                     .into(view);
         }
         else
             Glide.with(context).load(src)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_square)
                     .into(view);
-
 
     }
 
@@ -281,7 +279,6 @@ public class CommonFunc {
         {
             Glide.with(context).load(bmp)
                     .circleCrop()
-                    .dontTransform()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.bg_empty_circle)
                     .into(view);
@@ -289,7 +286,6 @@ public class CommonFunc {
         else
             Glide.with(context).load(bmp)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .dontTransform()
                     .placeholder(R.drawable.bg_empty_square)
                     .into(view);
     }
@@ -519,15 +515,7 @@ public class CommonFunc {
     public void SetCropImage(Context context, Uri uri, int addImgIndex, ImageView imageView, final FirebaseManager.CheckFirebaseComplete listener) {
 
         Bitmap originalBm = null;
-        try {
-            originalBm = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        originalBm = CommonFunc.getInstance().resize(context, uri, 512);
 
         if(imageView != null)
             DrawImageByGlide(context, imageView, originalBm, true);
@@ -562,15 +550,7 @@ public class CommonFunc {
         //iv_SignUp_Profile.setImageBitmap(originalBm);
 
         Bitmap originalBm = null;
-        try {
-            originalBm = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        originalBm = CommonFunc.getInstance().resize(context, uri, 512);
 
         final FirebaseManager.CheckFirebaseComplete uploadlistener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
@@ -1847,6 +1827,34 @@ public class CommonFunc {
         return items;
     }
 
+    public Bitmap resize(Context context, Uri uri, int resize){
+        Bitmap resizeBitmap=null;
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        try {
+            BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options); // 1번
+
+            int width = options.outWidth;
+            int height = options.outHeight;
+            int samplesize = 1;
+
+            while (true) {//2번
+                if (width / 2 < resize || height / 2 < resize)
+                    break;
+                width /= 2;
+                height /= 2;
+                samplesize *= 2;
+            }
+
+            options.inSampleSize = samplesize;
+            Bitmap bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options); //3번
+            resizeBitmap=bitmap;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return resizeBitmap;
+    }
 
 
 

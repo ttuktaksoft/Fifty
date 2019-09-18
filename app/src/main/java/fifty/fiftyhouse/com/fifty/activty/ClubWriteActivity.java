@@ -216,7 +216,8 @@ public class ClubWriteActivity extends AppCompatActivity {
         {
 
             Bitmap originalBm = null;
-            try {
+            originalBm = CommonFunc.getInstance().resize(getApplicationContext(),  Uri.parse(mClubWriteFragment.TempClubWriteImgLIst.get(i)), 512);
+  /*          try {
                 originalBm = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), Uri.parse(mClubWriteFragment.TempClubWriteImgLIst.get(i)));
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
@@ -224,7 +225,7 @@ public class ClubWriteActivity extends AppCompatActivity {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            }
+            }*/
 
             TKManager.getInstance().TempUploadClubContextImg.put(Integer.toString(TKManager.getInstance().TempUploadClubContextImg.size()), originalBm);
         }
@@ -328,6 +329,7 @@ public class ClubWriteActivity extends AppCompatActivity {
         FirebaseManager.getInstance().RegistClubContext(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().CreateTempClubContextData, ContextListener);
     }
 
+    /*
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -376,4 +378,6 @@ public class ClubWriteActivity extends AppCompatActivity {
             }
         }
     }
+
+     */
 }
