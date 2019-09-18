@@ -97,7 +97,7 @@ public class MainNewViewPager extends Fragment {
 
         RefreshUserList();
         mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
-        mAdapter.SetItemCountByType(CommonData.MainViewType.NEW);
+        mAdapter.setItemData(mUserList);
         rv_Main_New_UserList.setRequestedColumnCount(3);
         rv_Main_New_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_New_UserList,mAdapter));
         rv_Main_New_UserList.setOnItemClickListener(
@@ -118,6 +118,7 @@ public class MainNewViewPager extends Fragment {
         RefreshUserList();
 
         List<CustomGridListHolder> list = CommonFunc.getInstance().getCustomGridListHolderList(mUserList);
+        mAdapter.setItemData(mUserList);
         mAdapter.setItems(list);
     }
 

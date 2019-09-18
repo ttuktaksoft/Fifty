@@ -209,6 +209,7 @@ public class ClubBodyFragment extends Fragment {
                 Intent intent = new Intent(mContext, CustomPhotoView.class);
                 intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_DATAS);
                 intent.putExtra("datas", list);
+                intent.putExtra("startpos", position);
                 startActivity(intent);
 
             }

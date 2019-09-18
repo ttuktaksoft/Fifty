@@ -30,7 +30,7 @@ public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> imp
 
     public ImageView iv_Main_Thumbnail, iv_Main_Gender, iv_Main_Thumbnail_Online_State;
     public TextView tv_Main_Dis, tv_Main_Thumbnail_Online_State;
-    CommonData.MainViewType UserType = CommonData.MainViewType.DIST;
+    ArrayList<String> mUserList = new ArrayList<>();
 
     public CustomMainAdapterOne(Context context, List<CustomGridListHolder> items) {
         super(context, 0, items);
@@ -47,8 +47,8 @@ public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> imp
         tv_Main_Dis = v.findViewById(R.id.tv_Main_Dis);
         tv_Main_Thumbnail_Online_State = v.findViewById(R.id.tv_Main_Thumbnail_Online_State);
 
-        UserData tempData = new UserData();
-        switch (UserType)
+        UserData tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(mUserList.get(position)));
+/*        switch (UserType)
         {
             case DIST:
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)));
@@ -69,7 +69,7 @@ public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> imp
 
                 tempData = (UserData)(TKManager.getInstance().UserData_Simple.get(array.get(position).toString()));
                 break;
-        }
+        }*/
 
 
         String mUserName = null;
@@ -143,8 +143,9 @@ public class CustomMainAdapterOne extends ArrayAdapter<CustomGridListHolder> imp
         appendItems(moreItems);
     }
 
-    public void SetItemCountByType(CommonData.MainViewType type)
+    public void setItemData(ArrayList<String> list)
     {
-        UserType = type;
+        mUserList.clear();
+        mUserList.addAll(list);
     }
 }
