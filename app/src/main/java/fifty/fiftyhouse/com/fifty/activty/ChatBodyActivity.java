@@ -416,12 +416,14 @@ public class ChatBodyActivity extends AppCompatActivity {
                 if(TKManager.getInstance().mUpdateChatFragmentFunc != null)
                     TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
 
-                new Handler().postDelayed(new Runnable() {
+                rv_Chat_Body_List.post(new Runnable() {
                     @Override
                     public void run() {
-                        rv_Chat_Body_List.scrollToPosition(mAdapter.getItemCount() - 1);
+                        rv_Chat_Body_List.scrollToPosition(rv_Chat_Body_List.getAdapter().getItemCount() - 1);
+
                     }
-                }, 500);
+
+                });
 
                 /*rv_Chat_Body_List.postDelayed(new Runnable() {
 
@@ -472,6 +474,10 @@ public class ChatBodyActivity extends AppCompatActivity {
         rv_Chat_Body_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Chat_Body_List, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
+
+                //TKManager.getInstance().TargetClubData
+                //CommonFunc.getInstance().GetUserDataInFireBase(UserIndex,ChatBodyActivity.mChatBodyActivity, true);
+
                 //startActivity(new Intent(getApplicationContext(), ClubBodyActivity.class));
                 //startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 /*//CommonFunc.getInstance().ShowToast(view.getContext(), position+"번 째 아이템 클릭", true);

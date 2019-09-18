@@ -237,12 +237,14 @@ public class CommonFunc {
         {
             Glide.with(context).load(src)
                     .circleCrop()
+                    .placeholder(R.drawable.bg_empty_circle)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(view);
         }
         else
             Glide.with(context).load(src)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.bg_empty_square)
                     .into(view);
 
 
@@ -255,11 +257,13 @@ public class CommonFunc {
             Glide.with(context).load(src)
                     .circleCrop()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.bg_empty_circle)
                     .into(view);
         }
         else
             Glide.with(context).load(src)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.bg_empty_square)
                     .into(view);
 
 
