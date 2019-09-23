@@ -170,6 +170,10 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         TKManager.getInstance().TargetContextData = tempData;
         mClubKey = key;
 
+        tv_Club_Con_BigImg.setVisibility(View.GONE);
+        tv_Club_Con_Img_1.setVisibility(View.GONE);
+        tv_Club_Con_Img_2.setVisibility(View.GONE);
+        tv_Club_Con_Img_3.setVisibility(View.GONE);
 
        switch (tempData.ContextType)
        {
@@ -179,28 +183,30 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
            case 1:
                setClubContentType(BIG_IMG);
                if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("0")))
+               {
+                   tv_Club_Con_BigImg.setVisibility(View.VISIBLE);
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_BigImg, tempData.GetImg("0"), false);
-               else
-                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_BigImg, R.drawable.bg_empty_square, false);
-
+               }
                break;
            case 2:
                setClubContentType(IMG);
 
                if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("0")))
+               {
+                   tv_Club_Con_Img_1.setVisibility(View.VISIBLE);
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_1, tempData.GetImg("0"), false);
-               else
-                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_1, R.drawable.bg_empty_square, false);
-
+               }
                if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("1")))
+               {
+                   tv_Club_Con_Img_2.setVisibility(View.VISIBLE);
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_2, tempData.GetImg("1"), false);
-               else
-                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_2, R.drawable.bg_empty_square, false);
-
+               }
                if(!CommonFunc.getInstance().CheckStringNull(tempData.GetImg("2")))
+               {
+                   tv_Club_Con_Img_3.setVisibility(View.VISIBLE);
                    CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_3, tempData.GetImg("2"), false);
-               else
-                   CommonFunc.getInstance().DrawImageByGlide(mContext, tv_Club_Con_Img_3, R.drawable.bg_empty_square, false);
+               }
+
 
                break;
        }
@@ -400,11 +406,6 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
     private void setClubContentType(CLUB_CONTENT_TYPE type)
     {
         mContentType = type;
-        tv_Club_Con_BigImg.setVisibility(View.GONE);
-        tv_Club_Con_Img_1.setVisibility(View.GONE);
-        tv_Club_Con_Img_2.setVisibility(View.GONE);
-        tv_Club_Con_Img_3.setVisibility(View.GONE);
-
         ConstraintLayout.LayoutParams lp_Club_Reply_List = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         switch (type)
@@ -413,13 +414,9 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                 lp_Club_Reply_List.topToBottom = tv_Club_Con_Report.getId();
                 break;
             case BIG_IMG:
-                tv_Club_Con_BigImg.setVisibility(View.VISIBLE);
                 lp_Club_Reply_List.topToBottom = tv_Club_Con_BigImg.getId();
                 break;
             case IMG:
-                tv_Club_Con_Img_1.setVisibility(View.VISIBLE);
-                tv_Club_Con_Img_2.setVisibility(View.VISIBLE);
-                tv_Club_Con_Img_3.setVisibility(View.VISIBLE);
                 lp_Club_Reply_List.topToBottom = tv_Club_Con_Img_1.getId();
                 break;
         }
