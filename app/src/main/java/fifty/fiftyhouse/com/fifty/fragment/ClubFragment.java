@@ -26,6 +26,7 @@ import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
+import fifty.fiftyhouse.com.fifty.activty.ClubCreateActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubListActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -258,7 +259,41 @@ public class ClubFragment extends Fragment {
             public void CompleteListener_No() {
 
                 DialogFunc.getInstance().DismissLoadingPage();
-                DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EMPTY));
+
+                final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                    @Override
+                    public void Listener() {
+                        TKManager.getInstance().mUpdateClubFragmentkeybordDownFunc.UpdateUI();
+
+                        TKManager.getInstance().CreateTempClubData.ClubFavorite.clear();
+
+                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+
+                                Intent intent = new Intent(getContext(), ClubCreateActivity.class);
+                                intent.putExtra("Type",0);
+                                startActivityForResult(intent, 1000);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+
+                            }
+                        };
+
+                        FirebaseManager.getInstance().RegistClubIndex(TKManager.getInstance().CreateTempClubData, listener);
+
+
+                    }
+                };
+                DialogFunc.getInstance().ShowMsgPopup(mContext, listenerYes, null, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EMPTY),
+                        CommonFunc.getInstance().getStr(getResources(), R.string.TITLE_CREAT_CLUB), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
             }
         };
 
@@ -282,6 +317,10 @@ public class ClubFragment extends Fragment {
                     .centerCrop()
                     .circleCrop()
                     .into(iv_Club_TopBar_User);
+        }
+        else if(requestCode == 1000)
+        {
+            RefreshViewPager();
         }
     }
 

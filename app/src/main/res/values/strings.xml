@@ -118,7 +118,7 @@
     <string name="FAVORITE_SELECT_SEARCH_EMPTY">검색할 관심사를 적어주세요</string>
     <string name="FAVORITE_SELECT_EMPTY">나의 관심사를 입력해서\n더 많은 친구를 만나보세요</string>
     <string name="CLUB_SEARCH_EDIT_EMPTY">검색할 클럽을 적어주세요</string>
-    <string name="CLUB_SEARCH_EMPTY">해당 클럽이 없습니다</string>
+    <string name="CLUB_SEARCH_EMPTY">해당 클럽이 없습니다\n클럽을 생성 하시겠습니까?</string>
     <string name="USER_REPORT_DESC">신고사유</string>
     <string name="USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
     <string name="MSG_SORT_MAIN">근처:</string>
