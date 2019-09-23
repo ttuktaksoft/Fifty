@@ -70,7 +70,7 @@
 
                     <EditText
                         android:id="@+id/et_ClubCreate_Name"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@+id/iv_ClubCreate_Profile"
                         app:layout_constraintLeft_toLeftOf="@+id/v_ClubCreate_Info"
@@ -85,6 +85,15 @@
                         android:cursorVisible="true"
                         android:imeOptions="actionDone"
                         android:background="@color/alpha" />
+
+                    <ImageView
+                        android:id="@+id/iv_ClubCreate_Name"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:layout_constraintLeft_toRightOf="@+id/et_ClubCreate_Name"
+                        app:layout_constraintTop_toTopOf="@+id/et_ClubCreate_Name"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_ClubCreate_Name"
+                        android:src="@drawable/icon_write" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
