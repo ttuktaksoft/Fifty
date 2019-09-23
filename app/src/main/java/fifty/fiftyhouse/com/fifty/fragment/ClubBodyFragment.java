@@ -3,6 +3,8 @@ package fifty.fiftyhouse.com.fifty.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -31,6 +33,7 @@ import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
 
 public class ClubBodyFragment extends Fragment {
 
+    NestedScrollView ns_Club_Body_Scroll;
     ImageView iv_Club_Body_Profile;
     TextView tv_Club_Body_Nickname, tv_Club_Body_Date, tv_Club_Body_Desc, tv_Club_Body_Report;
     RecyclerView rv_Club_Body_Img_List, rv_Club_Body_Reply_List;
@@ -77,6 +80,7 @@ public class ClubBodyFragment extends Fragment {
         mFragmentMgr = ((FragmentActivity) mContext).getSupportFragmentManager();
         v_FragmentView = inflater.inflate(R.layout.fragment_club_body, container, false);
 
+        ns_Club_Body_Scroll = v_FragmentView.findViewById(R.id.ns_Club_Body_Scroll);
         iv_Club_Body_Profile = v_FragmentView.findViewById(R.id.iv_Club_Body_Profile);
         tv_Club_Body_Nickname = v_FragmentView.findViewById(R.id.tv_Club_Body_Nickname);
         tv_Club_Body_Date = v_FragmentView.findViewById(R.id.tv_Club_Body_Date);
@@ -236,5 +240,10 @@ public class ClubBodyFragment extends Fragment {
         mReplyAdapter.setItemCount(mReplyList.size());
         mReplyAdapter.setItemData(mReplyList);
         mReplyAdapter.notifyDataSetChanged();
+    }
+
+    public void MoveScrollEnd()
+    {
+        ns_Club_Body_Scroll.fullScroll(View.FOCUS_DOWN);
     }
 }

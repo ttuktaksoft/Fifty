@@ -189,7 +189,7 @@ public class ClubBodyActivity extends AppCompatActivity {
                     public void CompleteListener() {
                         // 데이터 추가 하고 아래 함수 콜
                         mClubBodyFragment.RefreshReply();
-
+                        mClubBodyFragment.MoveScrollEnd();
                     }
 
                     @Override
