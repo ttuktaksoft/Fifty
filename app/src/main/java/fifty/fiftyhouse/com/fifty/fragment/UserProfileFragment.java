@@ -44,6 +44,7 @@ import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
+import fifty.fiftyhouse.com.fifty.activty.MemoEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.activty.SettingActivity;
 import fifty.fiftyhouse.com.fifty.activty.StrContentListActivity;
@@ -52,6 +53,7 @@ import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileMemoActivity;
 import fifty.fiftyhouse.com.fifty.activty.WebContentActivity;
 import fifty.fiftyhouse.com.fifty.adapter.FavoriteSlotAdapter;
+import fifty.fiftyhouse.com.fifty.adapter.MyProfileEditMenuAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileClubAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfileMenuAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.UserProfilePhotoAdapter;
@@ -375,6 +377,13 @@ public class UserProfileFragment extends Fragment {
 
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().MyData.GetUserAge() + "세");
 
+        tv_UserProfile_Info_Memo.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                startActivityForResult(new Intent(mContext, MemoEditActivity.class), 1000);
+            }
+        });
+
         RefreshLocationText();
         RefreshMemoText();
         RefreshCountText();
@@ -459,6 +468,8 @@ public class UserProfileFragment extends Fragment {
 
         tv_UserProfile_Info_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().TargetUserData.GetUserAge() + "세");
+        tv_UserProfile_Info_Memo.setOnClickListener(null);
+
         RefreshLocationText();
         RefreshMemoText();
         RefreshCountText();
@@ -1013,6 +1024,7 @@ public class UserProfileFragment extends Fragment {
 
         // TODO 무조건 갱신
         RefreshCountText();
+        RefreshMemoText();
     }
 
     private void RefreshMyPhotoList()
@@ -1052,6 +1064,8 @@ public class UserProfileFragment extends Fragment {
             else
                 tv_UserProfile_Info_Memo.setText(TKManager.getInstance().TargetUserData.GetUserMemo());
         }
+
+
 
     }
 
