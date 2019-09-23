@@ -111,6 +111,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
+                et_FavoriteSelect_Search.setText("");
                 finish();
             }
         });
@@ -228,6 +229,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                     default:
                         // 기본 엔터키 동작
                         imm.hideSoftInputFromWindow(et_FavoriteSelect_Search.getWindowToken(), 0);
+                        et_FavoriteSelect_Search.setText("");
                         return false;
                 }
                 return true;
@@ -254,6 +256,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
             RefreshFavoriteSelectViewListSlot();
             RefreshOkButton();
             mSelectViewAdapter.notifyDataSetChanged();
+            et_FavoriteSelect_Search.setText("");
         }
     }
 
