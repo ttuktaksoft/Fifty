@@ -6,41 +6,41 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/v_club_slot_1"
+        android:id="@+id/v_main_user_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
         <include
-            android:id="@+id/ui_club_slot_1"
-            layout="@layout/ui_club_slot" />
+            android:id="@+id/ui_main_user_1"
+            layout="@layout/ui_main_user" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/v_club_slot_2"
+        android:id="@+id/v_main_user_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
         <include
-            android:id="@+id/ui_club_slot_2"
-            layout="@layout/ui_club_slot" />
+            android:id="@+id/ui_main_user_2"
+            layout="@layout/ui_main_user" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/v_club_slot_3"
+        android:id="@+id/v_main_user_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
         <include
-            android:id="@+id/ui_club_slot_3"
-            layout="@layout/ui_club_slot" />
+            android:id="@+id/ui_main_user_3"
+            layout="@layout/ui_main_user" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

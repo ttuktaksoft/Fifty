@@ -12,26 +12,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
-
 import java.util.ArrayList;
-import java.util.List;
 
-import androidx.fragment.app.FragmentTransaction;
-import fifty.fiftyhouse.com.fifty.CommonData;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SortSettingActivity;
-import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
-import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
-import fifty.fiftyhouse.com.fifty.adapter.CustomMainAdapterOne;
+import fifty.fiftyhouse.com.fifty.adapter.MainUserAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainDistanceViewPager extends Fragment {
 
@@ -41,12 +34,12 @@ public class MainDistanceViewPager extends Fragment {
     TextView tv_Main_Dis_UserList_Empty;
     ImageView iv_Main_Dis_Sort_Type;
 
-    AsymmetricGridView rv_Main_Dis_UserList;
+    RecyclerView rv_Main_Dis_UserList;
     View v_FragmentView = null;
 
-    CustomMainAdapterOne mAdapter;
+    MainUserAdapter mAdapter;
 
-    ArrayList<String> mUserList = new ArrayList<>();
+    ArrayList<String[]> mUserList = new ArrayList<>();
     boolean mSortEnable = false;
     private String UserIndex;
     public MainDistanceViewPager() {
@@ -140,61 +133,47 @@ public class MainDistanceViewPager extends Fragment {
 
     private void initRecyclerView()
     {
-/*        mAdapter = new MainAdapterOne(getContext());
-        RefreshAdapter();
-        mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());*/
-
+        MainUserAdapter.MainUserListener listener = new MainUserAdapter.MainUserListener()
+        {
+            @Override
+            public void Listener(String key)
+            {
+                CommonFunc.getInstance().GetUserDataInFireBase(key, MainActivity.mActivity, false);
+            }
+        };
+        mAdapter =  new MainUserAdapter(getContext(), listener);
         RefreshUserList();
-        mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
         mAdapter.setItemData(mUserList);
-        rv_Main_Dis_UserList.setRequestedColumnCount(3);
-        rv_Main_Dis_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Dis_UserList,mAdapter));
-        rv_Main_Dis_UserList.setOnItemClickListener(
-                new RecyclerItemOneClickListener() {
-                    @Override
-                    public void RecyclerItemOneClick(int position) {
-                        UserIndex = TKManager.getInstance().UserData_Simple.get(mUserList.get(position)).GetUserIndex();
-                        CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
-                    }
-                });
-
-
-
-        /*mAdapter = new MainAdapterOne(getContext());
-        RefreshAdapter();
-        mAdapter.setHasStableIds(true);
-        mAdapter.SetItemCountByType(CommonData.MainViewType.DIST, TKManager.getInstance().View_UserList_Dist.size());
         rv_Main_Dis_UserList.setAdapter(mAdapter);
-
-        rv_Main_Dis_UserList.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        rv_Main_Dis_UserList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rv_Main_Dis_UserList, new OnRecyclerItemClickListener() {
-            @Override
-            public void onSingleClick(View view, int position) {
-                UserIndex = TKManager.getInstance().UserData_Simple.get(TKManager.getInstance().View_UserList_Dist.get(position)).GetUserIndex();
-                CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
-            }
-        }));*/
+        rv_Main_Dis_UserList.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     public void RefreshAdapter()
     {
         RefreshUserList();
 
-        List<CustomGridListHolder> list = CommonFunc.getInstance().getCustomGridListHolderList(mUserList);
         mAdapter.setItemData(mUserList);
-        mAdapter.setItems(list);
     }
 
     public void RefreshUserList()
     {
         mUserList.clear();
-        mUserList.addAll(TKManager.getInstance().View_UserList_Dist);
+        int cutSize = 0;
+        String[] keyArr = new String[3];
+
+        for (String key : TKManager.getInstance().View_UserList_Dist)
+        {
+            if(cutSize == 3)
+            {
+                mUserList.add(keyArr);
+                keyArr = new String[3];
+                cutSize = 0;
+            }
+            keyArr[cutSize] = key;
+            cutSize++;
+        }
+
+        mUserList.add(keyArr);
 
         if(TKManager.getInstance().View_UserList_Dist.size() == 0)
         {

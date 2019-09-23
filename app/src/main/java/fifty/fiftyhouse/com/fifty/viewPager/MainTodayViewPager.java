@@ -1,17 +1,13 @@
 package fifty.fiftyhouse.com.fifty.viewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -20,33 +16,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
-import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
-import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
-import fifty.fiftyhouse.com.fifty.activty.ClubListActivity;
-import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
-import fifty.fiftyhouse.com.fifty.adapter.CustomMainAdapterOne;
-import fifty.fiftyhouse.com.fifty.adapter.FavoriteViewAdapter;
-import fifty.fiftyhouse.com.fifty.adapter.MainAdapterOne;
+import fifty.fiftyhouse.com.fifty.adapter.MainUserAdapter;
 import fifty.fiftyhouse.com.fifty.adapter.RealTimeFavoriteAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import fifty.fiftyhouse.com.fifty.util.RecyclerItemClickListener;
-import fifty.fiftyhouse.com.fifty.util.RecyclerItemOneClickListener;
 
 public class MainTodayViewPager extends Fragment {
     TextView tv_Main_Today_UserList_Empty, tv_Main_Today_Desc;
@@ -56,10 +40,10 @@ public class MainTodayViewPager extends Fragment {
     RecyclerView rv_Main_Today_Favorite;
     RecyclerView rv_RealTime_Favorite;
     TextView tv_RealTime_Favorite_Time;
-    AsymmetricGridView rv_Main_Today_UserList;
+    RecyclerView rv_Main_Today_UserList;
     View v_FragmentView = null;
-    public CustomMainAdapterOne mAdapter;
-    ArrayList<String> mUserList = new ArrayList<>();
+    public MainUserAdapter mAdapter;
+    ArrayList<String[]> mUserList = new ArrayList<>();
     RealTimeFavoriteAdapter mRealTimeFavoriteAdapter;
     private String UserIndex;
 
@@ -160,38 +144,49 @@ public class MainTodayViewPager extends Fragment {
 
     private void initRecyclerView()
     {
+        MainUserAdapter.MainUserListener listener = new MainUserAdapter.MainUserListener()
+        {
+            @Override
+            public void Listener(String key)
+            {
+                CommonFunc.getInstance().GetUserDataInFireBase(key, MainActivity.mActivity, false);
+            }
+        };
+        mAdapter =  new MainUserAdapter(getContext(), listener);
         RefreshUserList();
-        mAdapter =  new CustomMainAdapterOne(getContext(), CommonFunc.getInstance().getCustomGridListHolderList(mUserList));
         mAdapter.setItemData(mUserList);
-        rv_Main_Today_UserList.setRequestedColumnCount(3);
-        rv_Main_Today_UserList.setAdapter(new AsymmetricGridViewAdapter(getContext(), rv_Main_Today_UserList,mAdapter));
-        rv_Main_Today_UserList.setOnItemClickListener(
-                new RecyclerItemOneClickListener() {
-                    @Override
-                    public void RecyclerItemOneClick(int position) {
-                        UserIndex = TKManager.getInstance().UserData_Simple.get(mUserList.get(position)).GetUserIndex();
-                        CommonFunc.getInstance().GetUserDataInFireBase(UserIndex, MainActivity.mActivity, false);
-                    }
-                });
+        rv_Main_Today_UserList.setAdapter(mAdapter);
+        rv_Main_Today_UserList.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     public void RefreshAdapter()
     {
         RefreshUserList();
-
-        List<CustomGridListHolder> list = CommonFunc.getInstance().getCustomGridListHolderList(mUserList);
         mAdapter.setItemData(mUserList);
-        mAdapter.setItems(list);
     }
 
     public void RefreshUserList()
     {
         mUserList.clear();
-
         long seed = System.nanoTime();
         Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
 
-        mUserList.addAll(TKManager.getInstance().View_UserList_Hot);
+        int cutSize = 0;
+        String[] keyArr = new String[3];
+
+        for (String key : TKManager.getInstance().View_UserList_Hot)
+        {
+            if(cutSize == 3)
+            {
+                mUserList.add(keyArr);
+                keyArr = new String[3];
+                cutSize = 0;
+            }
+            keyArr[cutSize] = key;
+            cutSize++;
+        }
+
+        mUserList.add(keyArr);
 
         if(TKManager.getInstance().View_UserList_Hot.size() == 0)
         {

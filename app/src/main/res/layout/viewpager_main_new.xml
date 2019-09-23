@@ -46,7 +46,7 @@
             android:gravity="center"
             android:textColor="@color/str_color_1" />
 
-        <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_Main_New_UserList"
             android:layout_width="match_parent"
             android:layout_height="0dp"

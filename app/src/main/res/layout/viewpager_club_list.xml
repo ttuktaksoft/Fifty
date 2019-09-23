@@ -17,7 +17,7 @@
         app:layout_constraintTop_toBottomOf="@+id/v_Chat_TopBar"/>
 
 
-    <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ClubList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

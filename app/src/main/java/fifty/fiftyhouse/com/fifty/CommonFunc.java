@@ -42,8 +42,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONObject;
 
@@ -73,7 +71,6 @@ import java.util.Set;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
@@ -84,8 +81,6 @@ import fifty.fiftyhouse.com.fifty.activty.AuthActivity;
 import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
-import fifty.fiftyhouse.com.fifty.adapter.CustomGridListHolder;
-import fifty.fiftyhouse.com.fifty.util.ImageResize;
 import gun0912.tedbottompicker.TedBottomPicker;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -1816,36 +1811,6 @@ public class CommonFunc {
 
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
-    }
-
-    public List<CustomGridListHolder> getCustomGridListHolderList(List<String> keyList)
-    {
-        List<CustomGridListHolder> items = new ArrayList<>();
-        int bigsizetum = 0;
-        for (int i = 0; i < keyList.size(); i++) {
-            int colSpan = 1;
-
-            if(bigsizetum > 0)
-            {
-                colSpan = 1;
-                bigsizetum--;
-            }
-            else
-            {
-                colSpan = Math.random() < 0.3f ? 2 : 1;
-                if(colSpan == 2)
-                    bigsizetum = 2;
-            }
-
-
-
-
-            int rowSpan = colSpan;
-            CustomGridListHolder item = new CustomGridListHolder(colSpan, rowSpan, i,keyList.get(i));
-            items.add(item);
-        }
-
-        return items;
     }
 
     public Bitmap resize(Context context, Uri uri, int resize){
