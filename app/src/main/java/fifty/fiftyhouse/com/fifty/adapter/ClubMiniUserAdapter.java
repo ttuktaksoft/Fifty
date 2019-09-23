@@ -2,6 +2,8 @@ package fifty.fiftyhouse.com.fifty.adapter;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,12 @@ public class ClubMiniUserAdapter extends RecyclerView.Adapter<ClubMiniUserListHo
         mItemData.addAll(list);
         mItemCount = mItemData.size();
     }
+
+    public ClubMiniUserListHolderDecorator getDecorator()
+    {
+        ClubMiniUserListHolderDecorator itemDecorator = new ClubMiniUserListHolderDecorator(CommonFunc.getInstance().convertDPtoPX(mContext.getResources(), -15));
+        return itemDecorator;
+    }
 }
 
 class ClubMiniUserListHolder extends RecyclerView.ViewHolder {
@@ -80,7 +88,28 @@ class ClubMiniUserListHolder extends RecyclerView.ViewHolder {
             iv_Club_Mini_User.setVisibility(View.VISIBLE);
 
             UserData data = TKManager.getInstance().UserData_Simple.get(key);
-            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Mini_User, data.GetUserImgThumb(), false);
+            CommonFunc.getInstance().DrawImageByGlide(mContext, iv_Club_Mini_User, data.GetUserImgThumb(), true);
+        }
+    }
+}
+
+class ClubMiniUserListHolderDecorator extends RecyclerView.ItemDecoration {
+    private final int mSpace;
+
+    public ClubMiniUserListHolderDecorator(int space) {
+        this.mSpace = space;
+    }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        super.getItemOffsets(outRect, view, parent, state);
+        int position = parent.getChildAdapterPosition(view);
+        int itemCount = state.getItemCount();
+
+        //상하 설정
+        if(position == 0) {
+        } else {
+            outRect.left = mSpace;
         }
     }
 }

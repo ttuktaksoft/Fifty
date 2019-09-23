@@ -508,6 +508,7 @@ public class ClubActivity extends AppCompatActivity {
         mClubMiniUserAdapter.setHasStableIds(true);
 
         rv_Club_User.setAdapter(mClubMiniUserAdapter);
+        rv_Club_User.addItemDecoration(mClubMiniUserAdapter.getDecorator());
         rv_Club_User.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rv_Club_User.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_Club_User, new OnRecyclerItemClickListener() {
             @Override
@@ -570,15 +571,15 @@ public class ClubActivity extends AppCompatActivity {
             String element = (String) iterator.next();
             mClubUserList.add(element);
 
-            if(mClubUserList.size() == CommonData.CLUB_MINI_USER_MAX_VIEW - 1)
+/*            if(mClubUserList.size() == CommonData.CLUB_MINI_USER_MAX_VIEW - 1)
             {
                 mClubUserList.add("emtpy_user");
                 break;
-            }
+            }*/
         }
 
-        if(mClubUserList.size() < CommonData.CLUB_MINI_USER_MAX_VIEW)
-            mClubUserList.add("emtpy_user");
+/*        if(mClubUserList.size() < CommonData.CLUB_MINI_USER_MAX_VIEW)
+            mClubUserList.add("emtpy_user");*/
 
         mClubMiniUserAdapter.setItemData(mClubUserList);
     }
