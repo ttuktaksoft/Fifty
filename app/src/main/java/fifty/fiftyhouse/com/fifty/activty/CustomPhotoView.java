@@ -38,6 +38,7 @@ public class CustomPhotoView extends AppCompatActivity {
     public static int PHOTO_VIEW_TYPE_USER_PROFILE_LIST = 4;
     public static int PHOTO_VIEW_TYPE_ONE = 5;
     public static int PHOTO_VIEW_TYPE_DATAS = 6;
+    public static int PHOTO_VIEW_TYPE_CLUB_BODY = 7;
 
     ArrayList<String> mPhotoSrcList = new ArrayList<>();
     int mStartPos = 0;
@@ -104,6 +105,12 @@ public class CustomPhotoView extends AppCompatActivity {
         {
             iv_Custom_Photo_Down.setVisibility(View.VISIBLE);
             mPhotoSrcList.add(ImgSrc);
+            tv_Custom_Photo_Title.setText("");
+        }
+        else if(type == PHOTO_VIEW_TYPE_CLUB_BODY)
+        {
+            iv_Custom_Photo_Down.setVisibility(View.GONE);
+            mPhotoSrcList.addAll(ImgList);
             tv_Custom_Photo_Title.setText("");
         }
         else
