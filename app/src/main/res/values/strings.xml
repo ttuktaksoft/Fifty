@@ -49,6 +49,7 @@
     <string name="MSG_CLUB_REPORT_CONTENT">신고당한 게시글</string>
     <string name="MSG_CLUB_EDIT">클럽 수정</string>
     <string name="MSG_CLUB_WITHDRAWAL">클럽 탈퇴</string>
+    <string name="MSG_CLUB_INVITE">클럽 초대</string>
     <string name="MSG_CLUB_SETTING">클럽 설정</string>
     <string name="MSG_CLUB_WITHDRAWAL_DESC">클럽을 탈퇴 하시겠습니까?</string>
     <string name="MSG_CLUB_BODY_REPORT_LIST_EMPTY">신고당한 내용이 없습니다</string>

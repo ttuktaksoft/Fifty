@@ -23,7 +23,7 @@ public class ClubSettingActivity extends AppCompatActivity {
     TextView tv_TopBar_Title;
     ImageView iv_TopBar_Back;
 
-    TextView tv_ClubSetting_Join_Wait, tv_ClubSetting_Report, tv_ClubSetting_Edit, tv_ClubSetting_Withdrawal;
+    TextView tv_ClubSetting_Join_Wait, tv_ClubSetting_Report, tv_ClubSetting_Edit, tv_ClubSetting_Withdrawal, iv_ClubSetting_Invite;
     Context mContext;
 
     boolean mIsMasterClub = false;
@@ -41,6 +41,7 @@ public class ClubSettingActivity extends AppCompatActivity {
         tv_ClubSetting_Report = findViewById(R.id.tv_ClubSetting_Report);
         tv_ClubSetting_Edit = findViewById(R.id.tv_ClubSetting_Edit);
         tv_ClubSetting_Withdrawal = findViewById(R.id.tv_ClubSetting_Withdrawal);
+        iv_ClubSetting_Invite = findViewById(R.id.iv_ClubSetting_Invite);
 
         tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_SETTING));
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
@@ -183,6 +184,11 @@ public class ClubSettingActivity extends AppCompatActivity {
             }
         });
 
-
+        iv_ClubSetting_Invite.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                DialogFunc.getInstance().ShowUserInvitePopup(ClubSettingActivity.this, ClubSettingActivity.this);
+            }
+        });
     }
 }
