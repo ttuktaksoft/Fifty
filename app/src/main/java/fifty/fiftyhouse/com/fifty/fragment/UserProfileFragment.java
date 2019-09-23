@@ -632,6 +632,7 @@ public class UserProfileFragment extends Fragment {
                         // TODO 사진은 바로 리스트로 본다고 했었나??
                         ArrayList<String> menuList = new ArrayList<>();
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_DEL));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_ADD));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
@@ -906,6 +907,14 @@ public class UserProfileFragment extends Fragment {
                 Intent intent = new Intent(mContext, CustomPhotoView.class);
                 intent.putExtra("Type", CustomPhotoView.PHOTO_VIEW_TYPE_MY_PROFILE_LIST);
                 startActivity(intent);
+            }
+        });
+        list.add(new DialogFunc.MsgPopupListener()
+        {
+            @Override
+            public void Listener()
+            {
+                // #837951 사진 삭제 기능 추가
             }
         });
         list.add(new DialogFunc.MsgPopupListener()
