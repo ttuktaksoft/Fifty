@@ -50,7 +50,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     @Override
     public void onBindViewHolder(ChatListHolder holder, final int position) {
         int i = position;
-        binderHelper.bind(holder.swipeLayout,mItemData.get(i));
+        //binderHelper.bind(holder.swipeLayout,mItemData.get(i));
         holder.bind(mItemData.get(i));
         holder.setData(i, mItemData.get(i));
     }
@@ -249,7 +249,6 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                 if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
                 {
                     TKManager.getInstance().MyData.GetUserChatDataList(data).SetRoomType(CommonData.CHAT_ROOM_TYPE.BOOKMARK);
-                    mType = CommonData.CHAT_ROOM_TYPE.BOOKMARK;
 
                     ChatData tempChat = new ChatData();
                     try {
@@ -265,7 +264,6 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                 else
                 {
                     TKManager.getInstance().MyData.GetUserBookMarkChatDataList(data).SetRoomType(CommonData.CHAT_ROOM_TYPE.DEFAULT);
-                    mType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
 
                     ChatData tempChat = new ChatData();
                     try {
@@ -283,6 +281,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
                         TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+                        swipeLayout.close(false);
                     }
 
                     @Override
@@ -319,6 +318,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
                         TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+                        swipeLayout.close(false);
                     }
 
                     @Override
@@ -385,11 +385,13 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                             @Override
                             public void CompleteListener() {
                                 DialogFunc.getInstance().DismissLoadingPage();
+                                swipeLayout.close(false);
                                 Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
                                 intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
                                 intent.putExtra("RoomType", finalTempChatData.GetRoomType().name());
                                 //startActivity(intent);
                                 ChatFragment.mChatFragment.startActivityForResult(intent, ChatFragment.REFRESH_CHATFRAGMENT);
+
                             }
 
                             @Override
@@ -405,6 +407,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                         {
                             CommonFunc.getInstance().SetChatReadIndex(mContext, finalTempChatData.GetRoomIndex(), finalTempChatData.GetMsgIndex());
                             DialogFunc.getInstance().DismissLoadingPage();
+                            swipeLayout.close(false);
                             Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);
                             intent.putExtra("RoomIndex", finalTempChatData.GetRoomIndex());
                             intent.putExtra("RoomType", finalTempChatData.GetRoomType().name());

@@ -56,7 +56,7 @@ public class ChatViewPager extends Fragment {
         mAdapter = new ChatAdapter(getContext(), mType);
         RefreshAdapter();
         mAdapter.setHasStableIds(true);
-        mAdapter.notifyDataSetChanged();
+
         rv_ChatList.setAdapter(mAdapter);
         rv_ChatList.setLayoutManager(new GridLayoutManager(getContext(), 1));
         rv_ChatList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
