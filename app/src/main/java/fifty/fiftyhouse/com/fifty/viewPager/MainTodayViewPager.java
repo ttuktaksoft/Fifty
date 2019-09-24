@@ -219,7 +219,7 @@ public class MainTodayViewPager extends Fragment {
                     }
                 };
 
-                FirebaseManager.getInstance().FindFavoriteList(mRealTimeFavoriteViewList.get(position), listener);
+                FirebaseManager.getInstance().FindFavoriteList(mRealTimeFavoriteViewList.get(position),true, listener);
             }
         }));
 
@@ -271,7 +271,7 @@ public class MainTodayViewPager extends Fragment {
                 }
             };
 
-            FirebaseManager.getInstance().FindFavoriteList(TKManager.getInstance().SelectFavorite, listener);
+            FirebaseManager.getInstance().FindFavoriteList(TKManager.getInstance().SelectFavorite, false, listener);
         }
     }
 }

@@ -4831,7 +4831,7 @@ public class FirebaseManager {
         });
     }
 
-    public void FindFavoriteList(String favoriteName, final CheckFirebaseComplete listener)
+    public void FindFavoriteList(String favoriteName, Boolean rankList, final CheckFirebaseComplete listener)
     {
 
         SetFireBaseLoadingCount(0);
@@ -4852,7 +4852,9 @@ public class FirebaseManager {
                         {
                             TKManager.getInstance().UserList_Hot.clear();
                             TKManager.getInstance().View_UserList_Hot.clear();
-                            SetFavoriteRank(favoriteName);
+
+                            if(rankList == false)
+                                SetFavoriteRank(favoriteName);
 
                             SetFireBaseLoadingCount(task.getResult().size());
 
