@@ -105,10 +105,7 @@ public class UserProfileFragment extends Fragment {
 
         if(mUserProfileFragView != null)
         {
-            mFavoriteAdapter.notifyDataSetChanged();
-            mPhotoAdapter.notifyDataSetChanged();
-            mClubAdapter.notifyDataSetChanged();
-            mMenuAdapter.notifyDataSetChanged();
+            RefreshUI();
             return mUserProfileFragView;
         }
 
@@ -684,25 +681,8 @@ public class UserProfileFragment extends Fragment {
 
     public void initClubList()
     {
-        ArrayList<String> list = new ArrayList<>();
-        if(mMyProfile)
-        {
-            list.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
-        }
-        else
-        {
-            list.addAll(TKManager.getInstance().TargetUserData.GetUserClubDataKeySet());
-        }
-
-        if(list.size() == 0)
-            tv_UserProfile_Info_Club.setVisibility(View.GONE);
-        else
-            tv_UserProfile_Info_Club.setVisibility(View.VISIBLE);
-
         mClubAdapter = new UserProfileClubAdapter(mContext);
-        mClubAdapter.setMyProfile(mMyProfile);
-        mClubAdapter.setItemCount(list.size());
-        mClubAdapter.setItemData(list);
+        RefreshClubDataList();
         mClubAdapter.setHasStableIds(true);
 
         rv_UserProfile_Info_Club.setAdapter(mClubAdapter);
@@ -770,6 +750,30 @@ public class UserProfileFragment extends Fragment {
                 //  Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
             }
         }));
+    }
+
+    public void RefreshClubDataList()
+    {
+        ArrayList<String> list = new ArrayList<>();
+        if(mMyProfile)
+        {
+            list.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+        }
+        else
+        {
+            list.addAll(TKManager.getInstance().TargetUserData.GetUserClubDataKeySet());
+        }
+
+        if(list.size() == 0)
+            tv_UserProfile_Info_Club.setVisibility(View.GONE);
+        else
+            tv_UserProfile_Info_Club.setVisibility(View.VISIBLE);
+
+        mClubAdapter.setMyProfile(mMyProfile);
+        mClubAdapter.setItemCount(list.size());
+        mClubAdapter.setItemData(list);
+
+        mClubAdapter.notifyDataSetChanged();
     }
 
     public void initMenuList()
@@ -1158,5 +1162,10 @@ public class UserProfileFragment extends Fragment {
     public void setCountInfoListener_3(OnSingleClickListener listener)
     {
         tv_UserProfile_Info_Count_3.setOnClickListener(listener);
+    }
+
+    public void RefreshUI()
+    {
+        RefreshClubDataList();
     }
 }

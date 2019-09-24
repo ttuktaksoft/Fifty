@@ -62,7 +62,11 @@ public class MyProfileFragment extends Fragment{
                              Bundle savedInstanceState) {
 
         if(v_FragmentView != null)
+        {
+            mUserProfileFragment.RefreshUI();
             return v_FragmentView;
+        }
+
 
         // Inflate the layout for this fragment
         mContext = getActivity();

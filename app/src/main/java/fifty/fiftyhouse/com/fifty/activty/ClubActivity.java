@@ -522,12 +522,12 @@ public class ClubActivity extends AppCompatActivity {
 
     public void RefreshAdapter()
     {
+        mContentList.clear();
         if(TKManager.getInstance().TargetClubData.IsClubMember(TKManager.getInstance().MyData.GetUserIndex()))
         {
-            mContentList.clear();
             mContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
-            mAdapter.setItemData(mContentList);
         }
+        mAdapter.setItemData(mContentList);
     }
 
     public void RefreshFavoriteAdapter()
@@ -592,6 +592,9 @@ public class ClubActivity extends AppCompatActivity {
             RefreshClubInfo();
             mClubMiniUserAdapter.notifyDataSetChanged();
             mFavoriteViewAdapter.notifyDataSetChanged();
+
+            RefreshAdapter();
+            mAdapter.notifyDataSetChanged();
         }
     }
 }
