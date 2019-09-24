@@ -24,7 +24,7 @@
         android:paddingBottom="2dp"
         android:paddingLeft="10dp"
         android:gravity="center|left"
-        android:text="@string/USER_REPORT_DESC"
+        android:text="@string/MSG_REPORT_REASON"
         android:textColor="@color/str_color_1"
         android:background="@color/info_sub_slot_title_bg"
         />
@@ -56,7 +56,7 @@
         android:paddingTop="10dp"
         android:gravity="top"
         android:scrollHorizontally="true"
-        android:hint="@string/USER_REPORT_DESC_HINT"
+        android:hint="@string/MSG_USER_REPORT_DESC_HINT"
         android:inputType="textNoSuggestions|textMultiLine|textImeMultiLine"
         android:cursorVisible="true"
         android:background="@drawable/bg_white"

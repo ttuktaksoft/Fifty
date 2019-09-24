@@ -643,8 +643,8 @@ public class UserProfileFragment extends Fragment {
                         // TODO 사진은 바로 리스트로 본다고 했었나??
                         ArrayList<String> menuList = new ArrayList<>();
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIEW));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_DEL));
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_PHOTO_DEL));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_PHOTO_ADD));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoViewFunc();
@@ -656,7 +656,7 @@ public class UserProfileFragment extends Fragment {
                         mSelectPhotoIndex = TKManager.getInstance().MyData.GetUserImgCount();
 
                         ArrayList<String> menuList = new ArrayList<>();
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PROFILE_PHOTO_ADD));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_PHOTO_ADD));
                         menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                         ArrayList<DialogFunc.MsgPopupListener> menuListenerList = getPhotoAddFunc();

@@ -219,10 +219,10 @@ public class MainFragment extends Fragment {
                 }
             });*/
 
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_DISTANCE)));
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_TODAY_MEMBER)));
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_NEW_MEMBER)));
-            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_SORT_MY_FRIEND)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_MAIN_TAB_DISTANCE)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_MAIN_TAB_TODAY_MEMBER)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_MAIN_TAB_NEW_MEMBER)));
+            tl_TopBarTab.addTab(tl_TopBarTab.newTab().setText(getResources().getString(R.string.MSG_MAIN_TAB_MY_FRIEND)));
             tl_TopBarTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {

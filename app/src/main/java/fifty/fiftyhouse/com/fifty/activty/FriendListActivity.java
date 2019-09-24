@@ -56,8 +56,8 @@ public class FriendListActivity extends AppCompatActivity {
         });
 
 
-        tl_FriendList_TopTab.addTab(tl_FriendList_TopTab.newTab().setText(getResources().getString(R.string.MSG_FRIEND_MY)));
-        tl_FriendList_TopTab.addTab(tl_FriendList_TopTab.newTab().setText(getResources().getString(R.string.MSG_FRIEND_REQUEST)));
+        tl_FriendList_TopTab.addTab(tl_FriendList_TopTab.newTab().setText(getResources().getString(R.string.MSG_TAB_FRIEND_MY)));
+        tl_FriendList_TopTab.addTab(tl_FriendList_TopTab.newTab().setText(getResources().getString(R.string.MSG_TAB_FRIEND_REQUEST)));
         tl_FriendList_TopTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

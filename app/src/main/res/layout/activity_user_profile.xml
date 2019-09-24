@@ -91,7 +91,7 @@
                 app:layout_constraintTop_toTopOf="@+id/v_UserProfile_BottomBar_Like"
                 app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar_Like"
                 android:gravity="center"
-                android:text="@string/tv_UserProfile_BottomBar_Like"
+                android:text="@string/MSG_LIKE"
                 android:textColor="@color/user_profile_bottom_tab_select"
                 />
 
@@ -132,7 +132,7 @@
                 app:layout_constraintTop_toTopOf="@+id/v_UserProfile_BottomBar_Chat"
                 app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar_Chat"
                 android:gravity="center"
-                android:text="@string/tv_UserProfile_BottomBar_Chat"
+                android:text="@string/MSG_TRY_CHAT"
                 android:textColor="@color/user_profile_bottom_tab_select"
                 />
 
@@ -188,7 +188,7 @@
                 app:layout_constraintTop_toTopOf="@+id/v_UserProfile_BottomBar_Friend"
                 app:layout_constraintBottom_toBottomOf="@+id/v_UserProfile_BottomBar_Friend"
                 android:gravity="center"
-                android:text="@string/tv_UserProfile_BottomBar_Friend"
+                android:text="@string/MSG_FRIEND_ADD"
                 android:textColor="@color/user_profile_bottom_tab_select"
                 />
 

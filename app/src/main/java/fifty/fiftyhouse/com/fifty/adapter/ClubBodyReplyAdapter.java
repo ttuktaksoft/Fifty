@@ -107,7 +107,7 @@ class ClubBodyReplyListHolder extends RecyclerView.ViewHolder {
                     // TODO 댓글 수정
 
                     ArrayList<String> menuList = new ArrayList<>();
-                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_REPLY_DELETE));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_DEL));
                     menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                     ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();

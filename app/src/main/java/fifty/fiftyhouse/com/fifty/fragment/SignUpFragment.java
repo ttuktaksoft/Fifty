@@ -457,7 +457,7 @@ public class SignUpFragment extends Fragment {
         }
         else if(TKManager.getInstance().MyData.GetUserFavoriteListCount() < CommonData.FavoriteSelectMinCount)
         {
-            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
+            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FAVORITE_SELECT_LACK_3));
         }
         else
             return true;

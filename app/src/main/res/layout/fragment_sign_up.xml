@@ -72,7 +72,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/et_SignUp_NickName"
                 android:layout_marginRight="15dp"
                 android:padding="10dp"
-                android:text="@string/NICKNAME_CHECK"
+                android:text="@string/MSG_OVERLAP_CHECK"
                 android:gravity="center"
                 android:textColor="@color/str_color_2"
                 android:textStyle="bold"

@@ -231,8 +231,8 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                 if(tempData.GetWriterIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                 {
                     ArrayList<String> menuList = new ArrayList<>();
-                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_DEL));
-                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_CHANGE));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_DEL));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_EDIT));
                     menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                     ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
@@ -283,9 +283,9 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
                 {
                     ArrayList<String> menuList = new ArrayList<>();
                     if(TKManager.getInstance().TargetClubData.GetClubMasterIndex().equals(TKManager.getInstance().MyData.GetUserIndex())) {
-                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_DEL));
+                        menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_DEL));
                     }
-                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_MSG_REPORT));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_REPORT));
                     menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
 

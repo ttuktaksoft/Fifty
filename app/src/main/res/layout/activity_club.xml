@@ -203,7 +203,7 @@
                         app:layout_constraintRight_toRightOf="@+id/iv_Club_Write_BG"
                         app:layout_constraintTop_toTopOf="@+id/iv_Club_Write_BG"
                         app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Write_BG"
-                        android:text="@string/MSG_CLUB_MAIN_WRITE"
+                        android:text="@string/MSG_CLUB_WRITE"
                         android:gravity="center"
                         android:textColor="@color/button_enable_str"
                         android:textStyle="bold"/>

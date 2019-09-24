@@ -39,7 +39,7 @@
                 app:layout_constraintLeft_toLeftOf="@+id/v_ClubWrite"
                 app:layout_constraintRight_toRightOf="@+id/v_ClubWrite"
                 app:layout_constraintTop_toTopOf="@+id/v_ClubWrite"
-                android:hint="@string/CLUB_WRITE_HINT"
+                android:hint="@string/MSG_CLUB_WRITE_HINT"
                 android:text="alskdjfldhflkajshdflkjahsdfkljahsdlkfjhasdlkfjh"
                 android:inputType="textNoSuggestions|textMultiLine|textImeMultiLine"
                 android:cursorVisible="true"

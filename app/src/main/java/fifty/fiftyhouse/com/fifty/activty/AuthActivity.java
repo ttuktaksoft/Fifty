@@ -137,7 +137,7 @@ public class AuthActivity extends AppCompatActivity {
                                     }
                                     else
                                     {
-                                        DialogFunc.getInstance().ShowMsgPopup(AuthActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.tv_Auth_Age));
+                                        DialogFunc.getInstance().ShowMsgPopup(AuthActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_SIGN_UP_AGE_CUT));
                                         android.os.Process.killProcess(android.os.Process.myPid());
                                     }
                                }

@@ -74,12 +74,12 @@ public class ClubWriteActivity extends AppCompatActivity {
         if(mClubWriteType == 0)
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_WRITE_CLUB));
-            tv_ClubWrite_OK.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_WRITE));
+            tv_ClubWrite_OK.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_REGISTER));
         }
         else
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_WRITE_CLUB_CHANGE));
-            tv_ClubWrite_OK.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_WRITE_EDIT));
+            tv_ClubWrite_OK.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_EDIT));
         }
 
         mClubWriteFragment = new ClubWriteFragment();

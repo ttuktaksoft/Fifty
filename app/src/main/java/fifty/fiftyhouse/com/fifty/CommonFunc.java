@@ -602,8 +602,8 @@ public class CommonFunc {
 
         TedPermission.with(activity)
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage(activity.getResources().getString(R.string.permission_cammera))
-                .setDeniedMessage(activity.getResources().getString(R.string.permission_request))
+                .setRationaleMessage(activity.getResources().getString(R.string.MSG_PERMISSION_CAMERA))
+                .setDeniedMessage(activity.getResources().getString(R.string.MSG_PERMISSION_REQUEST))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
 
@@ -623,8 +623,8 @@ public class CommonFunc {
 
         TedPermission.with(activity)
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage(activity.getResources().getString(R.string.permission_cammera))
-                .setDeniedMessage(activity.getResources().getString(R.string.permission_request))
+                .setRationaleMessage(activity.getResources().getString(R.string.MSG_PERMISSION_CAMERA))
+                .setDeniedMessage(activity.getResources().getString(R.string.MSG_PERMISSION_REQUEST))
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
 

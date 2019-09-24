@@ -158,8 +158,8 @@ public class ClubFragment extends Fragment {
             }
         });
 
-        tl_Club_TopTab.addTab(tl_Club_TopTab.newTab().setText(getResources().getString(R.string.MSG_CLUB_LIST_RECOMMEND)));
-        tl_Club_TopTab.addTab(tl_Club_TopTab.newTab().setText(getResources().getString(R.string.MSG_CLUB_LIST_MY)));
+        tl_Club_TopTab.addTab(tl_Club_TopTab.newTab().setText(getResources().getString(R.string.MSG_MAIN_TAB_CLUB_RECOMMEND)));
+        tl_Club_TopTab.addTab(tl_Club_TopTab.newTab().setText(getResources().getString(R.string.MSG_MAIN_TAB_CLUB_MY)));
         tl_Club_TopTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -292,14 +292,14 @@ public class ClubFragment extends Fragment {
 
                     }
                 };
-                DialogFunc.getInstance().ShowMsgPopup(mContext, listenerYes, null, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EMPTY),
+                DialogFunc.getInstance().ShowMsgPopup(mContext, listenerYes, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_SEARCH_RESULT_EMPTY),
                         CommonFunc.getInstance().getStr(getResources(), R.string.TITLE_CREAT_CLUB), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
             }
         };
 
         if(CommonFunc.getInstance().CheckStringNull(name))
         {
-            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_SEARCH_EDIT_EMPTY));
+            DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_SEARCH_EMPTY));
         }
         else {
             DialogFunc.getInstance().ShowLoadingPage(mContext);

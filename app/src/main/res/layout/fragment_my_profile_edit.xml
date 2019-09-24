@@ -70,7 +70,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:textColor="@color/str_color_1"
-                    android:text="@string/tv_MyProfile_Edit_Profile_Desc"
+                    android:text="@string/MSG_USER_PROFILE_PHOTO_EDIT_DESC"
                     android:paddingBottom="10dp"
                     />
 

@@ -124,8 +124,8 @@ public class ChatBodyActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
 
                 ArrayList<String> menuList = new ArrayList<>();
-                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_MENU_PHOTO));
-                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_MENU_VIDEO));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_PHOTO));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_VIDEO));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                 ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
@@ -265,8 +265,8 @@ public class ChatBodyActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 ArrayList<String> menuList = new ArrayList<>();
-                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
-                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_REPORT));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_BLOCK));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                 ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();

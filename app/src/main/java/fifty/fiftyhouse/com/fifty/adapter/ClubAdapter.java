@@ -293,14 +293,14 @@ class ClubAdapterHolder extends RecyclerView.ViewHolder{
             else if(TKManager.getInstance().MyData.GetRequestJoinClubList(key) != null)
             {
                 // 가입 대기중
-                tv_Club_Tag.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REQUEST_JOIN_CLUB));
+                tv_Club_Tag.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_WAIT_APPROVAL));
                 iv_Club_Tag.setVisibility(View.VISIBLE);
                 iv_Club_Tag.setColorFilter(ContextCompat.getColor(mContext, R.color.request_club_tag), PorterDuff.Mode.MULTIPLY);
             }
             else if(TKManager.getInstance().MyData.GetUserRecommendClubData(key) != null)
             {
                 // 추천
-                tv_Club_Tag.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_RECOM_CLUB));
+                tv_Club_Tag.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_RECOMMEND));
                 iv_Club_Tag.setVisibility(View.VISIBLE);
                 iv_Club_Tag.setColorFilter(ContextCompat.getColor(mContext, R.color.recom_club_tag), PorterDuff.Mode.MULTIPLY);
             }

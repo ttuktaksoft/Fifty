@@ -155,7 +155,7 @@ public class ClubBodyActivity extends AppCompatActivity {
                 };
 
                 DialogFunc.getInstance().ShowMsgPopup(ClubBodyActivity.this, listenerYes, null, CommonFunc.getInstance().getStr(ClubBodyActivity.this.getResources(), R.string.MSG_CLUB_BODY_REPORT_DEL_DESC),
-                        CommonFunc.getInstance().getStr(ClubBodyActivity.this.getResources(), R.string.MSG_CLUB_BODY_REPORT_DEL), CommonFunc.getInstance().getStr(ClubBodyActivity.this.getResources(), R.string.MSG_CANCEL));
+                        CommonFunc.getInstance().getStr(ClubBodyActivity.this.getResources(), R.string.MSG_TRY_DEL), CommonFunc.getInstance().getStr(ClubBodyActivity.this.getResources(), R.string.MSG_CANCEL));
             }
         });
 

@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="@+id/v_Chat_TopBar"
             app:layout_constraintBottom_toBottomOf="@+id/v_Chat_TopBar"
             android:gravity="center"
-            android:text="@string/tv_Chat_Title"
+            android:text="@string/TITLE_CHAT_LIST"
             android:maxLines="1"
             android:textColor="@color/str_color_2"
             android:textSize="@dimen/default_font_size_big"

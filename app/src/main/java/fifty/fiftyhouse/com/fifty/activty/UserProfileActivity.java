@@ -103,8 +103,8 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onSingleClick(View view) {
                 ArrayList<String> menuList = new ArrayList<>();
-                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_REPORT));
-                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_REPORT_MENU_BLOCK));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_REPORT));
+                menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TRY_BLOCK));
                 menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
 
                 ArrayList<DialogFunc.MsgPopupListener> menuListenerList = new ArrayList<>();
@@ -485,7 +485,7 @@ public class UserProfileActivity extends AppCompatActivity {
             animationView_Friend.setVisibility(View.INVISIBLE);
 
             iv_UserProfile_BottomBar_Friend.setVisibility(View.VISIBLE);
-            tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.FRIEND_ADD));
+            tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FRIEND_ADD));
             Glide.with(mContext).load(R.drawable.ic_empty_star)
                     .into(iv_UserProfile_BottomBar_Friend);
         }
@@ -504,7 +504,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
             iv_UserProfile_BottomBar_Friend.setVisibility(View.INVISIBLE);
 
-            tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.FRIEND_REMOVE));
+            tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FRIEND_REMOVE));
         }
     }
 }

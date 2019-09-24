@@ -25,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/v_MyProfile_Edit_Age_Menu"
             android:layout_marginLeft="10dp"
             android:gravity="left|center_vertical"
-            android:text="@string/MY_PROFILE_AGE"
+            android:text="@string/MSG_AGE"
             android:textStyle="bold"
             android:textColor="@color/str_color_5"
             />

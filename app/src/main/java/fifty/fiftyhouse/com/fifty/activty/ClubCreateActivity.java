@@ -124,7 +124,7 @@ public class ClubCreateActivity extends AppCompatActivity {
             tv_ClubCreate_JoinType_Free.setVisibility(View.VISIBLE);
             tv_ClubCreate_JoinType_Approval.setVisibility(View.VISIBLE);
 
-            tv_ClubCreate_OK.setText(CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_OK));
+            tv_ClubCreate_OK.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_CREATE_OK));
         }
         else
         {
@@ -134,7 +134,7 @@ public class ClubCreateActivity extends AppCompatActivity {
             tv_ClubCreate_JoinType_Free.setVisibility(View.GONE);
             tv_ClubCreate_JoinType_Approval.setVisibility(View.GONE);
 
-            tv_ClubCreate_OK.setText(CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_EDIT));
+            tv_ClubCreate_OK.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_CREATE_EDIT));
         }
 
 
@@ -181,15 +181,15 @@ public class ClubCreateActivity extends AppCompatActivity {
 
                 // 클럽 생성 가능한지 체크
                 if(CommonFunc.getInstance().CheckStringNull(et_ClubCreate_Name.getText().toString()))
-                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_EMPTY));
+                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_CREATE_NAME_EMPTY));
                 else if(et_ClubCreate_Name.getText().length() < CommonData.ClubNameMinSize)
                 {
-                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_LEAK));
+                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_NAME_LEAK));
                 }
                 else if(isProfileUpload == false)
-                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CREATE_CLUB_NAME_PROFILE));
+                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_CREATE_NAME_PROFILE));
                 else if(mClubCreateType == CLUB_CREATE_TYPE && TKManager.getInstance().CreateTempClubData.ClubFavorite.size() < CommonData.ClubFavoriteSelectMinCount)
-                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_FAVORITE_SELECT_LACK));
+                    DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FAVORITE_SELECT_LACK_1));
                 else
                 {
                     if(mClubCreateType == CLUB_CREATE_TYPE)

@@ -297,7 +297,7 @@ public class DialogFunc {
 
                 if(CommonFunc.getInstance().CheckStringNull(et_User_Search_Popup_Name.getText().toString()))
                 {
-                    DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.FAVORITE_EMPTY));
+                    DialogFunc.getInstance().ShowMsgPopup(context, CommonFunc.getInstance().getStr(context.getResources(), R.string.MSG_FAVORITE_IMPUT_EMPTY));
                 }
                 else
                 {

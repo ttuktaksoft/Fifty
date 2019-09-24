@@ -84,8 +84,8 @@ public class ChatFragment extends Fragment {
         vp_ChatList = ChatFragView.findViewById(R.id.vp_ChatList);
         tl_ChatList_TopTab = ChatFragView.findViewById(R.id.tl_ChatList_TopTab);
 
-        tl_ChatList_TopTab.addTab(tl_ChatList_TopTab.newTab().setText(getResources().getString(R.string.MSG_CHAT_LIST_BOOKMARK)));
-        tl_ChatList_TopTab.addTab(tl_ChatList_TopTab.newTab().setText(getResources().getString(R.string.MSG_CHAT_LIST_DEFAULT)));
+        tl_ChatList_TopTab.addTab(tl_ChatList_TopTab.newTab().setText(getResources().getString(R.string.MSG_MAIN_TAB_CHAT_BOOKMARK)));
+        tl_ChatList_TopTab.addTab(tl_ChatList_TopTab.newTab().setText(getResources().getString(R.string.MSG_MAIN_TAB_CHAT_DEFAULT)));
         tl_ChatList_TopTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

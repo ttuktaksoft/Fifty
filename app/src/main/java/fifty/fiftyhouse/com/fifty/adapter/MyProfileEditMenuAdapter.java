@@ -222,7 +222,7 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
         if(i == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_NICKNAME_INDEX)
         {
             // 닉네임
-            tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_NIKCNMAE));
+            tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_NIKCNMAE));
             tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserNickName());
         }
         else if(i == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_STORY_INDEX)
@@ -247,13 +247,13 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
             if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().MyData.GetUserLocation()) == false)
             {
                 // 있음
-                tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_LOCATION));
+                tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_LOCATION));
                 tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserLocation());
             }
             else
             {
                 //없음
-                tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_LOCATION));
+                tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_LOCATION));
 //                tv_MyProfile_Edit_Menu_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_DEFAULT_LOCATION));
                 tv_MyProfile_Edit_Menu_Desc.setText(TKManager.getInstance().MyData.GetUserDist_Area());
 
@@ -261,7 +261,7 @@ class MyProfileEditMenuListHolder extends RecyclerView.ViewHolder {
         }
         else if(i == MyProfileEditMenuAdapter.MY_PROFILE_EDIT_MENU_FAVORITE_INDEX)
         {
-            tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MY_PROFILE_FAVORITE));
+            tv_MyProfile_Edit_Menu_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_FAVORITE));
 
             Map<String, String> tempMapFavorite = TKManager.getInstance().MyData.GetUserFavoriteList();
             Set EntrySet = tempMapFavorite.entrySet();

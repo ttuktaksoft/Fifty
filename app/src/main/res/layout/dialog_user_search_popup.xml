@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_User_Search_Popup_Title"
         app:layout_constraintRight_toRightOf="@+id/iv_User_Search_Popup_DescBG"
         app:layout_constraintLeft_toLeftOf="@+id/iv_User_Search_Popup_DescBG"
-        android:hint="@string/MSG_USER_SEARCH_HINT"
+        android:hint="@string/MSG_USER_NINAME_INPUT_HINT"
         android:inputType="textNoSuggestions"
         android:cursorVisible="true"
         android:maxLines="1"

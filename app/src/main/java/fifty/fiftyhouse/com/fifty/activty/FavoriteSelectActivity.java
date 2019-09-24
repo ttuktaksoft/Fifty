@@ -123,7 +123,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 {
                     if(mFavoriteSelectList.size() < CommonData.ClubFavoriteSelectMinCount)
                     {
-                        DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.CLUB_FAVORITE_SELECT_LACK));
+                        DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FAVORITE_SELECT_LACK_1));
                         return;
                     }
                 }
@@ -131,7 +131,7 @@ public class FavoriteSelectActivity extends AppCompatActivity {
                 {
                     if(mFavoriteSelectList.size() < CommonData.FavoriteSelectMinCount)
                     {
-                        DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_LACK));
+                        DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FAVORITE_SELECT_LACK_3));
                         return;
                     }
                 }
@@ -244,11 +244,11 @@ public class FavoriteSelectActivity extends AppCompatActivity {
     public void FavoriteSearch()
     {
         if (CommonFunc.getInstance().CheckStringNull(et_FavoriteSelect_Search.getText().toString())) {
-            DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_SELECT_SEARCH_EMPTY));
+            DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FAVORITE_SEARCH_EMPTY));
         }
         else if(et_FavoriteSelect_Search.getText().length() < CommonData.FavoriteNameMinSize)
         {
-            DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.FAVORITE_LEAK));
+            DialogFunc.getInstance().ShowMsgPopup(FavoriteSelectActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FAVORITE_NAME_LEAK));
         }else {
             String favorite = et_FavoriteSelect_Search.getText().toString();
             mFavoriteSelectList.put(favorite, favorite);

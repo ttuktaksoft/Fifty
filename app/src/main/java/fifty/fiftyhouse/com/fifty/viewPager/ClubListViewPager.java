@@ -151,7 +151,7 @@ public class ClubListViewPager extends Fragment {
         if(mType == CLUB_LIST_RECOMMEND)
         {
             fa_Club_Favorite.show();
-            tv_Club_Empty.setText(R.string.MSG_RECOM_CLUB_EMPTY);
+            tv_Club_Empty.setText(R.string.MSG_CLUB_RECOM_EMPTY);
         }
         else
         {

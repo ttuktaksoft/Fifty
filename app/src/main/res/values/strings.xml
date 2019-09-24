@@ -1,9 +1,19 @@
 <resources>
     <string name="kakao_app_key">1b60de11093611242971d0ca7d7b2198</string>
     <string name="app_name">FIFTY</string>
+
+    <!-- 단어 -->
+    <string name="MSG_APP_EXIT">피프티를 종료하시겠습니까?</string>
+    <string name="MSG_EXIT">종료</string>
+    <string name="MSG_TERMS_1">서비스 이용약관</string>
+    <string name="MSG_TERMS_2">개인정보 취급방침</string>
+    <string name="MSG_TERMS_3">환불 약관</string>
+    <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
+    <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>
+    <string name="MSG_TERMS_REFUND">https://docs.google.com/document/d/1QhO_XuAqM69cdR7MrHvfo5iSY0YRkOQT</string>
+    <string name="MSG_PROFILE_ETC">피프티하우스 주식회사 | 대표 : 김규영\n사업자등록번호 : 573-87-01420\n통신판매업 2019-부산수영-0362\n부산광역시 수영구 수영로 679번길 15, 2층\n고객센터 : 051-781-9985, fiftyhouse2019@gmail.com</string>
     <string name="MSG_OK">확인</string>
     <string name="MSG_CANCEL">취소</string>
-    <string name="MSG_NOTICE">알림</string>
     <string name="MSG_BUY">구매</string>
     <string name="MSG_SAVE">저장</string>
     <string name="MSG_EVENT">이벤트</string>
@@ -18,30 +28,72 @@
     <string name="MSG_FAVORITE">관심사</string>
     <string name="MSG_ACCOUNT">계정</string>
     <string name="MSG_REPORT">신고</string>
-    <string name="MSG_FAVORITE_RECOMMEND">관심사 추천</string>
-    <string name="MSG_FAVORITE_PLUS">관심사 추가 + </string>
     <string name="MSG_VIEW">보기</string>
     <string name="MSG_LIKE">좋아요</string>
     <string name="MSG_VISITER">방문자</string>
     <string name="MSG_FRIEND">친구</string>
     <string name="MSG_DISTANCE">거리</string>
     <string name="MSG_AGE_END">세</string>
-    <string name="DEFAULT_DISTANCE">km</string>
-    <string name="MSG_CLUB_CREATE">클럽 만들기</string>
-    <string name="MSG_CLUB_RECOM">클럽 추천</string>
-    <string name="MSG_MY_CLUB">내 클럽</string>
-    <string name="MSG_RECOM_CLUB">추천</string>
-    <string name="MSG_REQUEST_JOIN_CLUB">승인 대기중</string>
-    <string name="MSG_CLUB_WRITE">등록하기</string>
-    <string name="MSG_CLUB_WRITE_EDIT">수정하기</string>
+    <string name="MSG_RECOMMEND">추천</string>
+    <string name="MSG_TRY_REGISTER">등록하기</string>
+    <string name="MSG_WAIT_APPROVAL">승인 대기중</string>
+    <string name="MSG_TRY_EDIT">수정하기</string>
+    <string name="MSG_TRY_DEL">삭제하기</string>
+    <string name="MSG_VIEW_PROFILE">프로필 확인</string>
+    <string name="MSG_SAVE_PIC">사진을 저장하시겠습니까?</string>
+    <string name="MSG_SAVE_VIDEO">동영상을 저장하시겠습니까?</string>
+    <string name="MSG_SAVE_PIC_SUCCESS">사진이 저장되었습니다</string>
+    <string name="MSG_SAVE_VIDEO_SUCCESS">동영상이 저장되었습니다</string>
+    <string name="MSG_DESC_EMPTY">내용이 없습니다</string>
+    <string name="MSG_OVERLAP_CHECK">중복체크</string>
+    <string name="MSG_REPORT_REASON">신고사유</string>
+    <string name="MSG_TRY_REPORT">신고하기</string>
+    <string name="MSG_TRY_BLOCK">차단하기</string>
+    <string name="MSG_BLOCK_COMPLETE">차단이 완료 되었습니다</string>
+    <string name="MSG_TRY_PHOTO_DEL">사진 삭제</string>
+    <string name="MSG_TRY_PHOTO_ADD">사진 등록</string>
+    <string name="MSG_PHOTO_SELECT">사진 선택</string>
+    <string name="MSG_PHOTO">사진</string>
+    <string name="MSG_VIDEO">동영상</string>
+    <string name="MSG_NOTICE_EMPTY">알람이 없습니다.</string>
+    <string name="MSG_MAIN_USER_TODAY_DESC">좋아하는 유저</string>
+    <string name="MSG_MY_PROFILE_CLICK">본인 프로필 입니다</string>
+    <string name="MSG_RETRY">다시 시도해 주세요</string>
+    <string name="MSG_FRIEND_ADD">친구추가</string>
+    <string name="MSG_FRIEND_REMOVE">친구삭제</string>
+    <string name="MSG_LOGIN">로그인</string>
+    <string name="MSG_TRY_CHAT">대화하기</string>
+    <string name="MSG_NIKCNMAE">닉네임</string>
+    <string name="MSG_LOCATION">지역</string>
+    <string name="MSG_CLUB">클럽</string>
+    <string name="MSG_ETC">기타</string>
+
     <string name="MSG_MOVE_SHOP">FIP구매하기</string>
     <string name="MSG_SHOP">FIP구매하기</string>
-    <string name="MSG_VIEW_PROFILE">프로필 확인</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_LIKE">FIP를 구매하고 나를 좋아요한 소중한 사람이 누군지 확인해보세요.</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_VISIT">FIP를 구매하고 내 프로필을 방문한 소중한 사람이 누군지 확인해보세요.</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST">FIP를 구매하고 나를 친구로 추가한 소중한 사람이 누군지 확인해보세요.</string>
+    <string name="USER_LIST_VIP_SHOP_DESC_NOTICE">알람내용을 볼려면\n아이템을 구매해주세요</string>
+
+
+
+    <string name="MSG_FAVORITE_RECOMMEND">관심사 추천</string>
+    <string name="MSG_FAVORITE_PLUS">관심사 추가 + </string>
+    <string name="MSG_FAVORITE_NAME_LEAK">관심사가 너무 짧습니다</string>
+    <string name="MSG_FAVORITE_IMPUT_EMPTY">관심사를 입력해주세요</string>
+    <string name="MSG_FAVORITE_FIND_EMPTY">해당 관심사를 가진 유져가 없습니다</string>
+    <string name="MSG_FAVORITE_SELECT_LACK_1">한가지 이상 관심사를 선택해주세요</string>
+    <string name="MSG_FAVORITE_SELECT_LACK_3">세가지 이상 관심사를 선택해주세요</string>
+    <string name="MSG_FAVORITE_SEARCH_EMPTY">검색할 관심사를 적어주세요</string>
+    <string name="MSG_FAVORITE_SELECT_EMPTY">나의 관심사를 입력해서\n더 많은 친구를 만나보세요</string>
+    <string name="MSG_FAVORITE_FIND_HINT">관심사를 검색해주세요 (2~10자)</string>
+    <string name="MSG_FAVORITE_SELECT">선택한 관심사</string>
+
     <string name="MSG_CLUB_JOIN_OK">가입 승인</string>
     <string name="MSG_CLUB_JOIN_CENCEL">가입 거절</string>
     <string name="MSG_CLUB_JOIN_REQUEST">가입 신청</string>
     <string name="MSG_CLUB_JOIN_CHAT">단체 채팅방</string>
-    <string name="MSG_CLUB_MAIN_WRITE">글쓰기</string>
+    <string name="MSG_CLUB_WRITE">글쓰기</string>
     <string name="MSG_CLUB_JOIN_REQUEST_CANCEL">가입 신청 취소</string>
     <string name="MSG_CLUB_JOIN_REQUEST_DESC">클럽 가입 신청을 하시겠습니까?</string>
     <string name="MSG_CLUB_JOIN_REQUEST_CANCEL_DESC">클럽 가입 신청을 취소하시겠습니까?</string>
@@ -54,17 +106,116 @@
     <string name="MSG_CLUB_WITHDRAWAL_DESC">클럽을 탈퇴 하시겠습니까?</string>
     <string name="MSG_CLUB_BODY_REPORT_LIST_EMPTY">신고당한 내용이 없습니다</string>
     <string name="MSG_CLUB_BODY_REPORT_DEL_DESC">신고당한 게시물을 삭제 하시겠습니까?</string>
-    <string name="MSG_CLUB_BODY_REPORT_DEL">삭제하기</string>
     <string name="MSG_CLUB_DEPORT">추방하기</string>
-    <string name="MSG_DESC_EMPTY">내용이 없습니다</string>
     <string name="MSG_CLUB_EMPTY">클럽이 없습니다</string>
-    <string name="MSG_RECOM_CLUB_EMPTY">추천 클럽이 없습니다</string>
+    <string name="MSG_CLUB_RECOM_EMPTY">추천 클럽이 없습니다</string>
     <string name="MSG_CLUB_FAVORITE_PLUS">더보기</string>
     <string name="MSG_CLUB_BODY_REPORT">게시글을 신고 하였습니다</string>
-    <string name="MSG_SAVE_PIC">사진을 저장하시겠습니까?</string>
-    <string name="MSG_SAVE_VIDEO">동영상을 저장하시겠습니까?</string>
-    <string name="MSG_SAVE_PIC_SUCCESS">사진이 저장되었습니다</string>
-    <string name="MSG_SAVE_VIDEO_SUCCESS">동영상이 저장되었습니다</string>
+    <string name="MSG_CLUB_NAME_LEAK">클럽이름이 너무 짧습니다</string>
+    <string name="MSG_CLUB_SEARCH_EMPTY">검색할 클럽을 적어주세요</string>
+    <string name="MSG_CLUB_SEARCH_RESULT_EMPTY">해당 클럽이 없습니다\n클럽을 생성 하시겠습니까?</string>
+    <string name="MSG_CLUB_INFO_DESC">클럽 소개</string>
+    <string name="MSG_CLUB_INFO_HINT">클럽 소개를 입력해주세요</string>
+    <string name="MSG_CLUB_JOIN_TYPE">클럽 가입</string>
+    <string name="MSG_CLUB_JOIN_COUNT">최대 클럽 인원</string>
+    <string name="MSG_CLUB_JOIN_TYPE_FREE">자유가입</string>
+    <string name="MSG_CLUB_JOIN_TYPE_APPROVAL">가입승인</string>
+    <string name="MSG_CLUB_OPEN_DAY">개설일</string>
+    <string name="MSG_CLUB_SEARCH">클럽 검색</string>
+    <string name="MSG_CLUB_CREATE_NAME_HINT">클럽 이름을 입력해주세요</string>
+    <string name="MSG_CLUB_CREATE_OK">클럽 만들기</string>
+    <string name="MSG_CLUB_CREATE_EDIT">수정 완료</string>
+    <string name="MSG_CLUB_CREATE_NAME_EMPTY">클럽 이름을 입력해주세요</string>
+    <string name="MSG_CLUB_CREATE_NAME_PROFILE">클럽 사진을 등록해주세요</string>
+    <string name="MSG_CLUB_WRITE_HINT">내용을 입력해주세요</string>
+    <string name="MSG_CLUB_REPLY_HINT">내용을 입력해주세요</string>
+
+    <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
+    <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>
+    <string name="PASSWORD_LEAK">비밀번호는 8~10자로 입력해주세요</string>
+    <string name="NICKNAME_HINT">닉네임을 입력하세요 (2~10자)</string>
+    <string name="NICKNAME_CHECK_YES">사용가능한 닉네임 입니다</string>
+    <string name="NICKNAME_CHECK_NO">중복체크를 해주세요</string>
+    <string name="NICKNAME_EMPTY">닉네임을 입력해주세요</string>
+    <string name="NICKNAME_FIND_EMPTY">검색하신 닉네임 친구가 없습니다</string>
+    <string name="NICKNAME_LEAK">닉네임이 너무 짧습니다</string>
+    <string name="NICKNAME_CHECK_ASK">닉네임 중복체크를 해주세요</string>
+    <string name="NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
+    <string name="NICKNAME_CHECK_FAIL">중복된 닉네임입니다</string>
+    <string name="SETTING_ACCOUNT_DESC">계정을 등록하시면 데이터를 동기화 할 수 있습니다</string>
+    <string name="SETTING_ACCOUNT_EMAIL_HINT">이메일을 입력해주세요</string>
+    <string name="SETTING_ACCOUNT_PASSWORD_HINT">비밀번호를 입력해주세요</string>
+
+    <string name="MSG_MAIN_TAB_DISTANCE">근처</string>
+    <string name="MSG_MAIN_TAB_NEW_MEMBER">신입</string>
+    <string name="MSG_MAIN_TAB_TODAY_MEMBER">추천</string>
+    <string name="MSG_MAIN_TAB_MY_FRIEND">친구</string>
+    <string name="MSG_MAIN_TAB_CHAT_BOOKMARK">즐겨찾기</string>
+    <string name="MSG_MAIN_TAB_CHAT_DEFAULT">일반</string>
+    <string name="MSG_MAIN_TAB_CLUB_RECOMMEND">클럽</string>
+    <string name="MSG_MAIN_TAB_CLUB_MY">내 클럽</string>
+    <string name="MSG_TAB_FRIEND_MY">내가 추가한 친구</string>
+    <string name="MSG_TAB_FRIEND_REQUEST">나를 추가한 친구</string>
+    <string name="MSG_MAIN_TAB_TODAY_MEMBER_DESC">다양한 친구를 만나보세요</string>
+    <string name="MSG_MAIN_TAB_MY_FRIEND_DESC">방금 가입한 친구를 만나보세요</string>
+
+
+    <string name="MSG_USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
+    <string name="MSG_USER_LIKE">님을 좋아합니다</string>
+    <string name="MSG_USER_UNLIKE">좋아요를 해제했습니다</string>
+    <string name="MSG_ASK_FRIND_ADD">친구 추가를 하시겠습니까?</string>
+    <string name="MSG_ASK_FRIND_REMOVE">친구 삭제를 하시겠습니까?</string>
+    <string name="MSG_ASK_FRIND_REGIST">님을 친구로 등록하였습니다</string>
+    <string name="MSG_ASK_FRIND_REMOVE_SUCCESS">님을 친구 목록에서 삭제하였습니다</string>
+    <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_CLUB">클럽 유저 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY">유저 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_CLUB_JOIN_WAIT">클럽 가입 대기 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_FRIEND_REQUEST">나를 추가한 친구가 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_CLUB_CHAT">클럽 채팅 유저 목록이 없습니다</string>
+    <string name="MSG_USER_SEARCH_TITLE">친구 찾기</string>
+    <string name="MSG_USER_NINAME_INPUT_HINT">닉네임을 입력해주세요 (2~10자)</string>
+    <string name="MSG_USER_NICKNAME_EDIT">닉네임 변경</string>
+    <string name="MSG_USER_STORE_EDIT">자기소개 변경</string>
+    <string name="MSG_USER_STORE_EDIT_HINT">나의 소개를 입력해서\n더 많은 친구를 만나보세요</string>
+    <string name="MSG_UESR_LOCATION_EDIT">지역 변경</string>
+    <string name="MSG_UESR_LOCATION_EDIT_HINT">나의 주 활동지를 입력해서\n더 많은 친구를 만나보세요</string>
+    <string name="MSG_USER_PROFILE_PHOTO_EDIT_DESC">수정된 사진은 프로필 화면에 반영됩니다.</string>
+
+    <string name="MSG_LOGIN_DESC_1">FIFTY의 멤버가 되어보세요</string>
+    <string name="MSG_LOGIN_DESC_2">기존 멤버는 아래 버튼을 눌러주세요</string>
+    <string name="MSG_SIGN_UP_AGE_CUT">50세 미만은 가입이 불가능 합니다</string>
+    <string name="MSG_SIGN_UP_COMPLETE">FIFTY의 멤버가 되신 것을 환영합니다\nFIFTY에서 새로운 친구를 사귀고\n다양한 커뮤니티 활동을 해보세요</string>
+
+
+
+
+    <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
+    <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>
+    <string name="MSG_SORT_TYPE_AGE">나이</string>
+    <string name="MSG_SORT_TYPE_AGE_ALL">전체</string>
+    <string name="MSG_SORT_TYPE_GENDER">성별</string>
+    <string name="MSG_SORT_TYPE_GENDER_ALL">모두</string>
+    <string name="MSG_SORT_TYPE_GENDER_WOMAN">여자</string>
+    <string name="MSG_SORT_TYPE_GENDER_MAN">남자</string>
+    <string name="MSG_SORT_TYPE_ONLINE">접속 시간</string>
+    <string name="MSG_SORT_TYPE_ONLINE_1">접속중</string>
+    <string name="MSG_SORT_TYPE_ONLINE_2">1일 이내</string>
+    <string name="MSG_SORT_TYPE_ONLINE_3">3일 이상</string>
+
+
+    <string name="MSG_PERMISSION_REQUEST">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
+    <string name="MSG_PERMISSION_CAMERA">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
+    <string name="DEFAULT_DISTANCE">km</string>
+    <string name="PROFILE_EMPTY">사진을 등록해주세요</string>
+    <string name="MSG_DEFAULT_LOCATION_MEMO_1">안녕하세요 </string>
+    <string name="MSG_DEFAULT_LOCATION_MEMO_2">입니다</string>
+    <string name="MSG_ME_CONFIRM">본인인증</string>
+    <string name="MSG_ME_CONFIRM_DESC">개인 정보 확인을 위해\n본인인증을 진행해주세요</string>
+
 
     <string name="TITLE_SIGNUP">회원가입</string>
     <string name="TITLE_NICKNAME_EDIT">닉네임 수정</string>
@@ -72,6 +223,7 @@
     <string name="TITLE_MEMO_EDIT">자기소개 수정</string>
     <string name="TITLE_LOCATION_EDIT">지역 수정</string>
     <string name="TITLE_MEMO">자기소개</string>
+    <string name="TITLE_CHAT_LIST">채팅목록</string>
     <string name="TITLE_USER_LIST_VISIT">방문자 목록</string>
     <string name="TITLE_USER_LIST_LIKE">좋아요 목록</string>
     <string name="TITLE_USER_LIST_FRIEND">친구 목록</string>
@@ -92,156 +244,6 @@
     <string name="TITLE_CLUB_SELECT_FAVORITE">관련 클럽</string>
     <string name="TITLE_CLUB_BODY">내용</string>
     <string name="TITLE_CLUB_BODY_REPORT">신고당한 내용</string>
-    <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
-    <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>
-    <string name="PASSWORD_LEAK">비밀번호는 8~10자로 입력해주세요</string>
-
-    <string name="NICKNAME_HINT">닉네임을 입력하세요 (2~10자)</string>
-    <string name="NICKNAME_CHECK">중복체크</string>
-    <string name="NICKNAME_CHECK_YES">사용가능한 닉네임 입니다</string>
-    <string name="NICKNAME_CHECK_NO">중복체크를 해주세요</string>
-    <string name="NICKNAME_EMPTY">닉네임을 입력해주세요</string>
-    <string name="NICKNAME_FIND_EMPTY">해당 유져가 없습니다</string>
-    <string name="NICKNAME_LEAK">닉네임이 너무 짧습니다</string>
-    <string name="NICKNAME_CHECK_ASK">닉네임 중복체크를 해주세요</string>
-    <string name="NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
-    <string name="NICKNAME_CHECK_FAIL">중복된 닉네임입니다</string>
-    <string name="CLUB_LEAK">클럽이름이 너무 짧습니다</string>
-    <string name="FAVORITE_LEAK">관심사가 너무 짧습니다</string>
-    <string name="FAVORITE_EMPTY">관심사를 입력해주세요</string>
-    <string name="FAVORITE_FIND_EMPTY">해당 관심사를 가진 유져가 없습니다</string>
-    <string name="PROFILE_EMPTY">사진을 등록해주세요</string>
-    <string name="SETTING_ACCOUNT_DESC">계정을 등록하시면 데이터를 동기화 할 수 있습니다</string>
-    <string name="SETTING_ACCOUNT_EMAIL_HINT">이메일을 입력해주세요</string>
-    <string name="SETTING_ACCOUNT_PASSWORD_HINT">비밀번호를 입력해주세요</string>
-    <string name="CLUB_FAVORITE_SELECT_LACK">한가지 이상 관심사를 선택해주세요</string>
-    <string name="FAVORITE_SELECT_LACK">세가지 이상 관심사를 선택해주세요</string>
-    <string name="FAVORITE_SELECT_SEARCH_EMPTY">검색할 관심사를 적어주세요</string>
-    <string name="FAVORITE_SELECT_EMPTY">나의 관심사를 입력해서\n더 많은 친구를 만나보세요</string>
-    <string name="CLUB_SEARCH_EDIT_EMPTY">검색할 클럽을 적어주세요</string>
-    <string name="CLUB_SEARCH_EMPTY">해당 클럽이 없습니다\n클럽을 생성 하시겠습니까?</string>
-    <string name="USER_REPORT_DESC">신고사유</string>
-    <string name="USER_REPORT_DESC_HINT">신고사유를 작성해주세요</string>
-    <string name="MSG_SORT_MAIN">근처:</string>
-    <string name="MSG_SORT_DISTANCE">근처</string>
-    <string name="MSG_SORT_NEW_MEMBER">신입</string>
-    <string name="MSG_SORT_TODAY_MEMBER">추천</string>
-    <string name="MSG_SORT_MY_FRIEND">친구</string>
-    <string name="MSG_SORT_FAVORITE">관심사정렬</string>
-    <string name="MSG_REPORT_MENU_REPORT">신고하기</string>
-    <string name="MSG_REPORT_MENU_BLOCK">차단하기</string>
-    <string name="MSG_BLOCK_COMPLETE">차단이 완료 되었습니다</string>
-    <string name="MSG_PROFILE_PHOTO_CAMERA_ADD">사진을 촬영하여 등록</string>
-    <string name="MSG_PROFILE_PHOTO_GALLERY_ADD">사진을 앨범에서 등록</string>
-    <string name="MSG_PROFILE_PHOTO_DEL">사진 삭제</string>
-    <string name="MSG_PROFILE_PHOTO_ADD">사진 등록</string>
-    <string name="MSG_PHOTO_SELECT">사진 선택</string>
-    <string name="MSG_VIDEO_SELECT">동영상 선택</string>
-    <string name="MSG_DEFAULT_LOCATION">FIFTY에서 활동중 입니다.</string>
-    <string name="MSG_DEFAULT_LOCATION_MEMO_1">안녕하세요 </string>
-    <string name="MSG_DEFAULT_LOCATION_MEMO_2">입니다</string>
-    <string name="MSG_USER_LIKE">님을 좋아합니다</string>
-    <string name="MSG_USER_UNLIKE">좋아요를 해제했습니다</string>
-    <string name="MSG_ASK_FRIND_ADD">친구 추가를 하시겠습니까?</string>
-    <string name="MSG_ASK_FRIND_REMOVE">친구 삭제를 하시겠습니까?</string>
-    <string name="MSG_ASK_FRIND_REGIST">님을 친구로 등록하였습니다</string>
-    <string name="MSG_ASK_FRIND_REMOVE_SUCCESS">님을 친구 목록에서 삭제하였습니다</string>
-    <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
-    <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY_CLUB">클럽 유저 목록이 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY">유저 목록이 없습니다</string>
-    <string name="MSG_NOTICE_EMPTY">알람이 없습니다.</string>
-    <string name="MSG_USER_LIST_EMPTY_CLUB_JOIN_WAIT">클럽 가입 대기 목록이 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY_FRIEND_REQUEST">나를 추가한 친구가 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY_CLUB_CHAT">클럽 채팅 유저 목록이 없습니다</string>
-    <string name="MSG_APP_EXIT">피프티를 종료하시겠습니까?</string>
-    <string name="MSG_EXIT">종료</string>
-    <string name="MSG_TERMS_1">서비스 이용약관</string>
-    <string name="MSG_TERMS_2">개인정보 취급방침</string>
-    <string name="MSG_TERMS_3">환불 약관</string>
-    <string name="MSG_ME_CONFIRM">본인인증</string>
-    <string name="MSG_ME_CONFIRM_DESC">개인 정보 확인을 위해\n본인인증을 진행해주세요</string>
-    <string name="MSG_FRIEND_MY">내가 추가한 친구</string>
-    <string name="MSG_FRIEND_REQUEST">나를 추가한 친구</string>
-    <string name="MSG_CLUB_MSG_DEL">삭제하기</string>
-    <string name="MSG_CLUB_MSG_CHANGE">수정하기</string>
-    <string name="MSG_CLUB_MSG_REPORT">신고하기</string>
-    <string name="MSG_CLUB_REPLY_CHANGE">수정하기</string>
-    <string name="MSG_CLUB_REPLY_DELETE">삭제하기</string>
-    <string name="MSG_CHAT_LIST_BOOKMARK">즐겨찾기</string>
-    <string name="MSG_CHAT_LIST_DEFAULT">일반</string>
-    <string name="MSG_CLUB_LIST_RECOMMEND">클럽</string>
-    <string name="MSG_CLUB_LIST_MY">내 클럽</string>
-    <string name="MSG_CHAT_FONT_SIZE_DESC">글씨 크기 변경</string>
-    <string name="MSG_CHAT_FONT_SIZE_SMALL">작게</string>
-    <string name="MSG_CHAT_FONT_SIZE_DEFAULT">보통</string>
-    <string name="MSG_CHAT_FONT_SIZE_BIG">크게</string>
-    <string name="MSG_CLUB_INFO_DESC">클럽 소개</string>
-    <string name="MSG_CLUB_INFO_HINT">클럽 소개를 입력해주세요</string>
-    <string name="MSG_CLUB_USER_COUNT_HINT">클럽 인원을 설정해주세요 (2 ~ 100)</string>
-    <string name="MSG_CLUB_JOIN_TYPE">클럽 가입</string>
-    <string name="MSG_CLUB_JOIN_COUNT">최대 클럽 인원</string>
-    <string name="MSG_CLUB_JOIN_TYPE_FREE">자유가입</string>
-    <string name="MSG_CLUB_JOIN_TYPE_APPROVAL">가입승인</string>
-    <string name="MSG_CLUB_OPEN_DAY">개설일</string>
-    <string name="MSG_USER_SEARCH_TITLE">유저 찾기</string>
-    <string name="MSG_USER_SEARCH_HINT">닉네임을 입력해주세요 (2~10자)</string>
-    <string name="MSG_CLUB_SEARCH">클럽 검색</string>
-    <string name="MSG_MENU_PHOTO">사진</string>
-    <string name="MSG_MENU_VIDEO">동영상</string>
-
-    <string name="MSG_SORT_TYPE_DISTANCE">나와의 거리</string>
-    <string name="MSG_SORT_TYPE_DISTANCE_ALL">전체</string>
-    <string name="MSG_SORT_TYPE_AGE">나이</string>
-    <string name="MSG_SORT_TYPE_AGE_ALL">전체</string>
-    <string name="MSG_SORT_TYPE_GENDER">성별</string>
-    <string name="MSG_SORT_TYPE_GENDER_ALL">모두</string>
-    <string name="MSG_SORT_TYPE_GENDER_WOMAN">여자</string>
-    <string name="MSG_SORT_TYPE_GENDER_MAN">남자</string>
-    <string name="MSG_SORT_TYPE_ONLINE">접속 시간</string>
-    <string name="MSG_SORT_TYPE_ONLINE_1">접속중</string>
-    <string name="MSG_SORT_TYPE_ONLINE_2">1일 이내</string>
-    <string name="MSG_SORT_TYPE_ONLINE_3">3일 이상</string>
-
-    <string name="CREATE_CLUB_NAME_HINT">클럽 이름을 입력해주세요</string>
-    <string name="CREATE_CLUB_DESC">클럽이름과 사진은 개설 후에도 변경할 수 있어요</string>
-    <string name="CREATE_CLUB_OK">클럽 만들기</string>
-    <string name="CREATE_CLUB_EDIT">수정 완료</string>
-    <string name="CREATE_CLUB_VIP">VIP 타입</string>
-    <string name="CREATE_CLUB_NAME_EMPTY">클럽 이름을 입력해주세요</string>
-    <string name="CREATE_CLUB_NAME_PROFILE">클럽 사진을 등록해주세요</string>
-
-    <string name="CLUB_WRITE_HINT">내용을 입력해주세요</string>
-    <string name="CLUB_BODY_REPLY_HINT">내용을 입력해주세요</string>
-    <string name="USER_LIST_VIP_SHOP_DESC_LIKE">FIP를 구매하고 나를 좋아요한 소중한 사람이 누군지 확인해보세요.</string>
-    <string name="USER_LIST_VIP_SHOP_DESC_VISIT">FIP를 구매하고 내 프로필을 방문한 소중한 사람이 누군지 확인해보세요.</string>
-    <string name="USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST">FIP를 구매하고 나를 친구로 추가한 소중한 사람이 누군지 확인해보세요.</string>
-    <string name="USER_LIST_VIP_SHOP_DESC_NOTICE">알람내용을 볼려면\n아이템을 구매해주세요</string>
-
-    <string name="MSG_MAIN_USER_TODAY_DESC">좋아하는 유저</string>
-    <string name="MSG_CLUB_USER_LIST_TITLE">클럽 회원목록</string>
-    <string name="MSG_MY_PROFILE_CLICK">본인 프로필 입니다</string>
-
-    <string name="MSG_TERMS_SERVICE">https://docs.google.com/document/d/1KcYNq9Bf1ifbEiEVxWjFN6_QvtpqRlIq</string>
-    <string name="MSG_TERMS_PRIVACY">https://docs.google.com/document/d/1Ss9Hg1J0g7PPQ2jj5fO1-pG9nNc7pYU2</string>
-    <string name="MSG_TERMS_REFUND">https://docs.google.com/document/d/1QhO_XuAqM69cdR7MrHvfo5iSY0YRkOQT</string>
-
-
-    <string name="MSG_PROFILE_ETC">피프티하우스 주식회사 | 대표 : 김규영\n사업자등록번호 : 573-87-01420\n통신판매업 2019-부산수영-0362\n부산광역시 수영구 수영로 679번길 15, 2층\n고객센터 : 051-781-9985, fiftyhouse2019@gmail.com</string>
-    <string name="MSG_RETRY">다시 시도해 주세요</string>
-
-    <string name="FRIEND_ADD">친구추가</string>
-    <string name="FRIEND_REMOVE">친구삭제</string>
-
-    <string name="tv_Login_kakao">FIFTY의 멤버가 되어보세요</string>
-    <string name="tv_Login_nickname">기존 멤버는 아래 버튼을 눌러주세요</string>
-    <string name="tv_Login">로그인</string>
-    <string name="tv_Login_Popup_Desc">로그인</string>
-
-
-    <string name="tv_Auth_Age">50세 미만은 가입이 불가능 합니다</string>
 
     <!-- android-image-cropper 용-->
     <string name="crop_image_menu_rotate_left">반시계 회전</string>
@@ -253,101 +255,4 @@
     <string name="pick_image_intent_chooser_title">이미지 선택</string>
     <string name="crop_image_activity_no_permissions">필수 권한이 없어서 취소합니다.</string>
 
-
-    <string name="tv_SignUp_Comment">사용하고 싶은 닉네임 입력</string>
-    <string name="tv_SignUp_Comment_Desc">FIFTY에서 사용하고 싶은 본인의 개성이 \n잘드러나는 대화명을 지정해주세요</string>
-    <string name="tv_SignUp_CheckNickName">중복검색</string>
-    <string name="et_SignUp_NickName">닉네임을 입력하세요</string>
-    <string name="tv_SignUp_Next">다음</string>
-    <string name="tv_SignUp_Birth_Comment">당신은..</string>
-    <string name="tv_SignUp_Birth_Birth">출생년도</string>
-    <string name="tv_SignUp_Birth_Next">다음</string>
-    <string name="tv_SignUp_Favorite_Comment">당신의 관심사는..</string>
-    <string name="tv_SignUp_Favorite_Comment_Desc">당신에게 꼭 알맞은 친구를 찾을 수 있게 관심사를\n등록해주세요</string>
-    <string name="tv_SignUp_Favorite_Next">다음</string>
-    <string name="et_SignUp_Favorite_Detail_Search">관심사를 검색해주세요 (2~10자)</string>
-    <string name="tv_SignUp_Favorite_Detail_Recom">다른관심사 추천</string>
-    <string name="tv_SignUp_Favorite_Detail_Next">다음</string>
-    <string name="et_SignUp_Favorite_Detail_REGIST">두 가지 관심사를 등록해주세요</string>
-    <string name="et_Favorite_Edit_Search">관심사를 검색해주세요</string>
-    <string name="tv_Favorite_Edit_Recom">다른관심사 추천</string>
-    <string name="tv_Favorite_Edit_Save">저장</string>
-    <string name="tv_UserProfile_BottomBar_Like">좋아요</string>
-    <string name="tv_UserProfile_BottomBar_Chat">대화하기</string>
-    <string name="tv_UserProfile_BottomBar_Friend">친구추가</string>
-    <string name="tv_Chat_Title">채팅목록</string>
-
-
-    <string name="tv_SignUp_Profile_Comment">프로필사진</string>
-    <string name="tv_SignUp_Profile_Comment_Desc">자신을 표현 할 수 있는 사진을 선택해주세요</string>
-    <string name="tv_SignUp_Profile_Upload_Fail">사진을 등록해주세요</string>
-    <string name="tv_SignUp_Profile_Next">다음</string>
-    <string name="tv_SignUp_Com_Popup_Desc">FIFTY의 멤버가 되신 것을 환영합니다\nFIFTY에서 새로운 친구를 사귀고\n다양한 커뮤니티 활동을 해보세요</string>
-    <string name="tv_UserProfile_Info_Photo">사진</string>
-    <string name="tv_UserProfile_Info_Club">클럽</string>
-    <string name="tv_UserProfile_Info_Menu">기타</string>
-    <string name="tv_UserProfile_Info_Favorite">관심사</string>
-    <string name="tv_MyProfile_Info_Photo">사진</string>
-    <string name="tv_MyProfile_Info_Club">클럽</string>
-    <string name="tv_MyProfile_Info_Favorite_Title">관심사</string>
-
-
-    <string name="tv_MyProfile_Edit_Profile_Desc">수정된 사진은 프로필 화면에 반영됩니다.</string>
-    <string name="tv_MyProfile_Edit_Title">프로필 수정</string>
-    <string name="et_NickName_Edit_NickName">닉네임을 입력하세요 (2~10자)</string>
-    <string name="tv_NickName_Edit_Save">저장</string>
-    <string name="tv_NickName_Edit_Check">중복체크</string>
-    <string name="et_Store_Edit_NickName">나의 소개를 입력해서\n더 많은 친구를 만나보세요</string>
-    <string name="tv_Store_Edit_Save">저장</string>
-    <string name="tv_Location_Edit_Save">저장</string>
-    <string name="et_Location_Edit_Location">나의 주 활동지를 입력해서\n더 많은 친구를 만나보세요</string>
-
-
-    <string name="SIGN_UP_NICKNAME_EMPTY">닉네임을 입력해주세요</string>
-    <string name="SIGN_UP_NICKNAME_CHECK">닉네임 중복체크를 해주세요</string>
-    <string name="SIGN_UP_NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
-    <string name="SIGN_UP_NICKNAME_CHECK_FAIL">중복된 닉네임입니다</string>
-    <string name="SIGN_UP_GENDER_CHECK">성별을 선택해주세요</string>
-    <string name="MY_PROFILE_NIKCNMAE">닉네임</string>
-    <string name="MY_PROFILE_STORY">내소개</string>
-    <string name="MY_PROFILE_STORY_HINT">내용을 입력해주세요</string>
-    <string name="MY_PROFILE_AGE">나이</string>
-    <string name="MY_PROFILE_LOCATION">지역</string>
-    <string name="MY_PROFILE_LOCATION_HINT">자주가는 지역을 입력해보세요</string>
-    <string name="MY_PROFILE_FAVORITE">관심사</string>
-    <string name="NICKNAME_EDIT">닉네임 변경</string>
-
-    <string name="STORE_EDIT">자기소개 변경</string>
-    <string name="LOCATION_EDIT">지역 변경</string>
-    <string name="FAVORITE_EDIT">관심사 변경</string>
-    <string name="FAVORITE_SELECT">관심사 선택</string>
-    <string name="FAVORITE_SELECT_VIEW">선택한 관심사</string>
-    <string name="FAVORITE_SELECT_RECOM">관심사 추천</string>
-
-
-    <string name="bt_SignUp_Next">다음</string>
-    <string name="bt_SignUp_Back">뒤로</string>
-    <string name="bt_Main_Alarm">알림</string>
-    <string name="bt_Main_Refresh">새로고침</string>
-    <string name="bt_Main_Shop">아이템구매</string>
-    <string name="bt_Main_Distance">우리동네</string>
-    <string name="bt_Main_New">신입</string>
-    <string name="bt_Main_Today">관심사</string>
-    <string name="bt_Main_Friend">친구</string>
-    <string name="permission_request">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
-    <string name="permission_cammera">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
-    <string name="STR_ERROR">오류</string>
-    <string name="tv_Main_Sort_Title">근처</string>
-    <string name="bt_Main_Sort_Type_All">전체</string>
-    <string name="bt_Main_Sort_Type_Online">접속중</string>
-    <string name="i_main_bottom_main">메인</string>
-    <string name="i_main_bottom_club">모임</string>
-    <string name="i_main_bottom_chat">채팅</string>
-    <string name="i_main_bottom_profile">내프로필</string>
-    <string name="tv_Main_New_Desc">방금 가입한 친구를 만나보세요</string>
-    <string name="tv_Main_Today_Desc">다양한 친구를 만나보세요</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
