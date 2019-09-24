@@ -150,8 +150,9 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_Friend_view"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginRight="10dp"
                 app:lottie_fileName="friend.json"
                 app:lottie_loop="false"
                 app:lottie_autoPlay="false"

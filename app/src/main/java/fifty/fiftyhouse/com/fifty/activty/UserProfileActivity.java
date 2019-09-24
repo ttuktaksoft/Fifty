@@ -482,9 +482,10 @@ public class UserProfileActivity extends AppCompatActivity {
     {
         if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null){
 
-            animationView_Friend.setVisibility(View.INVISIBLE);
+            animationView_Friend.setVisibility(View.VISIBLE);
+            animationView_Friend.setFrame(10);
 
-            iv_UserProfile_BottomBar_Friend.setVisibility(View.VISIBLE);
+            iv_UserProfile_BottomBar_Friend.setVisibility(View.INVISIBLE);
             tv_UserProfile_BottomBar_Friend.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_FRIEND_ADD));
             Glide.with(mContext).load(R.drawable.ic_empty_star)
                     .into(iv_UserProfile_BottomBar_Friend);
@@ -500,6 +501,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     .into(iv_UserProfile_BottomBar_Friend);*/
 
             animationView_Friend.setVisibility(View.VISIBLE);
+            animationView_Friend.setMinFrame(10);
+            animationView_Friend.setMaxFrame(30);
             animationView_Friend.playAnimation();
 
             iv_UserProfile_BottomBar_Friend.setVisibility(View.INVISIBLE);
