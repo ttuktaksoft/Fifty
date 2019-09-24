@@ -125,10 +125,10 @@ class UserListListHolder extends RecyclerView.ViewHolder {
         {
             tv_User_List_Dis.setText("내 근처");
         }
-        else if(data.GetUserDist() > 1000 * 100)
+  /*      else if(data.GetUserDist() > 1000 * 100)
         {
             tv_User_List_Dis.setText("100" + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.DEFAULT_DISTANCE) + "이상");
-        }
+        }*/
         else
         {
             tv_User_List_Dis.setText((int)(data.GetUserDist()  / 1000) + CommonFunc.getInstance().getStr(mContext.getResources(),R.string.DEFAULT_DISTANCE));

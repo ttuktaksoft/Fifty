@@ -279,10 +279,10 @@ class MainUserAdapterHolder extends RecyclerView.ViewHolder{
             {
                 mUserDist = "내 근처";
             }
-            else if(tempData.GetUserDist() > 1000 * 100)
+           /* else if(tempData.GetUserDist() > 1000 * 100)
             {
                 mUserDist = "100km 이상";
-            }
+            }*/
             else
             {
                 mUserDist = (int)(tempData.GetUserDist()  / 1000) + "km";
