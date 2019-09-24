@@ -41,7 +41,7 @@ public class ClubActivity extends AppCompatActivity {
     ImageView iv_TopBar_Back;
 
     ImageView iv_Club_Thumbnail, iv_Club_Setting, iv_Club_Chat_BG, iv_Club_Write_BG, iv_Club_Chat, iv_Club_Write;
-    TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join, tv_Club_Introduce, tv_Club_OpenDay, tv_Club_Chat, tv_Club_Write;
+    TextView tv_Club_Name, tv_Club_UserCount, tv_Club_Join, tv_Club_Introduce, tv_Club_OpenDay;
     RecyclerView rv_Club_Content;
     RecyclerView rv_Club_Favorite;
     RecyclerView rv_Club_User;
@@ -82,8 +82,6 @@ public class ClubActivity extends AppCompatActivity {
         iv_Club_Setting = findViewById(R.id.iv_Club_Setting);
         tv_Club_Introduce = findViewById(R.id.tv_Club_Introduce);
         tv_Club_OpenDay = findViewById(R.id.tv_Club_OpenDay);
-        tv_Club_Chat = findViewById(R.id.tv_Club_Chat);
-        tv_Club_Write = findViewById(R.id.tv_Club_Write);
 
         tv_Club_Introduce.setText(TKManager.getInstance().TargetClubData.GetClubComment());
 
@@ -371,11 +369,9 @@ public class ClubActivity extends AppCompatActivity {
 
             iv_Club_Write.setVisibility(View.VISIBLE);
             iv_Club_Write_BG.setVisibility(View.VISIBLE);
-            tv_Club_Write.setVisibility(View.VISIBLE);
 
             iv_Club_Chat.setVisibility(View.VISIBLE);
             iv_Club_Chat_BG.setVisibility(View.VISIBLE);
-            tv_Club_Chat.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -387,11 +383,9 @@ public class ClubActivity extends AppCompatActivity {
 
                 iv_Club_Write.setVisibility(View.VISIBLE);
                 iv_Club_Write_BG.setVisibility(View.VISIBLE);
-                tv_Club_Write.setVisibility(View.VISIBLE);
 
                 iv_Club_Chat.setVisibility(View.VISIBLE);
                 iv_Club_Chat_BG.setVisibility(View.VISIBLE);
-                tv_Club_Chat.setVisibility(View.VISIBLE);
 
             }
             else
@@ -401,11 +395,9 @@ public class ClubActivity extends AppCompatActivity {
 
                 iv_Club_Write.setVisibility(View.GONE);
                 iv_Club_Write_BG.setVisibility(View.GONE);
-                tv_Club_Write.setVisibility(View.GONE);
 
                 iv_Club_Chat.setVisibility(View.GONE);
                 iv_Club_Chat_BG.setVisibility(View.GONE);
-                tv_Club_Chat.setVisibility(View.GONE);
             }
         }
     }

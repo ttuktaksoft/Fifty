@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_Club_Mini_User_Border"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Mini_User"
         app:layout_constraintRight_toRightOf="@+id/iv_Club_Mini_User"
         app:layout_constraintTop_toTopOf="@+id/iv_Club_Mini_User"
@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/iv_Club_Mini_User_Menu"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,8 +32,8 @@
 
     <ImageView
         android:id="@+id/iv_Club_Mini_User"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

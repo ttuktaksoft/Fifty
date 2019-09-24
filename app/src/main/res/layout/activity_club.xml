@@ -65,15 +65,29 @@
                         style="@style/BaseTextView"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginRight="90dp"
                         android:text="냥냥 클럽"
-                        android:gravity="center"
+                        android:gravity="left|center_vertical"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:maxLines="1"
+                        android:ellipsize="end"
                         android:textSize="@dimen/default_font_size_big_1"
                         app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
                         app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
                         app:layout_constraintTop_toTopOf="@+id/v_Club_Info" />
+
+                    <ImageView
+                        android:id="@+id/iv_Club_UserCount"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="10dp"
+                        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
+                        app:layout_constraintTop_toTopOf="@+id/rv_Club_User"
+                        app:layout_constraintBottom_toBottomOf="@+id/rv_Club_User"
+                        android:src="@drawable/ic_club"/>
 
                     <TextView
                         android:id="@+id/tv_Club_UserCount"
@@ -83,130 +97,89 @@
                         android:text="3"
                         android:gravity="center_vertical"
                         android:textColor="@color/str_color_1"
-                        android:layout_marginLeft="10dp"
-                        app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
+                        android:layout_marginLeft="5dp"
                         app:layout_constraintLeft_toRightOf="@+id/iv_Club_UserCount"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_Club_Name"
+                        app:layout_constraintTop_toTopOf="@+id/rv_Club_User"
+                        app:layout_constraintBottom_toBottomOf="@+id/rv_Club_User"
                         />
 
-                    <ImageView
-                        android:id="@+id/iv_Club_UserCount"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
-                        app:layout_constraintRight_toLeftOf="@+id/tv_Club_UserCount"
-                        app:layout_constraintTop_toTopOf="@+id/tv_Club_UserCount"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_Club_UserCount"
-                        android:src="@drawable/ic_club"/>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_Club_User"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="horizontal"
-                        app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
-                        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_Club_UserCount" />
 
                     <TextView
                         android:id="@+id/tv_Club_Join"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:visibility="gone"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="15dp"
                         style="@style/BaseContentTextView"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
                         app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_Club_User"
+                        app:layout_constraintTop_toTopOf="@+id/v_Club_Info"
+                        app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
                         android:text="@string/MSG_CLUB_JOIN_REQUEST"
                         android:gravity="center"
                         android:textColor="@color/button_enable_str"
                         android:textStyle="bold"
                         android:background="@color/button_enable"/>
 
+
+
                     <ImageView
                         android:id="@+id/iv_Club_Chat_BG"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        app:layout_constraintHorizontal_weight="6"
-                        app:layout_constraintLeft_toLeftOf="@+id/v_Club_Info"
-                        app:layout_constraintRight_toLeftOf="@+id/iv_Club_Write_BG"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_Club_User"
-                        android:background="@color/button_enable"/>
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:layout_constraintRight_toRightOf="@+id/iv_Club_Chat"
+                        app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Chat"
+                        app:layout_constraintTop_toTopOf="@+id/iv_Club_Chat"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Chat"
+                        android:src="@drawable/bg_white"
+                        android:tint="@color/button_enable"/>
 
                     <ImageView
                         android:id="@+id/iv_Club_Chat"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Chat_BG"
-                        app:layout_constraintRight_toLeftOf="@+id/tv_Club_Chat"
-                        app:layout_constraintTop_toTopOf="@+id/iv_Club_Chat_BG"
-                        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Chat_BG"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="20dp"
+                        app:layout_constraintRight_toLeftOf="@+id/iv_Club_Write"
+                        app:layout_constraintTop_toTopOf="@+id/v_Club_Info"
+                        app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
                         android:src="@drawable/ic_chat"
                         android:tint="@color/white"/>
 
-                    <TextView
-                        android:id="@+id/tv_Club_Chat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        style="@style/BaseContentTextView"
-                        android:layout_marginLeft="10dp"
-                        app:layout_constraintLeft_toRightOf="@+id/iv_Club_Chat"
-                        app:layout_constraintRight_toRightOf="@+id/iv_Club_Chat_BG"
-                        app:layout_constraintTop_toTopOf="@+id/iv_Club_Chat_BG"
-                        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Chat_BG"
-                        android:text="@string/MSG_CLUB_JOIN_CHAT"
-                        android:gravity="center"
-                        android:textColor="@color/button_enable_str"
-                        android:textStyle="bold"/>
-
                     <ImageView
                         android:id="@+id/iv_Club_Write_BG"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="10dp"
-                        app:layout_constraintHorizontal_weight="4"
-                        app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
-                        app:layout_constraintLeft_toRightOf="@+id/iv_Club_Chat_BG"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_Club_User"
-                        android:background="@color/button_enable"/>
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:layout_constraintRight_toRightOf="@+id/iv_Club_Write"
+                        app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Write"
+                        app:layout_constraintTop_toTopOf="@+id/iv_Club_Write"
+                        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Write"
+                        android:src="@drawable/bg_white"
+                        android:tint="@color/button_enable"/>
+
+
 
                     <ImageView
                         android:id="@+id/iv_Club_Write"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintLeft_toLeftOf="@+id/iv_Club_Write_BG"
-                        app:layout_constraintRight_toLeftOf="@+id/tv_Club_Write"
-                        app:layout_constraintTop_toTopOf="@+id/iv_Club_Write_BG"
-                        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Write_BG"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="15dp"
+                        app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
+                        app:layout_constraintTop_toTopOf="@+id/v_Club_Info"
+                        app:layout_constraintBottom_toBottomOf="@+id/v_Club_Info"
                         android:src="@drawable/icon_write"
                         android:tint="@color/white"/>
 
-                    <TextView
-                        android:id="@+id/tv_Club_Write"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        style="@style/BaseContentTextView"
-                        android:layout_marginLeft="10dp"
-                        app:layout_constraintLeft_toRightOf="@+id/iv_Club_Write"
-                        app:layout_constraintRight_toRightOf="@+id/iv_Club_Write_BG"
-                        app:layout_constraintTop_toTopOf="@+id/iv_Club_Write_BG"
-                        app:layout_constraintBottom_toBottomOf="@+id/iv_Club_Write_BG"
-                        android:text="@string/MSG_CLUB_WRITE"
-                        android:gravity="center"
-                        android:textColor="@color/button_enable_str"
-                        android:textStyle="bold"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_Club_User"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="90dp"
+                        android:paddingRight="10dp"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        app:layout_constraintLeft_toRightOf="@+id/tv_Club_UserCount"
+                        app:layout_constraintRight_toRightOf="@+id/v_Club_Info"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_Club_Name" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
