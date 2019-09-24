@@ -80,7 +80,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
     }
     ConstraintLayout v_Club_Con_View, v_Club_Reply_Count;
     public ImageView iv_Club_Con_Profile, iv_Club_Con_Menu;
-    public TextView tv_Club_Con_Nickname, tv_Club_Con_Date, tv_Club_Con_Desc, tv_Club_Reply_Count, tv_Club_Con_Report;
+    public TextView tv_Club_Con_Nickname, tv_Club_Con_Date, tv_Club_Con_Desc, tv_Club_Reply_Count, tv_Club_Con_Report, tv_Club_Con_Desc_SeeMore;
     public ImageView tv_Club_Con_BigImg, tv_Club_Con_Img_1, tv_Club_Con_Img_2, tv_Club_Con_Img_3;
     public RecyclerView rv_Club_Reply_List;
     CLUB_CONTENT_TYPE mContentType;
@@ -100,6 +100,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         iv_Club_Con_Profile = itemView.findViewById(R.id.iv_Club_Con_Profile);
         tv_Club_Con_Nickname = itemView.findViewById(R.id.tv_Club_Con_Nickname);
         tv_Club_Con_Date = itemView.findViewById(R.id.tv_Club_Con_Date);
+        tv_Club_Con_Desc_SeeMore = itemView.findViewById(R.id.tv_Club_Con_Desc_SeeMore);
         tv_Club_Con_Desc = itemView.findViewById(R.id.tv_Club_Con_Desc);
         tv_Club_Con_Report = itemView.findViewById(R.id.tv_Club_Con_Report);
         tv_Club_Con_BigImg = itemView.findViewById(R.id.tv_Club_Con_BigImg);
@@ -161,6 +162,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
             v_Club_Reply_Count.setVisibility(View.VISIBLE);
             rv_Club_Reply_List.setVisibility(View.GONE);
         }
+
         initReplyList();
     }
 
@@ -395,10 +397,17 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         else
             tv_Club_Con_Desc.setText(tempData.Context);
 
+        if(tv_Club_Con_Desc.getLineCount() >= 3)
+            tv_Club_Con_Desc_SeeMore.setVisibility(View.VISIBLE);
+        else
+            tv_Club_Con_Desc_SeeMore.setVisibility(View.GONE);
+
         if(CommonFunc.getInstance().CheckStringNull(tempData.GetReportList(TKManager.getInstance().MyData.GetUserIndex())) == false)
             tv_Club_Con_Report.setVisibility(View.VISIBLE);
         else
             tv_Club_Con_Report.setVisibility(View.GONE);
+
+
 
         mAdapter.setReplyCount(tempData.GetReplyDataCount());
     }

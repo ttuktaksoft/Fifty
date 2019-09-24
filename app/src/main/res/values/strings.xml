@@ -111,6 +111,7 @@
     <string name="MSG_CLUB_RECOM_EMPTY">추천 클럽이 없습니다</string>
     <string name="MSG_CLUB_FAVORITE_PLUS">더보기</string>
     <string name="MSG_CLUB_BODY_REPORT">게시글을 신고 하였습니다</string>
+    <string name="MSG_CLUB_BODY_SEE_MORE">더보기</string>
     <string name="MSG_CLUB_NAME_LEAK">클럽이름이 너무 짧습니다</string>
     <string name="MSG_CLUB_SEARCH_EMPTY">검색할 클럽을 적어주세요</string>
     <string name="MSG_CLUB_SEARCH_RESULT_EMPTY">해당 클럽이 없습니다\n클럽을 생성 하시겠습니까?</string>
