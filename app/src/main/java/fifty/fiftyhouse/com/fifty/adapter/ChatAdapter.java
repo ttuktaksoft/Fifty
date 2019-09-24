@@ -303,6 +303,8 @@ class ChatListHolder extends RecyclerView.ViewHolder {
         v_Chat_Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                DialogFunc.getInstance().ShowLoadingPage(mContext);
                 // TODO 삭제
                 if(mType == CommonData.CHAT_ROOM_TYPE.DEFAULT)
                 {
