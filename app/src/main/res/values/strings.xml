@@ -56,7 +56,7 @@
     <string name="MSG_PHOTO">사진</string>
     <string name="MSG_VIDEO">동영상</string>
     <string name="MSG_NOTICE_EMPTY">알람이 없습니다.</string>
-    <string name="MSG_MAIN_USER_TODAY_DESC">좋아하는 유저</string>
+    <string name="MSG_MAIN_USER_TODAY_DESC">좋아하는 친구</string>
     <string name="MSG_MY_PROFILE_CLICK">본인 프로필 입니다</string>
     <string name="MSG_RETRY">다시 시도해 주세요</string>
     <string name="MSG_FRIEND_ADD">친구추가</string>
@@ -81,7 +81,7 @@
     <string name="MSG_FAVORITE_PLUS">관심사 추가 + </string>
     <string name="MSG_FAVORITE_NAME_LEAK">관심사가 너무 짧습니다</string>
     <string name="MSG_FAVORITE_IMPUT_EMPTY">관심사를 입력해주세요</string>
-    <string name="MSG_FAVORITE_FIND_EMPTY">해당 관심사를 가진 유져가 없습니다</string>
+    <string name="MSG_FAVORITE_FIND_EMPTY">해당 관심사를 가진 친구가 없습니다</string>
     <string name="MSG_FAVORITE_SELECT_LACK_1">한가지 이상 관심사를 선택해주세요</string>
     <string name="MSG_FAVORITE_SELECT_LACK_3">세가지 이상 관심사를 선택해주세요</string>
     <string name="MSG_FAVORITE_SEARCH_EMPTY">검색할 관심사를 적어주세요</string>
@@ -97,7 +97,7 @@
     <string name="MSG_CLUB_JOIN_REQUEST_CANCEL">가입 신청 취소</string>
     <string name="MSG_CLUB_JOIN_REQUEST_DESC">클럽 가입 신청을 하시겠습니까?</string>
     <string name="MSG_CLUB_JOIN_REQUEST_CANCEL_DESC">클럽 가입 신청을 취소하시겠습니까?</string>
-    <string name="MSG_CLUB_JOIN_WAIT">가입 대기 유저</string>
+    <string name="MSG_CLUB_JOIN_WAIT">가입 대기 친구</string>
     <string name="MSG_CLUB_REPORT_CONTENT">신고당한 게시글</string>
     <string name="MSG_CLUB_EDIT">클럽 수정</string>
     <string name="MSG_CLUB_WITHDRAWAL">클럽 탈퇴</string>
@@ -139,7 +139,7 @@
     <string name="NICKNAME_CHECK_YES">사용가능한 닉네임 입니다</string>
     <string name="NICKNAME_CHECK_NO">중복체크를 해주세요</string>
     <string name="NICKNAME_EMPTY">닉네임을 입력해주세요</string>
-    <string name="NICKNAME_FIND_EMPTY">검색하신 닉네임 친구가 없습니다</string>
+    <string name="NICKNAME_FIND_EMPTY">검색하신 닉네임을 사용하는 친구가 없습니다</string>
     <string name="NICKNAME_LEAK">닉네임이 너무 짧습니다</string>
     <string name="NICKNAME_CHECK_ASK">닉네임 중복체크를 해주세요</string>
     <string name="NICKNAME_CHECK_SUCCESS">등록 가능한 닉네임입니다</string>
@@ -172,12 +172,13 @@
     <string name="MSG_USER_REPORT_RESULT">신고를 완료 하였습니다</string>
     <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY_CLUB">클럽 유저 목록이 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY">유저 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_CLUB">클럽 친구 목록이 없습니다</string>
+    <string name="MSG_USER_SEARCH_EMPTY_CLUB">해당 관심사를 사용하는 클럽이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY">친구 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_CLUB_JOIN_WAIT">클럽 가입 대기 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND_REQUEST">나를 추가한 친구가 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_VISIT">방문 목록이 없습니다</string>
-    <string name="MSG_USER_LIST_EMPTY_CLUB_CHAT">클럽 채팅 유저 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_CLUB_CHAT">클럽 채팅 인원이 없습니다</string>
     <string name="MSG_USER_SEARCH_TITLE">친구 찾기</string>
     <string name="MSG_USER_NINAME_INPUT_HINT">닉네임을 입력해주세요 (2~10자)</string>
     <string name="MSG_USER_NICKNAME_EDIT">닉네임 변경</string>
@@ -229,9 +230,9 @@
     <string name="TITLE_USER_LIST_VISIT">방문자 목록</string>
     <string name="TITLE_USER_LIST_LIKE">좋아요 목록</string>
     <string name="TITLE_USER_LIST_FRIEND">친구 목록</string>
-    <string name="TITLE_USER_LIST_CLUB">클럽 유저 목록</string>
+    <string name="TITLE_USER_LIST_CLUB">클럽 가입 인원 목록</string>
     <string name="TITLE_USER_LIST_CLUB_JOIN_WAIT">클럽 가입 대기 목록</string>
-    <string name="TITLE_USER_LIST_CLUB_CHAT">클럽 채팅 유저 목록</string>
+    <string name="TITLE_USER_LIST_CLUB_CHAT">클럽 채팅 인원 목록</string>
     <string name="TITLE_USER_NOTICE">알림</string>
     <string name="TITLE_FAVORITE_SELECT">관심사 선택</string>
     <string name="TITLE_FAVORITE_EDIT">관심사 수정</string>

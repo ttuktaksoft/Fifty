@@ -2790,6 +2790,12 @@ public class FirebaseManager {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+
+                    if(task.getResult().size() == 0)
+                    {
+                        if(listener != null)
+                            listener.CompleteListener_No();
+                    }
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
                         //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
@@ -4823,6 +4829,45 @@ public class FirebaseManager {
                         long seed = System.nanoTime();
                         Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));*/
                     }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void FindFavoriteClubList(String favoriteName, final CheckFirebaseComplete listener)
+    {
+        SetFireBaseLoadingCount(0);
+
+        final CollectionReference sfColRef = mDataBase.collection("ClubData_Favorite").document(favoriteName).collection("ClubIndex");
+        sfColRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+                    {
+                        if(task.getResult().size() == 0)
+                        {
+                            if(listener != null)
+                                listener.CompleteListener_No();
+                        }
+                        else
+                        {
+                            SetFireBaseLoadingCount(task.getResult().size());
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
+
+
+                            }
+
+
+                        }
+
+                    }
+
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());

@@ -27,6 +27,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubCreateActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubFavoriteActivity;
 import fifty.fiftyhouse.com.fifty.activty.ClubListActivity;
 import fifty.fiftyhouse.com.fifty.activty.MyProfileEditActivity;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
@@ -305,7 +306,35 @@ public class ClubFragment extends Fragment {
             DialogFunc.getInstance().ShowLoadingPage(mContext);
             bSearchClub = true;
             et_Club_TopBar_Search.setText(null);
-            FirebaseManager.getInstance().SearchClubList(name, listener);
+         //   FirebaseManager.getInstance().SearchClubList(name, listener);
+
+
+            DialogFunc.getInstance().ShowLoadingPage(mContext);
+
+            FirebaseManager.CheckFirebaseComplete FavoriteClubData = new FirebaseManager.CheckFirebaseComplete() {
+                @Override
+                public void CompleteListener() {
+                    DialogFunc.getInstance().DismissLoadingPage();
+
+                    Intent intent = new Intent(mContext, ClubListActivity.class);
+                    intent.putExtra("FAVORITE",name);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void CompleteListener_Yes() {
+
+                }
+
+                @Override
+                public void CompleteListener_No() {
+                    DialogFunc.getInstance().DismissLoadingPage();
+                    DialogFunc.getInstance().ShowMsgPopup(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_SEARCH_EMPTY_CLUB));
+                }
+            };
+
+            FirebaseManager.getInstance().SearchClubListOnFavorite(name, FavoriteClubData);
+
         }
     }
 

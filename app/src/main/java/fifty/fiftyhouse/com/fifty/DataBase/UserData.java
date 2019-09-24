@@ -798,6 +798,7 @@ public class UserData {
         return RecommendClubData;
     }
     public Set GetUserRecommendClubDataKeySet() { return  RecommendClubData.keySet(); }
+    public void ClearUserRecommendClubData(){ RecommendClubData.clear();}
 
 
     public void SetRequestJoinClubList(String Idx, ClubData data){ RequestJoinClubList.put(Idx, data); }
