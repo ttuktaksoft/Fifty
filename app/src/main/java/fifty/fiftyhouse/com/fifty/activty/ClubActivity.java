@@ -508,8 +508,12 @@ public class ClubActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    Intent intent = new Intent(mContext, UserListActivity.class);
+                    intent.putExtra("Type",CommonData.USER_LIST_CLUB);
+                    startActivityForResult(intent, 1001);
+
                     // 유져페이지
-                    CommonFunc.getInstance().GetUserDataInFireBase(key, ClubActivity.this, false);
+                   // CommonFunc.getInstance().GetUserDataInFireBase(key, ClubActivity.this, false);
                 }
             }
 
