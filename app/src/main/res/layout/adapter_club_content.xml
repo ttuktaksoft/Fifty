@@ -86,7 +86,6 @@
         android:layout_marginTop="10dp"
         android:paddingBottom="10dp"
         android:textColor="@color/str_color_1"
-        android:ellipsize="end"
         android:text="내용내용내용내용내용내용내용내용내내용내용내용내내용내용내용내내용내용내용내내용내용내용내내용내용내용내내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"/>
 
     <TextView

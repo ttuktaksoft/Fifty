@@ -390,6 +390,7 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
         tv_Club_Con_Nickname.setText(TKManager.getInstance().UserData_Simple.get(tempData.GetWriterIndex()).GetUserNickName());
         tv_Club_Con_Date.setText(CommonFunc.getInstance().ConvertTimeSrt(tempData.Date, "MM.dd HH:mm"));
 
+        tv_Club_Con_Desc.setMaxLines(0);
         if(CommonFunc.getInstance().CheckStringNull(tempData.Context))
         {
             tv_Club_Con_Desc.setVisibility(View.INVISIBLE);
