@@ -84,6 +84,7 @@ public class MainNewViewPager extends Fragment {
     {
         RefreshUserList();
         mAdapter.setItemData(mUserList);
+        mAdapter.notifyDataSetChanged();
     }
 
     public void RefreshUserList()
