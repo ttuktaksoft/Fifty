@@ -97,11 +97,26 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapterHolder>
         mItemCount = count;
     }
 
-    public void setItemData(ArrayList<String[]> list)
+    public void setItemData(ArrayList<String> list)
     {
         mItemList.clear();
-        mItemList.addAll(list);
-        mItemCount = list.size();
+        int cutSize = 0;
+        String[] keyArr = new String[3];
+
+        for (String key : list)
+        {
+            if(cutSize == 3)
+            {
+                mItemList.add(keyArr);
+                keyArr = new String[3];
+                cutSize = 0;
+            }
+            keyArr[cutSize] = key;
+            cutSize++;
+        }
+
+        mItemList.add(keyArr);
+        mItemCount = mItemList.size();
     }
 
     @Override

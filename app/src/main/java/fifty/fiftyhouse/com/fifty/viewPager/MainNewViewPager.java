@@ -28,7 +28,7 @@ public class MainNewViewPager extends Fragment {
     RecyclerView rv_Main_New_UserList;
     View v_FragmentView = null;
     public MainUserAdapter mAdapter;
-    ArrayList<String[]> mUserList = new ArrayList<>();
+    ArrayList<String> mUserList = new ArrayList<>();
     private String UserIndex;
 
     public MainNewViewPager() {
@@ -89,22 +89,7 @@ public class MainNewViewPager extends Fragment {
     public void RefreshUserList()
     {
         mUserList.clear();
-        int cutSize = 0;
-        String[] keyArr = new String[3];
-
-        for (String key : TKManager.getInstance().View_UserList_New)
-        {
-            if(cutSize == 3)
-            {
-                mUserList.add(keyArr);
-                keyArr = new String[3];
-                cutSize = 0;
-            }
-            keyArr[cutSize] = key;
-            cutSize++;
-        }
-
-        mUserList.add(keyArr);
+        mUserList.addAll(TKManager.getInstance().View_UserList_New);
 
         if(TKManager.getInstance().View_UserList_New.size() == 0)
         {

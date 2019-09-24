@@ -43,7 +43,7 @@ public class MainTodayViewPager extends Fragment {
     RecyclerView rv_Main_Today_UserList;
     View v_FragmentView = null;
     public MainUserAdapter mAdapter;
-    ArrayList<String[]> mUserList = new ArrayList<>();
+    ArrayList<String> mUserList = new ArrayList<>();
     RealTimeFavoriteAdapter mRealTimeFavoriteAdapter;
     private String UserIndex;
 
@@ -170,23 +170,7 @@ public class MainTodayViewPager extends Fragment {
         mUserList.clear();
         long seed = System.nanoTime();
         Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
-
-        int cutSize = 0;
-        String[] keyArr = new String[3];
-
-        for (String key : TKManager.getInstance().View_UserList_Hot)
-        {
-            if(cutSize == 3)
-            {
-                mUserList.add(keyArr);
-                keyArr = new String[3];
-                cutSize = 0;
-            }
-            keyArr[cutSize] = key;
-            cutSize++;
-        }
-
-        mUserList.add(keyArr);
+        mUserList.addAll(TKManager.getInstance().View_UserList_Hot);
 
         if(TKManager.getInstance().View_UserList_Hot.size() == 0)
         {

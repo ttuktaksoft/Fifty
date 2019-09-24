@@ -37,7 +37,7 @@ public class ClubListViewPager extends Fragment {
     View v_FragmentView = null;
 
     ClubAdapter mAdapter;
-    ArrayList<String[]> mClubList = new ArrayList<>();
+    ArrayList<String> mClubList = new ArrayList<>();
 
     public static int CLUB_LIST_RECOMMEND = 0;
     public static int CLUB_LIST_MY = 1;
@@ -213,7 +213,7 @@ public class ClubListViewPager extends Fragment {
 
     public void RefreshAdapter()
     {
-        ArrayList<String[]> tempList = new ArrayList<>();
+        ArrayList<String> tempList = new ArrayList<>();
         tempList.addAll(mClubList);
 
         RefreshClubList();
@@ -227,36 +227,16 @@ public class ClubListViewPager extends Fragment {
     public void RefreshClubList()
     {
         mClubList.clear();
-        ArrayList<String> tempList = new ArrayList<>();
         if(mType == CLUB_LIST_RECOMMEND)
         {
-            tempList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
+            mClubList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
         }
 
         else
         {
-            tempList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
-            tempList.addAll(TKManager.getInstance().MyData.GetRequestJoinClubListKeySet());
+            mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+            mClubList.addAll(TKManager.getInstance().MyData.GetRequestJoinClubListKeySet());
         }
-
-
-        int cutSize = 0;
-        String[] keyArr = new String[3];
-
-        for (String key : tempList)
-        {
-            if(cutSize == 3)
-            {
-                mClubList.add(keyArr);
-                keyArr = new String[3];
-                cutSize = 0;
-            }
-            keyArr[cutSize] = key;
-            cutSize++;
-        }
-
-        mClubList.add(keyArr);
-
 
         if (mClubList.size() == 0) {
             tv_Club_Empty.setVisibility(View.VISIBLE);

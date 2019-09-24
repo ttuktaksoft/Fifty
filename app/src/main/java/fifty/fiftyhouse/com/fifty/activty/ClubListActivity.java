@@ -30,7 +30,7 @@ public class ClubListActivity extends AppCompatActivity {
     TextView tv_ClubList_Empty;
     RecyclerView rv_ClubList;
     ClubAdapter mAdapter;
-    ArrayList<String[]> mClubList = new ArrayList<>();
+    ArrayList<String> mClubList = new ArrayList<>();
 
     Context mContext;
     String SelectFavorite;
@@ -113,7 +113,7 @@ public class ClubListActivity extends AppCompatActivity {
 
     public void RefreshAdapter()
     {
-        ArrayList<String[]> tempList = new ArrayList<>();
+        ArrayList<String> tempList = new ArrayList<>();
         tempList.addAll(mClubList);
 
         RefreshClubList();
@@ -127,22 +127,7 @@ public class ClubListActivity extends AppCompatActivity {
     public void RefreshClubList()
     {
         mClubList.clear();
-        int cutSize = 0;
-        String[] keyArr = new String[3];
-
-        for (String key : TKManager.getInstance().SearchClubList)
-        {
-            if(cutSize == 3)
-            {
-                mClubList.add(keyArr);
-                keyArr = new String[3];
-                cutSize = 0;
-            }
-            keyArr[cutSize] = key;
-            cutSize++;
-        }
-
-        mClubList.add(keyArr);
+        mClubList.addAll(TKManager.getInstance().SearchClubList);
 
 
         if (mClubList.size() == 0) {

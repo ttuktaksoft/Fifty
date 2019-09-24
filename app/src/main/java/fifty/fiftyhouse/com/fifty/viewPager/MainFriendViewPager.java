@@ -24,7 +24,7 @@ public class MainFriendViewPager extends Fragment {
     TextView tv_Main_Friend_Count, tv_Main_Friend_UserList_Empty;
 
     RecyclerView rv_Main_Friend_UserList;
-    ArrayList<String[]> mUserList = new ArrayList<>();
+    ArrayList<String> mUserList = new ArrayList<>();
     View v_FragmentView = null;
     public MainUserAdapter mAdapter;
     private String UserIndex;
@@ -94,22 +94,7 @@ public class MainFriendViewPager extends Fragment {
     public void RefreshUserList()
     {
         mUserList.clear();
-        int cutSize = 0;
-        String[] keyArr = new String[3];
-
-        Iterator<String> keys = TKManager.getInstance().MyData.GetUserFriendListKeySet().iterator();
-        while( keys.hasNext() ){
-            String key = TKManager.getInstance().MyData.GetUserFriendList(keys.next());
-            if(cutSize == 3)
-            {
-                mUserList.add(keyArr);
-                keyArr = new String[3];
-                cutSize = 0;
-            }
-            keyArr[cutSize] = key;
-            cutSize++;
-        }
-        mUserList.add(keyArr);
+        mUserList.addAll(TKManager.getInstance().MyData.GetUserFriendListKeySet());
 
         if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
         {
