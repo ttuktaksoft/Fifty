@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -37,6 +38,7 @@ public class ClubWriteActivity extends AppCompatActivity {
     ImageView iv_TopBar_Back;
     TextView tv_ClubWrite_OK;
     ImageView iv_ClubWrite_Img;
+    TextView tv_ClubWrite_Count;
 
     Context mContext;
     Activity mActivity;
@@ -59,6 +61,7 @@ public class ClubWriteActivity extends AppCompatActivity {
         iv_TopBar_Back = ui_ClubWrite_TopBar.findViewById(R.id.iv_TopBar_Back);
         tv_ClubWrite_OK = findViewById(R.id.tv_ClubWrite_OK);
         iv_ClubWrite_Img = findViewById(R.id.iv_ClubWrite_Img);
+        tv_ClubWrite_Count = findViewById(R.id.tv_ClubWrite_Count);
 
         Intent intent = getIntent(); //getIntent()로 받을준비
         mClubWriteType = getIntent().getIntExtra("Type", 0);
@@ -93,6 +96,18 @@ public class ClubWriteActivity extends AppCompatActivity {
         {
             mClubWriteFragment.tempData = null;
         }
+
+        tv_ClubWrite_Count.setText(Integer.toString(CommonData.ClubContentMaxSize));
+        ClubWriteFragment.ClubContextEditListener countListener = new ClubWriteFragment.ClubContextEditListener()
+        {
+            @Override
+            public void Listener(int count)
+            {
+                tv_ClubWrite_Count.setText(Integer.toString(CommonData.ClubContentMaxSize- count));
+            }
+        };
+
+        mClubWriteFragment.EditCountListener = countListener;
 
         mFragmentMgr.beginTransaction().replace(R.id.fl_ClubWrite_FrameLayout, mClubWriteFragment, "ClubWriteFragment").commit();
 

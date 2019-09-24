@@ -10,13 +10,47 @@
         android:id="@+id/ui_ClubWrite_TopBar"
         layout="@layout/ui_topbar"/>
 
+    <TextView
+        android:id="@+id/tv_ClubWrite_Count_Desc"
+        style="@style/BaseTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ui_ClubWrite_TopBar"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:text="@string/MSG_CLUB_WRITE_LIMIT_TITLE"
+        android:textStyle="bold"
+        android:gravity="center|left"
+        android:textColor="@color/str_color_1"
+        android:background="@color/info_sub_slot_title_bg"
+        />
+
+    <TextView
+        android:id="@+id/tv_ClubWrite_Count"
+        style="@style/BaseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_ClubWrite_Count_Desc"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_ClubWrite_Count_Desc"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="10dp"
+        android:gravity="center|right"
+        android:text="3000"
+        android:textColor="@color/str_color_1"
+        />
+
     <FrameLayout
         android:id="@+id/fl_ClubWrite_FrameLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ui_ClubWrite_TopBar"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ClubWrite_Count_Desc"
         app:layout_constraintBottom_toTopOf="@+id/v_ClubWrite_Menu"
         android:background="@color/activity_bg"/>
 

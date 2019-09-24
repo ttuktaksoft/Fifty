@@ -19,6 +19,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -44,6 +45,12 @@ public class ClubWriteFragment extends Fragment {
     ClubWriteImgAdapter mAdapter;
     public ArrayList<String> TempClubWriteImgLIst = new ArrayList<>();
     public ClubContextData tempData = null;
+
+    public ClubContextEditListener EditCountListener;
+
+    public interface ClubContextEditListener {
+        void Listener(int count);
+    }
 
     public ClubWriteFragment() {
     }
@@ -82,6 +89,10 @@ public class ClubWriteFragment extends Fragment {
         rv_ClubWrite_Pic = v_FragmentView.findViewById(R.id.rv_ClubWrite_Pic);
         v_ClubWrite_Touch = v_FragmentView.findViewById(R.id.v_ClubWrite_Touch);
         et_ClubWrite_Desc.setText("");
+        EditCountListener.Listener(0);
+        CommonFunc.getInstance().setEditTextMaxSize(et_ClubWrite_Desc, CommonData.ClubContentMaxSize);
+
+
 
         v_ClubWrite_Touch.setOnTouchListener(new OnSingleTouchListener() {
             @Override
@@ -107,6 +118,7 @@ public class ClubWriteFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 TKManager.getInstance().CreateTempClubContextData.SetContext(et_ClubWrite_Desc.getText().toString());
+                EditCountListener.Listener(et_ClubWrite_Desc.getText().toString().length());
             }
 
             @Override
@@ -121,6 +133,7 @@ public class ClubWriteFragment extends Fragment {
         if(tempData != null)
         {
             et_ClubWrite_Desc.setText(tempData.Context);
+            EditCountListener.Listener(tempData.Context.length());
 
             TempClubWriteImgLIst.clear();;
             Iterator<String> iterator = tempData.GetImg().keySet().iterator();

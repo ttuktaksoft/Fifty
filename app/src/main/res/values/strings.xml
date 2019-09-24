@@ -130,6 +130,7 @@
     <string name="MSG_CLUB_CREATE_NAME_PROFILE">클럽 사진을 등록해주세요</string>
     <string name="MSG_CLUB_WRITE_HINT">내용을 입력해주세요</string>
     <string name="MSG_CLUB_REPLY_HINT">내용을 입력해주세요</string>
+    <string name="MSG_CLUB_WRITE_LIMIT_TITLE">남은 글자수</string>
 
     <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
     <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>

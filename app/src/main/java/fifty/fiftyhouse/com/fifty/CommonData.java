@@ -107,6 +107,7 @@ public class CommonData {
     public static int MemoMaxSize = 4000;
     public static int LocationMaxSize = 30;
     public static int UserReportMaxSize = 4000;
+    public static int ClubContentMaxSize = 4000;
 
     public static final int MAX_PROFILE_IMG_COUNT = 8;
 
