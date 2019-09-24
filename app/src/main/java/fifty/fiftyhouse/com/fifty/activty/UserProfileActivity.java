@@ -180,6 +180,28 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     if( TKManager.getInstance().MyData.GetUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex()) == null)
                     {
+
+                        FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserNickName()  + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ASK_FRIND_REGIST), true);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+
+                        DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
+                        FirebaseManager.getInstance().RegistFriendInUserData(TKManager.getInstance().TargetUserData.GetUserIndex(), firebaseListener);
+                        TKManager.getInstance().MyData.SetUserFriend(TKManager.getInstance().TargetUserData.GetUserIndex(), TKManager.getInstance().TargetUserData.GetUserIndex());
+                        RefreshFriendIcon();
+                        /*
                         DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
                         {
 
@@ -208,11 +230,31 @@ public class UserProfileActivity extends AppCompatActivity {
                                 RefreshFriendIcon();
                             }
                         };
-                        DialogFunc.getInstance().ShowMsgPopup(UserProfileActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ASK_FRIND_ADD), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_OK), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+                        DialogFunc.getInstance().ShowMsgPopup(UserProfileActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ASK_FRIND_ADD), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_OK), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));*/
                     }
                     else
                     {
-                        DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
+                        FirebaseManager.CheckFirebaseComplete firebaseListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserNickName() + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_ASK_FRIND_REMOVE_SUCCESS), true);
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                            }
+                        };
+                        DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
+                        FirebaseManager.getInstance().RemoveFriendUser(TKManager.getInstance().TargetUserData.GetUserIndex(), firebaseListener);
+                        TKManager.getInstance().MyData.DelUserFriendList(TKManager.getInstance().TargetUserData.GetUserIndex());
+                        RefreshFriendIcon();
+
+                       /* DialogFunc.MsgPopupListener listener = new DialogFunc.MsgPopupListener()
                         {
                             @Override
                             public void Listener()
@@ -238,7 +280,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                 RefreshFriendIcon();
                             }
                         };
-                        DialogFunc.getInstance().ShowMsgPopup(UserProfileActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ASK_FRIND_REMOVE), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_OK), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+                        DialogFunc.getInstance().ShowMsgPopup(UserProfileActivity.this, listener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ASK_FRIND_REMOVE), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_OK), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));*/
                     }
 
                 }
