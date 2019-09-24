@@ -1,4 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_SignUp_Com_DescBG"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@+id/iv_SignUp_Com_Logo"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_SignUp_Com_Popup_Buttons_OK"
+        app:layout_constraintRight_toRightOf="@+id/tv_SignUp_Com_Desc"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_SignUp_Com_Desc"
+        android:src="@drawable/bg_white"
+        android:scaleType="fitXY"/>
+
+    <ImageView
+        android:id="@+id/iv_SignUp_Com_Logo"
+        android:layout_width="64dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_SignUp_Com_Desc"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_SignUp_Com_DescBG"
+        android:src="@drawable/ic_logo"/>
+
+    <TextView
+        android:id="@+id/tv_SignUp_Com_Desc"
+        style="@style/BaseContentTextView"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/MSG_SIGN_UP_COMPLETE"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/iv_SignUp_Com_Logo"
+        app:layout_constraintBottom_toTopOf="@+id/tv_SignUp_Com_Popup_Buttons_OK"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:gravity="center"
+        android:textSize="@dimen/default_font_size"
+        android:textColor="@color/str_color_1"/>
+
+    <TextView
+        android:id="@+id/tv_SignUp_Com_Popup_Buttons_OK"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:paddingBottom="5dp"
+        style="@style/BaseTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_SignUp_Com_DescBG"
+        app:layout_constraintRight_toRightOf="@+id/iv_SignUp_Com_DescBG"
+        android:text="@string/MSG_OK"
+        android:textSize="@dimen/default_font_size"
+        android:gravity="center"
+        android:textColor="@color/str_color_1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -88,7 +152,7 @@
 
 
 
-<!--
+&lt;!&ndash;
 
     <ImageView
         android:id="@+id/iv_SignUp_Com_Popup_Fire"
@@ -98,6 +162,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="70dp"
         android:layout_marginLeft="0dp"
-        android:src="@drawable/ic_fireworksef"/>-->
+        android:src="@drawable/ic_fireworksef"/>&ndash;&gt;
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>-->
