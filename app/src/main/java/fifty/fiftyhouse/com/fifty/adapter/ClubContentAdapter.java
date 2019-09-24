@@ -395,12 +395,29 @@ class ClubContentListHolder extends RecyclerView.ViewHolder {
             tv_Club_Con_Desc.setVisibility(View.INVISIBLE);
         }
         else
+        {
+            tv_Club_Con_Desc.setVisibility(View.VISIBLE);
             tv_Club_Con_Desc.setText(tempData.Context);
+        }
 
-        if(tv_Club_Con_Desc.getLineCount() >= 3)
-            tv_Club_Con_Desc_SeeMore.setVisibility(View.VISIBLE);
-        else
-            tv_Club_Con_Desc_SeeMore.setVisibility(View.GONE);
+        tv_Club_Con_Desc_SeeMore.setVisibility(View.GONE);
+        tv_Club_Con_Desc.post(new Runnable() {
+            @Override
+            public void run() {
+                if(tv_Club_Con_Desc.getLineCount() > 3)
+                {
+                    tv_Club_Con_Desc_SeeMore.setVisibility(View.VISIBLE);
+                    tv_Club_Con_Desc.setMaxLines(3);
+                }
+                else
+                {
+                    tv_Club_Con_Desc_SeeMore.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+
 
         if(CommonFunc.getInstance().CheckStringNull(tempData.GetReportList(TKManager.getInstance().MyData.GetUserIndex())) == false)
             tv_Club_Con_Report.setVisibility(View.VISIBLE);
