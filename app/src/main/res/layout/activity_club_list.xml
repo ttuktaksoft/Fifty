@@ -24,9 +24,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ClubList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:divider="@color/alpha"
-        app:layout_constraintTop_toBottomOf="@+id/ui_ClubList_TopBar" />
+        app:layout_constraintTop_toBottomOf="@+id/ui_ClubList_TopBar"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 <!--    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ClubList"
