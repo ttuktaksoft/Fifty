@@ -4313,8 +4313,8 @@ public class FirebaseManager {
                         } else
                             getClubData.ClubContextCount = 0;
 
-                        if (document.getData().containsKey("MemberCount")) {
-                            int MemberCount =Integer.parseInt(document.getData().get("MemberCount").toString());
+                        if (document.getData().containsKey("ClubMemberCount")) {
+                            int MemberCount = (int)Double.parseDouble(document.getData().get("ClubMemberCount").toString());
                             getClubData.ClubMemberCount = MemberCount;
                         } else
                             getClubData.ClubMemberCount = 0;
@@ -4391,6 +4391,7 @@ public class FirebaseManager {
 
                     try {
                             TKManager.getInstance().TargetClubData =  (ClubData) getClubData.clone();
+                            TKManager.getInstance().ClubData_Simple.put(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
                         } catch (CloneNotSupportedException e) {
                             e.printStackTrace();
                         }
