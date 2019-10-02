@@ -74,6 +74,7 @@ public class DialogFunc {
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
         dialog.show();
 
         YesButtonDesc.setVisibility(View.VISIBLE);
@@ -120,6 +121,7 @@ public class DialogFunc {
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
         dialog.show();
 
         YesButton.setOnClickListener(new OnSingleClickListener() {
@@ -200,6 +202,7 @@ public class DialogFunc {
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
         dialog.show();
 
         mAdapter = new DialogMenuListAdapter(context);
@@ -251,6 +254,7 @@ public class DialogFunc {
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
         dialog.show();
 
         tv_Login_Popup_Buttons_OK.setOnClickListener(new OnSingleClickListener() {
@@ -289,6 +293,7 @@ public class DialogFunc {
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
         dialog.show();
 
         tv_User_Search_Popup_Buttons_OK.setOnClickListener(new OnSingleClickListener() {
@@ -354,6 +359,7 @@ public class DialogFunc {
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
         dialog.show();
 
         tv_User_Search_Popup_Buttons_OK.setOnClickListener(new OnSingleClickListener() {
@@ -414,6 +420,7 @@ public class DialogFunc {
 
         final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
         dialog.show();
 
         tv_User_Search_Popup_Buttons_OK.setOnClickListener(new OnSingleClickListener() {
