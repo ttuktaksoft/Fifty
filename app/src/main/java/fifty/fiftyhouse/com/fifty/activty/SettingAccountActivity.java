@@ -47,7 +47,7 @@ public class SettingAccountActivity extends AppCompatActivity {
             }
         });
 
-        tv_Setting_Account_ID.setText(TKManager.getInstance().MyData.GetUserUId());
+        tv_Setting_Account_ID.setText(TKManager.getInstance().MyData.GetUserNickName());
         tv_Setting_Account_Logout.setOnClickListener(new OnSingleClickListener(){
             @Override
             public void onSingleClick(View view) {
