@@ -111,6 +111,8 @@ public class SettingAccountActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Long userId) {
                                 TKManager.getInstance().isLoadDataByBoot = true;
+                                TKManager.getInstance().MyData.Clear();
+
                                 final Intent intent = new Intent(SettingAccountActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

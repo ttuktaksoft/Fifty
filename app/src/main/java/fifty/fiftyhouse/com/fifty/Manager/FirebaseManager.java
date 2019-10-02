@@ -2216,6 +2216,8 @@ public class FirebaseManager {
         List array = new ArrayList(EntrySet);
         GetFavoriteList(array.get(0).toString(), listener);
 
+        FindFavoriteRank(listener);
+
         GetUserListNew(listener);
         GetUserListFriend(listener);
         GetRequestFriendList(listener);
