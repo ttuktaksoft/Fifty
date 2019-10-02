@@ -119,6 +119,7 @@ public class CommonData {
     public static final int USER_LIST_CLUB = 4;
     public static final int USER_LIST_CLUB_JOIN_WAIT = 5;
     public static final int USER_LIST_CLUB_CHAT = 6;
+    public static final int USER_LIST_BLOCK = 7;
 
     public static final String WIFI_STATE = "WIFE";
     public static final String MOBILE_STATE = "MOBILE";
@@ -134,4 +135,8 @@ public class CommonData {
     public static final int FAVORITE_FONT_SIZE_DEFAULT = 18;
 
     public static int FAVORITE_RANK_COUNT = 8;
+
+    public static String SETTING_MSG_ALARM = "알람";
+    public static String SETTING_MSG_SOUND = "소리";
+    public static String SETTING_MSG_VIBRATION = "진동";
 }

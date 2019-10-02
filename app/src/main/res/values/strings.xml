@@ -27,6 +27,7 @@
     <string name="MSG_WOMAN">여자</string>
     <string name="MSG_FAVORITE">관심사</string>
     <string name="MSG_ACCOUNT">계정</string>
+    <string name="MSG_ACCOUNT_INFO">계정정보</string>
     <string name="MSG_REPORT">신고</string>
     <string name="MSG_VIEW">보기</string>
     <string name="MSG_LIKE">좋아요</string>
@@ -67,6 +68,19 @@
     <string name="MSG_LOCATION">지역</string>
     <string name="MSG_CLUB">클럽</string>
     <string name="MSG_ETC">기타</string>
+    <string name="MSG_NOTICE">알림</string>
+    <string name="MSG_ALARM">알람</string>
+    <string name="MSG_SOUND">소리</string>
+    <string name="MSG_VIBRATION">진동</string>
+    <string name="MSG_PRIVACY">프라이버시</string>
+    <string name="MSG_INFO">정보</string>
+    <string name="MSG_FIFTY_VERSION">FIFTY버전</string>
+    <string name="MSG_BLOCK_CANCEL">차단 해제</string>
+    <string name="MSG_WITHDRAWAL">탈퇴</string>
+    <string name="MSG_ID">아이디</string>
+    <string name="MSG_LOGOUT">로그아웃</string>
+
+    <string name="MSG_BLOCK_LIST">차단목록</string>
 
     <string name="MSG_MOVE_SHOP">FIP구매하기</string>
     <string name="MSG_SHOP">FIP구매하기</string>
@@ -74,8 +88,6 @@
     <string name="USER_LIST_VIP_SHOP_DESC_VISIT">FIP를 구매하고 내 프로필을 방문한 소중한 사람이 누군지 확인해보세요.</string>
     <string name="USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST">FIP를 구매하고 나를 친구로 추가한 소중한 사람이 누군지 확인해보세요.</string>
     <string name="USER_LIST_VIP_SHOP_DESC_NOTICE">알람내용을 볼려면\n아이템을 구매해주세요</string>
-
-
 
     <string name="MSG_FAVORITE_RECOMMEND">관심사 추천</string>
     <string name="MSG_FAVORITE_PLUS">관심사 추가 + </string>
@@ -173,6 +185,7 @@
     <string name="MSG_USER_LIST_EMPTY_LIKE">좋아요 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_FRIEND">친구 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_CLUB">클럽 친구 목록이 없습니다</string>
+    <string name="MSG_USER_LIST_EMPTY_BLOCK">차단 목록이 없습니다</string>
     <string name="MSG_USER_SEARCH_EMPTY_CLUB">해당 관심사를 사용하는 클럽이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY">친구 목록이 없습니다</string>
     <string name="MSG_USER_LIST_EMPTY_CLUB_JOIN_WAIT">클럽 가입 대기 목록이 없습니다</string>
@@ -192,7 +205,8 @@
     <string name="MSG_LOGIN_DESC_2">기존 멤버는 아래 버튼을 눌러주세요</string>
     <string name="MSG_SIGN_UP_AGE_CUT">50세 미만은 가입이 불가능 합니다</string>
     <string name="MSG_SIGN_UP_COMPLETE">FIFTY의 멤버가 되신 것을 환영합니다\nFIFTY에서 새로운 친구를 사귀고\n다양한 커뮤니티 활동을 해보세요</string>
-
+    <string name="MSG_LOGOUT_ASK">로그아웃을 하시겠습니까?</string>
+    <string name="MSG_WITHDRAWAL_ASK">탈퇴를 하시겠습니까?</string>
 
 
 
@@ -233,6 +247,7 @@
     <string name="TITLE_USER_LIST_CLUB">클럽 가입 인원 목록</string>
     <string name="TITLE_USER_LIST_CLUB_JOIN_WAIT">클럽 가입 대기 목록</string>
     <string name="TITLE_USER_LIST_CLUB_CHAT">클럽 채팅 인원 목록</string>
+    <string name="TITLE_USER_LIST_BLOCK">차단 목록</string>
     <string name="TITLE_USER_NOTICE">알림</string>
     <string name="TITLE_FAVORITE_SELECT">관심사 선택</string>
     <string name="TITLE_FAVORITE_EDIT">관심사 수정</string>
