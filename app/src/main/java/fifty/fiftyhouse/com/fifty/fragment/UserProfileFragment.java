@@ -68,7 +68,6 @@ public class UserProfileFragment extends Fragment {
     ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender, iv_UserProfile_Info_Memo_BG, iv_UserProfile_Info_Edit;
     TextView tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Location,
             tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3,
-            tv_UserProfile_Info_Terms_1, tv_UserProfile_Info_Terms_2, tv_UserProfile_Info_Terms_3,
             tv_UserProfile_Info_Club;
     RecyclerView rv_UserProfile_Info_Favorite, rv_UserProfile_Info_Club, rv_UserProfile_Info_Photo, rv_UserProfile_Info_Menu;
     Context mContext;
@@ -133,9 +132,6 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Count_1 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Count_1);
         tv_UserProfile_Info_Count_2 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Count_2);
         tv_UserProfile_Info_Count_3 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Count_3);
-        tv_UserProfile_Info_Terms_1 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_1);
-        tv_UserProfile_Info_Terms_2 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_2);
-        tv_UserProfile_Info_Terms_3 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Terms_3);
         tv_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Club);
         rv_UserProfile_Info_Favorite = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Favorite);
         rv_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Club);
@@ -386,7 +382,7 @@ public class UserProfileFragment extends Fragment {
         RefreshCountText();
 
         v_UserProfile_Info_Etc.setVisibility(View.VISIBLE);
-        tv_UserProfile_Info_Terms_1.setOnClickListener(new OnSingleClickListener() {
+        /*tv_UserProfile_Info_Terms_1.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 Intent intent = new Intent(mContext, WebContentActivity.class);
@@ -414,7 +410,7 @@ public class UserProfileFragment extends Fragment {
                 intent.putExtra("content", CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_TERMS_REFUND));
                 startActivity(intent);
             }
-        });
+        });*/
 
         iv_UserProfile_Info_Edit.setVisibility(View.VISIBLE);
 
@@ -459,9 +455,9 @@ public class UserProfileFragment extends Fragment {
         setCountInfoListener_2(null);
         setCountInfoListener_3(null);
 
-        tv_UserProfile_Info_Terms_1.setOnClickListener(null);
+/*        tv_UserProfile_Info_Terms_1.setOnClickListener(null);
         tv_UserProfile_Info_Terms_2.setOnClickListener(null);
-        tv_UserProfile_Info_Terms_3.setOnClickListener(null);
+        tv_UserProfile_Info_Terms_3.setOnClickListener(null);*/
 
         tv_UserProfile_Info_Name.setText(TKManager.getInstance().TargetUserData.GetUserNickName());
         tv_UserProfile_Info_Age.setText(TKManager.getInstance().TargetUserData.GetUserAge() + "세");
