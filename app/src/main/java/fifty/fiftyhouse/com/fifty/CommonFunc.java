@@ -42,6 +42,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.kakao.auth.ApiResponseCallback;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
 
 import org.json.JSONObject;
 
@@ -78,6 +81,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.AuthActivity;
+import fifty.fiftyhouse.com.fifty.activty.LoadingActivity;
 import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
@@ -1414,7 +1418,95 @@ public class CommonFunc {
             @Override
             public void CompleteListener_No() {
                 DialogFunc.getInstance().DismissLoadingPage();
-                MoveSignUpActivity(activity);
+
+                DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
+                {
+                    @Override
+                    public void Listener()
+                    {
+                        DialogFunc.getInstance().ShowLoadingPage(activity);
+
+
+                        FirebaseManager.CheckFirebaseComplete IndexListen = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+
+                                final Map<String, String> properties = new HashMap<String, String>();
+                                properties.put("Index", TKManager.getInstance().MyData.GetUserIndex());
+
+                                UserManagement.getInstance().requestUpdateProfile(new ApiResponseCallback<Long>() {
+                                    @Override
+                                    public void onSuccess(Long result) {
+
+                                        CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
+                                            @Override
+                                            public void CompleteListener() {
+
+                                                CommonFunc.getInstance().MoveAuthActivity(activity);
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_Yes() {
+
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_No() {
+
+                                            }
+                                        };
+
+                                        CommonFunc.getInstance().GetUserLocation(activity, listener);
+
+
+                                        Log.i("Test", "MainActivity onSuccess");
+                                    }
+
+                                    @Override
+                                    public void onSessionClosed(final ErrorResult errorResult) {
+                                        Log.i("Test", "MainActivity onSessionClosed");
+                                    }
+
+                                    @Override
+                                    public void onFailure(final ErrorResult errorResult) {
+                                        Log.i("Test", "MainActivity onFailure ErrorResult = " + errorResult);
+                                    }
+
+                                    @Override
+                                    public void onNotSignedUp() {
+                                        Log.i("Test", "MainActivity onNotSignedUp");
+                                    }
+                                }, properties);
+
+                                Log.i("Test", "MainActivity onSuccess");
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+                                DialogFunc.getInstance().DismissLoadingPage();
+                            }
+                        };
+
+                        FirebaseManager.getInstance().GetUserIndex(IndexListen);
+                    }
+                };
+
+                final DialogFunc.MsgPopupListener listenerCancel = new DialogFunc.MsgPopupListener() {
+                    @Override
+                    public void Listener() {
+                        activity.finish();
+                        System.exit(0);
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
+                    }
+                };
+                DialogFunc.getInstance().ShowMsgPopup(activity, AuthListener, listenerCancel, CommonFunc.getInstance().getStr(activity.getResources(), R.string.MSG_RE_ME_CONFIRM_DESC), CommonFunc.getInstance().getStr(activity.getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(activity.getResources(), R.string.MSG_CANCEL));
+
+
             }
         };
 

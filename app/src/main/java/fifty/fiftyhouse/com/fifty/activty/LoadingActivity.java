@@ -249,16 +249,16 @@ public class LoadingActivity extends AppCompatActivity {
 
                     if(CommonFunc.getInstance().CheckStringNull(tempUid))
                     {
+                        DialogFunc.getInstance().DismissLoadingPage();
 
                         DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
                         {
                             @Override
                             public void Listener()
                             {
-
-                                //  CommonFunc.getInstance().MoveAuthActivity(LoginActivity.this);
-
                                 DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
+
+
                                 FirebaseManager.CheckFirebaseComplete IndexListen = new FirebaseManager.CheckFirebaseComplete() {
                                     @Override
                                     public void CompleteListener() {
@@ -270,36 +270,11 @@ public class LoadingActivity extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Long result) {
 
-                                                //String tempGender = String.valueOf(response.body().response.gender);
-                                                TKManager.getInstance().MyData.SetUserName("테스트");
-
-                                                TKManager.getInstance().MyData.SetUserGender(1);
-                                                TKManager.getInstance().MyData.SetUserAge(50);
-
-                                                String strPhoneNumber;
-                                                TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                                                try {
-                                                    if (ActivityCompat.checkSelfPermission(LoadingActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LoadingActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                                                        // TODO: Consider calling
-                                                        ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE}, REQUEST_LOCATION);
-                                                        return;
-                                                    }
-
-                                                    String tmpPhoneNumber = mgr.getLine1Number();
-                                                    strPhoneNumber = tmpPhoneNumber.replace("+82", "0");
-
-                                                } catch (Exception e) {
-                                                    strPhoneNumber = "";
-                                                }
-
-                                                TKManager.getInstance().MyData.SetUserPhone(strPhoneNumber);
-
-
                                                 CommonFunc.CheckLocationComplete listener = new CommonFunc.CheckLocationComplete() {
-
                                                     @Override
                                                     public void CompleteListener() {
-                                                        CommonFunc.getInstance().MoveSignUpActivity(LoadingActivity.this);
+
+                                                        CommonFunc.getInstance().MoveAuthActivity(LoadingActivity.this);
                                                     }
 
                                                     @Override
@@ -314,6 +289,7 @@ public class LoadingActivity extends AppCompatActivity {
                                                 };
 
                                                 CommonFunc.getInstance().GetUserLocation(LoadingActivity.this, listener);
+
 
                                                 Log.i("Test", "MainActivity onSuccess");
                                             }
@@ -333,6 +309,8 @@ public class LoadingActivity extends AppCompatActivity {
                                                 Log.i("Test", "MainActivity onNotSignedUp");
                                             }
                                         }, properties);
+
+                                        Log.i("Test", "MainActivity onSuccess");
                                     }
 
                                     @Override
@@ -346,7 +324,6 @@ public class LoadingActivity extends AppCompatActivity {
                                 };
 
                                 FirebaseManager.getInstance().GetUserIndex(IndexListen);
-
                             }
                         };
                         DialogFunc.getInstance().ShowMsgPopup(LoadingActivity.this, AuthListener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM_DESC), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));

@@ -2,11 +2,19 @@ package fifty.fiftyhouse.com.fifty.activty;
 
 import android.content.Context;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kakao.usermgmt.callback.UnLinkResponseCallback;
+import com.kakao.util.helper.log.Logger;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -55,6 +63,15 @@ public class SettingAccountActivity extends AppCompatActivity {
                     @Override
                     public void Listener() {
 
+                        UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
+                            @Override
+                            public void onCompleteLogout() {
+                                TKManager.getInstance().isLoadDataByBoot = true;
+                                final Intent intent = new Intent(SettingAccountActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     }
                 };
 
@@ -69,7 +86,36 @@ public class SettingAccountActivity extends AppCompatActivity {
                 final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
                     @Override
                     public void Listener() {
+                        UserManagement.getInstance().requestUnlink(new UnLinkResponseCallback() {
+                            @Override
+                            public void onFailure(ErrorResult errorResult) {
+                                Logger.e(errorResult.toString());
+                            }
 
+                            @Override
+                            public void onSessionClosed(ErrorResult errorResult) {
+                                TKManager.getInstance().isLoadDataByBoot = true;
+                                final Intent intent = new Intent(SettingAccountActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void onNotSignedUp() {
+                                TKManager.getInstance().isLoadDataByBoot = true;
+                                final Intent intent = new Intent(SettingAccountActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void onSuccess(Long userId) {
+                                TKManager.getInstance().isLoadDataByBoot = true;
+                                final Intent intent = new Intent(SettingAccountActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     }
                 };
 
