@@ -838,6 +838,7 @@ public class UserData {
         return ReportUserList;
     }
     public Set GetReportUserListKeySet() { return  ReportUserList.keySet(); }
+    public void DelReportUserList(String index) {  ReportUserList.remove(index); }
 
     public void SetChatUserList(String Idx, String data){ ChatUserList.put(Idx, data); }
     public String  GetChatUserList(String index){ return ChatUserList.get(index); }

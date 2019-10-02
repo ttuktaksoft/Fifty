@@ -192,7 +192,7 @@ public class UserListActivity extends AppCompatActivity {
                         tempKey = TKManager.getInstance().MyData.GetChatUserListKeySet();
                         break;
                     case CommonData.USER_LIST_BLOCK:
-                        tempKey = null;
+                        tempKey = TKManager.getInstance().MyData.GetReportUserListKeySet();
                         break;
                     default:
                         tempKey = null;
@@ -360,6 +360,24 @@ public class UserListActivity extends AppCompatActivity {
                         @Override
                         public void Listener()
                         {
+                            FirebaseManager.CheckFirebaseComplete ReportCancelUserListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    RefreshAdapter(CommonData.USER_LIST_BLOCK);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void CompleteListener_Yes() {
+                                }
+
+                                @Override
+                                public void CompleteListener_No() {
+                                }
+                            };
+
+                            FirebaseManager.getInstance().RemoveReportUser(tempUserIndex, ReportCancelUserListener);
+
                             // 차단 해제
                         }
                     });
@@ -482,7 +500,7 @@ public class UserListActivity extends AppCompatActivity {
         }
         else if (type == CommonData.USER_LIST_BLOCK)
         {
-            //mUserList.addAll(TKManager.getInstance().MyData.GetChatUserListKeySet());
+            mUserList.addAll(TKManager.getInstance().MyData.GetReportUserListKeySet());
         }
 
         if(mUserList.size() == 0)

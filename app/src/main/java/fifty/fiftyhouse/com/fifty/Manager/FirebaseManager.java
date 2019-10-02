@@ -3941,6 +3941,101 @@ public class FirebaseManager {
                 });
     }
 
+
+    public void RemoveReportUser(final String userIndex, final FirebaseManager.CheckFirebaseComplete listener) {
+
+        mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .collection("ReportUsers").document(userIndex).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+
+                        TKManager.getInstance().MyData.DelReportUserList(userIndex.toString());
+
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                        if(listener != null)
+                            listener.CompleteListener_No();
+                    }
+                });
+    }
+
+
+    public  void GetReportUser( final FirebaseManager.CheckFirebaseComplete listener) {
+        TKManager.getInstance().MyData.ReportUserList.clear();
+
+        final CollectionReference cocRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .collection("ReportUsers");
+
+        cocRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+                    if(task.getResult().size() == 0)
+                    {
+                        if(listener != null)
+                            listener.CompleteListener();
+                    }
+                    else
+                    {
+                        if(task.getResult().size() == 0)
+                            listener.CompleteListener();
+
+                        else
+                        {
+                            SetFireBaseLoadingCount(task.getResult().size());
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                TKManager.getInstance().MyData.SetReportUserList(document.getId().toString(), TKManager.getInstance().UserData_Simple.get(document.getId().toString()) );
+                                GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
+                            }
+                        }
+
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void RegistReportUser(final String userIndex,  final FirebaseManager.CheckFirebaseComplete listener) {
+        final DocumentReference sfDocRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex())
+                .collection("ReportUsers").document(userIndex);
+
+        Map<String, Object> ReportContext = new HashMap<>();
+        ReportContext.put("Index", userIndex);
+
+        sfDocRef.set(ReportContext, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        TKManager.getInstance().MyData.SetReportUserList(userIndex, TKManager.getInstance().UserData_Simple.get(userIndex));
+
+                        if(listener != null)
+                            listener.CompleteListener();
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
     public void EditClubContext(final String clubIndex, final ClubContextData data, final FirebaseManager.CheckFirebaseComplete listener) {
         final DocumentReference sfDocRef = mDataBase.collection("ClubData").document(clubIndex);
 

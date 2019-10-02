@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnRecyclerItemClickListener;
@@ -119,9 +121,28 @@ public class SettingActivity extends AppCompatActivity {
         tv_Setting_Block.setOnClickListener(new OnSingleClickListener(){
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(mContext, UserListActivity.class);
-                intent.putExtra("Type",CommonData.USER_LIST_BLOCK);
-                startActivity(intent);
+
+
+                FirebaseManager.CheckFirebaseComplete ReportUserListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        Intent intent = new Intent(mContext, UserListActivity.class);
+                        intent.putExtra("Type",CommonData.USER_LIST_BLOCK);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+                    }
+                };
+
+                FirebaseManager.getInstance().GetReportUser(ReportUserListener);
+
+
             }
         });
 

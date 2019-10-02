@@ -3,6 +3,8 @@ package fifty.fiftyhouse.com.fifty.activty;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
@@ -29,11 +32,19 @@ public class UserReportActivity extends AppCompatActivity {
     EditText et_UserReport_Memo;
     InputMethodManager imm;
 
+    String targetIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_report);
         mContext = getApplicationContext();
+
+        Intent intent = getIntent(); //getIntent()로 받을준비
+        targetIndex = getIntent().getStringExtra("Index");
+
+
+
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         ui_UserReport_TopBar = findViewById(R.id.ui_UserReport_TopBar);
@@ -42,6 +53,7 @@ public class UserReportActivity extends AppCompatActivity {
         tv_UserReport_Count = findViewById(R.id.tv_UserReport_Count);
         tv_UserReport_Report = findViewById(R.id.tv_UserReport_Report);
         et_UserReport_Memo = findViewById(R.id.et_UserReport_Memo);
+
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -83,8 +95,30 @@ public class UserReportActivity extends AppCompatActivity {
                     return;
                 }
 
-                DialogFunc.getInstance().ShowToast(UserReportActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_REPORT_RESULT), true);
-                finish();
+                DialogFunc.getInstance().ShowLoadingPage(UserReportActivity.this);
+
+                FirebaseManager.CheckFirebaseComplete ReportListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        DialogFunc.getInstance().ShowToast(UserReportActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_USER_REPORT_RESULT), true);
+                        finish();
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+
+                FirebaseManager.getInstance().RegistReportUser(targetIndex,ReportListener);
+
+
             }
         });
 

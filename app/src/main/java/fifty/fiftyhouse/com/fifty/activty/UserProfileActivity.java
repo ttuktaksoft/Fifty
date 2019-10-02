@@ -113,7 +113,9 @@ public class UserProfileActivity extends AppCompatActivity {
                     @Override
                     public void Listener()
                     {
-                        startActivity(new Intent(mContext, UserReportActivity.class));
+                        Intent intent = new Intent(mContext, UserReportActivity.class);
+                        intent.putExtra("Index",TKManager.getInstance().TargetUserData.GetUserIndex());
+                        startActivity(intent);
                     }
                 });
                 menuListenerList.add(new DialogFunc.MsgPopupListener()
@@ -121,8 +123,27 @@ public class UserProfileActivity extends AppCompatActivity {
                     @Override
                     public void Listener()
                     {
-                        DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_BLOCK_COMPLETE), true);
-                        finish();
+                        DialogFunc.getInstance().ShowLoadingPage(UserProfileActivity.this);
+                        FirebaseManager.CheckFirebaseComplete ReportListener = new FirebaseManager.CheckFirebaseComplete() {
+                            @Override
+                            public void CompleteListener() {
+                                DialogFunc.getInstance().DismissLoadingPage();
+                                DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_BLOCK_COMPLETE), true);
+                                finish();
+                            }
+
+                            @Override
+                            public void CompleteListener_Yes() {
+
+                            }
+
+                            @Override
+                            public void CompleteListener_No() {
+
+                            }
+                        };
+
+                        FirebaseManager.getInstance().RegistReportUser(TKManager.getInstance().TargetUserData.GetUserIndex(),ReportListener);
                     }
                 });
 
