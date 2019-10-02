@@ -1403,6 +1403,8 @@ public class FirebaseManager {
                     }
                 }
 
+/*                if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
+                    listener.CompleteListener();*/
 
                /* if (TKManager.getInstance().isLoadDataByBoot == true && listener != null)
                     listener.CompleteListener();*/
@@ -1848,6 +1850,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete ChatRoomListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "ChatRoom");
                                 Complete(listener);
                             /*    FirebaseManager.CheckFirebaseComplete ChatListener = new FirebaseManager.CheckFirebaseComplete() {
                                     @Override
@@ -1888,6 +1891,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete FavoriteRankListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "FavoriteRankListener");
                                   Complete(listener);
                             }
 
@@ -1906,6 +1910,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete AlarmListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "AlarmListener");
                                 Complete(listener);
                             }
 
@@ -1924,6 +1929,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete FilterListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "FilterListener");
                                 Complete(listener);
                             }
 
@@ -1958,6 +1964,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete FavoriteUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "FavoriteUserListener");
                                 Complete(listener);
                             }
 
@@ -1974,6 +1981,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete LikeUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "LikeUserListener");
                                   Complete(listener);
                             }
 
@@ -1990,6 +1998,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete VisitUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "VisitUserListener");
                                  Complete(listener);
                             }
 
@@ -2006,6 +2015,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete ClubRequestUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "ClubRequestUserListener");
                                   Complete(listener);
                             }
 
@@ -2026,6 +2036,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete ClubUserListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "ClubUserListener");
                               Complete(listener);
                             }
 
@@ -2042,6 +2053,7 @@ public class FirebaseManager {
                         FirebaseManager.CheckFirebaseComplete RecommendClubListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
+                                Log.d("%%%%", "RecommendClubListener");
                                  Complete(listener);
                             }
 
@@ -2063,12 +2075,25 @@ public class FirebaseManager {
                             userData.SetUserDist(0);
 
                         if (document.getData().containsKey("Dist_Lon")) {
-                            userData.SetUserDist_Lon(Double.parseDouble(document.getData().get("Dist_Lon").toString()));
+                            if(Double.parseDouble(document.getData().get("Dist_Lon").toString()) == 0)
+                            {
+                                userData.SetUserDist_Lon(126.978425);
+                            }
+                            else
+                            {
+                                userData.SetUserDist_Lon(Double.parseDouble(document.getData().get("Dist_Lon").toString()));
+                            }
                         } else
                             userData.SetUserDist_Lon(126.978425);
 
                         if (document.getData().containsKey("Dist_Lat")) {
-                            userData.SetUserDist_Lat(Double.parseDouble(document.getData().get("Dist_Lat").toString()));
+                            if(Double.parseDouble(document.getData().get("Dist_Lat").toString()) == 0)
+                            {
+                                userData.SetUserDist_Lat(37.566659);
+                            }
+                            else
+                                userData.SetUserDist_Lat(Double.parseDouble(document.getData().get("Dist_Lat").toString()));
+
                         } else
                             userData.SetUserDist_Lat(37.566659);
 
@@ -2084,7 +2109,12 @@ public class FirebaseManager {
                         if(finalMyData)
                         {
                             if (document.getData().containsKey("Dist_Area")) {
-                                userData.SetUserDist_Area(document.getData().get("Dist_Area").toString());
+                                if( document.getData().get("Dist_Area") == null)
+                                {
+                                    userData.SetUserDist_Area("대한민국");
+                                }
+                                else
+                                    userData.SetUserDist_Area(document.getData().get("Dist_Area").toString());
                             } else
                                 userData.SetUserDist_Area("대한민국");
                         }
@@ -5685,6 +5715,8 @@ public class FirebaseManager {
 
     public void RegistUserGeoInfo()
     {
+        Log.d("%%%%", "RegistUserGeoInfo");
+
         CollectionReference collectionRef = FirebaseFirestore.getInstance().collection("UserData_Geo");
         GeoFirestore geoFirestore = new GeoFirestore(collectionRef);
 
@@ -5695,7 +5727,7 @@ public class FirebaseManager {
       //      geoFirestore.setLocation(aasd[i], new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()));
 
            geoFirestore.setLocation(TKManager.getInstance().MyData.GetUserIndex().toString(), new GeoPoint(TKManager.getInstance().MyData.GetUserDist_Lat(), TKManager.getInstance().MyData.GetUserDist_Lon()));
-
+        Log.d("%%%%", "RegistUserGeoInfo end");
     }
 
     public void GetSortData(final FirebaseManager.CheckFirebaseComplete listener) {

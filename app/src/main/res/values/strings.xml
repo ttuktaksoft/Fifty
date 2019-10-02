@@ -232,6 +232,7 @@
     <string name="MSG_DEFAULT_LOCATION_MEMO_2">입니다</string>
     <string name="MSG_ME_CONFIRM">본인인증</string>
     <string name="MSG_ME_CONFIRM_DESC">개인 정보 확인을 위해\n본인인증을 진행해주세요</string>
+    <string name="MSG_RE_ME_CONFIRM_DESC">본인 인증이 완료되지 않았습니다\n본인인증을 진행해주세요</string>
 
 
     <string name="TITLE_SIGNUP">회원가입</string>
