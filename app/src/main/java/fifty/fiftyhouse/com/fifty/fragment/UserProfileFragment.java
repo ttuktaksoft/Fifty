@@ -184,7 +184,7 @@ public class UserProfileFragment extends Fragment {
                         Set KeySet = TKManager.getInstance().MyData.GetUserVisitKeySet();
                         Iterator iterator = KeySet.iterator();
 
-                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserVisitListCount());
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount("프로필변경", TKManager.getInstance().MyData.GetUserVisitListCount());
 
                         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -208,7 +208,7 @@ public class UserProfileFragment extends Fragment {
                             String key = (String)iterator.next();
                             if(TKManager.getInstance().UserData_Simple.get(key) != null)
                             {
-                                FirebaseManager.getInstance().Complete(listener);
+                                FirebaseManager.getInstance().Complete("프로필변경", listener);
                             }
                             else
                                 FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
@@ -247,7 +247,7 @@ public class UserProfileFragment extends Fragment {
                         Set KeySet = TKManager.getInstance().MyData.GetUserLikeKeySet();
                         Iterator iterator = KeySet.iterator();
 
-                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserLikeListCount());
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount("프로필변경", TKManager.getInstance().MyData.GetUserLikeListCount());
 
                         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -270,7 +270,7 @@ public class UserProfileFragment extends Fragment {
                         while (iterator.hasNext()) {
                             String key = (String) iterator.next();
                             if (TKManager.getInstance().UserData_Simple.get(key) != null) {
-                                FirebaseManager.getInstance().Complete(listener);
+                                FirebaseManager.getInstance().Complete("프로필변경", listener);
                             } else
                                 FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
                         }
@@ -315,7 +315,7 @@ public class UserProfileFragment extends Fragment {
                     Iterator iterator = tempKeySet.iterator();
 
                     //FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserFriendListCount() + TKManager.getInstance().MyData.GetRequestFriendListCount());
-                    FirebaseManager.getInstance().SetFireBaseLoadingCount(tempFriend.size());
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount("프로필변경", tempFriend.size());
 
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
@@ -339,7 +339,7 @@ public class UserProfileFragment extends Fragment {
                         String key = (String)iterator.next();
                         if(TKManager.getInstance().UserData_Simple.get(key) != null)
                         {
-                            FirebaseManager.getInstance().Complete(listener);
+                            FirebaseManager.getInstance().Complete("프로필변경", listener);
                         }
                         else
                             FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);

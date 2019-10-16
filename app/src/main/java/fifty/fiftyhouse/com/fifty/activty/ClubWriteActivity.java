@@ -162,7 +162,7 @@ public class ClubWriteActivity extends AppCompatActivity {
                     else if(TKManager.getInstance().TempUploadClubContextImg.size() == 1)
                     {
                         TKManager.getInstance().CreateTempClubContextData.SetContextType(1);
-                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempUploadClubContextImg.size());
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount("클럽글쓰기", TKManager.getInstance().TempUploadClubContextImg.size());
                         FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
@@ -190,7 +190,7 @@ public class ClubWriteActivity extends AppCompatActivity {
 
                         for(int i=0 ;i< TKManager.getInstance().TempUploadClubContextImg.size(); i++)
                         {
-                            FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TempUploadClubContextImg.size());
+                            FirebaseManager.getInstance().SetFireBaseLoadingCount("클럽글쓰기" , TKManager.getInstance().TempUploadClubContextImg.size());
                             FirebaseManager.CheckFirebaseComplete uploadListener = new FirebaseManager.CheckFirebaseComplete() {
                                 @Override
                                 public void CompleteListener() {

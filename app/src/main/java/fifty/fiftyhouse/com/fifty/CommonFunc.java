@@ -1375,6 +1375,7 @@ public class CommonFunc {
             @Override
             public void CompleteListener() {
 
+                Log.d("!!!!!!!", "마이데이터 끝");
                 TKManager.getInstance().UserData_Simple.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData);
 
 
@@ -1696,7 +1697,7 @@ public class CommonFunc {
                     {
                         Iterator iterator = KeySet.iterator();
 
-                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TargetUserData.GetUserClubDataCount());
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount("마이페이지 로딩", TKManager.getInstance().TargetUserData.GetUserClubDataCount());
 
                         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -1722,7 +1723,7 @@ public class CommonFunc {
                             String key = (String)iterator.next();
                             if(TKManager.getInstance().ClubData_Simple.get(key) != null)
                             {
-                                FirebaseManager.getInstance().Complete(listener);
+                                FirebaseManager.getInstance().Complete("마이페이지 로딩 완", listener);
                             }
                             else
                                 FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
@@ -1932,6 +1933,12 @@ public class CommonFunc {
             e.printStackTrace();
         }
         return resizeBitmap;
+    }
+
+    public void tLog(String tag, Object msg)
+    {
+     //   if(CommonData.TEST_TEXT_VISIBLE)
+            Log.d(tag, msg.toString());
     }
 
 

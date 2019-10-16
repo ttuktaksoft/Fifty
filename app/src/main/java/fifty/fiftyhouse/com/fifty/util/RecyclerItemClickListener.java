@@ -3,6 +3,8 @@ package fifty.fiftyhouse.com.fifty.util;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+import fifty.fiftyhouse.com.fifty.CommonData;
+
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -31,7 +33,10 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
             public void onLongPress(MotionEvent e) {
                 View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
                 if (child != null && mListener != null) {
-                    Log.d("long", "press");
+
+                    if(CommonData.TEST_TEXT_VISIBLE)
+                        Log.d("long", "press");
+
                     mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
                 }
             }

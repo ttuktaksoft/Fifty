@@ -95,7 +95,7 @@ public class MyProfileFragment extends Fragment{
                 {
                     Iterator iterator = KeySet.iterator();
 
-                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetAlarmListCount());
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount("알람설정", TKManager.getInstance().MyData.GetAlarmListCount());
 
                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                         @Override
@@ -119,7 +119,7 @@ public class MyProfileFragment extends Fragment{
                         String key = (String)iterator.next();
                         if(TKManager.getInstance().UserData_Simple.get(key) != null)
                         {
-                            FirebaseManager.getInstance().Complete(listener);
+                            FirebaseManager.getInstance().Complete("알람설정", listener);
                         }
                         else
                             FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);

@@ -11,9 +11,11 @@ import android.content.pm.Signature;
 import android.graphics.Point;
 import android.location.LocationManager;
 import android.os.Bundle;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
@@ -82,91 +84,82 @@ public class LoadingActivity extends AppCompatActivity {
         CommonFunc.getInstance().setHeightByDevice(size.y);
 
 
+        if (true) {
 
 
-        if(true)
-        {
+            if (CommonFunc.getInstance().getWhatKindOfNetwork(mActivity).equals(NONE_STATE)) {
+                final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                    @Override
+                    public void Listener() {
+                        mActivity.finish();
+                        System.exit(0);
+                        int pid = android.os.Process.myPid();
+                        android.os.Process.killProcess(pid);
+                    }
+                };
+
+                DialogFunc.getInstance().ShowMsgPopup(mActivity, listenerYes, listenerYes, "인터넷 연결을 확인 해 주세요", "확인", null);
+
+            } else {
+
+                DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
+
+                final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-        if(CommonFunc.getInstance().getWhatKindOfNetwork(mActivity).equals(NONE_STATE))
-        {
-            final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
-                @Override
-                public void Listener() {
-                    mActivity.finish();
-                    System.exit(0);
-                    int pid = android.os.Process.myPid();
-                    android.os.Process.killProcess(pid);
-                }
-            };
+                FirebaseManager.CheckFirebaseComplete signListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
 
-            DialogFunc.getInstance().ShowMsgPopup(mActivity, listenerYes, listenerYes, "인터넷 연결을 확인 해 주세요", "확인", null);
-
-        }
-        else
-        {
-
-            DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
-
-            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
+                        int permissionPhone = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_PHONE_STATE);
+                        int permissionSMS = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_SMS);
 
 
-            FirebaseManager.CheckFirebaseComplete signListener = new FirebaseManager.CheckFirebaseComplete() {
-                @Override
-                public void CompleteListener() {
+                        SharedPreferences sf = getSharedPreferences("userFile", MODE_PRIVATE);
+                        //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
+                        userIndex = sf.getString("Index", "");
+                        //   userIndex = null;
+                        //  userIndex = "6";
 
-                    int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
-                    int permissionPhone = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_PHONE_STATE);
-                    int permissionSMS = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_SMS);
+                        //Log.d("#@!!",  userIndex);
+                        if (CommonFunc.getInstance().CheckStringNull(userIndex)) {
+                            if (permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED || permissionSMS == PackageManager.PERMISSION_DENIED) {
+                                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_LOCATION);
 
+                            } else {
 
-                    SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
-                    //text라는 key에 저장된 값이 있는지 확인. 아무값도 들어있지 않으면 ""를 반환
-                    userIndex = sf.getString("Index","");
-                 //   userIndex = null;
-                   //  userIndex = "6";
+                                CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
 
-                    //Log.d("#@!!",  userIndex);
-                    if(CommonFunc.getInstance().CheckStringNull(userIndex))
-                    {
-                        if(permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED || permissionSMS == PackageManager.PERMISSION_DENIED) {
-                            ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_LOCATION);
-
+                            }
                         } else {
 
-                            CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
 
+                            TKManager.getInstance().MyData.SetUserIndex(userIndex);
+
+                            if (permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED || permissionSMS == PackageManager.PERMISSION_DENIED) {
+                                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_KAKAO);
+                                Log.e("#@!!", " requestPermissions KAKAO_LOGIN_ALL");
+                            } else {
+                                Session.getCurrentSession().addCallback(LoadingCallback);
+                                // Session.getCurrentSession().checkAndImplicitOpen();
+                                Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, LoadingActivity.this);
+                                Log.e("#@!!", "KAKAO_LOGIN_ALL");
+                            }
                         }
                     }
-                    else
-                    {
 
+                    @Override
+                    public void CompleteListener_Yes() {
 
-                        TKManager.getInstance().MyData.SetUserIndex(userIndex);
-
-                        if(permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED || permissionSMS == PackageManager.PERMISSION_DENIED) {
-                            ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_KAKAO);
-                            Log.e("#@!!",  " requestPermissions KAKAO_LOGIN_ALL");
-                        } else {
-                            Session.getCurrentSession().addCallback(LoadingCallback);
-                            // Session.getCurrentSession().checkAndImplicitOpen();
-                            Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, LoadingActivity.this);
-                            Log.e("#@!!", "KAKAO_LOGIN_ALL");
-                        }
                     }
-                }
 
-                @Override
-                public void CompleteListener_Yes() {
+                    @Override
+                    public void CompleteListener_No() {
 
-                }
-
-                @Override
-                public void CompleteListener_No() {
-
-                }
-            };
-            FirebaseManager.getInstance().SignInAnonymously(LoadingActivity.this, signListener);
+                    }
+                };
+                FirebaseManager.getInstance().SignInAnonymously(LoadingActivity.this, signListener);
 
             }
         }
@@ -242,20 +235,17 @@ public class LoadingActivity extends AppCompatActivity {
                     properties = response.getProperties();
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                     String tempUid = properties.get("Index");
-                //    Log.e("#@!!", tempUid);
-                  //  tempUid = "6";
+                    //    Log.e("#@!!", tempUid);
+                    //  tempUid = "6";
 
-                 //  DialogFunc.getInstance().DismissLoadingPage();
+                    //  DialogFunc.getInstance().DismissLoadingPage();
 
-                    if(CommonFunc.getInstance().CheckStringNull(tempUid))
-                    {
+                    if (CommonFunc.getInstance().CheckStringNull(tempUid)) {
                         DialogFunc.getInstance().DismissLoadingPage();
 
-                        DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
-                        {
+                        DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener() {
                             @Override
-                            public void Listener()
-                            {
+                            public void Listener() {
                                 DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
 
 
@@ -328,9 +318,7 @@ public class LoadingActivity extends AppCompatActivity {
                         };
                         DialogFunc.getInstance().ShowMsgPopup(LoadingActivity.this, AuthListener, null, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM_DESC), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
 
-                    }
-                    else
-                    {
+                    } else {
                         TKManager.getInstance().MyData.SetUserIndex(tempUid);
 
                         DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
@@ -410,100 +398,81 @@ public class LoadingActivity extends AppCompatActivity {
                     String permission = permissions[i];
                     int grantResult = grantResults[i];
 
-                    if (permission.equals(Manifest.permission.READ_PHONE_STATE))
-                    {
-                        if(grantResult == PackageManager.PERMISSION_GRANTED)
-                        {
+                    if (permission.equals(Manifest.permission.READ_PHONE_STATE)) {
+                        if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
                         }
                     }
 
-                    if (permission.equals(Manifest.permission.READ_SMS))
-                    {
-                        if(grantResult == PackageManager.PERMISSION_GRANTED)
-                        {
+                    if (permission.equals(Manifest.permission.READ_SMS)) {
+                        if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
                         }
                     }
                     if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        if(grantResult == PackageManager.PERMISSION_GRANTED) {
+                        if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
                         }
                     }
                 }
 
-                if(PermissionCnt == 3)
-                {
+                if (PermissionCnt == 3) {
                     CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
-                }
-                else
-                {
+                } else {
 
-                    DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
-                    {
+                    DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener() {
                         @Override
-                        public void Listener()
-                        {
+                        public void Listener() {
                             android.os.Process.killProcess(android.os.Process.myPid());
                         }
                     };
-                    DialogFunc.getInstance().ShowMsgPopup(LoadingActivity.this, AuthListener, null, "권한 동의를 하지 않으셨습니다", CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));                }
+                    DialogFunc.getInstance().ShowMsgPopup(LoadingActivity.this, AuthListener, null, "권한 동의를 하지 않으셨습니다", CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+                }
                 break;
 
             case REQUEST_KAKAO:
-                Log.e("#@!!",  " REQUEST_KAKAO");
+                Log.e("#@!!", " REQUEST_KAKAO");
                 DialogFunc.getInstance().DismissLoadingPage();
                 for (int i = 0; i < permissions.length; i++) {
                     String permission = permissions[i];
                     int grantResult = grantResults[i];
 
-                    if (permission.equals(Manifest.permission.READ_PHONE_STATE))
-                    {
-                        if(grantResult == PackageManager.PERMISSION_GRANTED)
-                        {
+                    if (permission.equals(Manifest.permission.READ_PHONE_STATE)) {
+                        if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
                         }
                     }
 
-                    if (permission.equals(Manifest.permission.READ_SMS))
-                    {
-                        if(grantResult == PackageManager.PERMISSION_GRANTED)
-                        {
+                    if (permission.equals(Manifest.permission.READ_SMS)) {
+                        if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
                         }
                     }
                     if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        if(grantResult == PackageManager.PERMISSION_GRANTED) {
+                        if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
                         }
                     }
                 }
 
-                if(PermissionCnt == 3)
-                {
-                    Log.e("#@!!",  " PermissionCnt" + PermissionCnt);
+                if (PermissionCnt == 3) {
+                    Log.e("#@!!", " PermissionCnt" + PermissionCnt);
                     Session.getCurrentSession().addCallback(LoadingCallback);
                     //   Session.getCurrentSession().checkAndImplicitOpen();
                     Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, LoadingActivity.this);
-                }
-                else
-                {
+                } else {
 
-                    DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener()
-                    {
+                    DialogFunc.MsgPopupListener AuthListener = new DialogFunc.MsgPopupListener() {
                         @Override
-                        public void Listener()
-                        {
+                        public void Listener() {
                             android.os.Process.killProcess(android.os.Process.myPid());
                         }
                     };
-                    DialogFunc.getInstance().ShowMsgPopup(LoadingActivity.this, AuthListener, null, "권한 동의를 하지 않으셨습니다", CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));                }
+                    DialogFunc.getInstance().ShowMsgPopup(LoadingActivity.this, AuthListener, null, "권한 동의를 하지 않으셨습니다", CommonFunc.getInstance().getStr(getResources(), R.string.MSG_ME_CONFIRM), CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CANCEL));
+                }
                 break;
         }
     }
-
-
-
 
 
 }

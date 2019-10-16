@@ -531,7 +531,7 @@ public class UserListActivity extends AppCompatActivity {
                     {
                         Iterator iterator = KeySet.iterator();
 
-                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().TargetUserData.GetUserClubDataCount());
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount("유져페이지", TKManager.getInstance().TargetUserData.GetUserClubDataCount());
 
                         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -552,7 +552,7 @@ public class UserListActivity extends AppCompatActivity {
                             String key = (String)iterator.next();
                             if(TKManager.getInstance().ClubData_Simple.get(key) != null)
                             {
-                                FirebaseManager.getInstance().Complete(listener);
+                                FirebaseManager.getInstance().Complete("유져페이지", listener);
                             }
                             else
                                 FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);

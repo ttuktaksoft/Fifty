@@ -123,6 +123,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onSingleClick(View view) {
 
 
+                FirebaseManager.getInstance().SetFireBaseLoadingCount("차단", 1);
                 FirebaseManager.CheckFirebaseComplete ReportUserListener = new FirebaseManager.CheckFirebaseComplete() {
                     @Override
                     public void CompleteListener() {

@@ -419,7 +419,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                         }
                         else
                         {
-                            FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                            FirebaseManager.getInstance().SetFireBaseLoadingCount("유져페이지 채팅", 2);
                             FirebaseManager.getInstance().GetUserData_Simple(finalStrTargetIndex, TKManager.getInstance().UserData_Simple, listener);
                         }
 

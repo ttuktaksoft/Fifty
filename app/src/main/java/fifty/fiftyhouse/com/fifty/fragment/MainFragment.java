@@ -76,7 +76,7 @@ public class MainFragment extends Fragment {
                     {
                         Iterator iterator = KeySet.iterator();
 
-                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetAlarmListCount());
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount("메인 페이지" , TKManager.getInstance().MyData.GetAlarmListCount());
 
                         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -100,7 +100,7 @@ public class MainFragment extends Fragment {
                             String key = (String)iterator.next();
                             if(TKManager.getInstance().UserData_Simple.get(key) != null)
                             {
-                                FirebaseManager.getInstance().Complete(listener);
+                                FirebaseManager.getInstance().Complete("메인 페이지 ㅇㅇㅇ" , listener);
                             }
                             else
                                 FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
@@ -128,7 +128,7 @@ public class MainFragment extends Fragment {
                     {
                         Iterator iterator = KeySet.iterator();
 
-                        FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetAlarmListCount());
+                        FirebaseManager.getInstance().SetFireBaseLoadingCount("메인 페이지" , TKManager.getInstance().MyData.GetAlarmListCount());
 
                         FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -152,7 +152,7 @@ public class MainFragment extends Fragment {
                             String key = (String)iterator.next();
                             if(TKManager.getInstance().UserData_Simple.get(key) != null)
                             {
-                                FirebaseManager.getInstance().Complete(listener);
+                                FirebaseManager.getInstance().Complete("메인 페이지 ㅇㅇㅇ" , listener);
                             }
                             else
                                 FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);

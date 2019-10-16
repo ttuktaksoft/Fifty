@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                                 {
                                     Iterator iterator = KeySet.iterator();
 
-                                    FirebaseManager.getInstance().SetFireBaseLoadingCount(tempClub.size());
+                                    FirebaseManager.getInstance().SetFireBaseLoadingCount("클럽 페이지" , tempClub.size());
 
                                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                                         @Override
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                                         String key = (String)iterator.next();
                                         if(TKManager.getInstance().ClubData_Simple.get(key) != null)
                                         {
-                                            FirebaseManager.getInstance().Complete(listener);
+                                            FirebaseManager.getInstance().Complete("클럽 페이지 ㅇㅇㅇ" ,listener);
                                         }
                                         else
                                             FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                                 {
                                     Iterator iterator = KeySet.iterator();
 
-                                    FirebaseManager.getInstance().SetFireBaseLoadingCount(TKManager.getInstance().MyData.GetUserClubDataCount());
+                                    FirebaseManager.getInstance().SetFireBaseLoadingCount("클럽 페이지" ,TKManager.getInstance().MyData.GetUserClubDataCount());
 
                                     FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
                                         @Override
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                                         String key = (String)iterator.next();
                                         if(TKManager.getInstance().ClubData_Simple.get(key) != null)
                                         {
-                                            FirebaseManager.getInstance().Complete(listener);
+                                            FirebaseManager.getInstance().Complete("클럽 페이지 ㅇㅇㅇ" ,listener);
                                         }
                                         else
                                             FirebaseManager.getInstance().GetClubData_Simple(key, TKManager.getInstance().ClubData_Simple, listener);

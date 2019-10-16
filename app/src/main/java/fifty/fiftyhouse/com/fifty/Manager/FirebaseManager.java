@@ -81,6 +81,9 @@ public class FirebaseManager {
 
     private ListenerRegistration ChatDataMonitor_registration;
 
+    private DocumentSnapshot lastNewUserVisible;
+    private DocumentSnapshot lastFriendUserVisible;
+    private DocumentSnapshot lastFavoriteUserVisible;
 
     // 임시 데이터
 
@@ -111,26 +114,30 @@ public class FirebaseManager {
 
     public int FireBaseLoadingCount = 0;
 
-    public void SetFireBaseLoadingCount(int count) {
+    public void SetFireBaseLoadingCount(final String Call, int count) {
         UserLoading = 0;
         FireBaseLoadingCount = count;
+        if(CommonData.TEST_TEXT_VISIBLE)
+            Log.d("!!!!!!!", Call + "로딩 설정: " + FireBaseLoadingCount);
     }
 
-    public void AddFireBaseLoadingCount() {
+    public void AddFireBaseLoadingCount(final String Call) {
         FireBaseLoadingCount++;
-        Log.d("!!!!!!!", "로딩 추가: " + FireBaseLoadingCount);
+        if(CommonData.TEST_TEXT_VISIBLE)
+            Log.d("!!!!!!!", Call + "로딩 추가: " + FireBaseLoadingCount);
     }
 
-    public void AddFireBaseLoadingCount(int count) {
+    public void AddFireBaseLoadingCount(final String Call, int count) {
         FireBaseLoadingCount += count;
-        Log.d("!!!!!!!", "로딩 추가 덩어리 : " + FireBaseLoadingCount);
+        if(CommonData.TEST_TEXT_VISIBLE)
+            Log.d("!!!!!!!",  Call + "로딩 추가 덩어리 : " + FireBaseLoadingCount);
     }
 
     public int GetFireBaseLoadingCount() {
         return FireBaseLoadingCount;
     }
 
-    public void CompleteFireBaseLoadingCount(final FirebaseManager.CheckFirebaseComplete listener) {
+/*    public void CompleteFireBaseLoadingCount(final FirebaseManager.CheckFirebaseComplete listener) {
         UserLoading++;
         if (UserLoading == GetFireBaseLoadingCount()) {
             UserLoading = 0;
@@ -138,18 +145,22 @@ public class FirebaseManager {
             if (listener != null)
                 listener.CompleteListener();
         }
-    }
+    }*/
 
-    public void Complete(final FirebaseManager.CheckFirebaseComplete listener) {
-
-
+    public void Complete(final String Call, final FirebaseManager.CheckFirebaseComplete listener) {
 
         UserLoading++;
-        Log.d("!!!!!!!", "로딩 완료 : " + UserLoading);
+
+        if(CommonData.TEST_TEXT_VISIBLE)
+            Log.d("!!!!!!!", Call + " 로딩 완료 : " + UserLoading + "   " + GetFireBaseLoadingCount() );
+
         if (UserLoading == GetFireBaseLoadingCount()) {
             UserLoading = 0;
-            SetFireBaseLoadingCount(0);
-            Log.d("!!!!!!!", "로딩 완료 끝: " + UserLoading);
+            SetFireBaseLoadingCount(Call, 0);
+
+            if(CommonData.TEST_TEXT_VISIBLE)
+                Log.d("!!!!!!!", "로딩 완료 끝: " + UserLoading);
+
             if (listener != null)
                 listener.CompleteListener();
         }
@@ -288,9 +299,10 @@ public class FirebaseManager {
     }
 
     public void SetMyDataOnFireBase(boolean boot, final FirebaseManager.CheckFirebaseComplete listener) {
+        if(CommonData.TEST_TEXT_VISIBLE)
+            Log.d("!!!!!!!", "내 정보 저장");
 
-        Log.d("!!!!!!!", "내 정보 저장");
-        SetFireBaseLoadingCount(5);
+        SetFireBaseLoadingCount("내 정보 저장", 5);
 
         if (mDataBase == null)
             GetFireStore();
@@ -349,7 +361,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Complete(listener);
+                        Complete("내 정보 저장 완", listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -378,7 +390,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Complete(listener);
+                        Complete("내 심플 정보 저장 완", listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -397,7 +409,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Complete(listener);
+                        Complete("내 닉네임 저장 완", listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -415,7 +427,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Complete(listener);
+                        Complete("내 거리 저장 완", listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -434,7 +446,7 @@ public class FirebaseManager {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Complete(listener);
+                        Complete("신규 정보 저장 완", listener);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -444,7 +456,7 @@ public class FirebaseManager {
                     }
                 });
 
-        Complete(listener);
+        Complete("내 정보 모두 완",  listener);
     }
 
     public void SetUserDataOnFireBase(CommonData.CollentionType collectType, String documentName, String key, Object obj) {
@@ -733,7 +745,7 @@ public class FirebaseManager {
     public void GetUserClubChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         TKManager.getInstance().MyData.ClearUserChatData();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("클럽 채팅 로드", 0);
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
         final int TodayDate = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
 
@@ -741,7 +753,7 @@ public class FirebaseManager {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    SetFireBaseLoadingCount(task.getResult().size());
+                    SetFireBaseLoadingCount("클럽 채팅 로드", task.getResult().size());
 
                     if(task.getResult().size() == 0)
                         listener.CompleteListener_No();
@@ -787,7 +799,7 @@ public class FirebaseManager {
                             }
                             else
                             {
-                                Complete(listener);
+                                Complete("클럽 채팅 로드 완", listener);
                             }
 
                         }
@@ -804,7 +816,7 @@ public class FirebaseManager {
     public void GetUserListInChatRoom(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         TKManager.getInstance().MyData.ClearChatUserList();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("채팅 인원 로드", 0);
 
         DocumentReference docRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex);
 
@@ -819,7 +831,7 @@ public class FirebaseManager {
 
                         if (document.getData().containsKey("UserList")) {
                             HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("UserList");
-                            SetFireBaseLoadingCount(tempImg.size());
+                            SetFireBaseLoadingCount("채팅 인원 로드", tempImg.size());
 
                             Set set = tempImg.entrySet();
                             Iterator iterator = set.iterator();
@@ -835,7 +847,7 @@ public class FirebaseManager {
                                 }
                                 else
                                 {
-                                    Complete(listener);
+                                    Complete( "채팅 인원 로드 완", listener);
                                 }
                             }
                         }
@@ -1371,7 +1383,7 @@ public class FirebaseManager {
 
                             if(!TKManager.getInstance().MonitorChatList.contains(tempData.GetRoomIndex()))
                             {
-                                AddFireBaseLoadingCount();
+                                AddFireBaseLoadingCount("채팅 방 로드");
                                 TKManager.getInstance().MonitorChatList.add(tempData.GetRoomIndex());
                                 MonitorChatData(tempData.GetRoomIndex(), TKManager.getInstance().MyData, listener);
                             }
@@ -1436,10 +1448,11 @@ public class FirebaseManager {
                                 TKManager.getInstance().MyData.SetRequestFriend(document.getDocument().getId().toString(), document.getDocument().getData().get("Date").toString());
                                 if(TKManager.getInstance().UserData_Simple.get(document.getDocument().getId().toString()) == null)
                                 {
-                                    AddFireBaseLoadingCount();
+                                    AddFireBaseLoadingCount("친구 목록 로드");
                                     Log.d(TAG, document.getDocument().getId() + " => " + document.getDocument().getData());
                                     GetUserData_Simple(document.getDocument().getId(), TKManager.getInstance().UserData_Simple, listener);
                                 }
+
                             }
                             break;
                         case REMOVED:
@@ -1661,7 +1674,7 @@ public class FirebaseManager {
                         }
                     }
 
-                  Complete(listener);
+                  Complete("즐겨찾기 클럽 썸데일 로드 와ㅓㄴ", listener);
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -1672,14 +1685,14 @@ public class FirebaseManager {
 
     public void GetUserFavoriteClubList(final CheckFirebaseComplete listener)
     {
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("관심사 클럽 로드", 0);
         CollectionReference colRef = mDataBase.collection("ClubData_Favorite");
         colRef.limit(50).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        SetFireBaseLoadingCount(task.getResult().size());
+                        SetFireBaseLoadingCount("관심사 클럽 로드", task.getResult().size());
 
                         TKManager.getInstance().FavoriteLIst_ClubList.add(document.getId().toString());
                         GetUserFavoriteClubThumbList(document.getId().toString(), listener);
@@ -1764,7 +1777,7 @@ public class FirebaseManager {
         {
             Log.d("!!!!!!!", "본인");
             bMyData = true;
-            SetFireBaseLoadingCount(10);
+            SetFireBaseLoadingCount("본인 로드", 9);
             //SetFireBaseLoadingCount(7);
         }
         else
@@ -1772,7 +1785,7 @@ public class FirebaseManager {
             Log.d("!!!!!!!", "타인");
             bMyData = false;
             userData.Clear();
-            SetFireBaseLoadingCount(5);
+            SetFireBaseLoadingCount("타인 로드", 5);
         }
 
 
@@ -1851,7 +1864,7 @@ public class FirebaseManager {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "ChatRoom");
-                                Complete(listener);
+                                Complete("채팅데이터 로드 완", listener);
                             /*    FirebaseManager.CheckFirebaseComplete ChatListener = new FirebaseManager.CheckFirebaseComplete() {
                                     @Override
                                     public void CompleteListener() {
@@ -1888,11 +1901,11 @@ public class FirebaseManager {
                         if(finalMyData)
                             GetUserChatList(userIndex, userData, ChatRoomListener);
 
-                        FirebaseManager.CheckFirebaseComplete FavoriteRankListener = new FirebaseManager.CheckFirebaseComplete() {
+                        /*FirebaseManager.CheckFirebaseComplete FavoriteRankListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "FavoriteRankListener");
-                                  Complete(listener);
+                                  Complete("관심사랭킹 로드 완",  listener);
                             }
 
                             @Override
@@ -1905,13 +1918,15 @@ public class FirebaseManager {
                         };
 
                         if(finalMyData)
-                            FindFavoriteRank(FavoriteRankListener);
+                            FindFavoriteRank(FavoriteRankListener);*/
+
+
 
                         FirebaseManager.CheckFirebaseComplete AlarmListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "AlarmListener");
-                                Complete(listener);
+                                Complete("알람 로드 완", listener);
                             }
 
                             @Override
@@ -1930,7 +1945,7 @@ public class FirebaseManager {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "FilterListener");
-                                Complete(listener);
+                                Complete("정렬 로드 완", listener);
                             }
 
                             @Override
@@ -1965,7 +1980,7 @@ public class FirebaseManager {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "FavoriteUserListener");
-                                Complete(listener);
+                                Complete("관심사 로드 완", listener);
                             }
 
                             @Override
@@ -1982,7 +1997,7 @@ public class FirebaseManager {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "LikeUserListener");
-                                  Complete(listener);
+                                  Complete("좋아요 로드 완", listener);
                             }
 
                             @Override
@@ -1999,7 +2014,7 @@ public class FirebaseManager {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "VisitUserListener");
-                                 Complete(listener);
+                                 Complete("방문자 로드 완", listener);
                             }
 
                             @Override
@@ -2016,7 +2031,7 @@ public class FirebaseManager {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "ClubRequestUserListener");
-                                  Complete(listener);
+                                  Complete("클럽가입신청 로드 완", listener);
                             }
 
                             @Override
@@ -2037,7 +2052,7 @@ public class FirebaseManager {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "ClubUserListener");
-                              Complete(listener);
+                              Complete("클럽목록 로드 완", listener);
                             }
 
                             @Override
@@ -2054,7 +2069,7 @@ public class FirebaseManager {
                             @Override
                             public void CompleteListener() {
                                 Log.d("%%%%", "RecommendClubListener");
-                                 Complete(listener);
+                                 Complete("추천클럽 로드 완", listener);
                             }
 
                             @Override
@@ -2132,7 +2147,7 @@ public class FirebaseManager {
 
 
 
-                        Complete(listener);
+                        Complete("마이데아터 로드 완", listener);
 
                     } else {
                         Log.d(TAG, "No such document");
@@ -2208,19 +2223,29 @@ public class FirebaseManager {
     }
 
     public void GetUserList(final CheckFirebaseComplete listener) {
-        SetFireBaseLoadingCount(0);
-        GetUserListDist(listener);
-        //GetUserListHot(listener);
+        SetFireBaseLoadingCount("유저목록 로드", 6);
+        GetUserListDist( listener);
 
+        GetReportUser(listener);
         Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
         List array = new ArrayList(EntrySet);
-        GetFavoriteList(array.get(0).toString(), listener);
+        GetFavoriteList(true, array.get(0).toString(), listener);
 
         FindFavoriteRank(listener);
 
-        GetUserListNew(listener);
-        GetUserListFriend(listener);
-        GetRequestFriendList(listener);
+        GetUserListNew(true, listener);
+        GetUserListFriend(true,listener);
+    }
+
+    public void AddUserList(final  CheckFirebaseComplete listener) {
+        GetUserListDist( listener);
+
+        Set EntrySet = TKManager.getInstance().MyData.GetUserFavoriteListKeySet();
+        List array = new ArrayList(EntrySet);
+        GetFavoriteList(false, array.get(0).toString(), listener);
+
+        GetUserListNew(false, listener);
+        GetUserListFriend(false, listener);
     }
 
     public void GetUserListDist(final CheckFirebaseComplete listener) {
@@ -2234,26 +2259,24 @@ public class FirebaseManager {
         geoQuery.addGeoQueryDataEventListener(new GeoQueryDataEventListener() {
             @Override
             public void onDocumentEntered(DocumentSnapshot documentSnapshot, GeoPoint location) {
-                Log.d("##%%%%", documentSnapshot.getId());
+                Log.d("DIST!!!", documentSnapshot.getId());
 
 
                 if(!documentSnapshot.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                 {
+                    AddFireBaseLoadingCount("유저목록 거리 로드");
                     TKManager.getInstance().UserList_Dist.add(documentSnapshot.getId().toString());
 
-                    if(TKManager.getInstance().UserData_Simple.get(documentSnapshot.getId().toString()) == null)
-                    {
-                        AddFireBaseLoadingCount();
-                        Log.d(TAG, "GEO : " +documentSnapshot.getId() + " => " + documentSnapshot.getData());
-                        GetUserData_Simple(documentSnapshot.getId(), TKManager.getInstance().UserData_Simple, listener);
-                    }
+
+                    Log.d("DIST!!!", "GEO : " +documentSnapshot.getId() + " => " + documentSnapshot.getData());
+//                    GetUserData_Simple(documentSnapshot.getId(), TKManager.getInstance().UserData_Simple, listener);
                 }
 
             }
 
             @Override
             public void onDocumentExited(DocumentSnapshot documentSnapshot) {
-                Log.d("##%%%%", documentSnapshot.getId());
+                Log.d("DIST!!!", documentSnapshot.getId());
             }
 
             @Override
@@ -2268,6 +2291,12 @@ public class FirebaseManager {
 
             @Override
             public void onGeoQueryReady() {
+                Log.d("DIST!!!", "All initial data has been loaded and events have been fired!");
+
+                for(int i=0; i<TKManager.getInstance().UserList_Dist.size(); i++)
+                {
+                    GetUserData_Simple(TKManager.getInstance().UserList_Dist.get(i), TKManager.getInstance().UserData_Simple, listener);
+                }
             }
 
             @Override
@@ -2275,6 +2304,7 @@ public class FirebaseManager {
             }
         });
 
+        Complete("거리유져 ㅐㅐ", listener);
        /* CollectionReference colRef = mDataBase.collection("UserList_Dist");
 
         colRef.whereEqualTo("value", TKManager.getInstance().MyData.GetUserDist_Region()).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -2351,7 +2381,7 @@ public class FirebaseManager {
 
                                 if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                                 {
-                                    AddFireBaseLoadingCount();
+                                    AddFireBaseLoadingCount("유저목록 추천 로드");
                                     Log.d(TAG, "HOT : " +document.getId() + " => " + document.getData());
                                     GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                                 }
@@ -2407,63 +2437,221 @@ public class FirebaseManager {
 
     }
 
-    public void GetUserListNew(final CheckFirebaseComplete listener) {
-        CollectionReference colRef = mDataBase.collection("UserList_New");
+    public void GetUserListNew(boolean firstLoad, final CheckFirebaseComplete listener) {
+
+        final DocumentSnapshot[] lastVisible = {null};
+        Query first = null;
+        if(firstLoad)
+        {
+            first = mDataBase.collection("UserList_New")
+                    .orderBy("value", Query.Direction.DESCENDING)
+                    .limit(CommonData.UserList_Loding_Count);
+        }
+        else
+        {
+            if(lastNewUserVisible == null)
+            {
+                first = mDataBase.collection("UserList_New")
+                        .orderBy("value", Query.Direction.DESCENDING)
+                        .limit(CommonData.UserList_Loding_Count);
+            }
+            else
+            {
+                first = mDataBase.collection("UserList_New")
+                        .orderBy("value", Query.Direction.DESCENDING)
+                        .startAfter(lastNewUserVisible)
+                        .limit(CommonData.UserList_Loding_Count);
+            }
+        }
+
+        first.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        // ...
+                        AddFireBaseLoadingCount("유저목록 신규 로드" , documentSnapshots.size());
+
+                        for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
+
+                            if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                TKManager.getInstance().UserList_New.add(document.getId().toString());
 
 
-        colRef.orderBy("value", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                                {
+
+                                    Log.d(TAG, "NEW : " +document.getId() + " => " + document.getData());
+                                    GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                                }
+                                else
+                                    Complete("유저목록 신규 완" , listener);
+                            }
+                            else
+                                Complete("유저목록 신규 완", listener);
+
+                        }
+
+                        if(documentSnapshots.size() > 0)
+                        {
+                            // Get the last visible document
+                            lastNewUserVisible = documentSnapshots.getDocuments()
+                                    .get(documentSnapshots.size() -1);
+                        }
+                        Complete("신규 ㅐㅐ", listener);
+
+                        Log.d("##@@!", "NEW : " +lastNewUserVisible);
+                        // Use the query for pagination
+                        // ...
+                    }
+                });
+
+
+       /*
+       CollectionReference colRef = mDataBase.collection("UserList_New");
+        first.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    AddFireBaseLoadingCount(task.getResult().size());
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                         {
                             TKManager.getInstance().UserList_New.add(document.getId().toString());
 
+
                             if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                             {
-                                AddFireBaseLoadingCount();
+
                                 Log.d(TAG, "NEW : " +document.getId() + " => " + document.getData());
                                 GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                             }
+                            else
+                                Complete(listener);
                         }
+                        else
+                            Complete(listener);
+
+
+                        lastVisible = document.getDo
+                                .get(task.getResult().size() -1);
                     }
+
+
+
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
-        });
+        });*/
     }
 
-    public void GetUserListFriend(final CheckFirebaseComplete listener) {
+    public void GetUserListFriend(boolean firstLoad, final CheckFirebaseComplete listener) {
         //CollectionReference colRef = mDataBase.collection("UserList_Friend");
 
-        CollectionReference colRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FriendUsers");
+        final DocumentSnapshot[] lastVisible = {null};
+        Query first = null;
+        if(firstLoad)
+        {
+            first =  mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FriendUsers")
+                    .orderBy("Date", Query.Direction.DESCENDING)
+                    .limit(CommonData.UserList_Loding_Count);
+        }
+        else
+        {
+            if(lastFriendUserVisible == null)
+            {
+                first =  mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FriendUsers")
+                        .orderBy("Date", Query.Direction.DESCENDING)
+                        .limit(CommonData.UserList_Loding_Count);
+            }
+            else
+            {
+                first = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FriendUsers")
+                        .orderBy("Date", Query.Direction.DESCENDING)
+                        .startAfter(lastFriendUserVisible)
+                        .limit(CommonData.UserList_Loding_Count);
+            }
+
+    }
+
+        first.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        // ...
+                        AddFireBaseLoadingCount("유저목록 친구",  documentSnapshots.size());
+
+                        for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
+
+                            if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                TKManager.getInstance().MyData.SetUserFriend(document.getId().toString(), document.getId().toString());
+
+                                if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
+                                {
+                                    Log.d(TAG, "FR : " +document.getId() + " => " + document.getData());
+                                    GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                                }
+                                else
+                                    Complete("유저목록 친구 ㅇㅇ ",listener);
+                            }
+                            else
+                                Complete("유저목록 친구 ㅇㅇ", listener);
+
+                        }
+
+                        if(documentSnapshots.size() > 0)
+                        {
+                            lastFriendUserVisible = documentSnapshots.getDocuments()
+                                    .get(documentSnapshots.size() -1);
+                        }
+
+                        Complete("친구 dd ", listener);
+
+                        // Get the last visible document
+
+
+                        Log.d("##@@!", "NEW : " +lastFriendUserVisible);
+                        // Use the query for pagination
+                        // ...
+                    }
+                });
+
+
+       /* CollectionReference colRef = mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FriendUsers");
         colRef.orderBy("Date", Query.Direction.DESCENDING).limit(CommonData.UserList_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+
+                    AddFireBaseLoadingCount(task.getResult().size());
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                         {
                             TKManager.getInstance().MyData.SetUserFriend(document.getId().toString(), document.getId().toString());
+
                             if(TKManager.getInstance().UserData_Simple.get(document.getId().toString()) == null)
                             {
-                                AddFireBaseLoadingCount();
+
                                 Log.d(TAG, "FR : " +document.getId() + " => " + document.getData());
                                 GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
                             }
+                            else
+                                Complete(listener);
                         }
+                        else
+                            Complete(listener);
                     }
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
-        });
+        });*/
     }
 
     public void RegistSearchResult(String searchName)
@@ -2569,8 +2757,10 @@ public class FirebaseManager {
         if(TKManager.getInstance().UserData_Simple.get(userIndex) != null)
         {
             getData.put(userIndex, TKManager.getInstance().UserData_Simple.get(userIndex));
-            Log.d("!!!!!!!", "심플데이터 있음 " + userIndex);
-            Complete(listener);
+
+            CommonFunc.getInstance().tLog("!!!!!!!", "심플데이터 있음 " + userIndex);
+
+            Complete("심플데이터 있음", listener);
         }
 
         else
@@ -2664,12 +2854,12 @@ public class FirebaseManager {
 
                             //AddFireBaseLoadingCount();
                             Log.d("!!!!!!!", "심플데이터  " + userIndex);
-                            Complete(listener);
+                            Complete("심플데이터 ㄹㄷ ㅇ",listener);
 
                         } else {
                             Log.d(TAG, "No such document");
                             Log.d("!!!!!!!", "심플데이터 없 " + userIndex);
-                            Complete(listener);
+                            Complete("심플데이터 업ㅋ음",listener);
                         }
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
@@ -2777,7 +2967,7 @@ public class FirebaseManager {
 
     public void SearchClubList(String name, final FirebaseManager.CheckFirebaseComplete listener) {
         TKManager.getInstance().SearchClubList.clear();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("심플데이터 있음", 0);
         CollectionReference colRef = mDataBase.collection("ClubData");
         colRef.whereEqualTo("ClubName", name).limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -2796,7 +2986,7 @@ public class FirebaseManager {
                             Log.d(TAG, document.getId() + " => " + document.getData());
                             //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
 
-                            AddFireBaseLoadingCount();
+                            AddFireBaseLoadingCount("클럽찾기 ㅇ");
                             TKManager.getInstance().SearchClubList.add(document.getId());
 
                             GetClubData_Simple(document.getId(), TKManager.getInstance().ClubData_Simple, listener);
@@ -2816,7 +3006,7 @@ public class FirebaseManager {
 
     public void SearchClubListOnFavorite(String name, final FirebaseManager.CheckFirebaseComplete listener) {
         TKManager.getInstance().SearchClubList.clear();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("관심사클럽리스트 로드", 0);
         CollectionReference colRef = mDataBase.collection("ClubData_Favorite").document(name).collection("ClubIndex");
         colRef./*orderBy("Count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).*/get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -2831,7 +3021,7 @@ public class FirebaseManager {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG, document.getId() + " => " + document.getData());
                         //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
-                        AddFireBaseLoadingCount();
+                        AddFireBaseLoadingCount("관심사클럽리스트 로드");
                         TKManager.getInstance().SearchClubList.add(document.getId());
 
                         GetClubData_Simple(document.getId(), TKManager.getInstance().ClubData_Simple, listener);
@@ -3173,7 +3363,7 @@ public class FirebaseManager {
                     Uri downloadUri = task.getResult();
                     clubContextData.SetImg(ImgIndex, downloadUri.toString());
 
-                    Complete(listener);
+                    Complete("클럽 본문 이미지 업로드 ㅇㅇ", listener);
 
                 } else {
                     // Handle failures
@@ -3981,26 +4171,25 @@ public class FirebaseManager {
                 if (task.isSuccessful()) {
                     if(task.getResult().size() == 0)
                     {
-                        if(listener != null)
-                            listener.CompleteListener();
+                        Complete("신고유져  ㅇㅇ", listener);
+                      /*  if(listener != null)
+                            listener.CompleteListener();*/
                     }
                     else
                     {
-                        if(task.getResult().size() == 0)
-                            listener.CompleteListener();
 
-                        else
-                        {
-                            SetFireBaseLoadingCount(task.getResult().size());
+//                            SetFireBaseLoadingCount(task.getResult().size());
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
+                                AddFireBaseLoadingCount("사용자 신고" );
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 TKManager.getInstance().MyData.SetReportUserList(document.getId().toString(), TKManager.getInstance().UserData_Simple.get(document.getId().toString()) );
                                 GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                             }
-                        }
 
                     }
+
+                    Complete("신고유져 ㅐㅐ", listener);
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -4212,7 +4401,7 @@ public class FirebaseManager {
                                 tempReplyData.SetContext(array[2]);
                                 tempData.SetReplyData(key, tempReplyData);
 
-                                AddFireBaseLoadingCount();
+                                AddFireBaseLoadingCount("클럽 본문 로드");
                                 GetUserData_Simple(tempReplyData.GetWriterIndex(), TKManager.getInstance().UserData_Simple, listener);
 
                             }
@@ -4222,12 +4411,12 @@ public class FirebaseManager {
 
                         // if(TKManager.getInstance().UserData_Simple.get(tempData.writerIndex) == null)
                         {
-                            AddFireBaseLoadingCount();
+                            AddFireBaseLoadingCount("클럽 신고 본문 로드");
                             // Log.d(TAG, tempData.writerIndex + " => " + document.getDocument().getData());
                             GetUserData_Simple(tempData.writerIndex, TKManager.getInstance().UserData_Simple, listener);
                         }
 
-                        Complete(listener);
+                        Complete("클럽 로드 ㅇㅇ" , listener);
 
                     } else {
                         Log.d(TAG, "No such document");
@@ -4242,7 +4431,7 @@ public class FirebaseManager {
     public void GetClubContextData(final String clubIndex, final FirebaseManager.CheckFirebaseComplete listener) {
         final CollectionReference colRef = mDataBase.collection("ClubData").document(clubIndex).collection("ClubContext");
 
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("클럽 본문 로드" ,0);
 
         colRef.orderBy("Date", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
@@ -4258,7 +4447,7 @@ public class FirebaseManager {
                     }
                     else
                     {
-                        SetFireBaseLoadingCount(task.getResult().size());
+                        SetFireBaseLoadingCount("클럽 본문 로드" ,task.getResult().size());
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if(document.exists())
@@ -4341,7 +4530,7 @@ public class FirebaseManager {
 
                                         if(!TKManager.getInstance().UserData_Simple.containsKey(tempReplyData.GetWriterIndex()))
                                         {
-                                            AddFireBaseLoadingCount();
+                                            AddFireBaseLoadingCount("클럽 본문 로드");
                                             GetUserData_Simple(tempReplyData.GetWriterIndex(), TKManager.getInstance().UserData_Simple, listener);
                                         }
 
@@ -4357,7 +4546,7 @@ public class FirebaseManager {
                                     // Log.d(TAG, tempData.writerIndex + " => " + document.getDocument().getData());
                                     if(!TKManager.getInstance().UserData_Simple.containsKey(tempData.writerIndex))
                                     {
-                                        AddFireBaseLoadingCount();
+                                        AddFireBaseLoadingCount("클럽 본문 로드");
                                         GetUserData_Simple(tempData.writerIndex, TKManager.getInstance().UserData_Simple, listener);
                                     }
 
@@ -4367,7 +4556,7 @@ public class FirebaseManager {
                             {
 
                             }
-                            Complete(listener);
+                            Complete("클럽 본문 로드 ㅇㅇ " ,listener);
                         }
 
                     }
@@ -4387,7 +4576,7 @@ public class FirebaseManager {
     public void GetClubReportData(final String clubIndex, final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().TargetReportContextData.clear();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("클럽 신고 로드" ,0);
         final CollectionReference cocRef = mDataBase.collection("ClubData").document(clubIndex).collection("ReportContextList");
         cocRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -4401,7 +4590,7 @@ public class FirebaseManager {
                     }
                     else
                     {
-                        SetFireBaseLoadingCount(task.getResult().size());
+                        SetFireBaseLoadingCount("클럽 신고 로드" ,task.getResult().size());
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
@@ -4604,7 +4793,7 @@ public class FirebaseManager {
 
                         //AddFireBaseLoadingCount();
 
-                        Complete(listener);
+                        Complete("클럽 심플 로드 ㅇㅇ" ,listener);
 
                     } else {
                         Log.d(TAG, "No such document");
@@ -4914,8 +5103,9 @@ public class FirebaseManager {
                             TKManager.getInstance().SearchList_Favorite.add(document.getId());
                         }
 
-                        if(listener != null)
-                            listener.CompleteListener();
+                        Complete("관심사 랭킹 로드 ㅇㅇ" ,listener);
+                      /*  if(listener != null)
+                            listener.CompleteListener();*/
 
 
 
@@ -4929,45 +5119,102 @@ public class FirebaseManager {
         });
     }
 
-    public void GetFavoriteList(String favoriteName, final CheckFirebaseComplete listener)
+    public void GetFavoriteList(boolean firstLoad, String favoriteName, final CheckFirebaseComplete listener)
     {
-        //TKManager.getInstance().UserList_Search_Hot.clear();
-        TKManager.getInstance().UserList_Hot.clear();
-        TKManager.getInstance().View_UserList_Hot.clear();
 
-        final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
+        final DocumentSnapshot[] lastVisible = {null};
+        Query first = null;
+
+
+        if(firstLoad)
+        {
+            TKManager.getInstance().UserList_Hot.clear();
+            TKManager.getInstance().View_UserList_Hot.clear();
+
+            first =  mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex")
+                    .limit(CommonData.UserList_Loding_Count);
+        }
+        else
+        {
+            first = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex")
+                    .startAfter(lastFavoriteUserVisible)
+                    .limit(CommonData.UserList_Loding_Count);
+        }
+
+        first.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
+                        // ...
+                        AddFireBaseLoadingCount("관심사 유져 로드" ,documentSnapshots.size());
+
+                        for (DocumentSnapshot document : documentSnapshots.getDocuments()) {
+
+                            if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                            {
+                                TKManager.getInstance().UserList_Hot.add(document.getId());
+                                TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+                                GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
+                            }
+                            else
+                                Complete("관심사 유져 로드" ,listener);
+
+                        }
+
+                        if(documentSnapshots.size() > 0)
+                        {
+                            // Get the last visible document
+                            lastFavoriteUserVisible = documentSnapshots.getDocuments()
+                                    .get(documentSnapshots.size() -1);
+                        }
+
+
+                        Log.d("##@@!", "Favorite  : " +lastFavoriteUserVisible);
+                        // Use the query for pagination
+                        // ...
+
+                        Complete("관심사 ㅐㅐ", listener);
+                    }
+                });
+
+
+    /*    final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
         sfColRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 int tempTotayLikeCount = 0;
                 if (task.isSuccessful()) {
                     {
+                        AddFireBaseLoadingCount(task.getResult().size());
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
 
+
                             if(!document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
                             {
-                                AddFireBaseLoadingCount();
+
                                 TKManager.getInstance().UserList_Hot.add(document.getId());
                                 TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
                                 GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                             }
+                            else
+                                Complete(listener);
                         }
-/*
+*//*
                         long seed = System.nanoTime();
-                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));*/
+                        Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));*//*
                     }
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
-        });
+        });*/
     }
 
     public void FindFavoriteClubList(String favoriteName, final CheckFirebaseComplete listener)
     {
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("관심사 유져 로드" , 0);
 
         final CollectionReference sfColRef = mDataBase.collection("ClubData_Favorite").document(favoriteName).collection("ClubIndex");
         sfColRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -4983,7 +5230,7 @@ public class FirebaseManager {
                         }
                         else
                         {
-                            SetFireBaseLoadingCount(task.getResult().size());
+                            SetFireBaseLoadingCount("관심사 유져 로드" , task.getResult().size());
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
@@ -5007,7 +5254,7 @@ public class FirebaseManager {
     public void FindFavoriteList(String favoriteName, Boolean rankList, final CheckFirebaseComplete listener)
     {
 
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("관심사 유져 로드" ,0);
 
         final CollectionReference sfColRef = mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex");
         sfColRef.limit(20).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -5029,7 +5276,7 @@ public class FirebaseManager {
                             if(rankList == false)
                                 SetFavoriteRank(favoriteName);
 
-                            SetFireBaseLoadingCount(task.getResult().size());
+                            SetFireBaseLoadingCount("관심사 유져 로드" , task.getResult().size());
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
@@ -5041,7 +5288,7 @@ public class FirebaseManager {
                                     GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                                 }
                                 else
-                                    Complete(listener);
+                                    Complete("관심사 유져 로드ㅇㅇ" , listener);
                             }
 
 
@@ -5368,7 +5615,7 @@ public class FirebaseManager {
     public void GetRequestJoinUserInMyClub(final String clubIndex, final CheckFirebaseComplete listener)
     {
         TKManager.getInstance().UserData_RequestJoin.clear();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("내 클럽 가입 신청" ,0);
 
         final CollectionReference sfColRef = mDataBase.collection("ClubData").document(clubIndex).collection("RequestJoin");
         sfColRef.orderBy("Date", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -5383,7 +5630,7 @@ public class FirebaseManager {
                     }
                     else
                     {
-                        SetFireBaseLoadingCount(task.getResult().size());
+                        SetFireBaseLoadingCount("내 클럽 가입 신청" ,task.getResult().size());
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
@@ -5923,7 +6170,7 @@ public class FirebaseManager {
     public void GetManagerNotice(final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().NoticeData.clear();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("공지사항" ,0);
         CollectionReference colRef = mDataBase.collection("Manager_Notice");
 
         colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -5931,7 +6178,7 @@ public class FirebaseManager {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
 
-                    SetFireBaseLoadingCount(task.getResult().size());
+                    SetFireBaseLoadingCount("공지사항" ,task.getResult().size());
 
                     if(task.getResult().size() == 0)
                         listener.CompleteListener_No();
@@ -5947,7 +6194,7 @@ public class FirebaseManager {
 
                             TKManager.getInstance().NoticeData.add(tempData);
 
-                            Complete(listener);
+                            Complete("공지사항 ㅇㅇ" ,listener);
                     }
 
                 } else {
@@ -5960,7 +6207,7 @@ public class FirebaseManager {
     public void GetManagerEvent(final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().NoticeData.clear();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("이벤트" ,0);
         CollectionReference colRef = mDataBase.collection("Manager_Event");
 
         colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -5968,7 +6215,7 @@ public class FirebaseManager {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
 
-                    SetFireBaseLoadingCount(task.getResult().size());
+                    SetFireBaseLoadingCount("이벤트" ,task.getResult().size());
 
                     if(task.getResult().size() == 0)
                         listener.CompleteListener_No();
@@ -5984,7 +6231,7 @@ public class FirebaseManager {
 
                         TKManager.getInstance().NoticeData.add(tempData);
 
-                        Complete(listener);
+                        Complete("이벤트 ㅇㅇ" , listener);
                     }
 
                 } else {
@@ -5997,7 +6244,7 @@ public class FirebaseManager {
     public void GetManagerFAQ(final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().NoticeData.clear();
-        SetFireBaseLoadingCount(0);
+        SetFireBaseLoadingCount("faq" , 0);
         CollectionReference colRef = mDataBase.collection("Manager_FAQ");
 
         colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -6005,7 +6252,7 @@ public class FirebaseManager {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
 
-                    SetFireBaseLoadingCount(task.getResult().size());
+                    SetFireBaseLoadingCount("faq" ,task.getResult().size());
 
                     if(task.getResult().size() == 0)
                         listener.CompleteListener_No();
@@ -6021,7 +6268,7 @@ public class FirebaseManager {
 
                         TKManager.getInstance().NoticeData.add(tempData);
 
-                        Complete(listener);
+                        Complete("faq ㅇㅇ" , listener);
                     }
 
                 } else {

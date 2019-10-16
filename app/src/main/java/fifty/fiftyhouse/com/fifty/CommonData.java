@@ -86,7 +86,8 @@ public class CommonData {
     public static int Favorite_Search_Pop_Count = 300;
 
     // 메인 화면 기준별 보여지는 유져 인원 수
-    public static int UserList_Loding_Count = 10;
+    public static int UserList_Loding_Count = 200;
+    public static int UserList_Loding_Count_Index = 0;
 
     public static int UserData_Loding_Count = 5;
 
@@ -139,4 +140,6 @@ public class CommonData {
     public static String SETTING_MSG_ALARM = "알람";
     public static String SETTING_MSG_SOUND = "소리";
     public static String SETTING_MSG_VIBRATION = "진동";
+
+    public static boolean TEST_TEXT_VISIBLE = false;
 }

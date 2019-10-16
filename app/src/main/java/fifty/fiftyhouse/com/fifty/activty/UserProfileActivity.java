@@ -380,7 +380,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                     }
                                     else
                                     {
-                                        FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                                        FirebaseManager.getInstance().SetFireBaseLoadingCount("유져페이지 채팅", 2);
                                         FirebaseManager.getInstance().GetUserData_Simple(targetIndex, TKManager.getInstance().UserData_Simple, listener);
                                     }
 
@@ -456,7 +456,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                     }
                                     else
                                     {
-                                        FirebaseManager.getInstance().SetFireBaseLoadingCount(2);
+                                        FirebaseManager.getInstance().SetFireBaseLoadingCount("유져페이지 채팅" , 2);
                                         FirebaseManager.getInstance().GetUserData_Simple(targetIndex, TKManager.getInstance().UserData_Simple, listener);
                                     }
 
