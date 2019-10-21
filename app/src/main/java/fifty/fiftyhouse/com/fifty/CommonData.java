@@ -121,6 +121,7 @@ public class CommonData {
     public static final int USER_LIST_CLUB_JOIN_WAIT = 5;
     public static final int USER_LIST_CLUB_CHAT = 6;
     public static final int USER_LIST_BLOCK = 7;
+    public static final int USER_LIST_CLUB_INVITE = 8;
 
     public static final String WIFI_STATE = "WIFE";
     public static final String MOBILE_STATE = "MOBILE";

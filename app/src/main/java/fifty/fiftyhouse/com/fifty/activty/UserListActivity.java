@@ -117,6 +117,11 @@ public class UserListActivity extends AppCompatActivity {
         {
             tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_BLOCK));
         }
+        else if(mUserListType == CommonData.USER_LIST_CLUB_INVITE)
+        {
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_USER_LIST_CLUB_INVITE));
+        }
+
 
 
         RefreshUserList(mUserListType);
@@ -147,6 +152,10 @@ public class UserListActivity extends AppCompatActivity {
         else if(mUserListType == CommonData.USER_LIST_BLOCK)
         {
             tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_BLOCK));
+        }
+        else if(mUserListType == CommonData.USER_LIST_CLUB_INVITE)
+        {
+            tv_UserList_List_Empty.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_USER_LIST_EMPTY_CLUB_INVITE));
         }
 
         initRecyclerView();
@@ -193,6 +202,11 @@ public class UserListActivity extends AppCompatActivity {
                         break;
                     case CommonData.USER_LIST_BLOCK:
                         tempKey = TKManager.getInstance().MyData.GetReportUserListKeySet();
+                        break;
+                    case CommonData.USER_LIST_CLUB_INVITE:
+                        // TODO 도형
+                        //tempKey = TKManager.getInstance().MyData.GetReportUserListKeySet();
+                        tempKey = null;
                         break;
                     default:
                         tempKey = null;
@@ -386,6 +400,27 @@ public class UserListActivity extends AppCompatActivity {
 
                     DialogFunc.getInstance().ShowMenuListPopup(UserListActivity.this, menuList, menuListenerList, null);
                 }
+                else if(mUserListType == CommonData.USER_LIST_CLUB_INVITE)
+                {
+                    ArrayList<String> menuList = new ArrayList<>();
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_INVITE));
+                    menuList.add(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CANCEL));
+
+                    ArrayList<DialogFunc.MsgPopupListener> list = new ArrayList<>();
+                    list.add(new DialogFunc.MsgPopupListener()
+                    {
+                        @Override
+                        public void Listener()
+                        {
+                            // TODO 도형
+                            // 클럽 초대
+                        }
+                    });
+
+                    ArrayList<DialogFunc.MsgPopupListener> menuListenerList = list;
+
+                    DialogFunc.getInstance().ShowMenuListPopup(UserListActivity.this, menuList, menuListenerList, null);
+                }
                 else
                 {
                     ShowUserProfile(tempUserIndex);
@@ -435,6 +470,11 @@ public class UserListActivity extends AppCompatActivity {
         else if (requestCode == CommonData.USER_LIST_BLOCK)
         {
             RefreshAdapter(CommonData.USER_LIST_BLOCK);
+            mAdapter.notifyDataSetChanged();
+        }
+        else if (requestCode == CommonData.USER_LIST_CLUB_INVITE)
+        {
+            RefreshAdapter(CommonData.USER_LIST_CLUB_INVITE);
             mAdapter.notifyDataSetChanged();
         }
 
@@ -501,6 +541,11 @@ public class UserListActivity extends AppCompatActivity {
         else if (type == CommonData.USER_LIST_BLOCK)
         {
             mUserList.addAll(TKManager.getInstance().MyData.GetReportUserListKeySet());
+        }
+        else if (type == CommonData.USER_LIST_CLUB_INVITE)
+        {
+            // TODO 도형
+            //mUserList.addAll(TKManager.getInstance().MyData.GetReportUserListKeySet());
         }
 
         if(mUserList.size() == 0)

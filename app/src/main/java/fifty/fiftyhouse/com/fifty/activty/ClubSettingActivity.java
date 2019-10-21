@@ -187,7 +187,11 @@ public class ClubSettingActivity extends AppCompatActivity {
         iv_ClubSetting_Invite.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                DialogFunc.getInstance().ShowUserInvitePopup(ClubSettingActivity.this, ClubSettingActivity.this);
+                // TODO 도형
+                Intent intent = new Intent(mContext, UserListActivity.class);
+                intent.putExtra("Type",CommonData.USER_LIST_CLUB_INVITE);
+                startActivity(intent);
+                //DialogFunc.getInstance().ShowUserInvitePopup(ClubSettingActivity.this, ClubSettingActivity.this);
             }
         });
     }
