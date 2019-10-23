@@ -377,6 +377,22 @@
                     android:textColor="@color/str_color_4"
                     />
 
+                <TextView
+                    android:id="@+id/tv_UserProfile_Info_Club_Plus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/BaseTextView"
+                    app:layout_constraintRight_toRightOf="@+id/tv_UserProfile_Info_Club"
+                    app:layout_constraintTop_toTopOf="@+id/tv_UserProfile_Info_Club"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_UserProfile_Info_Club"
+                    android:paddingRight="10dp"
+                    android:text="@string/MSG_CLUB_SEEMORE"
+                    android:textStyle="bold"
+                    android:gravity="center|left"
+                    android:textSize="@dimen/default_font_size_small"
+                    android:textColor="@color/str_color_1"
+                    />
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_UserProfile_Info_Club"

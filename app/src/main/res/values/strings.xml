@@ -67,6 +67,7 @@
     <string name="MSG_NIKCNMAE">닉네임</string>
     <string name="MSG_LOCATION">지역</string>
     <string name="MSG_CLUB">클럽</string>
+    <string name="MSG_CLUB_SEEMORE">더보기+</string>
     <string name="MSG_ETC">기타</string>
     <string name="MSG_NOTICE">알림</string>
     <string name="MSG_ALARM">알람</string>
@@ -104,6 +105,7 @@
     <string name="MSG_FAVORITE_FIND_HINT">관심사를 검색해주세요 (2~10자)</string>
     <string name="MSG_FAVORITE_SELECT">선택한 관심사</string>
 
+    <string name="MSG_CLUB_LIST">클럽 리스트</string>
     <string name="MSG_CLUB_JOIN_OK">가입 승인</string>
     <string name="MSG_CLUB_JOIN_CENCEL">가입 거절</string>
     <string name="MSG_CLUB_JOIN_REQUEST">가입 신청</string>

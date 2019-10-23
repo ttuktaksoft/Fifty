@@ -146,4 +146,10 @@ public class CommonData {
 
     public static int NOTICE_TYPE_STR = 0;
     public static int NOTICE_TYPE_IMG = 1;
+
+    public static int PROFILE_CLUB_VIEW_MAX = 3;
+
+    public static final int CLUB_LIST_FAVORITE_SEARCH = 0;
+    public static final int CLUB_LIST_MY = 1;
+    public static final int CLUB_LIST_USER = 2;
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -22,6 +23,7 @@ import fifty.fiftyhouse.com.fifty.adapter.ClubAdapter;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class ClubListActivity extends AppCompatActivity {
+
 
     View ui_ClubList_TopBar;
     TextView tv_TopBar_Title;
@@ -33,6 +35,7 @@ public class ClubListActivity extends AppCompatActivity {
     ArrayList<String> mClubList = new ArrayList<>();
 
     Context mContext;
+    int ClubListType = 0;
     String SelectFavorite;
 
     @Override
@@ -43,6 +46,7 @@ public class ClubListActivity extends AppCompatActivity {
         mContext = getApplicationContext();
 
         Intent intent = getIntent(); //getIntent()로 받을준비
+        ClubListType = getIntent().getIntExtra("Type", CommonData.CLUB_LIST_FAVORITE_SEARCH);
         SelectFavorite = getIntent().getStringExtra("FAVORITE");
 
         ui_ClubList_TopBar = findViewById(R.id.ui_ClubList_TopBar);
@@ -51,10 +55,16 @@ public class ClubListActivity extends AppCompatActivity {
         tv_ClubList_Empty = findViewById(R.id.tv_ClubList_Empty);
         rv_ClubList = findViewById(R.id.rv_ClubList);
 
-        if(SelectFavorite.equals("검색결과"))
-            tv_TopBar_Title.setText(SelectFavorite);
+        if(ClubListType == CommonData.CLUB_LIST_FAVORITE_SEARCH)
+        {
+            if(SelectFavorite.equals("검색결과"))
+                tv_TopBar_Title.setText(SelectFavorite);
+            else
+                tv_TopBar_Title.setText(SelectFavorite +" " + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_SELECT_FAVORITE));
+        }
         else
-            tv_TopBar_Title.setText(SelectFavorite +" " + CommonFunc.getInstance().getStr(mContext.getResources(), R.string.TITLE_CLUB_SELECT_FAVORITE));
+            tv_TopBar_Title.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_CLUB_LIST));
+
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -127,8 +137,14 @@ public class ClubListActivity extends AppCompatActivity {
     public void RefreshClubList()
     {
         mClubList.clear();
-        mClubList.addAll(TKManager.getInstance().SearchClubList);
-
+        if(ClubListType == CommonData.CLUB_LIST_FAVORITE_SEARCH)
+        {
+            mClubList.addAll(TKManager.getInstance().SearchClubList);
+        }
+        else if(ClubListType == CommonData.CLUB_LIST_MY)
+            mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+        else if(ClubListType == CommonData.CLUB_LIST_USER)
+            mClubList.addAll(TKManager.getInstance().TargetUserData.GetUserClubDataKeySet());
 
         if (mClubList.size() == 0) {
             tv_ClubList_Empty.setVisibility(View.VISIBLE);

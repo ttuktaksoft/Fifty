@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -85,6 +86,7 @@ public class ClubFavoriteActivity extends AppCompatActivity {
                             DialogFunc.getInstance().DismissLoadingPage();
 
                             Intent intent = new Intent(getApplicationContext(), ClubListActivity.class);
+                            intent.putExtra("Type", CommonData.CLUB_LIST_FAVORITE_SEARCH);
                             intent.putExtra("FAVORITE",key);
                             startActivity(intent);
                         }

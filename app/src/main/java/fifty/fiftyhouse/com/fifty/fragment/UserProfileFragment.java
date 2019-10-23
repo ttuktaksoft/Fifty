@@ -42,6 +42,7 @@ import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ClubActivity;
+import fifty.fiftyhouse.com.fifty.activty.ClubListActivity;
 import fifty.fiftyhouse.com.fifty.activty.CustomPhotoView;
 import fifty.fiftyhouse.com.fifty.activty.FriendListActivity;
 import fifty.fiftyhouse.com.fifty.activty.MemoEditActivity;
@@ -68,7 +69,7 @@ public class UserProfileFragment extends Fragment {
     ImageView iv_UserProfile_Profile, iv_UserProfile_Info_Gender, iv_UserProfile_Info_Memo_BG, iv_UserProfile_Info_Edit;
     TextView tv_UserProfile_Info_Name, tv_UserProfile_Info_Age, tv_UserProfile_Info_Location,
             tv_UserProfile_Info_Memo, tv_UserProfile_Info_Count_1, tv_UserProfile_Info_Count_2, tv_UserProfile_Info_Count_3,
-            tv_UserProfile_Info_Club;
+            tv_UserProfile_Info_Club, tv_UserProfile_Info_Club_Plus;
     RecyclerView rv_UserProfile_Info_Favorite, rv_UserProfile_Info_Club, rv_UserProfile_Info_Photo, rv_UserProfile_Info_Menu;
     Context mContext;
     View mUserProfileFragView = null;
@@ -133,6 +134,7 @@ public class UserProfileFragment extends Fragment {
         tv_UserProfile_Info_Count_2 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Count_2);
         tv_UserProfile_Info_Count_3 = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Count_3);
         tv_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Club);
+        tv_UserProfile_Info_Club_Plus = mUserProfileFragView.findViewById(R.id.tv_UserProfile_Info_Club_Plus);
         rv_UserProfile_Info_Favorite = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Favorite);
         rv_UserProfile_Info_Club = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Club);
         rv_UserProfile_Info_Photo = mUserProfileFragView.findViewById(R.id.rv_UserProfile_Info_Photo);
@@ -414,6 +416,15 @@ public class UserProfileFragment extends Fragment {
 
         iv_UserProfile_Info_Edit.setVisibility(View.VISIBLE);
 
+        tv_UserProfile_Info_Club_Plus.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, ClubListActivity.class);
+                intent.putExtra("Type", CommonData.CLUB_LIST_MY);
+                startActivityForResult(intent, 1000);
+            }
+        });
+
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, true);
     }
@@ -469,6 +480,16 @@ public class UserProfileFragment extends Fragment {
 
         v_UserProfile_Info_Etc.setVisibility(View.GONE);
         iv_UserProfile_Info_Edit.setVisibility(View.GONE);
+
+        tv_UserProfile_Info_Club_Plus.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(mContext, ClubListActivity.class);
+                intent.putExtra("Type", CommonData.CLUB_LIST_USER);
+                startActivityForResult(intent, 1000);
+            }
+        });
+
         // TODO 클럽이 없거나 그러면 뷰를 아예 꺼줘야함
         setRecyclerViewEnable(true, true, true, false);
     }
@@ -751,19 +772,30 @@ public class UserProfileFragment extends Fragment {
     public void RefreshClubDataList()
     {
         ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> templist = new ArrayList<>();
         if(mMyProfile)
         {
-            list.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
+            templist.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());
         }
         else
         {
-            list.addAll(TKManager.getInstance().TargetUserData.GetUserClubDataKeySet());
+            templist.addAll(TKManager.getInstance().TargetUserData.GetUserClubDataKeySet());
         }
+
+        if(templist.size() >= CommonData.PROFILE_CLUB_VIEW_MAX)
+            list.addAll(templist.subList(0, CommonData.PROFILE_CLUB_VIEW_MAX));
+        else
+            list.addAll(templist);
 
         if(list.size() == 0)
             tv_UserProfile_Info_Club.setVisibility(View.GONE);
         else
             tv_UserProfile_Info_Club.setVisibility(View.VISIBLE);
+
+        if(templist.size() > CommonData.PROFILE_CLUB_VIEW_MAX)
+            tv_UserProfile_Info_Club_Plus.setVisibility(View.VISIBLE);
+        else
+            tv_UserProfile_Info_Club_Plus.setVisibility(View.GONE);
 
         mClubAdapter.setMyProfile(mMyProfile);
         mClubAdapter.setItemCount(list.size());
@@ -1030,6 +1062,7 @@ public class UserProfileFragment extends Fragment {
         // TODO 무조건 갱신
         RefreshCountText();
         RefreshMemoText();
+        RefreshClubDataList();
     }
 
     private void RefreshMyPhotoList()

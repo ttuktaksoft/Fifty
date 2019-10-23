@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -245,6 +246,7 @@ public class ClubFragment extends Fragment {
                 DialogFunc.getInstance().DismissLoadingPage();
 
                 Intent intent = new Intent(mContext, ClubListActivity.class);
+                intent.putExtra("Type", CommonData.CLUB_LIST_FAVORITE_SEARCH);
                 intent.putExtra("FAVORITE","검색결과");
                 startActivity(intent);
 
