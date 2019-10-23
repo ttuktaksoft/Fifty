@@ -45,4 +45,13 @@ public class NoticeData {
     {
         return NoticeType;
     }
+
+    public void SetAppOpenShow(boolean show)
+    {
+        AppOpenShow = show;
+    }
+    public boolean GetAppOpenShow()
+    {
+        return AppOpenShow;
+    }
 }
