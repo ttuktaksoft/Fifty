@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/ns_Main_Img_Notice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+
+        android:layout_marginBottom="60dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_ImgContent_Img"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:adjustViewBounds="true"
+                android:scrollbars="vertical"
+                android:background="@color/white"
+                android:scaleType="fitXY" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <TextView
+        android:id="@+id/tv_Main_Img_Notice_OK"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        style="@style/BaseTextView"
+        app:layout_constraintTop_toBottomOf="@+id/ns_Main_Img_Notice"
+        app:layout_constraintLeft_toLeftOf="@+id/ns_Main_Img_Notice"
+        app:layout_constraintRight_toRightOf="@+id/ns_Main_Img_Notice"
+        android:text="@string/MSG_OK"
+        android:textSize="@dimen/default_font_size"
+        android:gravity="center"
+        android:background="@color/white"
+        android:textColor="@color/str_color_1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

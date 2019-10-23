@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.StrContentListAdapter;
@@ -84,10 +85,21 @@ public class StrContentListActivity extends AppCompatActivity {
         rv_StrContent_List.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rv_StrContent_List, new OnRecyclerItemClickListener() {
             @Override
             public void onSingleClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), StrContentActivity.class);
-                intent.putExtra("title", TKManager.getInstance().NoticeData.get(position).GetTitle());
-                intent.putExtra("content", TKManager.getInstance().NoticeData.get(position).GetContent());
-                startActivity(intent);
+
+                if(TKManager.getInstance().NoticeData.get(position).NoticeType == CommonData.NOTICE_TYPE_STR)
+                {
+                    Intent intent = new Intent(getApplicationContext(), StrContentActivity.class);
+                    intent.putExtra("title", TKManager.getInstance().NoticeData.get(position).GetTitle());
+                    intent.putExtra("content", TKManager.getInstance().NoticeData.get(position).GetContent());
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(getApplicationContext(), ImgContentActivity.class);
+                    intent.putExtra("title", TKManager.getInstance().NoticeData.get(position).GetTitle());
+                    intent.putExtra("content", TKManager.getInstance().NoticeData.get(position).GetContent());
+                    startActivity(intent);
+                }
             }
 
             @Override

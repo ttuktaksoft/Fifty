@@ -1,9 +1,13 @@
 package fifty.fiftyhouse.com.fifty.DataBase;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
+
 public class NoticeData {
+
     public String Title = null;
     public String Content = null;
     public long Date = 100;
+    public int NoticeType = CommonData.NOTICE_TYPE_STR;
 
     public void SetTitle(String title)
     {
