@@ -204,9 +204,7 @@ public class UserListActivity extends AppCompatActivity {
                         tempKey = TKManager.getInstance().MyData.GetReportUserListKeySet();
                         break;
                     case CommonData.USER_LIST_CLUB_INVITE:
-                        // TODO 도형
-                        //tempKey = TKManager.getInstance().MyData.GetReportUserListKeySet();
-                        tempKey = null;
+                        tempKey = TKManager.getInstance().UserList_Invite_Club.keySet();
                         break;
                     default:
                         tempKey = null;
@@ -414,6 +412,7 @@ public class UserListActivity extends AppCompatActivity {
                         {
                             // TODO 도형
                             // 클럽 초대
+                            DialogFunc.getInstance().ShowToast(UserListActivity.this, "초대하였습니다", true);
                         }
                     });
 
@@ -544,8 +543,7 @@ public class UserListActivity extends AppCompatActivity {
         }
         else if (type == CommonData.USER_LIST_CLUB_INVITE)
         {
-            // TODO 도형
-            //mUserList.addAll(TKManager.getInstance().MyData.GetReportUserListKeySet());
+            mUserList.addAll(TKManager.getInstance().UserList_Invite_Club.keySet());
         }
 
         if(mUserList.size() == 0)

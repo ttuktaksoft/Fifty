@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
@@ -187,10 +191,37 @@ public class ClubSettingActivity extends AppCompatActivity {
         iv_ClubSetting_Invite.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                // TODO 도형
-                Intent intent = new Intent(mContext, UserListActivity.class);
-                intent.putExtra("Type",CommonData.USER_LIST_CLUB_INVITE);
-                startActivity(intent);
+
+                DialogFunc.getInstance().ShowLoadingPage(ClubSettingActivity.this);
+                Set tempKey = TKManager.getInstance().TargetClubData.ClubFavorite.keySet();
+                List array = new ArrayList();
+
+                array = new ArrayList(tempKey);
+
+                // 클럽 탈퇴
+                FirebaseManager.CheckFirebaseComplete InviteListener = new FirebaseManager.CheckFirebaseComplete() {
+                    @Override
+                    public void CompleteListener() {
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        Intent intent = new Intent(mContext, UserListActivity.class);
+                        intent.putExtra("Type",CommonData.USER_LIST_CLUB_INVITE);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void CompleteListener_Yes() {
+
+                    }
+
+                    @Override
+                    public void CompleteListener_No() {
+
+                    }
+                };
+
+                FirebaseManager.getInstance().InviteUsersInClub(array.get(0).toString(), InviteListener);
+
+
                 //DialogFunc.getInstance().ShowUserInvitePopup(ClubSettingActivity.this, ClubSettingActivity.this);
             }
         });

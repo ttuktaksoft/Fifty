@@ -3037,6 +3037,50 @@ public class FirebaseManager {
         });
     }
 
+    public void InviteUsersInClub(String favorite, final FirebaseManager.CheckFirebaseComplete listener) {
+        TKManager.getInstance().UserList_Invite_Club.clear();
+        SetFireBaseLoadingCount("클럽 초대유져 로드", 0);
+        CollectionReference colRef = mDataBase.collection("FavoriteList").document(favorite).collection("UserIndex");
+        colRef.limit(CommonData.UserList_Loding_Count)./*orderBy("Count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).*/get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+
+                    if(task.getResult().size() == 0)
+                    {
+                        if(listener != null)
+                            listener.CompleteListener_No();
+                    }
+
+                    AddFireBaseLoadingCount("클럽 초대유져 로드 시작", task.getResult().size());
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        //TKManager.getInstance().FavoriteLIst_Pop.add(document.getId().toString());
+
+                        Log.d(TAG, document.getId() + " => " + task.getResult().size());
+                        if(document.getId().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                        {
+                            Complete("클럽 초대유져 로드 본인", listener);
+                        }
+                        else
+                        {
+                            TKManager.getInstance().UserList_Invite_Club.put(document.getId(),document.getData().toString());
+                            GetUserData_Simple(document.getId(), TKManager.getInstance().UserData_Simple, listener);
+                        }
+                    }
+
+                    /*if (listener != null)
+                        listener.CompleteListener();*/
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
     public void GetPopFavoriteData(final FirebaseManager.CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("PopFavorite");
         colRef/*.orderBy("count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count)*/.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
