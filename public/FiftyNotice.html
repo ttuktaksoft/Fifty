@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>피프티하우스</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
+
+<style>
+@font-face{
+	font-family: 'KoPub';
+	src: url(font\KoPubWorld Dotum Bold.ttf);
+}
+
+body{
+	font-family: KoPub
+}
+
+.box {
+  width: 25%;
+  height: 100px;
+  display: inline-block;
+	 border:3px solid gray;
+}
+
+#blue-box {
+  background: white;
+  border-radius: 15px;
+}
+
+.float-frame {
+  background: #eee;
+  border: 1px solid #ddd;
+	overflow: hidden;
+}
+
+.float-unit {
+	border: 1px;
+  width: 16.6%;
+	height: auto;
+  background: #eee;
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+	padding-left: 5px;
+  float: left;
+}
+</style>
+
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+
+						<div class="inner_over">
+
+							<header id="header">
+								<a href="index.html" class="logo"><strong>공지 사항</strong></a>
+							</header>
+
+			<div class="limiter">
+
+				<div class="table100 ver2 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">제목</th>
+									<th class="cell100 column2">내용</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
+							<div class="table100-body js-pscroll">
+								<table  id = "MemberTable">
+									<tbody id="NoticeData">	</tbody>
+
+
+								</table>
+
+
+							</div>
+
+
+						</div>
+					</div>
+	</div>
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+-->
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>메뉴</h2>
+									</header>
+									<ul>
+										<li>
+											<a href="index.html"><i class="fas fa-home">대시보드</i></a>
+									</li>
+
+										<li>
+											<span class="opener"><i class="fas fa-user">활동 현황</i></span>
+											<ul>
+												<li><a href="FiftyMember.html">회원 목록</a></li>
+												<li><a href="FiftyFavorite.html">관심사 목록</a></li>
+												<li><a href="FiftyClub.html">클럽 목록</a></li>
+												<!-- <li><a href="InvalidMember.html">만료 회원</a></li>
+												<li><a href="readyMember.html">코치 배정 대기 회원</a></li>
+												<li><a href="registMember.html">회원 등록</a></li> -->
+											</ul>
+										</li>
+
+										<li>
+											<span class="opener"><i class="fas fa-university">  알림</i></span>
+											<ul>
+												<li><a href="FiftyNotice.html">공지사항</a></li>
+												<li><a href="FiftyEvent.html">이벤트</a></li>
+												<li><a href="FiftyFAQ.html">FAQ</a></li>
+											</ul>
+										</li>
+
+								</nav>
+
+
+							<!-- Section
+								<section>
+									<header class="major">
+										<h2>Get in touch</h2>
+									</header>
+									<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+									<ul class="contact">
+										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
+										<li class="icon solid fa-phone">(000) 000-0000</li>
+										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
+										Nashville, TN 00000-0000</li>
+									</ul>
+								</section>
+								-->
+
+							<!-- Footer -->
+							<footer id="footer">
+								<p class="copyright"> Copyright@피프티하우스 CO.,LTD. All rights reserved</p>
+							</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+			<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
+			<script src="./fireinit.js"></script>
+
+<script>
+
+var db = firebase.firestore();
+
+db
+    .collection("Manager_Notice")
+    .orderBy("Date", "desc")
+    .limit(10)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(`${
+                doc.id
+            } => ${
+                doc.data()['NoticeType']
+            }`);
+
+      	SetAlarmHistory(doc.data()['Title'],  doc.data()['Date'],  doc.data()['Context'], doc.data()['NoticeType']);
+
+        });
+    });
+
+
+
+		    function SetAlarmHistory(Title, Date, Content, Type)
+		    {
+
+					var row = NoticeData.insertRow( NoticeData.rows.length ); // 하단에 추가
+
+					var cell1 = row.insertCell(0);
+					cell1.setAttribute('class', 'cell100 NoticeColumn1');
+
+					var cell2 = row.insertCell(1);
+					cell2.setAttribute('class', 'cell100 NoticeColumn2');
+
+					// var cell3 = row.insertCell(2);
+					// cell3.setAttribute('class', 'cell100 NoticeColumn3');
+
+		      cell1.innerHTML = Title;
+
+					if(Type === '0')
+					{
+						cell2.innerHTML = Content;
+			      var element2 = document.createElement("input");
+			      cell2.addEventListener('click', function(event) {
+			            var con_test = alert(Content);
+			          })
+					}
+					else {
+						cell2.innerHTML = '이미지';
+						var element2 = document.createElement("input");
+						cell2.addEventListener('click', function(event) {
+								   $( "#dialog" ).dialog();
+								})
+
+					}
+
+
+		      var element3 = document.createElement("input");
+		    //  cell3.innerHTML = Date;
+
+		    /*
+		      element3.type = "button";
+		      element3.value = "삭제";
+		      element3.addEventListener('click', function(event) {
+		            var con_test = confirm("푸시알림을 삭제하시겠습니까?");
+		            if(con_test == true){
+		                deleteLine(this);
+		            }
+		            else if(con_test == false){
+		               alert( '푸시알림 삭제가 취소되었습니다' );
+		            }
+		      })
+		      cell3.appendChild(element3);
+		      */
+
+
+		    }
+
+//SetData();
+</script>
+
+	</body>
+</html>
+
+
+
+
+
+<!-- Banner -->
+<!--
+	<section id="banner">
+		<div class="content">
+			<header>
+				<h1>Hi, I’m Editorial<br />
+				by HTML5 UP</h1>
+				<p>A free and fully responsive site template</p>
+			</header>
+			<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
+			<ul class="actions">
+				<li><a href="#" class="button big">Learn More</a></li>
+			</ul>
+		</div>
+		<span class="image object">
+			<img src="images/pic10.jpg" alt="" />
+		</span>
+	</section>
+-->
+<!-- Section -->
+<!--
+	<section>
+		<header class="major">
+			<h2>Erat lacinia</h2>
+		</header>
+		<div class="features">
+			<article>
+				<span class="icon fa-gem"></span>
+				<div class="content">
+					<h3>Portitor ullamcorper</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-paper-plane"></span>
+				<div class="content">
+					<h3>Sapien veroeros</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-rocket"></span>
+				<div class="content">
+					<h3>Quam lorem ipsum</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-signal"></span>
+				<div class="content">
+					<h3>Sed magna finibus</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+		</div>
+	</section>
+-->
+<!-- Section -->
+<!--
+	<section>
+		<header class="major">
+			<h2>Ipsum sed dolor</h2>
+		</header>
+		<div class="posts">
+			<article>
+				<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+				<h3>Interdum aenean</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
+				<h3>Nulla amet dolore</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
+				<h3>Tempus ullamcorper</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
+				<h3>Sed etiam facilis</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
+				<h3>Feugiat lorem aenean</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
+				<h3>Amet varius aliquam</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+		</div>
+	</section>
+-->

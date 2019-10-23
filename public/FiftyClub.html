@@ -1,0 +1,480 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>피프티하우스</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
+
+<style>
+@font-face{
+	font-family: 'KoPub';
+	src: url(font\KoPubWorld Dotum Bold.ttf);
+}
+
+body{
+	font-family: KoPub
+}
+
+.box {
+  width: 25%;
+  height: 100px;
+  display: inline-block;
+	 border:3px solid gray;
+}
+
+#blue-box {
+  background: white;
+  border-radius: 15px;
+}
+
+.float-frame {
+  background: #eee;
+  border: 1px solid #ddd;
+	overflow: hidden;
+}
+
+.float-unit {
+	border: 1px;
+  width: 16.6%;
+	height: auto;
+  background: #eee;
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+	padding-left: 5px;
+  float: left;
+}
+</style>
+
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+
+						<div class="inner_over">
+
+							<header id="header">
+								<a href="index.html" class="logo"><strong>클럽 목록</strong></a>
+							</header>
+
+			<div class="limiter">
+
+				<div class="table100 ver2 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">클럽명</th>
+									<th class="cell100 column2">클럽인원</th>
+									<th class="cell100 column3">관심사</th>
+									<th class="cell100 column4">클럽인원</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
+							<div class="table100-body js-pscroll">
+								<table  id = "MemberTable">
+									<tbody id="MemberData">	</tbody>
+								</table>
+
+
+							</div>
+
+
+						</div>
+					</div>
+	</div>
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+-->
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>메뉴</h2>
+									</header>
+									<ul>
+										<li>
+											<a href="index.html"><i class="fas fa-home">대시보드</i></a>
+									</li>
+
+										<li>
+											<span class="opener"><i class="fas fa-user">활동 현황</i></span>
+											<ul>
+												<li><a href="FiftyMember.html">회원 목록</a></li>
+												<li><a href="FiftyFavorite.html">관심사 목록</a></li>
+												<li><a href="FiftyClub.html">클럽 목록</a></li>
+												<!-- <li><a href="InvalidMember.html">만료 회원</a></li>
+												<li><a href="readyMember.html">코치 배정 대기 회원</a></li>
+												<li><a href="registMember.html">회원 등록</a></li> -->
+											</ul>
+										</li>
+
+										<li>
+											<span class="opener"><i class="fas fa-university">  알림</i></span>
+											<ul>
+												<li><a href="FiftyNotice.html">공지사항</a></li>
+												<li><a href="FiftyEvent.html">이벤트</a></li>
+												<li><a href="FiftyFAQ.html">FAQ</a></li>
+											</ul>
+										</li>
+
+								</nav>
+
+
+							<!-- Section
+								<section>
+									<header class="major">
+										<h2>Get in touch</h2>
+									</header>
+									<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+									<ul class="contact">
+										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
+										<li class="icon solid fa-phone">(000) 000-0000</li>
+										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
+										Nashville, TN 00000-0000</li>
+									</ul>
+								</section>
+								-->
+
+							<!-- Footer -->
+							<footer id="footer">
+								<p class="copyright"> Copyright@피프티하우스 CO.,LTD. All rights reserved</p>
+							</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+			<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
+			<script src="./fireinit.js"></script>
+
+<script>
+
+var db = firebase.firestore();
+
+db
+    .collection("UserData")
+    .orderBy("ConnectDate", "desc")
+    .limit(10)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log(`${
+                doc.id
+            } => ${
+                doc.data()['NickName']
+            }`);
+
+        });
+    });
+
+
+function SetData()
+{
+
+	var dbTestRef = firebase.database().ref('/UserData')
+	dbTestRef.on('child_added', function(data){
+
+		var LastlessonName = '미 등록'
+		var CoachName = '미 배정';
+		var lessonStart= '미 등록';
+		var lessonEnd = '미 등록';
+		var lessonMsg = '미 등록';
+		var lessonCount = 0;
+		var lessonCancelCount = 0;
+		var lessonServiceCount = 0;
+		var lessonTotalCount = 0;
+
+		var MemberData = document.getElementById('MemberData');
+
+		// var row = my_tbody.insertRow(0); // 상단에 추가
+		var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
+
+		var cell1 = row.insertCell(0);
+		cell1.setAttribute('class', 'cell100 column1');
+
+		var cell2 = row.insertCell(1);
+		cell2.setAttribute('class', 'cell100 column2');
+
+		var cell3 = row.insertCell(2);
+		cell3.setAttribute('class', 'cell100 column3');
+
+		var cell4 = row.insertCell(3);
+		cell4.setAttribute('class', 'cell100 column4');
+
+		var cell5 = row.insertCell(4);
+		cell5.setAttribute('class', 'cell100 column5');
+
+		var cell6 = row.insertCell(5);
+		cell6.setAttribute('class', 'cell100 column6');
+
+		var cell7 = row.insertCell(6);
+		cell7.setAttribute('class', 'cell100 column7');
+
+		var cell8 = row.insertCell(7);
+		cell8.setAttribute('class', 'cell100 column8');
+
+		var cell9 = row.insertCell(8);
+		cell9.setAttribute('class', 'cell100 column9');
+
+		var cell10 = row.insertCell(9);
+		cell10.setAttribute('class', 'cell100 column10');
+
+		cell1.innerHTML = data.val().Name;
+		cell2.innerHTML = inputPhoneNumber(data.val().PhoneNumber);
+		cell3.innerHTML = LastlessonName;
+
+
+		firebase.database().ref('/UserData/'+data.key.toString()).child('LessonIndexList').limitToLast(2).on('child_added', function(LastLesson){
+
+			if(LastLesson.key === 'LessonCount')
+			{
+
+			}
+			else {
+				console.log(LastLesson.val(), 'key: ', LastLesson.key)
+
+				firebase.database().ref('/LessonData/'+LastLesson.key.toString()).on('child_added', function(LastLessonInfo){
+
+							//console.log(LastLessonInfo.val(), 'key: ', LastLessonInfo.key)
+
+					if(LastLessonInfo.key === 'ProductIndex')
+					{
+						firebase.database().ref('/ProductData/'+LastLessonInfo.val().toString()).on('child_added', function(LastLessonProductInfo){
+							if(LastLessonProductInfo.key === 'Name')
+									cell3.innerHTML = LastLessonProductInfo.val();
+						});
+					}
+
+					else if(LastLessonInfo.key === 'SeriesIndex'){
+									console.log(LastLessonInfo.val().length, 'SeriesIndex key: ', LastLessonInfo.key);
+
+									lessonTotalCount = LastLessonInfo.val().length;
+									for(var seriesIndex = 0; seriesIndex < LastLessonInfo.val().length; seriesIndex++)
+									{
+										CoachName = LastLessonInfo.val()[seriesIndex].CoachIndex;
+										lessonStart = LastLessonInfo.val()[seriesIndex].ReservationTime;
+										lessonEnd = LastLessonInfo.val()[seriesIndex].ReservationTime;
+										lessonMsg = LastLessonInfo.val()[seriesIndex].Msg;
+										lessonCount = seriesIndex;
+
+										if(LastLessonInfo.val()[seriesIndex].State === 0)
+										{
+											break;
+										}
+										else if(LastLessonInfo.val()[seriesIndex].State === 2){
+											lessonCancelCount += 1;
+										}
+										else {
+										}
+
+										// else if(LastLessonInfo.val()[seriesIndex].CoachIndex != -1){
+										// 	firebase.database().ref('/CoachData/'+LastLessonInfo.val()[seriesIndex].CoachIndex.toString()).on('child_added', function(CoachData){
+										// 		if(CoachData.key === 'Name')
+										// 		{
+										// 		cell4.innerHTML =CoachData.val();
+										// 		}
+										// 	});
+										// 	break;
+										// }
+										// else if(LastLessonInfo.val()[seriesIndex].ReservationTime != 0){
+										// 	if(LastLessonProductInfo.key === 'Name')
+										// 			cell3.innerHTML = LastLessonProductInfo.val();
+										// }
+									}
+
+									cell5.innerHTML = lessonStart;
+									cell6.innerHTML = lessonEnd;
+									cell7.innerHTML = lessonMsg;
+									cell8.innerHTML = lessonCount + '/' + lessonTotalCount;
+									cell9.innerHTML = lessonCancelCount ;
+									cell10.innerHTML = lessonServiceCount ;
+
+									if(CoachName != -1)
+									{
+										firebase.database().ref('/CoachData/'+CoachName.toString()).on('child_added', function(CoachData){
+												if(CoachData.key === 'Name')
+												{
+														cell4.innerHTML =CoachData.val();
+												}
+											});
+									}
+
+									console.log(LastLessonInfo.val()[0].CoachIndex, 'SeriesIndex 0: ', LastLessonInfo.key);
+
+					}
+				});
+			}
+		});
+
+
+		cell4.innerHTML = CoachName;
+		cell5.innerHTML = lessonStart;
+		cell6.innerHTML = lessonEnd;
+		cell7.innerHTML = lessonMsg;
+		cell8.innerHTML = lessonCount + '/' + lessonTotalCount;
+		cell9.innerHTML = lessonCancelCount ;
+		cell10.innerHTML = lessonServiceCount ;
+
+		})
+}
+
+//SetData();
+</script>
+
+	</body>
+</html>
+
+
+
+
+
+<!-- Banner -->
+<!--
+	<section id="banner">
+		<div class="content">
+			<header>
+				<h1>Hi, I’m Editorial<br />
+				by HTML5 UP</h1>
+				<p>A free and fully responsive site template</p>
+			</header>
+			<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
+			<ul class="actions">
+				<li><a href="#" class="button big">Learn More</a></li>
+			</ul>
+		</div>
+		<span class="image object">
+			<img src="images/pic10.jpg" alt="" />
+		</span>
+	</section>
+-->
+<!-- Section -->
+<!--
+	<section>
+		<header class="major">
+			<h2>Erat lacinia</h2>
+		</header>
+		<div class="features">
+			<article>
+				<span class="icon fa-gem"></span>
+				<div class="content">
+					<h3>Portitor ullamcorper</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-paper-plane"></span>
+				<div class="content">
+					<h3>Sapien veroeros</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-rocket"></span>
+				<div class="content">
+					<h3>Quam lorem ipsum</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-signal"></span>
+				<div class="content">
+					<h3>Sed magna finibus</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+		</div>
+	</section>
+-->
+<!-- Section -->
+<!--
+	<section>
+		<header class="major">
+			<h2>Ipsum sed dolor</h2>
+		</header>
+		<div class="posts">
+			<article>
+				<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+				<h3>Interdum aenean</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
+				<h3>Nulla amet dolore</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
+				<h3>Tempus ullamcorper</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
+				<h3>Sed etiam facilis</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
+				<h3>Feugiat lorem aenean</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
+				<h3>Amet varius aliquam</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+		</div>
+	</section>
+-->

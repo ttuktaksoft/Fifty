@@ -1,354 +1,304 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-<head>
-<meta charset="UTF-8">
-<meta content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" name="viewport"/>
-<title>FIFTY</title>
-<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
-<script src="./fireinit.js"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="./css/materialize.min.css" media="screen,projection" rel="stylesheet" type="text/css"/>
-<!-- SyntaxHighlighter 포함 -->
-<link href="./css/shCore.css" rel="stylesheet" type="text/css"/>
-<!-- <link href="css/shThemeDefault.css" rel="stylesheet" type="text/css" /> -->
-<link href="./css/shThemeMidnight.css" rel="stylesheet" type="text/css"/>
+	<head>
+		<title>피프티하우스</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
 <style>
-            #Summary {
-                font-size: 1.2em;
-            }
-            #Summary ul {
-                margin-left: 32px;
-            }
-            #Summary ul li {
-                list-style: disc;
-            }
-            .hint {
-                border-left: 0.3em #ddd solid;
-                padding-left: 1em;
-                color: #777;
-            }
-            .code_block {
-                background-color: #eee;
-                padding: 5px;
-            }
-            table,
-            th,
-            td {
-                border: 1px solid #bcbcbc;
-                table-layout: fixed;
-            }
+@font-face{
+	font-family: 'KoPub';
+	src: url(font\KoPubWorld Dotum Bold.ttf);
+}
+
+body{
+	font-family: KoPub
+}
+
+.box {
+  width: 25%;
+  height: 100px;
+  display: inline-block;
+	 border:3px solid gray;
+}
+
+#blue-box {
+  background: white;
+  border-radius: 15px;
+}
+
+.float-frame {
+  background: #eee;
+  border: 1px solid #ddd;
+	overflow: hidden;
+}
+
+.float-unit {
+	border: 1px;
+  width: 16.6%;
+	height: auto;
+  background: #eee;
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+	padding-left: 5px;
+  float: left;
+}
 </style>
-</head>
-<body>
-<nav class="indigo">
-<div class="nav-wrapper">
-	<div class="container">
-		<a class="breadcrumb" href="/">메인 페이지</a>
-		<!-- <a href="/giftManager.html" class="breadcrumb">상품권 관리자</a> -->
-	</div>
-</div>
-</nav>
-<div class="container center">
-	<br>
-	<br>
-</div>
-<!-- 내용영역 -->
-<div class="container" id="CONTENTS">
-	<!-- 핵심 -->
-	<h3 class="indigo-text center">:+: 관심사 현황 :+:</h3>
-	<!--
-                                  <h5 class="indigo-text center" id = "GIFT_COUNT">상품권 남은 수량</h5>
-                                  -->
-	<div class="col l12 m12 s12 input-field">
-		<div class="file-field input-field">
-			<input id="searchFavorite" placeholder="검색어 입력" type="text">
-			<input name="btn2" onclick="SearchFavorite()" type="button" value="검색">
-		</div>
-	</div>
-	<!--
-                    <table>
-                        <col style="width:30%;">
-                        <col style="width:70%;">
-                        <thead>
-                            <th>검색된 관심사</th>
-                            <th>인원수</th>
-                        </thead>
-                        <tbody id="SearchList"></tbody>
-                    </table>
-            -->
-	</br>
-	<table>
-	<col style="width:10%;">
-	<col style="width:30%;">
-	<col style="width:40%;">
-	<col style="width:10%;">
-	<thead>
-	<th>
-		 요일
-	</th>
-	<th>
-		 관심사
-	</th>
-	<th>
-		 인원수
-	</th>
-	<th>
-		 변경
-	</th>
-	</thead>
-	<tbody id="DailyFavorite">
-	</tbody>
-	</table>
-	<br>
-	<br>
-	<table>
-	<col style="width:30%;">
-	<col style="width:70%;">
-	<thead>
-	<th>
-		 관심사
-	</th>
-	<th>
-		 인원수
-	</th>
-	</thead>
-	<tbody id="FavoriteList">
-	</tbody>
-	</table>
-	<!--
-                  <table>
-                    <thead>
-                      <th>번호</th>
-                      <th>기프티콘 이미지 주소</th>
-                    </thead>
-                    <tbody id="my-tbody"></tbody>
-                  </table>
-        -->
-</div>
-<script>
-        function SetDailyFavorite() {
-    var GiftProb = document.getElementById('DailyFavorite');
-    var db = firebase.firestore();
-    db
-        .collection("DailyFavorite")
-        .orderBy("Index", "asc")
-        .limit(10)
-        .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                console.log(`${
-                    doc.id
-                } => ${
-                    doc.data()
-                }`);
-                var row = GiftProb.insertRow(GiftProb.rows.length); // 하단에 추가
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-                var cell4 = row.insertCell(3);
-                var vDay = Daily(doc.data()['Index']);
-                cell1.innerHTML = vDay;
-                // cell1.innerHTML = doc.id;
-                cell2.innerHTML = doc.id;
-                var element3 = document.createElement("input");
-                element3.type = "button";
-                element3.value = "변경";
-                element3.addEventListener('click', function(event) {
-                  EditFavorite(doc.data()['Index'], doc.id);
-                })
-                cell4.appendChild(element3);
-                var docRef = db.collection("PopFavorite").doc(doc.id);
-                docRef
-                    .get()
-                    .then(function (doc) {
-                        if (doc.exists) {
-                            console.log("Document data:", doc.data());
-                            // var row = my_tbody.insertRow(0); // 상단에 추가
-                            cell3.innerHTML = doc.data()['count'];
-                            console.log(doc.data()['count'])
-                        } else {
-                            cell3.innerHTML = doc.data()['count'];
-                            console.log(doc.data()['count'])
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log("Error getting document:", error);
-                    });
-            });
-        });
-}
-var db = firebase.firestore();
-db
-    .collection("PopFavorite")
-    .orderBy("count", "desc")
-    .limit(10)
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(`${
-                doc.id
-            } => ${
-                doc.data()
-            }`);
-            var GiftProb = document.getElementById('FavoriteList');
-            // var row = my_tbody.insertRow(0); // 상단에 추가
-            var row = GiftProb.insertRow(GiftProb.rows.length); // 하단에 추가
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            cell1.innerHTML = doc.id;
-            cell2.innerHTML = doc.data()['count'];
-            console.log(doc.data()['count'])
-        });
-    });
-function SearchFavoriteName(name, index, preName) {
-if(isEmpty(name))
-return;
-  console.log('asdsad' + name + " index : " + index);
-    var GiftProb = document.getElementById('SearchList');
-    // if (GiftProb.rows.length < 1) return;
-    // GiftProb.deleteRow( my_tbody.rows.length-1 ); // 하단부터 삭제
-    var docRef = db.collection("PopFavorite").doc(name);
-    docRef
-        .get()
-        .then(function (doc) {
-            if (doc.exists) {
-                console.log("Document data:", doc.data());
-                var SearchConfirm;
-                SearchConfirm = confirm(doc.id + ' 관심사는 ' + doc.data()['count'] + '명이 사용 중 입니다' + '\n'
-                            + Daily(index) + '요일 관심사 변경을 하시겠습니까?');
-                                var tempDoc = doc.id.toString();
-                if(SearchConfirm)
-                {
-                  db.collection("DailyFavorite").doc(preName).delete().then(function() {
-                      var favoriteRef = db.collection("DailyFavorite").doc(tempDoc);
-                      favoriteRef.set({
-                          Index: index
-                      })
-                      .then(function(docRef) {
-                          console.log("Document written with ID: ", doc.id);
-                          window.location.reload();
-                      })
-                      .catch(function(error) {
-                          console.error("Error adding document: ", error);
-                      });
-                  }).catch(function(error) {
-                      console.error("Error removing document: ", error);
-                  });
-                }
-                else {
-                }
-                /*
-                    // var row = my_tbody.insertRow(0); // 상단에 추가
-                    var row = GiftProb.insertRow(GiftProb.rows.length); // 하단에 추가
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    cell1.innerHTML = doc.id;
-                    cell2.innerHTML = doc.data()['count'];
-                    */
-                console.log(doc.data()['count'])
-            } else {
-                alert(doc.id + ' 관심사는 사용 중인 사람이 없습니다');
-                console.log(doc.data()['count'])
-            }
-        })
-        .catch(function (error) {
-            console.log("Error getting document:", error);
-        });
-}
-function SearchFavorite() {
-    var GiftProb = document.getElementById('SearchList');
-    // if (GiftProb.rows.length < 1) return;
-    // GiftProb.deleteRow( my_tbody.rows.length-1 ); // 하단부터 삭제
-    var input = document.getElementById("searchFavorite").value;
-    var docRef = db.collection("PopFavorite").doc(input);
-    docRef
-        .get()
-        .then(function (doc) {
-            if (doc.exists) {
-                console.log("Document data:", doc.data());
-              alert(doc.id + ' 관심사는 ' + doc.data()['count'] + '명이 사용 중 입니다');
-                /*
-                // var row = my_tbody.insertRow(0); // 상단에 추가
-                var row = GiftProb.insertRow(GiftProb.rows.length); // 하단에 추가
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                cell1.innerHTML = doc.id;
-                cell2.innerHTML = doc.data()['count'];
-                */
-                console.log(doc.data()['count'])
-            } else {
-                  SearchConfirm = confirm(doc.id + ' 관심사는 사용 중인 사람이 없습니다' + '\n'
-                            + '관심사 추가를 하시겠습니까?');
-                            var tempDoc = doc.id.toString();
-                            if(SearchConfirm)
-                            {
-                              var favoriteRef = db.collection("PopFavorite").doc(tempDoc);
-                              favoriteRef.set({
-                                  count: 0
-                              })
-                              .then(function(docRef) {
-                                  console.log("Document written with ID: ", doc.id);
-                              })
-                              .catch(function(error) {
-                                  console.error("Error adding document: ", error);
-                              });
-                            }
-                            else
-                            {
-                            }
-                // doc.data() will be undefined in this case
-                // var row = my_tbody.insertRow(0); // 상단에 추가
-                /*
-                var row = GiftProb.insertRow(GiftProb.rows.length); // 하단에 추가
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                cell1.innerHTML = input;
-                cell2.innerHTML = '검색 결과가 없습니다';
-                */
-                console.log(doc.data()['count'])
-            }
-        })
-        .catch(function (error) {
-            console.log("Error getting document:", error);
-        });
-}
-function EditFavorite(index, preName)
-{
-  var text;
-  text = prompt("관심사를 검색해주세요");
-  if(isEmpty(text))
-  {
-      alert("관심사 입력이 되지 않았습니다");
-  }
-  else
-  {
-    SearchFavoriteName(text, index, preName);
-  }
-}
-var isEmpty = function(value){ if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){ return true }else{ return false } };
-var Daily = function(value) {
-  switch (value) {
-    case 0:
-      return '일';
-      case 1:
-        return '월';
-    case 2:
-      return '화';
-      case 3:
-        return '수';
-        case 4:
-          return '목';
-      case 5:
-        return '금';
-        case 6:
-          return '토';
-  }
-}
-SetDailyFavorite();</script>
-</body>
+
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+
+						<div class="inner_over">
+
+							<header id="header">
+								<a href="index.html" class="logo"><strong>피프티하우스 대시보드</strong></a>
+							</header>
+
+							<div class="float-frame">
+							  <div class="float-unit">
+
+								</div>
+								<div class="clear"> </div>
+							</div>
+
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+-->
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>메뉴</h2>
+									</header>
+									<ul>
+										<li>
+											<a href="index.html"><i class="fas fa-home">대시보드</i></a>
+									</li>
+
+										<li>
+											<span class="opener"><i class="fas fa-user">현황 관리</i></span>
+											<ul>
+												<li><a href="FiftyMember.html">회원 목록</a></li>
+												<li><a href="FiftyFavorite.html">관심사 목록</a></li>
+												<li><a href="FiftyClub.html">클럽 목록</a></li>
+												<!-- <li><a href="InvalidMember.html">만료 회원</a></li>
+												<li><a href="readyMember.html">코치 배정 대기 회원</a></li>
+												<li><a href="registMember.html">회원 등록</a></li> -->
+											</ul>
+										</li>
+
+										<li>
+											<span class="opener"><i class="fas fa-university">  알림</i></span>
+											<ul>
+												<li><a href="FiftyNotice.html">공지사항</a></li>
+												<li><a href="FiftyEvent.html">이벤트</a></li>
+												<li><a href="FiftyFAQ.html">FAQ</a></li>
+											</ul>
+										</li>
+
+								</nav>
+
+							<!-- Section
+								<section>
+									<header class="major">
+										<h2>Ante interdum</h2>
+									</header>
+									<div class="mini-posts">
+										<article>
+											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+										</article>
+										<article>
+											<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
+											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
+										</article>
+									</div>
+									<ul class="actions">
+										<li><a href="#" class="button">More</a></li>
+									</ul>
+								</section>
+								-->
+
+							<!-- Section
+								<section>
+									<header class="major">
+										<h2>Get in touch</h2>
+									</header>
+									<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+									<ul class="contact">
+										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
+										<li class="icon solid fa-phone">(000) 000-0000</li>
+										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
+										Nashville, TN 00000-0000</li>
+									</ul>
+								</section>
+								-->
+
+							<!-- Footer -->
+							<footer id="footer">
+								<p class="copyright"> Copyright@피프티하우스 CO.,LTD. All rights reserved</p>
+							</footer>
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
 </html>
+
+
+
+
+
+<!-- Banner -->
+<!--
+	<section id="banner">
+		<div class="content">
+			<header>
+				<h1>Hi, I’m Editorial<br />
+				by HTML5 UP</h1>
+				<p>A free and fully responsive site template</p>
+			</header>
+			<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
+			<ul class="actions">
+				<li><a href="#" class="button big">Learn More</a></li>
+			</ul>
+		</div>
+		<span class="image object">
+			<img src="images/pic10.jpg" alt="" />
+		</span>
+	</section>
+-->
+<!-- Section -->
+<!--
+	<section>
+		<header class="major">
+			<h2>Erat lacinia</h2>
+		</header>
+		<div class="features">
+			<article>
+				<span class="icon fa-gem"></span>
+				<div class="content">
+					<h3>Portitor ullamcorper</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-paper-plane"></span>
+				<div class="content">
+					<h3>Sapien veroeros</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-rocket"></span>
+				<div class="content">
+					<h3>Quam lorem ipsum</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+			<article>
+				<span class="icon solid fa-signal"></span>
+				<div class="content">
+					<h3>Sed magna finibus</h3>
+					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				</div>
+			</article>
+		</div>
+	</section>
+-->
+<!-- Section -->
+<!--
+	<section>
+		<header class="major">
+			<h2>Ipsum sed dolor</h2>
+		</header>
+		<div class="posts">
+			<article>
+				<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+				<h3>Interdum aenean</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
+				<h3>Nulla amet dolore</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
+				<h3>Tempus ullamcorper</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
+				<h3>Sed etiam facilis</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
+				<h3>Feugiat lorem aenean</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+			<article>
+				<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
+				<h3>Amet varius aliquam</h3>
+				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
+				<ul class="actions">
+					<li><a href="#" class="button">More</a></li>
+				</ul>
+			</article>
+		</div>
+	</section>
+-->
