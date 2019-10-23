@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         mActivity = this;
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
+        DialogFunc.getInstance().ShowMainImgNoticePopup(mActivity);
+
         bnv_Main_BottomMenu = (BottomNavigationView) findViewById(R.id.bnv_Main_BottomMenu);
 
       //  String[] temp = FirebaseManager.getInstance().AddFavorite(mContext);
