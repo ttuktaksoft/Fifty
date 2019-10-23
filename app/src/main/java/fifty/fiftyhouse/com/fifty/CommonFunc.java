@@ -18,6 +18,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -92,6 +93,8 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static fifty.fiftyhouse.com.fifty.CommonData.MOBILE_STATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.WIFI_STATE;
+import static fifty.fiftyhouse.com.fifty.util.ImageResize.exifOrientationToDegrees;
+import static fifty.fiftyhouse.com.fifty.util.ImageResize.rotate;
 
 public class CommonFunc {
 
@@ -1875,7 +1878,6 @@ public class CommonFunc {
         return null;
     }
 
-
     public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
         Cursor cursor = null;
         final String column = "_data";
@@ -1906,6 +1908,15 @@ public class CommonFunc {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
+    public String getPathFromUri(Context context, Uri uri){
+        Cursor cursor = context.getApplicationContext().getContentResolver().query(uri, null, null, null, null );
+        cursor.moveToNext();
+        String path = cursor.getString( cursor.getColumnIndex( "_data" ) );
+        cursor.close();
+
+        return path;
+    }
+
     public Bitmap resize(Context context, Uri uri, int resize){
         Bitmap resizeBitmap=null;
 
@@ -1927,6 +1938,20 @@ public class CommonFunc {
 
             options.inSampleSize = samplesize;
             Bitmap bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options); //3번
+
+            String filePath = uri.getPath();//getPathFromUri(context, uri);
+            try {
+                ExifInterface exif = new ExifInterface(filePath);
+                int exifOrientation = exif.getAttributeInt(
+                        ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                int exifDegree = exifOrientationToDegrees(exifOrientation);
+
+                bitmap = rotate(bitmap, exifDegree);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             resizeBitmap=bitmap;
 
         } catch (FileNotFoundException e) {
