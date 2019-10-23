@@ -81,6 +81,9 @@ public class TKManager {
     public ClubContextData TargetContextData = new ClubContextData();
     public ChatData copyData = new ChatData();
 
+    public Map<String, String> UserList_Invite_Club = new HashMap<>();
+   // public ArrayList<String> UserList_Invite_Club = new ArrayList<>();
+
     public Map<String, Boolean> AppSettingData = new HashMap<>();
 
     public ArrayList<NoticeData> NoticeData = new ArrayList<>();
