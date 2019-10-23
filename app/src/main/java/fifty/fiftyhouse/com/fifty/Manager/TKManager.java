@@ -86,7 +86,9 @@ public class TKManager {
 
     public Map<String, Boolean> AppSettingData = new HashMap<>();
 
-    public ArrayList<NoticeData> NoticeData = new ArrayList<>();
+    public ArrayList<NoticeData> NoticeData_Event = new ArrayList<>();
+    public ArrayList<NoticeData> NoticeData_Faq = new ArrayList<>();
+    public ArrayList<NoticeData> NoticeData_Notice = new ArrayList<>();
 
     public interface UpdateUIFunc {
         void UpdateUI();

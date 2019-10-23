@@ -7,12 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import fifty.fiftyhouse.com.fifty.DataBase.NoticeData;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 
 public class StrContentListAdapter extends RecyclerView.Adapter<StrContentListListHolder> {
 
     Context mContext;
+    int mItemCount = 0;
+    ArrayList<NoticeData> mItemList = new ArrayList<>();
+
     public StrContentListAdapter(Context context) {
         mContext = context;
     }
@@ -30,14 +36,26 @@ public class StrContentListAdapter extends RecyclerView.Adapter<StrContentListLi
     public void onBindViewHolder(StrContentListListHolder holder, final int position) {
         int i = position;
 
-        holder.setData(i);
+        holder.setData(mItemList.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return TKManager.getInstance().NoticeData.size();
+        return mItemCount;
         //return  TKManager.getInstance().TargetUserData.GetUserImgCount();
         //return mMyData.arrChatTargetData.size();
+    }
+
+    public void setItemCount(int count)
+    {
+        mItemCount = count;
+    }
+
+    public void setItemData(ArrayList<NoticeData> list)
+    {
+        mItemList.clear();
+        mItemList.addAll(list);
+        mItemCount = mItemList.size();
     }
 
 }
@@ -54,9 +72,8 @@ class StrContentListListHolder extends RecyclerView.ViewHolder {
         tv_StrContent_Desc = itemView.findViewById(R.id.tv_StrContent_Desc);
     }
 
-    public void setData(int i)
+    public void setData(NoticeData data)
     {
-
-        tv_StrContent_Desc.setText(TKManager.getInstance().NoticeData.get(i).GetTitle());
+        tv_StrContent_Desc.setText(data.GetTitle());
     }
 }

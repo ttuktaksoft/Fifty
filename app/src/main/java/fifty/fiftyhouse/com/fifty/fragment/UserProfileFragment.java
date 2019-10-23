@@ -789,6 +789,11 @@ public class UserProfileFragment extends Fragment {
                 }
                 else
                 {
+                    Intent intent = new Intent(mContext, StrContentListActivity.class);
+                    intent.putExtra("Type",position);
+                    startActivity(intent);
+
+                    /*
                     switch (position)
                     {
                         case 0:
@@ -860,7 +865,7 @@ public class UserProfileFragment extends Fragment {
                             FirebaseManager.getInstance().GetManagerFAQ(FAQListener);
                             break;
                     }
-
+*/
 
                 }
             }
