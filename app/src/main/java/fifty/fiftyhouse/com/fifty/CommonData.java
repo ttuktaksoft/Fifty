@@ -143,4 +143,7 @@ public class CommonData {
     public static String SETTING_MSG_VIBRATION = "진동";
 
     public static boolean TEST_TEXT_VISIBLE = false;
+
+    public static int NOTICE_TYPE_STR = 0;
+    public static int NOTICE_TYPE_IMG = 1;
 }

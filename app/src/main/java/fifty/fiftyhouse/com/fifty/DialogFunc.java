@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -458,6 +459,32 @@ public class DialogFunc {
 
 
         tv_User_Search_Popup_Buttons_Cancel.setOnClickListener(new OnSingleClickListener(){
+            @Override
+            public void onSingleClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+
+    public void ShowMainImgNoticePopup(Context context, String content) {
+
+        ImageView iv_ImgContent_Img;
+        TextView tv_Main_Img_Notice_OK;
+
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_main_img_notice_popup, null, false);
+
+        iv_ImgContent_Img = v.findViewById(R.id.iv_ImgContent_Img);
+        tv_Main_Img_Notice_OK = v.findViewById(R.id.tv_Main_Img_Notice_OK);
+
+        final AlertDialog dialog = new AlertDialog.Builder(context).setView(v).create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.show();
+
+        CommonFunc.getInstance().DrawImageByGlide(context, iv_ImgContent_Img, content, false);
+
+        tv_Main_Img_Notice_OK.setOnClickListener(new OnSingleClickListener(){
             @Override
             public void onSingleClick(View view) {
                 dialog.dismiss();
