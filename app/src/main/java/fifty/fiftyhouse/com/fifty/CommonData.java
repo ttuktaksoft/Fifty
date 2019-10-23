@@ -86,7 +86,7 @@ public class CommonData {
     public static int Favorite_Search_Pop_Count = 300;
 
     // 메인 화면 기준별 보여지는 유져 인원 수
-    public static int UserList_Loding_Count = 200;
+    public static int UserList_Loding_Count = 50;
     public static int UserList_Loding_Count_Index = 0;
 
     public static int UserData_Loding_Count = 5;

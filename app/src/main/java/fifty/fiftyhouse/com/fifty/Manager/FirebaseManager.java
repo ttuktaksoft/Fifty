@@ -2223,7 +2223,7 @@ public class FirebaseManager {
     }
 
     public void GetUserList(final CheckFirebaseComplete listener) {
-        SetFireBaseLoadingCount("유저목록 로드", 6);
+        SetFireBaseLoadingCount("유저목록 로드", 9);
         GetUserListDist( listener);
 
         GetReportUser(listener);
@@ -2235,6 +2235,10 @@ public class FirebaseManager {
 
         GetUserListNew(true, listener);
         GetUserListFriend(true,listener);
+
+        GetManagerNotice(listener);
+        GetManagerEvent(listener);
+        GetManagerFAQ(listener);
     }
 
     public void AddUserList(final  CheckFirebaseComplete listener) {
@@ -6214,18 +6218,12 @@ public class FirebaseManager {
     public void GetManagerNotice(final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().NoticeData_Notice.clear();
-        SetFireBaseLoadingCount("공지사항" ,0);
         CollectionReference colRef = mDataBase.collection("Manager_Notice");
 
         colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-
-                    SetFireBaseLoadingCount("공지사항" ,task.getResult().size());
-
-                    if(task.getResult().size() == 0)
-                        listener.CompleteListener_No();
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -6236,10 +6234,15 @@ public class FirebaseManager {
                             tempData.SetContent(document.getData().get("Context").toString());
                             tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
 
+                            tempData.SetNoticeType(Integer.parseInt(document.getData().get("NoticeType").toString()));
+                            tempData.SetAppOpenShow(Boolean.parseBoolean(document.getData().get("AppOpenShow").toString()));
+
                             TKManager.getInstance().NoticeData_Notice.add(tempData);
 
-                            Complete("공지사항 ㅇㅇ" ,listener);
+
                     }
+
+                    Complete("공지사항 ㅇㅇ" ,listener);
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -6251,18 +6254,12 @@ public class FirebaseManager {
     public void GetManagerEvent(final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().NoticeData_Event.clear();
-        SetFireBaseLoadingCount("이벤트" ,0);
         CollectionReference colRef = mDataBase.collection("Manager_Event");
 
         colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-
-                    SetFireBaseLoadingCount("이벤트" ,task.getResult().size());
-
-                    if(task.getResult().size() == 0)
-                        listener.CompleteListener_No();
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -6273,10 +6270,15 @@ public class FirebaseManager {
                         tempData.SetContent(document.getData().get("Context").toString());
                         tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
 
+                        tempData.SetNoticeType(Integer.parseInt(document.getData().get("NoticeType").toString()));
+                        tempData.SetAppOpenShow(Boolean.parseBoolean(document.getData().get("AppOpenShow").toString()));
+
                         TKManager.getInstance().NoticeData_Event.add(tempData);
 
-                        Complete("이벤트 ㅇㅇ" , listener);
+
                     }
+
+                    Complete("이벤트 ㅇㅇ" , listener);
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -6288,18 +6290,12 @@ public class FirebaseManager {
     public void GetManagerFAQ(final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().NoticeData_Faq.clear();
-        SetFireBaseLoadingCount("faq" , 0);
         CollectionReference colRef = mDataBase.collection("Manager_FAQ");
 
         colRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-
-                    SetFireBaseLoadingCount("faq" ,task.getResult().size());
-
-                    if(task.getResult().size() == 0)
-                        listener.CompleteListener_No();
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -6310,10 +6306,14 @@ public class FirebaseManager {
                         tempData.SetContent(document.getData().get("Context").toString());
                         tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
 
+                        tempData.SetNoticeType(Integer.parseInt(document.getData().get("NoticeType").toString()));
+                        tempData.SetAppOpenShow(Boolean.parseBoolean(document.getData().get("AppOpenShow").toString()));
+
                         TKManager.getInstance().NoticeData_Faq.add(tempData);
 
-                        Complete("faq ㅇㅇ" , listener);
+
                     }
+                    Complete("faq ㅇㅇ" , listener);
 
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
