@@ -8,6 +8,7 @@ public class NoticeData {
     public String Content = null;
     public long Date = 100;
     public int NoticeType = CommonData.NOTICE_TYPE_STR;
+    public boolean AppOpenShow = false;
 
     public void SetTitle(String title)
     {
@@ -34,5 +35,14 @@ public class NoticeData {
     public long GetDate()
     {
         return Date;
+    }
+
+    public void SetNoticeType(int type)
+    {
+        NoticeType = type;
+    }
+    public int GetNoticeType()
+    {
+        return NoticeType;
     }
 }

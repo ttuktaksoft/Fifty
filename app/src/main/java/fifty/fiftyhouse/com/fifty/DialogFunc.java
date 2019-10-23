@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 
@@ -23,7 +24,11 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.DataBase.NoticeData;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.adapter.DialogMenuListAdapter;
@@ -467,7 +472,39 @@ public class DialogFunc {
     }
 
 
-    public void ShowMainImgNoticePopup(Context context, String content) {
+    public void ShowMainImgNoticePopup(Context context) {
+
+        NoticeData data = null;
+        for(NoticeData object : TKManager.getInstance().NoticeData_Faq) {
+            if(object.AppOpenShow)
+                data = object;
+        }
+
+        for(NoticeData object : TKManager.getInstance().NoticeData_Event) {
+            if(object.AppOpenShow)
+                data = object;
+        }
+
+        for(NoticeData object : TKManager.getInstance().NoticeData_Notice) {
+            if(object.AppOpenShow)
+                data = object;
+        }
+
+        if(data == null)
+            return;
+
+        if(data.GetNoticeType() != CommonData.NOTICE_TYPE_IMG)
+            return;
+
+        SharedPreferences sf = context.getSharedPreferences("userFile",Activity.MODE_PRIVATE);
+
+        Long value = sf.getLong("mainNoticeLastTime",0);
+        if(value == data.GetDate())
+            return;
+
+        SharedPreferences.Editor editor = sf.edit();
+        editor.putLong("mainNoticeLastTime", data.GetDate());
+        editor.commit();
 
         ImageView iv_ImgContent_Img;
         TextView tv_Main_Img_Notice_OK;
@@ -482,7 +519,7 @@ public class DialogFunc {
         dialog.setCancelable(false);
         dialog.show();
 
-        CommonFunc.getInstance().DrawImageByGlide(context, iv_ImgContent_Img, content, false);
+        CommonFunc.getInstance().DrawImageByGlide(context, iv_ImgContent_Img, data.GetContent(), false);
 
         tv_Main_Img_Notice_OK.setOnClickListener(new OnSingleClickListener(){
             @Override

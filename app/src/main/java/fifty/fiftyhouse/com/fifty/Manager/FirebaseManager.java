@@ -6169,7 +6169,7 @@ public class FirebaseManager {
 
     public void GetManagerNotice(final FirebaseManager.CheckFirebaseComplete listener)
     {
-        TKManager.getInstance().NoticeData.clear();
+        TKManager.getInstance().NoticeData_Notice.clear();
         SetFireBaseLoadingCount("공지사항" ,0);
         CollectionReference colRef = mDataBase.collection("Manager_Notice");
 
@@ -6192,7 +6192,7 @@ public class FirebaseManager {
                             tempData.SetContent(document.getData().get("Context").toString());
                             tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
 
-                            TKManager.getInstance().NoticeData.add(tempData);
+                            TKManager.getInstance().NoticeData_Notice.add(tempData);
 
                             Complete("공지사항 ㅇㅇ" ,listener);
                     }
@@ -6206,7 +6206,7 @@ public class FirebaseManager {
 
     public void GetManagerEvent(final FirebaseManager.CheckFirebaseComplete listener)
     {
-        TKManager.getInstance().NoticeData.clear();
+        TKManager.getInstance().NoticeData_Event.clear();
         SetFireBaseLoadingCount("이벤트" ,0);
         CollectionReference colRef = mDataBase.collection("Manager_Event");
 
@@ -6229,7 +6229,7 @@ public class FirebaseManager {
                         tempData.SetContent(document.getData().get("Context").toString());
                         tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
 
-                        TKManager.getInstance().NoticeData.add(tempData);
+                        TKManager.getInstance().NoticeData_Event.add(tempData);
 
                         Complete("이벤트 ㅇㅇ" , listener);
                     }
@@ -6243,7 +6243,7 @@ public class FirebaseManager {
 
     public void GetManagerFAQ(final FirebaseManager.CheckFirebaseComplete listener)
     {
-        TKManager.getInstance().NoticeData.clear();
+        TKManager.getInstance().NoticeData_Faq.clear();
         SetFireBaseLoadingCount("faq" , 0);
         CollectionReference colRef = mDataBase.collection("Manager_FAQ");
 
@@ -6266,7 +6266,7 @@ public class FirebaseManager {
                         tempData.SetContent(document.getData().get("Context").toString());
                         tempData.SetDate(Long.parseLong(document.getData().get("Date").toString()));
 
-                        TKManager.getInstance().NoticeData.add(tempData);
+                        TKManager.getInstance().NoticeData_Faq.add(tempData);
 
                         Complete("faq ㅇㅇ" , listener);
                     }

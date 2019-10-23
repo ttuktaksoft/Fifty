@@ -79,6 +79,9 @@
     <string name="MSG_WITHDRAWAL">탈퇴</string>
     <string name="MSG_ID">아이디</string>
     <string name="MSG_LOGOUT">로그아웃</string>
+    <string name="MSG_STR_CONTENT_EMPTY_EVENT">이벤트 목록이 없습니다</string>
+    <string name="MSG_STR_CONTENT_EMPTY_FAQ">FAQ 목록이 없습니다</string>
+    <string name="MSG_STR_CONTENT_EMPTY_NOTICE">공지사항 목록이 없습니다</string>
 
     <string name="MSG_BLOCK_LIST">차단목록</string>
 
