@@ -105,6 +105,10 @@ public class SortSettingActivity extends AppCompatActivity {
                         Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
 
 
+                        CommonFunc.getInstance().FilterDistUserByReport(TKManager.getInstance().View_UserList_Dist);
+                        CommonFunc.getInstance().FilterNewUserByReport(TKManager.getInstance().View_UserList_New);
+                        CommonFunc.getInstance().FilterHotUserByReport(TKManager.getInstance().View_UserList_Hot);
+
                         CommonFunc.getInstance().MoveMainActivity(SortSettingActivity.this, false);
                     }
 

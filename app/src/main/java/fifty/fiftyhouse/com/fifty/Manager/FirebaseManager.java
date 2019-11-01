@@ -5333,6 +5333,7 @@ public class FirebaseManager {
                                 {
                                     TKManager.getInstance().UserList_Hot.add(document.getId());
                                     TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
+                                    CommonFunc.getInstance().FilterHotUserByReport(TKManager.getInstance().View_UserList_Hot);
                                     GetUserData_Simple(document.getId().toString(), TKManager.getInstance().UserData_Simple, listener);
                                 }
                                 else

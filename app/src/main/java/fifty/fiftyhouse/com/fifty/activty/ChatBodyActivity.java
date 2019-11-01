@@ -289,9 +289,31 @@ public class ChatBodyActivity extends AppCompatActivity {
                         FirebaseManager.CheckFirebaseComplete ReportListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
                             public void CompleteListener() {
-                                DialogFunc.getInstance().DismissLoadingPage();
+
                                 DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_BLOCK_COMPLETE), true);
-                                finish();
+                                TKManager.getInstance().MyData.DelUserChatDataList(strRoomIndex);
+
+                                FirebaseManager.CheckFirebaseComplete deleteListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_Yes() {
+
+                                    }
+
+                                    @Override
+                                    public void CompleteListener_No() {
+                                        DialogFunc.getInstance().DismissLoadingPage();
+                                    }
+                                };
+
+                                FirebaseManager.getInstance().RemoveChatList(strRoomIndex, deleteListener);
+
+
                             }
 
                             @Override

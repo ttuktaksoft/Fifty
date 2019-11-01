@@ -59,6 +59,7 @@
     <string name="MSG_NOTICE_EMPTY">알람이 없습니다.</string>
     <string name="MSG_MAIN_USER_TODAY_DESC">좋아하는 친구</string>
     <string name="MSG_MY_PROFILE_CLICK">본인 프로필 입니다</string>
+    <string name="MSG_REPORT_PROFILE_CLICK">차단한 상대의 프로필 입니다</string>
     <string name="MSG_RETRY">다시 시도해 주세요</string>
     <string name="MSG_FRIEND_ADD">친구추가</string>
     <string name="MSG_FRIEND_REMOVE">친구삭제</string>

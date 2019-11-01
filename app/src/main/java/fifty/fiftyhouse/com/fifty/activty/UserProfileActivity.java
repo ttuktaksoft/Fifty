@@ -129,7 +129,9 @@ public class UserProfileActivity extends AppCompatActivity {
                             public void CompleteListener() {
                                 DialogFunc.getInstance().DismissLoadingPage();
                                 DialogFunc.getInstance().ShowToast(mContext, CommonFunc.getInstance().getStr(mContext.getResources(), R.string.MSG_BLOCK_COMPLETE), true);
-                                finish();
+                               // finish();
+
+                                CommonFunc.getInstance().RefreshUserList(UserProfileActivity.this);
                             }
 
                             @Override

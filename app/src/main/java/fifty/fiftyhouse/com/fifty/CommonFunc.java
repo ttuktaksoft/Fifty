@@ -90,6 +90,7 @@ import gun0912.tedbottompicker.TedBottomPicker;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.content.Intent.makeMainSelectorActivity;
 import static fifty.fiftyhouse.com.fifty.CommonData.MOBILE_STATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
 import static fifty.fiftyhouse.com.fifty.CommonData.WIFI_STATE;
@@ -1333,11 +1334,13 @@ public class CommonFunc {
     {
         DialogFunc.getInstance().ShowLoadingPage(activity);
 
-        TKManager.getInstance().UserList_Dist.clear();
-        TKManager.getInstance().UserList_New.clear();
-        TKManager.getInstance().UserData_Simple.clear();
+        TKManager.getInstance().View_UserList_Dist.clear();
+        TKManager.getInstance().View_UserList_New.clear();
+        TKManager.getInstance().View_UserList_Hot.clear();
+
+        /*TKManager.getInstance().UserData_Simple.clear();
         TKManager.getInstance().MyData.ClearUserFriendList();
-        TKManager.getInstance().MyData.ClearRequestFriendList();
+        TKManager.getInstance().MyData.ClearRequestFriendList();*/
 
         FirebaseManager.CheckFirebaseComplete Innerlistener = new FirebaseManager.CheckFirebaseComplete() {
             @Override
@@ -1352,7 +1355,9 @@ public class CommonFunc {
                 long seed = System.nanoTime();
                 Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
 
-
+                CommonFunc.getInstance().FilterDistUserByReport(TKManager.getInstance().View_UserList_Dist);
+                CommonFunc.getInstance().FilterNewUserByReport(TKManager.getInstance().UserList_New);
+                CommonFunc.getInstance().FilterHotUserByReport(TKManager.getInstance().View_UserList_Hot);
 
                 MoveMainActivity(activity, false);
             }
@@ -1387,9 +1392,12 @@ public class CommonFunc {
                     public void CompleteListener() {
                         //   DialogFunc.getInstance().DismissLoadingPage();
 
+
                         CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_Dist, TKManager.getInstance().View_UserList_Dist, true);
                         //CommonFunc.getInstance().SortByDistance(TKManager.getInstance().UserList_New, TKManager.getInstance().View_UserList_New, true);
+
                         TKManager.getInstance().View_UserList_New = TKManager.getInstance().UserList_New;
+
 
                         //TKManager.getInstance().UserList_Hot = TKManager.getInstance().UserList_Search_Hot;
                         TKManager.getInstance().View_UserList_Hot = TKManager.getInstance().UserList_Hot;
@@ -1397,6 +1405,11 @@ public class CommonFunc {
                         long seed = System.nanoTime();
                         Collections.shuffle(TKManager.getInstance().View_UserList_Hot, new Random(seed));
 
+
+
+                        CommonFunc.getInstance().FilterDistUserByReport(TKManager.getInstance().View_UserList_Dist);
+                        CommonFunc.getInstance().FilterNewUserByReport(TKManager.getInstance().View_UserList_New);
+                        CommonFunc.getInstance().FilterHotUserByReport(TKManager.getInstance().View_UserList_Hot);
 
 
                         MoveMainActivity(activity, true);
@@ -1515,6 +1528,63 @@ public class CommonFunc {
         };
 
         FirebaseManager.getInstance().GetUserData(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData, listener );
+    }
+
+    public void FilterDistUserByReport(final ArrayList<String> userList)
+    {
+        ArrayList<String> tempList = new ArrayList<String>();
+
+        for(int i=0; i<userList.size(); i++)
+        {
+            if(TKManager.getInstance().MyData.GetReportUserList().containsKey(userList.get(i)))
+            {
+
+            }
+            else
+            {
+                tempList.add(userList.get(i));
+            }
+        }
+
+        TKManager.getInstance().View_UserList_Dist = tempList;
+    }
+
+    public void FilterNewUserByReport(final ArrayList<String> userList)
+    {
+        ArrayList<String> tempList = new ArrayList<String>();
+
+        for(int i=0; i<userList.size(); i++)
+        {
+            if(TKManager.getInstance().MyData.GetReportUserList().containsKey(userList.get(i)))
+            {
+
+            }
+            else
+            {
+                tempList.add(userList.get(i));
+            }
+        }
+
+        TKManager.getInstance().View_UserList_New = tempList;
+    }
+
+    public void FilterHotUserByReport(final ArrayList<String> userList)
+    {
+        ArrayList<String> tempList = new ArrayList<String>();
+
+        for(int i=0; i<userList.size(); i++)
+        {
+            if(TKManager.getInstance().MyData.GetReportUserList().containsKey(userList.get(i)))
+            {
+
+            }
+            else
+            {
+                tempList.add(userList.get(i));
+            }
+        }
+
+        TKManager.getInstance().View_UserList_Hot = tempList;
     }
 
     public static String getWhatKindOfNetwork(Context context){
@@ -1685,6 +1755,12 @@ public class CommonFunc {
         if(userIndex.equals(TKManager.getInstance().MyData.GetUserIndex()))
         {
             DialogFunc.getInstance().ShowToast(activity, CommonFunc.getInstance().getStr(activity.getResources(), R.string.MSG_MY_PROFILE_CLICK), true);
+            DialogFunc.getInstance().DismissLoadingPage();
+        }
+
+        else if(TKManager.getInstance().MyData.GetReportUserList().containsKey(userIndex))
+        {
+            DialogFunc.getInstance().ShowToast(activity, CommonFunc.getInstance().getStr(activity.getResources(), R.string.MSG_REPORT_PROFILE_CLICK), true);
             DialogFunc.getInstance().DismissLoadingPage();
         }
         else
