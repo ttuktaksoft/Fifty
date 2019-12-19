@@ -78,7 +78,7 @@ body{
 								<tr class="row100 head">
 									<th class="cell100 column1">관심사명</th>
 									<th class="cell100 column2">인원</th>
-									
+
 								</tr>
 							</thead>
 						</table>
@@ -185,174 +185,63 @@ body{
 
 var db = firebase.firestore();
 
-db
-    .collection("UserData")
-    .orderBy("ConnectDate", "desc")
-    .limit(10)
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(`${
-                doc.id
-            } => ${
-                doc.data()['NickName']
-            }`);
-
-        });
-    });
+// db
+//     .collection("UserData")
+//     .orderBy("ConnectDate", "desc")
+//     .limit(10)
+//     .get()
+//     .then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             console.log(`${
+//                 doc.id
+//             } => ${
+//                 doc.data()['NickName']
+//             }`);
+//
+//         });
+//     });
 
 
 function SetData()
 {
 
-	var dbTestRef = firebase.database().ref('/UserData')
-	dbTestRef.on('child_added', function(data){
-
-		var LastlessonName = '미 등록'
-		var CoachName = '미 배정';
-		var lessonStart= '미 등록';
-		var lessonEnd = '미 등록';
-		var lessonMsg = '미 등록';
-		var lessonCount = 0;
-		var lessonCancelCount = 0;
-		var lessonServiceCount = 0;
-		var lessonTotalCount = 0;
-
-		var MemberData = document.getElementById('MemberData');
-
-		// var row = my_tbody.insertRow(0); // 상단에 추가
-		var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
-
-		var cell1 = row.insertCell(0);
-		cell1.setAttribute('class', 'cell100 column1');
-
-		var cell2 = row.insertCell(1);
-		cell2.setAttribute('class', 'cell100 column2');
-
-		var cell3 = row.insertCell(2);
-		cell3.setAttribute('class', 'cell100 column3');
-
-		var cell4 = row.insertCell(3);
-		cell4.setAttribute('class', 'cell100 column4');
-
-		var cell5 = row.insertCell(4);
-		cell5.setAttribute('class', 'cell100 column5');
-
-		var cell6 = row.insertCell(5);
-		cell6.setAttribute('class', 'cell100 column6');
-
-		var cell7 = row.insertCell(6);
-		cell7.setAttribute('class', 'cell100 column7');
-
-		var cell8 = row.insertCell(7);
-		cell8.setAttribute('class', 'cell100 column8');
-
-		var cell9 = row.insertCell(8);
-		cell9.setAttribute('class', 'cell100 column9');
-
-		var cell10 = row.insertCell(9);
-		cell10.setAttribute('class', 'cell100 column10');
-
-		cell1.innerHTML = data.val().Name;
-		cell2.innerHTML = inputPhoneNumber(data.val().PhoneNumber);
-		cell3.innerHTML = LastlessonName;
 
 
-		firebase.database().ref('/UserData/'+data.key.toString()).child('LessonIndexList').limitToLast(2).on('child_added', function(LastLesson){
 
-			if(LastLesson.key === 'LessonCount')
-			{
+	db
+	    .collection("Favorite_Rank")
+	    .orderBy("count", "desc")
+	    .get()
+	    .then((querySnapshot) => {
+	        querySnapshot.forEach((doc) => {
+	            console.log(`${
+	                doc.id
+	            } => ${
+	                doc.data()['count']
+	            }`);
 
-			}
-			else {
-				console.log(LastLesson.val(), 'key: ', LastLesson.key)
+							var FavoriteName = '관심사 이름';
+							var FavoriteCount = 0;
 
-				firebase.database().ref('/LessonData/'+LastLesson.key.toString()).on('child_added', function(LastLessonInfo){
+							var MemberData = document.getElementById('MemberData');
 
-							//console.log(LastLessonInfo.val(), 'key: ', LastLessonInfo.key)
+							// var row = my_tbody.insertRow(0); // 상단에 추가
+							var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
 
-					if(LastLessonInfo.key === 'ProductIndex')
-					{
-						firebase.database().ref('/ProductData/'+LastLessonInfo.val().toString()).on('child_added', function(LastLessonProductInfo){
-							if(LastLessonProductInfo.key === 'Name')
-									cell3.innerHTML = LastLessonProductInfo.val();
-						});
-					}
+							var cell1 = row.insertCell(0);
+							cell1.setAttribute('class', 'cell100 column1');
 
-					else if(LastLessonInfo.key === 'SeriesIndex'){
-									console.log(LastLessonInfo.val().length, 'SeriesIndex key: ', LastLessonInfo.key);
-
-									lessonTotalCount = LastLessonInfo.val().length;
-									for(var seriesIndex = 0; seriesIndex < LastLessonInfo.val().length; seriesIndex++)
-									{
-										CoachName = LastLessonInfo.val()[seriesIndex].CoachIndex;
-										lessonStart = LastLessonInfo.val()[seriesIndex].ReservationTime;
-										lessonEnd = LastLessonInfo.val()[seriesIndex].ReservationTime;
-										lessonMsg = LastLessonInfo.val()[seriesIndex].Msg;
-										lessonCount = seriesIndex;
-
-										if(LastLessonInfo.val()[seriesIndex].State === 0)
-										{
-											break;
-										}
-										else if(LastLessonInfo.val()[seriesIndex].State === 2){
-											lessonCancelCount += 1;
-										}
-										else {
-										}
-
-										// else if(LastLessonInfo.val()[seriesIndex].CoachIndex != -1){
-										// 	firebase.database().ref('/CoachData/'+LastLessonInfo.val()[seriesIndex].CoachIndex.toString()).on('child_added', function(CoachData){
-										// 		if(CoachData.key === 'Name')
-										// 		{
-										// 		cell4.innerHTML =CoachData.val();
-										// 		}
-										// 	});
-										// 	break;
-										// }
-										// else if(LastLessonInfo.val()[seriesIndex].ReservationTime != 0){
-										// 	if(LastLessonProductInfo.key === 'Name')
-										// 			cell3.innerHTML = LastLessonProductInfo.val();
-										// }
-									}
-
-									cell5.innerHTML = lessonStart;
-									cell6.innerHTML = lessonEnd;
-									cell7.innerHTML = lessonMsg;
-									cell8.innerHTML = lessonCount + '/' + lessonTotalCount;
-									cell9.innerHTML = lessonCancelCount ;
-									cell10.innerHTML = lessonServiceCount ;
-
-									if(CoachName != -1)
-									{
-										firebase.database().ref('/CoachData/'+CoachName.toString()).on('child_added', function(CoachData){
-												if(CoachData.key === 'Name')
-												{
-														cell4.innerHTML =CoachData.val();
-												}
-											});
-									}
-
-									console.log(LastLessonInfo.val()[0].CoachIndex, 'SeriesIndex 0: ', LastLessonInfo.key);
-
-					}
-				});
-			}
-		});
+							var cell2 = row.insertCell(1);
+							cell2.setAttribute('class', 'cell100 column2');
+							cell1.innerHTML =  doc.id;
+							cell2.innerHTML =  doc.data()['count'];
 
 
-		cell4.innerHTML = CoachName;
-		cell5.innerHTML = lessonStart;
-		cell6.innerHTML = lessonEnd;
-		cell7.innerHTML = lessonMsg;
-		cell8.innerHTML = lessonCount + '/' + lessonTotalCount;
-		cell9.innerHTML = lessonCancelCount ;
-		cell10.innerHTML = lessonServiceCount ;
-
-		})
+	        });
+	    });
 }
 
-//SetData();
+SetData();
 </script>
 
 	</body>

@@ -634,7 +634,7 @@ public class ChatBodyActivity extends AppCompatActivity {
         tempData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
 
         tempData.SetToIndex(strTargetIndex);
-
+        tempData.AddMsgReadCheckUser(TKManager.getInstance().MyData.GetUserIndex());
 
         if(mType != CommonData.CHAT_ROOM_TYPE.CLUB)
         {

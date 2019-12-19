@@ -77,6 +77,13 @@ body{
 							<thead>
 								<tr class="row100 head">
 									<th class="cell100 column1">닉네임</th>
+									<th class="cell100 column2">성별</th>
+									<th class="cell100 column3">방문자</th>
+									<th class="cell100 column4">좋아요</th>
+									<th class="cell100 column5">친구</th>
+									<th class="cell100 column6">클럽</th>
+
+									<!-- <th class="cell100 column1">닉네임</th>
 									<th class="cell100 column2">성명</th>
 									<th class="cell100 column3">핸드폰 번호</th>
 									<th class="cell100 column4">성별</th>
@@ -85,7 +92,7 @@ body{
 									<th class="cell100 column7">좋아요</th>
 									<th class="cell100 column8">친구</th>
 									<th class="cell100 column9">클럽</th>
-									<th class="cell100 column10">관심사</th>
+									<th class="cell100 column10">관심사</th> -->
 								</tr>
 							</thead>
 						</table>
@@ -192,28 +199,150 @@ body{
 
 var db = firebase.firestore();
 
-db
-    .collection("UserData")
-    .orderBy("ConnectDate", "desc")
-    .limit(10)
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(`${
-                doc.id
-            } => ${
-                doc.data()['NickName']
-            }`);
+// db
+//     .collection("UserData")
+//     .orderBy("ConnectDate", "desc")
+//     //.limit(10)
+//     .get()
+//     .then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             console.log(`${
+//                 doc.id
+//             } => ${
+//                 doc.data()['NickName']
+//             }`);
+//
+//         });
+//     });
 
-        });
-    });
-
-
+SetData();
 function SetData()
 {
 
+		var MemberData = document.getElementById('MemberData');
+
+			db
+			    .collection("UserData")
+			    .orderBy("ConnectDate", "desc")
+			    //.limit(10)
+			    .get()
+			    .then((querySnapshot) => {
+			        querySnapshot.forEach((doc) => {
+			            console.log(`${
+			                doc.id
+			            } => ${
+			                doc.data()['NickName']
+			            }`);
+
+									var Index = doc.data()['Index'];
+									var NickName = doc.data()['NickName'];
+									var Gender = doc.data()['Gender'];
+									var Visit = 0;
+									var Like = 0;
+									var Friend = 0;
+									var Club = 0;
+
+									var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
+
+									var cell1 = row.insertCell(0);
+									cell1.setAttribute('class', 'cell100 column1');
+
+									var cell2 = row.insertCell(1);
+									cell2.setAttribute('class', 'cell100 column2');
+
+									var cell3 = row.insertCell(2);
+									cell3.setAttribute('class', 'cell100 column3');
+
+									var cell4 = row.insertCell(3);
+									cell4.setAttribute('class', 'cell100 column4');
+
+									var cell5 = row.insertCell(4);
+									cell5.setAttribute('class', 'cell100 column5');
+
+									var cell6 = row.insertCell(5);
+									cell6.setAttribute('class', 'cell100 column6');
+
+
+									cell1.innerHTML = doc.data()['NickName'];
+									if(Gender === 0)
+									{
+										cell2.innerHTML = '남성';
+									}
+
+									else
+									{
+										cell2.innerHTML = '여성';
+									}
+
+									cell3.innerHTML = doc.data()['TotalVisit'];
+									cell4.innerHTML = doc.data()['TotalLike'];
+									cell5.innerHTML = 0;
+
+
+
+									var ClubIndex = 0;
+									db
+									    .collection("UserData").doc(Index).collection("ClubList")
+											.limit(1)
+									    .get()
+									    .then((querySnapshot) => {
+									        querySnapshot.forEach((doc) => {
+
+													ClubIndex =   doc.data()['index'];
+
+													if(ClubIndex != 0)
+													{
+														var docRef = db.collection("ClubData").doc(ClubIndex);
+
+														docRef.get().then(function(doc) {
+															if (doc.exists) {
+																	console.log("Document data:", doc.data()['ClubName']);
+																	cell6.innerHTML = doc.data()['ClubName'];
+															} else {
+																	// doc.data() will be undefined in this case
+																	cell6.innerHTML = 0;
+															}
+														}).catch(function(error) {
+															console.log("Error getting document:", error);
+														});
+													}
+													else {
+															cell6.innerHTML = '없음';
+													}
+
+													console.log(ClubIndex);
+
+
+
+									            // console.log(`${
+									            //     doc.id
+									            // } => ${
+									            //     doc.data()['index']
+									            // }`);
+
+
+									        });
+									    });
+
+									// var NickName = '미 등록'
+									// var Name = '미 배정';
+									// var Phone= '미 등록';
+									// var Gender = '미 등록';
+									// var Birth = '미 등록';
+									// var Visit = 0;
+									// var Like = 0;
+									// var Friend = 0;
+									// var Club = 0;
+									// var Favorite = 0;
+
+			        });
+			    });
+
+
 	var dbTestRef = firebase.database().ref('/UserData')
 	dbTestRef.on('child_added', function(data){
+
+
 
 		var LastlessonName = '미 등록'
 		var CoachName = '미 배정';
@@ -359,7 +488,7 @@ function SetData()
 		})
 }
 
-//SetData();
+
 </script>
 
 	</body>

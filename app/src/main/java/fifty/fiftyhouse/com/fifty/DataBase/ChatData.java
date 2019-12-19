@@ -40,6 +40,7 @@ public class ChatData implements Cloneable{
     public  boolean MsgReadCheck;
     public  long MsgReadCheckNum;
     public Map<String, String> ChatUserList = new LinkedHashMap<String, String>();
+    public Map<String, String> ReadUserList = new LinkedHashMap<String, String>();
 
     public void SetRoomName(String name)
     {
@@ -161,6 +162,18 @@ public class ChatData implements Cloneable{
     public boolean GetMsgReadCheck()
     {
         return MsgReadCheck;
+    }
+
+    public void AddMsgReadCheckUser(String userIndex) {
+        ReadUserList.put(userIndex, userIndex);
+    }
+    public String GetMsgReadCheckUser(String userIndex)
+    {
+        return ReadUserList.get(userIndex);
+    }
+    public void ClearReadUserList()
+    {
+        ReadUserList.clear();
     }
 
     public void SetMsgReadCheckNumber(long number) {MsgReadCheckNum = number;}
