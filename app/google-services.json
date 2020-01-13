@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "475674577888",
-    "firebase_url": "https://fifty-e2d17.firebaseio.com",
-    "project_id": "fifty-e2d17",
-    "storage_bucket": "fifty-e2d17.appspot.com"
+    "project_number": "791257379373",
+    "firebase_url": "https://fifty-3bc03.firebaseio.com",
+    "project_id": "fifty-3bc03",
+    "storage_bucket": "fifty-3bc03.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:475674577888:android:74c8c6742a3fe206",
+        "mobilesdk_app_id": "1:791257379373:android:d8eece4148bff0e865bea4",
         "android_client_info": {
           "package_name": "fifty.fiftyhouse.com.fifty"
         }
       },
       "oauth_client": [
         {
-          "client_id": "475674577888-o47fv182u90hgbi8cgvnvrudgn4hdfrg.apps.googleusercontent.com",
+          "client_id": "791257379373-lm8icj329l8s13g8b21fciakqlcpub3l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDwUrm6p_f78TRoFK6bcyD4YBfP8TeBUDY"
+          "current_key": "AIzaSyDn1Yvf897vsz3aHfDrJYGmNupX0SjeMhM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "475674577888-o47fv182u90hgbi8cgvnvrudgn4hdfrg.apps.googleusercontent.com",
+              "client_id": "791257379373-lm8icj329l8s13g8b21fciakqlcpub3l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
