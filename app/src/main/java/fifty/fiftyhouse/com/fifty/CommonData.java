@@ -152,4 +152,7 @@ public class CommonData {
     public static final int CLUB_LIST_FAVORITE_SEARCH = 0;
     public static final int CLUB_LIST_MY = 1;
     public static final int CLUB_LIST_USER = 2;
+
+    public static String SERVER_KEY = "AAAAuDqdci0:APA91bErkkUdJ4c1PAWjcUxF85U-jluM39AmuhbGCI4VgGDzfqt_KA2d8eKdwdh_oOLyXuqMeSCd762VjZUFFKLpulKoecq54m4LByFE250FwQVMFWajBU3JB84pipQOZKbS8hvuDFUH";
+    public static String MSG_URL = "https://fcm.googleapis.com/fcm/send";
 }

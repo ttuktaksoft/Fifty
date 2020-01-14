@@ -30,6 +30,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Transaction;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -63,6 +65,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.ClubData;
 import fifty.fiftyhouse.com.fifty.DataBase.NoticeData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.R;
 
 import static fifty.fiftyhouse.com.fifty.CommonData.FAVORITE_RANK_COUNT;
@@ -212,8 +215,26 @@ public class FirebaseManager {
                  /*           Toast.makeText(activity, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();*/
                             FirebaseUser user = mAuth.getCurrentUser();
-                            if(listener != null)
-                                listener.CompleteListener();
+
+                            FirebaseInstanceId.getInstance().getInstanceId()
+                                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                            if (!task.isSuccessful()) {
+                                                Log.w(TAG, "getInstanceId failed", task.getException());
+                                                return;
+                                            }
+
+                                            // Get new Instance ID token
+                                            String token = task.getResult().getToken();
+                                            TKManager.getInstance().MyData.SetUserToken(token);
+
+                                            if(listener != null)
+                                                listener.CompleteListener();
+                                        }
+                                    });
+
+
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -329,7 +350,7 @@ public class FirebaseManager {
         user.put("UId", TKManager.getInstance().MyData.GetUserIndex());
         user.put("Index", TKManager.getInstance().MyData.GetUserIndex());
 
-        user.put("Token", TKManager.getInstance().MyData.GetUserIndex());
+        user.put("Token", TKManager.getInstance().MyData.GetUserToken());
 
         user.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
         user.put("Img_ThumbNail", TKManager.getInstance().MyData.GetUserImgThumb());
@@ -3699,6 +3720,7 @@ public class FirebaseManager {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "DocumentSnapshot successfully written!");
+                                CommonFunc.getInstance().SendMSGToFCM(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserToken(), chatData.Msg);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -3901,6 +3923,8 @@ public class FirebaseManager {
         tempData.put("RoomIndex", data.GetRoomIndex());
         tempData.put("RoomType", "DEFAULT");
         tempData.put("MsgIndex", 0);
+
+        CommonFunc.getInstance().SendMSGToFCM(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserToken(), data.Msg);
 
         mDataBase.collection("UserData").document(userIndex).collection("ChatRoomList").document(ChatRoomIndex)
                 .set(data, SetOptions.merge())

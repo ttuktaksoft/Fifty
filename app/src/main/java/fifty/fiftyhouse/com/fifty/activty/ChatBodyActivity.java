@@ -636,6 +636,8 @@ public class ChatBodyActivity extends AppCompatActivity {
         tempData.SetToIndex(strTargetIndex);
         tempData.AddMsgReadCheckUser(TKManager.getInstance().MyData.GetUserIndex());
 
+
+
         if(mType != CommonData.CHAT_ROOM_TYPE.CLUB)
         {
             tempData.SetMsgReadCheckNumber(1);

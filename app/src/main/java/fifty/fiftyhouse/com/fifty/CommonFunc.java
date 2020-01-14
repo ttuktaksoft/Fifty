@@ -3,6 +3,10 @@ package fifty.fiftyhouse.com.fifty;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -19,12 +23,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.ExifInterface;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.InputFilter;
@@ -57,6 +63,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,6 +81,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -92,10 +101,13 @@ import static android.content.Context.MODE_PRIVATE;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static android.content.Intent.makeMainSelectorActivity;
 import static fifty.fiftyhouse.com.fifty.CommonData.MOBILE_STATE;
+import static fifty.fiftyhouse.com.fifty.CommonData.MSG_URL;
 import static fifty.fiftyhouse.com.fifty.CommonData.NONE_STATE;
+import static fifty.fiftyhouse.com.fifty.CommonData.SERVER_KEY;
 import static fifty.fiftyhouse.com.fifty.CommonData.WIFI_STATE;
 import static fifty.fiftyhouse.com.fifty.util.ImageResize.exifOrientationToDegrees;
 import static fifty.fiftyhouse.com.fifty.util.ImageResize.rotate;
+
 
 public class CommonFunc {
 
@@ -2044,6 +2056,41 @@ public class CommonFunc {
 
 
 
+
+    public void SendMSGToFCM(final String strToken, String strMsg) {
+        try {
+
+            // FMC 메시지 생성 start
+            JSONObject root = new JSONObject();
+            JSONObject data = new JSONObject();
+
+            data.put("body", strMsg);
+
+            data.put("title", TKManager.getInstance().MyData.GetUserNickName() + " 님이 메세지를 보냈습니다");
+
+            data.put("NickName", TKManager.getInstance().MyData.GetUserNickName());
+            data.put("Type", "Msg");
+
+            root.put("data", data);
+            root.put("to", strToken);
+            // FMC 메시지 생성 end
+
+            URL Url = new URL(MSG_URL);
+            HttpURLConnection conn = (HttpURLConnection) Url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.addRequestProperty("Authorization", "key=" + SERVER_KEY);
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty("Content-type", "application/json");
+            OutputStream os = conn.getOutputStream();
+            os.write(root.toString().getBytes("utf-8"));
+            os.flush();
+            conn.getResponseCode();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

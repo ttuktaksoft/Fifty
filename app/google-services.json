@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "791257379373-mdilhp31euog1eif0agr8kd6a9i7bj62.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fifty.fiftyhouse.com.fifty",
+            "certificate_hash": "ac7afbc6d2a5d624f832f1c6de503d289e2b75c9"
+          }
+        },
+        {
           "client_id": "791257379373-lm8icj329l8s13g8b21fciakqlcpub3l.apps.googleusercontent.com",
           "client_type": 3
         }
