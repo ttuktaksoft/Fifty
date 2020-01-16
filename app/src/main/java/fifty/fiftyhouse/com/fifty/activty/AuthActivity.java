@@ -22,7 +22,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.AccessToken;
+import fifty.fiftyhouse.com.fifty.DataBase.AuthData;
+import fifty.fiftyhouse.com.fifty.DataBase.Certification;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.Interface.IamportClient;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import retrofit2.Call;
@@ -167,7 +171,7 @@ public class AuthActivity extends AppCompatActivity {
         finish();
     }
 
-    class AuthData{
+/*    class AuthData{
         @SerializedName("imp_key") String api_key;
         @SerializedName("imp_secret") String api_secret;
         public AuthData(String key, String secret)
@@ -175,9 +179,9 @@ public class AuthActivity extends AppCompatActivity {
             api_key = key;
             api_secret = secret;
         }
-    }
+    }*/
 
-    class AccessToken{
+    /*class AccessToken{
         @SerializedName("code") Integer code;
         @SerializedName("message") Object message;
         @SerializedName("response") AccessTokenResponse response;
@@ -189,9 +193,9 @@ public class AuthActivity extends AppCompatActivity {
             response = Response;
         }
 
-    }
+    }*/
 
-    class AccessTokenResponse
+    /*class AccessTokenResponse
     {
         @SerializedName("access_token") String accessToken;
         @SerializedName("now") Integer now;
@@ -204,9 +208,9 @@ public class AuthActivity extends AppCompatActivity {
             expiredAt = Response;
         }
 
-    }
+    }*/
 
-    class Certification{
+ /*   class Certification{
         @SerializedName("code") Integer code;
         @SerializedName("message") String message;
         @SerializedName("response") CertificationResponse response;
@@ -218,9 +222,9 @@ public class AuthActivity extends AppCompatActivity {
             response = Response;
         }
 
-    }
+    }*/
 
-    class CertificationResponse{
+  /*  class CertificationResponse{
         @SerializedName("imp_uid") String impUid ;
         @SerializedName("merchant_uid") String merchantUid ;
         @SerializedName("pg_tid") String pgTid ;
@@ -254,16 +258,18 @@ public class AuthActivity extends AppCompatActivity {
 
         }
 
-    }
+    }*/
 }
 
+/*
     interface IamportClient {
-        @POST("/users/getToken")
-        Call<AuthActivity.AccessToken> token(@Body AuthActivity.AuthData auth);
+    @POST("/users/getToken")
+    Call<AccessToken> token(@Body AuthData auth);
 
-        @GET("/certifications/{imp_uid}")
-        Call<AuthActivity.Certification> certification_by_imp_uid(
-                @Header("Authorization") String token,
-                @Path("imp_uid") String imp_uid
-        );
+    @GET("/certifications/{imp_uid}")
+    Call<Certification> certification_by_imp_uid(
+            @Header("Authorization") String token,
+            @Path("imp_uid") String imp_uid
+    );
 }
+*/
