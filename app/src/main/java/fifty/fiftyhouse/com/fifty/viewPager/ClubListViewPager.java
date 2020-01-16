@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,7 @@ import java.util.Random;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
@@ -43,6 +47,8 @@ public class ClubListViewPager extends Fragment {
     public static int CLUB_LIST_MY = 1;
 
     public int mType = CLUB_LIST_RECOMMEND;
+    boolean mClubLoading = false;
+    private int mClubViewEndIndex = 0;
 
     public ClubListViewPager() {
         super();
@@ -204,11 +210,50 @@ public class ClubListViewPager extends Fragment {
                         GetClubDataListener);
             }
         };
+        mClubViewEndIndex += CommonData.ClubList_First_View_Count;
         mAdapter =  new ClubAdapter(getContext(), listener);
         RefreshClubList();
         mAdapter.setItemData(mClubList);
         rv_ClubList.setAdapter(mAdapter);
         rv_ClubList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_ClubList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if(mType != CLUB_LIST_RECOMMEND)
+                    return;
+
+                if(mAdapter.mLoadEnable == false)
+                    return;
+
+                if(mClubLoading)
+                    return;
+
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+                if(totalItemCount == lastVisibleItem + 1)
+                {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mClubViewEndIndex += CommonData.ClubList_View_Count;
+                            RefreshAdapter();
+                            mClubLoading = false;
+                        }
+                    }, 3000);
+
+                    mClubLoading = true;
+                }
+            }
+        });
     }
 
     public void RefreshAdapter()
@@ -221,6 +266,17 @@ public class ClubListViewPager extends Fragment {
         if(tempList.equals(mClubList) == false)
         {
             mAdapter.setItemData(mClubList);
+
+            if(mType == CLUB_LIST_RECOMMEND)
+            {
+                if(mClubList.size() < mClubViewEndIndex)
+                {
+                    mClubViewEndIndex = mClubList.size();
+                    mAdapter.mLoadEnable = false;
+                }
+            }
+
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -229,9 +285,16 @@ public class ClubListViewPager extends Fragment {
         mClubList.clear();
         if(mType == CLUB_LIST_RECOMMEND)
         {
-            mClubList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
-        }
+            ArrayList<String> mTempUserList = new ArrayList<>();
+            mTempUserList.addAll(TKManager.getInstance().MyData.GetUserRecommendClubDataKeySet());
+            for(int i = 0 ; i < mClubViewEndIndex; ++i)
+            {
+                if(mTempUserList.size() <= i)
+                    break;
 
+                mClubList.add(mTempUserList.get(i));
+            }
+        }
         else
         {
             mClubList.addAll(TKManager.getInstance().MyData.GetUserClubDataKeySet());

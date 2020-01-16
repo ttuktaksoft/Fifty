@@ -3,7 +3,11 @@ package fifty.fiftyhouse.com.fifty.viewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +20,11 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.SortSettingActivity;
 import fifty.fiftyhouse.com.fifty.adapter.MainUserAdapter;
@@ -42,6 +48,9 @@ public class MainDistanceViewPager extends Fragment {
     ArrayList<String> mUserList = new ArrayList<>();
     boolean mSortEnable = false;
     private String UserIndex;
+    private boolean mUserLoading = false;
+    private int mUserViewEndIndex = 0;
+
     public MainDistanceViewPager() {
         super();
     }
@@ -141,11 +150,48 @@ public class MainDistanceViewPager extends Fragment {
                 CommonFunc.getInstance().GetUserDataInFireBase(key, MainActivity.mActivity, false);
             }
         };
+        mUserViewEndIndex += CommonData.UserList_First_View_Count;
         mAdapter =  new MainUserAdapter(getContext(), listener);
         RefreshUserList();
         mAdapter.setItemData(mUserList);
+
         rv_Main_Dis_UserList.setAdapter(mAdapter);
         rv_Main_Dis_UserList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_Main_Dis_UserList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if(mAdapter.mLoadEnable == false)
+                    return;
+
+                if(mUserLoading)
+                    return;
+
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+                if(totalItemCount == lastVisibleItem + 1)
+                {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mUserViewEndIndex += CommonData.UserList_View_Count;
+                            RefreshAdapter();
+                            mUserLoading = false;
+                        }
+                    }, 3000);
+
+                    mUserLoading = true;
+                }
+            }
+        });
     }
 
     public void RefreshAdapter()
@@ -153,13 +199,26 @@ public class MainDistanceViewPager extends Fragment {
         RefreshUserList();
 
         mAdapter.setItemData(mUserList);
+        if(mUserList.size() < mUserViewEndIndex)
+        {
+            mUserViewEndIndex = mUserList.size();
+            mAdapter.mLoadEnable = false;
+        }
         mAdapter.notifyDataSetChanged();
     }
 
     public void RefreshUserList()
     {
         mUserList.clear();
-        mUserList.addAll(TKManager.getInstance().View_UserList_Dist);
+        ArrayList<String> mTempUserList = new ArrayList<>();
+        mTempUserList.addAll(TKManager.getInstance().View_UserList_Dist);
+        for(int i = 0 ; i < mUserViewEndIndex; ++i)
+        {
+            if(mTempUserList.size() <= i)
+                break;
+
+            mUserList.add(mTempUserList.get(i));
+        }
 
         if(TKManager.getInstance().View_UserList_Dist.size() == 0)
         {

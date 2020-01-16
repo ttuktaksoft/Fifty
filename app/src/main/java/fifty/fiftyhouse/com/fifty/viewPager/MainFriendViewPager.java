@@ -2,9 +2,13 @@ package fifty.fiftyhouse.com.fifty.viewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +17,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.adapter.MainUserAdapter;
@@ -28,6 +34,9 @@ public class MainFriendViewPager extends Fragment {
     View v_FragmentView = null;
     public MainUserAdapter mAdapter;
     private String UserIndex;
+    private boolean mUserLoading = false;
+    private int mUserViewEndIndex = 0;
+
     public MainFriendViewPager() {
         super();
     }
@@ -71,11 +80,49 @@ public class MainFriendViewPager extends Fragment {
                 CommonFunc.getInstance().GetUserDataInFireBase(key, MainActivity.mActivity, false);
             }
         };
+
+        mUserViewEndIndex += CommonData.UserList_First_View_Count;
+
         mAdapter =  new MainUserAdapter(getContext(), listener);
         RefreshUserList();
         mAdapter.setItemData(mUserList);
         rv_Main_Friend_UserList.setAdapter(mAdapter);
         rv_Main_Friend_UserList.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_Main_Friend_UserList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if(mAdapter.mLoadEnable == false)
+                    return;
+
+                if(mUserLoading)
+                    return;
+
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+                if(totalItemCount == lastVisibleItem + 1)
+                {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mUserViewEndIndex += CommonData.UserList_View_Count;
+                            RefreshAdapter();
+                            mUserLoading = false;
+                        }
+                    }, 5000);
+
+                    mUserLoading = true;
+                }
+            }
+        });
     }
 
     public void RefreshUI()
@@ -89,13 +136,26 @@ public class MainFriendViewPager extends Fragment {
         RefreshUserList();
 
         mAdapter.setItemData(mUserList);
+        if(mUserList.size() < mUserViewEndIndex)
+        {
+            mUserViewEndIndex = mUserList.size();
+            mAdapter.mLoadEnable = false;
+        }
         mAdapter.notifyDataSetChanged();
     }
 
     public void RefreshUserList()
     {
         mUserList.clear();
-        mUserList.addAll(TKManager.getInstance().MyData.GetUserFriendListKeySet());
+        ArrayList<String> mTempUserList = new ArrayList<>();
+        mTempUserList.addAll(TKManager.getInstance().MyData.GetUserFriendListKeySet());
+        for(int i = 0 ; i < mUserViewEndIndex; ++i)
+        {
+            if(mTempUserList.size() <= i)
+                break;
+
+            mUserList.add(mTempUserList.get(i));
+        }
 
         if(TKManager.getInstance().MyData.GetUserFriendListCount() == 0)
         {

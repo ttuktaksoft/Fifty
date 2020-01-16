@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 import okhttp3.internal.Util;
 
-public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapterHolder> {
+public class MainUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface MainUserListener {
         void Listener(String key);
@@ -35,49 +36,67 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapterHolder>
 
     Context mContext;
     int mItemCount = 0;
-    ArrayList<String[]> mItemList = new ArrayList<>();
+    public ArrayList<String[]> mItemList = new ArrayList<>();
 
     int DEFAULT_INDEX_TYPE = 0;
     int LAST_INDEX_TYPE = 1;
+    int VIEW_TYPE_LOADING = 2;
 
     MainUserListener mListener;
+    public boolean mLoadEnable = false;
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
+    }
 
     public MainUserAdapter(Context context, MainUserListener listener) {
         mContext = context;
         mListener = listener;
+        mLoadEnable = false;
     }
 
     @Override
-    public MainUserAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_main_user, parent, false);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        MainUserAdapterHolder holder = new MainUserAdapterHolder(view);
-
-        if(viewType == LAST_INDEX_TYPE)
+        if(viewType == VIEW_TYPE_LOADING)
         {
-            holder.mPicType = MainUserAdapterHolder.USER_BIG_PIC_TYPE.NO_BIG;
-            view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),CommonFunc.getInstance().getWidthByDevice() / 3));
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_loading, parent, false);
+            return new MainUserLoadingHolder(view);
         }
         else
         {
-            if(holder.mPicType == MainUserAdapterHolder.USER_BIG_PIC_TYPE.START_BIG ||
-                    holder.mPicType == MainUserAdapterHolder.USER_BIG_PIC_TYPE.END_BIG)
+            View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_main_user, parent, false);
+
+            MainUserAdapterHolder holder = new MainUserAdapterHolder(view);
+
+            if(viewType == LAST_INDEX_TYPE)
             {
-                view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),(CommonFunc.getInstance().getWidthByDevice() / 3) * 2));
+                holder.mPicType = MainUserAdapterHolder.USER_BIG_PIC_TYPE.NO_BIG;
+                view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),CommonFunc.getInstance().getWidthByDevice() / 3));
             }
             else
-                view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),CommonFunc.getInstance().getWidthByDevice() / 3));
+            {
+                if(holder.mPicType == MainUserAdapterHolder.USER_BIG_PIC_TYPE.START_BIG ||
+                        holder.mPicType == MainUserAdapterHolder.USER_BIG_PIC_TYPE.END_BIG)
+                {
+                    view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),(CommonFunc.getInstance().getWidthByDevice() / 3) * 2));
+                }
+                else
+                    view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),CommonFunc.getInstance().getWidthByDevice() / 3));
+            }
+
+            return holder;
         }
-
-
-        return holder;
     }
 
     @Override
-    public void onBindViewHolder(MainUserAdapterHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         int i = position;
 
-        holder.setData(mItemList.get(i), mListener);
+        if(holder instanceof MainUserAdapterHolder)
+            ((MainUserAdapterHolder)holder).setData(mItemList.get(i), mListener);
+        else
+            ((MainUserLoadingHolder)holder).pb_loading.setIndeterminate(true);
     }
 
     @Override
@@ -89,7 +108,10 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapterHolder>
 
     @Override
     public int getItemCount() {
-        return mItemCount;
+        if(mLoadEnable)
+            return mItemCount + 1;
+        else
+            return mItemCount;
     }
 
     public void setItemCount(int count)
@@ -117,13 +139,21 @@ public class MainUserAdapter extends RecyclerView.Adapter<MainUserAdapterHolder>
 
         mItemList.add(keyArr);
         mItemCount = mItemList.size();
+
+        if(mItemList.size() >= 5)
+            mLoadEnable = true;
+        else
+            mLoadEnable = false;
     }
 
     @Override
     public int getItemViewType(int position) {
-        // Just as an example, return 0 or 2 depending on position
-        // Note that unlike in ListView adapters, types don't have to be contiguous
-        return position == (mItemCount - 1) ? LAST_INDEX_TYPE : DEFAULT_INDEX_TYPE;
+        if(position >= mItemCount)
+        {
+            return VIEW_TYPE_LOADING;
+        }
+        else
+            return position == (mItemCount - 1) ? LAST_INDEX_TYPE : DEFAULT_INDEX_TYPE;
     }
 }
 
@@ -334,5 +364,14 @@ class MainUserAdapterHolder extends RecyclerView.ViewHolder{
             mPicType = USER_BIG_PIC_TYPE.END_BIG;
         else
             mPicType = USER_BIG_PIC_TYPE.NO_BIG;
+    }
+}
+
+class MainUserLoadingHolder extends RecyclerView.ViewHolder {
+    public ProgressBar pb_loading;
+
+    public MainUserLoadingHolder(View view) {
+        super(view);
+        pb_loading = (ProgressBar) view.findViewById(R.id.pb_loading);
     }
 }

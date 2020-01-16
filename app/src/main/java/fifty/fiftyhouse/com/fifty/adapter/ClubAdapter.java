@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
-public class ClubAdapter extends RecyclerView.Adapter<ClubAdapterHolder> {
+public class ClubAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface ClubListener {
         void Listener(String key);
@@ -38,8 +39,10 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapterHolder> {
 
     int DEFAULT_INDEX_TYPE = 0;
     int LAST_INDEX_TYPE = 1;
+    int VIEW_TYPE_LOADING = 2;
 
     ClubAdapter.ClubListener mListener;
+    public boolean mLoadEnable = false;
 
     public ClubAdapter(Context context, ClubAdapter.ClubListener listener) {
         mContext = context;
@@ -47,36 +50,40 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapterHolder> {
     }
 
     @Override
-    public ClubAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_club, parent, false);
-
-        ClubAdapterHolder holder = new ClubAdapterHolder(view);
-
-        if(viewType == LAST_INDEX_TYPE)
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == VIEW_TYPE_LOADING)
         {
-            holder.mPicType = ClubAdapterHolder.USER_BIG_PIC_TYPE.NO_BIG;
-            view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),CommonFunc.getInstance().getWidthByDevice() / 3));
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_loading, parent, false);
+            return new ClubLoadingHolder(view);
         }
-        else
-        {
-            if(holder.mPicType == ClubAdapterHolder.USER_BIG_PIC_TYPE.START_BIG ||
-                    holder.mPicType == ClubAdapterHolder.USER_BIG_PIC_TYPE.END_BIG)
-            {
-                view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),(CommonFunc.getInstance().getWidthByDevice() / 3) * 2));
+        else {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_club, parent, false);
+
+            ClubAdapterHolder holder = new ClubAdapterHolder(view);
+
+            if (viewType == LAST_INDEX_TYPE) {
+                holder.mPicType = ClubAdapterHolder.USER_BIG_PIC_TYPE.NO_BIG;
+                view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(), CommonFunc.getInstance().getWidthByDevice() / 3));
+            } else {
+                if (holder.mPicType == ClubAdapterHolder.USER_BIG_PIC_TYPE.START_BIG ||
+                        holder.mPicType == ClubAdapterHolder.USER_BIG_PIC_TYPE.END_BIG) {
+                    view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(), (CommonFunc.getInstance().getWidthByDevice() / 3) * 2));
+                } else
+                    view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(), CommonFunc.getInstance().getWidthByDevice() / 3));
             }
-            else
-                view.setLayoutParams(new ConstraintLayout.LayoutParams(CommonFunc.getInstance().getWidthByDevice(),CommonFunc.getInstance().getWidthByDevice() / 3));
+
+            return holder;
         }
-
-
-        return holder;
     }
 
     @Override
-    public void onBindViewHolder(ClubAdapterHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         int i = position;
 
-        holder.setData(mItemList.get(i), mListener);
+        if(holder instanceof ClubAdapterHolder)
+            ((ClubAdapterHolder)holder).setData(mItemList.get(i), mListener);
+        else
+            ((ClubLoadingHolder)holder).pb_loading.setIndeterminate(true);
     }
 
     @Override
@@ -88,7 +95,10 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapterHolder> {
 
     @Override
     public int getItemCount() {
-        return mItemCount;
+        if(mLoadEnable)
+            return mItemCount + 1;
+        else
+            return mItemCount;
     }
 
     public void setItemCount(int count)
@@ -117,13 +127,21 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapterHolder> {
 
         mItemList.add(keyArr);
         mItemCount = mItemList.size();
+
+        if(mItemList.size() >= 5)
+            mLoadEnable = true;
+        else
+            mLoadEnable = false;
     }
 
     @Override
     public int getItemViewType(int position) {
-        // Just as an example, return 0 or 2 depending on position
-        // Note that unlike in ListView adapters, types don't have to be contiguous
-        return position == (mItemCount - 1) ? LAST_INDEX_TYPE : DEFAULT_INDEX_TYPE;
+        if(position >= mItemCount)
+        {
+            return VIEW_TYPE_LOADING;
+        }
+        else
+            return position == (mItemCount - 1) ? LAST_INDEX_TYPE : DEFAULT_INDEX_TYPE;
     }
 }
 
@@ -317,5 +335,14 @@ class ClubAdapterHolder extends RecyclerView.ViewHolder{
             mPicType = USER_BIG_PIC_TYPE.END_BIG;
         else
             mPicType = USER_BIG_PIC_TYPE.NO_BIG;
+    }
+}
+
+class ClubLoadingHolder extends RecyclerView.ViewHolder {
+    public ProgressBar pb_loading;
+
+    public ClubLoadingHolder(View view) {
+        super(view);
+        pb_loading = (ProgressBar) view.findViewById(R.id.pb_loading);
     }
 }

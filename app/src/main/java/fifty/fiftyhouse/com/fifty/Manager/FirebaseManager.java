@@ -2514,7 +2514,7 @@ public class FirebaseManager {
         {
             first = mDataBase.collection("UserList_New")
                     .orderBy("value", Query.Direction.DESCENDING)
-                    .limit(CommonData.UserList_Loding_Count);
+                    .limit(CommonData.UserList_First_Loding_Count);
         }
         else
         {
@@ -2626,7 +2626,7 @@ public class FirebaseManager {
         {
             first =  mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("FriendUsers")
                     .orderBy("Date", Query.Direction.DESCENDING)
-                    .limit(CommonData.UserList_Loding_Count);
+                    .limit(CommonData.UserList_First_Loding_Count);
         }
         else
         {
@@ -3008,7 +3008,7 @@ public class FirebaseManager {
 
     public void RecommendClubList(final FirebaseManager.CheckFirebaseComplete listener) {
         CollectionReference colRef = mDataBase.collection("ClubData");
-        colRef.orderBy("ClubMemberCount", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.orderBy("ClubMemberCount", Query.Direction.DESCENDING).limit(CommonData.ClubList_First_Loding_Count).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -3110,7 +3110,7 @@ public class FirebaseManager {
         TKManager.getInstance().UserList_Invite_Club.clear();
         SetFireBaseLoadingCount("클럽 초대유져 로드", 0);
         CollectionReference colRef = mDataBase.collection("FavoriteList").document(favorite).collection("UserIndex");
-        colRef.limit(CommonData.UserList_Loding_Count)./*orderBy("Count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).*/get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        colRef.limit(CommonData.UserList_First_Loding_Count)./*orderBy("Count", Query.Direction.DESCENDING).limit(CommonData.Favorite_Search_Pop_Count).*/get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -5248,7 +5248,7 @@ public class FirebaseManager {
             TKManager.getInstance().View_UserList_Hot.clear();
 
             first =  mDataBase.collection("FavoriteList").document(favoriteName).collection("UserIndex")
-                    .limit(CommonData.UserList_Loding_Count);
+                    .limit(CommonData.UserList_First_Loding_Count);
         }
         else
         {
