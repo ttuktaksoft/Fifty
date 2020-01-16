@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -55,11 +59,12 @@ public class MainActivity extends AppCompatActivity {
         mActivity = this;
         mContext = getApplicationContext();
         mFragmentMng = getSupportFragmentManager();
+        TKManager.getInstance().mMainActivity = this;
         DialogFunc.getInstance().ShowMainImgNoticePopup(mActivity);
 
         bnv_Main_BottomMenu = (BottomNavigationView) findViewById(R.id.bnv_Main_BottomMenu);
 
-      //  String[] temp = FirebaseManager.getInstance().AddFavorite(mContext);
+        //  String[] temp = FirebaseManager.getInstance().AddFavorite(mContext);
 
         DialogFunc.getInstance().DismissLoadingPage();
 
@@ -76,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         mChatFragment = new ChatFragment();
         mClubFragment = new ClubFragment();
         mMyProfileFragment = new MyProfileFragment();
-
 
         bnv_Main_BottomMenu.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -211,6 +215,8 @@ public class MainActivity extends AppCompatActivity {
             MoveFragmentTab(MoveMainTabIndex, MoveSubTabIndex);
 
         mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
+
+        SetChatBadgeView(TKManager.getInstance().mMainChatBadgeNumber);
     }
 
     @Override
@@ -220,19 +226,33 @@ public class MainActivity extends AppCompatActivity {
         backPressCloseHandler.onBackPressed();
     }
 
-     public void MoveFragmentTab(int postion, int etcPostion)
-         {
-             MoveSubTabIndex = -1;
-             if(postion == 0)
-             {
-                 MoveSubTabIndex = etcPostion;
-                 bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_main);
-             }
-             else if(postion == 1)
-                 bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_club);
-             else if(postion == 2)
-                 bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_chat);
-             else if(postion == 3)
-                 bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_profile);
-         }
+    public void MoveFragmentTab(int postion, int etcPostion)
+    {
+        MoveSubTabIndex = -1;
+        if(postion == 0)
+        {
+            MoveSubTabIndex = etcPostion;
+            bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_main);
+        }
+        else if(postion == 1)
+            bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_club);
+        else if(postion == 2)
+            bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_chat);
+        else if(postion == 3)
+            bnv_Main_BottomMenu.setSelectedItemId(R.id.i_main_bottom_profile);
+    }
+
+    public void SetChatBadgeView(int num)
+    {
+        TKManager.getInstance().mMainChatBadgeNumber = num;
+        if(num > 0)
+        {
+            BadgeDrawable badge = bnv_Main_BottomMenu.getOrCreateBadge(R.id.i_main_bottom_chat);
+            badge.setNumber(num);
+            badge.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
+            badge.setBadgeTextColor(ContextCompat.getColor(mContext, R.color.str_color_2));
+        }
+        else
+            bnv_Main_BottomMenu.removeBadge(R.id.i_main_bottom_chat);
+    }
 }

@@ -103,4 +103,7 @@ public class TKManager {
 
     // 메인 추천탭에서 보여줘야 할 관심사
     public String SelectFavorite = "";
+
+    public MainActivity mMainActivity = null;
+    public int mMainChatBadgeNumber = 0;
 }

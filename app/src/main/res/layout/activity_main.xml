@@ -18,6 +18,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv_Main_BottomMenu"
+        app:theme="@style/Theme.MaterialComponents"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
         android:background="@color/main_bottom_tab_bg"
