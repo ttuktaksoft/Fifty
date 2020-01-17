@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         if(num > 0)
         {
             BadgeDrawable badge = bnv_Main_BottomMenu.getOrCreateBadge(R.id.i_main_bottom_chat);
-            badge.setNumber(num);
+            //badge.setNumber(num);
             badge.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
             badge.setBadgeTextColor(ContextCompat.getColor(mContext, R.color.str_color_2));
         }

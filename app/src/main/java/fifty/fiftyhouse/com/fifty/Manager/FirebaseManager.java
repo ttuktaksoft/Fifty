@@ -609,9 +609,15 @@ public class FirebaseManager {
                                 tempData.SetType(document.getDocument().getData().get("Type").toString());
                                 tempData.SetIndex(document.getDocument().getData().get("Index").toString());
                                 tempData.SetDate(Long.parseLong(document.getDocument().getData().get("Date").toString()));
-                                if(tempData.GetType().equals("CHAT"))
-                                    tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
+                                if(tempData.GetType().equals("CHAT")) {
+                                    TKManager.getInstance().mMainChatBadgeNumber = 1;
 
+                                    if(TKManager.getInstance().mMainActivity != null)
+                                    {
+                                        TKManager.getInstance().mMainActivity.SetChatBadgeView(1);
+                                    }
+                                    tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
+                                }
                                 TKManager.getInstance().MyData.SetAlarmList(document.getDocument().getId(), tempData);
 
                                 break;
@@ -6309,6 +6315,8 @@ public class FirebaseManager {
 
 
                     }
+
+
 
                     Complete("공지사항 ㅇㅇ" ,listener);
 
