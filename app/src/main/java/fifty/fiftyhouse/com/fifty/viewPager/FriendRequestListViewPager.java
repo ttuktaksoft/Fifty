@@ -144,7 +144,7 @@ public class FriendRequestListViewPager extends Fragment {
 
     public void RefreshVIP()
     {
-        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        if(TKManager.getInstance().MyData.GetUserVip().equals("nVip") == true)
         {
             ui_vip_shop_info.setVisibility(View.VISIBLE);
             tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(getContext().getResources(), R.string.USER_LIST_VIP_SHOP_DESC_FRIEND_REQUEST));

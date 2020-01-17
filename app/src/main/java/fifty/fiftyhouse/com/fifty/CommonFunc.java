@@ -93,6 +93,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.AuthActivity;
 import fifty.fiftyhouse.com.fifty.activty.LoadingActivity;
 import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
+import fifty.fiftyhouse.com.fifty.activty.PurchaseActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import gun0912.tedbottompicker.TedBottomPicker;
@@ -1275,6 +1276,11 @@ public class CommonFunc {
         activity.finish();
     }
 
+    public void MovePurchaseActivity(Activity activity) {
+        final Intent intent = new Intent(activity, PurchaseActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
 
     public void MoveLoginActivity(Activity activity) {
 

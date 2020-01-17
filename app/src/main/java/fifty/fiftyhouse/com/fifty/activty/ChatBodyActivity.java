@@ -640,7 +640,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         if(mType != CommonData.CHAT_ROOM_TYPE.CLUB)
         {
-            tempData.SetMsgReadCheckNumber(1);
+            tempData.SetMsgReadCheckNumber(2);
             tempData.SetToNickName(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
             tempData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserImgThumb());
             FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, mContext, tempData);

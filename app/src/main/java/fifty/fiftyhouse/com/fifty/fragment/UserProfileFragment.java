@@ -172,7 +172,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
 
-                if(TKManager.getInstance().MyData.GetUserVip())
+                if(TKManager.getInstance().MyData.GetUserVip().equals("nVip") == true)
                 {
                     if(TKManager.getInstance().MyData.GetUserVisitListCount() == 0)
                     {
@@ -233,7 +233,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onSingleClick(View view) {
 
-                if(TKManager.getInstance().MyData.GetUserVip())
+                if(TKManager.getInstance().MyData.GetUserVip().equals("nVip") == true)
                 {
                     // 좋아요
                     if(TKManager.getInstance().MyData.GetUserLikeListCount() == 0)

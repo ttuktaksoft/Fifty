@@ -171,6 +171,10 @@ public class ChatData implements Cloneable{
     {
         return ReadUserList.get(userIndex);
     }
+    public int GetMsgReadCheckUserSize()
+    {
+        return ReadUserList.size();
+    }
     public void ClearReadUserList()
     {
         ReadUserList.clear();

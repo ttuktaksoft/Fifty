@@ -1886,10 +1886,9 @@ public class FirebaseManager {
                             userData.SetUserToken(null);
 
                         if (document.getData().containsKey("Vip")) {
-                            Boolean vip = (Boolean)document.getData().get("Vip");
-                            userData.SetUserVip(vip);
+                            userData.SetUserVip(document.getData().get("Vip").toString());
                         } else
-                            userData.SetUserVip(false);
+                            userData.SetUserVip("nVip");
 
                         if (document.getData().containsKey("Age")) {
                             userData.SetUserAge(Integer.parseInt(document.getData().get("Age").toString()));
@@ -6454,6 +6453,29 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });*/
+    }
+
+    public void PurchaseVip()
+    {
+        String userIndex = TKManager.getInstance().MyData.GetUserIndex();
+        Map<String, Object> VipData = new HashMap<>();
+        VipData.put("Vip", TKManager.getInstance().MyData.GetUserVip());
+        //favoriteData.put("Index", Integer.parseInt(CommonFunc.getInstance().GetCurrentDate()));
+
+        mDataBase.collection("UserData").document(userIndex)
+                .set(VipData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
 
 

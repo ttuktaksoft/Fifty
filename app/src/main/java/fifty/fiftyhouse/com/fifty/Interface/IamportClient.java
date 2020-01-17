@@ -3,6 +3,7 @@ package fifty.fiftyhouse.com.fifty.Interface;
 import fifty.fiftyhouse.com.fifty.DataBase.AccessToken;
 import fifty.fiftyhouse.com.fifty.DataBase.AuthData;
 import fifty.fiftyhouse.com.fifty.DataBase.Certification;
+import fifty.fiftyhouse.com.fifty.DataBase.Payment;
 import fifty.fiftyhouse.com.fifty.activty.PurchaseActivity;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,7 +23,7 @@ public     interface IamportClient {
     );
 
     @GET("/payments/{imp_uid}")
-    Call<PurchaseActivity.Payment> payment_by_imp_uid(
+    Call<Payment> payment_by_imp_uid(
             @Header("Authorization") String token,
             @Path("imp_uid") String imp_uid
     );

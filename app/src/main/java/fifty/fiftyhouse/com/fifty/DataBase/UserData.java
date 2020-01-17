@@ -8,12 +8,14 @@ import com.kakao.usermgmt.response.model.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 
 public class UserData {
@@ -38,7 +40,7 @@ public class UserData {
          Memo= null;
          Location= null;
 
-        Vip = false;
+        Vip = "nVip";
 
         FavoriteList.clear();
 
@@ -99,7 +101,7 @@ public class UserData {
     private String Memo;
     private  String Location;
 
-    private boolean Vip;
+    private String Vip;
 
     private Map<String, String> FavoriteList = new LinkedHashMap<String, String>(){
         @Override
@@ -216,11 +218,21 @@ public class UserData {
         return Index;
     }
 
-    public void SetUserVip(Boolean vip)
+    public void SetUserVip(String vip)
     {
-        Vip = vip;
+        int Today, BuyDay;
+
+        Today = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
+        BuyDay = Integer.parseInt(vip);
+
+        if(Today - BuyDay > 30)
+        {
+            Vip = "nVip";
+        }
+        else
+            Vip = vip;
     }
-    public Boolean GetUserVip()
+    public String GetUserVip()
     {
         return Vip;
     }
@@ -275,7 +287,12 @@ public class UserData {
     }
     public int GetUserAge()
     {
-        return Age;
+        Calendar current = Calendar.getInstance();
+        int currentYear  = current.get(Calendar.YEAR);
+        currentYear -= 1900;
+        int nAge = currentYear - Age + 1;
+
+        return nAge;
     }
 
     public void SetUserConnectDate(long date)

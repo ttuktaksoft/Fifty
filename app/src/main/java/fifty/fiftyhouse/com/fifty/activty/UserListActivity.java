@@ -630,7 +630,7 @@ public class UserListActivity extends AppCompatActivity {
 
     public void RefreshVIP()
     {
-        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        if(TKManager.getInstance().MyData.GetUserVip().equals("nVip") == true)
         {
             if(mUserListType == CommonData.USER_LIST_MY_VISIT)
             {
