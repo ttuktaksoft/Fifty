@@ -6,9 +6,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kakao.usermgmt.response.model.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -220,12 +223,39 @@ public class UserData {
 
     public void SetUserVip(String vip)
     {
-        int Today, BuyDay;
+        if(vip.equals("nVip"))
+        {
+            Vip = "nVip";
+            return;
+        }
 
-        Today = Integer.parseInt(CommonFunc.getInstance().GetCurrentDate());
-        BuyDay = Integer.parseInt(vip);
+        Date Today, BuyDay;
+        String TodayStr, BuyDayStr;
+        Calendar TodayCal, BuyDayCal;
 
-        if(Today - BuyDay > 30)
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
+
+        TodayCal = Calendar.getInstance();
+        try {
+            TodayStr = CommonFunc.getInstance().GetCurrentDate();
+            Today = transFormat.parse(TodayStr);
+            TodayCal.setTime(Today);
+        } catch (ParseException e) {
+
+        }
+
+        BuyDayCal = Calendar.getInstance();
+        try {
+            BuyDayStr = vip;
+            BuyDay = transFormat.parse(BuyDayStr);
+            BuyDayCal.setTime(BuyDay);
+        } catch (ParseException e) {
+
+        }
+
+        BuyDayCal.add(Calendar.DATE, 30);
+
+        if(TodayCal.getTimeInMillis() >= BuyDayCal.getTimeInMillis())
         {
             Vip = "nVip";
         }
@@ -235,6 +265,48 @@ public class UserData {
     public String GetUserVip()
     {
         return Vip;
+    }
+
+    public int GetRemainVipDate()
+    {
+        if(Vip.equals("nVip") == false)
+        {
+            Date Today, BuyDay;
+            String TodayStr, BuyDayStr;
+            Calendar TodayCal, BuyDayCal;
+
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
+
+            TodayCal = Calendar.getInstance();
+            try {
+                TodayStr = CommonFunc.getInstance().GetCurrentDate();
+                Today = transFormat.parse(TodayStr);
+                TodayCal.setTime(Today);
+            } catch (ParseException e) {
+
+            }
+
+            BuyDayCal = Calendar.getInstance();
+            try {
+                BuyDayStr = Vip;
+                BuyDay = transFormat.parse(BuyDayStr);
+                BuyDayCal.setTime(BuyDay);
+            } catch (ParseException e) {
+
+            }
+
+            BuyDayCal.add(Calendar.DATE, 30);
+
+            long diffSec = (BuyDayCal.getTimeInMillis() - TodayCal.getTimeInMillis()) / 1000;
+            long diffDay = diffSec / (60 * 60 * 24);
+
+            if(diffDay < 0)
+                return 0;
+
+            return (int)diffDay;
+        }
+
+        return 0;
     }
 
     public void SetUserMemo(String memo)

@@ -85,7 +85,20 @@ public class UserListActivity extends AppCompatActivity {
         tv_VIP_Info_Shop.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                startActivityForResult(new Intent(getApplicationContext(), ShopActivity.class), 1000);
+
+                if(TKManager.getInstance().MyData.GetRemainVipDate() > 0)
+                {
+                    StringBuilder desc = new StringBuilder();
+                    desc.append(CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_STR_VIP_REMAIN_1));
+                    desc.append(" ");
+                    desc.append(TKManager.getInstance().MyData.GetRemainVipDate());
+                    desc.append(CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_STR_VIP_REMAIN_2));
+                    DialogFunc.getInstance().ShowMsgPopup(getApplicationContext(), desc.toString());
+                }
+                else
+                {
+                    startActivityForResult(new Intent(getApplicationContext(), ShopActivity.class), 1000);
+                }
             }
         });
 
