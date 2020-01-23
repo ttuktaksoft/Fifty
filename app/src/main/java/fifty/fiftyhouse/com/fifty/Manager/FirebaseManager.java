@@ -1899,7 +1899,7 @@ public class FirebaseManager {
                         if (document.getData().containsKey("Age")) {
                             userData.SetUserAge(Integer.parseInt(document.getData().get("Age").toString()));
                         } else
-                            userData.SetUserAge(50);
+                            userData.SetUserAge(70);
 
                         if (document.getData().containsKey("Memo")) {
                             userData.SetUserMemo(document.getData().get("Memo").toString());
@@ -2916,7 +2916,7 @@ public class FirebaseManager {
                                 int Age = Integer.parseInt(document.getData().get("Age").toString());
                                 tempUser.SetUserAge(Age);
                             } else
-                                tempUser.SetUserAge(50);
+                                tempUser.SetUserAge(70);
 
                             if (document.getData().containsKey("Gender")) {
                                 int Gender = Integer.parseInt(document.getData().get("Gender").toString());

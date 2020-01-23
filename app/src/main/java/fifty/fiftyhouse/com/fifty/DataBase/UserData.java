@@ -119,7 +119,7 @@ public class UserData {
     private  String Img_ThumbNail;
     private Map<String, String> ImgList = new LinkedHashMap<>();
 
-    private  int Age = 50;
+    private  int Age = 70;
     private  int Gender = 0;
 
     private  double Visit_Today = 0;
