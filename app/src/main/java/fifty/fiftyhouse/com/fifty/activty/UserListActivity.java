@@ -252,29 +252,35 @@ public class UserListActivity extends AppCompatActivity {
                         public void Listener()
                         {
                             // 가입 승인
-                            FirebaseManager.CheckFirebaseComplete RequestListener = new FirebaseManager.CheckFirebaseComplete() {
-                                @Override
-                                public void CompleteListener() {
-                                    TKManager.getInstance().UserData_RequestJoin.remove(tempUserIndex);
-                                    DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입승인", true);
+                            if(TKManager.getInstance().TargetClubData.GetClubMemberCount() + 1 > TKManager.getInstance().TargetClubData.GetClubMaxMember())
+                            {
+                                DialogFunc.getInstance().ShowMsgPopup(UserListActivity.this, CommonFunc.getInstance().getStr(UserListActivity.this.getResources(), R.string.MSG_CLUB_JOIN_FULL_DESC));
+                            }
+                            else
+                            {
+                                FirebaseManager.CheckFirebaseComplete RequestListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        TKManager.getInstance().UserData_RequestJoin.remove(tempUserIndex);
+                                        DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입승인", true);
 
-                                    RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
-                                    mAdapter.notifyDataSetChanged();
-                                }
+                                        RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
+                                        mAdapter.notifyDataSetChanged();
+                                    }
 
-                                @Override
-                                public void CompleteListener_Yes() {
+                                    @Override
+                                    public void CompleteListener_Yes() {
 
-                                }
+                                    }
 
-                                @Override
-                                public void CompleteListener_No() {
+                                    @Override
+                                    public void CompleteListener_No() {
 
-                                }
-                            };
+                                    }
+                                };
 
-                            FirebaseManager.getInstance().RegistClubMember(TKManager.getInstance().TargetClubData, tempUserIndex, false, RequestListener);
-
+                                FirebaseManager.getInstance().RegistClubMember(TKManager.getInstance().TargetClubData, tempUserIndex, false, RequestListener);
+                            }
                         }
                     });
                     list.add(new DialogFunc.MsgPopupListener()

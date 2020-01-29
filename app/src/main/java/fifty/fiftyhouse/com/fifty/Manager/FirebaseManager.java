@@ -4833,6 +4833,12 @@ public class FirebaseManager {
                             }
                         }
 
+                        if (document.getData().containsKey("ClubMaxMemberCount")) {
+                            int MaxMemberCount = (int)Double.parseDouble(document.getData().get("ClubMaxMemberCount").toString());
+                            getClubData.SetClubMaxMember(MaxMemberCount);
+                        } else
+                            getClubData.SetClubMaxMember(CommonData.ClubUserCountMinSize);
+
                     try {
                             TKManager.getInstance().TargetClubData =  (ClubData) getClubData.clone();
                             TKManager.getInstance().ClubData_Simple.put(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
@@ -4917,6 +4923,12 @@ public class FirebaseManager {
                         } else
                             tempUser.SetClubComment(tempUser.GetClubName() + "입니다");
 
+                        if (document.getData().containsKey("MaxMemberCount")) {
+                            int MaxMemberCount =Integer.parseInt(document.getData().get("MaxMemberCount").toString());
+                            tempUser.SetClubMaxMember(MaxMemberCount);
+                        } else
+                            tempUser.SetClubMaxMember(CommonData.ClubUserCountMinSize);
+
                         getData.put(tempUser.GetClubIndex(), tempUser);
 
                         //AddFireBaseLoadingCount();
@@ -4970,6 +4982,7 @@ public class FirebaseManager {
         clubSimpleData.put("Thumb", club.ClubThumbNail);
         clubSimpleData.put("Name", club.ClubName);
         clubSimpleData.put("Comment", club.GetClubComment());
+        clubSimpleData.put("MaxMemberCount", club.GetClubMaxMember());
 
         mDataBase.collection("ClubData").document(club.GetClubIndex())
                 .set(club, SetOptions.merge())
@@ -5016,6 +5029,7 @@ public class FirebaseManager {
         clubSimpleData.put("Comment", club.GetClubComment());
         clubSimpleData.put("Date", club.GetClubCreateDate());
         clubSimpleData.put("MasterIndex", club.GetClubMasterIndex());
+        clubSimpleData.put("MaxMemberCount", club.GetClubMaxMember());
 
         final Map<String, Object> clubData = new HashMap<>();
         clubData.put("index", club.ClubIndex);

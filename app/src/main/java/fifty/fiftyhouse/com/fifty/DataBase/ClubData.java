@@ -32,7 +32,7 @@ public class ClubData  implements Cloneable{
         ClubName = null;
         ClubCreateDate = 0;
         ClubComment = null;
-
+        ClubMaxMember = CommonData.ClubUserCountMinSize;
     }
 
     public String ClubIndex;
@@ -59,6 +59,7 @@ public class ClubData  implements Cloneable{
     public int ClubMemberCount;
     public long ClubCreateDate;
     public String ClubComment;
+    public int ClubMaxMember;
 
     public void SetClubIndex(String index) {
         ClubIndex = index;
@@ -190,6 +191,15 @@ public class ClubData  implements Cloneable{
     public Map<String, String> GetClubFavoriteList()
     {
         return ClubFavorite;
+    }
+
+    public int GetClubMaxMember()
+    {
+        return ClubMaxMember;
+    }
+    public void SetClubMaxMember(int clubMaxMember)
+    {
+        ClubMaxMember = clubMaxMember;
     }
 
 
