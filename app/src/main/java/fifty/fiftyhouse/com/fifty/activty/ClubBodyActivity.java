@@ -124,6 +124,7 @@ public class ClubBodyActivity extends AppCompatActivity {
                                         // 데이터 추가 하고 아래 함수 콜
                                         DialogFunc.getInstance().DismissLoadingPage();
                                         TKManager.getInstance().TargetReportContextData.remove(nKey);
+                                        TKManager.getInstance().TargetRemoveContextData.put(nKey, tempData);
                                         finish();
                                     }
 

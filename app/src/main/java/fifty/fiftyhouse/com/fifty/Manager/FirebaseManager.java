@@ -4666,7 +4666,7 @@ public class FirebaseManager {
                                     }
                                 }
 
-                                TKManager.getInstance().TargetClubData.AddClubContext(Integer.toString(TKManager.getInstance().TargetClubData.GetClubContextCount()), tempData);
+                                TKManager.getInstance().TargetClubData.AddClubContext(tempData.ContextIndex, tempData);
 
                                 // if(TKManager.getInstance().UserData_Simple.get(tempData.writerIndex) == null)
                                 {
@@ -4704,6 +4704,7 @@ public class FirebaseManager {
     public void GetClubReportData(final String clubIndex, final FirebaseManager.CheckFirebaseComplete listener)
     {
         TKManager.getInstance().TargetReportContextData.clear();
+        TKManager.getInstance().TargetRemoveContextData.clear();
         SetFireBaseLoadingCount("클럽 신고 로드" ,0);
         final CollectionReference cocRef = mDataBase.collection("ClubData").document(clubIndex).collection("ReportContextList");
         cocRef.orderBy("Date", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

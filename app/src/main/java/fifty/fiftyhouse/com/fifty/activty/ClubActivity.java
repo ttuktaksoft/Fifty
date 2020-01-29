@@ -87,6 +87,9 @@ public class ClubActivity extends AppCompatActivity {
 
         tv_Club_OpenDay.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.toString(TKManager.getInstance().TargetClubData.GetClubCreateDate()), "yyyy.MM.dd"));
 
+        TKManager.getInstance().TargetReportContextData.clear();
+        TKManager.getInstance().TargetRemoveContextData.clear();
+
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -536,7 +539,17 @@ public class ClubActivity extends AppCompatActivity {
         mContentList.clear();
         if(TKManager.getInstance().TargetClubData.IsClubMember(TKManager.getInstance().MyData.GetUserIndex()))
         {
-            mContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
+            ArrayList<String> tempList = new ArrayList<>();
+
+            Iterator<String> iterator = TKManager.getInstance().TargetClubData.GetClubContextKeySet().iterator();
+            while(iterator.hasNext()){
+                String key = iterator.next();
+
+                if(TKManager.getInstance().TargetRemoveContextData.containsKey(key) == false)
+                    tempList.add(key);
+            }
+
+            mContentList.addAll(tempList);
         }
         mAdapter.setItemData(mContentList);
     }
