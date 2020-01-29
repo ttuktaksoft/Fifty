@@ -60,7 +60,7 @@ public class UserProfileActivity extends AppCompatActivity {
         animationView_Friend.setAnimation("friend.json");
 
 
-        DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserIndex(), false);
+        //DialogFunc.getInstance().ShowToast(mContext, TKManager.getInstance().TargetUserData.GetUserIndex(), false);
 
         mFragmentMgr = getSupportFragmentManager();
         // mFragmentMgr.beginTransaction().addToBackStack(null);
