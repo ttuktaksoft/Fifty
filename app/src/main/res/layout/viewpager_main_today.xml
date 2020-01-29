@@ -134,7 +134,7 @@
             android:layout_marginRight="20dp"
             android:visibility="invisible"
             android:tint="@color/white"
-            android:src="@drawable/ic_like_empty"
+            android:src="@drawable/ic_user_search"
             android:backgroundTint="@color/floating_button_bg"
             app:borderWidth="0dp"/>
 
@@ -150,7 +150,7 @@
             android:layout_marginRight="20dp"
             android:visibility="invisible"
             android:tint="@color/white"
-            android:src="@drawable/ic_empty_star"
+            android:src="@drawable/ic_favorite_search"
             android:backgroundTint="@color/floating_button_bg"
             app:borderWidth="0dp"/>
 
