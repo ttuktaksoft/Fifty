@@ -1762,6 +1762,13 @@ public class FirebaseManager {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+
+                    if(task.getResult().size() == 0)
+                    {
+                        if(listener != null)
+                            listener.CompleteListener_No();
+                    }
+
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         SetFireBaseLoadingCount("관심사 클럽 로드", task.getResult().size());
 
