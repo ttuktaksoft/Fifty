@@ -863,7 +863,10 @@ public class UserData {
         return  Name;
     }
 
-    public void SetUserClubData(String Idx, ClubData data){ ClubData.put(Idx, data); }
+    public void SetUserClubData(String Idx, ClubData data){
+        if(ClubData.containsKey(Idx) == false)
+            ClubData.put(Idx, data);
+    }
     public ClubData  GetUserClubData(String index){ return ClubData.get(index); }
     public int  GetUserClubDataCount()
     {
@@ -892,6 +895,11 @@ public class UserData {
 
     public void SetRequestJoinClubList(String Idx, ClubData data){ RequestJoinClubList.put(Idx, data); }
     public ClubData  GetRequestJoinClubList(String index){ return RequestJoinClubList.get(index); }
+    public void  RemoveRequestJoinClubList(String index)
+    {
+        if(RequestJoinClubList.containsKey(index))
+            RequestJoinClubList.remove(index);
+    }
     public int  GetRequestJoinClubListCount()
     {
         return RequestJoinClubList.size();

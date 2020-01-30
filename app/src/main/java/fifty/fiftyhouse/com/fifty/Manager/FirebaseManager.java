@@ -4843,6 +4843,13 @@ public class FirebaseManager {
                     try {
                             TKManager.getInstance().TargetClubData =  (ClubData) getClubData.clone();
                             TKManager.getInstance().ClubData_Simple.put(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
+
+                            if(TKManager.getInstance().TargetClubData.GetClubMember(TKManager.getInstance().MyData.GetUserIndex()) != null)
+                            {
+                                TKManager.getInstance().MyData.RemoveRequestJoinClubList(TKManager.getInstance().TargetClubData.ClubIndex);
+                                TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().TargetClubData.ClubIndex, TKManager.getInstance().TargetClubData);
+                            }
+
                         } catch (CloneNotSupportedException e) {
                             e.printStackTrace();
                         }
