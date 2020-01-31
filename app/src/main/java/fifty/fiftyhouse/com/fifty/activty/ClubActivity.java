@@ -308,7 +308,6 @@ public class ClubActivity extends AppCompatActivity {
                         tempChatData.SetToThumbNail("club");
 
                         tempChatData.SetMsgIndex(0);
-                        tempChatData.SetMsgReadCheck(false);
                         tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
                         tempChatData.SetMsgType(CommonData.MSGType.MSG);
                         tempChatData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());

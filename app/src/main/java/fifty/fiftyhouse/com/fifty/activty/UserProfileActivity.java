@@ -493,7 +493,6 @@ public class UserProfileActivity extends AppCompatActivity {
                             tempChatData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(targetIndex).GetUserImgThumb());
 
                             tempChatData.SetMsgIndex(0);
-                            tempChatData.SetMsgReadCheck(false);
                             tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
                             tempChatData.SetMsgType(CommonData.MSGType.MSG);
                             tempChatData.SetMsgSender(userIndex);

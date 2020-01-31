@@ -107,4 +107,57 @@ public class TKManager {
 
     public MainActivity mMainActivity = null;
     public int mMainChatBadgeNumber = 0;
+
+
+    public void UpdateChatAllRoom()
+    {
+        boolean mainBadge = false;
+
+        ArrayList<String> tempList = new ArrayList<>();
+        tempList.addAll(MyData.GetUserChatDataListKeySet());
+
+        for(int i = 0 ; i < tempList.size() ; ++i)
+        {
+            ChatData cData = MyData.GetUserChatDataList(tempList.get(i));
+
+            if(TKManager.getInstance().MyData.GetUserChatReadIndexList(cData.GetRoomIndex()) != null)
+            {
+                if(cData.GetMsgIndex() - TKManager.getInstance().MyData.GetUserChatReadIndexList(cData.GetRoomIndex()) > 0)
+                {
+                    mainBadge = true;
+                    break;
+                }
+            }
+        }
+
+        if(mainBadge == false)
+        {
+            tempList.clear();
+            tempList.addAll(MyData.GetUserBookMarkChatDataListKeySet());
+
+            for(int i = 0 ; i < tempList.size() ; ++i)
+            {
+                ChatData cData = MyData.GetUserBookMarkChatDataList(tempList.get(i));
+
+                if(TKManager.getInstance().MyData.GetUserChatReadIndexList(cData.GetRoomIndex()) != null)
+                {
+                    if(cData.GetMsgIndex() - TKManager.getInstance().MyData.GetUserChatReadIndexList(cData.GetRoomIndex()) > 0)
+                    {
+                        mainBadge = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(mMainActivity != null)
+        {
+            if(mainBadge)
+                mMainActivity.SetChatBadgeView(1);
+            else
+                mMainActivity.SetChatBadgeView(0);
+        }
+
+    }
+
 }

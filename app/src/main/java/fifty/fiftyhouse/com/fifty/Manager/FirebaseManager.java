@@ -610,12 +610,6 @@ public class FirebaseManager {
                                 tempData.SetIndex(document.getDocument().getData().get("Index").toString());
                                 tempData.SetDate(Long.parseLong(document.getDocument().getData().get("Date").toString()));
                                 if(tempData.GetType().equals("CHAT")) {
-                                    TKManager.getInstance().mMainChatBadgeNumber = 1;
-
-                                    if(TKManager.getInstance().mMainActivity != null)
-                                    {
-                                        TKManager.getInstance().mMainActivity.SetChatBadgeView(1);
-                                    }
                                     tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
                                 }
                                 TKManager.getInstance().MyData.SetAlarmList(document.getDocument().getId(), tempData);
@@ -640,7 +634,7 @@ public class FirebaseManager {
             ChatDataMonitor_registration.remove();
     }
 
-    public void MonitorUserChatData(final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
+    public void MonitorUserChatData(final Context context, final String chatRoomIndex, final UserData userData, final CheckFirebaseComplete listener) {
 
         //TKManager.getInstance().MyData.ClearUserChatData();
         CollectionReference colRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex);
@@ -681,32 +675,27 @@ public class FirebaseManager {
                                     tempData.SetFile((document.getDocument().getData().get("File").toString()));
                                 }
 
-                                if(tempData.GetToIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
+                                if (document.getDocument().getData().containsKey("MsgReadCheckNum"))
                                 {
-                                    tempData.SetMsgReadCheck(true);
-
-                                    Map<String, Object> ReadCheck = new HashMap<>();
-                                    ReadCheck.put("MsgReadCheck", true);
-
-                                    mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(document.getDocument().getId())
-                                            .set(ReadCheck, SetOptions.merge())
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w(TAG, "Error writing document", e);
-                                                }
-                                            });
+                                    double num = Double.parseDouble(document.getDocument().getData().get("MsgReadCheckNum").toString());
+                                    int inum = (int)num;
+                                    tempData.SetMsgReadCheckNumber(inum);
                                 }
-                                else
-                                {
-                                    tempData.SetMsgReadCheck(Boolean.valueOf((document.getDocument().getData().get("MsgReadCheck").toString())).booleanValue());
+
+
+                                if (document.getDocument().getData().containsKey("ReadUserList")) {
+                                    tempData.ClearReadUserList();
+                                    HashMap<String, String> tempImg = (HashMap<String, String>) document.getDocument().getData().get("ReadUserList");
+                                    Set set = tempImg.entrySet();
+                                    Iterator iterator = set.iterator();
+                                    while (iterator.hasNext()) {
+                                        Map.Entry entry = (Map.Entry) iterator.next();
+                                        String key = (String) entry.getKey();
+                                        String value = (String) entry.getValue();
+                                        tempData.AddMsgReadCheckUser(key);
+                                    }
                                 }
+
 
                                 tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
                                 tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
@@ -728,6 +717,9 @@ public class FirebaseManager {
                                 }
 
                                 userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
+                                CommonFunc.getInstance().SetChatReadIndex(context, tempData.GetRoomIndex(), tempData.GetMsgIndex());
+                                TKManager.getInstance().MyData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
+
 
 
 
@@ -805,6 +797,26 @@ public class FirebaseManager {
 
                             String tempType = document.getData().get("MsgType").toString();
 
+                            if (document.getData().containsKey("MsgReadCheckNum"))
+                            {
+                                double num = Double.parseDouble(document.getData().get("MsgReadCheckNum").toString());
+                                int inum = (int)num;
+                                tempData.SetMsgReadCheckNumber(inum);
+                            }
+
+                            if (document.getData().containsKey("ReadUserList")) {
+                                tempData.ClearReadUserList();
+                                HashMap<String, String> tempImg = (HashMap<String, String>) document.getData().get("ReadUserList");
+                                Set set = tempImg.entrySet();
+                                Iterator iterator = set.iterator();
+                                while (iterator.hasNext()) {
+                                    Map.Entry entry = (Map.Entry) iterator.next();
+                                    String key = (String) entry.getKey();
+                                    String value = (String) entry.getValue();
+                                    tempData.AddMsgReadCheckUser(key);
+                                }
+                            }
+
                             switch (tempType)
                             {
                                 case "MSG":
@@ -818,7 +830,7 @@ public class FirebaseManager {
                                     break;
                             }
                             userData.SetUserChatData(Long.toString(tempData.GetMsgIndex()), tempData);
-                            userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
+                            //userData.SetUserChatReadIndexList(tempData.GetRoomIndex(), tempData.GetMsgIndex());
 
                             if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
                             {
@@ -1045,69 +1057,26 @@ public class FirebaseManager {
                                 }
                             }
 
-                            if(!tempData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
-                            {
-                                if(CommonFunc.getInstance().CheckStringNull(tempData.GetMsgReadCheckUser(TKManager.getInstance().MyData.GetUserIndex())))
-                                {
-                                    Map<String, Object> tempReadUser = new HashMap<>();
-                                    tempReadUser.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
+                            Map<String, Object> tempReadUser = new HashMap<>();
+                            tempReadUser.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
 
-                                    Map<String, Object> ReadUser = new HashMap<>();
-                                    ReadUser.put("ReadUserList", tempReadUser);
+                            Map<String, Object> ReadUser = new HashMap<>();
+                            ReadUser.put("ReadUserList", tempReadUser);
 
-                                    final DocumentReference sfDocRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(document.getId());
-
-                                    sfDocRef
-                                            .set(ReadUser, SetOptions.merge() )
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w(TAG, "Error writing document", e);
-                                                }
-                                            });
-
-                                    tempData.SetMsgReadCheck(true);
-
-
-                                    mDataBase.runTransaction(new Transaction.Function<Void>() {
-                                        @Override
-                                        public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                                            DocumentSnapshot snapshot = transaction.get(sfDocRef);
-                                            double newPopulation = snapshot.getDouble("MsgReadCheckNum") - 1;
-                                            transaction.update(sfDocRef, "MsgReadCheckNum", newPopulation);
-
-                                            // Success
-                                            return null;
-                                        }
-                                    }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            final DocumentReference sfDocRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(document.getId());
+                            sfDocRef.set(ReadUser, SetOptions.merge() )
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "Transaction success!");
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
                                         }
                                     })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w(TAG, "Transaction failure.", e);
-                                                }
-                                            });
-                                }
-                                else
-                                {
-
-                                }
-                            }
-
-                            else
-                            {
-                                tempData.SetMsgReadCheck(Boolean.valueOf((document.getData().get("MsgReadCheck").toString())).booleanValue());
-                            }
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
 
 
 
@@ -1164,7 +1133,6 @@ public class FirebaseManager {
                         switch (document.getType()) {
                             case ADDED:
                             case MODIFIED:
-                                String tempRoomName = document.getDocument().getId().toString();
                                 CommonData.CHAT_ROOM_TYPE tempRoomType = CommonData.CHAT_ROOM_TYPE.DEFAULT;
 
                                 if(!document.getDocument().getId().equals("Index"))
@@ -1182,9 +1150,22 @@ public class FirebaseManager {
 
                                     tempData.SetMsg(document.getDocument().getData().get("Msg").toString());
                                     tempData.SetMsgIndex(Long.parseLong(document.getDocument().getData().get("MsgIndex").toString()));
-                                    tempData.SetMsgReadCheck(Boolean.valueOf((document.getDocument().getData().get("MsgReadCheck").toString())).booleanValue());
                                     tempData.SetMsgSender(document.getDocument().getData().get("MsgSender").toString());
                                     tempData.SetMsgDate(Long.parseLong(document.getDocument().getData().get("MsgDate").toString()));
+
+                                    tempData.SetMsgReadCheckNumber(Long.parseLong(document.getDocument().getData().get("MsgReadCheckNum").toString()));
+                                    if (document.getDocument().getData().containsKey("ReadUserList")) {
+                                        tempData.ClearReadUserList();
+                                        HashMap<String, String> tempImg = (HashMap<String, String>) document.getDocument().getData().get("ReadUserList");
+                                        Set set = tempImg.entrySet();
+                                        Iterator iterator = set.iterator();
+                                        while (iterator.hasNext()) {
+                                            Map.Entry entry = (Map.Entry) iterator.next();
+                                            String key = (String) entry.getKey();
+                                            String value = (String) entry.getValue();
+                                            tempData.AddMsgReadCheckUser(key);
+                                        }
+                                    }
 
                                     if (document.getDocument().getData().containsKey("File") && document.getDocument().getData().get("File") != null) {
                                         tempData.SetFile((document.getDocument().getData().get("File").toString()));
@@ -1219,7 +1200,32 @@ public class FirebaseManager {
                                         userData.SetUserChatDataList(TKManager.getInstance().copyData.GetRoomIndex(), TKManager.getInstance().copyData);
                                     }
 
-                                   userData.SetUserChatReadIndexList(tempRoomName, TKManager.getInstance().copyData.GetMsgIndex());
+
+
+                                    Map<String, Object> tempReadUser = new HashMap<>();
+                                    tempReadUser.put(TKManager.getInstance().MyData.GetUserIndex(), TKManager.getInstance().MyData.GetUserIndex());
+
+                                    Map<String, Object> ReadUser = new HashMap<>();
+                                    ReadUser.put("ReadUserList", tempReadUser);
+
+                                    final DocumentReference sfDocRef = mDataBase.collection("ChatRoomData").document(chatRoomIndex).collection(chatRoomIndex).document(Long.toString(tempData.GetMsgIndex()));
+                                    sfDocRef.set(ReadUser, SetOptions.merge() )
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error writing document", e);
+                                                }
+                                            });
+
+
+
+
 
 
                                     if(!TKManager.getInstance().copyData.GetFromIndex().equals(TKManager.getInstance().MyData.GetUserIndex()))
@@ -1247,7 +1253,10 @@ public class FirebaseManager {
                                                 });
                                     }
 
+                                    TKManager.getInstance().UpdateChatAllRoom();
 
+                                    if(TKManager.getInstance().mUpdateChatFragmentFunc != null)
+                                        TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
 
                                 }
 
@@ -3775,7 +3784,6 @@ public class FirebaseManager {
                 tempMyChatData.put("FromNickName", TKManager.getInstance().MyData.GetUserNickName());
                 tempMyChatData.put("Msg", chatData.GetMsg());
                 tempMyChatData.put("MsgDate", chatData.GetMsgDate());
-                tempMyChatData.put("MsgReadCheck", chatData.GetMsgReadCheck());
                 tempMyChatData.put("MsgSender", chatData.GetMsgSender());
                 tempMyChatData.put("MsgType", chatData.GetMsgType());
                 tempMyChatData.put("File", chatData.GetFile());
@@ -3784,6 +3792,8 @@ public class FirebaseManager {
                 tempMyChatData.put("ToIndex", targetIndex);
                 tempMyChatData.put("ToNickName", chatData.GetToNickName());
                 tempMyChatData.put("RoomType", type);
+                tempMyChatData.put("MsgReadCheckNum", chatData.GetMsgReadCheckNumber());
+                tempMyChatData.put("ReadUserList", chatData.GetReadUserList());
 
  /*
                 HashMap<String, Long> ReadIndex = new HashMap<String, Long>();
@@ -3812,6 +3822,7 @@ public class FirebaseManager {
                         });
 
                 TKManager.getInstance().MyData.SetUserChatReadIndexList(chatData.GetRoomIndex(), chatData.GetMsgIndex());
+                CommonFunc.getInstance().SetChatReadIndex(context, chatData.GetRoomIndex(), chatData.GetMsgIndex());
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
@@ -3822,7 +3833,7 @@ public class FirebaseManager {
                 });
     }
 
-    public void AddClubChatData(final String roomIndex, final ChatData chatData) {
+    public void AddClubChatData(final String roomIndex, final CommonData.CHAT_ROOM_TYPE type, final  Context context, final ChatData chatData) {
 
         final String userIndex = TKManager.getInstance().MyData.GetUserIndex();
         final Long[] newPopulation = new Long[1];
@@ -3858,6 +3869,42 @@ public class FirebaseManager {
                                 Log.w(TAG, "Error writing document", e);
                             }
                         });
+
+                /*Map<String, Object> tempMyChatData = new HashMap<>();
+                tempMyChatData.put("FromIndex", TKManager.getInstance().MyData.GetUserIndex());
+                tempMyChatData.put("FromNickName", TKManager.getInstance().MyData.GetUserNickName());
+                tempMyChatData.put("Msg", chatData.GetMsg());
+                tempMyChatData.put("MsgDate", chatData.GetMsgDate());
+                tempMyChatData.put("MsgSender", chatData.GetMsgSender());
+                tempMyChatData.put("MsgType", chatData.GetMsgType());
+                tempMyChatData.put("File", chatData.GetFile());
+                tempMyChatData.put("MsgIndex", chatData.GetMsgIndex());
+                tempMyChatData.put("RoomIndex", chatData.GetRoomIndex());
+                tempMyChatData.put("ToIndex", "");
+                tempMyChatData.put("ToNickName", chatData.GetToNickName());
+                tempMyChatData.put("RoomType", type);
+                tempMyChatData.put("MsgReadCheckNum", chatData.GetMsgReadCheckNumber());
+                tempMyChatData.put("ReadUserList", chatData.GetReadUserList());
+
+
+                mDataBase.collection("UserData").document(TKManager.getInstance().MyData.GetUserIndex()).collection("ChatRoomList").document(roomIndex)
+                        .set(tempMyChatData, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+
+                TKManager.getInstance().MyData.SetUserChatReadIndexList(chatData.GetRoomIndex(), chatData.GetMsgIndex());
+                CommonFunc.getInstance().SetChatReadIndex(context, chatData.GetRoomIndex(), chatData.GetMsgIndex());*/
+
             }
         })
                 .addOnFailureListener(new OnFailureListener() {

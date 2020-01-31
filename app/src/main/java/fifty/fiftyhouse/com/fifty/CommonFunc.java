@@ -1863,6 +1863,15 @@ public class CommonFunc {
     public void SetChatReadIndex(Context activity, String chatRoomIndex, Long chatIndex)
     {
         HashMap<String, Long> HashMap = new HashMap<String, Long>();
+
+        ArrayList<String> tempArr = new ArrayList<>();
+        tempArr.addAll(TKManager.getInstance().MyData.GetUserChatReadIndexListKeySet());
+        for(int i = 0 ; i < tempArr.size() ; ++i)
+        {
+            Long idx = TKManager.getInstance().MyData.GetUserChatReadIndexList(tempArr.get(i));
+            HashMap.put(tempArr.get(i), idx);
+        }
+
         HashMap.put(chatRoomIndex, chatIndex);
 
         SharedPreferences pSharedPref = activity.getSharedPreferences("ChatReadIndex", Context.MODE_PRIVATE);

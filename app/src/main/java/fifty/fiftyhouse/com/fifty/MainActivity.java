@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
         mFragmentMng.beginTransaction().replace(R.id.fl_Main_FrameLayout, mMainFragment, "MainFragment").commit();
 
-        SetChatBadgeView(TKManager.getInstance().mMainChatBadgeNumber);
+        TKManager.getInstance().UpdateChatAllRoom();
     }
 
     @Override

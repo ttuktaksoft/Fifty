@@ -66,8 +66,6 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        TKManager.getInstance().mMainActivity.SetChatBadgeView(0);
         if(ChatFragView != null)
         {
             if(mBookmarkViewPager != null)
