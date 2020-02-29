@@ -66,7 +66,6 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         if(ChatFragView != null)
         {
             if(mBookmarkViewPager != null)

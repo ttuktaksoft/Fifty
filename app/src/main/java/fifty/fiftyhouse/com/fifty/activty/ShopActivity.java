@@ -41,8 +41,9 @@ public class ShopActivity extends AppCompatActivity {
         tv_Shop_Info_Buy.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                TKManager.getInstance().MyData.SetUserVip(!TKManager.getInstance().MyData.GetUserVip());
-                DialogFunc.getInstance().ShowToast(getApplicationContext(), "변경 되었습니다.", true);
+
+                CommonFunc.getInstance().MovePurchaseActivity(ShopActivity.this);
+
             }
         });
     }

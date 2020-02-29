@@ -9,6 +9,7 @@ import fifty.fiftyhouse.com.fifty.DataBase.Certification;
 import fifty.fiftyhouse.com.fifty.DataBase.Payment;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Interface.IamportClient;
+import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import retrofit2.Call;
@@ -40,6 +41,7 @@ import com.google.gson.annotations.SerializedName;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class PurchaseActivity extends AppCompatActivity {
 
@@ -96,6 +98,10 @@ public class PurchaseActivity extends AppCompatActivity {
                                 if (response.isSuccessful()) {
                                     Log.d("#### IAM ", String.valueOf(response.body().getBankName()));
 
+                                    TKManager.getInstance().MyData.SetUserVip(CommonFunc.getInstance().GetCurrentDate());
+                                    FirebaseManager.getInstance().PurchaseVip();
+                                    DialogFunc.getInstance().ShowToast(getApplicationContext(), "변경 되었습니다.", false);
+                                    finish();
                                 }
                             }
 

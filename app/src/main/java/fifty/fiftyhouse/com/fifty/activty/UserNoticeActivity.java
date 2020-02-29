@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -71,7 +72,19 @@ public class UserNoticeActivity extends AppCompatActivity {
         tv_VIP_Info_Shop.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                startActivityForResult(new Intent(getApplicationContext(), ShopActivity.class), 1000);
+                if(TKManager.getInstance().MyData.GetRemainVipDate() > 0)
+                {
+                    StringBuilder desc = new StringBuilder();
+                    desc.append(CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_STR_VIP_REMAIN_1));
+                    desc.append(" ");
+                    desc.append(TKManager.getInstance().MyData.GetRemainVipDate());
+                    desc.append(CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_STR_VIP_REMAIN_2));
+                    DialogFunc.getInstance().ShowMsgPopup(getApplicationContext(), desc.toString());
+                }
+                else
+                {
+                    startActivityForResult(new Intent(getApplicationContext(), ShopActivity.class), 1000);
+                }
             }
         });
 
@@ -133,7 +146,7 @@ public class UserNoticeActivity extends AppCompatActivity {
 
     public void RefreshVIP()
     {
-        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        if(TKManager.getInstance().MyData.GetUserVip().equals("nVip") == true)
         {
             ui_vip_shop_info.setVisibility(View.VISIBLE);
             tv_VIP_Info_Desc.setText(CommonFunc.getInstance().getStr(mContext.getResources(), R.string.USER_LIST_VIP_SHOP_DESC_NOTICE));

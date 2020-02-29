@@ -113,8 +113,10 @@ public class ChatBodyActivity extends AppCompatActivity {
         }
 
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View v) {
+                @Override
+                public void onSingleClick(View v) {
+                FirebaseManager.getInstance().RemoveMonitorUserChatData();
+                    TKManager.getInstance().UpdateChatAllRoom();
                 finish();
             }
         });
@@ -297,6 +299,8 @@ public class ChatBodyActivity extends AppCompatActivity {
                                     @Override
                                     public void CompleteListener() {
                                         DialogFunc.getInstance().DismissLoadingPage();
+                                        FirebaseManager.getInstance().RemoveMonitorUserChatData();
+                                        TKManager.getInstance().UpdateChatAllRoom();
                                         finish();
                                     }
 
@@ -422,6 +426,8 @@ public class ChatBodyActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
+            FirebaseManager.getInstance().RemoveMonitorUserChatData();
+            TKManager.getInstance().UpdateChatAllRoom();
             finish(); // close this activity and return to preview activity (if there is any)
         }
 
@@ -444,8 +450,8 @@ public class ChatBodyActivity extends AppCompatActivity {
             @Override
             public void CompleteListener() {
                 mAdapter.notifyDataSetChanged();
-                if(TKManager.getInstance().mUpdateChatFragmentFunc != null)
-                    TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+/*                if(TKManager.getInstance().mUpdateChatFragmentFunc != null)
+                    TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();*/
 
                 rv_Chat_Body_List.post(new Runnable() {
                     @Override
@@ -480,7 +486,7 @@ public class ChatBodyActivity extends AppCompatActivity {
             }
         };
 
-        FirebaseManager.getInstance().MonitorUserChatData(strRoomIndex, TKManager.getInstance().MyData, listener);
+        FirebaseManager.getInstance().MonitorUserChatData(ChatBodyActivity.this,  strRoomIndex, TKManager.getInstance().MyData, listener);
 
 
      /*   mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -630,7 +636,6 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         tempData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
         tempData.SetMsgType(type);
-        tempData.SetMsgReadCheck(false);
         tempData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
 
         tempData.SetToIndex(strTargetIndex);
@@ -640,7 +645,7 @@ public class ChatBodyActivity extends AppCompatActivity {
 
         if(mType != CommonData.CHAT_ROOM_TYPE.CLUB)
         {
-            tempData.SetMsgReadCheckNumber(1);
+            tempData.SetMsgReadCheckNumber(2);
             tempData.SetToNickName(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserNickName());
             tempData.SetToThumbNail(TKManager.getInstance().UserData_Simple.get(strTargetIndex).GetUserImgThumb());
             FirebaseManager.getInstance().AddChatData(strRoomIndex, strTargetIndex, mType, mContext, tempData);
@@ -650,8 +655,10 @@ public class ChatBodyActivity extends AppCompatActivity {
             tempData.SetMsgReadCheckNumber(TKManager.getInstance().MyData.GetChatUserListCount());
             tempData.SetToNickName(strTargetIndex);
             tempData.SetToThumbNail(strTargetIndex);
-            FirebaseManager.getInstance().AddClubChatData(strRoomIndex,  tempData);
+            FirebaseManager.getInstance().AddClubChatData(strRoomIndex,  mType, mContext, tempData);
         }
+
+
 
 
 

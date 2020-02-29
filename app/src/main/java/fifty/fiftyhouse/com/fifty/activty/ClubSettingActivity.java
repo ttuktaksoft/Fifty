@@ -215,7 +215,8 @@ public class ClubSettingActivity extends AppCompatActivity {
 
                     @Override
                     public void CompleteListener_No() {
-
+                        DialogFunc.getInstance().DismissLoadingPage();
+                        DialogFunc.getInstance().ShowMsgPopup(ClubSettingActivity.this, CommonFunc.getInstance().getStr(ClubSettingActivity.this.getResources(), R.string.MSG_CLUB_INVITE_EMPTY));
                     }
                 };
 

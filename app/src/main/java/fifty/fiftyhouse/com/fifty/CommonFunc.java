@@ -93,6 +93,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.activty.AuthActivity;
 import fifty.fiftyhouse.com.fifty.activty.LoadingActivity;
 import fifty.fiftyhouse.com.fifty.activty.LoginActivity;
+import fifty.fiftyhouse.com.fifty.activty.PurchaseActivity;
 import fifty.fiftyhouse.com.fifty.activty.SignUpActivity;
 import fifty.fiftyhouse.com.fifty.activty.UserProfileActivity;
 import gun0912.tedbottompicker.TedBottomPicker;
@@ -1275,6 +1276,11 @@ public class CommonFunc {
         activity.finish();
     }
 
+    public void MovePurchaseActivity(Activity activity) {
+        final Intent intent = new Intent(activity, PurchaseActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
 
     public void MoveLoginActivity(Activity activity) {
 
@@ -1857,6 +1863,15 @@ public class CommonFunc {
     public void SetChatReadIndex(Context activity, String chatRoomIndex, Long chatIndex)
     {
         HashMap<String, Long> HashMap = new HashMap<String, Long>();
+
+        ArrayList<String> tempArr = new ArrayList<>();
+        tempArr.addAll(TKManager.getInstance().MyData.GetUserChatReadIndexListKeySet());
+        for(int i = 0 ; i < tempArr.size() ; ++i)
+        {
+            Long idx = TKManager.getInstance().MyData.GetUserChatReadIndexList(tempArr.get(i));
+            HashMap.put(tempArr.get(i), idx);
+        }
+
         HashMap.put(chatRoomIndex, chatIndex);
 
         SharedPreferences pSharedPref = activity.getSharedPreferences("ChatReadIndex", Context.MODE_PRIVATE);

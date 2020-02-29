@@ -6,14 +6,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kakao.usermgmt.response.model.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 
 public class UserData {
@@ -38,7 +43,7 @@ public class UserData {
          Memo= null;
          Location= null;
 
-        Vip = false;
+        Vip = "nVip";
 
         FavoriteList.clear();
 
@@ -99,7 +104,7 @@ public class UserData {
     private String Memo;
     private  String Location;
 
-    private boolean Vip;
+    private String Vip;
 
     private Map<String, String> FavoriteList = new LinkedHashMap<String, String>(){
         @Override
@@ -114,7 +119,7 @@ public class UserData {
     private  String Img_ThumbNail;
     private Map<String, String> ImgList = new LinkedHashMap<>();
 
-    private  int Age = 50;
+    private  int Age = 70;
     private  int Gender = 0;
 
     private  double Visit_Today = 0;
@@ -216,13 +221,92 @@ public class UserData {
         return Index;
     }
 
-    public void SetUserVip(Boolean vip)
+    public void SetUserVip(String vip)
     {
-        Vip = vip;
+        if(vip.equals("nVip"))
+        {
+            Vip = "nVip";
+            return;
+        }
+
+        Date Today, BuyDay;
+        String TodayStr, BuyDayStr;
+        Calendar TodayCal, BuyDayCal;
+
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
+
+        TodayCal = Calendar.getInstance();
+        try {
+            TodayStr = CommonFunc.getInstance().GetCurrentDate();
+            Today = transFormat.parse(TodayStr);
+            TodayCal.setTime(Today);
+        } catch (ParseException e) {
+
+        }
+
+        BuyDayCal = Calendar.getInstance();
+        try {
+            BuyDayStr = vip;
+            BuyDay = transFormat.parse(BuyDayStr);
+            BuyDayCal.setTime(BuyDay);
+        } catch (ParseException e) {
+
+        }
+
+        BuyDayCal.add(Calendar.DATE, 30);
+
+        if(TodayCal.getTimeInMillis() >= BuyDayCal.getTimeInMillis())
+        {
+            Vip = "nVip";
+        }
+        else
+            Vip = vip;
     }
-    public Boolean GetUserVip()
+    public String GetUserVip()
     {
         return Vip;
+    }
+
+    public int GetRemainVipDate()
+    {
+        if(Vip.equals("nVip") == false)
+        {
+            Date Today, BuyDay;
+            String TodayStr, BuyDayStr;
+            Calendar TodayCal, BuyDayCal;
+
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
+
+            TodayCal = Calendar.getInstance();
+            try {
+                TodayStr = CommonFunc.getInstance().GetCurrentDate();
+                Today = transFormat.parse(TodayStr);
+                TodayCal.setTime(Today);
+            } catch (ParseException e) {
+
+            }
+
+            BuyDayCal = Calendar.getInstance();
+            try {
+                BuyDayStr = Vip;
+                BuyDay = transFormat.parse(BuyDayStr);
+                BuyDayCal.setTime(BuyDay);
+            } catch (ParseException e) {
+
+            }
+
+            BuyDayCal.add(Calendar.DATE, 30);
+
+            long diffSec = (BuyDayCal.getTimeInMillis() - TodayCal.getTimeInMillis()) / 1000;
+            long diffDay = diffSec / (60 * 60 * 24);
+
+            if(diffDay < 0)
+                return 0;
+
+            return (int)diffDay;
+        }
+
+        return 0;
     }
 
     public void SetUserMemo(String memo)
@@ -275,7 +359,12 @@ public class UserData {
     }
     public int GetUserAge()
     {
-        return Age;
+        Calendar current = Calendar.getInstance();
+        int currentYear  = current.get(Calendar.YEAR);
+        currentYear -= 1900;
+        int nAge = currentYear - Age + 1;
+
+        return nAge;
     }
 
     public void SetUserConnectDate(long date)
@@ -774,7 +863,10 @@ public class UserData {
         return  Name;
     }
 
-    public void SetUserClubData(String Idx, ClubData data){ ClubData.put(Idx, data); }
+    public void SetUserClubData(String Idx, ClubData data){
+        if(ClubData.containsKey(Idx) == false)
+            ClubData.put(Idx, data);
+    }
     public ClubData  GetUserClubData(String index){ return ClubData.get(index); }
     public int  GetUserClubDataCount()
     {
@@ -803,6 +895,11 @@ public class UserData {
 
     public void SetRequestJoinClubList(String Idx, ClubData data){ RequestJoinClubList.put(Idx, data); }
     public ClubData  GetRequestJoinClubList(String index){ return RequestJoinClubList.get(index); }
+    public void  RemoveRequestJoinClubList(String index)
+    {
+        if(RequestJoinClubList.containsKey(index))
+            RequestJoinClubList.remove(index);
+    }
     public int  GetRequestJoinClubListCount()
     {
         return RequestJoinClubList.size();

@@ -119,7 +119,7 @@ public class AuthActivity extends AppCompatActivity {
 
                                         TKManager.getInstance().MyData.SetUserName(response.body().response.name);
 
-                                        TKManager.getInstance().MyData.SetUserAge(nAge);
+                                        TKManager.getInstance().MyData.SetUserAge(nBirthYear);
 
                                         String strPhoneNumber;
                                         TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);

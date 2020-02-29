@@ -75,6 +75,8 @@ public class ClubCreateActivity extends AppCompatActivity {
     public int CLUB_EDIT_TYPE = 1;
     int mClubCreateType = CLUB_CREATE_TYPE;
 
+    int mClubMaxMember = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,8 @@ public class ClubCreateActivity extends AppCompatActivity {
             tv_ClubCreate_JoinType_Approval.setVisibility(View.VISIBLE);
 
             tv_ClubCreate_OK.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_CREATE_OK));
+
+            mClubMaxMember = CommonData.ClubUserCountMaxSize;
         }
         else
         {
@@ -135,6 +139,7 @@ public class ClubCreateActivity extends AppCompatActivity {
             tv_ClubCreate_JoinType_Approval.setVisibility(View.GONE);
 
             tv_ClubCreate_OK.setText(CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_CREATE_EDIT));
+            mClubMaxMember = TKManager.getInstance().TargetClubData.GetClubMaxMember();
         }
 
 
@@ -203,7 +208,7 @@ public class ClubCreateActivity extends AppCompatActivity {
                         TKManager.getInstance().CreateTempClubData.ClubMemberCount = 1;
                         TKManager.getInstance().CreateTempClubData.SetClubCreateDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
                         TKManager.getInstance().CreateTempClubData.SetClubComment(et_ClubCreate_Name.getText().toString() + "입니다");
-
+                        TKManager.getInstance().CreateTempClubData.SetClubMaxMember(mClubMaxMember);
 
                         FirebaseManager.CheckFirebaseComplete registClubListener = new FirebaseManager.CheckFirebaseComplete() {
                             @Override
@@ -238,7 +243,6 @@ public class ClubCreateActivity extends AppCompatActivity {
                         tempChatData.SetToThumbNail("club");
 
                         tempChatData.SetMsgIndex(0);
-                        tempChatData.SetMsgReadCheck(false);
                         tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
                         tempChatData.SetMsgType(CommonData.MSGType.MSG);
                         tempChatData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
@@ -250,33 +254,39 @@ public class ClubCreateActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        DialogFunc.getInstance().ShowLoadingPage(ClubCreateActivity.this);
-                        TKManager.getInstance().TargetClubData.SetClubName(et_ClubCreate_Name.getText().toString());
-                        TKManager.getInstance().TargetClubData.SetClubThumb(TKManager.getInstance().TargetClubData.GetClubThumb());
-                        TKManager.getInstance().TargetClubData.SetClubComment(et_ClubCreate_Introduce.getText().toString());
+                        if(TKManager.getInstance().TargetClubData.GetClubMemberCount() > mClubMaxMember)
+                        {
+                            DialogFunc.getInstance().ShowMsgPopup(ClubCreateActivity.this, CommonFunc.getInstance().getStr(getResources(), R.string.MSG_CLUB_EDIT_JOIN_OVER_DESC));
+                        }
+                        else
+                        {
+                            DialogFunc.getInstance().ShowLoadingPage(ClubCreateActivity.this);
+                            TKManager.getInstance().TargetClubData.SetClubName(et_ClubCreate_Name.getText().toString());
+                            TKManager.getInstance().TargetClubData.SetClubThumb(TKManager.getInstance().TargetClubData.GetClubThumb());
+                            TKManager.getInstance().TargetClubData.SetClubComment(et_ClubCreate_Introduce.getText().toString());
+                            TKManager.getInstance().TargetClubData.SetClubMaxMember(mClubMaxMember);
 
-                        FirebaseManager.CheckFirebaseComplete registClubListener = new FirebaseManager.CheckFirebaseComplete() {
-                            @Override
-                            public void CompleteListener() {
-                                TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().TargetClubData.ClubIndex, TKManager.getInstance().TargetClubData);
-                                TKManager.getInstance().ClubData_Simple.put(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
-                                TKManager.getInstance().mUpdateClubFragmentFunc.UpdateUI();
-                                DialogFunc.getInstance().DismissLoadingPage();
-                                finish();
-                            }
+                            FirebaseManager.CheckFirebaseComplete registClubListener = new FirebaseManager.CheckFirebaseComplete() {
+                                @Override
+                                public void CompleteListener() {
+                                    TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().TargetClubData.ClubIndex, TKManager.getInstance().TargetClubData);
+                                    TKManager.getInstance().ClubData_Simple.put(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
+                                    TKManager.getInstance().mUpdateClubFragmentFunc.UpdateUI();
+                                    DialogFunc.getInstance().DismissLoadingPage();
+                                    finish();
+                                }
 
-                            @Override
-                            public void CompleteListener_Yes() {
-                            }
+                                @Override
+                                public void CompleteListener_Yes() {
+                                }
 
-                            @Override
-                            public void CompleteListener_No() {
-                            }
-                        };
+                                @Override
+                                public void CompleteListener_No() {
+                                }
+                            };
 
-                        FirebaseManager.getInstance().EditClubList(TKManager.getInstance().TargetClubData, registClubListener);
-
-                       // 클럽 수정
+                            FirebaseManager.getInstance().EditClubList(TKManager.getInstance().TargetClubData, registClubListener);
+                        }
                     }
                 }
             }
@@ -344,10 +354,11 @@ public class ClubCreateActivity extends AppCompatActivity {
                 arrayList);
 
         s_ClubCreate_JoinCount.setAdapter(arrayAdapter);
-        s_ClubCreate_JoinCount.setSelection(arrayList.size() - 1);
+        s_ClubCreate_JoinCount.setSelection(mClubMaxMember - CommonData.ClubUserCountMinSize);
         s_ClubCreate_JoinCount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                mClubMaxMember = CommonData.ClubUserCountMinSize + i;
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {

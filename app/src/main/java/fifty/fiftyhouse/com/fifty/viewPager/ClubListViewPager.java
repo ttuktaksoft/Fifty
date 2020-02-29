@@ -92,7 +92,7 @@ public class ClubListViewPager extends Fragment {
 
                             @Override
                             public void CompleteListener_No() {
-
+                                DialogFunc.getInstance().DismissLoadingPage();
                             }
                         };
 

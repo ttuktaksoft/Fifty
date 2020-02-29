@@ -87,6 +87,9 @@ public class ClubActivity extends AppCompatActivity {
 
         tv_Club_OpenDay.setText(CommonFunc.getInstance().ConvertTimeSrt(Long.toString(TKManager.getInstance().TargetClubData.GetClubCreateDate()), "yyyy.MM.dd"));
 
+        TKManager.getInstance().TargetReportContextData.clear();
+        TKManager.getInstance().TargetRemoveContextData.clear();
+
         iv_TopBar_Back.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
@@ -159,78 +162,85 @@ public class ClubActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        // 가입 대기가 아닌경우
-                        final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
-                            @Override
-                            public void Listener() {
-                                // 가입 신청
+                        if(TKManager.getInstance().TargetClubData.GetClubMemberCount() + 1 > TKManager.getInstance().TargetClubData.GetClubMaxMember())
+                        {
+                            DialogFunc.getInstance().ShowMsgPopup(ClubActivity.this, CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_FULL_DESC));
+                        }
+                        else
+                        {
+                            // 가입 대기가 아닌경우
+                            final DialogFunc.MsgPopupListener listenerYes = new DialogFunc.MsgPopupListener() {
+                                @Override
+                                public void Listener() {
+                                    // 가입 신청
 
-                                DialogFunc.getInstance().ShowLoadingPage(ClubActivity.this);
+                                    DialogFunc.getInstance().ShowLoadingPage(ClubActivity.this);
 
-                                // 가입 승인제가 아님
-                                if(TKManager.getInstance().TargetClubData.GetClubType())
-                                {
-                                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                                        @Override
-                                        public void CompleteListener() {
-                                            TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
-                                            TKManager.getInstance().TargetClubData.AddClubMember(TKManager.getInstance().MyData.GetUserIndex());
-                                            TKManager.getInstance().ClubData_Simple.get(TKManager.getInstance().TargetClubData.GetClubIndex()).ClubMemberCount = TKManager.getInstance().TargetClubData.GetClubMemberCount();
-                                            DialogFunc.getInstance().ShowToast(ClubActivity.this, "클럽에 가입 되었습니다", true);
-                                            DialogFunc.getInstance().DismissLoadingPage();
-                                            RefreshMenu();
-                                            RefreshClubUserAdapter();
-                                            RefreshClubInfo();
-                                            RefreshAdapter();
-                                            mAdapter.notifyDataSetChanged();
-                                            mClubMiniUserAdapter.notifyDataSetChanged();
-                                            mFavoriteViewAdapter.notifyDataSetChanged();
-                                        }
+                                    // 가입 승인제가 아님
+                                    if(TKManager.getInstance().TargetClubData.GetClubType())
+                                    {
+                                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                            @Override
+                                            public void CompleteListener() {
+                                                TKManager.getInstance().MyData.SetUserClubData(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
+                                                TKManager.getInstance().TargetClubData.AddClubMember(TKManager.getInstance().MyData.GetUserIndex());
+                                                TKManager.getInstance().ClubData_Simple.get(TKManager.getInstance().TargetClubData.GetClubIndex()).ClubMemberCount = TKManager.getInstance().TargetClubData.GetClubMemberCount();
+                                                DialogFunc.getInstance().ShowToast(ClubActivity.this, "클럽에 가입 되었습니다", true);
+                                                DialogFunc.getInstance().DismissLoadingPage();
+                                                RefreshMenu();
+                                                RefreshClubUserAdapter();
+                                                RefreshClubInfo();
+                                                RefreshAdapter();
+                                                mAdapter.notifyDataSetChanged();
+                                                mClubMiniUserAdapter.notifyDataSetChanged();
+                                                mFavoriteViewAdapter.notifyDataSetChanged();
+                                            }
 
-                                        @Override
-                                        public void CompleteListener_Yes() {
+                                            @Override
+                                            public void CompleteListener_Yes() {
 
-                                        }
+                                            }
 
-                                        @Override
-                                        public void CompleteListener_No() {
+                                            @Override
+                                            public void CompleteListener_No() {
 
-                                        }
-                                    };
-                                    FirebaseManager.getInstance().RegistClubMember(TKManager.getInstance().TargetClubData, TKManager.getInstance().MyData.GetUserIndex(), false, listener);
+                                            }
+                                        };
+                                        FirebaseManager.getInstance().RegistClubMember(TKManager.getInstance().TargetClubData, TKManager.getInstance().MyData.GetUserIndex(), false, listener);
+                                    }
+
+                                    // 가입 승인제
+                                    else
+                                    {
+                                        FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                                            @Override
+                                            public void CompleteListener() {
+                                                TKManager.getInstance().MyData.SetRequestJoinClubList(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
+                                                DialogFunc.getInstance().DismissLoadingPage();
+                                                DialogFunc.getInstance().ShowToast(ClubActivity.this, "가입 신청을 하였습니다", true);
+                                                RefreshJoinStr();
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_Yes() {
+
+                                            }
+
+                                            @Override
+                                            public void CompleteListener_No() {
+
+                                            }
+                                        };
+                                        FirebaseManager.getInstance().RequestJoinClub(TKManager.getInstance().TargetClubData.GetClubIndex(), listener);
+                                    }
+
+
                                 }
+                            };
 
-                                // 가입 승인제
-                                else
-                                {
-                                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
-                                        @Override
-                                        public void CompleteListener() {
-                                            TKManager.getInstance().MyData.SetRequestJoinClubList(TKManager.getInstance().TargetClubData.GetClubIndex(), TKManager.getInstance().TargetClubData);
-                                            DialogFunc.getInstance().DismissLoadingPage();
-                                            DialogFunc.getInstance().ShowToast(ClubActivity.this, "가입 신청을 하였습니다", true);
-                                            RefreshJoinStr();
-                                        }
-
-                                        @Override
-                                        public void CompleteListener_Yes() {
-
-                                        }
-
-                                        @Override
-                                        public void CompleteListener_No() {
-
-                                        }
-                                    };
-                                    FirebaseManager.getInstance().RequestJoinClub(TKManager.getInstance().TargetClubData.GetClubIndex(), listener);
-                                }
-
-
-                            }
-                        };
-
-                        DialogFunc.getInstance().ShowMsgPopup(ClubActivity.this, listenerYes, null, CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST_DESC),
-                                CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST), CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CANCEL));
+                            DialogFunc.getInstance().ShowMsgPopup(ClubActivity.this, listenerYes, null, CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST_DESC),
+                                    CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CLUB_JOIN_REQUEST), CommonFunc.getInstance().getStr(ClubActivity.this.getResources(), R.string.MSG_CANCEL));
+                        }
                     }
 
                 }
@@ -298,7 +308,6 @@ public class ClubActivity extends AppCompatActivity {
                         tempChatData.SetToThumbNail("club");
 
                         tempChatData.SetMsgIndex(0);
-                        tempChatData.SetMsgReadCheck(false);
                         tempChatData.SetMsgDate(Long.parseLong(CommonFunc.getInstance().GetCurrentTime()));
                         tempChatData.SetMsgType(CommonData.MSGType.MSG);
                         tempChatData.SetMsgSender(TKManager.getInstance().MyData.GetUserIndex());
@@ -529,7 +538,17 @@ public class ClubActivity extends AppCompatActivity {
         mContentList.clear();
         if(TKManager.getInstance().TargetClubData.IsClubMember(TKManager.getInstance().MyData.GetUserIndex()))
         {
-            mContentList.addAll(TKManager.getInstance().TargetClubData.GetClubContextKeySet());
+            ArrayList<String> tempList = new ArrayList<>();
+
+            Iterator<String> iterator = TKManager.getInstance().TargetClubData.GetClubContextKeySet().iterator();
+            while(iterator.hasNext()){
+                String key = iterator.next();
+
+                if(TKManager.getInstance().TargetRemoveContextData.containsKey(key) == false)
+                    tempList.add(key);
+            }
+
+            mContentList.addAll(tempList);
         }
         mAdapter.setItemData(mContentList);
     }

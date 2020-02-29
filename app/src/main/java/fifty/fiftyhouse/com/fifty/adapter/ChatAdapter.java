@@ -25,6 +25,7 @@ import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
 import fifty.fiftyhouse.com.fifty.activty.ChatBodyActivity;
 import fifty.fiftyhouse.com.fifty.fragment.ChatFragment;
+import fifty.fiftyhouse.com.fifty.util.OnSingleClickListener;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatListHolder> {
     Context mContext;
@@ -237,9 +238,9 @@ class ChatListHolder extends RecyclerView.ViewHolder {
 
     public void bind(final String data) {
 
-        v_Chat_Bookmark.setOnClickListener(new View.OnClickListener() {
+        v_Chat_Bookmark.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                // TODO 삭제
 
                 DialogFunc.getInstance().ShowLoadingPage(mContext);
@@ -280,7 +281,8 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                     @Override
                     public void CompleteListener() {
                         DialogFunc.getInstance().DismissLoadingPage();
-                        TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
+                        if(TKManager.getInstance().mUpdateChatFragmentFunc != null)
+                            TKManager.getInstance().mUpdateChatFragmentFunc.UpdateUI();
                         swipeLayout.close(false);
                     }
 
@@ -300,9 +302,9 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        v_Chat_Delete.setOnClickListener(new View.OnClickListener() {
+        v_Chat_Delete.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
 
                 DialogFunc.getInstance().ShowLoadingPage(mContext);
                 // TODO 삭제
@@ -338,9 +340,9 @@ class ChatListHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        v_Chat_Front.setOnClickListener(new View.OnClickListener() {
+        v_Chat_Front.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View v) {
 
                 String strTargetIndex = null;
 
@@ -408,6 +410,7 @@ class ChatListHolder extends RecyclerView.ViewHolder {
                         if(TKManager.getInstance().UserData_Simple.get(finalStrTargetIndex) != null)
                         {
                             CommonFunc.getInstance().SetChatReadIndex(mContext, finalTempChatData.GetRoomIndex(), finalTempChatData.GetMsgIndex());
+                            TKManager.getInstance().MyData.SetUserChatReadIndexList(finalTempChatData.GetRoomIndex(), finalTempChatData.GetMsgIndex());
                             DialogFunc.getInstance().DismissLoadingPage();
                             swipeLayout.close(false);
                             Intent intent = new Intent(ChatFragment.mChatFragment.getContext(), ChatBodyActivity.class);

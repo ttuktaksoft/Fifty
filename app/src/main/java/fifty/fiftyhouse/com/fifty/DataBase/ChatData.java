@@ -37,7 +37,6 @@ public class ChatData implements Cloneable{
     public  String MsgSender;
     public  CommonData.MSGType MsgType;
     public  long MsgDate;
-    public  boolean MsgReadCheck;
     public  long MsgReadCheckNum;
     public Map<String, String> ChatUserList = new LinkedHashMap<String, String>();
     public Map<String, String> ReadUserList = new LinkedHashMap<String, String>();
@@ -158,12 +157,6 @@ public class ChatData implements Cloneable{
         return MsgDate;
     }
 
-    public void SetMsgReadCheck(boolean msgReadCheck) {MsgReadCheck = msgReadCheck;}
-    public boolean GetMsgReadCheck()
-    {
-        return MsgReadCheck;
-    }
-
     public void AddMsgReadCheckUser(String userIndex) {
         ReadUserList.put(userIndex, userIndex);
     }
@@ -171,10 +164,16 @@ public class ChatData implements Cloneable{
     {
         return ReadUserList.get(userIndex);
     }
+    public int GetMsgReadCheckUserSize()
+    {
+        return ReadUserList.size();
+    }
     public void ClearReadUserList()
     {
         ReadUserList.clear();
     }
+
+    public Map<String, String> GetReadUserList(){return ReadUserList;}
 
     public void SetMsgReadCheckNumber(long number) {MsgReadCheckNum = number;}
     public long GetMsgReadCheckNumber()

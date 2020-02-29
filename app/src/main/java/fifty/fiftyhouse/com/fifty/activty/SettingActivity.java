@@ -27,6 +27,7 @@ import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -114,7 +115,20 @@ public class SettingActivity extends AppCompatActivity {
         tv_Setting_Shop.setOnClickListener(new OnSingleClickListener(){
             @Override
             public void onSingleClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ShopActivity.class));
+
+                if(TKManager.getInstance().MyData.GetRemainVipDate() > 0)
+                {
+                    StringBuilder desc = new StringBuilder();
+                    desc.append(CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_STR_VIP_REMAIN_1));
+                    desc.append(" ");
+                    desc.append(TKManager.getInstance().MyData.GetRemainVipDate());
+                    desc.append(CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_STR_VIP_REMAIN_2));
+                    DialogFunc.getInstance().ShowMsgPopup(getApplicationContext(), desc.toString());
+                }
+                else
+                {
+                    startActivity(new Intent(getApplicationContext(), ShopActivity.class));
+                }
             }
         });
 

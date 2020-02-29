@@ -85,7 +85,20 @@ public class UserListActivity extends AppCompatActivity {
         tv_VIP_Info_Shop.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                startActivityForResult(new Intent(getApplicationContext(), ShopActivity.class), 1000);
+
+                if(TKManager.getInstance().MyData.GetRemainVipDate() > 0)
+                {
+                    StringBuilder desc = new StringBuilder();
+                    desc.append(CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_STR_VIP_REMAIN_1));
+                    desc.append(" ");
+                    desc.append(TKManager.getInstance().MyData.GetRemainVipDate());
+                    desc.append(CommonFunc.getInstance().getStr(getApplicationContext().getResources(), R.string.MSG_STR_VIP_REMAIN_2));
+                    DialogFunc.getInstance().ShowMsgPopup(getApplicationContext(), desc.toString());
+                }
+                else
+                {
+                    startActivityForResult(new Intent(getApplicationContext(), ShopActivity.class), 1000);
+                }
             }
         });
 
@@ -239,29 +252,35 @@ public class UserListActivity extends AppCompatActivity {
                         public void Listener()
                         {
                             // 가입 승인
-                            FirebaseManager.CheckFirebaseComplete RequestListener = new FirebaseManager.CheckFirebaseComplete() {
-                                @Override
-                                public void CompleteListener() {
-                                    TKManager.getInstance().UserData_RequestJoin.remove(tempUserIndex);
-                                    DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입승인", true);
+                            if(TKManager.getInstance().TargetClubData.GetClubMemberCount() + 1 > TKManager.getInstance().TargetClubData.GetClubMaxMember())
+                            {
+                                DialogFunc.getInstance().ShowMsgPopup(UserListActivity.this, CommonFunc.getInstance().getStr(UserListActivity.this.getResources(), R.string.MSG_CLUB_JOIN_FULL_DESC));
+                            }
+                            else
+                            {
+                                FirebaseManager.CheckFirebaseComplete RequestListener = new FirebaseManager.CheckFirebaseComplete() {
+                                    @Override
+                                    public void CompleteListener() {
+                                        TKManager.getInstance().UserData_RequestJoin.remove(tempUserIndex);
+                                        DialogFunc.getInstance().ShowToast(UserListActivity.this, "가입승인", true);
 
-                                    RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
-                                    mAdapter.notifyDataSetChanged();
-                                }
+                                        RefreshAdapter(CommonData.USER_LIST_CLUB_JOIN_WAIT);
+                                        mAdapter.notifyDataSetChanged();
+                                    }
 
-                                @Override
-                                public void CompleteListener_Yes() {
+                                    @Override
+                                    public void CompleteListener_Yes() {
 
-                                }
+                                    }
 
-                                @Override
-                                public void CompleteListener_No() {
+                                    @Override
+                                    public void CompleteListener_No() {
 
-                                }
-                            };
+                                    }
+                                };
 
-                            FirebaseManager.getInstance().RegistClubMember(TKManager.getInstance().TargetClubData, tempUserIndex, false, RequestListener);
-
+                                FirebaseManager.getInstance().RegistClubMember(TKManager.getInstance().TargetClubData, tempUserIndex, false, RequestListener);
+                            }
                         }
                     });
                     list.add(new DialogFunc.MsgPopupListener()
@@ -630,7 +649,7 @@ public class UserListActivity extends AppCompatActivity {
 
     public void RefreshVIP()
     {
-        if(TKManager.getInstance().MyData.GetUserVip() == false)
+        if(TKManager.getInstance().MyData.GetUserVip().equals("nVip") == true)
         {
             if(mUserListType == CommonData.USER_LIST_MY_VISIT)
             {

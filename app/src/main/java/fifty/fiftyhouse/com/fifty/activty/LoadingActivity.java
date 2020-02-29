@@ -141,10 +141,14 @@ public class LoadingActivity extends AppCompatActivity {
                                 ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_KAKAO);
                                 Log.e("#@!!", " requestPermissions KAKAO_LOGIN_ALL");
                             } else {
-                                Session.getCurrentSession().addCallback(LoadingCallback);
+                                DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
+                                CommonFunc.getInstance().GetUserList(LoadingActivity.this);
+
+
+                               /* Session.getCurrentSession().addCallback(LoadingCallback);
                                 // Session.getCurrentSession().checkAndImplicitOpen();
                                 Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, LoadingActivity.this);
-                                Log.e("#@!!", "KAKAO_LOGIN_ALL");
+                                Log.e("#@!!", "KAKAO_LOGIN_ALL");*/
                             }
                         }
                     }

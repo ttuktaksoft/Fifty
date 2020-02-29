@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.Iterator;
 import java.util.Set;
 
+import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -138,7 +139,19 @@ public class MyProfileFragment extends Fragment{
         iv_MyProfile_Shop.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                startActivity(new Intent(getContext(), ShopActivity.class));
+                if(TKManager.getInstance().MyData.GetRemainVipDate() > 0)
+                {
+                    StringBuilder desc = new StringBuilder();
+                    desc.append(CommonFunc.getInstance().getStr(getContext().getResources(), R.string.MSG_STR_VIP_REMAIN_1));
+                    desc.append(" ");
+                    desc.append(TKManager.getInstance().MyData.GetRemainVipDate());
+                    desc.append(CommonFunc.getInstance().getStr(getContext().getResources(), R.string.MSG_STR_VIP_REMAIN_2));
+                    DialogFunc.getInstance().ShowMsgPopup(getContext(), desc.toString());
+                }
+                else
+                {
+                    startActivity(new Intent(getContext(), ShopActivity.class));
+                }
             }
         });
 

@@ -84,6 +84,8 @@
     <string name="MSG_STR_CONTENT_EMPTY_EVENT">이벤트 목록이 없습니다</string>
     <string name="MSG_STR_CONTENT_EMPTY_FAQ">FAQ 목록이 없습니다</string>
     <string name="MSG_STR_CONTENT_EMPTY_NOTICE">공지사항 목록이 없습니다</string>
+    <string name="MSG_STR_VIP_REMAIN_1">FIP기간이 </string>
+    <string name="MSG_STR_VIP_REMAIN_2">일 남았습니다</string>
 
     <string name="MSG_BLOCK_LIST">차단목록</string>
 
@@ -149,6 +151,9 @@
     <string name="MSG_CLUB_WRITE_HINT">내용을 입력해주세요</string>
     <string name="MSG_CLUB_REPLY_HINT">내용을 입력해주세요</string>
     <string name="MSG_CLUB_WRITE_LIMIT_TITLE">남은 글자수</string>
+    <string name="MSG_CLUB_JOIN_FULL_DESC">클럽인원수가 최대입니다</string>
+    <string name="MSG_CLUB_EDIT_JOIN_OVER_DESC">현재 클럽인원수보다 높게 설정해주세요</string>
+    <string name="MSG_CLUB_INVITE_EMPTY">클럽에 초대할 친구가 없습니다</string>
 
     <string name="PASSWORD_HINT">비밀번호를 입력하세요 (8~10자)</string>
     <string name="PASSWORD_EMPTY">비밀번호를 입력해주세요</string>
