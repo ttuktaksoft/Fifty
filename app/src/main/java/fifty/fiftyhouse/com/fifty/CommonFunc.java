@@ -85,6 +85,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.FragmentActivity;
+import fifty.fiftyhouse.com.fifty.DataBase.AlarmData;
 import fifty.fiftyhouse.com.fifty.DataBase.ChatData;
 import fifty.fiftyhouse.com.fifty.DataBase.ClubContextData;
 import fifty.fiftyhouse.com.fifty.DataBase.UserData;
@@ -2105,6 +2106,31 @@ public class CommonFunc {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean IsAlramAni(Activity activity)
+    {
+        long savelastNoticeDate = 0;
+        SharedPreferences pSharedPref = activity.getSharedPreferences("noticeFile", Context.MODE_PRIVATE);
+        try{
+            if (pSharedPref != null){
+                savelastNoticeDate = pSharedPref.getLong("Index",0);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        long nowLastNoticeDate = 0;
+        Set tempKey = TKManager.getInstance().MyData.GetAlarmListKeySet();
+        List array = new ArrayList(tempKey);
+        if(array.size() > 0)
+        {
+            AlarmData aData = TKManager.getInstance().MyData.GetAlarmList(array.get(0).toString());
+            nowLastNoticeDate = aData.Date;
+        }
+
+        return nowLastNoticeDate > savelastNoticeDate;
     }
 
 

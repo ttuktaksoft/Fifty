@@ -3,9 +3,13 @@ package fifty.fiftyhouse.com.fifty.activty;
 import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.AlarmData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
 import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
@@ -96,6 +101,18 @@ public class UserNoticeActivity extends AppCompatActivity {
             tv_User_Notice_List_Empty.setVisibility(View.GONE);
 
         RefreshVIP();
+
+
+        Set tempKey = TKManager.getInstance().MyData.GetAlarmListKeySet();
+        List array = new ArrayList(tempKey);
+        if(array.size() > 0)
+        {
+            AlarmData aData = TKManager.getInstance().MyData.GetAlarmList(array.get(0).toString());
+            SharedPreferences sharedPreferences = getSharedPreferences("noticeFile",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putLong("Index",aData.Date);
+            editor.commit();
+        }
     }
 
     private void initRecyclerView()

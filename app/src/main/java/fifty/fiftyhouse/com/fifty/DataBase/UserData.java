@@ -20,6 +20,7 @@ import java.util.Set;
 import fifty.fiftyhouse.com.fifty.CommonData;
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
+import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 
 public class UserData {
 
@@ -264,6 +265,8 @@ public class UserData {
     }
     public String GetUserVip()
     {
+        if(TKManager.getInstance().mVIPSystemEnable == false)
+            return "vip";
         return Vip;
     }
 

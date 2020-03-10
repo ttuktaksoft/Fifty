@@ -2309,6 +2309,7 @@ public class FirebaseManager {
     }
 
     public void GetUserList(final CheckFirebaseComplete listener) {
+        GetSettingValue();
         SetFireBaseLoadingCount("유저목록 로드", 9);
         GetUserListDist( listener);
 
@@ -6560,6 +6561,31 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+    }
+
+    public void GetSettingValue()
+    {
+        final DocumentReference docRef = mDataBase.collection("Setting").document("Setting");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        int vip = Integer.parseInt(document.getData().get("VIP").toString());
+                        if(vip == 0)
+                            TKManager.getInstance().mVIPSystemEnable = false;
+                        else
+                            TKManager.getInstance().mVIPSystemEnable = true;
+                    }
+                }
+                else {
+                    TKManager.getInstance().mVIPSystemEnable = false;
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 
 

@@ -108,6 +108,8 @@ public class TKManager {
     public MainActivity mMainActivity = null;
     public int mMainChatBadgeNumber = 0;
 
+    public boolean mVIPSystemEnable = false;
+
 
     public void UpdateChatAllRoom()
     {

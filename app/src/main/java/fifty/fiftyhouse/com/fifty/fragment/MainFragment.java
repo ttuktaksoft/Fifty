@@ -1,6 +1,8 @@
 package fifty.fiftyhouse.com.fifty.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -14,11 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
+import fifty.fiftyhouse.com.fifty.DataBase.AlarmData;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -63,15 +71,16 @@ public class MainFragment extends Fragment {
             animationView_Alarm = (LottieAnimationView) v_FragmentView.findViewById(R.id.animation_Alarm_view);
             animationView_Alarm.setAnimation("noti.json");
             animationView_Alarm.playAnimation();
-            iv_Main_Alarm.setVisibility(View.INVISIBLE);
+
             animationView_Alarm.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
                     //DialogFunc.getInstance().ShowToast(getContext(), "준비중 입니다", true);
-                    animationView_Alarm.setVisibility(View.GONE);
-                    iv_Main_Alarm.setVisibility(View.VISIBLE);
                     DialogFunc.getInstance().ShowLoadingPage(getContext());
                     Set KeySet = TKManager.getInstance().MyData.GetAlarmListKeySet();
+
+                    animationView_Alarm.setVisibility(View.INVISIBLE);
+                    iv_Main_Alarm.setVisibility(View.VISIBLE);
 
                     if(KeySet.size() > 0)
                     {
@@ -169,6 +178,8 @@ public class MainFragment extends Fragment {
                 }
             });
 
+            if(TKManager.getInstance().mVIPSystemEnable == false)
+                iv_Main_Shop.setVisibility(View.GONE);
             iv_Main_Shop.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
@@ -265,6 +276,17 @@ public class MainFragment extends Fragment {
             vp_UserList.setAdapter(new TabPagerAdapter(getFragmentManager(),tl_TopBarTab.getTabCount()));
             vp_UserList.setCurrentItem(0);
             vp_UserList.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tl_TopBarTab));
+        }
+
+        if(CommonFunc.getInstance().IsAlramAni(MainActivity.mActivity))
+        {
+            animationView_Alarm.setVisibility(View.VISIBLE);
+            iv_Main_Alarm.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            animationView_Alarm.setVisibility(View.INVISIBLE);
+            iv_Main_Alarm.setVisibility(View.VISIBLE);
         }
 
         return v_FragmentView;

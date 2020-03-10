@@ -25,6 +25,21 @@
             android:src="@drawable/ic_alarm"
             />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_Alarm_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:lottie_fileName="noti.json"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="false"
+
+            app:layout_constraintRight_toRightOf="@+id/iv_MyProfile_Alarm"
+            app:layout_constraintTop_toTopOf="@+id/iv_MyProfile_Alarm"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_MyProfile_Alarm"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_MyProfile_Alarm"
+
+            />
+
         <ImageView
             android:id="@+id/iv_MyProfile_Shop"
             android:layout_width="50dp"

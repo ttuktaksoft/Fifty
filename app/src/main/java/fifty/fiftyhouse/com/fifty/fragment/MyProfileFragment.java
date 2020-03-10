@@ -13,11 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import java.util.Iterator;
 import java.util.Set;
 
 import fifty.fiftyhouse.com.fifty.CommonFunc;
 import fifty.fiftyhouse.com.fifty.DialogFunc;
+import fifty.fiftyhouse.com.fifty.MainActivity;
 import fifty.fiftyhouse.com.fifty.Manager.FirebaseManager;
 import fifty.fiftyhouse.com.fifty.Manager.TKManager;
 import fifty.fiftyhouse.com.fifty.R;
@@ -42,6 +45,7 @@ public class MyProfileFragment extends Fragment{
     View v_FragmentView = null;
 
     UserProfileFragment mUserProfileFragment;
+    LottieAnimationView animationView_Alarm;
 
     public MyProfileFragment() {
     }
@@ -65,6 +69,18 @@ public class MyProfileFragment extends Fragment{
         if(v_FragmentView != null)
         {
             mUserProfileFragment.RefreshUI();
+
+            if(CommonFunc.getInstance().IsAlramAni(MainActivity.mActivity))
+            {
+                animationView_Alarm.setVisibility(View.VISIBLE);
+                iv_MyProfile_Alarm.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                animationView_Alarm.setVisibility(View.INVISIBLE);
+                iv_MyProfile_Alarm.setVisibility(View.VISIBLE);
+            }
+
             return v_FragmentView;
         }
 
@@ -80,11 +96,79 @@ public class MyProfileFragment extends Fragment{
 
         v_FragmentView.setTag("MyProfileFragment");
 
+        animationView_Alarm = (LottieAnimationView) v_FragmentView.findViewById(R.id.animation_Alarm_view);
+        animationView_Alarm.setAnimation("noti.json");
+        animationView_Alarm.playAnimation();
+
         iv_MyProfile_Alarm = v_FragmentView.findViewById(R.id.iv_MyProfile_Alarm);
         iv_MyProfile_Shop = v_FragmentView.findViewById(R.id.iv_MyProfile_Shop);
         tv_MyProfile_Name = v_FragmentView.findViewById(R.id.tv_MyProfile_Name);
 
         tv_MyProfile_Name.setText(TKManager.getInstance().MyData.GetUserNickName());
+
+        if(CommonFunc.getInstance().IsAlramAni(MainActivity.mActivity))
+        {
+            animationView_Alarm.setVisibility(View.VISIBLE);
+            iv_MyProfile_Alarm.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            animationView_Alarm.setVisibility(View.INVISIBLE);
+            iv_MyProfile_Alarm.setVisibility(View.VISIBLE);
+        }
+
+        animationView_Alarm.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                DialogFunc.getInstance().ShowLoadingPage(getContext());
+                Set KeySet = TKManager.getInstance().MyData.GetAlarmListKeySet();
+
+                animationView_Alarm.setVisibility(View.INVISIBLE);
+                iv_MyProfile_Alarm.setVisibility(View.VISIBLE);
+
+                if(KeySet.size() > 0)
+                {
+                    Iterator iterator = KeySet.iterator();
+
+                    FirebaseManager.getInstance().SetFireBaseLoadingCount("알람설정", TKManager.getInstance().MyData.GetAlarmListCount());
+
+                    FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
+                        @Override
+                        public void CompleteListener() {
+                            DialogFunc.getInstance().DismissLoadingPage();
+
+                            Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void CompleteListener_Yes() {
+                        }
+
+                        @Override
+                        public void CompleteListener_No() {
+                        }
+                    };
+
+                    while(iterator.hasNext()){
+                        String key = (String)iterator.next();
+                        if(TKManager.getInstance().UserData_Simple.get(key) != null)
+                        {
+                            FirebaseManager.getInstance().Complete("알람설정", listener);
+                        }
+                        else
+                            FirebaseManager.getInstance().GetUserData_Simple(key, TKManager.getInstance().UserData_Simple, listener);
+                    }
+                }
+                else
+                {
+                    DialogFunc.getInstance().DismissLoadingPage();
+
+                    Intent intent = new Intent(getContext(), UserNoticeActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         iv_MyProfile_Alarm.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -135,6 +219,9 @@ public class MyProfileFragment extends Fragment{
                 }
             }
         });
+
+        if(TKManager.getInstance().mVIPSystemEnable == false)
+            iv_MyProfile_Shop.setVisibility(View.GONE);
 
         iv_MyProfile_Shop.setOnClickListener(new OnSingleClickListener() {
             @Override

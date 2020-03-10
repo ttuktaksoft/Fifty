@@ -112,6 +112,9 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        if(TKManager.getInstance().mVIPSystemEnable == false)
+            tv_Setting_Shop.setVisibility(View.GONE);
+
         tv_Setting_Shop.setOnClickListener(new OnSingleClickListener(){
             @Override
             public void onSingleClick(View view) {
