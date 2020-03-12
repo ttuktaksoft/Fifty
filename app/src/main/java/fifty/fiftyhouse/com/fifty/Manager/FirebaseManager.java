@@ -3026,6 +3026,7 @@ public class FirebaseManager {
 
         RegistFavoriteListInUserData(favoriteName, update);
         RegistFavoriteList(favoriteName);
+        //RegistFavoriteByAge(favoriteName);
     }
 
     public void RecommendClubList(final FirebaseManager.CheckFirebaseComplete listener) {
@@ -5241,7 +5242,8 @@ public class FirebaseManager {
 
     public void SetFavoriteRank(String favoriteName)
     {
-        final DocumentReference sfDocRef = mDataBase.collection("Favorite_Rank").document(favoriteName);
+        //final DocumentReference sfDocRef = mDataBase.collection("Favorite_Rank").document(favoriteName);
+        final DocumentReference sfDocRef = mDataBase.collection("Favorite_Rank").document(CommonFunc.getInstance().GetCurrentDate()).collection("FavoriteList").document(favoriteName);
         final double[] newPopulation = new double[1];
         mDataBase.runTransaction(new Transaction.Function<Void>() {
             @Override
@@ -5252,7 +5254,7 @@ public class FirebaseManager {
                 {
                     final Map<String, Object> clubFavoriteData = new HashMap<>();
                     clubFavoriteData.put("count", 0);
-                    mDataBase.collection("Favorite_Rank").document(favoriteName).set(clubFavoriteData, SetOptions.merge());
+                    mDataBase.collection("Favorite_Rank").document(CommonFunc.getInstance().GetCurrentDate()).collection("FavoriteList").document(favoriteName).set(clubFavoriteData, SetOptions.merge());
                 }
                 else
                 {
@@ -5285,7 +5287,7 @@ public class FirebaseManager {
     {
         TKManager.getInstance().SearchList_Favorite.clear();
 
-        final CollectionReference sfColRef = mDataBase.collection("Favorite_Rank");
+        final CollectionReference sfColRef = mDataBase.collection("Favorite_Rank").document(CommonFunc.getInstance().GetCurrentDate()).collection("FavoriteList");
         sfColRef.orderBy("count", Query.Direction.DESCENDING).limit(FAVORITE_RANK_COUNT).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -5311,6 +5313,7 @@ public class FirebaseManager {
 
 
                 } else {
+                    Complete("관심사 랭킹 로드 ㅇㅇ" ,listener);
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
@@ -5524,6 +5527,8 @@ public class FirebaseManager {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+
+
     }
 
     public void RegistFavoriteListInUserData(String favoriteName, boolean update)
@@ -6586,6 +6591,366 @@ public class FirebaseManager {
                 }
             }
         });
+    }
+
+    public void RegistFavoriteByAge(String favorite)
+    {
+        DocumentReference docRef = mDataBase.collection("Favorite_Age").document(CommonFunc.getInstance().GetCurrentDate())
+                .collection("FavoriteList").document(Integer.toString(TKManager.getInstance().MyData.GetUserAge()));
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        final double[] newPopulation = new double[1];
+                        mDataBase.runTransaction(new Transaction.Function<Void>() {
+                            @Override
+                            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                                DocumentSnapshot snapshot = transaction.get(docRef);
+
+                                if(snapshot.getDouble(favorite) == null)
+                                {
+                                    Map<String, Object> popFavorite = new HashMap<>();
+                                    popFavorite.put(favorite, 1);
+
+                                    docRef
+                                            .set(popFavorite, SetOptions.merge())
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error writing document", e);
+                                                }
+                                            });
+
+                                }
+                                else
+                                {
+                                    newPopulation[0] = snapshot.getDouble(favorite) + 1;
+                                    transaction.update(docRef, favorite, newPopulation[0]);
+                                    int tempIndex = (int)newPopulation[0];
+                                }
+
+
+                                // Success
+                                return null;
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Transaction success!");
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Transaction failure.", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                        Map<String, Object> popFavorite = new HashMap<>();
+                        popFavorite.put(favorite, 1);
+
+                        docRef
+                                .set(popFavorite, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+    }
+
+    public void RegistFavoriteByTotalAge(String favorite)
+    {
+        DocumentReference docRef = mDataBase.collection("Favorite_Age_Total").document(Integer.toString(TKManager.getInstance().MyData.GetUserAge()));
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        final double[] newPopulation = new double[1];
+                        mDataBase.runTransaction(new Transaction.Function<Void>() {
+                            @Override
+                            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                                DocumentSnapshot snapshot = transaction.get(docRef);
+
+                                if(snapshot.getDouble(favorite) == null)
+                                {
+                                    Map<String, Object> popFavorite = new HashMap<>();
+                                    popFavorite.put(favorite, 1);
+
+                                    docRef
+                                            .set(popFavorite, SetOptions.merge())
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error writing document", e);
+                                                }
+                                            });
+
+                                }
+                                else
+                                {
+                                    newPopulation[0] = snapshot.getDouble(favorite) + 1;
+                                    transaction.update(docRef, favorite, newPopulation[0]);
+                                    int tempIndex = (int)newPopulation[0];
+                                }
+
+
+                                // Success
+                                return null;
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Transaction success!");
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Transaction failure.", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                        Map<String, Object> popFavorite = new HashMap<>();
+                        popFavorite.put(favorite, 1);
+
+                        docRef
+                                .set(popFavorite, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+    }
+
+    public void RegistFavoriteHistory()
+    {
+        HashMap<String, Integer> tempList = new HashMap<String, Integer>();
+
+        final CollectionReference sfColRef = mDataBase.collection("Favorite_Rank");
+        sfColRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+                    //AddFireBaseLoadingCount(task.getResult().size());
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                          String tempDate = document.getId();
+
+                          if(!CommonFunc.getInstance().GetCurrentDate().equals(tempDate))
+                            {
+                                mDataBase.collection("Favorite_History").document(tempDate).set(document.getData())
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                mDataBase.collection("Favorite_Rank").document(tempDate).delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w(TAG, "Error deleting document", e);
+                                                            }
+                                                        });
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error writing document", e);
+                                            }
+                                        });
+                            }
+
+
+                          String DummyDate = "20200313";
+                            if(!DummyDate.equals(tempDate))
+                            {
+                                mDataBase.collection("Favorite_History").document(tempDate).set(document.getData())
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                mDataBase.collection("Favorite_Rank").document(tempDate).delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w(TAG, "Error deleting document", e);
+                                                            }
+                                                        });
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error writing document", e);
+                                            }
+                                        });
+                            }
+
+                        }
+  /*
+
+                        mDataBase.collection("Favorite_History").document(CommonFunc.getInstance().GetCurrentDate())
+                                .set(tempList, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                     sfColRef.document(document.getId())
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error deleting document", e);
+                                    }
+                                });*/
+
+                    }
+
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+       /* final CollectionReference sfColRef = mDataBase.collection("Favorite_Rank").document(CommonFunc.getInstance().GetCurrentDate()).collection("FavoriteList");
+        sfColRef.orderBy("count", Query.Direction.DESCENDING).limit(FAVORITE_RANK_COUNT).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                int tempTotayLikeCount = 0;
+                if (task.isSuccessful()) {
+
+                    //AddFireBaseLoadingCount(task.getResult().size());
+                    {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d("UserList_Search_Hot", document.getId() + " => " + document.getData());
+
+                            tempList.put(document.getId(), Integer.parseInt(document.getData().get("count").toString()));
+                        }
+  *//*
+
+                        mDataBase.collection("Favorite_History").document(CommonFunc.getInstance().GetCurrentDate())
+                                .set(tempList, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                     sfColRef.document(document.getId())
+                                .delete()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error deleting document", e);
+                                    }
+                                });*//*
+
+                    }
+
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });*/
     }
 
 

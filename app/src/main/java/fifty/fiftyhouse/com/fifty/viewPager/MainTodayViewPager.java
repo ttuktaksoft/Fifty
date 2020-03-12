@@ -274,6 +274,9 @@ public class MainTodayViewPager extends Fragment {
                 };
 
                 FirebaseManager.getInstance().FindFavoriteList(mRealTimeFavoriteViewList.get(position),true, listener);
+                FirebaseManager.getInstance().RegistFavoriteByTotalAge(mRealTimeFavoriteViewList.get(position));
+                FirebaseManager.getInstance().RegistFavoriteByAge(mRealTimeFavoriteViewList.get(position));
+
             }
         }));
 
@@ -299,6 +302,9 @@ public class MainTodayViewPager extends Fragment {
     {
         if(CommonFunc.getInstance().CheckStringNull(TKManager.getInstance().SelectFavorite))
             return;
+
+        FirebaseManager.getInstance().RegistFavoriteByAge(TKManager.getInstance().SelectFavorite);
+        FirebaseManager.getInstance().RegistFavoriteByTotalAge(TKManager.getInstance().SelectFavorite);
 
         if(mSelectRealTimeFavorite.equals(TKManager.getInstance().SelectFavorite) == false)
         {
