@@ -5,144 +5,140 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>피프티하우스</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
 
-<style>
-@font-face{
-	font-family: 'KoPub';
-	src: url(font\KoPubWorld Dotum Bold.ttf);
-}
+<head>
+    <title>피프티하우스</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
 
-body{
-	font-family: KoPub
-}
+    <style>
+        /* @font-face {
+			font-family: 'KoPub';
+			src: url(font\KoPubWorld Dotum Bold.ttf);
+		} */
+        
+        body {
+            font-family: KoPub
+        }
+        
+        .box {
+            width: 25%;
+            height: 100px;
+            display: inline-block;
+            border: 3px solid gray;
+        }
+        
+        #blue-box {
+            background: white;
+            border-radius: 15px;
+        }
+        
+        .float-frame {
+            background: #eee;
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+        
+        .float-unit {
+            border: 1px;
+            width: 16.6%;
+            height: auto;
+            background: #eee;
+            color: #333;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            padding-left: 5px;
+            float: left;
+        }
+    </style>
 
-.box {
-  width: 25%;
-  height: 100px;
-  display: inline-block;
-	 border:3px solid gray;
-}
+</head>
 
-#blue-box {
-  background: white;
-  border-radius: 15px;
-}
+<body class="is-preload">
 
-.float-frame {
-  background: #eee;
-  border: 1px solid #ddd;
-	overflow: hidden;
-}
+    <!-- Wrapper -->
+    <div id="wrapper">
 
-.float-unit {
-	border: 1px;
-  width: 16.6%;
-	height: auto;
-  background: #eee;
-  color: #333;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
-	padding-left: 5px;
-  float: left;
-}
-</style>
+        <!-- Main -->
+        <div id="main">
+            <div class="inner_over">
+                <header id="header">
+                    <a href="index.html" class="logo"><strong>연령대 별 관심사 목록</strong></a>
+                </header>
 
-	</head>
-	<body class="is-preload">
+                <div class="limiter">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+                    <div class="table100 ver2 m-b-110">
+                        <div class="table100-head">
+                            <table>
+                                <thead>
+                                    <tr class="row100 head">
+                                        <th class="cell100 column1">연령대</th>
+                                        <th class="cell100 column2">관심사</th>
+                                        <th class="cell100 column3">인원</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
 
-				<!-- Main -->
-					<div id="main">
+                    <div class="table100-body js-pscroll">
+                        <table id="MemberTable">
+                            <tbody id="MemberData"> </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="inner">
 
-						<div class="inner_over">
-
-							<header id="header">
-								<a href="index.html" class="logo"><strong>관심사 목록</strong></a>
-							</header>
-
-			<div class="limiter">
-
-				<div class="table100 ver2 m-b-110">
-					<div class="table100-head">
-						<table>
-							<thead>
-								<tr class="row100 head">
-									<th class="cell100 column1">관심사명</th>
-									<th class="cell100 column2">인원</th>
-
-								</tr>
-							</thead>
-						</table>
-					</div>
-				</div>
-
-							<div class="table100-body js-pscroll">
-								<table  id = "MemberTable">
-									<tbody id="MemberData">	</tbody>
-								</table>
-
-
-							</div>
-
-
-						</div>
-					</div>
-	</div>
-				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
-
-							<!-- Search
+                <!-- Search
 								<section id="search" class="alt">
 									<form method="post" action="#">
 										<input type="text" name="query" id="query" placeholder="Search" />
 									</form>
 								</section>
 -->
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>메뉴</h2>
-									</header>
-									<ul>
-										<li>
-											<a href="index.html"><i class="fas fa-home">대시보드</i></a>
-									</li>
+                <!-- Menu -->
+                <nav id="menu">
+                    <header class="major">
+                        <h2>메뉴</h2>
+                    </header>
+                    <ul>
+                        <li>
+                            <a href="index.html"><i class="fas fa-home">대시보드</i></a>
+                        </li>
 
-										<li>
-											<span class="opener"><i class="fas fa-user">활동 현황</i></span>
-											<ul>
-												<li><a href="FiftyMember.html">회원 목록</a></li>
-												<li><a href="FiftyFavorite.html">관심사 목록</a></li>
-												<li><a href="FiftyClub.html">클럽 목록</a></li>
-												<!-- <li><a href="InvalidMember.html">만료 회원</a></li>
+                        <li>
+                            <span class="opener"><i class="fas fa-user">활동 현황</i></span>
+                            <ul>
+                                <li><a href="FiftyMember.html">회원 목록</a></li>
+                                <li><a href="FiftyFavorite.html">관심사 목록</a></li>
+                                <li><a href="FiftyClub.html">클럽 목록</a></li>
+                                <!-- <li><a href="InvalidMember.html">만료 회원</a></li>
 												<li><a href="readyMember.html">코치 배정 대기 회원</a></li>
 												<li><a href="registMember.html">회원 등록</a></li> -->
-											</ul>
-										</li>
+                            </ul>
+                        </li>
 
-										<li>
-											<span class="opener"><i class="fas fa-university">  알림</i></span>
-											<ul>
-												<li><a href="FiftyNotice.html">공지사항</a></li>
-												<li><a href="FiftyEvent.html">이벤트</a></li>
-												<li><a href="FiftyFAQ.html">FAQ</a></li>
-											</ul>
-										</li>
+                        <li>
+                            <span class="opener"><i class="fas fa-university"> 알림</i></span>
+                            <ul>
+                                <li><a href="FiftyNotice.html">공지사항</a></li>
+                                <li><a href="FiftyEvent.html">이벤트</a></li>
+                                <li><a href="FiftyFAQ.html">FAQ</a></li>
+                            </ul>
+                        </li>
 
-								</nav>
+                </nav>
 
 
-							<!-- Section
+                <!-- Section
 								<section>
 									<header class="major">
 										<h2>Get in touch</h2>
@@ -157,94 +153,134 @@ body{
 								</section>
 								-->
 
-							<!-- Footer -->
-							<footer id="footer">
-								<p class="copyright"> Copyright@피프티하우스 CO.,LTD. All rights reserved</p>
-							</footer>
+                <!-- Footer -->
+                <footer id="footer">
+                    <p class="copyright"> Copyright@피프티하우스 CO.,LTD. All rights reserved</p>
+                </footer>
 
-						</div>
-					</div>
+            </div>
+        </div>
 
-			</div>
+    </div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
 
-			<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
-			<script src="./fireinit.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
+    <script src="./fireinit.js"></script>
 
-<script>
+    <script>
+        var db = firebase.firestore();
+        var FavorSetEachAge = new Map();
+        var g_MaxShowCntInAge = 5; // max show favorite count each ages
+        GetFavoriteAge_Total();
 
-var db = firebase.firestore();
+        // functions
+        function GetFavoriteAge_Total() {
+            var doc_FavoriteAge_Total = db.collection("Favorite_Age_Total");
+            // get data from collecton
+            doc_FavoriteAge_Total.get().then(function(querySnapshot) {
+                if (querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        let docs = doc.data();
+                        // for debug
+                        // console.log('문서의 id :' + doc.id);
+                        // for (let item in docs) {
+                        //     console.log('key :' + item);
+                        //     console.log('value :' + docs[item]);
+                        // }
 
-// db
-//     .collection("UserData")
-//     .orderBy("ConnectDate", "desc")
-//     .limit(10)
-//     .get()
-//     .then((querySnapshot) => {
-//         querySnapshot.forEach((doc) => {
-//             console.log(`${
-//                 doc.id
-//             } => ${
-//                 doc.data()['NickName']
-//             }`);
-//
-//         });
-//     });
-
-
-function SetData()
-{
-
+                        var key = parseInt(doc.id / 10) * 10;
 
 
+                        if (FavorSetEachAge.has(key)) {
+                            var Favorites = FavorSetEachAge.get(key);
+                            for (let item in docs) {
+                                if (Favorites.has(item)) {
+                                    var val = Favorites.get(item) + parseInt(docs[item]);
+                                    Favorites.set(item, val);
+                                } else {
+                                    Favorites.set(item, parseInt(docs[item]));
+                                }
+                            }
+                        } else {
+                            var Favorites = new Map();
+                            for (let item in docs) {
+                                Favorites.set(item, parseInt(docs[item]))
+                            }
+                            FavorSetEachAge.set(key, Favorites);
+                        }
 
-	db
-	    .collection("Favorite_Rank")
-	    .orderBy("count", "desc")
-	    .get()
-	    .then((querySnapshot) => {
-	        querySnapshot.forEach((doc) => {
-	            console.log(`${
-	                doc.id
-	            } => ${
-	                doc.data()['count']
-	            }`);
+                    });
+                } else {
+                    console.log("can't find Document")
+                }
 
-							var FavoriteName = '관심사 이름';
-							var FavoriteCount = 0;
+                // sort item 
+                for (let [key, value] of FavorSetEachAge) {
+                    value[Symbol.iterator] = function*() {
+                        yield*[...this.entries()].sort((a, b) => b[1] - a[1]);
+                    }
+                }
+                //Print_Favor_Age_For_Debug();
+                WebDisplay();
+            });
+        }
 
-							var MemberData = document.getElementById('MemberData');
+        function Print_Favor_Age_For_Debug() {
+            // print FavorSet
+            for (var [key, Favorites] of FavorSetEachAge) {
+                console.log('FavorSet_Key :' + key);
+                for (var [f_key, f_val] of Favorites) {
+                    console.log('Favors :' + f_key + " ," + f_val);
+                }
+            }
+        }
 
-							// var row = my_tbody.insertRow(0); // 상단에 추가
-							var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
+        function WebDisplay() {
+            for (var [key, Favorites] of FavorSetEachAge) {
+                var cellCnt = 0;
+                var cell2String = "";
+                var cell3String = "";
+                var MemberData = document.getElementById('MemberData');
+                var row = MemberData.insertRow(MemberData.rows.length); // 하단에 추가
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                cell1.setAttribute('class', 'cell100 column1');
+                cell2.setAttribute('class', 'cell100 column2');
+                cell3.setAttribute('class', 'cell100 column3');
 
-							var cell1 = row.insertCell(0);
-							cell1.setAttribute('class', 'cell100 column1');
+                cell1.innerHTML = String(key).concat("대");
+                for (var [f_key, f_val] of Favorites) {
+                    if (cellCnt == g_MaxShowCntInAge) {
+                        break;
+                    }
+                    var el_key = document.createElement('div');
+                    var el_val = document.createElement('div');
+                    el_key.type = 'text'
+                    el_key.innerHTML = String(f_key);
+                    cell2.appendChild(el_key);
+                    el_val.type = 'text'
+                    el_val.innerHTML = String(f_val);
+                    cell3.appendChild(el_val);
 
-							var cell2 = row.insertCell(1);
-							cell2.setAttribute('class', 'cell100 column2');
-							cell1.innerHTML =  doc.id;
-							cell2.innerHTML =  doc.data()['count'];
+                    cellCnt++;
+                }
+            }
+        }
+    </script>
 
+</body>
 
-	        });
-	    });
-}
-
-SetData();
-</script>
-
-	</body>
 </html>
 
 
