@@ -18,29 +18,29 @@
             font-family: 'KoPub';
             src: url(font\KoPubWorld Dotum Bold.ttf);
         }
-        
+
         body {
             font-family: KoPub
         }
-        
+
         .box {
             width: 25%;
             height: 100px;
             display: inline-block;
             border: 3px solid gray;
         }
-        
+
         #blue-box {
             background: white;
             border-radius: 15px;
         }
-        
+
         .float-frame {
             background: #eee;
             border: 1px solid #ddd;
             overflow: hidden;
         }
-        
+
         .float-unit {
             border: 1px;
             width: 16.6%;
@@ -229,11 +229,30 @@
                     var con_test = alert(Content);
                 })
             } else {
-                cell2.innerHTML = '이미지';
-                var element2 = document.createElement("input");
-                cell2.addEventListener('click', function(event) {
-                    $("#dialog").dialog();
-                })
+              cell2.innerHTML = '이미지';
+              var element2 = document.createElement("input");
+              cell2.addEventListener('click', function(event) {
+
+                  var x;
+                  var y;
+                  var img = new Image();
+                  img.onload = function() {
+                      x = this.width;
+                      y = this.height;
+                      //$("#dialog").dialog();
+                      farwindow = window.open('', 'Links', 'width=' + x + ', height=' + y + ', toolbar=0, scrollbars=0, resizable=yes');
+                      if (farwindow != null) {
+                          if (farwindow.opener == null) {
+                              farwindow.opener = self;
+                          }
+                          farwindow.location.href = Content;
+                      }
+                  };
+
+                  img.src = Content;
+
+
+              })
 
             }
 
