@@ -6595,8 +6595,10 @@ public class FirebaseManager {
 
     public void RegistFavoriteByAge(String favorite)
     {
-        DocumentReference docRef = mDataBase.collection("Favorite_Age").document(CommonFunc.getInstance().GetCurrentDate())
-                .collection("FavoriteList").document(Integer.toString(TKManager.getInstance().MyData.GetUserAge()));
+        DocumentReference docRef = mDataBase.collection("Favorite_Age_Per_Date").document(CommonFunc.getInstance().GetCurrentDate())
+                .collection("Favorite_Age").document(Integer.toString(TKManager.getInstance().MyData.GetUserAge()))
+                .collection("Favorite_List").document(favorite);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -6609,15 +6611,15 @@ public class FirebaseManager {
                         mDataBase.runTransaction(new Transaction.Function<Void>() {
                             @Override
                             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                                DocumentSnapshot snapshot = transaction.get(docRef);
 
+                                DocumentSnapshot snapshot = transaction.get(docRef);
                                 if(snapshot.getDouble(favorite) == null)
                                 {
-                                    Map<String, Object> popFavorite = new HashMap<>();
-                                    popFavorite.put(favorite, 1);
+                                    Map<String, Object> pushFavoriteCount = new HashMap<>();
+                                    pushFavoriteCount.put("count", 1);
 
                                     docRef
-                                            .set(popFavorite, SetOptions.merge())
+                                            .set(pushFavoriteCount, SetOptions.merge())
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
@@ -6634,12 +6636,9 @@ public class FirebaseManager {
                                 }
                                 else
                                 {
-                                    newPopulation[0] = snapshot.getDouble(favorite) + 1;
-                                    transaction.update(docRef, favorite, newPopulation[0]);
-                                    int tempIndex = (int)newPopulation[0];
+                                    double newPopulation = snapshot.getDouble("count") + 1;
+                                    transaction.update(docRef, "count", newPopulation);
                                 }
-
-
                                 // Success
                                 return null;
                             }
@@ -6659,11 +6658,11 @@ public class FirebaseManager {
                     } else {
                         Log.d(TAG, "No such document");
 
-                        Map<String, Object> popFavorite = new HashMap<>();
-                        popFavorite.put(favorite, 1);
+                        Map<String, Object> pushFavoriteCount = new HashMap<>();
+                        pushFavoriteCount.put("count", 1);
 
                         docRef
-                                .set(popFavorite, SetOptions.merge())
+                                .set(pushFavoriteCount, SetOptions.merge())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -6684,11 +6683,103 @@ public class FirebaseManager {
             }
         });
 
+
+//        DocumentReference docRef = mDataBase.collection("Favorite_Age").document(CommonFunc.getInstance().GetCurrentDate())
+//                .collection("FavoriteList").document(Integer.toString(TKManager.getInstance().MyData.GetUserAge()));
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//
+//                        final double[] newPopulation = new double[1];
+//                        mDataBase.runTransaction(new Transaction.Function<Void>() {
+//                            @Override
+//                            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+//                                DocumentSnapshot snapshot = transaction.get(docRef);
+//
+//                                if(snapshot.getDouble(favorite) == null)
+//                                {
+//                                    Map<String, Object> popFavorite = new HashMap<>();
+//                                    popFavorite.put(favorite, 1);
+//
+//                                    docRef
+//                                            .set(popFavorite, SetOptions.merge())
+//                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                @Override
+//                                                public void onSuccess(Void aVoid) {
+//                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+//                                                }
+//                                            })
+//                                            .addOnFailureListener(new OnFailureListener() {
+//                                                @Override
+//                                                public void onFailure(@NonNull Exception e) {
+//                                                    Log.w(TAG, "Error writing document", e);
+//                                                }
+//                                            });
+//
+//                                }
+//                                else
+//                                {
+//                                    newPopulation[0] = snapshot.getDouble(favorite) + 1;
+//                                    transaction.update(docRef, favorite, newPopulation[0]);
+//                                    int tempIndex = (int)newPopulation[0];
+//                                }
+//
+//
+//                                // Success
+//                                return null;
+//                            }
+//                        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                Log.d(TAG, "Transaction success!");
+//                            }
+//                        })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Log.w(TAG, "Transaction failure.", e);
+//                                    }
+//                                });
+//
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//
+//                        Map<String, Object> popFavorite = new HashMap<>();
+//                        popFavorite.put(favorite, 1);
+//
+//                        docRef
+//                                .set(popFavorite, SetOptions.merge())
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+//                                    }
+//                                })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Log.w(TAG, "Error writing document", e);
+//                                    }
+//                                });
+//
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
+
     }
 
     public void RegistFavoriteByTotalAge(String favorite)
     {
-        DocumentReference docRef = mDataBase.collection("Favorite_Age_Total").document(Integer.toString(TKManager.getInstance().MyData.GetUserAge()));
+        DocumentReference docRef = mDataBase.collection("Favorite_Age_Total").document(Integer.toString(TKManager.getInstance().MyData.GetUserAge()))
+                .collection("Favorite_List").document(favorite);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -6705,11 +6796,11 @@ public class FirebaseManager {
 
                                 if(snapshot.getDouble(favorite) == null)
                                 {
-                                    Map<String, Object> popFavorite = new HashMap<>();
-                                    popFavorite.put(favorite, 1);
+                                    Map<String, Object> pushFavoriteCount = new HashMap<>();
+                                    pushFavoriteCount.put("count", 1);
 
                                     docRef
-                                            .set(popFavorite, SetOptions.merge())
+                                            .set(pushFavoriteCount, SetOptions.merge())
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
@@ -6726,9 +6817,8 @@ public class FirebaseManager {
                                 }
                                 else
                                 {
-                                    newPopulation[0] = snapshot.getDouble(favorite) + 1;
-                                    transaction.update(docRef, favorite, newPopulation[0]);
-                                    int tempIndex = (int)newPopulation[0];
+                                    double newPopulation = snapshot.getDouble("count") + 1;
+                                    transaction.update(docRef, "count", newPopulation);
                                 }
 
 
@@ -6751,11 +6841,11 @@ public class FirebaseManager {
                     } else {
                         Log.d(TAG, "No such document");
 
-                        Map<String, Object> popFavorite = new HashMap<>();
-                        popFavorite.put(favorite, 1);
+                        Map<String, Object> pushFavoriteCount = new HashMap<>();
+                        pushFavoriteCount.put("count", 1);
 
                         docRef
-                                .set(popFavorite, SetOptions.merge())
+                                .set(pushFavoriteCount, SetOptions.merge())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
