@@ -5,86 +5,88 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>피프티하우스</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
 
-<style>
-@font-face{
-	font-family: 'KoPub';
-	src: url(font\KoPubWorld Dotum Bold.ttf);
-}
+<head>
+    <title>피프티하우스</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
 
-body{
-	font-family: KoPub
-}
+    <style>
+        @font-face {
+            font-family: 'KoPub';
+            src: url(font\KoPubWorld Dotum Bold.ttf);
+        }
+        
+        body {
+            font-family: KoPub
+        }
+        
+        .box {
+            width: 25%;
+            height: 100px;
+            display: inline-block;
+            border: 3px solid gray;
+        }
+        
+        #blue-box {
+            background: white;
+            border-radius: 15px;
+        }
+        
+        .float-frame {
+            background: #eee;
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+        
+        .float-unit {
+            border: 1px;
+            width: 16.6%;
+            height: auto;
+            background: #eee;
+            color: #333;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            padding-left: 5px;
+            float: left;
+        }
+    </style>
 
-.box {
-  width: 25%;
-  height: 100px;
-  display: inline-block;
-	 border:3px solid gray;
-}
+</head>
 
-#blue-box {
-  background: white;
-  border-radius: 15px;
-}
+<body class="is-preload">
 
-.float-frame {
-  background: #eee;
-  border: 1px solid #ddd;
-	overflow: hidden;
-}
+    <!-- Wrapper -->
+    <div id="wrapper">
 
-.float-unit {
-	border: 1px;
-  width: 16.6%;
-	height: auto;
-  background: #eee;
-  color: #333;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
-	padding-left: 5px;
-  float: left;
-}
-</style>
+        <!-- Main -->
+        <div id="main">
 
-	</head>
-	<body class="is-preload">
+            <div class="inner_over">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+                <header id="header">
+                    <a href="index.html" class="logo"><strong>공지 사항 등록</strong></a>
+                </header>
 
-				<!-- Main -->
-					<div id="main">
-
-						<div class="inner_over">
-
-							<header id="header">
-								<a href="index.html" class="logo"><strong>공지 사항 등록</strong></a>
-							</header>
-
-							<br>
-							<br>
-							<p>
-								 <span  type="input" class="indigo-text">제목</span><br>
-									<input id="Alarm_Title" name="abc" type="text" /><br>
-								 <span  type="input" class="indigo-text">내용</span><br>
-								 <input id="Alarm_Content" name="abc" type="text"  /><br>
-
-							 </p>
+                <br>
+                <br>
+                <p>
+                    <span type="input" class="indigo-text">제목</span><br>
+                    <input id="Alarm_Title" name="abc" type="text" /><br>
+                    <span type="input" class="indigo-text">내용</span><br>
+                    <input id="Alarm_Content" name="abc" type="text" /><br>
+                    <input type="file" name="file3" onchange="checkFile(this)"><br>
+                </p>
 
 
-							 							<p align="center">
-							 									<button id="BTN_ALARM" type="button" class="btn white indigo-text">공지사항 등록</button>
-							 							</p>
+                <p align="center">
+                    <button id="BTN_ALARM" type="button" class="btn white indigo-text">공지사항 등록</button>
+                </p>
 
-			<!-- <div class="limiter">
+                <!-- <div class="limiter">
 
 				<div class="table100 ver2 m-b-110">
 					<div class="table100-head">
@@ -115,57 +117,57 @@ body{
 
 
 						</div> -->
-					</div>
-	</div>
+            </div>
+        </div>
 
 
 
-				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="inner">
 
-							<!-- Search
+                <!-- Search
 								<section id="search" class="alt">
 									<form method="post" action="#">
 										<input type="text" name="query" id="query" placeholder="Search" />
 									</form>
 								</section>
 -->
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>메뉴</h2>
-									</header>
-									<ul>
-										<li>
-											<a href="index.html"><i class="fas fa-home">대시보드</i></a>
-									</li>
+                <!-- Menu -->
+                <nav id="menu">
+                    <header class="major">
+                        <h2>메뉴</h2>
+                    </header>
+                    <ul>
+                        <li>
+                            <a href="index.html"><i class="fas fa-home">대시보드</i></a>
+                        </li>
 
-										<li>
-											<span class="opener"><i class="fas fa-user">활동 현황</i></span>
-											<ul>
-												<li><a href="FiftyMember.html">회원 목록</a></li>
-												<li><a href="FiftyFavorite.html">관심사 목록</a></li>
-												<li><a href="FiftyClub.html">클럽 목록</a></li>
-												<!-- <li><a href="InvalidMember.html">만료 회원</a></li>
+                        <li>
+                            <span class="opener"><i class="fas fa-user">활동 현황</i></span>
+                            <ul>
+                                <li><a href="FiftyMember.html">회원 목록</a></li>
+                                <li><a href="FiftyFavorite.html">관심사 목록</a></li>
+                                <li><a href="FiftyClub.html">클럽 목록</a></li>
+                                <!-- <li><a href="InvalidMember.html">만료 회원</a></li>
 												<li><a href="readyMember.html">코치 배정 대기 회원</a></li>
 												<li><a href="registMember.html">회원 등록</a></li> -->
-											</ul>
-										</li>
+                            </ul>
+                        </li>
 
-										<li>
-											<span class="opener"><i class="fas fa-university">  알림</i></span>
-											<ul>
-												<li><a href="FiftyNotice.html">공지사항</a></li>
-												<li><a href="FiftyEvent.html">이벤트</a></li>
-												<li><a href="FiftyFAQ.html">FAQ</a></li>
-											</ul>
-										</li>
+                        <li>
+                            <span class="opener"><i class="fas fa-university">  알림</i></span>
+                            <ul>
+                                <li><a href="FiftyNotice.html">공지사항</a></li>
+                                <li><a href="FiftyEvent.html">이벤트</a></li>
+                                <li><a href="FiftyFAQ.html">FAQ</a></li>
+                            </ul>
+                        </li>
 
-								</nav>
+                </nav>
 
 
-							<!-- Section
+                <!-- Section
 								<section>
 									<header class="major">
 										<h2>Get in touch</h2>
@@ -180,67 +182,71 @@ body{
 								</section>
 								-->
 
-							<!-- Footer -->
-							<footer id="footer">
-								<p class="copyright"> Copyright@피프티하우스 CO.,LTD. All rights reserved</p>
-							</footer>
+                <!-- Footer -->
+                <footer id="footer">
+                    <p class="copyright"> Copyright@피프티하우스 CO.,LTD. All rights reserved</p>
+                </footer>
 
-						</div>
-					</div>
+            </div>
+        </div>
 
-			</div>
+    </div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
 
-			<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
-			<script src="./fireinit.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
+    <script src="./fireinit.js"></script>
 
-<script>
+    <script>
+        var db = firebase.firestore();
+        $("#BTN_ALARM").click(function() {
+            var Title = document.getElementById("Alarm_Title").value;
+            var Content = document.getElementById("Alarm_Content").value;
 
-var db = firebase.firestore();
+            if (Title == '' || Title == null || Title == undefined || Title == 0 || Title == NaN) {
+                alert('공지사항 내용을 입력해주세요');
+            } else {
+                var con_test = confirm("공지사항을 등록하시겠습니까?");
+                if (con_test == true) {
+                    document.getElementById("Alarm_Title").value = '';
+                    document.getElementById("Alarm_Content").value = '';
+                    alert('공지사항이 등록되었습니다');
+                } else if (con_test == false) {
+                    alert('공지사항 등록이 취소되었습니다');
+                }
+            }
+        });
 
+        function checkFile(el) {
 
+            // files 로 해당 파일 정보 얻기.
+            var file = el.files;
 
+            // file[0].size 는 파일 용량 정보입니다.
+            if (file[0].size > 1024 * 1024 * 2) {
+                // 용량 초과시 경고후 해당 파일의 용량도 보여줌
+                alert('2MB 이하 파일만 등록할 수 있습니다.\n\n' + '현재파일 용량 : ' + (Math.round(file[0].size / 1024 / 1024 * 100) / 100) + 'MB');
+            }
 
+            // 체크를 통과했다면 종료.
+            else return;
 
-				$("#BTN_ALARM").click(function() {
-					var Title = document.getElementById("Alarm_Title").value;
-					var Content = document.getElementById("Alarm_Content").value;
+            // 체크에 걸리면 선택된 내용 취소 처리를 해야함.
+            // 파일선택 폼의 내용은 스크립트로 컨트롤 할 수 없어, 새로 폼을 새로 써주는 방식으로 처리
+            el.outerHTML = el.outerHTML;
+        }
+    </script>
+</body>
 
-					if(Title == '' || Title == null || Title == undefined || Title == 0 || Title == NaN){
-						 alert( '공지사항 내용을 입력해주세요' );
-					 }
-					 else{
-						 var con_test = confirm("공지사항을 등록하시겠습니까?");
-						 if(con_test == true){
-
-
-							 document.getElementById("Alarm_Title").value = '';
-							 document.getElementById("Alarm_Content").value = '';
-							alert( '공지사항이 등록되었습니다' );
-						 }
-						 else if(con_test == false){
-								alert( '공지사항 등록이 취소되었습니다' );
-						 }
-					 }
-
-
-				});
-
-
-//SetData();
-</script>
-
-	</body>
 </html>
 
 

@@ -7,6 +7,10 @@
 <html>
 
 <head>
+    <!-- <form method="GET">
+        <label for="Age"></label>
+        <input type="text" name="Age">
+    </form> -->
     <title>피프티하우스</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -20,29 +24,29 @@
 			font-family: 'KoPub';
 			src: url(font\KoPubWorld Dotum Bold.ttf);
 		} */
-
+        
         body {
             font-family: KoPub
         }
-
+        
         .box {
             width: 25%;
             height: 100px;
             display: inline-block;
             border: 3px solid gray;
         }
-
+        
         #blue-box {
             background: white;
             border-radius: 15px;
         }
-
+        
         .float-frame {
             background: #eee;
             border: 1px solid #ddd;
             overflow: hidden;
         }
-
+        
         .float-unit {
             border: 1px;
             width: 16.6%;
@@ -56,12 +60,12 @@
             float: left;
         }
         /*datepicer 버튼 롤오버 시 손가락 모양 표시*/
-
+        
         .ui-datepicker-trigger {
             cursor: pointer;
         }
         /*datepicer input 롤오버 시 손가락 모양 표시*/
-
+        
         .hasDatepicker {
             cursor: pointer;
         }
@@ -78,12 +82,13 @@
         <div id="main">
             <div class="inner_over">
                 <header id="header">
-                    <a href="index.html" class="logo"><strong>연령대 별 관심사 목록</strong></a>
-                    <!-- <div> </div>
+
+                    <a href="FiftyFavorite.html" class="logo"><strong>연령대 별 관심사 목록 (detail) </strong></a>
+
                     <div class="lightpick__day-of-the-week">
                         <input type="text" id="start" /> ~~ <input type="text" id="end" />
                     </div>
-                    <div></div> -->
+                    <div></div>
                 </header>
 
 
@@ -206,58 +211,10 @@
         var db = firebase.firestore();
         var FavorSetEachAge = new Map();
         var g_MaxShowCntInAge = 5; // max show favorite count each ages
-        var GetFavoriteAge_Total_new_QueryCnt = 0;
-        GetFavoriteAge_Total_new();
+        var GetFavoriteAge_Total_QueryCnt = 0;
+        //GetFavoriteAgeEachGeneration(30, 0, 0);
 
-        // functions
-        function GetFavoriteAge_Total() {
-            var doc_FavoriteAge_Total = db.collection("Favorite_Age_Total");
-            // get data from collecton
-            doc_FavoriteAge_Total.get().then((querySnapshot) => {
-                if (querySnapshot) {
-                    querySnapshot.forEach((doc) => {
-                        let docs = doc.data();
-                        // for debug
-                        // console.log('문서의 id :' + doc.id);
-                        // for (let item in docs) {
-                        //     console.log('key :' + item);
-                        //     console.log('value :' + docs[item]);
-                        // }
-
-
-
-                        var myYear = new Date().getYear();
-                        var key = parseInt((myYear - doc.id) / 10) * 10;
-
-
-                        if (FavorSetEachAge.has(key)) {
-                            var Favorites = FavorSetEachAge.get(key);
-                            for (let item in docs) {
-                                if (Favorites.has(item)) {
-                                    var val = Favorites.get(item) + parseInt(docs[item]);
-                                    Favorites.set(item, val);
-                                } else {
-                                    Favorites.set(item, parseInt(docs[item]));
-                                }
-                            }
-                        } else {
-                            var Favorites = new Map();
-                            for (let item in docs) {
-                                Favorites.set(item, parseInt(docs[item]))
-                            }
-                            FavorSetEachAge.set(key, Favorites);
-                        }
-
-                    });
-                } else {
-                    console.log("can't find Document")
-                }
-
-
-                //Print_Favor_Age_For_Debug();
-                WebDisplay();
-            });
-        }
+        GetFavoriteAgeEachGeneration(0, 30001231); // Search in 0 ~ 3000-12-31
 
         function Print_Favor_Age_For_Debug() {
             // print FavorSet
@@ -269,65 +226,83 @@
             }
         }
 
-        function GetFavoriteAge_Total_new() {
-            var doc_FavoriteAge_Total = db.collection("Favorite_Age_Total");
-            // get data from collecton
-            doc_FavoriteAge_Total.get().then((querySnapshot) => {
+        function GetFavoriteAgeEachGeneration(queryStdate, queryEdDate) {
+            FavorSetEachAge.clear();
+            var Age = parseInt(Get_GETParameter("Age"));
+            var doc_FavoriteAge_Date = db.collection("Favorite_Age_Per_Date");
+            doc_FavoriteAge_Date.get().then((querySnapshot) => {
                 if (querySnapshot) {
-                    querySnapshot.forEach(doc => {
-                        //let AgeDocs = AgeDoc.data();
-                        // for debug
-                        // console.log('문서의 id :' + doc.id);
-                        // for (let item in docs) {
-                        //     console.log('key :' + item);
-                        //     console.log('value :' + docs[item]);
-                        // }
-                        var myYear = new Date().getYear();
-                        var key = parseInt((myYear - doc.id) / 10) * 10;
-                        var doc_Favorite_List = db.collection("Favorite_Age_Total").doc(doc.id).collection("Favorite_List");
-                        GetFavoriteAge_Total_new_QueryCnt++;
-                        doc_Favorite_List.get().then((querySnapshot) => {
-                            if (querySnapshot) {
-                                querySnapshot.forEach((doc) => {
-                                    var name = doc.id
-                                    var cnt = doc.data()["count"]
-                                        // console.log('Age :' + key);
-                                        // console.log('Favor :' + name);
-                                        // console.log('val :' + cnt);
+                    querySnapshot.forEach(doc_ref => {
+                        var doc_FavoriteAge = db.collection("Favorite_Age_Per_Date").doc(doc_ref.id).collection("Favorite_Age");
+                        date = parseInt(doc_ref.id)
 
 
-                                    if (FavorSetEachAge.has(key)) {
-                                        var Favorites = FavorSetEachAge.get(key);
-                                        if (Favorites.has(name)) {
-                                            var val = Favorites.get(name) + cnt;
-                                            Favorites.set(name, val);
-                                        } else {
-                                            Favorites.set(name, cnt);
+
+                        if (date >= queryStdate && date <= queryEdDate) {
+                            // get data from collecton
+                            doc_FavoriteAge.get().then((querySnapshot_2) => {
+                                if (querySnapshot_2) {
+                                    querySnapshot_2.forEach(doc => {
+                                        //let AgeDocs = AgeDoc.data();
+                                        // for debug
+                                        // console.log('문서의 id :' + doc.id);
+                                        // for (let item in docs) {
+                                        //     console.log('key :' + item);
+                                        //     console.log('value :' + docs[item]);
+                                        // }
+                                        var myYear = new Date().getYear();
+                                        var key = parseInt((myYear - doc.id));
+                                        var _k = parseInt(key / 10);
+                                        var _a = parseInt(Age / 10);
+
+                                        if (_k == _a) {
+                                            var doc_Favorite_List = db.collection("Favorite_Age_Per_Date").doc(doc_ref.id).collection("Favorite_Age").doc(doc.id).collection("Favorite_List");
+                                            GetFavoriteAge_Total_QueryCnt++;
+                                            doc_Favorite_List.get().then((querySnapshot_3) => {
+                                                if (querySnapshot_3) {
+                                                    querySnapshot_3.forEach((doc) => {
+                                                        var name = doc.id
+                                                        var cnt = doc.data()["count"]
+                                                            // console.log('Age :' + key);
+                                                            // console.log('Favor :' + name);
+                                                            // console.log('val :' + cnt);
+                                                        if (FavorSetEachAge.has(key)) {
+                                                            var Favorites = FavorSetEachAge.get(key);
+                                                            if (Favorites.has(name)) {
+                                                                var val = Favorites.get(name) + cnt;
+                                                                Favorites.set(name, val);
+                                                            } else {
+                                                                Favorites.set(name, cnt);
+                                                            }
+                                                        } else {
+                                                            var Favorites = new Map();
+                                                            Favorites.set(name, cnt);
+                                                            FavorSetEachAge.set(key, Favorites);
+                                                        }
+                                                    });
+                                                }
+                                                GetFavoriteAge_Total_QueryCnt--;
+                                                if (GetFavoriteAge_Total_QueryCnt == 0) {
+                                                    // sort item 
+                                                    for (let [key, value] of FavorSetEachAge) {
+                                                        value[Symbol.iterator] = function*() {
+                                                            yield*[...this.entries()].sort((a, b) => b[1] - a[1]);
+                                                        }
+                                                    }
+                                                    WebDisplay();
+                                                }
+                                            });
                                         }
-                                    } else {
-                                        var Favorites = new Map();
-                                        Favorites.set(name, cnt);
-                                        FavorSetEachAge.set(key, Favorites);
-                                    }
 
 
-                                });
-                            }
-                            GetFavoriteAge_Total_new_QueryCnt--;
-                            if (GetFavoriteAge_Total_new_QueryCnt == 0) {
-                                // sort item
-                                for (let [key, value] of FavorSetEachAge) {
-                                    value[Symbol.iterator] = function*() {
-                                        yield*[...this.entries()].sort((a, b) => b[1] - a[1]);
-                                    }
+                                    });
+                                    //Print_Favor_Age_For_Debug();
                                 }
-                                WebDisplay();
-                            }
-                        });
+                            });
+                        }
+
 
                     });
-                    //Print_Favor_Age_For_Debug();
-
                 }
             });
         }
@@ -337,6 +312,8 @@
         }
 
         function WebDisplay() {
+            var MemberData = document.getElementById('MemberData');
+            MemberData.innerHTML = "";
             for (var [key, Favorites] of FavorSetEachAge) {
                 var cellCnt = 0;
                 var cell2String = "";
@@ -348,16 +325,13 @@
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
                 cell1.setAttribute('class', 'cell100 column1');
-
-                cell1.addEventListener("click", function(event) {
-                    console.log(parseInt(String(event.target.innerHTML)));
-                    window.location.href = "FiftyfavoriteDetail.html?Age=" + parseInt(String(event.target.innerHTML))
-                });
-
+                // cell1.addEventListener("click", function(event) {
+                //     console.log(parseInt(String(event.target.innerHTML)));
+                // });
                 cell2.setAttribute('class', 'cell100 column2');
                 cell3.setAttribute('class', 'cell100 column3');
 
-                cell1.innerHTML = String(key).concat("대");
+                cell1.innerHTML = String(key).concat("세");
                 for (var [f_key, f_val] of Favorites) {
                     if (cellCnt == g_MaxShowCntInAge) {
                         break;
@@ -375,8 +349,42 @@
                 }
             }
         }
+
+        function Get_GETParameter(name) {
+            var rtnval = '';
+            var nowAddress = unescape(location.href);
+            var parameters = (nowAddress.slice(nowAddress.indexOf('?') + 1,
+                nowAddress.length)).split('&');
+            for (var i = 0; i < parameters.length; i++) {
+                var varName = parameters[i].split('=')[0];
+                if (varName.toUpperCase() == name.toUpperCase()) {
+                    rtnval = parameters[i].split('=')[1];
+                    break;
+                }
+            }
+            return rtnval;
+        }
     </script>
-    <script>
+    <!-- <script>
+        var Request = function() {
+            this.getParameter = function(name) {
+                var rtnval = '';
+                var nowAddress = unescape(location.href);
+                var parameters = (nowAddress.slice(nowAddress.indexOf('?') + 1,
+                    nowAddress.length)).split('&');
+                for (var i = 0; i < parameters.length; i++) {
+                    var varName = parameters[i].split('=')[0];
+                    if (varName.toUpperCase() == name.toUpperCase()) {
+                        rtnval = parameters[i].split('=')[1];
+                        break;
+                    }
+                }
+                return rtnval;
+            }
+        }
+        var request = new Request(); -->
+    </script>
+    <!-- <script>
         // $(function() {
         //     //모든 datepicker에 대한 공통 옵션 설정
         //     $.datepicker.setDefaults({
@@ -388,15 +396,15 @@
         //             ,
         //         changeYear: true //콤보박스에서 년 선택 가능
         //             ,
-        //         changeMonth: true //콤보박스에서 월 선택 가능
+        //         changeMonth: true //콤보박스에서 월 선택 가능                
         //             ,
-        //         showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
+        //         showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
         //             ,
         //         buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
         //             ,
         //         buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
         //             ,
-        //         buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
+        //         buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
         //             ,
         //         yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
         //             ,
@@ -410,7 +418,7 @@
         //             ,
         //         minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
         //             ,
-        //         maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+        //         maxDate: "+1M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                    
         //     });
 
         //     //input을 datepicker로 선언
@@ -422,24 +430,31 @@
         //     //To의 초기값을 내일로 설정
         //     $('#datepicker2').datepicker('setDate', '+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
         // });
-    </script>
-    <!-- <script>
+    </script> -->
+    <script>
         var picker = new Lightpick({
             //field: document.getElementById('datepicker')
             field: document.getElementById('start'),
-            secondField: document.getElementById('end')
-
+            secondField: document.getElementById('end'),
+            // onSelect: function(start, end) {
+            //     GetFavoriteAgeEachGeneration(start, end);
+            // }
+            onSelect: function(start, end) {
+                if (!start || !end) {
+                    return false;
+                }
+                var stDate = parseInt(start.format('YYYYMMDD'));
+                var edDate = parseInt(end.format('YYYYMMDD'));
+                var MemberData = document.getElementById('MemberData');
+                MemberData.innerHTML = "";
+                GetFavoriteAgeEachGeneration(stDate, edDate);
+            }
         });
-    </script> -->
+    </script>
 
 </body>
 
 </html>
-
-
-
-
-
 <!-- Banner -->
 <!--
 	<section id="banner">

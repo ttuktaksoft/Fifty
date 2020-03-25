@@ -68,42 +68,60 @@
             <div class="inner_over">
 
                 <header id="header">
-                    <a href="index.html" class="logo"><strong>FAQ</strong></a>
+                    <a href="index.html" class="logo"><strong>이벤트 등록</strong></a>
                 </header>
 
-                <div class="limiter">
-
-                    <div class="table100 ver2 m-b-110">
-                        <div class="table100-head">
-                            <table>
-                                <thead>
-                                    <tr class="row100 head">
-                                        <th class="cell100 column1">제목</th>
-                                        <th class="cell100 column2">내용</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="table100-body js-pscroll">
-                        <table id="MemberTable">
-                            <tbody id="NoticeData"> </tbody>
+                <br>
+                <br>
+                <p>
+                    <span type="input" class="indigo-text">제목</span><br>
+                    <input id="Alarm_Title" name="abc" type="text" /><br>
+                    <span type="input" class="indigo-text">내용</span><br>
+                    <input id="Alarm_Content" name="abc" type="text" /><br>
+                    <input type="file" name="file3" onchange="checkFile(this)"><br>
+                </p>
 
 
-                        </table>
+                <p align="center">
+                    <button id="BTN_ALARM" type="button" class="btn white indigo-text">이벤트 등록</button>
+                </p>
+
+                <!-- <div class="limiter">
+
+				<div class="table100 ver2 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">공지사항</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
+							<div class="table100-body js-pscroll">
+								<table  id = "MemberTable">
+									<tbody id="NoticeData">	</tbody>
 
 
-                    </div>
-
-                    <p align="center">
-                        <button id="BTN_ALARM" type="button" class="btn white indigo-text" onclick="location.href='FiftyUploadFAQ.html';">FAQ 등록</button>
-                    </p>
+								</table>
 
 
-                </div>
+							</div>
+
+							<p align="center">
+									<button id="BTN_ALARM" type="button" class="btn white indigo-text">공지사항 등록</button>
+							</p>
+
+
+
+						</div> -->
             </div>
         </div>
+
+
+
         <!-- Sidebar -->
         <div id="sidebar">
             <div class="inner">
@@ -190,82 +208,43 @@
 
     <script>
         var db = firebase.firestore();
+        $("#BTN_ALARM").click(function() {
+            var Title = document.getElementById("Alarm_Title").value;
+            var Content = document.getElementById("Alarm_Content").value;
 
-        db
-            .collection("Manager_FAQ")
-            .orderBy("Date", "desc")
-            .limit(10)
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    console.log(`${
-                doc.id
-            } => ${
-                doc.data()['NoticeType']
-            }`);
-
-                    SetAlarmHistory(doc.data()['Title'], doc.data()['Date'], doc.data()['Context'], doc.data()['NoticeType']);
-
-                });
-            });
-
-
-
-        function SetAlarmHistory(Title, Date, Content, Type) {
-
-            var row = NoticeData.insertRow(NoticeData.rows.length); // 하단에 추가
-
-            var cell1 = row.insertCell(0);
-            cell1.setAttribute('class', 'cell100 NoticeColumn1');
-
-            var cell2 = row.insertCell(1);
-            cell2.setAttribute('class', 'cell100 NoticeColumn2');
-
-            //	var cell3 = row.insertCell(2);
-            //		cell3.setAttribute('class', 'cell100 NoticeColumn3');
-
-            cell1.innerHTML = Title;
-
-            if (Type === '0') {
-                cell2.innerHTML = Content;
-                var element2 = document.createElement("input");
-                cell2.addEventListener('click', function(event) {
-                    var con_test = alert(Content);
-                })
+            if (Title == '' || Title == null || Title == undefined || Title == 0 || Title == NaN) {
+                alert('공지사항 내용을 입력해주세요');
             } else {
-                cell2.innerHTML = '이미지';
-                var element2 = document.createElement("input");
-                cell2.addEventListener('click', function(event) {
-                    $("#dialog").dialog();
-                })
+                var con_test = confirm("공지사항을 등록하시겠습니까?");
+                if (con_test == true) {
+                    document.getElementById("Alarm_Title").value = '';
+                    document.getElementById("Alarm_Content").value = '';
+                    alert('공지사항이 등록되었습니다');
+                } else if (con_test == false) {
+                    alert('공지사항 등록이 취소되었습니다');
+                }
+            }
+        });
 
+        function checkFile(el) {
+
+            // files 로 해당 파일 정보 얻기.
+            var file = el.files;
+
+            // file[0].size 는 파일 용량 정보입니다.
+            if (file[0].size > 1024 * 1024 * 2) {
+                // 용량 초과시 경고후 해당 파일의 용량도 보여줌
+                alert('2MB 이하 파일만 등록할 수 있습니다.\n\n' + '현재파일 용량 : ' + (Math.round(file[0].size / 1024 / 1024 * 100) / 100) + 'MB');
             }
 
+            // 체크를 통과했다면 종료.
+            else return;
 
-            //    var element3 = document.createElement("input");
-            //     cell3.innerHTML = Date;
-
-            /*
-              element3.type = "button";
-              element3.value = "삭제";
-              element3.addEventListener('click', function(event) {
-                    var con_test = confirm("푸시알림을 삭제하시겠습니까?");
-                    if(con_test == true){
-                        deleteLine(this);
-                    }
-                    else if(con_test == false){
-                       alert( '푸시알림 삭제가 취소되었습니다' );
-                    }
-              })
-              cell3.appendChild(element3);
-              */
-
-
+            // 체크에 걸리면 선택된 내용 취소 처리를 해야함.
+            // 파일선택 폼의 내용은 스크립트로 컨트롤 할 수 없어, 새로 폼을 새로 써주는 방식으로 처리
+            el.outerHTML = el.outerHTML;
         }
-
-        //SetData();
     </script>
-
 </body>
 
 </html>
