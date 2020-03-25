@@ -10,7 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+		<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
 
 <style>
 @font-face{
@@ -52,7 +52,99 @@ body{
 	padding-left: 5px;
   float: left;
 }
+
+th {
+	cursor: pointer;
+}
 </style>
+
+<script>
+
+	//$(document).ready(function(){
+
+		function sortTable(n, type) {
+		  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+		  table = document.getElementById("MemberTable");
+		  switching = true;
+		  //Set the sorting direction to ascending:
+		  dir = "asc";
+		  /*Make a loop that will continue until
+		  no switching has been done:*/
+		  while (switching) {
+			//start by saying: no switching is done:
+			switching = false;
+			rows = table.rows;
+			/*Loop through all table rows (except the
+			first, which contains table headers):*/
+			for (i = 0; i < (rows.length - 1); i++) {
+			  //start by saying there should be no switching:
+			  shouldSwitch = false;
+			  /*Get the two elements you want to compare,
+			  one from current row and one from the next:*/
+			  x = rows[i].getElementsByTagName("TD")[n];
+			  y = rows[i + 1].getElementsByTagName("TD")[n];
+			  /*check if the two rows should switch place,
+			  based on the direction, asc or desc:*/
+			  if (dir == "asc") {
+				if( type == "n" ) {
+					if( Number(x.innerHTML) < Number(y.innerHTML) ) {
+						shouldSwitch = true;
+						break;
+					}
+				}
+				else if( type == "s" ) {
+					if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+					  //if so, mark as a switch and break the loop:
+					  shouldSwitch = true;
+					  break;
+					}
+				} else {
+					//error
+					alert("type setting error");
+					break;
+				}
+
+			  } else if (dir == "desc") {
+				if( type == "n" ) {
+					if( Number(x.innerHTML) > Number(y.innerHTML) ) {
+						shouldSwitch = true;
+						break;
+					}
+				}
+				else if( type == "s" ) {
+					if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+					  //if so, mark as a switch and break the loop:
+					  shouldSwitch = true;
+					  break;
+					}
+				} else {
+					//error
+					alert("type setting error2");
+					break;
+				}
+			  }
+			}
+			if (shouldSwitch) {
+			  /*If a switch has been marked, make the switch
+			  and mark that a switch has been done:*/
+			  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+			  switching = true;
+			  //Each time a switch is done, increase this count by 1:
+			  switchcount ++;
+			} else {
+			  /*If no switching has been done AND the direction is "asc",
+			  set the direction to "desc" and run the while loop again.*/
+			  if (switchcount == 0 && dir == "asc") {
+				dir = "desc";
+				switching = true;
+			  }
+			}
+		  }
+		}
+
+//	});
+
+</script>
 
 	</head>
 	<body class="is-preload">
@@ -66,57 +158,54 @@ body{
 						<div class="inner_over">
 
 							<header id="header">
-								<a href="index.html" class="logo"><strong>대시보드</strong></a>
+								<a href="index.html" class="logo"><strong>회원 목록</strong></a>
 							</header>
 
-							<div class="float-frame">
-							  <div class="float-unit">
+							<p align="right">
+							<br><button type="button" onclick="fnExcelReport('MemberTable','회원현황');">Excel Download</button><br>
+							</p>
+
+			<div class="limiter">
+
+				<div class="table100 ver2 m-b-110">
+
+					<div class="table100-head">
+						<table id="myTable" class="table100-head">
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1" onclick="javascript:sortTable(0,'s')">닉네임</th>
+									<th class="cell100 column2" onclick="javascript:sortTable(1,'s')">성별</th>
+									<th class="cell100 column3" onclick="javascript:sortTable(2,'n')">나이</th>
+									<th class="cell100 column4" onclick="javascript:sortTable(3,'n')">방문자</th>
+									<th class="cell100 column5" onclick="javascript:sortTable(4,'n')">좋아요</th>
+									<th class="cell100 column6" onclick="javascript:sortTable(5,'n')">친구</th>
+									<th class="cell100 column7" onclick="javascript:sortTable(6,'s')">클럽</th>
+
+									<!-- <th class="cell100 column1">닉네임</th>
+									<th class="cell100 column2">성명</th>
+									<th class="cell100 column3">핸드폰 번호</th>
+									<th class="cell100 column4">성별</th>
+									<th class="cell100 column5">생년월일</th>
+									<th class="cell100 column6">방문자</th>
+									<th class="cell100 column7">좋아요</th>
+									<th class="cell100 column8">친구</th>
+									<th class="cell100 column9">클럽</th>
+									<th class="cell100 column10">관심사</th> -->
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+							<div class="table100-body js-pscroll">
+								<table  id = "MemberTable">
+									<tbody id="MemberData">	</tbody>
+								</table>
 
 
-
-								</div>
-								<div class="clear"> </div>
 							</div>
-
-
-							<section>
-								<header class="major">
-								</header>
-								<div class="features">
-									<article>
-										<span class="icon fa-gem"></span>
-										<div class="content">
-											<h3>전체 사용 유져</h3>
-											<p>23명</p>
-										</div>
-									</article>
-									<article>
-										<span class="icon solid fa-paper-plane"></span>
-										<div class="content">
-											<h3>전체 클럽 갯수 </h3>
-											<p>7개</p>
-										</div>
-									</article>
-									<article>
-										<span class="icon solid fa-rocket"></span>
-										<div class="content">
-											<h3>전체 관심사 갯수 </h3>
-											<p>107개</p>
-										</div>
-									</article>
-									<article>
-										<span class="icon solid fa-signal"></span>
-										<div class="content">
-											<h3>인기 검색어 갯수</h3>
-											<p>5개</p>
-										</div>
-									</article>
-								</div>
-							</section>
-
 						</div>
 					</div>
-
+	</div>
 				<!-- Sidebar -->
 					<div id="sidebar">
 						<div class="inner">
@@ -139,7 +228,7 @@ body{
 									</li>
 
 										<li>
-											<span class="opener"><i class="fas fa-user">현황 관리</i></span>
+											<span class="opener"><i class="fas fa-user">활동 현황</i></span>
 											<ul>
 												<li><a href="FiftyMember.html">회원 목록</a></li>
 												<li><a href="FiftyFavorite.html">관심사 목록</a></li>
@@ -162,33 +251,6 @@ body{
 								</nav>
 
 
-
-
-							<!-- Section
-								<section>
-									<header class="major">
-										<h2>Ante interdum</h2>
-									</header>
-									<div class="mini-posts">
-										<article>
-											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-									</div>
-									<ul class="actions">
-										<li><a href="#" class="button">More</a></li>
-									</ul>
-								</section>
-								-->
-
 							<!-- Section
 								<section>
 									<header class="major">
@@ -208,103 +270,194 @@ body{
 							<footer id="footer">
 								<p class="copyright"> Copyright@피프티하우스 CO.,LTD. All rights reserved</p>
 							</footer>
+
 						</div>
 					</div>
 
 			</div>
 
-		<!-- Scripts -->
+			<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+			<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
+			<script src="./fireinit.js"></script>
+
+<script>
+
+var db = firebase.firestore();
+
+SetData();
+function SetData()
+{
+
+	var MemberData = document.getElementById('MemberData');
+
+	var today = new Date();
+
+	var year = today.getYear();
+
+	db
+	.collection("UserData")
+	.orderBy("NickName", "asc")
+	//.limit(10)
+	.get()
+	.then((querySnapshot) => {
+		querySnapshot.forEach((doc) => {
+			console.log(`${
+				doc.id
+			} => ${
+				doc.data()['NickName']
+			}`);
+
+			var Index = doc.data()['Index'];
+			var NickName = doc.data()['NickName'];
+			var Gender = doc.data()['Gender'];
+			var Age = doc.data()['Age'];
+			var Visit = 0;
+			var Like = 0;
+			var Friend = 0;
+			var Club = 0;
+
+			var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
+
+			var cell1 = row.insertCell(0);
+			cell1.setAttribute('class', 'cell100 column1');
+
+			var cell2 = row.insertCell(1);
+			cell2.setAttribute('class', 'cell100 column2');
+
+			var cell3 = row.insertCell(2);
+			cell3.setAttribute('class', 'cell100 column3');
+
+			var cell4 = row.insertCell(3);
+			cell4.setAttribute('class', 'cell100 column4');
+
+			var cell5 = row.insertCell(4);
+			cell5.setAttribute('class', 'cell100 column5');
+
+			var cell6 = row.insertCell(5);
+			cell6.setAttribute('class', 'cell100 column6');
+
+			var cell7 = row.insertCell(6);
+			cell7.setAttribute('class', 'cell100 column7');
+
+			cell1.innerHTML = doc.data()['NickName'];
+			if(Gender === 0)
+			{
+				cell2.innerHTML = '남성';
+			}
+
+			else
+			{
+				cell2.innerHTML = '여성';
+			}
+
+			cell3.innerHTML = year - Number(doc.data()['Age']) + 1;
+			cell4.innerHTML = doc.data()['TotalVisit'];
+			cell5.innerHTML = doc.data()['TotalLike'];
+			cell6.innerHTML = 0;
+
+			var ClubIndex = 0;
+			db
+				.collection("UserData").doc(Index).collection("ClubList")
+					//.limit(1)
+				.get()
+				.then((querySnapshot) => {
+					querySnapshot.forEach((doc) => {
+
+							ClubIndex =   doc.data()['index'];
+
+							if(ClubIndex != 0)
+							{
+								var docRef = db.collection("ClubData").doc(ClubIndex);
+
+								docRef.get().then(function(doc) {
+									if (doc.exists) {
+											console.log("Document data:", doc.data()['ClubName']);
+											if( cell7.innerHTML.length == 0 ) {
+												cell7.innerHTML = doc.data()['ClubName'];
+											} else {
+												cell7.innerHTML += ', ' + doc.data()['ClubName'];
+											}
+									} else {
+											// doc.data() will be undefined in this case
+											cell7.innerHTML = 0;
+									}
+								}).catch(function(error) {
+									console.log("Error getting document:", error);
+								});
+							}
+							else {
+									cell7.innerHTML = '없음';
+							}
+
+
+					});
+				});
+			});
+		});
+
+}
+
+
+</script>
+
+<script>
+	function fnExcelReport(id, title) {
+		var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
+		tab_text = tab_text
+				+ '<head><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">';
+		tab_text = tab_text
+				+ '<xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>'
+		tab_text = tab_text + '<x:Name>회원 목록</x:Name>';
+		tab_text = tab_text
+				+ '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
+		tab_text = tab_text
+				+ '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
+		tab_text = tab_text + "<table border='1px'>";
+		var exportTable = $('#' + id).clone();
+		exportTable.find('input').each(function(index, elem) {
+			$(elem).remove();
+		});
+		tab_text = tab_text + '<tr><th style="background-color:#e3f2fd">닉네임</th><th style="background-color:#e3f2fd">성별</th><th style="background-color:#e3f2fd">나이</th>'
+		tab_text = tab_text + '<th style="background-color:#e3f2fd">방문자</th><th style="background-color:#e3f2fd">좋아요</th>'
+		tab_text = tab_text + '<th style="background-color:#e3f2fd">친구</th><th style="background-color:#e3f2fd">클럽</th></tr>'
+		tab_text = tab_text + exportTable.html();
+		tab_text = tab_text + '</table></body></html>';
+		var data_type = 'data:application/vnd.ms-excel';
+		var ua = window.navigator.userAgent;
+		var msie = ua.indexOf("MSIE ");
+		var fileName = title + '.xls';
+		//Explorer 환경에서 다운로드
+		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+			if (window.navigator.msSaveBlob) {
+				var blob = new Blob([ tab_text ], {
+					type : "application/csv;charset=utf-8;"
+				});
+				navigator.msSaveBlob(blob, fileName);
+			}
+		} else {
+			var blob2 = new Blob([ tab_text ], {
+				type : "application/csv;charset=utf-8;"
+			});
+			var filename = fileName;
+			var elem = window.document.createElement('a');
+			elem.href = window.URL.createObjectURL(blob2);
+			elem.download = filename;
+			document.body.appendChild(elem);
+			elem.click();
+			document.body.removeChild(elem);
+		}
+	}
+</script>
+
 	</body>
 </html>
-
-
-
-
-
-<!-- Banner -->
-<!--
-	<section id="banner">
-		<div class="content">
-			<header>
-				<h1>Hi, I’m Editorial<br />
-				by HTML5 UP</h1>
-				<p>A free and fully responsive site template</p>
-			</header>
-			<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
-			<ul class="actions">
-				<li><a href="#" class="button big">Learn More</a></li>
-			</ul>
-		</div>
-		<span class="image object">
-			<img src="images/pic10.jpg" alt="" />
-		</span>
-	</section>
--->
-<!-- Section -->
-
-
-
-<!-- Section -->
-<!--
-	<section>
-		<header class="major">
-			<h2>Ipsum sed dolor</h2>
-		</header>
-		<div class="posts">
-			<article>
-				<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-				<h3>Interdum aenean</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-				<h3>Nulla amet dolore</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-				<h3>Tempus ullamcorper</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-				<h3>Sed etiam facilis</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-				<h3>Feugiat lorem aenean</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-				<h3>Amet varius aliquam</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-		</div>
-	</section>
--->

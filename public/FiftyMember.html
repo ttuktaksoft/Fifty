@@ -59,15 +59,15 @@ th {
 </style>
 
 <script>
-		
+
 	//$(document).ready(function(){
-	
+
 		function sortTable(n, type) {
 		  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
 		  table = document.getElementById("MemberTable");
 		  switching = true;
 		  //Set the sorting direction to ascending:
-		  dir = "asc"; 
+		  dir = "asc";
 		  /*Make a loop that will continue until
 		  no switching has been done:*/
 		  while (switching) {
@@ -103,7 +103,7 @@ th {
 					alert("type setting error");
 					break;
 				}
-				
+
 			  } else if (dir == "desc") {
 				if( type == "n" ) {
 					if( Number(x.innerHTML) > Number(y.innerHTML) ) {
@@ -130,7 +130,7 @@ th {
 			  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
 			  switching = true;
 			  //Each time a switch is done, increase this count by 1:
-			  switchcount ++;      
+			  switchcount ++;
 			} else {
 			  /*If no switching has been done AND the direction is "asc",
 			  set the direction to "desc" and run the while loop again.*/
@@ -141,9 +141,9 @@ th {
 			}
 		  }
 		}
-		
+
 //	});
-	
+
 </script>
 
 	</head>
@@ -161,9 +161,14 @@ th {
 								<a href="index.html" class="logo"><strong>회원 목록</strong></a>
 							</header>
 
+							<p align="right">
+							<br><button type="button" onclick="fnExcelReport('MemberTable','회원현황');">Excel Download</button><br>
+							</p>
+
 			<div class="limiter">
 
 				<div class="table100 ver2 m-b-110">
+
 					<div class="table100-head">
 						<table id="myTable" class="table100-head">
 							<thead>
@@ -191,16 +196,13 @@ th {
 						</table>
 					</div>
 				</div>
-
 							<div class="table100-body js-pscroll">
 								<table  id = "MemberTable">
 									<tbody id="MemberData">	</tbody>
 								</table>
 
 
-							</div>	
-
-
+							</div>
 						</div>
 					</div>
 	</div>
@@ -273,7 +275,7 @@ th {
 					</div>
 
 			</div>
-			
+
 			<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
@@ -296,400 +298,166 @@ SetData();
 function SetData()
 {
 
-		var MemberData = document.getElementById('MemberData');
+	var MemberData = document.getElementById('MemberData');
 
-			db
-			    .collection("UserData")
-			    .orderBy("NickName", "asc")
-			    //.limit(10)
-			    .get()
-			    .then((querySnapshot) => {
-			        querySnapshot.forEach((doc) => {
-			            console.log(`${
-			                doc.id
-			            } => ${
-			                doc.data()['NickName']
-			            }`);
+	var today = new Date();
 
-									var Index = doc.data()['Index'];
-									var NickName = doc.data()['NickName'];
-									var Gender = doc.data()['Gender'];
-									var Age = doc.data()['Age'];
-									var Visit = 0;
-									var Like = 0;
-									var Friend = 0;
-									var Club = 0;
+	var year = today.getYear();
 
-									var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
+	db
+	.collection("UserData")
+	.orderBy("NickName", "asc")
+	//.limit(10)
+	.get()
+	.then((querySnapshot) => {
+		querySnapshot.forEach((doc) => {
+			console.log(`${
+				doc.id
+			} => ${
+				doc.data()['NickName']
+			}`);
 
-									var cell1 = row.insertCell(0);
-									cell1.setAttribute('class', 'cell100 column1');
+			var Index = doc.data()['Index'];
+			var NickName = doc.data()['NickName'];
+			var Gender = doc.data()['Gender'];
+			var Age = doc.data()['Age'];
+			var Visit = 0;
+			var Like = 0;
+			var Friend = 0;
+			var Club = 0;
 
-									var cell2 = row.insertCell(1);
-									cell2.setAttribute('class', 'cell100 column2');
+			var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
 
-									var cell3 = row.insertCell(2);
-									cell3.setAttribute('class', 'cell100 column3');
+			var cell1 = row.insertCell(0);
+			cell1.setAttribute('class', 'cell100 column1');
 
-									var cell4 = row.insertCell(3);
-									cell4.setAttribute('class', 'cell100 column4');
+			var cell2 = row.insertCell(1);
+			cell2.setAttribute('class', 'cell100 column2');
 
-									var cell5 = row.insertCell(4);
-									cell5.setAttribute('class', 'cell100 column5');
+			var cell3 = row.insertCell(2);
+			cell3.setAttribute('class', 'cell100 column3');
 
-									var cell6 = row.insertCell(5);
-									cell6.setAttribute('class', 'cell100 column6');
+			var cell4 = row.insertCell(3);
+			cell4.setAttribute('class', 'cell100 column4');
 
-									var cell7 = row.insertCell(6);
-									cell7.setAttribute('class', 'cell100 column7');
+			var cell5 = row.insertCell(4);
+			cell5.setAttribute('class', 'cell100 column5');
 
-									cell1.innerHTML = doc.data()['NickName'];
-									if(Gender === 0)
-									{
-										cell2.innerHTML = '남성';
-									}
+			var cell6 = row.insertCell(5);
+			cell6.setAttribute('class', 'cell100 column6');
 
-									else
-									{
-										cell2.innerHTML = '여성';
-									}
+			var cell7 = row.insertCell(6);
+			cell7.setAttribute('class', 'cell100 column7');
 
-									cell3.innerHTML = doc.data()['Age'];
-									cell4.innerHTML = doc.data()['TotalVisit'];
-									cell5.innerHTML = doc.data()['TotalLike'];
-									cell6.innerHTML = 0;
-
-									var ClubIndex = 0;
-									db
-									    .collection("UserData").doc(Index).collection("ClubList")
-											//.limit(1)
-									    .get()
-									    .then((querySnapshot) => {
-									        querySnapshot.forEach((doc) => {
-
-													ClubIndex =   doc.data()['index'];
-
-													if(ClubIndex != 0)
-													{
-														var docRef = db.collection("ClubData").doc(ClubIndex);
-
-														docRef.get().then(function(doc) {
-															if (doc.exists) {
-																	console.log("Document data:", doc.data()['ClubName']);
-																	if( cell7.innerHTML.length == 0 ) {
-																		cell7.innerHTML = doc.data()['ClubName'];
-																	} else {
-																		cell7.innerHTML += ', ' + doc.data()['ClubName'];
-																	}
-															} else {
-																	// doc.data() will be undefined in this case
-																	cell7.innerHTML = 0;
-															}
-														}).catch(function(error) {
-															console.log("Error getting document:", error);
-														});
-													}
-													else {
-															cell7.innerHTML = '없음';
-													}
-
-													
-									            // console.log(`${
-									            //     doc.id
-									            // } => ${
-									            //     doc.data()['index']
-									            // }`);
-
-
-									        });
-									    });
-
-									// var NickName = '미 등록'
-									// var Name = '미 배정';
-									// var Phone= '미 등록';
-									// var Gender = '미 등록';
-									// var Birth = '미 등록';
-									// var Visit = 0;
-									// var Like = 0;
-									// var Friend = 0;
-									// var Club = 0;
-									// var Favorite = 0;
-
-			        });
-			    });
-
-
-	var dbTestRef = firebase.database().ref('/UserData')
-	dbTestRef.on('child_added', function(data){
-
-
-
-		var LastlessonName = '미 등록'
-		var CoachName = '미 배정';
-		var lessonStart= '미 등록';
-		var lessonEnd = '미 등록';
-		var lessonMsg = '미 등록';
-		var lessonCount = 0;
-		var lessonCancelCount = 0;
-		var lessonServiceCount = 0;
-		var lessonTotalCount = 0;
-
-		var MemberData = document.getElementById('MemberData');
-
-		// var row = my_tbody.insertRow(0); // 상단에 추가
-		var row = MemberData.insertRow( MemberData.rows.length ); // 하단에 추가
-
-		var cell1 = row.insertCell(0);
-		cell1.setAttribute('class', 'cell100 column1');
-
-		var cell2 = row.insertCell(1);
-		cell2.setAttribute('class', 'cell100 column2');
-
-		var cell3 = row.insertCell(2);
-		cell3.setAttribute('class', 'cell100 column3');
-
-		var cell4 = row.insertCell(3);
-		cell4.setAttribute('class', 'cell100 column4');
-
-		var cell5 = row.insertCell(4);
-		cell5.setAttribute('class', 'cell100 column5');
-
-		var cell6 = row.insertCell(5);
-		cell6.setAttribute('class', 'cell100 column6');
-
-		var cell7 = row.insertCell(6);
-		cell7.setAttribute('class', 'cell100 column7');
-
-		var cell8 = row.insertCell(7);
-		cell8.setAttribute('class', 'cell100 column8');
-
-		var cell9 = row.insertCell(8);
-		cell9.setAttribute('class', 'cell100 column9');
-
-		var cell10 = row.insertCell(9);
-		cell10.setAttribute('class', 'cell100 column10');
-
-		cell1.innerHTML = data.val().Name;
-		cell2.innerHTML = inputPhoneNumber(data.val().PhoneNumber);
-		cell3.innerHTML = LastlessonName;
-
-
-		firebase.database().ref('/UserData/'+data.key.toString()).child('LessonIndexList').limitToLast(2).on('child_added', function(LastLesson){
-
-			if(LastLesson.key === 'LessonCount')
+			cell1.innerHTML = doc.data()['NickName'];
+			if(Gender === 0)
 			{
-
+				cell2.innerHTML = '남성';
 			}
-			else {
-				console.log(LastLesson.val(), 'key: ', LastLesson.key)
 
-				firebase.database().ref('/LessonData/'+LastLesson.key.toString()).on('child_added', function(LastLessonInfo){
+			else
+			{
+				cell2.innerHTML = '여성';
+			}
 
-							//console.log(LastLessonInfo.val(), 'key: ', LastLessonInfo.key)
+			cell3.innerHTML = year - Number(doc.data()['Age']) + 1;
+			cell4.innerHTML = doc.data()['TotalVisit'];
+			cell5.innerHTML = doc.data()['TotalLike'];
+			cell6.innerHTML = 0;
 
-					if(LastLessonInfo.key === 'ProductIndex')
-					{
-						firebase.database().ref('/ProductData/'+LastLessonInfo.val().toString()).on('child_added', function(LastLessonProductInfo){
-							if(LastLessonProductInfo.key === 'Name')
-									cell3.innerHTML = LastLessonProductInfo.val();
-						});
-					}
+			var ClubIndex = 0;
+			db
+				.collection("UserData").doc(Index).collection("ClubList")
+					//.limit(1)
+				.get()
+				.then((querySnapshot) => {
+					querySnapshot.forEach((doc) => {
 
-					else if(LastLessonInfo.key === 'SeriesIndex'){
-									console.log(LastLessonInfo.val().length, 'SeriesIndex key: ', LastLessonInfo.key);
+							ClubIndex =   doc.data()['index'];
 
-									lessonTotalCount = LastLessonInfo.val().length;
-									for(var seriesIndex = 0; seriesIndex < LastLessonInfo.val().length; seriesIndex++)
-									{
-										CoachName = LastLessonInfo.val()[seriesIndex].CoachIndex;
-										lessonStart = LastLessonInfo.val()[seriesIndex].ReservationTime;
-										lessonEnd = LastLessonInfo.val()[seriesIndex].ReservationTime;
-										lessonMsg = LastLessonInfo.val()[seriesIndex].Msg;
-										lessonCount = seriesIndex;
+							if(ClubIndex != 0)
+							{
+								var docRef = db.collection("ClubData").doc(ClubIndex);
 
-										if(LastLessonInfo.val()[seriesIndex].State === 0)
-										{
-											break;
-										}
-										else if(LastLessonInfo.val()[seriesIndex].State === 2){
-											lessonCancelCount += 1;
-										}
-										else {
-										}
-
-										// else if(LastLessonInfo.val()[seriesIndex].CoachIndex != -1){
-										// 	firebase.database().ref('/CoachData/'+LastLessonInfo.val()[seriesIndex].CoachIndex.toString()).on('child_added', function(CoachData){
-										// 		if(CoachData.key === 'Name')
-										// 		{
-										// 		cell4.innerHTML =CoachData.val();
-										// 		}
-										// 	});
-										// 	break;
-										// }
-										// else if(LastLessonInfo.val()[seriesIndex].ReservationTime != 0){
-										// 	if(LastLessonProductInfo.key === 'Name')
-										// 			cell3.innerHTML = LastLessonProductInfo.val();
-										// }
+								docRef.get().then(function(doc) {
+									if (doc.exists) {
+											console.log("Document data:", doc.data()['ClubName']);
+											if( cell7.innerHTML.length == 0 ) {
+												cell7.innerHTML = doc.data()['ClubName'];
+											} else {
+												cell7.innerHTML += ', ' + doc.data()['ClubName'];
+											}
+									} else {
+											// doc.data() will be undefined in this case
+											cell7.innerHTML = 0;
 									}
+								}).catch(function(error) {
+									console.log("Error getting document:", error);
+								});
+							}
+							else {
+									cell7.innerHTML = '없음';
+							}
 
-									cell5.innerHTML = lessonStart;
-									cell6.innerHTML = lessonEnd;
-									cell7.innerHTML = lessonMsg;
-									cell8.innerHTML = lessonCount + '/' + lessonTotalCount;
-									cell9.innerHTML = lessonCancelCount ;
-									cell10.innerHTML = lessonServiceCount ;
 
-									if(CoachName != -1)
-									{
-										firebase.database().ref('/CoachData/'+CoachName.toString()).on('child_added', function(CoachData){
-												if(CoachData.key === 'Name')
-												{
-														cell4.innerHTML =CoachData.val();
-												}
-											});
-									}
-
-									console.log(LastLessonInfo.val()[0].CoachIndex, 'SeriesIndex 0: ', LastLessonInfo.key);
-
-					}
+					});
 				});
-			}
+			});
 		});
 
-
-		cell4.innerHTML = CoachName;
-		cell5.innerHTML = lessonStart;
-		cell6.innerHTML = lessonEnd;
-		cell7.innerHTML = lessonMsg;
-		cell8.innerHTML = lessonCount + '/' + lessonTotalCount;
-		cell9.innerHTML = lessonCancelCount ;
-		cell10.innerHTML = lessonServiceCount ;
-
-		})
 }
 
 
 </script>
 
+<script>
+	function fnExcelReport(id, title) {
+		var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
+		tab_text = tab_text
+				+ '<head><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">';
+		tab_text = tab_text
+				+ '<xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>'
+		tab_text = tab_text + '<x:Name>회원 목록</x:Name>';
+		tab_text = tab_text
+				+ '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
+		tab_text = tab_text
+				+ '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
+		tab_text = tab_text + "<table border='1px'>";
+		var exportTable = $('#' + id).clone();
+		exportTable.find('input').each(function(index, elem) {
+			$(elem).remove();
+		});
+		tab_text = tab_text + '<tr><th style="background-color:#e3f2fd">닉네임</th><th style="background-color:#e3f2fd">성별</th><th style="background-color:#e3f2fd">나이</th>'
+		tab_text = tab_text + '<th style="background-color:#e3f2fd">방문자</th><th style="background-color:#e3f2fd">좋아요</th>'
+		tab_text = tab_text + '<th style="background-color:#e3f2fd">친구</th><th style="background-color:#e3f2fd">클럽</th></tr>'
+		tab_text = tab_text + exportTable.html();
+		tab_text = tab_text + '</table></body></html>';
+		var data_type = 'data:application/vnd.ms-excel';
+		var ua = window.navigator.userAgent;
+		var msie = ua.indexOf("MSIE ");
+		var fileName = title + '.xls';
+		//Explorer 환경에서 다운로드
+		if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+			if (window.navigator.msSaveBlob) {
+				var blob = new Blob([ tab_text ], {
+					type : "application/csv;charset=utf-8;"
+				});
+				navigator.msSaveBlob(blob, fileName);
+			}
+		} else {
+			var blob2 = new Blob([ tab_text ], {
+				type : "application/csv;charset=utf-8;"
+			});
+			var filename = fileName;
+			var elem = window.document.createElement('a');
+			elem.href = window.URL.createObjectURL(blob2);
+			elem.download = filename;
+			document.body.appendChild(elem);
+			elem.click();
+			document.body.removeChild(elem);
+		}
+	}
+</script>
+
 	</body>
 </html>
-
-
-
-
-
-<!-- Banner -->
-<!--
-	<section id="banner">
-		<div class="content">
-			<header>
-				<h1>Hi, I’m Editorial<br />
-				by HTML5 UP</h1>
-				<p>A free and fully responsive site template</p>
-			</header>
-			<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
-			<ul class="actions">
-				<li><a href="#" class="button big">Learn More</a></li>
-			</ul>
-		</div>
-		<span class="image object">
-			<img src="images/pic10.jpg" alt="" />
-		</span>
-	</section>
--->
-<!-- Section -->
-<!--
-	<section>
-		<header class="major">
-			<h2>Erat lacinia</h2>
-		</header>
-		<div class="features">
-			<article>
-				<span class="icon fa-gem"></span>
-				<div class="content">
-					<h3>Portitor ullamcorper</h3>
-					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				</div>
-			</article>
-			<article>
-				<span class="icon solid fa-paper-plane"></span>
-				<div class="content">
-					<h3>Sapien veroeros</h3>
-					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				</div>
-			</article>
-			<article>
-				<span class="icon solid fa-rocket"></span>
-				<div class="content">
-					<h3>Quam lorem ipsum</h3>
-					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				</div>
-			</article>
-			<article>
-				<span class="icon solid fa-signal"></span>
-				<div class="content">
-					<h3>Sed magna finibus</h3>
-					<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				</div>
-			</article>
-		</div>
-	</section>
--->
-<!-- Section -->
-<!--
-	<section>
-		<header class="major">
-			<h2>Ipsum sed dolor</h2>
-		</header>
-		<div class="posts">
-			<article>
-				<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-				<h3>Interdum aenean</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-				<h3>Nulla amet dolore</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-				<h3>Tempus ullamcorper</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-				<h3>Sed etiam facilis</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-				<h3>Feugiat lorem aenean</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-			<article>
-				<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-				<h3>Amet varius aliquam</h3>
-				<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-				<ul class="actions">
-					<li><a href="#" class="button">More</a></li>
-				</ul>
-			</article>
-		</div>
-	</section>
--->
