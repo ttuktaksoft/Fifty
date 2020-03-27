@@ -108,8 +108,8 @@ public class AuthActivity extends AppCompatActivity {
                                     int nAge = currentYear - nBirthYear + 1;
 
                                   //  final int i = Integer.parseInt(String.valueOf(response.body().response.birth));
-                                    //if (nAge >= 50) {
-                                    if (nAge >= 20) {
+                                    if (nAge >= 50) {
+                                   // if (nAge >= 20) {
 
                                         String tempGender = String.valueOf(response.body().response.gender);
                                         if(tempGender.equals("male"))

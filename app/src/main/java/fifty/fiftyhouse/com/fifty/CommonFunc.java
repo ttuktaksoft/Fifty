@@ -1311,6 +1311,7 @@ public class CommonFunc {
 
         if(boot)
         {
+            //FirebaseManager.getInstance().RegistFavoriteHistory();
             GetChatReadIndex(activity);
 
             FirebaseManager.CheckFirebaseComplete listener = new FirebaseManager.CheckFirebaseComplete() {
