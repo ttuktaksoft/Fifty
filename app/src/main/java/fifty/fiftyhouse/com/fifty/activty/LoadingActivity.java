@@ -113,7 +113,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                         int permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION);
                         int permissionPhone = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_PHONE_STATE);
-                        int permissionSMS = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_SMS);
+                       // int permissionSMS = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_SMS);
 
 
                         SharedPreferences sf = getSharedPreferences("userFile", MODE_PRIVATE);
@@ -124,8 +124,9 @@ public class LoadingActivity extends AppCompatActivity {
 
                         //Log.d("#@!!",  userIndex);
                         if (CommonFunc.getInstance().CheckStringNull(userIndex)) {
-                            if (permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED || permissionSMS == PackageManager.PERMISSION_DENIED) {
-                                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_LOCATION);
+                            if (permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED /*|| permissionSMS == PackageManager.PERMISSION_DENIED*/) {
+//                                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_LOCATION);
+                                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE}, REQUEST_LOCATION);
 
                             } else {
 
@@ -137,8 +138,9 @@ public class LoadingActivity extends AppCompatActivity {
 
                             TKManager.getInstance().MyData.SetUserIndex(userIndex);
 
-                            if (permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED || permissionSMS == PackageManager.PERMISSION_DENIED) {
-                                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_KAKAO);
+                            if (permissionCamera == PackageManager.PERMISSION_DENIED || permissionPhone == PackageManager.PERMISSION_DENIED /*|| permissionSMS == PackageManager.PERMISSION_DENIED*/) {
+                                //ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_SMS}, REQUEST_KAKAO);
+                                ActivityCompat.requestPermissions(LoadingActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE}, REQUEST_KAKAO);
                                 Log.e("#@!!", " requestPermissions KAKAO_LOGIN_ALL");
                             } else {
                                 DialogFunc.getInstance().ShowLoadingPage(LoadingActivity.this);
@@ -240,7 +242,7 @@ public class LoadingActivity extends AppCompatActivity {
                     //Logger.d("profile image: " + response.getKakaoAccount().getProfileImagePath());
                     String tempUid = properties.get("Index");
                     //    Log.e("#@!!", tempUid);
-                    //  tempUid = "6";
+                    //  tempUid = null;
 
                     //  DialogFunc.getInstance().DismissLoadingPage();
 
@@ -408,11 +410,11 @@ public class LoadingActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (permission.equals(Manifest.permission.READ_SMS)) {
+             /*       if (permission.equals(Manifest.permission.READ_SMS)) {
                         if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
                         }
-                    }
+                    }*/
                     if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
@@ -420,7 +422,7 @@ public class LoadingActivity extends AppCompatActivity {
                     }
                 }
 
-                if (PermissionCnt == 3) {
+                if (PermissionCnt == 2) {
                     CommonFunc.getInstance().MoveLoginActivity(LoadingActivity.this);
                 } else {
 
@@ -447,11 +449,11 @@ public class LoadingActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (permission.equals(Manifest.permission.READ_SMS)) {
+           /*         if (permission.equals(Manifest.permission.READ_SMS)) {
                         if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
                         }
-                    }
+                    }*/
                     if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         if (grantResult == PackageManager.PERMISSION_GRANTED) {
                             PermissionCnt++;
@@ -459,7 +461,7 @@ public class LoadingActivity extends AppCompatActivity {
                     }
                 }
 
-                if (PermissionCnt == 3) {
+                if (PermissionCnt == 2) {
                     Log.e("#@!!", " PermissionCnt" + PermissionCnt);
                     Session.getCurrentSession().addCallback(LoadingCallback);
                     //   Session.getCurrentSession().checkAndImplicitOpen();
